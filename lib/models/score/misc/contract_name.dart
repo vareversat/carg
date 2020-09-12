@@ -1,0 +1,1 @@
+enum ContractName { NORMAL, CAPOT, COINCHE, SURCOINCHE, GENERALE }

@@ -1,0 +1,4 @@
+Version 0.4.8 :
+- L'utilisateur a maintenant la possibilité de chercher les joueurs
+- La création d'une partie a été améliorée
+- L'affichage des manches comporte maintenant des pictogrammes pour comprendre le déroulement
