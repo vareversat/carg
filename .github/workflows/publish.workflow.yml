@@ -1,7 +1,11 @@
 name: Flutter - Build & Publish
 on:
+  push:
+    tags:
+      - v*
   release:
     types: [published]
+
 
 jobs:
   analyze:
