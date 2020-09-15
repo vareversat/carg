@@ -60,7 +60,7 @@ class _GameModeButton extends StatelessWidget {
           MaterialPageRoute(
             builder: (context) => PlayerPickerScreen(
               newGame: game,
-              title: EnumToString.parse(game.gameType),
+              title: EnumToString.convertToString(game.gameType),
             ),
           ),
         )
@@ -74,7 +74,7 @@ class _GameModeButton extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text(EnumToString.parse(game.gameType),
+              child: Text(EnumToString.convertToString(game.gameType),
                   style: TextStyle(fontSize: 20)),
             ),
           ],

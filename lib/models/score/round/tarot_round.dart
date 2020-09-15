@@ -37,9 +37,9 @@ class TarotRound extends Round {
       'attack_score': attackScore,
       'defense_score': defenseScore,
       'player_called': playerCalled,
-      'tarot_poignee': EnumToString.parse(tarotPoignee),
-      'tarot_contract': EnumToString.parse(tarotContract),
-      'tarot_perk': EnumToString.parse(tarotPerk)
+      'tarot_poignee': EnumToString.convertToString(tarotPoignee),
+      'tarot_contract': EnumToString.convertToString(tarotContract),
+      'tarot_perk': EnumToString.convertToString(tarotPerk)
     };
   }
 

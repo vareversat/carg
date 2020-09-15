@@ -112,7 +112,7 @@ packages:
       name: enum_to_string
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.9"
+    version: "1.0.11"
   fake_async:
     dependency: transitive
     description:
@@ -487,7 +487,7 @@ packages:
       name: url_launcher
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.5.3"
+    version: "5.6.0"
   url_launcher_linux:
     dependency: transitive
     description:
@@ -516,6 +516,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.3+2"
+  url_launcher_windows:
+    dependency: transitive
+    description:
+      name: url_launcher_windows
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.1+1"
   uuid:
     dependency: transitive
     description:

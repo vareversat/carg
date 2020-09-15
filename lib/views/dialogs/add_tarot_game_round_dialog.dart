@@ -324,7 +324,7 @@ class _PlayerPickerState extends State<_PlayerPicker> {
             items: TarotContract.values.map((TarotContract value) {
               return DropdownMenuItem<TarotContract>(
                 value: value,
-                child: Text(EnumToString.parseCamelCase(value)),
+                child: Text(EnumToString.convertToString(value)),
               );
             }).toList(),
             onChanged: (TarotContract val) {
@@ -388,7 +388,7 @@ class _PlayerPickerState extends State<_PlayerPicker> {
                 : null,
             avatar: _selectedTeamForBout != null
                 ? CircleAvatar(
-                child: Text(EnumToString.parse(_selectedTeamForBout)
+                child: Text(EnumToString.convertToString(_selectedTeamForBout)
                     ?.substring(0, 1)))
                 : null,
             showCheckmark: false,

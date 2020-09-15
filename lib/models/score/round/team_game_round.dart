@@ -26,11 +26,11 @@ abstract class TeamGameRound extends Round {
   Map<String, dynamic> toJSON() {
     return {
       'index': index,
-      'card_color': EnumToString.parse(cardColor),
-      'dix_de_der': EnumToString.parse(dixDeDer),
-      'belote_rebelote': EnumToString.parse(beloteRebelote),
+      'card_color': EnumToString.convertToString(cardColor),
+      'dix_de_der': EnumToString.convertToString(dixDeDer),
+      'belote_rebelote': EnumToString.convertToString(beloteRebelote),
       'contract_fulfilled': contractFulfilled,
-      'taker': EnumToString.parse(taker),
+      'taker': EnumToString.convertToString(taker),
       'taker_score': takerScore,
       'defender_score': defenderScore
     };
