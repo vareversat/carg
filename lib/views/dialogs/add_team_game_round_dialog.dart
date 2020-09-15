@@ -102,7 +102,7 @@ class _AddTeamGameRoundDialogState extends State<AddTeamGameRoundDialog> {
       _takerPoints = _getContract() + _getPoints(_takerTeam);
       _defenderPoints = _getPoints(_defenderTeam);
     } else if (!_isContractFulfilled()) {
-      _takerPoints = 0;
+      _takerPoints = _getBeloteRebelote(_takerTeam);
       _defenderPoints =
           160 + _getContract() + _getBeloteRebelote(_defenderTeam);
     }
@@ -395,7 +395,7 @@ class _AddTeamGameRoundDialogState extends State<AddTeamGameRoundDialog> {
                       items: ContractName.values.map((ContractName value) {
                         return DropdownMenuItem<ContractName>(
                           value: value,
-                          child: Text(EnumToString.parse(value)),
+                          child: Text(EnumToString.convertToString(value)),
                         );
                       }).toList(),
                       onChanged: (ContractName val) {
@@ -425,7 +425,7 @@ class _AddTeamGameRoundDialogState extends State<AddTeamGameRoundDialog> {
                 items: CardColor.values.map((CardColor value) {
                   return DropdownMenuItem<CardColor>(
                     value: value,
-                    child: Text(EnumToString.parse(value)),
+                    child: Text(EnumToString.convertToString(value)),
                   );
                 }).toList(),
                 onChanged: (CardColor val) {
