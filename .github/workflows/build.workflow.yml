@@ -7,7 +7,7 @@ on:
 jobs:
   analyze:
     name: 'Analyze'
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     container: devosud/flutter:latest
     steps:
       - name: 'Checkout source code'
@@ -16,7 +16,7 @@ jobs:
         run: flutter analyze
   test:
     name: 'Test'
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     container: devosud/flutter:latest
     steps:
       - name: 'Checkout source code'
@@ -26,7 +26,7 @@ jobs:
   build_android:
     needs: [ analyze, test ]
     name: 'Build Android'
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     container: devosud/flutter:latest
     steps:
       - name: 'Checkout source code'
