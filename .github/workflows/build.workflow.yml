@@ -1,40 +1,35 @@
-name: Flutter - Build
+name: Flutter - CI (build)
 on:
   push:
     branches:
       - master
 jobs:
   analyze:
-    name: Analyze Flutter
+    name: 'Analyze'
     runs-on: ubuntu-latest
+    container: devosud/flutter:latest
     steps:
       - name: 'Checkout source code'
-        uses: actions/checkout@v2.3.2
-      - name: 'Set up JDK 11'
-        uses: actions/setup-java@v1.4.2
-        with:
-          java-version: '11'
-      - name: 'Set up Flutter (last stable)'
-        uses: subosito/flutter-action@v1.3.2
-        with:
-          channel: 'stable'
+        uses: actions/checkout@v2
       - name: 'Analyze code'
         run: flutter analyze
-  build_apk:
-    needs: analyze
-    name: 'Build Flutter (Android)'
+  test:
+    name: 'Test'
     runs-on: ubuntu-latest
+    container: devosud/flutter:latest
     steps:
       - name: 'Checkout source code'
-        uses: actions/checkout@v2.3.2
-      - name: 'Set up JDK 11'
-        uses: actions/setup-java@v1.4.2
-        with:
-          java-version: '11'
-      - name: 'Set up Flutter (last stable)'
-        uses: subosito/flutter-action@v1.3.2
-        with:
-          channel: 'stable'
+        uses: actions/checkout@v2
+      - name: 'Analyze code'
+        run: flutter test
+  build_android:
+    needs: analyze
+    name: 'Build Android'
+    runs-on: ubuntu-latest
+    container: devosud/flutter:latest
+    steps:
+      - name: 'Checkout source code'
+        uses: actions/checkout@v2
       - name: 'Decrypt secret configuration'
         run: ./.github/scripts/decrypt_secret.sh
         env:
