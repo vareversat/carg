@@ -23,7 +23,7 @@ jobs:
       - name: 'Analyze code'
         run: flutter test
   build_android:
-    needs: analyze
+    needs: [ analyze, test ]
     name: 'Build Android'
     runs-on: ubuntu-latest
     container: devosud/flutter:latest
