@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - master
+
 jobs:
   analyze:
     name: 'Analyze'
