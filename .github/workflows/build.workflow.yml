@@ -35,6 +35,10 @@ jobs:
         run: ./.github/scripts/decrypt_secret.sh
         env:
           PASSPHRASE: ${{secrets.PASSPHRASE}}
+      - name: 'Get dependencies'
+        run: flutter pub get
+      - name: 'Set env => dev'
+        run: flutter pub run environment_config:generate -f dev
       - name: 'Build APK'
         run: flutter build apk --split-per-abi
         shell: 'bash'
