@@ -1,4 +1,3 @@
-import 'package:carg/environment_config.dart';
 import 'package:carg/models/score/coinche_score.dart';
 import 'package:carg/models/score/misc/team_game_enum.dart';
 import 'package:carg/models/score/round/coinche_round.dart';
@@ -8,7 +7,7 @@ import 'package:flutter/services.dart';
 
 class CoincheScoreService
     extends TeamGameScoreService<CoincheScore, CoincheRound> {
-  final String flavor = EnvironmentConfig.flavor;
+  final String flavor = String.fromEnvironment('FLAVOR', defaultValue: 'dev');
 
   @override
   Future<CoincheScore> getScoreByGame(String gameId) async {

@@ -1,4 +1,3 @@
-import 'package:carg/environment_config.dart';
 import 'package:carg/models/game/tarot_game.dart';
 import 'package:carg/models/player/tarot_game_players.dart';
 import 'package:carg/models/score/round/tarot_round.dart';
@@ -10,7 +9,7 @@ import 'package:flutter/services.dart';
 
 class TarotGameService extends GameService<TarotGame, TarotGamePlayers> {
   TarotScoreService _tarotScoreService;
-  final String flavor = EnvironmentConfig.flavor;
+  final String flavor = String.fromEnvironment('FLAVOR', defaultValue: 'dev');
 
   TarotGameService() : super() {
     _tarotScoreService = TarotScoreService();

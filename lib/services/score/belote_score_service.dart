@@ -1,4 +1,3 @@
-import 'package:carg/environment_config.dart';
 import 'package:carg/models/score/belote_score.dart';
 import 'package:carg/models/score/misc/team_game_enum.dart';
 import 'package:carg/models/score/round/belote_round.dart';
@@ -8,7 +7,7 @@ import 'package:flutter/services.dart';
 
 class BeloteScoreService
     extends TeamGameScoreService<BeloteScore, BeloteRound> {
-  final String flavor = EnvironmentConfig.flavor;
+  final String flavor = String.fromEnvironment('FLAVOR', defaultValue: 'dev');
 
   @override
   Future<BeloteScore> getScoreByGame(String gameId) async {

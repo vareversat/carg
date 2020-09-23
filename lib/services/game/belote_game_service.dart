@@ -1,4 +1,3 @@
-import 'package:carg/environment_config.dart';
 import 'package:carg/models/game/belote_game.dart';
 import 'package:carg/models/player/team_game_players.dart';
 import 'package:carg/models/score/belote_score.dart';
@@ -16,7 +15,7 @@ class BeloteGameService implements TeamGameService<BeloteGame> {
   TeamService _teamService;
   PlayerService _playerService;
   BeloteScoreService _beloteScoreService;
-  final String flavor = EnvironmentConfig.flavor;
+  final String flavor = String.fromEnvironment('FLAVOR', defaultValue: 'dev');
 
   BeloteGameService() : super() {
     _teamService = TeamService();

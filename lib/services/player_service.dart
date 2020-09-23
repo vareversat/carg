@@ -1,15 +1,14 @@
 import 'dart:convert';
 
 import 'package:algolia/algolia.dart';
-import 'package:carg/environment_config.dart';
 import 'package:carg/models/player/player.dart';
 import 'package:carg/services/firebase_exception.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 
 class PlayerService {
-  final String flavor = EnvironmentConfig.flavor;
-
+  final String flavor = String.fromEnvironment('FLAVOR', defaultValue: 'dev');
+  
   Future<List<Player>> getAllPlayers({String query = ''}) async {
     final algoliaConfig = jsonDecode(await rootBundle.loadString(
       'assets/config/algolia.json',

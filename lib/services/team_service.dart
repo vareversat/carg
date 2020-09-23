@@ -1,4 +1,3 @@
-import 'package:carg/environment_config.dart';
 import 'package:carg/models/team.dart';
 import 'package:carg/services/firebase_exception.dart';
 import 'package:carg/services/player_service.dart';
@@ -6,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 
 class TeamService {
-  final String flavor = EnvironmentConfig.flavor;
+  final String flavor = String.fromEnvironment('FLAVOR', defaultValue: 'dev');
   final PlayerService _playerService = PlayerService();
 
   Future<Team> getTeamByPlayers(List<String> playerIds) async {

@@ -1,4 +1,3 @@
-import 'package:carg/environment_config.dart';
 import 'package:carg/models/game/coinche_game.dart';
 import 'package:carg/models/player/team_game_players.dart';
 import 'package:carg/models/score/coinche_score.dart';
@@ -16,7 +15,7 @@ class CoincheGameService implements TeamGameService<CoincheGame> {
   TeamService _teamService;
   PlayerService _playerService;
   CoincheScoreService _coincheScoreService;
-  final String flavor = EnvironmentConfig.flavor;
+  final String flavor = String.fromEnvironment('FLAVOR', defaultValue: 'dev');
 
   CoincheGameService() : super() {
     _teamService = TeamService();
