@@ -99,8 +99,8 @@ class _AddTeamGameRoundDialogState extends State<AddTeamGameRoundDialog> {
 
   void _computeScore() {
     if (_isContractFulfilled()) {
-      _takerPoints = _getContract() + _getPoints(_takerTeam);
-      _defenderPoints = _getPoints(_defenderTeam);
+      _takerPoints = _getContract() + _getPoints(_takerTeam) + _getBeloteRebelote(_takerTeam);
+      _defenderPoints = _getPoints(_defenderTeam) + _getBeloteRebelote(_defenderTeam);
     } else if (!_isContractFulfilled()) {
       _takerPoints = _getBeloteRebelote(_takerTeam);
       _defenderPoints =
@@ -152,8 +152,7 @@ class _AddTeamGameRoundDialogState extends State<AddTeamGameRoundDialog> {
         ? int.parse(_usPointsTextController.text)
         : 0;
     return score +
-        _getDixDeDerScore(TeamGameEnum.US) +
-        _getBeloteRebelote(TeamGameEnum.US);
+        _getDixDeDerScore(TeamGameEnum.US);
   }
 
   int _getThemScore() {
@@ -161,8 +160,7 @@ class _AddTeamGameRoundDialogState extends State<AddTeamGameRoundDialog> {
         ? int.parse(_themPointsTextController.text)
         : 0;
     return score +
-        _getDixDeDerScore(TeamGameEnum.THEM) +
-        _getBeloteRebelote(TeamGameEnum.THEM);
+        _getDixDeDerScore(TeamGameEnum.THEM);
   }
 
   @override
