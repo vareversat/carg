@@ -1,7 +1,4 @@
-Version 0.5.0 :
-- Add app icon
-- Add licenses of used dependencies
-- Add LICENCE.md
-- Fix : A round of Coinche was lost if the takers exactly scored the contract
-- New : + You can now add a player
-        + You can now search players
+Version 0.5.2 :
+- Split dev / prod database
+- Change > to => to know if the taker team fulfilled the contract
+- Belote Rebelote is no more count for the contract
