@@ -16,7 +16,7 @@ class Team extends CargObject {
       this.games})
       : super(id: id);
 
-  factory Team.fromJSON(Map<String, dynamic> json, String id) {
+  factory Team.fromJSON(Map<dynamic, dynamic> json, String id) {
     if (json == null) {
       return null;
     }
@@ -31,11 +31,14 @@ class Team extends CargObject {
 
   @override
   Map<String, dynamic> toJSON() {
+    var playersObject = {};
+    players.forEach((e) => playersObject.addAll({e: true}));
+    print(playersObject);
     return {
       'played_games': playedGames,
       'won_games': wonGames,
       'name': name,
-      'players': players,
+      'players': playersObject,
       'games': games
     };
   }

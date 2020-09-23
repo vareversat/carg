@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:algolia/algolia.dart';
 import 'package:carg/models/player/player.dart';
 import 'package:carg/services/firebase_exception.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/services.dart';
 
 class PlayerService {
@@ -11,7 +11,9 @@ class PlayerService {
     final algoliaConfig = jsonDecode(await rootBundle.loadString(
       'assets/config/algolia.json',
     ));
-    var algolia = Algolia.init(applicationId: algoliaConfig['app_id'], apiKey: algoliaConfig['api_key']);
+    var algolia = Algolia.init(
+        applicationId: algoliaConfig['app_id'],
+        apiKey: algoliaConfig['api_key']);
     var algoliaQuery = algolia.instance.index('players').search(query);
     try {
       var players = <Player>[];
@@ -27,10 +29,15 @@ class PlayerService {
 
   Future incrementPlayedGamesByOne(Player player) async {
     try {
-      await Firestore.instance
-          .collection('player')
-          .document(player.id)
-          .updateData({'played_games': player.playedGames + 1});
+      await FirebaseDatabase.instance
+          .reference()
+          .child('player')
+          .child(player.id)
+          .child('played_games')
+          .runTransaction((MutableData mutableData) async {
+        mutableData.value = (mutableData.value ?? 0) + 1;
+        return mutableData;
+      });
     } on PlatformException catch (e) {
       throw FirebaseException(e.message);
     }
@@ -38,11 +45,15 @@ class PlayerService {
 
   Future incrementWonGamesByOne(String id) async {
     try {
-      var player = await getPlayer(id);
-      await Firestore.instance
-          .collection('player')
-          .document(player.id)
-          .updateData({'won_games': player.wonGames + 1});
+      await FirebaseDatabase.instance
+          .reference()
+          .child('player')
+          .child(id)
+          .child('won_games')
+          .runTransaction((MutableData mutableData) async {
+        mutableData.value = (mutableData.value ?? 0) + 1;
+        return mutableData;
+      });
     } on PlatformException catch (e) {
       throw FirebaseException(e.message);
     }
@@ -50,9 +61,12 @@ class PlayerService {
 
   Future<Player> getPlayer(String id) async {
     try {
-      var querySnapshot =
-          await Firestore.instance.collection('player').document(id).get();
-      return Player.fromJSON(querySnapshot.data, querySnapshot.documentID);
+      var querySnapshot = await FirebaseDatabase.instance
+          .reference()
+          .child('player')
+          .child(id)
+          .once();
+      return Player.fromJSON(querySnapshot.value, querySnapshot.key);
     } on PlatformException catch (e) {
       throw FirebaseException(e.message);
     }
@@ -60,14 +74,15 @@ class PlayerService {
 
   Future<Player> getPlayerOfUser(String userId) async {
     try {
-      var querySnapshot = await Firestore.instance
-          .collection('player')
+      var querySnapshot = await FirebaseDatabase.instance
           .reference()
-          .where('linked_user_id', isEqualTo: userId)
-          .getDocuments();
-      if (querySnapshot.documents.isNotEmpty) {
-        return Player.fromJSON(querySnapshot.documents.first.data,
-            querySnapshot.documents.first.documentID);
+          .child('player')
+          .orderByChild('linked_user_id')
+          .equalTo(userId)
+          .once();
+      if (querySnapshot.value != null) {
+        var map = querySnapshot.value as Map;
+        return Player.fromJSON(map.values.first, map.keys.first);
       }
       return null;
     } on PlatformException catch (e) {
@@ -77,31 +92,34 @@ class PlayerService {
 
   Future updatePlayer(Player player) async {
     try {
-      await Firestore.instance
-          .collection('player')
-          .document(player.id)
-          .updateData(player.toJSON());
+      await FirebaseDatabase.instance
+          .reference()
+          .child('player')
+          .child(player.id)
+          .update(player.toJSON());
     } on PlatformException catch (e) {
       throw FirebaseException(e.message);
     }
   }
 
-  Future<String> addPlayer(Player player) async {
+  Future<void> addPlayer(Player player) async {
     try {
-      var documentReference =
-          await Firestore.instance.collection('player').add(player.toJSON());
-      return documentReference.documentID;
+      await FirebaseDatabase.instance
+          .reference()
+          .child('player')
+          .push()..set(player.toJSON());
     } on PlatformException catch (e) {
       throw FirebaseException(e.message);
     }
   }
 
-  Future deletePlayer(Player player) async {
+  Future<void> deletePlayer(Player player) async {
     try {
-      await Firestore.instance
-          .collection('player')
-          .document(player.id)
-          .delete();
+      await FirebaseDatabase.instance
+          .reference()
+          .child('player')
+          .child(player.id)
+          .remove();
     } on PlatformException catch (e) {
       throw FirebaseException(e.message);
     }

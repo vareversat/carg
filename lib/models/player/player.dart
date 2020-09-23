@@ -47,7 +47,7 @@ class Player extends CargObject with ChangeNotifier {
     _userName = userName;
   }
 
-  factory Player.fromJSON(Map<String, dynamic> json, String id) {
+  factory Player.fromJSON(Map<dynamic, dynamic> json, String id) {
     if (json == null) {
       return null;
     }

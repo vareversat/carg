@@ -15,7 +15,16 @@ export const onPlayerCreated = functions.firestore.document('player/{playerId}')
         return index.saveObject(player);
     }
     return 'Cannot add to index'
+});
 
+export const onPlayerCreated2 = functions.database.instance('carg-dev').ref('player/{playerId}').onCreate((snap, context) => {
+    const player = snap.val();
+    console.log('Added player : ', player);
+    if (player !== undefined) {
+        player.objectID = context.params.playerId;
+        return index.saveObject(player);
+    }
+    return 'Cannot add to index'
 });
 
 export const onPlayerUpdated = functions.firestore.document('player/{playerId}').onUpdate((snap, context,) => {
@@ -25,9 +34,22 @@ export const onPlayerUpdated = functions.firestore.document('player/{playerId}')
         return index.saveObject(newPlayer);
     }
     return 'Cannot update index'
+});
 
+export const onPlayerUpdated2 = functions.database.instance('carg-dev').ref('/player/{playerId}').onUpdate((snap, context) => {
+    const player = snap.after.val();
+    console.log('Updated player : ', player);
+    if (player !== undefined) {
+        player.objectID = context.params.playerId;
+        return index.saveObject(player);
+    }
+    return 'Cannot add to index'
 });
 
 export const onPlayerDeleted = functions.firestore.document('player/{playerId}').onDelete((snap, context,) => {
+    return index.deleteObject(context.params.playerId);
+});
+
+export const onPlayerDeleted2 = functions.database.instance('carg-dev').ref('player/{playerId}').onDelete((snap, context) => {
     return index.deleteObject(context.params.playerId);
 });

@@ -8,7 +8,7 @@ import 'package:carg/services/game/team_game_service.dart';
 import 'package:carg/services/player_service.dart';
 import 'package:carg/services/score/belote_score_service.dart';
 import 'package:carg/services/team_service.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/services.dart';
 
 class BeloteGameService implements TeamGameService<BeloteGame> {
@@ -26,10 +26,15 @@ class BeloteGameService implements TeamGameService<BeloteGame> {
   Future<List<BeloteGame>> getAllGames() async {
     try {
       var beloteGames = <BeloteGame>[];
-      var querySnapshot =
-          await Firestore.instance.collection('belote-game').getDocuments();
-      for (var doc in querySnapshot.documents) {
-        beloteGames.add(BeloteGame.fromJSON(doc.data, doc.documentID));
+      var querySnapshot = await FirebaseDatabase.instance
+          .reference()
+          .child('belote-game')
+          .once();
+      if (querySnapshot.value != null) {
+        var map = querySnapshot.value as Map;
+        for (var key in map.keys) {
+          beloteGames.add(BeloteGame.fromJSON(map[key], key));
+        }
       }
       return beloteGames;
     } on PlatformException catch (e) {
@@ -40,9 +45,13 @@ class BeloteGameService implements TeamGameService<BeloteGame> {
   @override
   Future<BeloteGame> getGame(String id) async {
     try {
-      var querySnapshot =
-          await Firestore.instance.collection('belote-game').document(id).get();
-      return BeloteGame.fromJSON(querySnapshot.data, querySnapshot.documentID);
+      var querySnapshot = await FirebaseDatabase.instance
+          .reference()
+          .child('belote-game')
+          .child(id)
+          .once();
+      var map = querySnapshot.value as Map;
+      return BeloteGame.fromJSON(map.values.first, map.keys.first);
     } on PlatformException catch (e) {
       throw FirebaseException(e.message);
     }
@@ -51,7 +60,11 @@ class BeloteGameService implements TeamGameService<BeloteGame> {
   @override
   Future deleteGame(String id) async {
     try {
-      await Firestore.instance.collection('belote-game').document(id).delete();
+      await FirebaseDatabase.instance
+          .reference()
+          .child('belote-game')
+          .child(id)
+          .remove();
       await _beloteScoreService.deleteScoreByGame(id);
     } on PlatformException catch (e) {
       throw FirebaseException(e.message);
@@ -73,10 +86,16 @@ class BeloteGameService implements TeamGameService<BeloteGame> {
           startingDate: DateTime.now(),
           us: usTeam.id,
           them: themTeam.id);
-      var documentReference = await Firestore.instance
-          .collection('belote-game')
-          .add(beloteGame.toJSON());
-      beloteGame.id = documentReference.documentID;
+      var documentReference = await FirebaseDatabase.instance
+          .reference()
+          .child('belote-game')
+          .push();
+      await FirebaseDatabase.instance
+          .reference()
+          .child('belote-game')
+          .child(documentReference.key)
+          .set(beloteGame.toJSON());
+      beloteGame.id = documentReference.key;
       var beloteScore = BeloteScore(
           usTotalPoints: 0,
           themTotalPoints: 0,
@@ -99,14 +118,22 @@ class BeloteGameService implements TeamGameService<BeloteGame> {
       } else if (score.themTotalPoints < score.usTotalPoints) {
         winners = await _teamService.incrementWonGamesByOne(game.us);
       }
-      await Firestore.instance
-          .collection('belote-game')
-          .document(game.id)
-          .updateData({
-        'is_ended': true,
-        'ending_date': DateTime.now().toString(),
-        'winners': winners?.id
-      });
+      game.isEnded = true;
+      game.endingDate = DateTime.now();
+      game.winner = winners?.id;
+      await _updateGame(game);
+    } on PlatformException catch (e) {
+      throw FirebaseException(e.message);
+    }
+  }
+
+  Future _updateGame(BeloteGame game) async {
+    try {
+      await FirebaseDatabase.instance
+          .reference()
+          .child('belote-game')
+          .child(game.id)
+          .update(game.toJSON());
     } on PlatformException catch (e) {
       throw FirebaseException(e.message);
     }

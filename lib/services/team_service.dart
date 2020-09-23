@@ -1,7 +1,7 @@
 import 'package:carg/models/team.dart';
 import 'package:carg/services/firebase_exception.dart';
 import 'package:carg/services/player_service.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/services.dart';
 
 class TeamService {
@@ -9,23 +9,29 @@ class TeamService {
 
   Future<Team> getTeamByPlayers(List<String> playerIds) async {
     try {
+      var dbRef = FirebaseDatabase.instance.reference().child('team');
       playerIds.sort();
-      var querySnapshot = await Firestore.instance
-          .collection('team')
+      var querySnapshot = await dbRef
+          .child('players')
           .reference()
-          .where('players', isEqualTo: playerIds)
-          .getDocuments();
-      if (querySnapshot.documents.isNotEmpty) {
-        await querySnapshot.documents[0].reference.updateData({
-          'played_games': querySnapshot.documents[0].data['played_games'] + 1
+          .equalTo(playerIds.toString())
+          .once();
+      if (querySnapshot.value != null) {
+        print(querySnapshot.value);
+        var map = querySnapshot.value as Map;
+        await dbRef
+            .child(map.keys.first)
+            .child('played_games')
+            .runTransaction((mutableData) async {
+          mutableData.value = (mutableData.value ?? 0) + 1;
+          return mutableData;
         });
-        return Team.fromJSON(querySnapshot.documents.first.data,
-            querySnapshot.documents.first.documentID);
+        return Team.fromJSON(map.values.first, map.keys.first);
       } else {
         var team = Team(players: playerIds);
-        var documentReference =
-            await Firestore.instance.collection('team').add(team.toJSON());
-        team.id = documentReference.documentID;
+        var documentReference = await dbRef.push();
+        await dbRef.child(documentReference.key).set(team.toJSON());
+        team.id = documentReference.key;
         return team;
       }
     } on PlatformException catch (e) {
@@ -35,9 +41,15 @@ class TeamService {
 
   Future<Team> getTeam(String id) async {
     try {
-      var querySnapshot =
-      await Firestore.instance.collection('team').document(id).get();
-      return Team.fromJSON(querySnapshot.data, querySnapshot.documentID);
+      var querySnapshot = await FirebaseDatabase.instance
+          .reference()
+          .child('team')
+          .child(id)
+          .once();
+      if (querySnapshot.value != null) {
+        return Team.fromJSON(querySnapshot.value, querySnapshot.key);
+      }
+      return null;
     } on PlatformException catch (e) {
       throw FirebaseException(e.message);
     }
@@ -46,10 +58,12 @@ class TeamService {
   Future<Team> incrementWonGamesByOne(String id) async {
     try {
       var team = await getTeam(id);
-      await Firestore.instance
-          .collection('team')
-          .document(id)
-          .updateData({'won_games': team.wonGames + 1});
+      team.wonGames += 1;
+      await FirebaseDatabase.instance
+          .reference()
+          .child('team')
+          .child(id)
+          .update(team.toJSON());
       for (var player in team.players) {
         await _playerService.incrementWonGamesByOne(player);
       }

@@ -15,7 +15,7 @@ class BeloteScore extends TeamGameScore<BeloteRound> {
     return super.toJSON();
   }
 
-  factory BeloteScore.fromJSON(Map<String, dynamic> json, String id) {
+  factory BeloteScore.fromJSON(Map<dynamic, dynamic> json, String id) {
     if (json == null) {
       return null;
     }

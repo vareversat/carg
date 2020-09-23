@@ -11,8 +11,8 @@ class BeloteRound extends TeamGameRound {
       dixDeDer,
       beloteRebelote,
       taker,
-        takerScore,
-        defenderScore})
+      takerScore,
+      defenderScore})
       : super(
             index: index,
             cardColor: cardColor,
@@ -28,7 +28,7 @@ class BeloteRound extends TeamGameRound {
     return super.toJSON();
   }
 
-  factory BeloteRound.fromJSON(Map<String, dynamic> json) {
+  factory BeloteRound.fromJSON(Map<dynamic, dynamic> json) {
     if (json == null) {
       return null;
     }
@@ -36,8 +36,10 @@ class BeloteRound extends TeamGameRound {
         index: json['index'],
         cardColor:
             EnumToString.fromString(CardColor.values, json['card_color']),
-        dixDeDer: EnumToString.fromString(TeamGameEnum.values, json['dix_de_der']),
-        beloteRebelote: EnumToString.fromString(TeamGameEnum.values, json['belote_rebelote']),
+        dixDeDer:
+            EnumToString.fromString(TeamGameEnum.values, json['dix_de_der']),
+        beloteRebelote: EnumToString.fromString(
+            TeamGameEnum.values, json['belote_rebelote']),
         contractFulfilled: json['contract_fulfilled'],
         taker: EnumToString.fromString(TeamGameEnum.values, json['taker']),
         takerScore: json['taker_score'],
@@ -45,7 +47,10 @@ class BeloteRound extends TeamGameRound {
   }
 
   static List<BeloteRound> fromJSONList(List<dynamic> jsonList) {
-    return jsonList.map((json) => BeloteRound.fromJSON(json)).toList();
+    if (jsonList != null) {
+      return jsonList.map((json) => BeloteRound.fromJSON(json)).toList();
+    }
+    return [];
   }
 
   @override

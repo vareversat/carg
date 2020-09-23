@@ -20,7 +20,7 @@ class BeloteGame extends TeamGame {
     return super.toJSON();
   }
 
-  factory BeloteGame.fromJSON(Map<String, dynamic> json, String id) {
+  factory BeloteGame.fromJSON(Map<dynamic, dynamic> json, String id) {
     if (json == null) {
       return null;
     }
