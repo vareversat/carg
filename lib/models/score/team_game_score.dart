@@ -13,13 +13,11 @@ abstract class TeamGameScore<T extends TeamGameRound> extends Score {
 
   @override
   Map<String, dynamic> toJSON() {
-    var tmpJSON = super.toJSON();
-    tmpJSON.addAll({
+    return {
       'rounds': rounds.map((round) => round.toJSON()).toList(),
       'us_total_points': usTotalPoints,
       'them_total_points': themTotalPoints,
       'game': game
-    });
-    return tmpJSON;
+    };
   }
 }

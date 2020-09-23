@@ -4,7 +4,5 @@ abstract class Score extends CargObject {
   Score({id}) : super(id: id);
 
   @override
-  Map<String, dynamic> toJSON() {
-    return {'id': id};
-  }
+  Map<String, dynamic> toJSON();
 }
