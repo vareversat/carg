@@ -29,10 +29,16 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   cupertino_icons: ^0.1.2
+  environment_config: ^2.2.4
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+environment_config:
+  fields:
+    flavor:
+      short_name: f
 
 flutter:
   uses-material-design: true
