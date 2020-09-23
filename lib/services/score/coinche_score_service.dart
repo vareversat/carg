@@ -1,3 +1,4 @@
+import 'package:carg/environment_config.dart';
 import 'package:carg/models/score/coinche_score.dart';
 import 'package:carg/models/score/misc/team_game_enum.dart';
 import 'package:carg/models/score/round/coinche_round.dart';
@@ -7,11 +8,13 @@ import 'package:flutter/services.dart';
 
 class CoincheScoreService
     extends TeamGameScoreService<CoincheScore, CoincheRound> {
+  final String flavor = EnvironmentConfig.flavor;
+
   @override
   Future<CoincheScore> getScoreByGame(String gameId) async {
     try {
       var querySnapshot = await Firestore.instance
-          .collection('coinche-score')
+          .collection('coinche-score-' + flavor)
           .reference()
           .where('game', isEqualTo: gameId)
           .getDocuments();
@@ -29,7 +32,7 @@ class CoincheScoreService
   Stream<CoincheScore> getScoreByGameStream(String gameId) {
     try {
       return Firestore.instance
-          .collection('coinche-score')
+          .collection('coinche-score-' + flavor)
           .reference()
           .where('game', isEqualTo: gameId)
           .snapshots()
@@ -53,7 +56,7 @@ class CoincheScoreService
         coincheRound.index = coincheScore.rounds.length;
         coincheScore.rounds.add(coincheRound);
         await Firestore.instance
-            .collection('coinche-score')
+            .collection('coinche-score-' + flavor)
             .document(coincheScore.id)
             .updateData(coincheScore.toJSON());
       }
@@ -66,7 +69,7 @@ class CoincheScoreService
   Future deleteScoreByGame(String gameId) async {
     try {
       await Firestore.instance
-          .collection('coinche-score')
+          .collection('coinche-score-' + flavor)
           .where('game', isEqualTo: gameId)
           .getDocuments()
           .then((snapshot) {
@@ -83,7 +86,7 @@ class CoincheScoreService
   Future<String> saveScore(CoincheScore coincheScore) async {
     try {
       var documentReference = await Firestore.instance
-          .collection('coinche-score')
+          .collection('coinche-score-' + flavor)
           .add(coincheScore.toJSON());
       return documentReference.documentID;
     } on PlatformException catch (e) {

@@ -1,3 +1,4 @@
+import 'package:carg/environment_config.dart';
 import 'package:carg/models/game/tarot_game.dart';
 import 'package:carg/models/player/tarot_game_players.dart';
 import 'package:carg/models/score/round/tarot_round.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/services.dart';
 
 class TarotGameService extends GameService<TarotGame, TarotGamePlayers> {
   TarotScoreService _tarotScoreService;
+  final String flavor = EnvironmentConfig.flavor;
 
   TarotGameService() : super() {
     _tarotScoreService = TarotScoreService();
@@ -19,7 +21,7 @@ class TarotGameService extends GameService<TarotGame, TarotGamePlayers> {
     try {
       var beloteGames = <TarotGame>[];
       var querySnapshot =
-          await Firestore.instance.collection('tarot-game').getDocuments();
+          await Firestore.instance.collection('tarot-game-' + flavor).getDocuments();
       for (var doc in querySnapshot.documents) {
         beloteGames.add(TarotGame.fromJSON(doc.data, doc.documentID));
       }
@@ -33,7 +35,7 @@ class TarotGameService extends GameService<TarotGame, TarotGamePlayers> {
   Future<TarotGame> getGame(String id) async {
     try {
       var querySnapshot =
-          await Firestore.instance.collection('tarot-game').document(id).get();
+          await Firestore.instance.collection('tarot-game-' + flavor).document(id).get();
       return TarotGame.fromJSON(querySnapshot.data, querySnapshot.documentID);
     } on PlatformException catch (e) {
       throw Exception('[' + e.code + '] Firebase error ' + e.message);
@@ -43,7 +45,7 @@ class TarotGameService extends GameService<TarotGame, TarotGamePlayers> {
   @override
   Future deleteGame(String id) async {
     try {
-      await Firestore.instance.collection('tarot-game').document(id).delete();
+      await Firestore.instance.collection('tarot-game-' + flavor).document(id).delete();
       await _tarotScoreService.deleteScoreByGame(id);
     } on PlatformException catch (e) {
       throw Exception('[' + e.code + '] Firebase error ' + e.message);
@@ -58,7 +60,7 @@ class TarotGameService extends GameService<TarotGame, TarotGamePlayers> {
           startingDate: DateTime.now(),
           playerIds: players.getPlayerIds());
       var documentReference = await Firestore.instance
-          .collection('tarot-game')
+          .collection('tarot-game-' + flavor)
           .add(tarotGame.toJSON());
       tarotGame.id = documentReference.documentID;
       var tarotScore = TarotScore(

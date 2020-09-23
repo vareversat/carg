@@ -1,3 +1,4 @@
+import 'package:carg/environment_config.dart';
 import 'package:carg/models/game/coinche_game.dart';
 import 'package:carg/models/player/team_game_players.dart';
 import 'package:carg/models/score/coinche_score.dart';
@@ -15,6 +16,7 @@ class CoincheGameService implements TeamGameService<CoincheGame> {
   TeamService _teamService;
   PlayerService _playerService;
   CoincheScoreService _coincheScoreService;
+  final String flavor = EnvironmentConfig.flavor;
 
   CoincheGameService() : super() {
     _teamService = TeamService();
@@ -27,7 +29,7 @@ class CoincheGameService implements TeamGameService<CoincheGame> {
     try {
       var coincheGames = <CoincheGame>[];
       var querySnapshot =
-          await Firestore.instance.collection('coinche-game').getDocuments();
+          await Firestore.instance.collection('coinche-game-' + flavor).getDocuments();
       for (var doc in querySnapshot.documents) {
         coincheGames.add(CoincheGame.fromJSON(doc.data, doc.documentID));
       }
@@ -41,7 +43,7 @@ class CoincheGameService implements TeamGameService<CoincheGame> {
   Future<CoincheGame> getGame(String id) async {
     try {
       var querySnapshot = await Firestore.instance
-          .collection('coinche-game')
+          .collection('coinche-game-' + flavor)
           .document(id)
           .get();
       return CoincheGame.fromJSON(querySnapshot.data, querySnapshot.documentID);
@@ -53,7 +55,7 @@ class CoincheGameService implements TeamGameService<CoincheGame> {
   @override
   Future deleteGame(String id) async {
     try {
-      await Firestore.instance.collection('coinche-game').document(id).delete();
+      await Firestore.instance.collection('coinche-game-' + flavor).document(id).delete();
       await _coincheScoreService.deleteScoreByGame(id);
     } on PlatformException catch (e) {
       throw FirebaseException(e.message);
@@ -76,7 +78,7 @@ class CoincheGameService implements TeamGameService<CoincheGame> {
           us: usTeam.id,
           them: themTeam.id);
       var documentReference = await Firestore.instance
-          .collection('coinche-game')
+          .collection('coinche-game-' + flavor)
           .add(coincheGame.toJSON());
       coincheGame.id = documentReference.documentID;
       var coincheScore = CoincheScore(
@@ -102,7 +104,7 @@ class CoincheGameService implements TeamGameService<CoincheGame> {
         winners = await _teamService.incrementWonGamesByOne(game.us);
       }
       await Firestore.instance
-          .collection('coinche-game')
+          .collection('coinche-game-' + flavor)
           .document(game.id)
           .updateData({
         'is_ended': true,

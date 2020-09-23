@@ -1,3 +1,4 @@
+import 'package:carg/environment_config.dart';
 import 'package:carg/models/score/belote_score.dart';
 import 'package:carg/models/score/misc/team_game_enum.dart';
 import 'package:carg/models/score/round/belote_round.dart';
@@ -7,11 +8,13 @@ import 'package:flutter/services.dart';
 
 class BeloteScoreService
     extends TeamGameScoreService<BeloteScore, BeloteRound> {
+  final String flavor = EnvironmentConfig.flavor;
+
   @override
   Future<BeloteScore> getScoreByGame(String gameId) async {
     try {
       var querySnapshot = await Firestore.instance
-          .collection('belote-score')
+          .collection('belote-score-' + flavor)
           .reference()
           .where('game', isEqualTo: gameId)
           .getDocuments();
@@ -29,7 +32,7 @@ class BeloteScoreService
   Stream<BeloteScore> getScoreByGameStream(String gameId) {
     try {
       return Firestore.instance
-          .collection('belote-score')
+          .collection('belote-score-' + flavor)
           .reference()
           .where('game', isEqualTo: gameId)
           .snapshots()
@@ -53,7 +56,7 @@ class BeloteScoreService
         beloteRound.index = beloteScore.rounds.length;
         beloteScore.rounds.add(beloteRound);
         await Firestore.instance
-            .collection('belote-score')
+            .collection('belote-score-' + flavor)
             .document(beloteScore.id)
             .updateData(beloteScore.toJSON());
       }
@@ -66,7 +69,7 @@ class BeloteScoreService
   Future deleteScoreByGame(String gameId) async {
     try {
       await Firestore.instance
-          .collection('belote-score')
+          .collection('belote-score-' + flavor)
           .where('game', isEqualTo: gameId)
           .getDocuments()
           .then((snapshot) {
@@ -83,7 +86,7 @@ class BeloteScoreService
   Future<String> saveScore(BeloteScore beloteScore) async {
     try {
       var documentReference = await Firestore.instance
-          .collection('belote-score')
+          .collection('belote-score-' + flavor)
           .add(beloteScore.toJSON());
       return documentReference.documentID;
     } on PlatformException catch (e) {
