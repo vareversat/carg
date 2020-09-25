@@ -49,6 +49,7 @@ jobs:
     needs: build_android
     name: 'Upload APK on Firebase'
     runs-on: ubuntu-latest
+    container: devosud/flutter:latest
     steps:
       - name: 'Checkout source code'
         uses: actions/checkout@v2.3.2
