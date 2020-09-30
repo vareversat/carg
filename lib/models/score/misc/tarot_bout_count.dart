@@ -19,13 +19,13 @@ extension TarotBoutExtension on TarotBoutCount {
   String get string {
     switch (this) {
       case TarotBoutCount.ZERO:
-        return 0.toString();
+        return '0';
       case TarotBoutCount.ONE:
-        return 1.toString();
+        return '1';
       case TarotBoutCount.TWO:
-        return 2.toString();
+        return '2';
       case TarotBoutCount.THREE:
-        return 3.toString();
+        return '3';
       default:
         return null;
     }
