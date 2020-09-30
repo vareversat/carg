@@ -9,7 +9,7 @@ import 'package:flutter/services.dart';
 
 class TarotGameService extends GameService<TarotGame, TarotGamePlayers> {
   TarotScoreService _tarotScoreService;
-  final String flavor = String.fromEnvironment('FLAVOR', defaultValue: 'dev');
+  static const String flavor = String.fromEnvironment('FLAVOR', defaultValue: 'dev');
 
   TarotGameService() : super() {
     _tarotScoreService = TarotScoreService();

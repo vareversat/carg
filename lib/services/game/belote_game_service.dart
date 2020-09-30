@@ -15,7 +15,7 @@ class BeloteGameService implements TeamGameService<BeloteGame> {
   TeamService _teamService;
   PlayerService _playerService;
   BeloteScoreService _beloteScoreService;
-  final String flavor = String.fromEnvironment('FLAVOR', defaultValue: 'dev');
+  static const String flavor = String.fromEnvironment('FLAVOR', defaultValue: 'dev');
 
   BeloteGameService() : super() {
     _teamService = TeamService();

@@ -7,7 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 
 class PlayerService {
-  final String flavor = String.fromEnvironment('FLAVOR', defaultValue: 'dev');
+  static const String flavor = String.fromEnvironment('FLAVOR', defaultValue: 'dev');
   
   Future<List<Player>> getAllPlayers({String query = ''}) async {
     final algoliaConfig = jsonDecode(await rootBundle.loadString(

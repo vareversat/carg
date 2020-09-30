@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 
 class BeloteScoreService
     extends TeamGameScoreService<BeloteScore, BeloteRound> {
-  final String flavor = String.fromEnvironment('FLAVOR', defaultValue: 'dev');
+  static const String flavor = String.fromEnvironment('FLAVOR', defaultValue: 'dev');
 
   @override
   Future<BeloteScore> getScoreByGame(String gameId) async {

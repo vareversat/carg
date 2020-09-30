@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 
 class TeamService {
-  final String flavor = String.fromEnvironment('FLAVOR', defaultValue: 'dev');
+  static const String flavor = String.fromEnvironment('FLAVOR', defaultValue: 'dev');
   final PlayerService _playerService = PlayerService();
 
   Future<Team> getTeamByPlayers(List<String> playerIds) async {

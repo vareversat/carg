@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 
 class TarotScoreService extends ScoreService<TarotScore, TarotRound> {
-  final String flavor = String.fromEnvironment('FLAVOR', defaultValue: 'dev');
+  static const String flavor = String.fromEnvironment('FLAVOR', defaultValue: 'dev');
 
   @override
   Future<TarotScore> getScoreByGame(String gameId) async {

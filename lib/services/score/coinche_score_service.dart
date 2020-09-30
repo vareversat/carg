@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 
 class CoincheScoreService
     extends TeamGameScoreService<CoincheScore, CoincheRound> {
-  final String flavor = String.fromEnvironment('FLAVOR', defaultValue: 'dev');
+  static const String flavor = String.fromEnvironment('FLAVOR', defaultValue: 'dev');
 
   @override
   Future<CoincheScore> getScoreByGame(String gameId) async {

@@ -15,7 +15,7 @@ class CoincheGameService implements TeamGameService<CoincheGame> {
   TeamService _teamService;
   PlayerService _playerService;
   CoincheScoreService _coincheScoreService;
-  final String flavor = String.fromEnvironment('FLAVOR', defaultValue: 'dev');
+  static const String flavor = String.fromEnvironment('FLAVOR', defaultValue: 'dev');
 
   CoincheGameService() : super() {
     _teamService = TeamService();
