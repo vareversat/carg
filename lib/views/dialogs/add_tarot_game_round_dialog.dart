@@ -36,9 +36,7 @@ class AddTarotGameRoundDialog extends StatelessWidget {
       appBar: AppBar(
         title: Container(
             decoration: BoxDecoration(
-                color: Theme
-                    .of(context)
-                    .primaryColor,
+                color: Theme.of(context).primaryColor,
                 borderRadius: BorderRadius.only(
                     topLeft: const Radius.circular(15.0),
                     topRight: const Radius.circular(15.0))),
@@ -47,9 +45,7 @@ class AddTarotGameRoundDialog extends StatelessWidget {
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 25,
-                    color: Theme
-                        .of(context)
-                        .cardColor))),
+                    color: Theme.of(context).cardColor))),
       ),
       body: ListView(children: [
         Padding(
@@ -57,10 +53,7 @@ class AddTarotGameRoundDialog extends StatelessWidget {
           child: Center(
             child: Text(
                 'Preneur' + (tarotGame.playerIds.length == 5 ? 's' : ''),
-                style: Theme
-                    .of(context)
-                    .textTheme
-                    .bodyText1),
+                style: Theme.of(context).textTheme.bodyText1),
           ),
         ),
         Padding(
@@ -70,10 +63,8 @@ class AddTarotGameRoundDialog extends StatelessWidget {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(
                     child: SpinKitDualRing(
-                      color: Theme
-                          .of(context)
-                          .primaryColor,
-                    ));
+                  color: Theme.of(context).primaryColor,
+                ));
               }
               return ChangeNotifierProvider.value(
                   value: snapshot.data,
@@ -81,21 +72,17 @@ class AddTarotGameRoundDialog extends StatelessWidget {
                     spacing: 10,
                     alignment: WrapAlignment.center,
                     children: snapshot.data.players
-                        .map((player) =>
-                        Consumer<SimplePlayers>(
-                            builder: (context, simplePlayers, _) =>
-                                InputChip(
-                                    selected: player.selected,
-                                    selectedColor: Theme
-                                        .of(context)
-                                        .accentColor,
-                                    onPressed: () {
-                                      simplePlayers.onSelectedPlayer(player);
-                                    },
-                                    label: Text(
-                                      player.userName,
-                                      overflow: TextOverflow.ellipsis,
-                                    ))))
+                        .map((player) => Consumer<SimplePlayers>(
+                            builder: (context, simplePlayers, _) => InputChip(
+                                selected: player.selected,
+                                selectedColor: Theme.of(context).accentColor,
+                                onPressed: () {
+                                  simplePlayers.onSelectedPlayer(player);
+                                },
+                                label: Text(
+                                  player.userName,
+                                  overflow: TextOverflow.ellipsis,
+                                ))))
                         .toList()
                         .cast<Widget>(),
                   ));
@@ -128,9 +115,7 @@ class _PetitAuBoutPicker extends StatelessWidget {
               alignment: WrapAlignment.spaceEvenly,
               children: [
                 InputChip(
-                  selectedColor: Theme
-                      .of(context)
-                      .primaryColor,
+                  selectedColor: Theme.of(context).primaryColor,
                   checkmarkColor: selectedTeamForBout == TarotTeam.ATTACK
                       ? Colors.white
                       : Colors.black,
@@ -147,9 +132,7 @@ class _PetitAuBoutPicker extends StatelessWidget {
                   ),
                 ),
                 InputChip(
-                  selectedColor: Theme
-                      .of(context)
-                      .primaryColor,
+                  selectedColor: Theme.of(context).primaryColor,
                   checkmarkColor: selectedTeamForBout == TarotTeam.DEFENSE
                       ? Colors.white
                       : Colors.black,
@@ -191,13 +174,10 @@ class _PoigneePicker extends StatelessWidget {
             direction: Axis.horizontal,
             children: TarotPoignee.values
                 .map(
-                  (poingnee) =>
-                  InputChip(
-                    selectedColor: Theme
-                        .of(context)
-                        .primaryColor,
+                  (poingnee) => InputChip(
+                    selectedColor: Theme.of(context).primaryColor,
                     checkmarkColor:
-                    tarotPoignee == poingnee ? Colors.white : Colors.black,
+                        tarotPoignee == poingnee ? Colors.white : Colors.black,
                     selected: tarotPoignee == poingnee,
                     onPressed: () {
                       Navigator.pop(context, poingnee);
@@ -213,7 +193,7 @@ class _PoigneePicker extends StatelessWidget {
                               : Colors.black),
                     ),
                   ),
-            )
+                )
                 .toList()
                 .cast<Widget>(),
           ),
@@ -289,7 +269,9 @@ class _PlayerPickerState extends State<_PlayerPicker> {
   Future<TarotTeam> _showPetitAuBoutPicker() {
     return showDialog(
       context: context,
-      builder: (BuildContext context,) {
+      builder: (
+        BuildContext context,
+      ) {
         return _PetitAuBoutPicker(_selectedTeamForBout);
       },
     );
@@ -298,7 +280,9 @@ class _PlayerPickerState extends State<_PlayerPicker> {
   Future<dynamic> _showPoigneePicker() {
     return showDialog(
       context: context,
-      builder: (BuildContext context,) {
+      builder: (
+        BuildContext context,
+      ) {
         return _PoigneePicker(_selectedPoignee, tarotGame.playerIds.length);
       },
     );
@@ -312,10 +296,7 @@ class _PlayerPickerState extends State<_PlayerPicker> {
           padding: const EdgeInsets.all(8.0),
           child: Center(
             child:
-            Text('Contrat', style: Theme
-                .of(context)
-                .textTheme
-                .bodyText1),
+                Text('Contrat', style: Theme.of(context).textTheme.bodyText1),
           ),
         ),
         Center(
@@ -340,65 +321,53 @@ class _PlayerPickerState extends State<_PlayerPicker> {
           padding: const EdgeInsets.all(8.0),
           child: Center(
             child: Text('Nombre de bout(s)',
-                style: Theme
-                    .of(context)
-                    .textTheme
-                    .bodyText1),
+                style: Theme.of(context).textTheme.bodyText1),
           ),
         ),
         Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: TarotBoutCount.values
-                .map((tarotBoutCount) =>
-                InputChip(
-                  selectedColor: Theme
-                      .of(context)
-                      .accentColor,
-                  selected: _selectedBout == tarotBoutCount,
-                  onPressed: () {
-                    setState(() {
-                      _selectedBout = tarotBoutCount;
-                      _computePoints();
-                    });
-                  },
-                  label: Text(tarotBoutCount.string),
-                ))
+                .map((tarotBoutCount) => InputChip(
+                      selectedColor: Theme.of(context).accentColor,
+                      selected: _selectedBout == tarotBoutCount,
+                      onPressed: () {
+                        setState(() {
+                          _selectedBout = tarotBoutCount;
+                          _computePoints();
+                        });
+                      },
+                      label: Text(tarotBoutCount.string),
+                    ))
                 .toList()
                 .cast<Widget>()),
         Divider(),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Center(
-            child: Text('Bonus', style: Theme
-                .of(context)
-                .textTheme
-                .bodyText1),
+            child: Text('Bonus', style: Theme.of(context).textTheme.bodyText1),
           ),
         ),
         Wrap(spacing: 10, alignment: WrapAlignment.center, children: [
           InputChip(
             onDeleted: _selectedTeamForBout != null
-                ? () =>
-            {
-              setState(() {
-                _selectedTeamForBout = null;
-                _computePoints();
-              })
-            }
+                ? () => {
+                      setState(() {
+                        _selectedTeamForBout = null;
+                        _computePoints();
+                      })
+                    }
                 : null,
             avatar: _selectedTeamForBout != null
                 ? CircleAvatar(
-                child: Text(EnumToString.convertToString(_selectedTeamForBout)
-                    ?.substring(0, 1)))
+                    child: Text(
+                        EnumToString.convertToString(_selectedTeamForBout)
+                            ?.substring(0, 1)))
                 : null,
             showCheckmark: false,
-            selectedColor: Theme
-                .of(context)
-                .accentColor,
+            selectedColor: Theme.of(context).accentColor,
             selected: _selectedTeamForBout != null,
             onPressed: () async {
-              await _showPetitAuBoutPicker().then((value) =>
-                  setState(() {
+              await _showPetitAuBoutPicker().then((value) => setState(() {
                     _selectedTeamForBout = value;
                     _computePoints();
                   }));
@@ -407,26 +376,22 @@ class _PlayerPickerState extends State<_PlayerPicker> {
           ),
           InputChip(
             onDeleted: _selectedPoignee != null
-                ? () =>
-            {
-              setState(() {
-                _selectedPoignee = null;
-                _computePoints();
-              })
-            }
+                ? () => {
+                      setState(() {
+                        _selectedPoignee = null;
+                        _computePoints();
+                      })
+                    }
                 : null,
             avatar: _selectedPoignee != null
                 ? CircleAvatar(
-                child: Text(_selectedPoignee.name.substring(0, 1)))
+                    child: Text(_selectedPoignee.name.substring(0, 1)))
                 : null,
             showCheckmark: false,
-            selectedColor: Theme
-                .of(context)
-                .accentColor,
+            selectedColor: Theme.of(context).accentColor,
             selected: _selectedPoignee != null,
             onPressed: () async {
-              await _showPoigneePicker().then((value) =>
-                  setState(() {
+              await _showPoigneePicker().then((value) => setState(() {
                     _selectedPoignee = value;
                     _computePoints();
                   }));
@@ -439,10 +404,7 @@ class _PlayerPickerState extends State<_PlayerPicker> {
           padding: const EdgeInsets.all(8.0),
           child: Center(
             child: Text('Points des plis',
-                style: Theme
-                    .of(context)
-                    .textTheme
-                    .bodyText1),
+                style: Theme.of(context).textTheme.bodyText1),
           ),
         ),
         Slider(
@@ -481,15 +443,14 @@ class _PlayerPickerState extends State<_PlayerPicker> {
         ),
         Center(
           child: RaisedButton.icon(
-              color: Theme
-                  .of(context)
-                  .primaryColor,
-              textColor: Theme
-                  .of(context)
-                  .cardColor,
+              color: Theme.of(context).primaryColor,
+              textColor: Theme.of(context).cardColor,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(18.0)),
-              onPressed: () async => {await _tarotScoreService.addRoundToGame(tarotGame.id, TarotRound())},
+              onPressed: () async => {
+                    await _tarotScoreService.addRoundToGame(
+                        tarotGame.id, TarotRound())
+                  },
               label: Text('Valider', style: TextStyle(fontSize: 14)),
               icon: Icon(Icons.check)),
         )

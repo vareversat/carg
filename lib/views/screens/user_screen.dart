@@ -181,24 +181,29 @@ class _UserScreenState extends State<UserScreen> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(18.0)),
                     onPressed: () async => showAboutDialog(
-                      applicationIcon: Container(
-                          height: 60,
-                          width: 60,
-                          child: SvgPicture.asset(
-                              'assets/images/card_game.svg')),
+                        applicationIcon: Container(
+                            height: 60,
+                            width: 60,
+                            child: SvgPicture.asset(
+                                'assets/images/card_game.svg')),
                         context: context,
                         applicationVersion: await _getVersionNumber(),
                         children: [
-                          Divider(height: 25,),
+                          Divider(
+                            height: 25,
+                          ),
                           RichText(
                             text: TextSpan(
-                              text: 'L\'application pour enregistrer vos parties de Belote, Coinche et Tarot ! \n\n',
+                              text:
+                                  'L\'application pour enregistrer vos parties de Belote, Coinche et Tarot ! \n\n',
                               style: DefaultTextStyle.of(context).style,
                               children: <TextSpan>[
                                 TextSpan(text: 'Code source disponible ici : '),
                                 TextSpan(
                                   text: 'https://github.com/Devosud/carg',
-                                  style: TextStyle(decoration: TextDecoration.underline, color: Colors.blue),
+                                  style: TextStyle(
+                                      decoration: TextDecoration.underline,
+                                      color: Colors.blue),
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () async {
                                       final url =

@@ -14,8 +14,8 @@ class CoincheRound extends TeamGameRound {
       dixDeDer,
       beloteRebelote,
       taker,
-        takerScore,
-        defenderScore})
+      takerScore,
+      defenderScore})
       : super(
             index: index,
             cardColor: cardColor,
@@ -41,8 +41,10 @@ class CoincheRound extends TeamGameRound {
         index: json['index'],
         cardColor:
             EnumToString.fromString(CardColor.values, json['card_color']),
-        dixDeDer: EnumToString.fromString(TeamGameEnum.values, json['dix_de_der']),
-        beloteRebelote: EnumToString.fromString(TeamGameEnum.values, json['belote_rebelote']),
+        dixDeDer:
+            EnumToString.fromString(TeamGameEnum.values, json['dix_de_der']),
+        beloteRebelote: EnumToString.fromString(
+            TeamGameEnum.values, json['belote_rebelote']),
         contract: json['contract'],
         contractFulfilled: json['contract_fulfilled'],
         taker: EnumToString.fromString(TeamGameEnum.values, json['taker']),

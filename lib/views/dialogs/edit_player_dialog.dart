@@ -127,19 +127,21 @@ class _EditPlayerDialogState extends State<EditPlayerDialog> {
             )
           ],
         ),
-        _isCreating ? Container(
-          child: TextFormField(
-              enabled: _isCreating,
-              onChanged: (text) => _setProfilePictureUrl(text),
-              controller: _profilePictureTextController,
-              style: TextStyle(fontSize: 15),
-              maxLines: null,
-              decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintStyle: TextStyle(
-                      fontSize: 15, color: Theme.of(context).hintColor),
-                  hintText: 'Image de profile (url)')),
-        ) : Container(),
+        _isCreating
+            ? Container(
+                child: TextFormField(
+                    enabled: _isCreating,
+                    onChanged: (text) => _setProfilePictureUrl(text),
+                    controller: _profilePictureTextController,
+                    style: TextStyle(fontSize: 15),
+                    maxLines: null,
+                    decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintStyle: TextStyle(
+                            fontSize: 15, color: Theme.of(context).hintColor),
+                        hintText: 'Image de profile (url)')),
+              )
+            : Container(),
         Padding(
           padding: const EdgeInsets.only(top: 10),
           child: Row(

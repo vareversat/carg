@@ -90,8 +90,7 @@ class _PlayerPickerScreenState extends State<PlayerPickerScreen> {
                               child: PlayerWidget(
                                   player: snapshot.data[index],
                                   onTap: () => game.players
-                                      .onSelectedPlayer(
-                                          snapshot.data[index])),
+                                      .onSelectedPlayer(snapshot.data[index])),
                             );
                           });
                     },

@@ -15,7 +15,8 @@ class BeloteGameService implements TeamGameService<BeloteGame> {
   TeamService _teamService;
   PlayerService _playerService;
   BeloteScoreService _beloteScoreService;
-  static const String flavor = String.fromEnvironment('FLAVOR', defaultValue: 'dev');
+  static const String flavor =
+      String.fromEnvironment('FLAVOR', defaultValue: 'dev');
 
   BeloteGameService() : super() {
     _teamService = TeamService();
@@ -27,8 +28,9 @@ class BeloteGameService implements TeamGameService<BeloteGame> {
   Future<List<BeloteGame>> getAllGames() async {
     try {
       var beloteGames = <BeloteGame>[];
-      var querySnapshot =
-          await Firestore.instance.collection('belote-game-' + flavor).getDocuments();
+      var querySnapshot = await Firestore.instance
+          .collection('belote-game-' + flavor)
+          .getDocuments();
       for (var doc in querySnapshot.documents) {
         beloteGames.add(BeloteGame.fromJSON(doc.data, doc.documentID));
       }
@@ -41,8 +43,10 @@ class BeloteGameService implements TeamGameService<BeloteGame> {
   @override
   Future<BeloteGame> getGame(String id) async {
     try {
-      var querySnapshot =
-          await Firestore.instance.collection('belote-game-' + flavor).document(id).get();
+      var querySnapshot = await Firestore.instance
+          .collection('belote-game-' + flavor)
+          .document(id)
+          .get();
       return BeloteGame.fromJSON(querySnapshot.data, querySnapshot.documentID);
     } on PlatformException catch (e) {
       throw FirebaseException(e.message);
@@ -52,7 +56,10 @@ class BeloteGameService implements TeamGameService<BeloteGame> {
   @override
   Future deleteGame(String id) async {
     try {
-      await Firestore.instance.collection('belote-game-' + flavor).document(id).delete();
+      await Firestore.instance
+          .collection('belote-game-' + flavor)
+          .document(id)
+          .delete();
       await _beloteScoreService.deleteScoreByGame(id);
     } on PlatformException catch (e) {
       throw FirebaseException(e.message);

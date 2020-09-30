@@ -6,8 +6,7 @@ import 'package:carg/services/game/tarot_game_service.dart';
 class TarotGame extends Game {
   List<String> playerIds;
 
-  TarotGame(
-      {id, startingDate, endingDate, winner, isEnded, this.playerIds})
+  TarotGame({id, startingDate, endingDate, winner, isEnded, this.playerIds})
       : super(
             id: id,
             gameType: GameType.TAROT,

@@ -14,11 +14,10 @@ abstract class Game extends CargObject {
   GameType gameType;
   GameService gameService;
 
-
   Game(
       {String id,
       @required this.gameType,
-        @required this.gameService,
+      @required this.gameService,
       this.players,
       this.startingDate,
       this.endingDate,

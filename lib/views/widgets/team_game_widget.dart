@@ -100,8 +100,10 @@ class _TeamGameWidgetState extends State<TeamGameWidget> {
                                         return Padding(
                                             padding: EdgeInsets.all(5),
                                             child: APIMiniPlayerWidget(
-                                                playerId: snapshot
-                                                    .data.players[index], displayImage: true,));
+                                              playerId:
+                                                  snapshot.data.players[index],
+                                              displayImage: true,
+                                            ));
                                       });
                                 },
                                 future: _teamService.getTeam(_teamGame.us),
@@ -140,8 +142,10 @@ class _TeamGameWidgetState extends State<TeamGameWidget> {
                                         return Padding(
                                             padding: EdgeInsets.all(5),
                                             child: APIMiniPlayerWidget(
-                                                playerId: snapshot
-                                                    .data.players[index],displayImage: true,));
+                                              playerId:
+                                                  snapshot.data.players[index],
+                                              displayImage: true,
+                                            ));
                                       });
                                 },
                                 future: _teamService.getTeam(_teamGame.them),
@@ -228,52 +232,45 @@ class _TeamGameWidgetState extends State<TeamGameWidget> {
                     ),
                     !_teamGame.isEnded
                         ? MaterialButton(
-                      onPressed: () async =>
-                      {
-                        await showDialog(
-                            context: context,
-                            child: WarningDialog(
-                              onConfirm: () async =>
-                              {
-                                await _teamGameService
-                                    .endAGame(_teamGame),
-                              },
-                              message:
-                              'Tu es sur le point de terminer cette partie. Les gagnants ainsi que les perdants (honteux) vont être désignés',
-                              title: 'Attention',
-                              color: Theme
-                                  .of(context)
-                                  .primaryColor,
-                            )),
-                      },
-                      color: Colors.black,
-                      textColor: Colors.white,
-                      child: Icon(Icons.stop),
-                      padding: EdgeInsets.all(8),
-                      shape: CircleBorder(),
-                    )
+                            onPressed: () async => {
+                              await showDialog(
+                                  context: context,
+                                  child: WarningDialog(
+                                    onConfirm: () async => {
+                                      await _teamGameService
+                                          .endAGame(_teamGame),
+                                    },
+                                    message:
+                                        'Tu es sur le point de terminer cette partie. Les gagnants ainsi que les perdants (honteux) vont être désignés',
+                                    title: 'Attention',
+                                    color: Theme.of(context).primaryColor,
+                                  )),
+                            },
+                            color: Colors.black,
+                            textColor: Colors.white,
+                            child: Icon(Icons.stop),
+                            padding: EdgeInsets.all(8),
+                            shape: CircleBorder(),
+                          )
                         : Container(),
                     !_teamGame.isEnded
                         ? MaterialButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                PlayTeamGameScreen(
-                                  teamGame: _teamGame,
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => PlayTeamGameScreen(
+                                    teamGame: _teamGame,
+                                  ),
                                 ),
-                          ),
-                        );
-                      },
-                      color: Theme
-                          .of(context)
-                          .primaryColor,
-                      textColor: Colors.white,
-                      child: Icon(Icons.play_arrow),
-                      padding: EdgeInsets.all(8),
-                      shape: CircleBorder(),
-                    )
+                              );
+                            },
+                            color: Theme.of(context).primaryColor,
+                            textColor: Colors.white,
+                            child: Icon(Icons.play_arrow),
+                            padding: EdgeInsets.all(8),
+                            shape: CircleBorder(),
+                          )
                         : Container(),
                   ],
                 ),

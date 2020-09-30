@@ -10,10 +10,10 @@ class SimplePlayers extends Players {
     _selectionLimit = players.length < 5 ? 1 : 2;
   }
 
-
   @override
   void onSelectedPlayer(Player selectedPlayer) {
-    if(_selectedPlayers.length < _selectionLimit && !_selectedPlayers.contains(selectedPlayer)) {
+    if (_selectedPlayers.length < _selectionLimit &&
+        !_selectedPlayers.contains(selectedPlayer)) {
       _selectedPlayers.add(selectedPlayer);
     } else if (_selectedPlayers.contains(selectedPlayer)) {
       _selectedPlayers.remove(selectedPlayer);

@@ -5,7 +5,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 
 class TarotScoreService extends ScoreService<TarotScore, TarotRound> {
-  static const String flavor = String.fromEnvironment('FLAVOR', defaultValue: 'dev');
+  static const String flavor =
+      String.fromEnvironment('FLAVOR', defaultValue: 'dev');
 
   @override
   Future<TarotScore> getScoreByGame(String gameId) async {
@@ -49,9 +50,13 @@ class TarotScoreService extends ScoreService<TarotScore, TarotRound> {
       var tarotScore = await getScoreByGame(gameId);
       if (tarotScore != null) {
         for (var playerId in tarotRound.defensePlayers) {
-          tarotScore.scores.forEach((e) => e.player == playerId ? e.score += tarotRound.defenseScore : e.score += 0);
+          tarotScore.scores.forEach((e) => e.player == playerId
+              ? e.score += tarotRound.defenseScore
+              : e.score += 0);
         }
-        tarotScore.scores.forEach((e) => e.player == tarotRound.attackPlayer ? e.score += tarotRound.attackScore : e.score += 0);
+        tarotScore.scores.forEach((e) => e.player == tarotRound.attackPlayer
+            ? e.score += tarotRound.attackScore
+            : e.score += 0);
         tarotRound.index = tarotScore.rounds.length;
         tarotScore.rounds.add(tarotRound);
         // await Firestore.instance

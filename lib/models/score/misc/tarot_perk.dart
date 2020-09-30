@@ -1,7 +1,4 @@
-enum TarotPerk {
-  PETIT_AU_BOUT,
-  POIGNEE
-}
+enum TarotPerk { PETIT_AU_BOUT, POIGNEE }
 
 extension TarotPrimeExtension on TarotPerk {
   String get string {

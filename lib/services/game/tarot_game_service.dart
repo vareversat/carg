@@ -9,7 +9,8 @@ import 'package:flutter/services.dart';
 
 class TarotGameService extends GameService<TarotGame, TarotGamePlayers> {
   TarotScoreService _tarotScoreService;
-  static const String flavor = String.fromEnvironment('FLAVOR', defaultValue: 'dev');
+  static const String flavor =
+      String.fromEnvironment('FLAVOR', defaultValue: 'dev');
 
   TarotGameService() : super() {
     _tarotScoreService = TarotScoreService();
@@ -19,8 +20,9 @@ class TarotGameService extends GameService<TarotGame, TarotGamePlayers> {
   Future<List<TarotGame>> getAllGames() async {
     try {
       var beloteGames = <TarotGame>[];
-      var querySnapshot =
-          await Firestore.instance.collection('tarot-game-' + flavor).getDocuments();
+      var querySnapshot = await Firestore.instance
+          .collection('tarot-game-' + flavor)
+          .getDocuments();
       for (var doc in querySnapshot.documents) {
         beloteGames.add(TarotGame.fromJSON(doc.data, doc.documentID));
       }
@@ -33,8 +35,10 @@ class TarotGameService extends GameService<TarotGame, TarotGamePlayers> {
   @override
   Future<TarotGame> getGame(String id) async {
     try {
-      var querySnapshot =
-          await Firestore.instance.collection('tarot-game-' + flavor).document(id).get();
+      var querySnapshot = await Firestore.instance
+          .collection('tarot-game-' + flavor)
+          .document(id)
+          .get();
       return TarotGame.fromJSON(querySnapshot.data, querySnapshot.documentID);
     } on PlatformException catch (e) {
       throw Exception('[' + e.code + '] Firebase error ' + e.message);
@@ -44,7 +48,10 @@ class TarotGameService extends GameService<TarotGame, TarotGamePlayers> {
   @override
   Future deleteGame(String id) async {
     try {
-      await Firestore.instance.collection('tarot-game-' + flavor).document(id).delete();
+      await Firestore.instance
+          .collection('tarot-game-' + flavor)
+          .document(id)
+          .delete();
       await _tarotScoreService.deleteScoreByGame(id);
     } on PlatformException catch (e) {
       throw Exception('[' + e.code + '] Firebase error ' + e.message);

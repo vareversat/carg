@@ -7,7 +7,8 @@ class APIMiniPlayerWidget extends StatefulWidget {
   final bool displayImage;
 
   APIMiniPlayerWidget({
-    @required this.playerId, @required this.displayImage,
+    @required this.playerId,
+    @required this.displayImage,
   });
 
   @override
@@ -37,24 +38,25 @@ class _APIMiniPlayerWidgetState extends State<APIMiniPlayerWidget> {
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: 2),
               child: InputChip(
-                avatar: (snapshot.data.profilePicture != '' && _displayImage) ? Container(
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 2,
-                        color: Theme.of(context).primaryColor,
-                      ),
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                          image: NetworkImage(snapshot.data.profilePicture))),
-                ) : null,
-                onPressed: () {},
-                label: Text(
-                  snapshot.data.userName,
-                  style: TextStyle(fontSize: 13),
-                  overflow: TextOverflow.ellipsis,
-                )
-
-              ),
+                  avatar: (snapshot.data.profilePicture != '' && _displayImage)
+                      ? Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                width: 2,
+                                color: Theme.of(context).primaryColor,
+                              ),
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                  image: NetworkImage(
+                                      snapshot.data.profilePicture))),
+                        )
+                      : null,
+                  onPressed: () {},
+                  label: Text(
+                    snapshot.data.userName,
+                    style: TextStyle(fontSize: 13),
+                    overflow: TextOverflow.ellipsis,
+                  )),
             ),
           );
         }

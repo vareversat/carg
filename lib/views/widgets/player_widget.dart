@@ -18,8 +18,8 @@ class PlayerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<Player>(
         builder: (context, playerData, child) => InkWell(
-              onTap: () => onTap == null
-                  ? _showEditPlayerDialog(context) : onTap(),
+              onTap: () =>
+                  onTap == null ? _showEditPlayerDialog(context) : onTap(),
               child: Card(
                 margin: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                 elevation: 2,

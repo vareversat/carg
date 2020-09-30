@@ -1,9 +1,4 @@
-enum TarotBoutCount {
-  ZERO,
-  ONE,
-  TWO,
-  THREE
-}
+enum TarotBoutCount { ZERO, ONE, TWO, THREE }
 
 extension TarotBoutExtension on TarotBoutCount {
   int get pointToDo {

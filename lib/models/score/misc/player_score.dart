@@ -12,9 +12,7 @@ class PlayerScore {
     if (json == null) {
       return null;
     }
-    return PlayerScore(
-        player: json['player'],
-        score: json['score']);
+    return PlayerScore(player: json['player'], score: json['score']);
   }
 
   static List<PlayerScore> fromJSONList(List<dynamic> jsonList) {

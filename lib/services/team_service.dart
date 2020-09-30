@@ -5,7 +5,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 
 class TeamService {
-  static const String flavor = String.fromEnvironment('FLAVOR', defaultValue: 'dev');
+  static const String flavor =
+      String.fromEnvironment('FLAVOR', defaultValue: 'dev');
   final PlayerService _playerService = PlayerService();
 
   Future<Team> getTeamByPlayers(List<String> playerIds) async {
@@ -24,8 +25,9 @@ class TeamService {
             querySnapshot.documents.first.documentID);
       } else {
         var team = Team(players: playerIds);
-        var documentReference =
-            await Firestore.instance.collection('team-' + flavor).add(team.toJSON());
+        var documentReference = await Firestore.instance
+            .collection('team-' + flavor)
+            .add(team.toJSON());
         team.id = documentReference.documentID;
         return team;
       }
@@ -36,8 +38,10 @@ class TeamService {
 
   Future<Team> getTeam(String id) async {
     try {
-      var querySnapshot =
-      await Firestore.instance.collection('team-' + flavor).document(id).get();
+      var querySnapshot = await Firestore.instance
+          .collection('team-' + flavor)
+          .document(id)
+          .get();
       return Team.fromJSON(querySnapshot.data, querySnapshot.documentID);
     } on PlatformException catch (e) {
       throw FirebaseException(e.message);

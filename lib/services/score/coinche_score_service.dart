@@ -7,7 +7,8 @@ import 'package:flutter/services.dart';
 
 class CoincheScoreService
     extends TeamGameScoreService<CoincheScore, CoincheRound> {
-  static const String flavor = String.fromEnvironment('FLAVOR', defaultValue: 'dev');
+  static const String flavor =
+      String.fromEnvironment('FLAVOR', defaultValue: 'dev');
 
   @override
   Future<CoincheScore> getScoreByGame(String gameId) async {
@@ -50,8 +51,10 @@ class CoincheScoreService
     try {
       var coincheScore = await getScoreByGame(gameId);
       if (coincheScore != null) {
-        coincheScore.usTotalPoints += getTotalPoints(TeamGameEnum.US, coincheRound);
-        coincheScore.themTotalPoints += getTotalPoints(TeamGameEnum.THEM, coincheRound);
+        coincheScore.usTotalPoints +=
+            getTotalPoints(TeamGameEnum.US, coincheRound);
+        coincheScore.themTotalPoints +=
+            getTotalPoints(TeamGameEnum.THEM, coincheRound);
         coincheRound.index = coincheScore.rounds.length;
         coincheScore.rounds.add(coincheRound);
         await Firestore.instance

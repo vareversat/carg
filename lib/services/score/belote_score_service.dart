@@ -7,7 +7,8 @@ import 'package:flutter/services.dart';
 
 class BeloteScoreService
     extends TeamGameScoreService<BeloteScore, BeloteRound> {
-  static const String flavor = String.fromEnvironment('FLAVOR', defaultValue: 'dev');
+  static const String flavor =
+      String.fromEnvironment('FLAVOR', defaultValue: 'dev');
 
   @override
   Future<BeloteScore> getScoreByGame(String gameId) async {
@@ -50,8 +51,10 @@ class BeloteScoreService
     try {
       var beloteScore = await getScoreByGame(gameId);
       if (beloteScore != null) {
-        beloteScore.usTotalPoints += getTotalPoints(TeamGameEnum.US, beloteRound);
-        beloteScore.themTotalPoints += getTotalPoints(TeamGameEnum.THEM, beloteRound);
+        beloteScore.usTotalPoints +=
+            getTotalPoints(TeamGameEnum.US, beloteRound);
+        beloteScore.themTotalPoints +=
+            getTotalPoints(TeamGameEnum.THEM, beloteRound);
         beloteRound.index = beloteScore.rounds.length;
         beloteScore.rounds.add(beloteRound);
         await Firestore.instance

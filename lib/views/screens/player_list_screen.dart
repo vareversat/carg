@@ -41,28 +41,31 @@ class _PlayerListScreenState extends State<PlayerListScreen> {
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(60),
           child: AppBar(
-            automaticallyImplyLeading: false,
-            title:
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Joueurs',
-                    style: Theme.of(context).textTheme.headline1),
-                RaisedButton.icon(
-                    color: Theme.of(context).accentColor,
-                    textColor: Theme.of(context).cardColor,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18.0)),
-                    onPressed: () async => {await showDialog(context: context, child: EditPlayerDialog(player: null,))},
-                    label: Text('Ajouter un joueur',
-                        style: TextStyle(fontSize: 14)),
-                    icon: FaIcon(
-                      FontAwesomeIcons.plusCircle,
-                      size: 15,
-                    ))
-              ],
-            )
-          ),
+              automaticallyImplyLeading: false,
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Joueurs', style: Theme.of(context).textTheme.headline1),
+                  RaisedButton.icon(
+                      color: Theme.of(context).accentColor,
+                      textColor: Theme.of(context).cardColor,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0)),
+                      onPressed: () async => {
+                            await showDialog(
+                                context: context,
+                                child: EditPlayerDialog(
+                                  player: null,
+                                ))
+                          },
+                      label: Text('Ajouter un joueur',
+                          style: TextStyle(fontSize: 14)),
+                      icon: FaIcon(
+                        FontAwesomeIcons.plusCircle,
+                        size: 15,
+                      ))
+                ],
+              )),
         ),
         body: Column(
           children: [

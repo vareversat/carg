@@ -7,13 +7,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 
 class PlayerService {
-  static const String flavor = String.fromEnvironment('FLAVOR', defaultValue: 'dev');
-  
+  static const String flavor =
+      String.fromEnvironment('FLAVOR', defaultValue: 'dev');
+
   Future<List<Player>> getAllPlayers({String query = ''}) async {
     final algoliaConfig = jsonDecode(await rootBundle.loadString(
       'assets/config/algolia.json',
     ));
-    var algolia = Algolia.init(applicationId: algoliaConfig['app_id'], apiKey: algoliaConfig['api_key']);
+    var algolia = Algolia.init(
+        applicationId: algoliaConfig['app_id'],
+        apiKey: algoliaConfig['api_key']);
     var algoliaQuery = algolia.instance.index('player_' + flavor).search(query);
     try {
       var players = <Player>[];
@@ -52,8 +55,10 @@ class PlayerService {
 
   Future<Player> getPlayer(String id) async {
     try {
-      var querySnapshot =
-          await Firestore.instance.collection('player-' + flavor).document(id).get();
+      var querySnapshot = await Firestore.instance
+          .collection('player-' + flavor)
+          .document(id)
+          .get();
       return Player.fromJSON(querySnapshot.data, querySnapshot.documentID);
     } on PlatformException catch (e) {
       throw FirebaseException(e.message);
@@ -90,8 +95,9 @@ class PlayerService {
 
   Future<String> addPlayer(Player player) async {
     try {
-      var documentReference =
-          await Firestore.instance.collection('player-' + flavor).add(player.toJSON());
+      var documentReference = await Firestore.instance
+          .collection('player-' + flavor)
+          .add(player.toJSON());
       return documentReference.documentID;
     } on PlatformException catch (e) {
       throw FirebaseException(e.message);

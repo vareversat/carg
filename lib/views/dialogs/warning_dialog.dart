@@ -49,7 +49,6 @@ class _WarningDialogState extends State<WarningDialog> {
       setState(() {
         _isLoading = false;
       });
-
     }
   }
 
@@ -72,10 +71,7 @@ class _WarningDialogState extends State<WarningDialog> {
                 child: Text(
                   _title,
                   overflow: TextOverflow.ellipsis,
-                  style: Theme
-                      .of(context)
-                      .textTheme
-                      .headline2,
+                  style: Theme.of(context).textTheme.headline2,
                 ),
               ),
             ],
@@ -83,10 +79,7 @@ class _WarningDialogState extends State<WarningDialog> {
         ),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         children: <Widget>[
-          Text(_message, style: Theme
-              .of(context)
-              .textTheme
-              .bodyText1),
+          Text(_message, style: Theme.of(context).textTheme.bodyText1),
           Padding(
             padding: const EdgeInsets.only(top: 10),
             child: Row(
@@ -94,40 +87,34 @@ class _WarningDialogState extends State<WarningDialog> {
               children: <Widget>[
                 _showCancelButton
                     ? FlatButton.icon(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(18.0),
-                      side: BorderSide(
-                          color: _color ?? Theme
-                              .of(context)
-                              .errorColor)),
-                  onPressed: () => {Navigator.pop(context)},
-                  color: Colors.white,
-                  textColor: _color ?? Theme
-                      .of(context)
-                      .errorColor,
-                  icon: Icon(Icons.close),
-                  label: Text('Annuler',
-                      style: TextStyle(
-                          fontSize: 14, fontWeight: FontWeight.bold)),
-                )
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(18.0),
+                            side: BorderSide(
+                                color: _color ?? Theme.of(context).errorColor)),
+                        onPressed: () => {Navigator.pop(context)},
+                        color: Colors.white,
+                        textColor: _color ?? Theme.of(context).errorColor,
+                        icon: Icon(Icons.close),
+                        label: Text('Annuler',
+                            style: TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.bold)),
+                      )
                     : Container(),
                 SizedBox(
                   width: 10,
                 ),
-                _isLoading ? CircularProgressIndicator() : RaisedButton.icon(
-                    color: _color ?? Theme
-                        .of(context)
-                        .errorColor,
-                    textColor: Theme
-                        .of(context)
-                        .cardColor,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18.0)),
-                    onPressed: () async =>
-                    {await _exec(), Navigator.pop(context)},
-                    label: Text(_onConfirmButtonMessage,
-                        style: TextStyle(fontSize: 14)),
-                    icon: Icon(Icons.check)),
+                _isLoading
+                    ? CircularProgressIndicator()
+                    : RaisedButton.icon(
+                        color: _color ?? Theme.of(context).errorColor,
+                        textColor: Theme.of(context).cardColor,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(18.0)),
+                        onPressed: () async =>
+                            {await _exec(), Navigator.pop(context)},
+                        label: Text(_onConfirmButtonMessage,
+                            style: TextStyle(fontSize: 14)),
+                        icon: Icon(Icons.check)),
               ],
             ),
           ),

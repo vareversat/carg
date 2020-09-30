@@ -6,7 +6,6 @@ class TarotGamePlayers extends Players {
 
   TarotGamePlayers();
 
-
   @override
   void onSelectedPlayer(Player player) {
     if (_players.length < 5 && !_players.contains(player)) {

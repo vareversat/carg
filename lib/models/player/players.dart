@@ -1,7 +1,7 @@
 import 'package:carg/models/player/player.dart';
 import 'package:flutter/foundation.dart';
 
-abstract class Players with ChangeNotifier{
+abstract class Players with ChangeNotifier {
   Players();
 
   void onSelectedPlayer(Player player);
@@ -11,5 +11,4 @@ abstract class Players with ChangeNotifier{
   bool isFull();
 
   List<String> getPlayerIds();
-
 }

@@ -7,6 +7,7 @@ class TeamGamePlayers extends Players {
   final List<Player> _them = [];
 
   List<Player> get us => _us;
+
   List<Player> get them => _them;
 
   TeamGamePlayers();

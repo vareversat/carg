@@ -15,7 +15,8 @@ class CoincheGameService implements TeamGameService<CoincheGame> {
   TeamService _teamService;
   PlayerService _playerService;
   CoincheScoreService _coincheScoreService;
-  static const String flavor = String.fromEnvironment('FLAVOR', defaultValue: 'dev');
+  static const String flavor =
+      String.fromEnvironment('FLAVOR', defaultValue: 'dev');
 
   CoincheGameService() : super() {
     _teamService = TeamService();
@@ -27,8 +28,9 @@ class CoincheGameService implements TeamGameService<CoincheGame> {
   Future<List<CoincheGame>> getAllGames() async {
     try {
       var coincheGames = <CoincheGame>[];
-      var querySnapshot =
-          await Firestore.instance.collection('coinche-game-' + flavor).getDocuments();
+      var querySnapshot = await Firestore.instance
+          .collection('coinche-game-' + flavor)
+          .getDocuments();
       for (var doc in querySnapshot.documents) {
         coincheGames.add(CoincheGame.fromJSON(doc.data, doc.documentID));
       }
@@ -54,7 +56,10 @@ class CoincheGameService implements TeamGameService<CoincheGame> {
   @override
   Future deleteGame(String id) async {
     try {
-      await Firestore.instance.collection('coinche-game-' + flavor).document(id).delete();
+      await Firestore.instance
+          .collection('coinche-game-' + flavor)
+          .document(id)
+          .delete();
       await _coincheScoreService.deleteScoreByGame(id);
     } on PlatformException catch (e) {
       throw FirebaseException(e.message);
