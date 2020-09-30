@@ -17,7 +17,22 @@ extension TarotContractExtension on TarotContract {
       case TarotContract.GARDE_CONTRE:
         return 6;
       default:
-        return null;
+        return 0;
+    }
+  }
+
+  String get name {
+    switch (this) {
+      case TarotContract.PETITE:
+        return 'Petite';
+      case TarotContract.GARDE_AVEC_CHIEN:
+        return 'Garde avec chien';
+      case TarotContract.GARDE_SANS_CHIEN:
+        return 'Garde sans chien';
+      case TarotContract.GARDE_CONTRE:
+        return 'Garde contre';
+      default:
+        return '';
     }
   }
 }
