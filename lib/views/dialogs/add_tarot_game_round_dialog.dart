@@ -305,7 +305,7 @@ class _PlayerPickerState extends State<_PlayerPicker> {
             items: TarotContract.values.map((TarotContract value) {
               return DropdownMenuItem<TarotContract>(
                 value: value,
-                child: Text(EnumToString.convertToString(value)),
+                child: Text(value.name + ' (x' + value.multiplayer.toString() +')'),
               );
             }).toList(),
             onChanged: (TarotContract val) {
