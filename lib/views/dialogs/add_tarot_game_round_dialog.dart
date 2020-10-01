@@ -336,7 +336,10 @@ class _PlayerPickerState extends State<_PlayerPicker> {
                           _computePoints();
                         });
                       },
-                      label: Text(tarotBoutCount.string),
+                      label: Text(tarotBoutCount.name +
+                          (_selectedBout == tarotBoutCount
+                              ? ' (' + _selectedBout.pointToDo.toString() + ')'
+                              : '')),
                     ))
                 .toList()
                 .cast<Widget>()),
