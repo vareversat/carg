@@ -16,7 +16,7 @@ extension TarotBoutExtension on TarotBoutCount {
     }
   }
 
-  String get string {
+  String get name {
     switch (this) {
       case TarotBoutCount.ZERO:
         return '0';
