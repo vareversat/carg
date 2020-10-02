@@ -18,6 +18,12 @@ You need a couple of things to be able to start the app in dev mode on your own 
 ### Firebase
 1) Create on project on the [Firebase console](https://console.firebase.google.com/u/0/?hl=fr)
 2) Add the *google.services.json* into the android/app folder
+3) Upload the functions into your Firebase project (you'll need npm) :
+```shell script
+$ cd functions
+$ npm install -g firebase-tools
+$ firebase deploy --only functions
+```
 ### Algolia
 1) Create a project on [Algolia](https://www.algolia.com/users/sign_in) (it's an indexation service)
 2) Create an index named *player_dev*
@@ -31,7 +37,7 @@ You need a couple of things to be able to start the app in dev mode on your own 
 
 Finally, you can run
 ```shell script
-fluter run
+$ fluter run
 ```
 And you are good to go :thumbsup:
 
