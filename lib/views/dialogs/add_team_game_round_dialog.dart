@@ -189,7 +189,10 @@ class _AddTeamGameRoundDialogState extends State<AddTeamGameRoundDialog> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          leading: IconButton(icon: Icon(Icons.cancel), onPressed: () => Navigator.pop(context),),
+            leading: IconButton(
+              icon: Icon(Icons.cancel),
+              onPressed: () => Navigator.pop(context),
+            ),
             title: Container(
                 decoration: BoxDecoration(
                     color: Theme.of(context).primaryColor,
@@ -282,7 +285,8 @@ class _AddTeamGameRoundDialogState extends State<AddTeamGameRoundDialog> {
                       children: <Widget>[
                         Text('Nous',
                             style: Theme.of(context).textTheme.bodyText2),
-                        Text('Eux', style: Theme.of(context).textTheme.bodyText2),
+                        Text('Eux',
+                            style: Theme.of(context).textTheme.bodyText2),
                       ],
                     ),
                   ),
@@ -419,6 +423,19 @@ class _AddTeamGameRoundDialogState extends State<AddTeamGameRoundDialog> {
                   ),
                 ],
               ),
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Center(
+                  child: Text(
+                    'Attaque : ' +
+                        _takerPoints.toString() +
+                        ' | ' +
+                        'Défense : ' +
+                        _defenderPoints.toString(),
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
               Divider(),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -431,8 +448,7 @@ class _AddTeamGameRoundDialogState extends State<AddTeamGameRoundDialog> {
                 children: <Widget>[
                   _teamGame is CoincheGame
                       ? Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 50.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 50.0),
                           child: TextField(
                             controller: _contractTextController,
                             style: TextStyle(
@@ -450,71 +466,58 @@ class _AddTeamGameRoundDialogState extends State<AddTeamGameRoundDialog> {
                           ),
                         )
                       : Container(),
-                  _teamGame is CoincheGame ? Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      DropdownButton<ContractName>(
-                        value: _selectedContract,
-                        items:
-                        ContractName.values.map((ContractName value) {
-                          return DropdownMenuItem<ContractName>(
-                            value: value,
-                            child:
-                            Text(EnumToString.convertToString(value)),
-                          );
-                        }).toList(),
-                        onChanged: (ContractName val) {
-                          setState(() {
-                            _selectedContract = val;
-                          });
-                        },
-                      ),
-                      DropdownButton<CardColor>(
-                        value: _selectedCardColor,
-                        items: CardColor.values.map((CardColor value) {
-                          return DropdownMenuItem<CardColor>(
-                            value: value,
-                            child: Text(EnumToString.convertToString(value)),
-                          );
-                        }).toList(),
-                        onChanged: (CardColor val) {
-                          setState(() {
-                            _selectedCardColor = val;
-                          });
-                        },
-                      ),
-                    ],
-                  ) : DropdownButton<ContractName>(
-                    value: _selectedContract,
-                    items:
-                    ContractName.values.map((ContractName value) {
-                      return DropdownMenuItem<ContractName>(
-                        value: value,
-                        child:
-                        Text(EnumToString.convertToString(value)),
-                      );
-                    }).toList(),
-                    onChanged: (ContractName val) {
-                      setState(() {
-                        _selectedContract = val;
-                      });
-                    },
-                  ),
+                  _teamGame is CoincheGame
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            DropdownButton<ContractName>(
+                              value: _selectedContract,
+                              items:
+                                  ContractName.values.map((ContractName value) {
+                                return DropdownMenuItem<ContractName>(
+                                  value: value,
+                                  child:
+                                      Text(EnumToString.convertToString(value)),
+                                );
+                              }).toList(),
+                              onChanged: (ContractName val) {
+                                setState(() {
+                                  _selectedContract = val;
+                                });
+                              },
+                            ),
+                            DropdownButton<CardColor>(
+                              value: _selectedCardColor,
+                              items: CardColor.values.map((CardColor value) {
+                                return DropdownMenuItem<CardColor>(
+                                  value: value,
+                                  child:
+                                      Text(EnumToString.convertToString(value)),
+                                );
+                              }).toList(),
+                              onChanged: (CardColor val) {
+                                setState(() {
+                                  _selectedCardColor = val;
+                                });
+                              },
+                            ),
+                          ],
+                        )
+                      : DropdownButton<ContractName>(
+                          value: _selectedContract,
+                          items: ContractName.values.map((ContractName value) {
+                            return DropdownMenuItem<ContractName>(
+                              value: value,
+                              child: Text(EnumToString.convertToString(value)),
+                            );
+                          }).toList(),
+                          onChanged: (ContractName val) {
+                            setState(() {
+                              _selectedContract = val;
+                            });
+                          },
+                        ),
                 ],
-              ),
-              Divider(),
-              Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: Center(
-                  child: Text(
-                    'Attaque : ' +
-                        _takerPoints.toString() +
-                        ' | ' +
-                        'Défense : ' +
-                        _defenderPoints.toString(),
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ),
               ),
               SizedBox(
                 height: 20,
@@ -529,7 +532,8 @@ class _AddTeamGameRoundDialogState extends State<AddTeamGameRoundDialog> {
                         {await _createRound(), Navigator.pop(context)},
                     label: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text('Valider', style: Theme.of(context).textTheme.bodyText1),
+                      child: Text('Valider',
+                          style: Theme.of(context).textTheme.bodyText1),
                     ),
                     icon: Icon(Icons.check)),
               )
