@@ -138,7 +138,11 @@ class _PlayTarotGameState extends State<PlayTarotGame> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                FlatButton.icon(
+                RaisedButton.icon(
+                    color: Theme.of(context).errorColor,
+                    textColor: Theme.of(context).cardColor,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18.0)),
                     onPressed: () async => {
                           await showDialog(
                               context: context,
@@ -147,14 +151,18 @@ class _PlayTarotGameState extends State<PlayTarotGame> {
                                 message:
                                     'Tu es sur le point de terminer cette partie. Les gagnants ainsi que les perdants (honteux) vont être désignés',
                                 title: 'Attention',
-                                color: Theme.of(context).primaryColor,
+                                color: Theme.of(context).errorColor,
                               )),
                         },
                     icon: Icon(Icons.stop),
                     label: Text('Terminer la partie',
                         style: TextStyle(fontWeight: FontWeight.bold))),
-                FlatButton.icon(
+                RaisedButton.icon(
                     onPressed: () => {_showAddRoundDialog()},
+                    color: Theme.of(context).primaryColor,
+                    textColor: Theme.of(context).cardColor,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18.0)),
                     icon: Icon(Icons.plus_one),
                     label: Text('Nouvelle manche',
                         style: TextStyle(fontWeight: FontWeight.bold))),
