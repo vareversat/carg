@@ -14,13 +14,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
-class AddTarotGameRoundDialog extends StatelessWidget {
+class AddTarotGameRoundScreen extends StatelessWidget {
   final PlayerService _playerService = PlayerService();
   final TarotGame tarotGame;
 
-  AddTarotGameRoundDialog({this.tarotGame}) {
-    print(tarotGame.players);
-  }
+  AddTarotGameRoundScreen({this.tarotGame});
 
   Future<SimplePlayers> _getAllPlayer() async {
     var players = <Player>[];
@@ -34,6 +32,10 @@ class AddTarotGameRoundDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.cancel),
+          onPressed: () => Navigator.pop(context),
+        ),
         title: Container(
             decoration: BoxDecoration(
                 color: Theme.of(context).primaryColor,
@@ -47,52 +49,55 @@ class AddTarotGameRoundDialog extends StatelessWidget {
                     fontSize: 25,
                     color: Theme.of(context).cardColor))),
       ),
-      body: ListView(children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Center(
-            child: Text(
-                'Preneur' + (tarotGame.playerIds.length == 5 ? 's' : ''),
-                style: Theme.of(context).textTheme.bodyText1),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListView(children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Center(
+              child: Text(
+                  'Preneur' + (tarotGame.playerIds.length == 5 ? 's' : ''),
+                  style: Theme.of(context).textTheme.headline2),
+            ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: FutureBuilder<SimplePlayers>(
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(
-                    child: SpinKitDualRing(
-                  color: Theme.of(context).primaryColor,
-                ));
-              }
-              return ChangeNotifierProvider.value(
-                  value: snapshot.data,
-                  child: Wrap(
-                    spacing: 10,
-                    alignment: WrapAlignment.center,
-                    children: snapshot.data.players
-                        .map((player) => Consumer<SimplePlayers>(
-                            builder: (context, simplePlayers, _) => InputChip(
-                                selected: player.selected,
-                                selectedColor: Theme.of(context).accentColor,
-                                onPressed: () {
-                                  simplePlayers.onSelectedPlayer(player);
-                                },
-                                label: Text(
-                                  player.userName,
-                                  overflow: TextOverflow.ellipsis,
-                                ))))
-                        .toList()
-                        .cast<Widget>(),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: FutureBuilder<SimplePlayers>(
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(
+                      child: SpinKitDualRing(
+                    color: Theme.of(context).primaryColor,
                   ));
-            },
-            future: _getAllPlayer(),
+                }
+                return ChangeNotifierProvider.value(
+                    value: snapshot.data,
+                    child: Wrap(
+                      spacing: 10,
+                      alignment: WrapAlignment.center,
+                      children: snapshot.data.players
+                          .map((player) => Consumer<SimplePlayers>(
+                              builder: (context, simplePlayers, _) => InputChip(
+                                  selected: player.selected,
+                                  selectedColor: Theme.of(context).accentColor,
+                                  onPressed: () {
+                                    simplePlayers.onSelectedPlayer(player);
+                                  },
+                                  label: Text(
+                                    player.userName,
+                                    overflow: TextOverflow.ellipsis,
+                                  ))))
+                          .toList()
+                          .cast<Widget>(),
+                    ));
+              },
+              future: _getAllPlayer(),
+            ),
           ),
-        ),
-        Divider(),
-        _PlayerPicker(tarotGame)
-      ]),
+          Divider(),
+          _PlayerPicker(tarotGame)
+        ]),
+      ),
     );
   }
 }
@@ -219,21 +224,23 @@ class _PlayerPickerState extends State<_PlayerPicker> {
   TarotGame tarotGame;
   TarotBoutCount _selectedBout = TarotBoutCount.ZERO;
   TarotContract _selectedTarotContract = TarotContract.PETITE;
-  int _selectedPoints = 0;
+  int _selectedPoints;
   int _attackPoints = 0;
   int _defensePoints = 0;
   final _maxPoints = 91;
   final _victoryBonus = 25;
   final _petitAuBoutBonus = 10;
 
-  _PlayerPickerState(this.tarotGame);
+  _PlayerPickerState(this.tarotGame) {
+    _selectedPoints = _selectedBout.pointToDo;
+  }
 
   int _computePoints() {
     var pointsToDo = _selectedBout.pointToDo;
     var gain = (_selectedPoints - pointsToDo);
     var score = 0;
     // Pour l'attaque
-    score = _victoryBonus + gain.abs();
+    score = _victoryBonus + gain;
     score *= _selectedTarotContract.multiplayer;
     if (_selectedPoignee != null) {
       score += _selectedPoignee.bonus;
@@ -296,7 +303,7 @@ class _PlayerPickerState extends State<_PlayerPicker> {
           padding: const EdgeInsets.all(8.0),
           child: Center(
             child:
-                Text('Contrat', style: Theme.of(context).textTheme.bodyText1),
+                Text('Contrat', style: Theme.of(context).textTheme.headline2),
           ),
         ),
         Center(
@@ -305,7 +312,8 @@ class _PlayerPickerState extends State<_PlayerPicker> {
             items: TarotContract.values.map((TarotContract value) {
               return DropdownMenuItem<TarotContract>(
                 value: value,
-                child: Text(value.name + ' (x' + value.multiplayer.toString() +')'),
+                child: Text(
+                    value.name + ' (x' + value.multiplayer.toString() + ')'),
               );
             }).toList(),
             onChanged: (TarotContract val) {
@@ -318,10 +326,51 @@ class _PlayerPickerState extends State<_PlayerPicker> {
         ),
         Divider(),
         Padding(
+          padding: const EdgeInsets.only(top: 8.0),
+          child: Center(
+            child: Text('Points des plis',
+                style: Theme.of(context).textTheme.headline2),
+          ),
+        ),
+        Slider(
+          value: _selectedPoints.toDouble(),
+          min: 0,
+          max: _maxPoints.toDouble(),
+          divisions: _maxPoints,
+          label: 'Attaque : ' +
+              _selectedPoints.round().toString() +
+              '\n' +
+              'Défense : ' +
+              (_maxPoints - _selectedPoints.round()).toString(),
+          onChanged: (double value) {
+            setState(() {
+              _selectedPoints = value.toInt();
+              _computePoints();
+            });
+          },
+        ),
+        Center(
+          child: Text(
+            'Attaque : ' +
+                _selectedPoints.round().toString() +
+                ' (' +
+                _attackPoints.toString() +
+                ')' +
+                ' | ' +
+                'Défense : ' +
+                (_maxPoints - _selectedPoints.round()).toString() +
+                ' (' +
+                _defensePoints.toString() +
+                ')',
+            textAlign: TextAlign.center,
+          ),
+        ),
+        Divider(),
+        Padding(
           padding: const EdgeInsets.all(8.0),
           child: Center(
             child: Text('Nombre de bout(s)',
-                style: Theme.of(context).textTheme.bodyText1),
+                style: Theme.of(context).textTheme.headline2),
           ),
         ),
         Row(
@@ -332,6 +381,7 @@ class _PlayerPickerState extends State<_PlayerPicker> {
                       selected: _selectedBout == tarotBoutCount,
                       onPressed: () {
                         setState(() {
+                          _selectedPoints = tarotBoutCount.pointToDo;
                           _selectedBout = tarotBoutCount;
                           _computePoints();
                         });
@@ -347,7 +397,7 @@ class _PlayerPickerState extends State<_PlayerPicker> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Center(
-            child: Text('Bonus', style: Theme.of(context).textTheme.bodyText1),
+            child: Text('Bonus', style: Theme.of(context).textTheme.headline2),
           ),
         ),
         Wrap(spacing: 10, alignment: WrapAlignment.center, children: [
@@ -402,45 +452,6 @@ class _PlayerPickerState extends State<_PlayerPicker> {
             label: Text(TarotPerk.POIGNEE.string),
           ),
         ]),
-        Divider(),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Center(
-            child: Text('Points des plis',
-                style: Theme.of(context).textTheme.bodyText1),
-          ),
-        ),
-        Slider(
-          value: _selectedPoints.toDouble(),
-          min: 0,
-          max: _maxPoints.toDouble(),
-          divisions: _maxPoints,
-          label: 'Attaque : ' +
-              _selectedPoints.round().toString() +
-              '\n' +
-              'Défense : ' +
-              (_maxPoints - _selectedPoints.round()).toString(),
-          onChanged: (double value) {
-            setState(() {
-              _selectedPoints = value.toInt();
-              _computePoints();
-            });
-          },
-        ),
-        Text(
-          'Attaque : ' +
-              _selectedPoints.round().toString() +
-              ' (' +
-              _attackPoints.toString() +
-              ')' +
-              ' | ' +
-              'Défense : ' +
-              (_maxPoints - _selectedPoints.round()).toString() +
-              ' (' +
-              _defensePoints.toString() +
-              ')',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
         SizedBox(
           height: 20,
         ),
@@ -454,7 +465,8 @@ class _PlayerPickerState extends State<_PlayerPicker> {
                     await _tarotScoreService.addRoundToGame(
                         tarotGame.id, TarotRound())
                   },
-              label: Text('Valider', style: TextStyle(fontSize: 14)),
+              label:
+                  Text('Valider', style: Theme.of(context).textTheme.bodyText1),
               icon: Icon(Icons.check)),
         )
       ],
