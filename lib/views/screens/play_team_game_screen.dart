@@ -12,7 +12,7 @@ import 'package:carg/services/score/belote_score_service.dart';
 import 'package:carg/services/score/coinche_score_service.dart';
 import 'package:carg/services/score/team_game_score_service.dart';
 import 'package:carg/services/team_service.dart';
-import 'package:carg/views/dialogs/add_team_game_round_dialog.dart';
+import 'package:carg/views/screens/add_team_game_round_screen.dart';
 import 'package:carg/views/dialogs/warning_dialog.dart';
 import 'package:carg/views/widgets/api_mini_player_widget.dart';
 import 'package:carg/views/widgets/error_message_widget.dart';
@@ -42,7 +42,7 @@ class _PlayTeamGameScreenState extends State<PlayTeamGameScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => AddTeamGameRoundDialog(
+        builder: (context) => AddTeamGameRoundScreen(
           teamGame: _teamGame,
         ),
       ),

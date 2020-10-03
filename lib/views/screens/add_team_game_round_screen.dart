@@ -12,18 +12,18 @@ import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class AddTeamGameRoundDialog extends StatefulWidget {
+class AddTeamGameRoundScreen extends StatefulWidget {
   final TeamGame teamGame;
 
-  const AddTeamGameRoundDialog({@required this.teamGame});
+  const AddTeamGameRoundScreen({@required this.teamGame});
 
   @override
   State<StatefulWidget> createState() {
-    return _AddTeamGameRoundDialogState(teamGame);
+    return _AddTeamGameRoundScreenState(teamGame);
   }
 }
 
-class _AddTeamGameRoundDialogState extends State<AddTeamGameRoundDialog> {
+class _AddTeamGameRoundScreenState extends State<AddTeamGameRoundScreen> {
   final TeamGame _teamGame;
   final int _dixDeDerBonus = 10;
   final int _beloteRebeloteBonus = 20;
@@ -150,7 +150,7 @@ class _AddTeamGameRoundDialogState extends State<AddTeamGameRoundDialog> {
     }
   }
 
-  _AddTeamGameRoundDialogState(this._teamGame) {
+  _AddTeamGameRoundScreenState(this._teamGame) {
     _selectedTeam = _teamGame.us;
     _takerTeam = TeamGameEnum.US;
     _defenderTeam = TeamGameEnum.THEM;
