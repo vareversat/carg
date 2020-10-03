@@ -432,7 +432,7 @@ class _AddTeamGameRoundDialogState extends State<AddTeamGameRoundDialog> {
                   _teamGame is CoincheGame
                       ? Padding(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 50.0, vertical: 10),
+                              horizontal: 50.0),
                           child: TextField(
                             controller: _contractTextController,
                             style: TextStyle(
