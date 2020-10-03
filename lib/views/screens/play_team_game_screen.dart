@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:carg/models/game/belote_game.dart';
 import 'package:carg/models/game/coinche_game.dart';
 import 'package:carg/models/game/team_game.dart';
@@ -40,12 +38,15 @@ class _PlayTeamGameScreenState extends State<PlayTeamGameScreen> {
   TeamGameScoreService _teamGameScoreService;
   TeamGameService _teamGameService;
 
-  Future _showAddRoundDialog() async {
-    await showDialog(
-        context: context,
-        child: AddTeamGameRoundDialog(
+  void _showAddRoundDialog() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AddTeamGameRoundDialog(
           teamGame: _teamGame,
-        ));
+        ),
+      ),
+    );
   }
 
   _PlayTeamGameScreenState(this._teamGame) {

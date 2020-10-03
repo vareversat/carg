@@ -72,7 +72,8 @@ class _CargState extends State<Carg> {
             theme: ThemeData(
                 fontFamily: 'Josefin',
                 textTheme: TextTheme(
-                  bodyText1: TextStyle(fontSize: 22),
+                  bodyText1: TextStyle(fontSize: 22, color: Colors.white),
+                  bodyText2: TextStyle(fontSize: 22),
                   headline1: TextStyle(
                       fontSize: 35,
                       fontWeight: FontWeight.bold,
@@ -80,7 +81,7 @@ class _CargState extends State<Carg> {
                   headline2: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white),
+                      color: Colors.black),
                 ),
                 brightness: Brightness.light,
                 primarySwatch: mcgpalette0,

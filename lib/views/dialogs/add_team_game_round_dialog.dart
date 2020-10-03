@@ -27,6 +27,7 @@ class _AddTeamGameRoundDialogState extends State<AddTeamGameRoundDialog> {
   final TeamGame _teamGame;
   final int _dixDeDerBonus = 10;
   final int _beloteRebeloteBonus = 20;
+  final int _totalPoints = 160;
   final TextEditingController _contractTextController = TextEditingController();
   final TextEditingController _usPointsTextController = TextEditingController();
   final TextEditingController _themPointsTextController =
@@ -43,6 +44,14 @@ class _AddTeamGameRoundDialogState extends State<AddTeamGameRoundDialog> {
   bool _themBeloteRebelote = false;
   int _takerPoints = 0;
   int _defenderPoints = 0;
+
+  void _refreshScore() {
+    _computeScore();
+    var currentFocus = FocusScope.of(context);
+    if (!currentFocus.hasPrimaryFocus) {
+      currentFocus.unfocus();
+    }
+  }
 
   bool _isContractFulfilled() {
     if (_teamGame is CoincheGame) {
@@ -99,15 +108,19 @@ class _AddTeamGameRoundDialogState extends State<AddTeamGameRoundDialog> {
 
   void _computeScore() {
     if (_isContractFulfilled()) {
-      _takerPoints = _getContract() +
-          _getPoints(_takerTeam) +
-          _getBeloteRebelote(_takerTeam);
-      _defenderPoints =
-          _getPoints(_defenderTeam) + _getBeloteRebelote(_defenderTeam);
+      setState(() {
+        _takerPoints = _getContract() +
+            _getPoints(_takerTeam) +
+            _getBeloteRebelote(_takerTeam);
+        _defenderPoints =
+            _getPoints(_defenderTeam) + _getBeloteRebelote(_defenderTeam);
+      });
     } else if (!_isContractFulfilled()) {
-      _takerPoints = _getBeloteRebelote(_takerTeam);
-      _defenderPoints =
-          160 + _getContract() + _getBeloteRebelote(_defenderTeam);
+      setState(() {
+        _takerPoints = _getBeloteRebelote(_takerTeam);
+        _defenderPoints =
+            _totalPoints + _getContract() + _getBeloteRebelote(_defenderTeam);
+      });
     }
   }
 
@@ -174,126 +187,149 @@ class _AddTeamGameRoundDialogState extends State<AddTeamGameRoundDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return SimpleDialog(
-      contentPadding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      titlePadding: const EdgeInsets.all(0),
-      title: Container(
-          decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor,
-              borderRadius: BorderRadius.only(
-                  topLeft: const Radius.circular(15.0),
-                  topRight: const Radius.circular(15.0))),
-          padding: const EdgeInsets.all(20),
-          child: Text('Nouvelle manche',
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 25,
-                  color: Theme.of(context).cardColor))),
-      children: <Widget>[
-        Center(
-            child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'Equipe preneuse : ',
-              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-            ),
-            Wrap(
-              direction: Axis.vertical,
-              crossAxisAlignment: WrapCrossAlignment.start,
-              children: [
-                Row(children: <Widget>[
-                  Radio(
-                    visualDensity: VisualDensity.compact,
-                    value: _teamGame.us,
-                    groupValue: _selectedTeam,
-                    onChanged: (String value) {
-                      setState(() {
-                        _selectedTeam = value;
-                        _takerTeam = TeamGameEnum.US;
-                        _defenderTeam = TeamGameEnum.THEM;
-                      });
-                    },
+    return Scaffold(
+        appBar: AppBar(
+          leading: IconButton(icon: Icon(Icons.cancel), onPressed: () => Navigator.pop(context),),
+            title: Container(
+                decoration: BoxDecoration(
+                    color: Theme.of(context).primaryColor,
+                    borderRadius: BorderRadius.only(
+                        topLeft: const Radius.circular(15.0),
+                        topRight: const Radius.circular(15.0))),
+                padding: const EdgeInsets.all(20),
+                child: Text('Nouvelle manche',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 25,
+                        color: Theme.of(context).cardColor)))),
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ListView(
+            children: [
+              Center(
+                  child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Center(
+                      child: Text('Equipe preneuse',
+                          style: Theme.of(context).textTheme.headline2),
+                    ),
                   ),
-                  Text(
-                    'Nous',
-                    style: TextStyle(fontSize: 13.0),
-                  ),
-                ]),
-                Wrap(
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  children: <Widget>[
-                    Radio(
-                      visualDensity: VisualDensity.compact,
-                      value: _teamGame.them,
-                      groupValue: _selectedTeam,
-                      onChanged: (String value) {
-                        setState(() {
-                          _selectedTeam = value;
-                          _takerTeam = TeamGameEnum.THEM;
-                          _defenderTeam = TeamGameEnum.US;
-                        });
-                      },
-                    ),
-                    Text(
-                      'Eux',
-                      style: TextStyle(fontSize: 13.0),
-                    )
-                  ],
-                ),
-              ],
-            ),
-          ],
-        )),
-        InputDecorator(
-            decoration: InputDecoration(
-                labelText: 'Points des plis',
-                border: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.yellow))),
-            child: Column(
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    Flexible(
-                      flex: 1,
-                      child: TextField(
-                          controller: _usPointsTextController,
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.center,
-                          keyboardType: TextInputType.number,
-                          inputFormatters: <TextInputFormatter>[],
-                          decoration: InputDecoration(
-                            hintStyle: TextStyle(
-                                fontSize: 20,
-                                color: Theme.of(context).hintColor),
-                            border: InputBorder.none,
-                            hintText: 'Nous..',
-                          )),
-                    ),
-                    Flexible(
-                      flex: 1,
-                      child: TextField(
-                          controller: _themPointsTextController,
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.center,
-                          keyboardType: TextInputType.number,
-                          inputFormatters: <TextInputFormatter>[],
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintStyle: TextStyle(
-                                fontSize: 20,
-                                color: Theme.of(context).hintColor),
-                            hintText: 'Eux..',
-                          )),
-                    ),
-                  ],
-                ),
-                Center(
-                  child: Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(children: <Widget>[
+                        Text(
+                          'Nous',
+                          style: Theme.of(context).textTheme.bodyText2,
+                        ),
+                        Radio(
+                          visualDensity: VisualDensity.compact,
+                          value: _teamGame.us,
+                          groupValue: _selectedTeam,
+                          onChanged: (String value) {
+                            setState(() {
+                              _selectedTeam = value;
+                              _takerTeam = TeamGameEnum.US;
+                              _defenderTeam = TeamGameEnum.THEM;
+                            });
+                            _computeScore();
+                          },
+                        ),
+                      ]),
+                      Wrap(
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        children: <Widget>[
+                          Radio(
+                            visualDensity: VisualDensity.compact,
+                            value: _teamGame.them,
+                            groupValue: _selectedTeam,
+                            onChanged: (String value) {
+                              setState(() {
+                                _selectedTeam = value;
+                                _takerTeam = TeamGameEnum.THEM;
+                                _defenderTeam = TeamGameEnum.US;
+                              });
+                              _computeScore();
+                            },
+                          ),
+                          Text(
+                            'Eux',
+                            style: Theme.of(context).textTheme.bodyText2,
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              )),
+              Divider(),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Center(
+                  child: Text('Points des plis',
+                      style: Theme.of(context).textTheme.headline2),
+                ),
+              ),
+              Column(
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        Text('Nous',
+                            style: Theme.of(context).textTheme.bodyText2),
+                        Text('Eux', style: Theme.of(context).textTheme.bodyText2),
+                      ],
+                    ),
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Flexible(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextField(
+                              controller: _usPointsTextController,
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold),
+                              textAlign: TextAlign.center,
+                              keyboardType: TextInputType.number,
+                              inputFormatters: <TextInputFormatter>[],
+                              onSubmitted: (String value) => _refreshScore(),
+                              decoration: InputDecoration(
+                                hintStyle: TextStyle(
+                                    fontSize: 20,
+                                    color: Theme.of(context).hintColor),
+                                hintText: 'Points',
+                              )),
+                        ),
+                      ),
+                      Flexible(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextField(
+                              controller: _themPointsTextController,
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold),
+                              textAlign: TextAlign.center,
+                              keyboardType: TextInputType.number,
+                              inputFormatters: <TextInputFormatter>[],
+                              onSubmitted: (String value) => _refreshScore(),
+                              decoration: InputDecoration(
+                                hintStyle: TextStyle(
+                                    fontSize: 20,
+                                    color: Theme.of(context).hintColor),
+                                hintText: 'Points',
+                              )),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Wrap(
                         crossAxisAlignment: WrapCrossAlignment.center,
@@ -313,6 +349,7 @@ class _AddTeamGameRoundDialogState extends State<AddTeamGameRoundDialog> {
                                     _usBeloteRebelote = value;
                                     _themBeloteRebelote = false;
                                   });
+                                  _computeScore();
                                 },
                               ),
                             ],
@@ -329,6 +366,7 @@ class _AddTeamGameRoundDialogState extends State<AddTeamGameRoundDialog> {
                                 setState(() {
                                   _usDidDixDeDer = value;
                                 });
+                                _computeScore();
                               },
                               groupValue: _usDidDixDeDer,
                             ),
@@ -349,6 +387,7 @@ class _AddTeamGameRoundDialogState extends State<AddTeamGameRoundDialog> {
                                     _themBeloteRebelote = value;
                                     _usBeloteRebelote = false;
                                   });
+                                  _computeScore();
                                 },
                               ),
                               Text(
@@ -365,6 +404,7 @@ class _AddTeamGameRoundDialogState extends State<AddTeamGameRoundDialog> {
                                 setState(() {
                                   _usDidDixDeDer = value;
                                 });
+                                _computeScore();
                               },
                               groupValue: _usDidDixDeDer,
                             ),
@@ -377,98 +417,124 @@ class _AddTeamGameRoundDialogState extends State<AddTeamGameRoundDialog> {
                       ),
                     ],
                   ),
-                ),
-              ],
-            )),
-        Divider(),
-        InputDecorator(
-          decoration: InputDecoration(
-              labelText: 'Contrat',
-              border: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.yellow))),
-          child: Column(
-            children: <Widget>[
-              _teamGame is CoincheGame
-                  ? DropdownButton<ContractName>(
-                      value: _selectedContract,
-                      items: ContractName.values.map((ContractName value) {
-                        return DropdownMenuItem<ContractName>(
-                          value: value,
-                          child: Text(EnumToString.convertToString(value)),
-                        );
-                      }).toList(),
-                      onChanged: (ContractName val) {
-                        setState(() {
-                          _selectedContract = val;
-                        });
-                      },
-                    )
-                  : Container(),
-              _teamGame is CoincheGame
-                  ? TextField(
-                      controller: _contractTextController,
-                      style:
-                          TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-                      textAlign: TextAlign.center,
-                      keyboardType: TextInputType.number,
-                      inputFormatters: <TextInputFormatter>[],
-                      decoration: InputDecoration(
-                        hintStyle: TextStyle(
-                            fontSize: 20, color: Theme.of(context).hintColor),
-                        border: InputBorder.none,
-                        hintText: 'Valeur...',
-                      ))
-                  : Container(),
-              DropdownButton<CardColor>(
-                value: _selectedCardColor,
-                items: CardColor.values.map((CardColor value) {
-                  return DropdownMenuItem<CardColor>(
-                    value: value,
-                    child: Text(EnumToString.convertToString(value)),
-                  );
-                }).toList(),
-                onChanged: (CardColor val) {
-                  setState(() {
-                    _selectedCardColor = val;
-                  });
-                },
+                ],
               ),
-            ],
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              FlatButton.icon(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(18.0),
-                    side: BorderSide(color: Theme.of(context).primaryColor)),
-                onPressed: () => {Navigator.pop(context)},
-                color: Colors.white,
-                textColor: Theme.of(context).primaryColor,
-                icon: Icon(Icons.close),
-                label: Text('Annuler',
-                    style:
-                        TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
+              Divider(),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Center(
+                  child: Text('Contrat',
+                      style: Theme.of(context).textTheme.headline2),
+                ),
+              ),
+              Column(
+                children: <Widget>[
+                  _teamGame is CoincheGame
+                      ? Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 50.0, vertical: 10),
+                          child: TextField(
+                            controller: _contractTextController,
+                            style: TextStyle(
+                                fontSize: 30, fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.center,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: <TextInputFormatter>[],
+                            decoration: InputDecoration(
+                              hintStyle: TextStyle(
+                                  fontSize: 20,
+                                  color: Theme.of(context).hintColor),
+                              hintText: 'Valeur',
+                            ),
+                            onSubmitted: (String value) => _refreshScore(),
+                          ),
+                        )
+                      : Container(),
+                  _teamGame is CoincheGame ? Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      DropdownButton<ContractName>(
+                        value: _selectedContract,
+                        items:
+                        ContractName.values.map((ContractName value) {
+                          return DropdownMenuItem<ContractName>(
+                            value: value,
+                            child:
+                            Text(EnumToString.convertToString(value)),
+                          );
+                        }).toList(),
+                        onChanged: (ContractName val) {
+                          setState(() {
+                            _selectedContract = val;
+                          });
+                        },
+                      ),
+                      DropdownButton<CardColor>(
+                        value: _selectedCardColor,
+                        items: CardColor.values.map((CardColor value) {
+                          return DropdownMenuItem<CardColor>(
+                            value: value,
+                            child: Text(EnumToString.convertToString(value)),
+                          );
+                        }).toList(),
+                        onChanged: (CardColor val) {
+                          setState(() {
+                            _selectedCardColor = val;
+                          });
+                        },
+                      ),
+                    ],
+                  ) : DropdownButton<ContractName>(
+                    value: _selectedContract,
+                    items:
+                    ContractName.values.map((ContractName value) {
+                      return DropdownMenuItem<ContractName>(
+                        value: value,
+                        child:
+                        Text(EnumToString.convertToString(value)),
+                      );
+                    }).toList(),
+                    onChanged: (ContractName val) {
+                      setState(() {
+                        _selectedContract = val;
+                      });
+                    },
+                  ),
+                ],
+              ),
+              Divider(),
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Center(
+                  child: Text(
+                    'Attaque : ' +
+                        _takerPoints.toString() +
+                        ' | ' +
+                        'Défense : ' +
+                        _defenderPoints.toString(),
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
               ),
               SizedBox(
-                width: 10,
+                height: 20,
               ),
-              RaisedButton.icon(
-                  color: Theme.of(context).primaryColor,
-                  textColor: Theme.of(context).cardColor,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(18.0)),
-                  onPressed: () async =>
-                      {await _createRound(), Navigator.pop(context)},
-                  label: Text('Confirmer', style: TextStyle(fontSize: 14)),
-                  icon: Icon(Icons.check)),
+              Center(
+                child: RaisedButton.icon(
+                    color: Theme.of(context).primaryColor,
+                    textColor: Theme.of(context).cardColor,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18.0)),
+                    onPressed: () async =>
+                        {await _createRound(), Navigator.pop(context)},
+                    label: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('Valider', style: Theme.of(context).textTheme.bodyText1),
+                    ),
+                    icon: Icon(Icons.check)),
+              )
             ],
           ),
-        ),
-      ],
-    );
+        ));
   }
 }
