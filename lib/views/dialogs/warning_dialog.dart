@@ -71,7 +71,7 @@ class _WarningDialogState extends State<WarningDialog> {
                 child: Text(
                   _title,
                   overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.headline2,
+                  style: Theme.of(context).textTheme.headline1,
                 ),
               ),
             ],
@@ -79,7 +79,7 @@ class _WarningDialogState extends State<WarningDialog> {
         ),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         children: <Widget>[
-          Text(_message, style: Theme.of(context).textTheme.bodyText1),
+          Text(_message, style: Theme.of(context).textTheme.bodyText2),
           Padding(
             padding: const EdgeInsets.only(top: 10),
             child: Row(
