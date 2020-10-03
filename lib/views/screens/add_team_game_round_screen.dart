@@ -8,7 +8,6 @@ import 'package:carg/models/score/round/belote_round.dart';
 import 'package:carg/models/score/round/coinche_round.dart';
 import 'package:carg/services/score/belote_score_service.dart';
 import 'package:carg/services/score/coinche_score_service.dart';
-import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -109,17 +108,20 @@ class _AddTeamGameRoundScreenState extends State<AddTeamGameRoundScreen> {
   void _computeScore() {
     if (_isContractFulfilled()) {
       setState(() {
-        _takerPoints = _getContract() +
-            _getPoints(_takerTeam) +
-            _getBeloteRebelote(_takerTeam);
+        _takerPoints = _selectedContract.bonus(
+            _getContract() +
+                _getPoints(_takerTeam) +
+                _getBeloteRebelote(_takerTeam),
+            _getContract());
         _defenderPoints =
             _getPoints(_defenderTeam) + _getBeloteRebelote(_defenderTeam);
       });
     } else if (!_isContractFulfilled()) {
       setState(() {
         _takerPoints = _getBeloteRebelote(_takerTeam);
-        _defenderPoints =
-            _totalPoints + _getContract() + _getBeloteRebelote(_defenderTeam);
+        _defenderPoints = _selectedContract.bonus(
+            _totalPoints + _getContract() + _getBeloteRebelote(_defenderTeam),
+            _getContract());
       });
     }
   }
@@ -302,7 +304,14 @@ class _AddTeamGameRoundScreenState extends State<AddTeamGameRoundScreen> {
                               textAlign: TextAlign.center,
                               keyboardType: TextInputType.number,
                               inputFormatters: <TextInputFormatter>[],
-                              onSubmitted: (String value) => _refreshScore(),
+                              onSubmitted: (String value) => {
+                                    _themPointsTextController.text =
+                                        (_totalPoints -
+                                                _dixDeDerBonus -
+                                                int.parse(value))
+                                            .toString(),
+                                    _refreshScore(),
+                                  },
                               decoration: InputDecoration(
                                 hintStyle: TextStyle(
                                     fontSize: 20,
@@ -321,7 +330,14 @@ class _AddTeamGameRoundScreenState extends State<AddTeamGameRoundScreen> {
                               textAlign: TextAlign.center,
                               keyboardType: TextInputType.number,
                               inputFormatters: <TextInputFormatter>[],
-                              onSubmitted: (String value) => _refreshScore(),
+                              onSubmitted: (String value) => {
+                                    _usPointsTextController.text =
+                                        (_totalPoints -
+                                                _dixDeDerBonus -
+                                                int.parse(value))
+                                            .toString(),
+                                    _refreshScore()
+                                  },
                               decoration: InputDecoration(
                                 hintStyle: TextStyle(
                                     fontSize: 20,
@@ -476,13 +492,13 @@ class _AddTeamGameRoundScreenState extends State<AddTeamGameRoundScreen> {
                                   ContractName.values.map((ContractName value) {
                                 return DropdownMenuItem<ContractName>(
                                   value: value,
-                                  child:
-                                      Text(EnumToString.convertToString(value)),
+                                  child: Text(value.name),
                                 );
                               }).toList(),
                               onChanged: (ContractName val) {
                                 setState(() {
                                   _selectedContract = val;
+                                  _computeScore();
                                 });
                               },
                             ),
@@ -491,8 +507,7 @@ class _AddTeamGameRoundScreenState extends State<AddTeamGameRoundScreen> {
                               items: CardColor.values.map((CardColor value) {
                                 return DropdownMenuItem<CardColor>(
                                   value: value,
-                                  child:
-                                      Text(EnumToString.convertToString(value)),
+                                  child: Text(value.name + ' ' + value.symbol),
                                 );
                               }).toList(),
                               onChanged: (CardColor val) {
@@ -503,17 +518,17 @@ class _AddTeamGameRoundScreenState extends State<AddTeamGameRoundScreen> {
                             ),
                           ],
                         )
-                      : DropdownButton<ContractName>(
-                          value: _selectedContract,
-                          items: ContractName.values.map((ContractName value) {
-                            return DropdownMenuItem<ContractName>(
+                      : DropdownButton<CardColor>(
+                          value: _selectedCardColor,
+                          items: CardColor.values.map((CardColor value) {
+                            return DropdownMenuItem<CardColor>(
                               value: value,
-                              child: Text(EnumToString.convertToString(value)),
+                              child: Text(value.name + ' ' + value.symbol),
                             );
                           }).toList(),
-                          onChanged: (ContractName val) {
+                          onChanged: (CardColor val) {
                             setState(() {
-                              _selectedContract = val;
+                              _selectedCardColor = val;
                             });
                           },
                         ),

@@ -1,6 +1,7 @@
 import 'package:carg/models/game/belote_game.dart';
 import 'package:carg/models/game/coinche_game.dart';
 import 'package:carg/models/game/team_game.dart';
+import 'package:carg/models/score/misc/card_color.dart';
 import 'package:carg/models/score/misc/team_game_enum.dart';
 import 'package:carg/models/score/round/team_game_round.dart';
 import 'package:carg/models/score/team_game_score.dart';
@@ -12,8 +13,8 @@ import 'package:carg/services/score/belote_score_service.dart';
 import 'package:carg/services/score/coinche_score_service.dart';
 import 'package:carg/services/score/team_game_score_service.dart';
 import 'package:carg/services/team_service.dart';
-import 'package:carg/views/screens/add_team_game_round_screen.dart';
 import 'package:carg/views/dialogs/warning_dialog.dart';
+import 'package:carg/views/screens/add_team_game_round_screen.dart';
 import 'package:carg/views/widgets/api_mini_player_widget.dart';
 import 'package:carg/views/widgets/error_message_widget.dart';
 import 'package:flutter/material.dart';
@@ -187,43 +188,57 @@ class _PlayTeamGameScreenState extends State<PlayTeamGameScreen> {
                       return Column(
                         children: <Widget>[
                           Flexible(
-                            child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: <Widget>[
-                                  Text(
-                                    snapshot.data.usTotalPoints.toString(),
-                                    style: TextStyle(
-                                        fontSize: 30,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    snapshot.data.themTotalPoints.toString(),
-                                    style: TextStyle(
-                                        fontSize: 30,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ]),
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom:8.0),
+                              child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Text(
+                                      snapshot.data.usTotalPoints.toString(),
+                                      style: TextStyle(
+                                          fontSize: 30,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      snapshot.data.themTotalPoints.toString(),
+                                      style: TextStyle(
+                                          fontSize: 30,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ]),
+                            ),
                           ),
                           Flexible(
                             child: ListView.builder(
                                 itemCount: snapshot.data.rounds.length,
                                 itemBuilder: (BuildContext context, int index) {
                                   return Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
                                       Flexible(
-                                        child: Center(
-                                            child: _RoundDisplay(
+                                        flex: 3,
+                                        child: _RoundDisplay(
                                           round: snapshot.data.rounds[index],
                                           team: TeamGameEnum.US,
-                                        )),
+                                        ),
                                       ),
                                       Flexible(
-                                        child: Center(
-                                            child: _RoundDisplay(
+                                        child: Text(CardColor
+                                            .values[snapshot
+                                                .data
+                                                .rounds[index]
+                                                .cardColor
+                                                .index]
+                                            .symbol,style: TextStyle(fontSize: 15),),
+                                      ),
+                                      Flexible(
+                                        flex: 3,
+                                        child: _RoundDisplay(
                                           round: snapshot.data.rounds[index],
                                           team: TeamGameEnum.THEM,
-                                        )),
+                                        ),
                                       )
                                     ],
                                   );
@@ -296,13 +311,14 @@ class _RoundDisplay extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
+      textDirection: team ==  TeamGameEnum.US ?  TextDirection.ltr : TextDirection.rtl,
       children: [
         Text(_getScore(round, team).toString(),
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
         round.taker == team
             ? round.contractFulfilled
                 ? Padding(
-                    padding: const EdgeInsets.only(left: 5),
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
                     child: FaIcon(
                       FontAwesomeIcons.solidCheckCircle,
                       size: 10,
@@ -319,21 +335,21 @@ class _RoundDisplay extends StatelessWidget {
             : Container(),
         round.dixDeDer == team
             ? Padding(
-                padding: const EdgeInsets.only(left: 5),
-                child: Text('+10'),
+                padding: const EdgeInsets.symmetric(horizontal: 5),
+                child: Text('+10', style: TextStyle(fontSize: 18),),
               )
             : Container(),
         round.beloteRebelote == team
-            ? Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 5),
-                    child: FaIcon(FontAwesomeIcons.crown, size: 10),
-                  ),
-                  Text('|'),
-                  FaIcon(FontAwesomeIcons.chessQueen, size: 10),
-                ],
-              )
+            ? Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 5),
+              child: Row(
+                  children: [
+                    FaIcon(FontAwesomeIcons.crown, size: 10),
+                    Text('|'),
+                    FaIcon(FontAwesomeIcons.chessQueen, size: 10),
+                  ],
+                ),
+            )
             : Container(),
       ],
     );
