@@ -1,7 +1,7 @@
 import 'package:carg/models/game/tarot_game.dart';
 import 'package:carg/models/score/tarot_score.dart';
 import 'package:carg/services/score/tarot_score_service.dart';
-import 'package:carg/views/dialogs/add_tarot_game_round_dialog.dart';
+import 'package:carg/views/dialogs/add_tarot_game_round_screen.dart';
 import 'package:carg/views/dialogs/warning_dialog.dart';
 import 'package:carg/views/widgets/api_mini_player_widget.dart';
 import 'package:carg/views/widgets/error_message_widget.dart';
@@ -32,7 +32,7 @@ class _PlayTarotGameState extends State<PlayTarotGame> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => AddTarotGameRoundDialog(
+        builder: (context) => AddTarotGameRoundScreen(
           tarotGame: _tarotGame,
         ),
       ),

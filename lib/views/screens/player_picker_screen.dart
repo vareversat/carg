@@ -4,7 +4,7 @@ import 'package:carg/models/player/player.dart';
 import 'package:carg/models/player/players.dart';
 import 'package:carg/services/player_service.dart';
 import 'package:carg/views/dialogs/dialogs.dart';
-import 'package:carg/views/screens/play_tarot_game.dart';
+import 'package:carg/views/screens/play_tarot_game_screen.dart';
 import 'package:carg/views/screens/play_team_game_screen.dart';
 import 'package:carg/views/widgets/player_widget.dart';
 import 'package:flutter/material.dart';
