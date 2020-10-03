@@ -75,7 +75,7 @@ class _PlayerListScreenState extends State<PlayerListScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    width: deviceSize.width * 0.5,
+                    width: deviceSize.width * 0.6,
                     child: TextFormField(
                         onFieldSubmitted: (term) => _searchPlayer(),
                         controller: _searchTextController,
@@ -96,8 +96,15 @@ class _PlayerListScreenState extends State<PlayerListScreen> {
                       padding: EdgeInsets.all(8),
                       shape: CircleBorder(),
                     ),
-                  )
+                  ),
                 ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                  width: deviceSize.width * 0.3,
+                  child: Image(image: AssetImage('assets/images/search_by_algolia.png'))
               ),
             ),
             Flexible(

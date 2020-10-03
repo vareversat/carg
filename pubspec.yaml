@@ -45,6 +45,7 @@ flutter:
 
   assets:
     - assets/images/card_game.svg
+    - assets/images/search_by_algolia.png
     - assets/config/
 
 flutter_icons:
