@@ -9,6 +9,7 @@ import 'package:carg/models/score/misc/tarot_poignee.dart';
 import 'package:carg/models/score/round/tarot_round.dart';
 import 'package:carg/services/player_service.dart';
 import 'package:carg/services/score/tarot_score_service.dart';
+import 'package:carg/styles/text_style.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -44,10 +45,7 @@ class AddTarotGameRoundScreen extends StatelessWidget {
                     topRight: const Radius.circular(15.0))),
             padding: const EdgeInsets.all(20),
             child: Text('Nouvelle manche',
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 25,
-                    color: Theme.of(context).cardColor))),
+                style: CustomTextStyle.screenHeadLine2(context))),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -57,7 +55,7 @@ class AddTarotGameRoundScreen extends StatelessWidget {
             child: Center(
               child: Text(
                   'Preneur' + (tarotGame.playerIds.length == 5 ? 's' : ''),
-                  style: Theme.of(context).textTheme.headline2),
+                  style: CustomTextStyle.roundHeadLine(context)),
             ),
           ),
           Padding(
@@ -303,7 +301,7 @@ class _PlayerPickerState extends State<_PlayerPicker> {
           padding: const EdgeInsets.all(8.0),
           child: Center(
             child:
-                Text('Contrat', style: Theme.of(context).textTheme.headline2),
+                Text('Contrat', style: CustomTextStyle.roundHeadLine(context)),
           ),
         ),
         Center(
@@ -329,7 +327,7 @@ class _PlayerPickerState extends State<_PlayerPicker> {
           padding: const EdgeInsets.only(top: 8.0),
           child: Center(
             child: Text('Points des plis',
-                style: Theme.of(context).textTheme.headline2),
+                style: CustomTextStyle.roundHeadLine(context)),
           ),
         ),
         Slider(
@@ -370,7 +368,7 @@ class _PlayerPickerState extends State<_PlayerPicker> {
           padding: const EdgeInsets.all(8.0),
           child: Center(
             child: Text('Nombre de bout(s)',
-                style: Theme.of(context).textTheme.headline2),
+                style: CustomTextStyle.roundHeadLine(context)),
           ),
         ),
         Row(
@@ -397,7 +395,7 @@ class _PlayerPickerState extends State<_PlayerPicker> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Center(
-            child: Text('Bonus', style: Theme.of(context).textTheme.headline2),
+            child: Text('Bonus', style: CustomTextStyle.roundHeadLine(context)),
           ),
         ),
         Wrap(spacing: 10, alignment: WrapAlignment.center, children: [

@@ -13,6 +13,7 @@ import 'package:carg/services/score/belote_score_service.dart';
 import 'package:carg/services/score/coinche_score_service.dart';
 import 'package:carg/services/score/team_game_score_service.dart';
 import 'package:carg/services/team_service.dart';
+import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/dialogs/warning_dialog.dart';
 import 'package:carg/views/screens/add_team_game_round_screen.dart';
 import 'package:carg/views/widgets/api_mini_player_widget.dart';
@@ -68,33 +69,26 @@ class _PlayTeamGameScreenState extends State<PlayTeamGameScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(_title),
+          title: Text(_title, style: CustomTextStyle.screenHeadLine2(context)),
           centerTitle: true,
           automaticallyImplyLeading: false,
           leading: IconButton(
-              onPressed: () => {
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, '/home', (_) => false)
-                  },
-              icon: Icon(Icons.arrow_back)),
+              onPressed: () => Navigator.pop(context),
+              icon: Icon(Icons.cancel)),
         ),
         body: Column(children: <Widget>[
-          Row(
-            children: <Widget>[
-              Flexible(
-                child: Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Text(
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: <Widget>[
+                Flexible(
+                  child: Column(
+                    children: <Widget>[
+                      Text(
                         'Nous',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 15),
+                        style: CustomTextStyle.boldAndItalic(context),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: FutureBuilder<Team>(
+                      FutureBuilder<Team>(
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
@@ -118,24 +112,17 @@ class _PlayTeamGameScreenState extends State<PlayTeamGameScreen> {
                         },
                         future: _teamService.getTeam(_teamGame.us),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              Flexible(
-                child: Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Text(
+                Flexible(
+                  child: Column(
+                    children: <Widget>[
+                      Text(
                         'Eux',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 15),
+                        style: CustomTextStyle.boldAndItalic(context),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: FutureBuilder<Team>(
+                      FutureBuilder<Team>(
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
@@ -158,11 +145,11 @@ class _PlayTeamGameScreenState extends State<PlayTeamGameScreen> {
                         },
                         future: _teamService.getTeam(_teamGame.them),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
           Flexible(
               flex: 6,
@@ -189,7 +176,7 @@ class _PlayTeamGameScreenState extends State<PlayTeamGameScreen> {
                         children: <Widget>[
                           Flexible(
                             child: Padding(
-                              padding: const EdgeInsets.only(bottom:8.0),
+                              padding: const EdgeInsets.only(bottom: 8.0),
                               child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -215,7 +202,7 @@ class _PlayTeamGameScreenState extends State<PlayTeamGameScreen> {
                                 itemBuilder: (BuildContext context, int index) {
                                   return Row(
                                     mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                        MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
                                       Flexible(
                                         flex: 3,
@@ -225,13 +212,16 @@ class _PlayTeamGameScreenState extends State<PlayTeamGameScreen> {
                                         ),
                                       ),
                                       Flexible(
-                                        child: Text(CardColor
-                                            .values[snapshot
-                                                .data
-                                                .rounds[index]
-                                                .cardColor
-                                                .index]
-                                            .symbol,style: TextStyle(fontSize: 15),),
+                                        child: Text(
+                                          CardColor
+                                              .values[snapshot
+                                                  .data
+                                                  .rounds[index]
+                                                  .cardColor
+                                                  .index]
+                                              .symbol,
+                                          style: TextStyle(fontSize: 15),
+                                        ),
                                       ),
                                       Flexible(
                                         flex: 3,
@@ -311,7 +301,8 @@ class _RoundDisplay extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
-      textDirection: team ==  TeamGameEnum.US ?  TextDirection.ltr : TextDirection.rtl,
+      textDirection:
+          team == TeamGameEnum.US ? TextDirection.ltr : TextDirection.rtl,
       children: [
         Text(_getScore(round, team).toString(),
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
@@ -336,20 +327,23 @@ class _RoundDisplay extends StatelessWidget {
         round.dixDeDer == team
             ? Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 5),
-                child: Text('+10', style: TextStyle(fontSize: 18),),
+                child: Text(
+                  '+10',
+                  style: TextStyle(fontSize: 18),
+                ),
               )
             : Container(),
         round.beloteRebelote == team
             ? Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 5),
-              child: Row(
+                padding: const EdgeInsets.symmetric(horizontal: 5),
+                child: Row(
                   children: [
                     FaIcon(FontAwesomeIcons.crown, size: 10),
                     Text('|'),
                     FaIcon(FontAwesomeIcons.chessQueen, size: 10),
                   ],
                 ),
-            )
+              )
             : Container(),
       ],
     );

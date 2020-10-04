@@ -3,6 +3,7 @@ import 'package:carg/models/game/game_type.dart';
 import 'package:carg/models/player/player.dart';
 import 'package:carg/models/player/players.dart';
 import 'package:carg/services/player_service.dart';
+import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/dialogs/dialogs.dart';
 import 'package:carg/views/screens/play_tarot_game_screen.dart';
 import 'package:carg/views/screens/play_team_game_screen.dart';
@@ -50,7 +51,7 @@ class _PlayerPickerScreenState extends State<PlayerPickerScreen> {
             preferredSize: Size.fromHeight(60),
             child: AppBar(
               title: Text(title,
-                  style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold)),
+                  style: CustomTextStyle.screenHeadLine1(context)),
             ),
           ),
           body: Padding(

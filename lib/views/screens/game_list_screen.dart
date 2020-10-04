@@ -1,5 +1,6 @@
 import 'package:carg/services/game/belote_game_service.dart';
 import 'package:carg/services/game/coinche_game_service.dart';
+import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/screens/game_mode_picker_screen.dart';
 import 'package:carg/views/tabs/game_list_tab.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,7 @@ class GameListScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text('Parties',
-                        style: Theme.of(context).textTheme.headline1),
+                        style: CustomTextStyle.screenHeadLine1(context)),
                     RaisedButton.icon(
                         color: Theme.of(context).accentColor,
                         textColor: Theme.of(context).cardColor,

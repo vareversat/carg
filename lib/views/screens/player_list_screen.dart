@@ -1,5 +1,6 @@
 import 'package:carg/models/player/player.dart';
 import 'package:carg/services/player_service.dart';
+import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/dialogs/edit_player_dialog.dart';
 import 'package:carg/views/widgets/error_message_widget.dart';
 import 'package:carg/views/widgets/player_widget.dart';
@@ -45,7 +46,7 @@ class _PlayerListScreenState extends State<PlayerListScreen> {
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Joueurs', style: Theme.of(context).textTheme.headline1),
+                  Text('Joueurs', style: CustomTextStyle.screenHeadLine1(context)),
                   RaisedButton.icon(
                       color: Theme.of(context).accentColor,
                       textColor: Theme.of(context).cardColor,

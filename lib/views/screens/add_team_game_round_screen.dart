@@ -8,6 +8,7 @@ import 'package:carg/models/score/round/belote_round.dart';
 import 'package:carg/models/score/round/coinche_round.dart';
 import 'package:carg/services/score/belote_score_service.dart';
 import 'package:carg/services/score/coinche_score_service.dart';
+import 'package:carg/styles/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -203,10 +204,7 @@ class _AddTeamGameRoundScreenState extends State<AddTeamGameRoundScreen> {
                         topRight: const Radius.circular(15.0))),
                 padding: const EdgeInsets.all(20),
                 child: Text('Nouvelle manche',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 25,
-                        color: Theme.of(context).cardColor)))),
+                    style: CustomTextStyle.screenHeadLine2(context)))),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: ListView(
@@ -219,7 +217,7 @@ class _AddTeamGameRoundScreenState extends State<AddTeamGameRoundScreen> {
                     padding: const EdgeInsets.all(8.0),
                     child: Center(
                       child: Text('Equipe preneuse',
-                          style: Theme.of(context).textTheme.headline2),
+                          style: CustomTextStyle.roundHeadLine(context)),
                     ),
                   ),
                   Row(
@@ -228,7 +226,6 @@ class _AddTeamGameRoundScreenState extends State<AddTeamGameRoundScreen> {
                       Row(children: <Widget>[
                         Text(
                           'Nous',
-                          style: Theme.of(context).textTheme.bodyText2,
                         ),
                         Radio(
                           visualDensity: VisualDensity.compact,
@@ -272,31 +269,31 @@ class _AddTeamGameRoundScreenState extends State<AddTeamGameRoundScreen> {
               )),
               Divider(),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.only(top: 8.0),
                 child: Center(
                   child: Text('Points des plis',
-                      style: Theme.of(context).textTheme.headline2),
+                      style: CustomTextStyle.roundHeadLine(context)),
                 ),
               ),
-              Column(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Column(
+                  children: <Widget>[
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[
                         Text('Nous',
-                            style: Theme.of(context).textTheme.bodyText2),
+                            style: CustomTextStyle.boldAndItalic(context)),
                         Text('Eux',
-                            style: Theme.of(context).textTheme.bodyText2),
+                            style: CustomTextStyle.boldAndItalic(context)),
                       ],
                     ),
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Flexible(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                    Row(
+                      children: <Widget>[
+                        Flexible(
                           child: TextField(
                               controller: _usPointsTextController,
                               style: TextStyle(
@@ -316,13 +313,13 @@ class _AddTeamGameRoundScreenState extends State<AddTeamGameRoundScreen> {
                                 hintStyle: TextStyle(
                                     fontSize: 20,
                                     color: Theme.of(context).hintColor),
-                                hintText: 'Points',
+                                labelText: 'Points',
                               )),
                         ),
-                      ),
-                      Flexible(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Flexible(
                           child: TextField(
                               controller: _themPointsTextController,
                               style: TextStyle(
@@ -342,122 +339,108 @@ class _AddTeamGameRoundScreenState extends State<AddTeamGameRoundScreen> {
                                 hintStyle: TextStyle(
                                     fontSize: 20,
                                     color: Theme.of(context).hintColor),
-                                hintText: 'Points',
+                                labelText: 'Points',
                               )),
                         ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Wrap(
-                        crossAxisAlignment: WrapCrossAlignment.center,
-                        direction: Axis.vertical,
-                        children: <Widget>[
-                          Row(
-                            children: <Widget>[
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Wrap(
+                          crossAxisAlignment: WrapCrossAlignment.start,
+                          direction: Axis.vertical,
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                Text(
+                                  'Belote-Rebelote',
+                                ),
+                                Checkbox(
+                                  visualDensity: VisualDensity.compact,
+                                  value: _usBeloteRebelote,
+                                  onChanged: (bool value) {
+                                    setState(() {
+                                      _usBeloteRebelote = value;
+                                      _themBeloteRebelote = false;
+                                    });
+                                    _computeScore();
+                                  },
+                                ),
+                              ],
+                            ),
+                            Row(children: <Widget>[
                               Text(
-                                'Belote-Re',
-                                style: TextStyle(fontSize: 13.0),
+                                'Dix de Der',
                               ),
-                              Checkbox(
+                              Radio(
                                 visualDensity: VisualDensity.compact,
-                                value: _usBeloteRebelote,
+                                value: true,
                                 onChanged: (bool value) {
                                   setState(() {
-                                    _usBeloteRebelote = value;
-                                    _themBeloteRebelote = false;
+                                    _usDidDixDeDer = value;
                                   });
                                   _computeScore();
                                 },
+                                groupValue: _usDidDixDeDer,
                               ),
-                            ],
-                          ),
-                          Row(children: <Widget>[
-                            Text(
-                              'Dix de Der',
-                              style: TextStyle(fontSize: 13.0),
+                            ]),
+                          ],
+                        ),
+                        Wrap(
+                          crossAxisAlignment: WrapCrossAlignment.end,
+                          direction: Axis.vertical,
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                Checkbox(
+                                  visualDensity: VisualDensity.compact,
+                                  value: _themBeloteRebelote,
+                                  onChanged: (bool value) {
+                                    setState(() {
+                                      _themBeloteRebelote = value;
+                                      _usBeloteRebelote = false;
+                                    });
+                                    _computeScore();
+                                  },
+                                ),
+                                Text(
+                                  'Belote-Rebelote',
+                                ),
+                              ],
                             ),
-                            Radio(
-                              visualDensity: VisualDensity.compact,
-                              value: true,
-                              onChanged: (bool value) {
-                                setState(() {
-                                  _usDidDixDeDer = value;
-                                });
-                                _computeScore();
-                              },
-                              groupValue: _usDidDixDeDer,
-                            ),
-                          ]),
-                        ],
-                      ),
-                      Wrap(
-                        crossAxisAlignment: WrapCrossAlignment.center,
-                        direction: Axis.vertical,
-                        children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              Checkbox(
+                            Row(children: <Widget>[
+                              Radio(
                                 visualDensity: VisualDensity.compact,
-                                value: _themBeloteRebelote,
+                                value: false,
                                 onChanged: (bool value) {
                                   setState(() {
-                                    _themBeloteRebelote = value;
-                                    _usBeloteRebelote = false;
+                                    _usDidDixDeDer = value;
                                   });
                                   _computeScore();
                                 },
+                                groupValue: _usDidDixDeDer,
                               ),
                               Text(
-                                'Belote-Re',
-                                style: TextStyle(fontSize: 13.0),
+                                'Dix de Der',
                               ),
-                            ],
-                          ),
-                          Row(children: <Widget>[
-                            Radio(
-                              visualDensity: VisualDensity.compact,
-                              value: false,
-                              onChanged: (bool value) {
-                                setState(() {
-                                  _usDidDixDeDer = value;
-                                });
-                                _computeScore();
-                              },
-                              groupValue: _usDidDixDeDer,
-                            ),
-                            Text(
-                              'Dix de Der',
-                              style: TextStyle(fontSize: 13.0),
-                            ),
-                          ]),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: Center(
-                  child: Text(
-                    'Attaque : ' +
-                        _takerPoints.toString() +
-                        ' | ' +
-                        'Défense : ' +
-                        _defenderPoints.toString(),
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
+                            ]),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
               Divider(),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.only(top: 8.0),
                 child: Center(
                   child: Text('Contrat',
-                      style: Theme.of(context).textTheme.headline2),
+                      style: CustomTextStyle.roundHeadLine(context)),
                 ),
               ),
               Column(
@@ -468,7 +451,7 @@ class _AddTeamGameRoundScreenState extends State<AddTeamGameRoundScreen> {
                           child: TextField(
                             controller: _contractTextController,
                             style: TextStyle(
-                                fontSize: 30, fontWeight: FontWeight.bold),
+                                fontSize: 25, fontWeight: FontWeight.bold),
                             textAlign: TextAlign.center,
                             keyboardType: TextInputType.number,
                             inputFormatters: <TextInputFormatter>[],
@@ -476,12 +459,13 @@ class _AddTeamGameRoundScreenState extends State<AddTeamGameRoundScreen> {
                               hintStyle: TextStyle(
                                   fontSize: 20,
                                   color: Theme.of(context).hintColor),
-                              hintText: 'Valeur',
+                              labelText: 'Valeur',
                             ),
                             onSubmitted: (String value) => _refreshScore(),
                           ),
                         )
                       : Container(),
+                  SizedBox(height: 15),
                   _teamGame is CoincheGame
                       ? Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -533,6 +517,19 @@ class _AddTeamGameRoundScreenState extends State<AddTeamGameRoundScreen> {
                           },
                         ),
                 ],
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Center(
+                child: Text(
+                  'Attaque : ' +
+                      _takerPoints.toString() +
+                      ' | ' +
+                      'Défense : ' +
+                      _defenderPoints.toString(),
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
               ),
               SizedBox(
                 height: 20,

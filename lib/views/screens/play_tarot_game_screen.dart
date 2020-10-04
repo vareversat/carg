@@ -1,6 +1,7 @@
 import 'package:carg/models/game/tarot_game.dart';
 import 'package:carg/models/score/tarot_score.dart';
 import 'package:carg/services/score/tarot_score_service.dart';
+import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/dialogs/add_tarot_game_round_screen.dart';
 import 'package:carg/views/dialogs/warning_dialog.dart';
 import 'package:carg/views/widgets/api_mini_player_widget.dart';
@@ -43,7 +44,7 @@ class _PlayTarotGameState extends State<PlayTarotGame> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(_title),
+          title: Text(_title, style: CustomTextStyle.screenHeadLine2(context)),
           centerTitle: true,
         ),
         body: Column(children: <Widget>[

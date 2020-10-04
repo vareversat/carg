@@ -1,6 +1,7 @@
 import 'package:carg/models/player/player.dart';
 import 'package:carg/services/auth_service.dart';
 import 'package:carg/services/player_service.dart';
+import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/dialogs/dialogs.dart';
 import 'package:carg/views/dialogs/warning_dialog.dart';
 import 'package:carg/views/widgets/error_message_widget.dart';
@@ -174,7 +175,7 @@ class _UserScreenState extends State<UserScreen> {
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Bienvenue', style: Theme.of(context).textTheme.headline1),
+                Text('Bienvenue', style: CustomTextStyle.screenHeadLine1(context)),
                 RaisedButton.icon(
                     color: Theme.of(context).accentColor,
                     textColor: Theme.of(context).cardColor,

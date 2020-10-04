@@ -1,3 +1,4 @@
+import 'package:carg/styles/text_style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -71,7 +72,7 @@ class _WarningDialogState extends State<WarningDialog> {
                 child: Text(
                   _title,
                   overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.headline1,
+                  style: CustomTextStyle.screenHeadLine1(context),
                 ),
               ),
             ],
