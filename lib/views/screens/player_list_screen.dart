@@ -6,6 +6,7 @@ import 'package:carg/views/widgets/error_message_widget.dart';
 import 'package:carg/views/widgets/player_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -102,10 +103,10 @@ class _PlayerListScreenState extends State<PlayerListScreen> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(4.0),
               child: Container(
-                  width: deviceSize.width * 0.3,
-                  child: Image(image: AssetImage('assets/images/search_by_algolia.png'))
+                  child: SvgPicture.asset(
+                      'assets/images/search_by_algolia.svg')
               ),
             ),
             Flexible(

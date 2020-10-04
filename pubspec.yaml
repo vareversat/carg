@@ -44,8 +44,8 @@ flutter:
 
   assets:
     - assets/images/card_game.svg
-    - assets/images/search_by_algolia.png
-    - assets/config/
+    - assets/images/search_by_algolia.svg
+    - assets/config/algolia.json
 
 flutter_icons:
   ios: true
