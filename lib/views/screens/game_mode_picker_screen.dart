@@ -1,7 +1,6 @@
 import 'package:carg/models/game/belote_game.dart';
 import 'package:carg/models/game/coinche_game.dart';
 import 'package:carg/models/game/game.dart';
-import 'package:carg/models/game/tarot_game.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/screens/player_picker_screen.dart';
 import 'package:enum_to_string/enum_to_string.dart';
@@ -36,9 +35,6 @@ class GameModePickerScreen extends StatelessWidget {
                       game: CoincheGame(),
                     ),
                     _GameModeButton(game: BeloteGame()),
-                    _GameModeButton(
-                      game: TarotGame(),
-                    )
                     //_GameModeButton(game: TarotGame())
                   ],
                 ),
