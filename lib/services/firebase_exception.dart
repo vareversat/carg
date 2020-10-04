@@ -1,8 +1,8 @@
-class FirebaseException implements Exception {
+class CustomException implements Exception {
   String message;
   String code;
 
-  FirebaseException(String rawMessage) {
+  CustomException(String rawMessage) {
     if (rawMessage.contains('PERMISSION_DENIED')) {
       code = 'PERMISSION_DENIED';
       message = "Erreur : Vous n'êtes pas authentifiez";

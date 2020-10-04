@@ -20,11 +20,11 @@ class TarotGameService extends GameService<TarotGame, TarotGamePlayers> {
   Future<List<TarotGame>> getAllGames() async {
     try {
       var beloteGames = <TarotGame>[];
-      var querySnapshot = await Firestore.instance
+      var querySnapshot = await FirebaseFirestore.instance
           .collection('tarot-game-' + flavor)
-          .getDocuments();
-      for (var doc in querySnapshot.documents) {
-        beloteGames.add(TarotGame.fromJSON(doc.data, doc.documentID));
+          .get();
+      for (var doc in querySnapshot.docs) {
+        beloteGames.add(TarotGame.fromJSON(doc.data(), doc.id));
       }
       return beloteGames;
     } on PlatformException catch (e) {
@@ -35,11 +35,11 @@ class TarotGameService extends GameService<TarotGame, TarotGamePlayers> {
   @override
   Future<TarotGame> getGame(String id) async {
     try {
-      var querySnapshot = await Firestore.instance
+      var querySnapshot = await FirebaseFirestore.instance
           .collection('tarot-game-' + flavor)
-          .document(id)
+          .doc(id)
           .get();
-      return TarotGame.fromJSON(querySnapshot.data, querySnapshot.documentID);
+      return TarotGame.fromJSON(querySnapshot.data(), querySnapshot.id);
     } on PlatformException catch (e) {
       throw Exception('[' + e.code + '] Firebase error ' + e.message);
     }
@@ -48,9 +48,9 @@ class TarotGameService extends GameService<TarotGame, TarotGamePlayers> {
   @override
   Future deleteGame(String id) async {
     try {
-      await Firestore.instance
+      await FirebaseFirestore.instance
           .collection('tarot-game-' + flavor)
-          .document(id)
+          .doc(id)
           .delete();
       await _tarotScoreService.deleteScoreByGame(id);
     } on PlatformException catch (e) {
@@ -65,10 +65,10 @@ class TarotGameService extends GameService<TarotGame, TarotGamePlayers> {
           isEnded: false,
           startingDate: DateTime.now(),
           playerIds: players.getPlayerIds());
-      var documentReference = await Firestore.instance
+      var documentReference = await FirebaseFirestore.instance
           .collection('tarot-game-' + flavor)
           .add(tarotGame.toJSON());
-      tarotGame.id = documentReference.documentID;
+      tarotGame.id = documentReference.id;
       var tarotScore = TarotScore(
           game: tarotGame.id,
           rounds: <TarotRound>[],

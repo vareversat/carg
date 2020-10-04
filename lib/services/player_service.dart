@@ -26,92 +26,91 @@ class PlayerService {
       }
       return players;
     } on PlatformException catch (e) {
-      throw FirebaseException(e.message);
+      throw CustomException(e.message);
     }
   }
 
   Future incrementPlayedGamesByOne(Player player) async {
     try {
-      await Firestore.instance
+      await FirebaseFirestore.instance
           .collection('player-' + flavor)
-          .document(player.id)
-          .updateData({'played_games': player.playedGames + 1});
+          .doc(player.id)
+          .update({'played_games': player.playedGames + 1});
     } on PlatformException catch (e) {
-      throw FirebaseException(e.message);
+      throw CustomException(e.message);
     }
   }
 
   Future incrementWonGamesByOne(String id) async {
     try {
       var player = await getPlayer(id);
-      await Firestore.instance
+      await FirebaseFirestore.instance
           .collection('player-' + flavor)
-          .document(player.id)
-          .updateData({'won_games': player.wonGames + 1});
+          .doc(player.id)
+          .update({'won_games': player.wonGames + 1});
     } on PlatformException catch (e) {
-      throw FirebaseException(e.message);
+      throw CustomException(e.message);
     }
   }
 
   Future<Player> getPlayer(String id) async {
     try {
-      var querySnapshot = await Firestore.instance
+      var querySnapshot = await FirebaseFirestore.instance
           .collection('player-' + flavor)
-          .document(id)
+          .doc(id)
           .get();
-      return Player.fromJSON(querySnapshot.data, querySnapshot.documentID);
+      return Player.fromJSON(querySnapshot.data(), querySnapshot.id);
     } on PlatformException catch (e) {
-      throw FirebaseException(e.message);
+      throw CustomException(e.message);
     }
   }
 
   Future<Player> getPlayerOfUser(String userId) async {
     try {
-      var querySnapshot = await Firestore.instance
+      var querySnapshot = await FirebaseFirestore.instance
           .collection('player-' + flavor)
-          .reference()
           .where('linked_user_id', isEqualTo: userId)
-          .getDocuments();
-      if (querySnapshot.documents.isNotEmpty) {
-        return Player.fromJSON(querySnapshot.documents.first.data,
-            querySnapshot.documents.first.documentID);
+          .get();
+      if (querySnapshot.docs.isNotEmpty) {
+        return Player.fromJSON(
+            querySnapshot.docs.first.data(), querySnapshot.docs.first.id);
       }
       return null;
     } on PlatformException catch (e) {
-      throw FirebaseException(e.message);
+      throw CustomException(e.message);
     }
   }
 
   Future updatePlayer(Player player) async {
     try {
-      await Firestore.instance
+      await FirebaseFirestore.instance
           .collection('player-' + flavor)
-          .document(player.id)
-          .updateData(player.toJSON());
+          .doc(player.id)
+          .update(player.toJSON());
     } on PlatformException catch (e) {
-      throw FirebaseException(e.message);
+      throw CustomException(e.message);
     }
   }
 
   Future<String> addPlayer(Player player) async {
     try {
-      var documentReference = await Firestore.instance
+      var documentReference = await FirebaseFirestore.instance
           .collection('player-' + flavor)
           .add(player.toJSON());
-      return documentReference.documentID;
+      return documentReference.id;
     } on PlatformException catch (e) {
-      throw FirebaseException(e.message);
+      throw CustomException(e.message);
     }
   }
 
   Future deletePlayer(Player player) async {
     try {
-      await Firestore.instance
+      await FirebaseFirestore.instance
           .collection('player-' + flavor)
-          .document(player.id)
+          .doc(player.id)
           .delete();
     } on PlatformException catch (e) {
-      throw FirebaseException(e.message);
+      throw CustomException(e.message);
     }
   }
 }

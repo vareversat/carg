@@ -28,41 +28,41 @@ class BeloteGameService implements TeamGameService<BeloteGame> {
   Future<List<BeloteGame>> getAllGames() async {
     try {
       var beloteGames = <BeloteGame>[];
-      var querySnapshot = await Firestore.instance
+      var querySnapshot = await FirebaseFirestore.instance
           .collection('belote-game-' + flavor)
-          .getDocuments();
-      for (var doc in querySnapshot.documents) {
-        beloteGames.add(BeloteGame.fromJSON(doc.data, doc.documentID));
+          .get();
+      for (var doc in querySnapshot.docs) {
+        beloteGames.add(BeloteGame.fromJSON(doc.data(), doc.id));
       }
       return beloteGames;
     } on PlatformException catch (e) {
-      throw FirebaseException(e.message);
+      throw CustomException(e.message);
     }
   }
 
   @override
   Future<BeloteGame> getGame(String id) async {
     try {
-      var querySnapshot = await Firestore.instance
+      var querySnapshot = await FirebaseFirestore.instance
           .collection('belote-game-' + flavor)
-          .document(id)
+          .doc(id)
           .get();
-      return BeloteGame.fromJSON(querySnapshot.data, querySnapshot.documentID);
+      return BeloteGame.fromJSON(querySnapshot.data(), querySnapshot.id);
     } on PlatformException catch (e) {
-      throw FirebaseException(e.message);
+      throw CustomException(e.message);
     }
   }
 
   @override
   Future deleteGame(String id) async {
     try {
-      await Firestore.instance
+      await FirebaseFirestore.instance
           .collection('belote-game-' + flavor)
-          .document(id)
+          .doc(id)
           .delete();
       await _beloteScoreService.deleteScoreByGame(id);
     } on PlatformException catch (e) {
-      throw FirebaseException(e.message);
+      throw CustomException(e.message);
     }
   }
 
@@ -81,10 +81,10 @@ class BeloteGameService implements TeamGameService<BeloteGame> {
           startingDate: DateTime.now(),
           us: usTeam.id,
           them: themTeam.id);
-      var documentReference = await Firestore.instance
+      var documentReference = await FirebaseFirestore.instance
           .collection('belote-game-' + flavor)
           .add(beloteGame.toJSON());
-      beloteGame.id = documentReference.documentID;
+      beloteGame.id = documentReference.id;
       var beloteScore = BeloteScore(
           usTotalPoints: 0,
           themTotalPoints: 0,
@@ -93,7 +93,7 @@ class BeloteGameService implements TeamGameService<BeloteGame> {
       await _beloteScoreService.saveScore(beloteScore);
       return beloteGame;
     } on PlatformException catch (e) {
-      throw FirebaseException(e.message);
+      throw CustomException(e.message);
     }
   }
 
@@ -107,16 +107,16 @@ class BeloteGameService implements TeamGameService<BeloteGame> {
       } else if (score.themTotalPoints < score.usTotalPoints) {
         winners = await _teamService.incrementWonGamesByOne(game.us);
       }
-      await Firestore.instance
+      await FirebaseFirestore.instance
           .collection('belote-game-' + flavor)
-          .document(game.id)
-          .updateData({
+          .doc(game.id)
+          .update({
         'is_ended': true,
         'ending_date': DateTime.now().toString(),
         'winners': winners?.id
       });
     } on PlatformException catch (e) {
-      throw FirebaseException(e.message);
+      throw CustomException(e.message);
     }
   }
 }

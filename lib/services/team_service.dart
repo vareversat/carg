@@ -12,55 +12,53 @@ class TeamService {
   Future<Team> getTeamByPlayers(List<String> playerIds) async {
     try {
       playerIds.sort();
-      var querySnapshot = await Firestore.instance
+      var querySnapshot = await FirebaseFirestore.instance
           .collection('team-' + flavor)
-          .reference()
           .where('players', isEqualTo: playerIds)
-          .getDocuments();
-      if (querySnapshot.documents.isNotEmpty) {
-        await querySnapshot.documents[0].reference.updateData({
-          'played_games': querySnapshot.documents[0].data['played_games'] + 1
-        });
-        return Team.fromJSON(querySnapshot.documents.first.data,
-            querySnapshot.documents.first.documentID);
+          .get();
+      if (querySnapshot.docs.isNotEmpty) {
+        await querySnapshot.docs[0].reference.update(
+            {'played_games': querySnapshot.docs[0].data()['played_games'] + 1});
+        return Team.fromJSON(
+            querySnapshot.docs.first.data(), querySnapshot.docs.first.id);
       } else {
         var team = Team(players: playerIds);
-        var documentReference = await Firestore.instance
+        var documentReference = await FirebaseFirestore.instance
             .collection('team-' + flavor)
             .add(team.toJSON());
-        team.id = documentReference.documentID;
+        team.id = documentReference.id;
         return team;
       }
     } on PlatformException catch (e) {
-      throw FirebaseException(e.message);
+      throw CustomException(e.message);
     }
   }
 
   Future<Team> getTeam(String id) async {
     try {
-      var querySnapshot = await Firestore.instance
+      var querySnapshot = await FirebaseFirestore.instance
           .collection('team-' + flavor)
-          .document(id)
+          .doc(id)
           .get();
-      return Team.fromJSON(querySnapshot.data, querySnapshot.documentID);
+      return Team.fromJSON(querySnapshot.data(), querySnapshot.id);
     } on PlatformException catch (e) {
-      throw FirebaseException(e.message);
+      throw CustomException(e.message);
     }
   }
 
   Future<Team> incrementWonGamesByOne(String id) async {
     try {
       var team = await getTeam(id);
-      await Firestore.instance
+      await FirebaseFirestore.instance
           .collection('team-' + flavor)
-          .document(id)
-          .updateData({'won_games': team.wonGames + 1});
+          .doc(id)
+          .update({'won_games': team.wonGames + 1});
       for (var player in team.players) {
         await _playerService.incrementWonGamesByOne(player);
       }
       return team;
     } on PlatformException catch (e) {
-      throw FirebaseException(e.message);
+      throw CustomException(e.message);
     }
   }
 }

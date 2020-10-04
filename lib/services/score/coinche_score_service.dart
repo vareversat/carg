@@ -13,14 +13,13 @@ class CoincheScoreService
   @override
   Future<CoincheScore> getScoreByGame(String gameId) async {
     try {
-      var querySnapshot = await Firestore.instance
+      var querySnapshot = await FirebaseFirestore.instance
           .collection('coinche-score-' + flavor)
-          .reference()
           .where('game', isEqualTo: gameId)
-          .getDocuments();
-      if (querySnapshot.documents.isNotEmpty) {
-        return CoincheScore.fromJSON(querySnapshot.documents.first.data,
-            querySnapshot.documents.first.documentID);
+          .get();
+      if (querySnapshot.docs.isNotEmpty) {
+        return CoincheScore.fromJSON(
+            querySnapshot.docs.first.data(), querySnapshot.docs.first.id);
       }
       return null;
     } on PlatformException catch (e) {
@@ -31,15 +30,14 @@ class CoincheScoreService
   @override
   Stream<CoincheScore> getScoreByGameStream(String gameId) {
     try {
-      return Firestore.instance
+      return FirebaseFirestore.instance
           .collection('coinche-score-' + flavor)
-          .reference()
           .where('game', isEqualTo: gameId)
           .snapshots()
           .map((event) {
-        if (event.documents[0] == null) return null;
-        final Map<dynamic, dynamic> value = event.documents[0].data;
-        return CoincheScore.fromJSON(value, event.documents[0].documentID);
+        if (event.docs[0] == null) return null;
+        final Map<dynamic, dynamic> value = event.docs[0].data();
+        return CoincheScore.fromJSON(value, event.docs[0].id);
       });
     } on PlatformException catch (e) {
       throw Exception('[' + e.code + '] Firebase error ' + e.message);
@@ -57,10 +55,10 @@ class CoincheScoreService
             getTotalPoints(TeamGameEnum.THEM, coincheRound);
         coincheRound.index = coincheScore.rounds.length;
         coincheScore.rounds.add(coincheRound);
-        await Firestore.instance
+        await FirebaseFirestore.instance
             .collection('coinche-score-' + flavor)
-            .document(coincheScore.id)
-            .updateData(coincheScore.toJSON());
+            .doc(coincheScore.id)
+            .update(coincheScore.toJSON());
       }
     } on PlatformException catch (e) {
       throw Exception('[' + e.code + '] Firebase error ' + e.message);
@@ -70,12 +68,12 @@ class CoincheScoreService
   @override
   Future deleteScoreByGame(String gameId) async {
     try {
-      await Firestore.instance
+      await FirebaseFirestore.instance
           .collection('coinche-score-' + flavor)
           .where('game', isEqualTo: gameId)
-          .getDocuments()
+          .get()
           .then((snapshot) {
-        for (var ds in snapshot.documents) {
+        for (var ds in snapshot.docs) {
           ds.reference.delete();
         }
       });
@@ -87,10 +85,10 @@ class CoincheScoreService
   @override
   Future<String> saveScore(CoincheScore coincheScore) async {
     try {
-      var documentReference = await Firestore.instance
+      var documentReference = await FirebaseFirestore.instance
           .collection('coinche-score-' + flavor)
           .add(coincheScore.toJSON());
-      return documentReference.documentID;
+      return documentReference.id;
     } on PlatformException catch (e) {
       throw Exception('[' + e.code + '] Firebase error ' + e.message);
     }

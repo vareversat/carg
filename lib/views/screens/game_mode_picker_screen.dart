@@ -1,6 +1,8 @@
 import 'package:carg/models/game/belote_game.dart';
 import 'package:carg/models/game/coinche_game.dart';
 import 'package:carg/models/game/game.dart';
+import 'package:carg/models/game/tarot_game.dart';
+import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/screens/player_picker_screen.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +15,7 @@ class GameModePickerScreen extends StatelessWidget {
         preferredSize: Size.fromHeight(60),
         child: AppBar(
           title: Text('Nouvelle partie',
-              style: Theme.of(context).textTheme.headline1),
+              style: CustomTextStyle.screenHeadLine2(context)),
         ),
       ),
       body: Padding(
@@ -34,6 +36,9 @@ class GameModePickerScreen extends StatelessWidget {
                       game: CoincheGame(),
                     ),
                     _GameModeButton(game: BeloteGame()),
+                    _GameModeButton(
+                      game: TarotGame(),
+                    )
                     //_GameModeButton(game: TarotGame())
                   ],
                 ),

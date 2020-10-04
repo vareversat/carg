@@ -13,14 +13,13 @@ class BeloteScoreService
   @override
   Future<BeloteScore> getScoreByGame(String gameId) async {
     try {
-      var querySnapshot = await Firestore.instance
+      var querySnapshot = await FirebaseFirestore.instance
           .collection('belote-score-' + flavor)
-          .reference()
           .where('game', isEqualTo: gameId)
-          .getDocuments();
-      if (querySnapshot.documents.isNotEmpty) {
-        return BeloteScore.fromJSON(querySnapshot.documents.first.data,
-            querySnapshot.documents.first.documentID);
+          .get();
+      if (querySnapshot.docs.isNotEmpty) {
+        return BeloteScore.fromJSON(
+            querySnapshot.docs.first.data(), querySnapshot.docs.first.id);
       }
       return null;
     } on PlatformException catch (e) {
@@ -31,15 +30,14 @@ class BeloteScoreService
   @override
   Stream<BeloteScore> getScoreByGameStream(String gameId) {
     try {
-      return Firestore.instance
+      return FirebaseFirestore.instance
           .collection('belote-score-' + flavor)
-          .reference()
           .where('game', isEqualTo: gameId)
           .snapshots()
           .map((event) {
-        if (event.documents[0] == null) return null;
-        final Map<dynamic, dynamic> value = event.documents[0].data;
-        return BeloteScore.fromJSON(value, event.documents[0].documentID);
+        if (event.docs[0] == null) return null;
+        final Map<dynamic, dynamic> value = event.docs[0].data();
+        return BeloteScore.fromJSON(value, event.docs[0].id);
       });
     } on PlatformException catch (e) {
       throw Exception('[' + e.code + '] Firebase error ' + e.message);
@@ -57,10 +55,10 @@ class BeloteScoreService
             getTotalPoints(TeamGameEnum.THEM, beloteRound);
         beloteRound.index = beloteScore.rounds.length;
         beloteScore.rounds.add(beloteRound);
-        await Firestore.instance
+        await FirebaseFirestore.instance
             .collection('belote-score-' + flavor)
-            .document(beloteScore.id)
-            .updateData(beloteScore.toJSON());
+            .doc(beloteScore.id)
+            .update(beloteScore.toJSON());
       }
     } on PlatformException catch (e) {
       throw Exception('[' + e.code + '] Firebase error ' + e.message);
@@ -70,12 +68,12 @@ class BeloteScoreService
   @override
   Future deleteScoreByGame(String gameId) async {
     try {
-      await Firestore.instance
+      await FirebaseFirestore.instance
           .collection('belote-score-' + flavor)
           .where('game', isEqualTo: gameId)
-          .getDocuments()
+          .get()
           .then((snapshot) {
-        for (var ds in snapshot.documents) {
+        for (var ds in snapshot.docs) {
           ds.reference.delete();
         }
       });
@@ -87,10 +85,10 @@ class BeloteScoreService
   @override
   Future<String> saveScore(BeloteScore beloteScore) async {
     try {
-      var documentReference = await Firestore.instance
+      var documentReference = await FirebaseFirestore.instance
           .collection('belote-score-' + flavor)
           .add(beloteScore.toJSON());
-      return documentReference.documentID;
+      return documentReference.id;
     } on PlatformException catch (e) {
       throw Exception('[' + e.code + '] Firebase error ' + e.message);
     }

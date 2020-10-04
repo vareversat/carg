@@ -34,7 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       await Provider.of<AuthService>(context, listen: false).localLoginIn();
       await Navigator.of(context).pushReplacementNamed('/home');
-    } on FirebaseException catch (e) {
+    } on CustomException catch (e) {
       setState(() {
         _isLocalLoginLoading = false;
       });
@@ -106,7 +106,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 onConfirmButtonMessage: 'Valider',
                 showCancelButton: false));
       }
-    } on FirebaseException catch (e) {
+    } on CustomException catch (e) {
       setState(() {
         _isLoginLoading = false;
       });

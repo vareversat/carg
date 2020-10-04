@@ -28,41 +28,41 @@ class CoincheGameService implements TeamGameService<CoincheGame> {
   Future<List<CoincheGame>> getAllGames() async {
     try {
       var coincheGames = <CoincheGame>[];
-      var querySnapshot = await Firestore.instance
+      var querySnapshot = await FirebaseFirestore.instance
           .collection('coinche-game-' + flavor)
-          .getDocuments();
-      for (var doc in querySnapshot.documents) {
-        coincheGames.add(CoincheGame.fromJSON(doc.data, doc.documentID));
+          .get();
+      for (var doc in querySnapshot.docs) {
+        coincheGames.add(CoincheGame.fromJSON(doc.data(), doc.id));
       }
       return coincheGames;
     } on PlatformException catch (e) {
-      throw FirebaseException(e.message);
+      throw CustomException(e.message);
     }
   }
 
   @override
   Future<CoincheGame> getGame(String id) async {
     try {
-      var querySnapshot = await Firestore.instance
+      var querySnapshot = await FirebaseFirestore.instance
           .collection('coinche-game-' + flavor)
-          .document(id)
+          .doc(id)
           .get();
-      return CoincheGame.fromJSON(querySnapshot.data, querySnapshot.documentID);
+      return CoincheGame.fromJSON(querySnapshot.data(), querySnapshot.id);
     } on PlatformException catch (e) {
-      throw FirebaseException(e.message);
+      throw CustomException(e.message);
     }
   }
 
   @override
   Future deleteGame(String id) async {
     try {
-      await Firestore.instance
+      await FirebaseFirestore.instance
           .collection('coinche-game-' + flavor)
-          .document(id)
+          .doc(id)
           .delete();
       await _coincheScoreService.deleteScoreByGame(id);
     } on PlatformException catch (e) {
-      throw FirebaseException(e.message);
+      throw CustomException(e.message);
     }
   }
 
@@ -81,10 +81,10 @@ class CoincheGameService implements TeamGameService<CoincheGame> {
           startingDate: DateTime.now(),
           us: usTeam.id,
           them: themTeam.id);
-      var documentReference = await Firestore.instance
+      var documentReference = await FirebaseFirestore.instance
           .collection('coinche-game-' + flavor)
           .add(coincheGame.toJSON());
-      coincheGame.id = documentReference.documentID;
+      coincheGame.id = documentReference.id;
       var coincheScore = CoincheScore(
           usTotalPoints: 0,
           themTotalPoints: 0,
@@ -93,7 +93,7 @@ class CoincheGameService implements TeamGameService<CoincheGame> {
       await _coincheScoreService.saveScore(coincheScore);
       return coincheGame;
     } on PlatformException catch (e) {
-      throw FirebaseException(e.message);
+      throw CustomException(e.message);
     }
   }
 
@@ -107,16 +107,16 @@ class CoincheGameService implements TeamGameService<CoincheGame> {
       } else if (score.themTotalPoints < score.usTotalPoints) {
         winners = await _teamService.incrementWonGamesByOne(game.us);
       }
-      await Firestore.instance
+      await FirebaseFirestore.instance
           .collection('coinche-game-' + flavor)
-          .document(game.id)
-          .updateData({
+          .doc(game.id)
+          .update({
         'is_ended': true,
         'ending_date': DateTime.now().toString(),
         'winners': winners?.id
       });
     } on PlatformException catch (e) {
-      throw FirebaseException(e.message);
+      throw CustomException(e.message);
     }
   }
 }
