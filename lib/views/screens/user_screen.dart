@@ -175,7 +175,8 @@ class _UserScreenState extends State<UserScreen> {
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Bienvenue', style: CustomTextStyle.screenHeadLine1(context)),
+                Text('Bienvenue',
+                    style: CustomTextStyle.screenHeadLine1(context)),
                 RaisedButton.icon(
                     color: Theme.of(context).accentColor,
                     textColor: Theme.of(context).cardColor,
@@ -335,37 +336,26 @@ class _UserScreenState extends State<UserScreen> {
                           padding: const EdgeInsets.all(20),
                           child: Column(
                             children: [
-                              Center(
-                                child: TextFormField(
-                                    onChanged: (text) =>
-                                        _player.userName = text,
-                                    controller: _pseudoTextController,
-                                    style: TextStyle(
-                                        fontSize: 25,
-                                        fontWeight: FontWeight.bold),
-                                    decoration: InputDecoration(
-                                      enabledBorder: InputBorder.none,
-                                      labelText: 'Pseudo',
-                                      suffixIcon: Icon(
-                                          FontAwesomeIcons.userCircle,
-                                          size: 30),
-                                    )),
-                              ),
-                              Center(
-                                child: TextFormField(
-                                  maxLines: 3,
-                                  onChanged: (text) =>
-                                      _player.profilePicture = text,
-                                  controller: _profilePictureTextController,
+                              TextFormField(
+                                  onChanged: (text) => _player.userName = text,
+                                  controller: _pseudoTextController,
                                   style: TextStyle(
-                                      fontSize: 15,
+                                      fontSize: 30,
                                       fontWeight: FontWeight.bold),
                                   decoration: InputDecoration(
-                                    enabledBorder: InputBorder.none,
-                                    labelText: 'Image de profile (url)',
-                                    suffixIcon:
-                                        Icon(FontAwesomeIcons.image, size: 30),
-                                  ),
+                                      enabledBorder: InputBorder.none,
+                                      labelText: 'Pseudo')),
+                              TextFormField(
+                                maxLines: 3,
+                                onChanged: (text) =>
+                                    _player.profilePicture = text,
+                                controller: _profilePictureTextController,
+                                style: TextStyle(fontSize: 25),
+                                decoration: InputDecoration(
+                                  enabledBorder: InputBorder.none,
+                                  labelText: 'Image de profile (url)',
+                                  suffixIcon: Icon(FontAwesomeIcons.userCircle,
+                                      size: 30),
                                 ),
                               ),
                             ],
