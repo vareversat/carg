@@ -16,7 +16,7 @@ class WarningDialog extends StatefulWidget {
       @required this.onConfirm,
       this.color,
       this.showCancelButton = true,
-      this.onConfirmButtonMessage = 'Confirmer'});
+      this.onConfirmButtonMessage});
 
   @override
   State<StatefulWidget> createState() {
@@ -80,42 +80,46 @@ class _WarningDialogState extends State<WarningDialog> {
         ),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         children: <Widget>[
-          Text(_message, style: Theme.of(context).textTheme.bodyText2),
+          Text(_message),
           Padding(
             padding: const EdgeInsets.only(top: 10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-                _showCancelButton
-                    ? FlatButton.icon(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18.0),
-                            side: BorderSide(
-                                color: _color ?? Theme.of(context).errorColor)),
-                        onPressed: () => {Navigator.pop(context)},
-                        color: Colors.white,
-                        textColor: _color ?? Theme.of(context).errorColor,
-                        icon: Icon(Icons.close),
-                        label: Text('Annuler',
-                            style: TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.bold)),
-                      )
-                    : Container(),
+                if (_showCancelButton)
+                  FlatButton.icon(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18.0),
+                        side: BorderSide(
+                            color: _color ?? Theme.of(context).errorColor)),
+                    onPressed: () => {Navigator.pop(context)},
+                    color: Colors.white,
+                    textColor: _color ?? Theme.of(context).errorColor,
+                    icon: Icon(Icons.close),
+                    label: Text(
+                      MaterialLocalizations.of(context).cancelButtonLabel,
+                    ),
+                  )
+                else
+                  Container(),
                 SizedBox(
                   width: 10,
                 ),
-                _isLoading
-                    ? CircularProgressIndicator()
-                    : RaisedButton.icon(
-                        color: _color ?? Theme.of(context).errorColor,
-                        textColor: Theme.of(context).cardColor,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18.0)),
-                        onPressed: () async =>
-                            {await _exec(), Navigator.pop(context)},
-                        label: Text(_onConfirmButtonMessage,
-                            style: TextStyle(fontSize: 14)),
-                        icon: Icon(Icons.check)),
+                if (_isLoading)
+                  CircularProgressIndicator()
+                else
+                  RaisedButton.icon(
+                      color: _color ?? Theme.of(context).errorColor,
+                      textColor: Theme.of(context).cardColor,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0)),
+                      onPressed: () async =>
+                          {await _exec(), Navigator.pop(context)},
+                      label: Text(
+                        _onConfirmButtonMessage?.toUpperCase() ??
+                            MaterialLocalizations.of(context).okButtonLabel,
+                      ),
+                      icon: Icon(Icons.check)),
               ],
             ),
           ),
