@@ -1,4 +1,4 @@
-Version 0.6.0 :
+## **v0.6.0** :
 - Contract types (Normal, Coinche, Surcoinche, ...) are now working properly for a Coinche Game
 - Screen instead of a pop up to add a round to a Game (Belote and Coinche)
 - Autofill the score for Coinche and Belote

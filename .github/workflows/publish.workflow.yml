@@ -58,7 +58,7 @@ jobs:
         with:
           name: 'apk-build'
       - name: 'Deploy to Firebase'
-        run: firebase appdistribution:distribute --token "$FIREBASE_TOKEN" app-arm64-v8a-release.apk --app "$APP_ID" --release-notes-file release_notes.txt --groups-file groups_file.txt
+        run: firebase appdistribution:distribute --token "$FIREBASE_TOKEN" app-arm64-v8a-release.apk --app "$APP_ID" --release-notes-file CHANGELOG.md --groups-file groups_file.txt
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
           APP_ID: ${{ secrets.APP_ID }}
