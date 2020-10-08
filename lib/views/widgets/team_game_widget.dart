@@ -243,7 +243,7 @@ class _TeamGameWidgetState extends State<TeamGameWidget> {
                                     message:
                                         'Tu es sur le point de terminer cette partie. Les gagnants ainsi que les perdants (honteux) vont être désignés',
                                     title: 'Attention',
-                                    color: Theme.of(context).primaryColor,
+                                    color: Theme.of(context).errorColor,
                                   )),
                             },
                             color: Colors.black,
