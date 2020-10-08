@@ -18,6 +18,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   flutter_launcher_icons: ^0.8.1
+  flutter_markdown: ^0.4.4
   flutter_spinkit: ^4.1.2+1
   flutter_svg: ^0.19.0
   font_awesome_flutter: ^8.8.1
@@ -46,6 +47,7 @@ flutter:
     - assets/images/card_game.svg
     - assets/images/search_by_algolia.svg
     - assets/config/algolia.json
+    - CHANGELOG.md
 
 flutter_icons:
   ios: true

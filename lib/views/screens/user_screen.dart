@@ -4,9 +4,9 @@ import 'package:carg/services/player_service.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/dialogs/dialogs.dart';
 import 'package:carg/views/dialogs/warning_dialog.dart';
+import 'package:carg/views/screens/change_log_screen.dart';
 import 'package:carg/views/widgets/error_message_widget.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -151,6 +151,20 @@ class _UserScreenState extends State<UserScreen> {
     }
   }
 
+  Future<String> _getVersionNumber() async {
+    var packageInfo = await PackageInfo.fromPlatform();
+    return packageInfo.version + '+' + packageInfo.buildNumber;
+  }
+
+  void _launchURL() async {
+    const url = 'https://github.com/Devosud/carg';
+    if (await canLaunch(url)) {
+      await launch(url, forceSafariVC: false);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
   @override
   void dispose() {
     _pseudoTextController.dispose();
@@ -158,11 +172,6 @@ class _UserScreenState extends State<UserScreen> {
     _emailTextController.dispose();
     _passwordTextController.dispose();
     super.dispose();
-  }
-
-  Future<String> _getVersionNumber() async {
-    var packageInfo = await PackageInfo.fromPlatform();
-    return packageInfo.version + '+' + packageInfo.buildNumber;
   }
 
   @override
@@ -183,46 +192,53 @@ class _UserScreenState extends State<UserScreen> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(18.0)),
                     onPressed: () async => showAboutDialog(
-                        applicationIcon: Container(
-                            height: 60,
-                            width: 60,
-                            child: SvgPicture.asset(
-                                'assets/images/card_game.svg')),
-                        context: context,
-                        applicationVersion: await _getVersionNumber(),
-                        children: [
-                          Divider(
-                            height: 25,
-                          ),
-                          RichText(
-                            text: TextSpan(
-                              text:
-                                  'L\'application pour enregistrer vos parties de Belote, Coinche et Tarot ! \n\n',
-                              style: DefaultTextStyle.of(context).style,
-                              children: <TextSpan>[
-                                TextSpan(text: 'Code source disponible ici : '),
-                                TextSpan(
-                                  text: 'https://github.com/Devosud/carg',
-                                  style: TextStyle(
-                                      decoration: TextDecoration.underline,
-                                      color: Colors.blue),
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () async {
-                                      final url =
-                                          'https://github.com/Devosud/carg';
-                                      if (await canLaunch(url)) {
-                                        await launch(
-                                          url,
-                                          forceSafariVC: false,
-                                        );
-                                      }
-                                    },
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
-                        applicationLegalese: '© 2020 - Devosud'),
+                            applicationLegalese: '© 2020 - Devosud',
+                            applicationIcon: Container(
+                                height: 60,
+                                width: 60,
+                                child: SvgPicture.asset(
+                                    'assets/images/card_game.svg')),
+                            context: context,
+                            applicationVersion: await _getVersionNumber(),
+                            children: [
+                              Divider(
+                                height: 25,
+                              ),
+                              Text(
+                                  'L\'application pour enregistrer vos parties de Belote, Coinche et Tarot ! \n'),
+                              RaisedButton.icon(
+                                  color: Colors.black,
+                                  textColor: Theme.of(context).cardColor,
+                                  onPressed: () => _launchURL(),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(18.0)),
+                                  label: Text('Code source',
+                                      style: TextStyle(fontSize: 14)),
+                                  icon: Icon(
+                                    FontAwesomeIcons.github,
+                                    size: 16,
+                                  )),
+                              RaisedButton.icon(
+                                  color: Theme.of(context).accentColor,
+                                  textColor: Theme.of(context).cardColor,
+                                  onPressed: () => Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              ChangeLogScreen(),
+                                        ),
+                                      ),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(18.0)),
+                                  label: Text('Journal des modifications',
+                                      style: TextStyle(fontSize: 14)),
+                                  icon: Icon(
+                                    FontAwesomeIcons.fileCode,
+                                    size: 16,
+                                  ))
+                            ]),
                     label: Text('À propos', style: TextStyle(fontSize: 14)),
                     icon: Icon(
                       FontAwesomeIcons.info,
