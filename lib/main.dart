@@ -1,11 +1,11 @@
 import 'package:carg/services/auth_service.dart';
 import 'package:carg/views/screens/home_screen.dart';
 import 'package:carg/views/screens/login_screen.dart';
+import 'package:carg/views/screens/splash_screen.dart';
 import 'package:carg/views/screens/user_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
@@ -82,15 +82,7 @@ class _CargState extends State<Carg> {
                 future: auth.isAlreadyLogin(),
                 builder: (context, authResult) {
                   if (authResult.connectionState == ConnectionState.waiting) {
-                    return Scaffold(body: Center(child: SpinKitWave(
-                      itemBuilder: (BuildContext context, int index) {
-                        return DecoratedBox(
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).accentColor,
-                          ),
-                        );
-                      },
-                    )));
+                    return SplashScreen();
                   }
                   if (authResult.connectionState == ConnectionState.done) {
                     if (authResult.data) {
