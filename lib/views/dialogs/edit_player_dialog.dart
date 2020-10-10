@@ -1,5 +1,6 @@
 import 'package:carg/models/player/player.dart';
 import 'package:carg/services/player_service.dart';
+import 'package:carg/styles/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -18,7 +19,7 @@ class _EditPlayerDialogState extends State<EditPlayerDialog> {
   final _pseudoTextController = TextEditingController();
   final _profilePictureTextController = TextEditingController();
   final _playerService = PlayerService();
-  final String _title = 'Infos';
+  var _title;
   var _isCreating;
   bool _isLoading = false;
 
@@ -27,6 +28,7 @@ class _EditPlayerDialogState extends State<EditPlayerDialog> {
 
   _EditPlayerDialogState(Player player) {
     _isCreating = player == null ? true : false;
+    _title = _isCreating ? 'Nouveau joueur' : 'Infos';
     _player = player ?? Player();
   }
 
@@ -78,25 +80,26 @@ class _EditPlayerDialogState extends State<EditPlayerDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return SimpleDialog(
-      contentPadding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+    return AlertDialog(
+      insetPadding: const EdgeInsets.symmetric(horizontal: 20),
       titlePadding: const EdgeInsets.all(0),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 20),
+      actionsPadding: const EdgeInsets.fromLTRB(0, 0, 20, 10),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       title: Container(
         decoration: BoxDecoration(
             color: Theme.of(context).primaryColor,
             borderRadius: BorderRadius.only(
                 topLeft: const Radius.circular(15.0),
                 topRight: const Radius.circular(15.0))),
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.fromLTRB(20, 20, 0, 15),
         child: Text(
           _title,
           overflow: TextOverflow.ellipsis,
-          style: TextStyle(
-              fontWeight: FontWeight.bold, fontSize: 25, color: Colors.white),
+          style: CustomTextStyle.screenHeadLine1(context),
         ),
       ),
-      children: <Widget>[
+      content: ListBody(children: [
         Row(
           children: <Widget>[
             Padding(
@@ -123,65 +126,58 @@ class _EditPlayerDialogState extends State<EditPlayerDialog> {
                       border: InputBorder.none,
                       hintStyle: TextStyle(
                           fontSize: 25, color: Theme.of(context).hintColor),
-                      hintText: 'Pseudo')),
-            )
+                      labelText: 'Pseudo')),
+            ),
           ],
         ),
-        _isCreating
-            ? Container(
-                child: TextFormField(
-                    enabled: _isCreating,
-                    onChanged: (text) => _setProfilePictureUrl(text),
-                    controller: _profilePictureTextController,
-                    style: TextStyle(fontSize: 15),
-                    maxLines: null,
-                    decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintStyle: TextStyle(
-                            fontSize: 15, color: Theme.of(context).hintColor),
-                        hintText: 'Image de profile (url)')),
-              )
-            : Container(),
-        Padding(
-          padding: const EdgeInsets.only(top: 10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              _isCreating
-                  ? FlatButton.icon(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18.0),
-                          side: BorderSide(
-                              color: Theme.of(context).primaryColor)),
-                      onPressed: () => {Navigator.pop(context)},
-                      color: Colors.white,
-                      textColor: Theme.of(context).primaryColor,
-                      icon: Icon(Icons.close),
-                      label: Text('Annuler',
-                          style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.bold)),
-                    )
-                  : Container(),
-              SizedBox(
-                width: 10,
-              ),
-              _isLoading
-                  ? CircularProgressIndicator()
-                  : RaisedButton.icon(
-                      color: Theme.of(context).primaryColor,
-                      textColor: Theme.of(context).cardColor,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18.0)),
-                      onPressed: () async => _isCreating
-                          ? {await _commitPlayer(), Navigator.pop(context)}
-                          : Navigator.pop(context),
-                      label: Text(_isCreating ? 'Confirmer' : 'Fermer',
-                          style: TextStyle(fontSize: 14)),
-                      icon: Icon(_isCreating ? Icons.check : Icons.close)),
-            ],
-          ),
-        ),
+        if (_isCreating)
+          Container(
+            child: TextFormField(
+                enabled: _isCreating,
+                onChanged: (text) => _setProfilePictureUrl(text),
+                controller: _profilePictureTextController,
+                style: TextStyle(fontSize: 15),
+                maxLines: null,
+                decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintStyle: TextStyle(
+                        fontSize: 15, color: Theme.of(context).hintColor),
+                    labelText: 'Image de profile (url)')),
+          )
+        else
+          Container(),
+      ]),
+      actions: <Widget>[
+        if (_isCreating)
+          FlatButton.icon(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18.0),
+                side: BorderSide(color: Theme.of(context).primaryColor)),
+            onPressed: () => {Navigator.pop(context)},
+            color: Colors.white,
+            textColor: Theme.of(context).primaryColor,
+            icon: Icon(Icons.close),
+            label: Text(MaterialLocalizations.of(context).cancelButtonLabel),
+          )
+        else
+          Container(),
+        if (_isLoading)
+          CircularProgressIndicator()
+        else
+          RaisedButton.icon(
+              color: Theme.of(context).primaryColor,
+              textColor: Theme.of(context).cardColor,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(18.0)),
+              onPressed: () async => _isCreating
+                  ? {await _commitPlayer(), Navigator.pop(context)}
+                  : Navigator.pop(context),
+              label: Text(_isCreating
+                  ? MaterialLocalizations.of(context).okButtonLabel
+                  : MaterialLocalizations.of(context).closeButtonLabel),
+              icon: Icon(_isCreating ? Icons.check : Icons.close)),
       ],
+      scrollable: true,
     );
   }
 }

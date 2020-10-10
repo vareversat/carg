@@ -55,74 +55,58 @@ class _WarningDialogState extends State<WarningDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return SimpleDialog(
-        contentPadding: const EdgeInsets.all(18),
-        titlePadding: const EdgeInsets.all(0),
-        title: Container(
-          decoration: BoxDecoration(
-              color: _color ?? Theme.of(context).errorColor,
-              borderRadius: BorderRadius.only(
-                  topLeft: const Radius.circular(15.0),
-                  topRight: const Radius.circular(15.0))),
-          padding: const EdgeInsets.fromLTRB(20, 15, 0, 15),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Flexible(
-                child: Text(
-                  _title,
-                  overflow: TextOverflow.ellipsis,
-                  style: CustomTextStyle.screenHeadLine1(context),
-                ),
-              ),
-            ],
-          ),
+    return AlertDialog(
+      insetPadding: const EdgeInsets.symmetric(horizontal: 20),
+      titlePadding: const EdgeInsets.all(0),
+      contentPadding: const EdgeInsets.all(20),
+      actionsPadding: const EdgeInsets.fromLTRB(0, 0, 20, 10),
+      title: Container(
+        decoration: BoxDecoration(
+            color: _color ?? Theme.of(context).errorColor,
+            borderRadius: BorderRadius.only(
+                topLeft: const Radius.circular(15.0),
+                topRight: const Radius.circular(15.0))),
+        padding: const EdgeInsets.fromLTRB(20, 20, 0, 15),
+        child: Text(
+          _title,
+          overflow: TextOverflow.ellipsis,
+          style: CustomTextStyle.screenHeadLine1(context),
         ),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-        children: <Widget>[
-          Text(_message),
-          Padding(
-            padding: const EdgeInsets.only(top: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                if (_showCancelButton)
-                  FlatButton.icon(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18.0),
-                        side: BorderSide(
-                            color: _color ?? Theme.of(context).errorColor)),
-                    onPressed: () => {Navigator.pop(context)},
-                    color: Colors.white,
-                    textColor: _color ?? Theme.of(context).errorColor,
-                    icon: Icon(Icons.close),
-                    label: Text(
-                      MaterialLocalizations.of(context).cancelButtonLabel,
-                    ),
-                  )
-                else
-                  Container(),
-                SizedBox(
-                  width: 10,
-                ),
-                if (_isLoading)
-                  CircularProgressIndicator()
-                else
-                  RaisedButton.icon(
-                      color: _color ?? Theme.of(context).errorColor,
-                      textColor: Theme.of(context).cardColor,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18.0)),
-                      onPressed: () async =>
-                          {await _exec(), Navigator.pop(context)},
-                      label: Text(
-                        _onConfirmButtonMessage?.toUpperCase() ??
-                            MaterialLocalizations.of(context).okButtonLabel,
-                      ),
-                      icon: Icon(Icons.check)),
-              ],
+      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      content: Text(_message),
+      actions: <Widget>[
+        if (_isLoading)
+          CircularProgressIndicator()
+        else
+          RaisedButton.icon(
+              color: _color ?? Theme.of(context).errorColor,
+              textColor: Theme.of(context).cardColor,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(18.0)),
+              onPressed: () async => {await _exec(), Navigator.pop(context)},
+              label: Text(
+                _onConfirmButtonMessage?.toUpperCase() ??
+                    MaterialLocalizations.of(context).okButtonLabel,
+              ),
+              icon: Icon(Icons.check)),
+        if (_showCancelButton)
+          FlatButton.icon(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18.0),
+                side:
+                    BorderSide(color: _color ?? Theme.of(context).errorColor)),
+            onPressed: () => {Navigator.pop(context)},
+            color: Colors.white,
+            textColor: _color ?? Theme.of(context).errorColor,
+            icon: Icon(Icons.close),
+            label: Text(
+              MaterialLocalizations.of(context).cancelButtonLabel,
             ),
-          ),
-        ]);
+          )
+        else
+          Container(),
+      ],
+    );
   }
 }

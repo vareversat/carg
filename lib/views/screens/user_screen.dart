@@ -110,8 +110,7 @@ class _UserScreenState extends State<UserScreen> {
             onConfirm: () async =>
                 await Provider.of<AuthService>(context, listen: false)
                     .resetPassword(null),
-            color: Theme.of(context).primaryColor,
-            onConfirmButtonMessage: 'Confirmer'));
+            color: Theme.of(context).primaryColor));
   }
 
   Future<void> _changePassword() async {
