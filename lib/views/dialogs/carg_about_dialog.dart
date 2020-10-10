@@ -51,7 +51,7 @@ class CargABoutDialog extends StatelessWidget {
           insetPadding: const EdgeInsets.symmetric(horizontal: 20),
           titlePadding: const EdgeInsets.all(20),
           contentPadding: const EdgeInsets.symmetric(horizontal: 20),
-          actionsPadding: const EdgeInsets.all(4),
+          actionsPadding: const EdgeInsets.fromLTRB(0, 10, 20, 20),
           title: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
