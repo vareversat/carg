@@ -148,19 +148,6 @@ class _EditPlayerDialogState extends State<EditPlayerDialog> {
           Container(),
       ]),
       actions: <Widget>[
-        if (_isCreating)
-          FlatButton.icon(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(18.0),
-                side: BorderSide(color: Theme.of(context).primaryColor)),
-            onPressed: () => {Navigator.pop(context)},
-            color: Colors.white,
-            textColor: Theme.of(context).primaryColor,
-            icon: Icon(Icons.close),
-            label: Text(MaterialLocalizations.of(context).cancelButtonLabel),
-          )
-        else
-          Container(),
         if (_isLoading)
           CircularProgressIndicator()
         else
@@ -176,6 +163,19 @@ class _EditPlayerDialogState extends State<EditPlayerDialog> {
                   ? MaterialLocalizations.of(context).okButtonLabel
                   : MaterialLocalizations.of(context).closeButtonLabel),
               icon: Icon(_isCreating ? Icons.check : Icons.close)),
+        if (_isCreating)
+          FlatButton.icon(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18.0),
+                side: BorderSide(color: Theme.of(context).primaryColor)),
+            onPressed: () => {Navigator.pop(context)},
+            color: Colors.white,
+            textColor: Theme.of(context).primaryColor,
+            icon: Icon(Icons.close),
+            label: Text(MaterialLocalizations.of(context).cancelButtonLabel),
+          )
+        else
+          Container(),
       ],
       scrollable: true,
     );
