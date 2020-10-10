@@ -21,7 +21,7 @@ jobs:
     steps:
       - name: 'Checkout source code'
         uses: actions/checkout@v2
-      - name: 'Analyze code'
+      - name: 'Test code'
         run: flutter test
   build_android:
     needs: [ analyze, test ]
