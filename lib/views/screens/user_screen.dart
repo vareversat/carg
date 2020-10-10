@@ -2,17 +2,14 @@ import 'package:carg/models/player/player.dart';
 import 'package:carg/services/auth_service.dart';
 import 'package:carg/services/player_service.dart';
 import 'package:carg/styles/text_style.dart';
+import 'package:carg/views/dialogs/carg_about_dialog.dart';
 import 'package:carg/views/dialogs/dialogs.dart';
 import 'package:carg/views/dialogs/warning_dialog.dart';
-import 'package:carg/views/screens/change_log_screen.dart';
 import 'package:carg/views/widgets/error_message_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:package_info/package_info.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class UserScreen extends StatefulWidget {
   static const routeName = '/user';
@@ -151,20 +148,6 @@ class _UserScreenState extends State<UserScreen> {
     }
   }
 
-  Future<String> _getVersionNumber() async {
-    var packageInfo = await PackageInfo.fromPlatform();
-    return packageInfo.version + '+' + packageInfo.buildNumber;
-  }
-
-  void _launchURL() async {
-    const url = 'https://github.com/Devosud/carg';
-    if (await canLaunch(url)) {
-      await launch(url, forceSafariVC: false);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
-
   @override
   void dispose() {
     _pseudoTextController.dispose();
@@ -191,58 +174,12 @@ class _UserScreenState extends State<UserScreen> {
                     textColor: Theme.of(context).cardColor,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(18.0)),
-                    onPressed: () async => showAboutDialog(
-                            applicationLegalese: '© 2020 - Devosud',
-                            applicationIcon: Container(
-                                height: 60,
-                                width: 60,
-                                child: SvgPicture.asset(
-                                    'assets/images/card_game.svg')),
-                            context: context,
-                            applicationVersion: await _getVersionNumber(),
-                            children: [
-                              Divider(
-                                height: 25,
-                              ),
-                              Text(
-                                  'L\'application pour enregistrer vos parties de Belote, Coinche et Tarot ! \n'),
-                              RaisedButton.icon(
-                                  color: Colors.black,
-                                  textColor: Theme.of(context).cardColor,
-                                  onPressed: () => _launchURL(),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(18.0)),
-                                  label: Text('Code source',
-                                      style: TextStyle(fontSize: 14)),
-                                  icon: Icon(
-                                    FontAwesomeIcons.github,
-                                    size: 16,
-                                  )),
-                              RaisedButton.icon(
-                                  color: Theme.of(context).accentColor,
-                                  textColor: Theme.of(context).cardColor,
-                                  onPressed: () => Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              ChangeLogScreen(),
-                                        ),
-                                      ),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius:
-                                          BorderRadius.circular(18.0)),
-                                  label: Text('Journal des modifications',
-                                      style: TextStyle(fontSize: 14)),
-                                  icon: Icon(
-                                    FontAwesomeIcons.fileCode,
-                                    size: 16,
-                                  ))
-                            ]),
-                    label: Text('À propos', style: TextStyle(fontSize: 14)),
+                    onPressed: () async => await showDialog(
+                        context: context, child: CargABoutDialog()),
+                    label: Text('À propos'),
                     icon: Icon(
-                      FontAwesomeIcons.info,
-                      size: 10,
+                      FontAwesomeIcons.infoCircle,
+                      size: 13,
                     ))
               ],
             ),
