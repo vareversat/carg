@@ -174,12 +174,6 @@ class _UserScreenState extends State<UserScreen> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(18.0)),
                     onPressed: () async => await showGeneralDialog(
-                        transitionBuilder: (context, anim1, anim2, child) {
-                          return SlideTransition(
-                            position: Tween(begin: Offset(0, 1), end: Offset(0, 0)).animate(anim1),
-                            child: child,
-                          );
-                        },
                         transitionDuration: Duration(milliseconds: 300),
                         context: context,
                         pageBuilder: (BuildContext context,
