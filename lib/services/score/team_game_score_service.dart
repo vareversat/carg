@@ -5,7 +5,7 @@ import 'package:carg/services/score/score_service.dart';
 
 abstract class TeamGameScoreService<T extends TeamGameScore,
     P extends TeamGameRound> implements ScoreService<T, P> {
-  int getTotalPoints(TeamGameEnum teamGameEnum, TeamGameRound teamGameRound) {
+  int getPointsOfRound(TeamGameEnum teamGameEnum, TeamGameRound teamGameRound) {
     if (teamGameEnum == teamGameRound.taker) {
       return teamGameRound.takerScore;
     } else {
