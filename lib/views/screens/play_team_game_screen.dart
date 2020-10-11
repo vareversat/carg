@@ -8,6 +8,7 @@ import 'package:carg/services/team_service.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/dialogs/warning_dialog.dart';
 import 'package:carg/views/screens/add_team_game_round_screen.dart';
+import 'package:carg/views/screens/home_screen.dart';
 import 'package:carg/views/widgets/api_mini_player_widget.dart';
 import 'package:carg/views/widgets/error_message_widget.dart';
 import 'package:enum_to_string/enum_to_string.dart';
@@ -108,7 +109,7 @@ class _PlayTeamGameScreenState extends State<PlayTeamGameScreen> {
           centerTitle: true,
           automaticallyImplyLeading: false,
           leading: IconButton(
-              onPressed: () => Navigator.pop(context),
+              onPressed: () => Navigator.of(context).pushReplacementNamed(HomeScreen.routeName, arguments: 1),
               icon: Icon(Icons.cancel)),
         ),
         body: Column(children: <Widget>[

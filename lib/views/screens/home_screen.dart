@@ -7,23 +7,29 @@ import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home';
+  final int requestedIndex;
+
+  HomeScreen({@required this.requestedIndex});
 
   @override
   State<StatefulWidget> createState() {
-    return _HomeScreenState();
+    return _HomeScreenState(requestedIndex);
   }
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _currentIndex = 0;
+  int _currentIndex;
   final List<Widget> _children = [
     UserScreen(),
     GameListScreen(),
     PlayerListScreen(),
   ];
 
+  _HomeScreenState(this._currentIndex);
+
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: _children[_currentIndex],
       bottomNavigationBar: NavBar(

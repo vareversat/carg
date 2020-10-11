@@ -66,7 +66,7 @@ class _CargState extends State<Carg> {
             routes: {
               LoginScreen.routeName: (context) => LoginScreen(),
               UserScreen.routeName: (context) => UserScreen(),
-              HomeScreen.routeName: (context) => HomeScreen()
+              HomeScreen.routeName: (context) => HomeScreen(requestedIndex : ModalRoute.of(context).settings.arguments ?? 0)
             },
             title: 'Carg',
             theme: ThemeData(
@@ -86,7 +86,7 @@ class _CargState extends State<Carg> {
                   }
                   if (authResult.connectionState == ConnectionState.done) {
                     if (authResult.data) {
-                      return HomeScreen();
+                      return HomeScreen(requestedIndex: 0);
                     } else {
                       return LoginScreen();
                     }

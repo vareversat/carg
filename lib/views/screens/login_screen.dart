@@ -1,6 +1,7 @@
 import 'package:carg/services/auth_service.dart';
 import 'package:carg/services/firebase_exception.dart';
 import 'package:carg/views/dialogs/warning_dialog.dart';
+import 'package:carg/views/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -36,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen>
     });
     try {
       await Provider.of<AuthService>(context, listen: false).localLoginIn();
-      await Navigator.of(context).pushReplacementNamed('/home');
+      await Navigator.of(context).pushReplacementNamed(HomeScreen.routeName, arguments: 0);
     } on CustomException catch (e) {
       setState(() {
         _isLocalLoginLoading = false;
@@ -91,7 +92,7 @@ class _LoginScreenState extends State<LoginScreen>
       if (_authMode == AuthMode.Login) {
         await Provider.of<AuthService>(context, listen: false)
             .firebaseLoginIn(_authData['email'], _authData['password']);
-        await Navigator.of(context).pushReplacementNamed('/home');
+        await Navigator.of(context).pushReplacementNamed(HomeScreen.routeName, arguments: 0);
       } else {
         await Provider.of<AuthService>(context, listen: false).signUp(
             _authData['email'], _authData['password'], _authData['username']);
