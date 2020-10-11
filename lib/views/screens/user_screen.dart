@@ -174,7 +174,7 @@ class _UserScreenState extends State<UserScreen> {
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(18.0)),
                     onPressed: () async => await showDialog(
-                        context: context, child: CargABoutDialog()),
+                        context: context, child: CargAboutDialog()),
                     label: Text('À propos'),
                     icon: Icon(
                       FontAwesomeIcons.infoCircle,

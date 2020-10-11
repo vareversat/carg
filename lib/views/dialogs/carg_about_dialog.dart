@@ -6,7 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:package_info/package_info.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class CargABoutDialog extends StatelessWidget {
+class CargAboutDialog extends StatelessWidget {
   final String _repoUrl = 'https://github.com/Devosud/carg';
   final String _legalLease = '© 2020 - Devosud';
   final String _errorMessage =
