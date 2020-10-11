@@ -173,8 +173,20 @@ class _UserScreenState extends State<UserScreen> {
                     textColor: Theme.of(context).cardColor,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(18.0)),
-                    onPressed: () async => await showDialog(
-                        context: context, child: CargAboutDialog()),
+                    onPressed: () async => await showGeneralDialog(
+                        transitionBuilder: (context, anim1, anim2, child) {
+                          return SlideTransition(
+                            position: Tween(begin: Offset(0, 1), end: Offset(0, 0)).animate(anim1),
+                            child: child,
+                          );
+                        },
+                        transitionDuration: Duration(milliseconds: 300),
+                        context: context,
+                        pageBuilder: (BuildContext context,
+                            Animation<double> animation,
+                            Animation<double> secondaryAnimation) {
+                          return CargAboutDialog();
+                        }),
                     label: Text('À propos'),
                     icon: Icon(
                       FontAwesomeIcons.infoCircle,
