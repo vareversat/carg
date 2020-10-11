@@ -109,16 +109,17 @@ class _PlayerPickerScreenState extends State<PlayerPickerScreen> {
                             onPressed: () async => {
                                   await _createGame(),
                                   Navigator.pop(context),
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => newGame.gameType !=
-                                              GameType.TAROT
-                                          ? PlayTeamGameScreen(
-                                              teamGame: newGame)
-                                          : PlayTarotGame(tarotGame: newGame),
-                                    ),
-                                  )
+                                  Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => newGame
+                                                    .gameType !=
+                                                GameType.TAROT
+                                            ? PlayTeamGameScreen(
+                                                teamGame: newGame)
+                                            : PlayTarotGame(tarotGame: newGame),
+                                      ),
+                                      ModalRoute.withName('/'))
                                 },
                             label: Text('Démarrer'),
                             icon: Icon(Icons.check))
