@@ -27,6 +27,7 @@ abstract class TeamGameScore<T extends TeamGameRound> extends Score {
     return this;
   }
 
+  @override
   T getLastRound() {
     return rounds.last;
   }

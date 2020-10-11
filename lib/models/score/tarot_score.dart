@@ -1,4 +1,5 @@
 import 'package:carg/models/score/misc/player_score.dart';
+import 'package:carg/models/score/round/round.dart';
 import 'package:carg/models/score/round/tarot_round.dart';
 import 'package:carg/models/score/score.dart';
 
@@ -42,5 +43,11 @@ class TarotScore extends Score {
   @override
   String toString() {
     return 'TarotScore{game: $game, rounds: $rounds, scores: $scores}';
+  }
+
+  @override
+  Round getLastRound() {
+    // TODO: implement getLastRound
+    throw UnimplementedError();
   }
 }
