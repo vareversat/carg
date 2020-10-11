@@ -3,14 +3,17 @@ import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
 class ChangeLogScreen extends StatelessWidget {
+  final _fileName = 'CHANGELOG.md';
+  final _title = 'Journal des modifications';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Journal des modifications'),
+          title: Text(_title),
         ),
         body: FutureBuilder(
-            future: rootBundle.loadString('CHANGELOG.md'),
+            future: rootBundle.loadString(_fileName),
             builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
               if (snapshot.hasData) {
                 return Markdown(data: snapshot.data);
