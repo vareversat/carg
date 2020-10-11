@@ -36,16 +36,13 @@ class CargAboutDialog extends StatelessWidget {
     return FutureBuilder<PackageInfo>(
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          print('AAAAAAAAAAAA');
           return Center(child: CircularProgressIndicator());
         }
         if (snapshot.connectionState == ConnectionState.none &&
                 snapshot.hasData == null ||
             snapshot.data == null) {
-          print('BBBBBBBBBBBBB');
           return Text(_errorMessage);
         }
-          print('CCCCCCCCCCCCCCC');
         return AlertDialog(
           insetPadding: const EdgeInsets.symmetric(horizontal: 20),
           titlePadding: const EdgeInsets.all(20),
