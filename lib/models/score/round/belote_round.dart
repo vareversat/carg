@@ -12,7 +12,9 @@ class BeloteRound extends TeamGameRound {
       beloteRebelote,
       taker,
       takerScore,
-      defenderScore})
+      defenderScore,
+      usTrickScore,
+      themTrickScore})
       : super(
             index: index,
             cardColor: cardColor,
@@ -21,7 +23,9 @@ class BeloteRound extends TeamGameRound {
             beloteRebelote: beloteRebelote,
             taker: taker,
             takerScore: takerScore,
-            defenderScore: defenderScore);
+            defenderScore: defenderScore,
+            usTrickScore: usTrickScore,
+            themTrickScore: themTrickScore);
 
   @override
   Map<String, dynamic> toJSON() {
@@ -43,7 +47,9 @@ class BeloteRound extends TeamGameRound {
         contractFulfilled: json['contract_fulfilled'],
         taker: EnumToString.fromString(TeamGameEnum.values, json['taker']),
         takerScore: json['taker_score'],
-        defenderScore: json['defender_score']);
+        defenderScore: json['defender_score'],
+        usTrickScore: json['us_trick_score'],
+        themTrickScore: json['them_trick_score']);
   }
 
   static List<BeloteRound> fromJSONList(List<dynamic> jsonList) {

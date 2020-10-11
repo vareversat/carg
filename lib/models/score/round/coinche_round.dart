@@ -1,10 +1,12 @@
 import 'package:carg/models/score/misc/card_color.dart';
+import 'package:carg/models/score/misc/contract_name.dart';
 import 'package:carg/models/score/misc/team_game_enum.dart';
 import 'package:carg/models/score/round/team_game_round.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 
 class CoincheRound extends TeamGameRound {
   int contract;
+  ContractName contractName;
 
   CoincheRound(
       {index,
@@ -15,7 +17,10 @@ class CoincheRound extends TeamGameRound {
       beloteRebelote,
       taker,
       takerScore,
-      defenderScore})
+      defenderScore,
+      usTrickScore,
+      themTrickScore,
+      this.contractName})
       : super(
             index: index,
             cardColor: cardColor,
@@ -24,12 +29,17 @@ class CoincheRound extends TeamGameRound {
             beloteRebelote: beloteRebelote,
             taker: taker,
             takerScore: takerScore,
-            defenderScore: defenderScore);
+            defenderScore: defenderScore,
+            usTrickScore: usTrickScore,
+            themTrickScore: themTrickScore);
 
   @override
   Map<String, dynamic> toJSON() {
     var tmpJSON = super.toJSON();
-    tmpJSON.addAll({'contract': contract});
+    tmpJSON.addAll({
+      'contract': contract,
+      'contract_name': EnumToString.convertToString(contractName)
+    });
     return tmpJSON;
   }
 
@@ -49,7 +59,11 @@ class CoincheRound extends TeamGameRound {
         contractFulfilled: json['contract_fulfilled'],
         taker: EnumToString.fromString(TeamGameEnum.values, json['taker']),
         takerScore: json['taker_score'],
-        defenderScore: json['defender_score']);
+        defenderScore: json['defender_score'],
+        usTrickScore: json['us_trick_score'],
+        themTrickScore: json['them_trick_score'],
+        contractName: EnumToString.fromString(
+            ContractName.values, json['contract_name']));
   }
 
   static List<CoincheRound> fromJSONList(List<dynamic> jsonList) {
@@ -58,6 +72,16 @@ class CoincheRound extends TeamGameRound {
 
   @override
   String toString() {
-    return 'CoincheRound{cardColor: $cardColor, contract: $contract, beloteRebelote : $beloteRebelote, dixDeDer: $dixDeDer, contractFulfilled: $contractFulfilled, taker: $taker, takerScore: $takerScore, defenderScore: $defenderScore}';
+    return 'CoincheRound{cardColor: $cardColor,'
+        'contract: $contract,'
+        'beloteRebelote : $beloteRebelote,'
+        'dixDeDer: $dixDeDer,'
+        'contractFulfilled: $contractFulfilled,'
+        'taker: $taker,'
+        'takerScore: $takerScore,'
+        'defenderScore: $defenderScore,'
+        'usTrickScore: $usTrickScore,'
+        'themTrickScore: $themTrickScore,'
+        'contractName: $contractName}';
   }
 }
