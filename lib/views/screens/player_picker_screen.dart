@@ -50,8 +50,8 @@ class _PlayerPickerScreenState extends State<PlayerPickerScreen> {
           appBar: PreferredSize(
             preferredSize: Size.fromHeight(60),
             child: AppBar(
-              title: Text(title,
-                  style: CustomTextStyle.screenHeadLine1(context)),
+              title:
+                  Text(title, style: CustomTextStyle.screenHeadLine1(context)),
             ),
           ),
           body: Padding(
