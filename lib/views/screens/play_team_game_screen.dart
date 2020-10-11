@@ -1,23 +1,16 @@
-import 'package:carg/models/game/belote_game.dart';
-import 'package:carg/models/game/coinche_game.dart';
 import 'package:carg/models/game/team_game.dart';
 import 'package:carg/models/score/misc/card_color.dart';
 import 'package:carg/models/score/misc/team_game_enum.dart';
 import 'package:carg/models/score/round/team_game_round.dart';
 import 'package:carg/models/score/team_game_score.dart';
 import 'package:carg/models/team.dart';
-import 'package:carg/services/game/belote_game_service.dart';
-import 'package:carg/services/game/coinche_game_service.dart';
-import 'package:carg/services/game/team_game_service.dart';
-import 'package:carg/services/score/belote_score_service.dart';
-import 'package:carg/services/score/coinche_score_service.dart';
-import 'package:carg/services/score/team_game_score_service.dart';
 import 'package:carg/services/team_service.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/dialogs/warning_dialog.dart';
 import 'package:carg/views/screens/add_team_game_round_screen.dart';
 import 'package:carg/views/widgets/api_mini_player_widget.dart';
 import 'package:carg/views/widgets/error_message_widget.dart';
+import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -35,12 +28,9 @@ class PlayTeamGameScreen extends StatefulWidget {
 class _PlayTeamGameScreenState extends State<PlayTeamGameScreen> {
   final TeamService _teamService = TeamService();
   final TeamGame _teamGame;
-  final String _errorMessage = 'Error';
-  String _title;
-  TeamGameScoreService _teamGameScoreService;
-  TeamGameService _teamGameService;
+  final String _errorMessage = 'No data';
 
-  void _addNewRoundDialog() {
+  void _addNewRound() {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -51,10 +41,39 @@ class _PlayTeamGameScreenState extends State<PlayTeamGameScreen> {
     );
   }
 
+  void _deleteLastRound() async {
+    await showDialog(
+        context: context,
+        child: WarningDialog(
+          onConfirm: () async => {
+            await _teamGame.scoreService.deleteLastRoundOfGame(_teamGame.id),
+          },
+          message:
+              'Tu es sur le point de supprimer la dernière manche de la partie. Cette action est irréversible',
+          title: 'Attention',
+          color: Theme.of(context).errorColor,
+        ));
+  }
+
+  void _endGame() async {
+    await showDialog(
+        context: context,
+        child: WarningDialog(
+          onConfirm: () async => {
+            await _teamGame.gameService.endAGame(_teamGame),
+            Navigator.of(context).pop()
+          },
+          message:
+              'Tu es sur le point de terminer cette partie. Les gagnants ainsi que les perdants (honteux) vont être désignés',
+          title: 'Attention',
+          color: Theme.of(context).errorColor,
+        ));
+  }
+
   void _editLastRound() async {
     var lastRound;
     try {
-      lastRound = (await _teamGameScoreService.getScoreByGame(_teamGame.id))
+      lastRound = (await _teamGame.scoreService.getScoreByGame(_teamGame.id))
           .getLastRound();
       await Navigator.push(
         context,
@@ -78,25 +97,14 @@ class _PlayTeamGameScreenState extends State<PlayTeamGameScreen> {
     }
   }
 
-  _PlayTeamGameScreenState(this._teamGame) {
-    if (_teamGame is CoincheGame) {
-      _title = 'Coinche';
-      _teamGameScoreService = CoincheScoreService();
-      _teamGameService = CoincheGameService();
-    } else if (_teamGame is BeloteGame) {
-      _title = 'Belote';
-      _teamGameScoreService = BeloteScoreService();
-      _teamGameService = BeloteGameService();
-    } else {
-      _title = 'Error';
-    }
-  }
+  _PlayTeamGameScreenState(this._teamGame);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(_title, style: CustomTextStyle.screenHeadLine2(context)),
+          title: Text(EnumToString.convertToString(_teamGame.gameType),
+              style: CustomTextStyle.screenHeadLine2(context)),
           centerTitle: true,
           automaticallyImplyLeading: false,
           leading: IconButton(
@@ -264,7 +272,7 @@ class _PlayTeamGameScreenState extends State<PlayTeamGameScreen> {
                         ],
                       );
                     },
-                    stream: _teamGameScoreService
+                    stream: _teamGame.scoreService
                         .getScoreByGameStream(_teamGame.id),
                   ))),
           Wrap(
@@ -272,20 +280,7 @@ class _PlayTeamGameScreenState extends State<PlayTeamGameScreen> {
             alignment: WrapAlignment.spaceAround,
             children: <Widget>[
               RaisedButton.icon(
-                  onPressed: () async => {
-                        await showDialog(
-                            context: context,
-                            child: WarningDialog(
-                              onConfirm: () async => {
-                                await _teamGame.scoreService
-                                    .deleteLastRoundOfGame(_teamGame.id),
-                              },
-                              message:
-                                  'Tu es sur le point de supprimer la dernière manche de la partie. Cette action est irréversible',
-                              title: 'Attention',
-                              color: Theme.of(context).errorColor,
-                            )),
-                      },
+                  onPressed: () async => {_deleteLastRound()},
                   color: Theme.of(context).errorColor,
                   textColor: Theme.of(context).cardColor,
                   shape: RoundedRectangleBorder(
@@ -294,38 +289,25 @@ class _PlayTeamGameScreenState extends State<PlayTeamGameScreen> {
                   label: Text('Supprimer la dernière manche',
                       style: TextStyle(fontWeight: FontWeight.bold))),
               RaisedButton.icon(
-                  onPressed: () => {_editLastRound()},
+                  onPressed: () async => {_editLastRound()},
                   color: Colors.black,
                   textColor: Theme.of(context).cardColor,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(18.0)),
                   icon: Icon(Icons.edit),
-                  label: Text('Editer la dernière manche',
+                  label: Text('Éditer la dernière manche',
                       style: TextStyle(fontWeight: FontWeight.bold))),
               RaisedButton.icon(
+                  onPressed: () async => {_endGame()},
                   color: Theme.of(context).errorColor,
                   textColor: Theme.of(context).cardColor,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(18.0)),
-                  onPressed: () async => {
-                        await showDialog(
-                            context: context,
-                            child: WarningDialog(
-                              onConfirm: () async => {
-                                await _teamGameService.endAGame(_teamGame),
-                                Navigator.of(context).pop()
-                              },
-                              message:
-                                  'Tu es sur le point de terminer cette partie. Les gagnants ainsi que les perdants (honteux) vont être désignés',
-                              title: 'Attention',
-                              color: Theme.of(context).errorColor,
-                            )),
-                      },
                   icon: Icon(Icons.stop),
                   label: Text('Terminer la partie',
                       style: TextStyle(fontWeight: FontWeight.bold))),
               RaisedButton.icon(
-                  onPressed: () => {_addNewRoundDialog()},
+                  onPressed: () => {_addNewRound()},
                   color: Theme.of(context).primaryColor,
                   textColor: Theme.of(context).cardColor,
                   shape: RoundedRectangleBorder(
