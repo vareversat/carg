@@ -245,35 +245,31 @@ class _LoginScreenState extends State<LoginScreen>
                                     _authData['email'] = value;
                                   },
                                 ),
-                                  AnimatedContainer(
-                                    duration: Duration(milliseconds: 300),
-                                    constraints: BoxConstraints(
-                                      minHeight: _authMode == AuthMode.Signup ? 60 : 0,
-                                      maxHeight: _authMode == AuthMode.Signup ? 120 : 0
-                                    ),
-                                    curve: Curves.easeIn,
-                                    child: FadeTransition(
-                                      opacity: _opacityAnimation,
-                                      child: TextFormField(
-                                        keyboardType:
-                                            TextInputType.visiblePassword,
-                                        enabled: _authMode == AuthMode.Signup,
-                                        decoration: InputDecoration(
-                                          labelText: 'Nom d\'utilisateur',
-                                          prefixIcon: Icon(
-                                              FontAwesomeIcons.userCircle,
-                                              size: 20),
-                                        ),
-                                        // ignore: missing_return
-                                        validator: (value) {
-                                          if (value.isEmpty) {
-                                            return 'Nom d`\'utilisateur non renseigné';
-                                          }
-                                        },
-                                        onSaved: (value) {
-                                          _authData['username'] = value;
-                                        },
+                                if (_authMode == AuthMode.Signup)
+                                  FadeTransition(
+                                    opacity: _opacityAnimation,
+                                    child: TextFormField(
+                                      autofillHints: [
+                                        AutofillHints.newUsername
+                                      ],
+                                      keyboardType:
+                                          TextInputType.visiblePassword,
+                                      enabled: _authMode == AuthMode.Signup,
+                                      decoration: InputDecoration(
+                                        labelText: 'Nom d\'utilisateur',
+                                        prefixIcon: Icon(
+                                            FontAwesomeIcons.userCircle,
+                                            size: 20),
                                       ),
+                                      // ignore: missing_return
+                                      validator: (value) {
+                                        if (value.isEmpty) {
+                                          return 'Nom d`\'utilisateur non renseigné';
+                                        }
+                                      },
+                                      onSaved: (value) {
+                                        _authData['username'] = value;
+                                      },
                                     ),
                                   ),
                                 TextFormField(
@@ -291,33 +287,27 @@ class _LoginScreenState extends State<LoginScreen>
                                     _authData['password'] = value;
                                   },
                                 ),
-                                  AnimatedContainer(
-                                    duration: Duration(milliseconds: 300),
-                                    constraints: BoxConstraints(
-                                        minHeight: _authMode == AuthMode.Signup ? 60 : 0,
-                                        maxHeight: _authMode == AuthMode.Signup ? 120 : 0
-                                    ),
-                                    curve: Curves.easeIn,
-                                    child: FadeTransition(
-                                      opacity: _opacityAnimation,
-                                      child: TextFormField(
-                                        enabled: _authMode == AuthMode.Signup,
-                                        decoration: InputDecoration(
-                                          labelText: 'Confirmer le mot de passe',
-                                          prefixIcon: Icon(FontAwesomeIcons.lock,
-                                              size: 20),
-                                        ),
-                                        obscureText: true,
-                                        validator: _authMode == AuthMode.Signup
-                                            // ignore: missing_return
-                                            ? (value) {
-                                                if (value !=
-                                                    _passwordController.text) {
-                                                  return 'Le mot de passe ne correspond pas';
-                                                }
-                                              }
-                                            : null,
+                                if (_authMode == AuthMode.Signup)
+                                  FadeTransition(
+                                    opacity: _opacityAnimation,
+                                    child: TextFormField(
+                                      enabled: _authMode == AuthMode.Signup,
+                                      autofillHints: [AutofillHints.password],
+                                      decoration: InputDecoration(
+                                        labelText: 'Confirmer le mot de passe',
+                                        prefixIcon: Icon(FontAwesomeIcons.lock,
+                                            size: 20),
                                       ),
+                                      obscureText: true,
+                                      validator: _authMode == AuthMode.Signup
+                                          // ignore: missing_return
+                                          ? (value) {
+                                              if (value !=
+                                                  _passwordController.text) {
+                                                return 'Le mot de passe ne correspond pas';
+                                              }
+                                            }
+                                          : null,
                                     ),
                                   ),
                                 SizedBox(
