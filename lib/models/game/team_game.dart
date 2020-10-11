@@ -10,6 +10,7 @@ abstract class TeamGame extends Game {
       {id,
       @required gameType,
       @required gameService,
+      @required scoreService,
       startingDate,
       endingDate,
       winner,
@@ -23,6 +24,7 @@ abstract class TeamGame extends Game {
             endingDate: endingDate,
             players: TeamGamePlayers(),
             gameService: gameService,
+            scoreService: scoreService,
             winner: winner,
             isEnded: isEnded);
 
