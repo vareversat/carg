@@ -23,10 +23,6 @@ class CargAboutDialog extends StatelessWidget {
         child: SvgPicture.asset('assets/images/card_game.svg'),
       ));
 
-  Future<PackageInfo> _getVersionNumber() async {
-    return await PackageInfo.fromPlatform();
-  }
-
   void _launchURL() async {
     if (await canLaunch(_repoUrl)) {
       await launch(_repoUrl, forceSafariVC: false);
@@ -40,13 +36,16 @@ class CargAboutDialog extends StatelessWidget {
     return FutureBuilder<PackageInfo>(
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
+          print('AAAAAAAAAAAA');
           return Center(child: CircularProgressIndicator());
         }
         if (snapshot.connectionState == ConnectionState.none &&
                 snapshot.hasData == null ||
             snapshot.data == null) {
+          print('BBBBBBBBBBBBB');
           return Text(_errorMessage);
         }
+          print('CCCCCCCCCCCCCCC');
         return AlertDialog(
           insetPadding: const EdgeInsets.symmetric(horizontal: 20),
           titlePadding: const EdgeInsets.all(20),
@@ -81,9 +80,10 @@ class CargAboutDialog extends StatelessWidget {
             children: <Widget>[
               Text(_appInfo),
               RaisedButton.icon(
+                  key: ValueKey('sourceCodeButton'),
+                  onPressed: () => _launchURL(),
                   color: Colors.black,
                   textColor: Theme.of(context).cardColor,
-                  onPressed: () => _launchURL(),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(18.0)),
                   label: Text(_sourceCode),
@@ -148,7 +148,7 @@ class CargAboutDialog extends StatelessWidget {
           scrollable: true,
         );
       },
-      future: _getVersionNumber(),
+      future: PackageInfo.fromPlatform()
     );
   }
 }
