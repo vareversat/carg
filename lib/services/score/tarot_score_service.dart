@@ -95,4 +95,22 @@ class TarotScoreService extends ScoreService<TarotScore, TarotRound> {
       throw Exception('[' + e.code + '] Firebase error ' + e.message);
     }
   }
+
+  @override
+  Future editLastRoundOfGame(String gameId, TarotRound round) {
+    // TODO: implement editLastRoundOfGame
+    throw UnimplementedError();
+  }
+
+  @override
+  Future updateScore(TarotScore score) {
+    // TODO: implement updateScore
+    throw UnimplementedError();
+  }
+
+  @override
+  Future deleteLastRoundOfGame(String gameId) {
+    // TODO: implement deleteLastRoundOfGame
+    throw UnimplementedError();
+  }
 }

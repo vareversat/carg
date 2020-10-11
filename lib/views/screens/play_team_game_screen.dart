@@ -40,7 +40,7 @@ class _PlayTeamGameScreenState extends State<PlayTeamGameScreen> {
   TeamGameScoreService _teamGameScoreService;
   TeamGameService _teamGameService;
 
-  void _showAddRoundDialog() {
+  void _addNewRoundDialog() {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -49,6 +49,33 @@ class _PlayTeamGameScreenState extends State<PlayTeamGameScreen> {
         ),
       ),
     );
+  }
+
+  void _editLastRound() async {
+    var lastRound;
+    try {
+      lastRound = (await _teamGameScoreService.getScoreByGame(_teamGame.id))
+          .getLastRound();
+      await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => AddTeamGameRoundScreen(
+            teamGame: _teamGame,
+            teamGameRound: lastRound,
+          ),
+        ),
+      );
+    } on StateError {
+      await showDialog(
+          context: context,
+          child: WarningDialog(
+            onConfirm: () => {},
+            showCancelButton: false,
+            message: 'Aucune manche n\'est enregistrée pour cette partie',
+            title: 'Erreur',
+            color: Theme.of(context).errorColor,
+          ));
+    }
   }
 
   _PlayTeamGameScreenState(this._teamGame) {
@@ -240,44 +267,76 @@ class _PlayTeamGameScreenState extends State<PlayTeamGameScreen> {
                     stream: _teamGameScoreService
                         .getScoreByGameStream(_teamGame.id),
                   ))),
-          Flexible(
-            flex: 1,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                RaisedButton.icon(
-                    color: Theme.of(context).errorColor,
-                    textColor: Theme.of(context).cardColor,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18.0)),
-                    onPressed: () async => {
-                          await showDialog(
-                              context: context,
-                              child: WarningDialog(
-                                onConfirm: () async => {
-                                  await _teamGameService.endAGame(_teamGame),
-                                  Navigator.of(context).pop()
-                                },
-                                message:
-                                    'Tu es sur le point de terminer cette partie. Les gagnants ainsi que les perdants (honteux) vont être désignés',
-                                title: 'Attention',
-                                color: Theme.of(context).errorColor,
-                              )),
-                        },
-                    icon: Icon(Icons.stop),
-                    label: Text('Terminer la partie',
-                        style: TextStyle(fontWeight: FontWeight.bold))),
-                RaisedButton.icon(
-                    onPressed: () => {_showAddRoundDialog()},
-                    color: Theme.of(context).primaryColor,
-                    textColor: Theme.of(context).cardColor,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18.0)),
-                    icon: Icon(Icons.plus_one),
-                    label: Text('Nouvelle manche',
-                        style: TextStyle(fontWeight: FontWeight.bold))),
-              ],
-            ),
+          Wrap(
+            spacing: 10,
+            alignment: WrapAlignment.spaceAround,
+            children: <Widget>[
+              RaisedButton.icon(
+                  onPressed: () async => {
+                        await showDialog(
+                            context: context,
+                            child: WarningDialog(
+                              onConfirm: () async => {
+                                await _teamGame.scoreService
+                                    .deleteLastRoundOfGame(_teamGame.id),
+                              },
+                              message:
+                                  'Tu es sur le point de supprimer la dernière manche de la partie. Cette action est irréversible',
+                              title: 'Attention',
+                              color: Theme.of(context).errorColor,
+                            )),
+                      },
+                  color: Theme.of(context).errorColor,
+                  textColor: Theme.of(context).cardColor,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18.0)),
+                  icon: Icon(Icons.delete_forever),
+                  label: Text('Supprimer la dernière manche',
+                      style: TextStyle(fontWeight: FontWeight.bold))),
+              RaisedButton.icon(
+                  onPressed: () => {_editLastRound()},
+                  color: Colors.black,
+                  textColor: Theme.of(context).cardColor,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18.0)),
+                  icon: Icon(Icons.edit),
+                  label: Text('Editer la dernière manche',
+                      style: TextStyle(fontWeight: FontWeight.bold))),
+              RaisedButton.icon(
+                  color: Theme.of(context).errorColor,
+                  textColor: Theme.of(context).cardColor,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18.0)),
+                  onPressed: () async => {
+                        await showDialog(
+                            context: context,
+                            child: WarningDialog(
+                              onConfirm: () async => {
+                                await _teamGameService.endAGame(_teamGame),
+                                Navigator.of(context).pop()
+                              },
+                              message:
+                                  'Tu es sur le point de terminer cette partie. Les gagnants ainsi que les perdants (honteux) vont être désignés',
+                              title: 'Attention',
+                              color: Theme.of(context).errorColor,
+                            )),
+                      },
+                  icon: Icon(Icons.stop),
+                  label: Text('Terminer la partie',
+                      style: TextStyle(fontWeight: FontWeight.bold))),
+              RaisedButton.icon(
+                  onPressed: () => {_addNewRoundDialog()},
+                  color: Theme.of(context).primaryColor,
+                  textColor: Theme.of(context).cardColor,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18.0)),
+                  icon: Icon(Icons.plus_one),
+                  label: Text('Nouvelle manche',
+                      style: TextStyle(fontWeight: FontWeight.bold))),
+            ],
+          ),
+          SizedBox(
+            height: 10,
           )
         ]));
   }
@@ -304,8 +363,11 @@ class _RoundDisplay extends StatelessWidget {
       textDirection:
           team == TeamGameEnum.US ? TextDirection.ltr : TextDirection.rtl,
       children: [
-        Text(_getScore(round, team).toString(),
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 5),
+          child: Text(_getScore(round, team).toString(),
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+        ),
         round.taker == team
             ? round.contractFulfilled
                 ? Padding(
@@ -317,7 +379,7 @@ class _RoundDisplay extends StatelessWidget {
                     ),
                   )
                 : Padding(
-                    padding: const EdgeInsets.only(left: 5),
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
                     child: FaIcon(
                       FontAwesomeIcons.solidTimesCircle,
                       size: 10,
@@ -329,7 +391,7 @@ class _RoundDisplay extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 5),
                 child: Text(
                   '+10',
-                  style: TextStyle(fontSize: 18),
+                  style: TextStyle(fontSize: 15),
                 ),
               )
             : Container(),

@@ -11,6 +11,8 @@ abstract class TeamGameRound extends Round {
   TeamGameEnum taker;
   int takerScore;
   int defenderScore;
+  int usTrickScore;
+  int themTrickScore;
 
   TeamGameRound(
       {index,
@@ -20,7 +22,9 @@ abstract class TeamGameRound extends Round {
       this.beloteRebelote,
       this.taker,
       this.takerScore,
-      this.defenderScore})
+      this.defenderScore,
+      this.usTrickScore,
+      this.themTrickScore})
       : super(index: index);
 
   Map<String, dynamic> toJSON() {
@@ -32,7 +36,9 @@ abstract class TeamGameRound extends Round {
       'contract_fulfilled': contractFulfilled,
       'taker': EnumToString.convertToString(taker),
       'taker_score': takerScore,
-      'defender_score': defenderScore
+      'defender_score': defenderScore,
+      'us_trick_score': usTrickScore,
+      'them_trick_score': themTrickScore,
     };
   }
 }

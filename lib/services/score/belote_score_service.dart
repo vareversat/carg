@@ -1,6 +1,7 @@
 import 'package:carg/models/score/belote_score.dart';
 import 'package:carg/models/score/misc/team_game_enum.dart';
 import 'package:carg/models/score/round/belote_round.dart';
+import 'package:carg/services/firebase_exception.dart';
 import 'package:carg/services/score/team_game_score_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
@@ -50,9 +51,9 @@ class BeloteScoreService
       var beloteScore = await getScoreByGame(gameId);
       if (beloteScore != null) {
         beloteScore.usTotalPoints +=
-            getTotalPoints(TeamGameEnum.US, beloteRound);
+            getPointsOfRound(TeamGameEnum.US, beloteRound);
         beloteScore.themTotalPoints +=
-            getTotalPoints(TeamGameEnum.THEM, beloteRound);
+            getPointsOfRound(TeamGameEnum.THEM, beloteRound);
         beloteRound.index = beloteScore.rounds.length;
         beloteScore.rounds.add(beloteRound);
         await FirebaseFirestore.instance
@@ -92,5 +93,31 @@ class BeloteScoreService
     } on PlatformException catch (e) {
       throw Exception('[' + e.code + '] Firebase error ' + e.message);
     }
+  }
+
+  @override
+  Future editLastRoundOfGame(String gameId, BeloteRound round) async {
+    var beloteScore = await getScoreByGame(gameId);
+    beloteScore.replaceLastRound(round);
+    await updateScore(beloteScore);
+  }
+
+  @override
+  Future updateScore(BeloteScore score) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('belote-score-' + flavor)
+          .doc(score.id)
+          .update(score.toJSON());
+    } on PlatformException catch (e) {
+      throw CustomException(e.message);
+    }
+  }
+
+  @override
+  Future deleteLastRoundOfGame(String gameId) async {
+    var beloteScore = await getScoreByGame(gameId);
+    beloteScore.deleteLastRound();
+    await updateScore(beloteScore);
   }
 }

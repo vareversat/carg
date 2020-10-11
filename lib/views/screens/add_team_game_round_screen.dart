@@ -6,6 +6,7 @@ import 'package:carg/models/score/misc/contract_name.dart';
 import 'package:carg/models/score/misc/team_game_enum.dart';
 import 'package:carg/models/score/round/belote_round.dart';
 import 'package:carg/models/score/round/coinche_round.dart';
+import 'package:carg/models/score/round/team_game_round.dart';
 import 'package:carg/services/score/belote_score_service.dart';
 import 'package:carg/services/score/coinche_score_service.dart';
 import 'package:carg/styles/text_style.dart';
@@ -14,17 +15,19 @@ import 'package:flutter/services.dart';
 
 class AddTeamGameRoundScreen extends StatefulWidget {
   final TeamGame teamGame;
+  final TeamGameRound teamGameRound;
 
-  const AddTeamGameRoundScreen({@required this.teamGame});
+  const AddTeamGameRoundScreen({@required this.teamGame, this.teamGameRound});
 
   @override
   State<StatefulWidget> createState() {
-    return _AddTeamGameRoundScreenState(teamGame);
+    return _AddTeamGameRoundScreenState(teamGame, teamGameRound);
   }
 }
 
 class _AddTeamGameRoundScreenState extends State<AddTeamGameRoundScreen> {
   final TeamGame _teamGame;
+  final TeamGameRound _teamGameRound;
   final int _dixDeDerBonus = 10;
   final int _beloteRebeloteBonus = 20;
   final int _totalPoints = 160;
@@ -34,8 +37,7 @@ class _AddTeamGameRoundScreenState extends State<AddTeamGameRoundScreen> {
       TextEditingController();
   final BeloteScoreService _beloteScoreService = BeloteScoreService();
   final CoincheScoreService _coincheScoreService = CoincheScoreService();
-  ContractName _selectedContract = ContractName.NORMAL;
-  String _selectedTeam;
+  ContractName _selectedContract;
   TeamGameEnum _takerTeam;
   TeamGameEnum _defenderTeam;
   CardColor _selectedCardColor;
@@ -68,9 +70,9 @@ class _AddTeamGameRoundScreenState extends State<AddTeamGameRoundScreen> {
   int _getPoints(TeamGameEnum teamGameEnum) {
     switch (teamGameEnum) {
       case TeamGameEnum.US:
-        return _getUsScore();
+        return _getUsScore(addDixDeDer: true);
       case TeamGameEnum.THEM:
-        return _getThemScore();
+        return _getThemScore(addDixDeDer: true);
     }
     return 0;
   }
@@ -137,8 +139,14 @@ class _AddTeamGameRoundScreenState extends State<AddTeamGameRoundScreen> {
           dixDeDer: _getDixDeDerTeam(),
           beloteRebelote: _getBeloteRebeloteTeam(),
           takerScore: _takerPoints,
-          defenderScore: _defenderPoints);
-      _beloteScoreService.addRoundToGame(_teamGame.id, round);
+          defenderScore: _defenderPoints,
+          usTrickScore: _getUsScore(addDixDeDer: false),
+          themTrickScore: _getThemScore(addDixDeDer: false));
+      if (_teamGameRound == null) {
+        _beloteScoreService.addRoundToGame(_teamGame.id, round);
+      } else {
+        _beloteScoreService.editLastRoundOfGame(_teamGame.id, round);
+      }
     } else if (_teamGame is CoincheGame) {
       var round = CoincheRound(
           cardColor: _selectedCardColor,
@@ -148,16 +156,23 @@ class _AddTeamGameRoundScreenState extends State<AddTeamGameRoundScreen> {
           dixDeDer: _getDixDeDerTeam(),
           beloteRebelote: _getBeloteRebeloteTeam(),
           takerScore: _takerPoints,
-          defenderScore: _defenderPoints);
-      _coincheScoreService.addRoundToGame(_teamGame.id, round);
+          defenderScore: _defenderPoints,
+          usTrickScore: _getUsScore(addDixDeDer: false),
+          themTrickScore: _getThemScore(addDixDeDer: false),
+          contractName: _selectedContract);
+      if (_teamGameRound == null) {
+        _coincheScoreService.addRoundToGame(_teamGame.id, round);
+      } else {
+        _coincheScoreService.editLastRoundOfGame(_teamGame.id, round);
+      }
     }
   }
 
-  _AddTeamGameRoundScreenState(this._teamGame) {
-    _selectedTeam = _teamGame.us;
+  _AddTeamGameRoundScreenState(this._teamGame, this._teamGameRound) {
     _takerTeam = TeamGameEnum.US;
     _defenderTeam = TeamGameEnum.THEM;
     _selectedCardColor = CardColor.COEUR;
+    _selectedContract = ContractName.NORMAL;
   }
 
   int _getContract() {
@@ -166,18 +181,58 @@ class _AddTeamGameRoundScreenState extends State<AddTeamGameRoundScreen> {
         : 0;
   }
 
-  int _getUsScore() {
+  int _getUsScore({@required bool addDixDeDer}) {
     var score = _usPointsTextController.text != ''
         ? int.parse(_usPointsTextController.text)
         : 0;
-    return score + _getDixDeDerScore(TeamGameEnum.US);
+    if (addDixDeDer) {
+      return score + _getDixDeDerScore(TeamGameEnum.US);
+    }
+    return score;
   }
 
-  int _getThemScore() {
+  int _getThemScore({@required bool addDixDeDer}) {
     var score = _themPointsTextController.text != ''
         ? int.parse(_themPointsTextController.text)
         : 0;
-    return score + _getDixDeDerScore(TeamGameEnum.THEM);
+    if (addDixDeDer) {
+      return score + _getDixDeDerScore(TeamGameEnum.THEM);
+    }
+    return score;
+  }
+
+  @override
+  void initState() {
+    if (_teamGameRound != null) {
+      if (_teamGame is BeloteGame) {
+        var casted = _teamGameRound as BeloteRound;
+        _takerTeam = casted.taker;
+        _selectedCardColor = casted.cardColor;
+        _usDidDixDeDer = casted.dixDeDer == TeamGameEnum.US ? true : false;
+        _usBeloteRebelote =
+            casted.beloteRebelote == TeamGameEnum.US ? true : false;
+        _themBeloteRebelote =
+            casted.beloteRebelote == TeamGameEnum.THEM ? true : false;
+        _usPointsTextController.text = casted.usTrickScore?.toString();
+        _themPointsTextController.text = casted.themTrickScore?.toString();
+      }
+      if (_teamGame is CoincheGame) {
+        var casted = _teamGameRound as CoincheRound;
+        _takerTeam = casted.taker;
+        _selectedCardColor = casted.cardColor;
+        _selectedContract = casted.contractName;
+        _usDidDixDeDer = casted.dixDeDer == TeamGameEnum.US ? true : false;
+        _usBeloteRebelote =
+            casted.beloteRebelote == TeamGameEnum.US ? true : false;
+        _themBeloteRebelote =
+            casted.beloteRebelote == TeamGameEnum.THEM ? true : false;
+        _usPointsTextController.text = casted.usTrickScore?.toString();
+        _themPointsTextController.text = casted.themTrickScore?.toString();
+        _contractTextController.text = casted.contract.toString();
+      }
+      _computeScore();
+    }
+    super.initState();
   }
 
   @override
@@ -229,12 +284,11 @@ class _AddTeamGameRoundScreenState extends State<AddTeamGameRoundScreen> {
                         ),
                         Radio(
                           visualDensity: VisualDensity.compact,
-                          value: _teamGame.us,
-                          groupValue: _selectedTeam,
-                          onChanged: (String value) {
+                          value: TeamGameEnum.US,
+                          groupValue: _takerTeam,
+                          onChanged: (TeamGameEnum value) {
                             setState(() {
-                              _selectedTeam = value;
-                              _takerTeam = TeamGameEnum.US;
+                              _takerTeam = value;
                               _defenderTeam = TeamGameEnum.THEM;
                             });
                             _computeScore();
@@ -246,12 +300,11 @@ class _AddTeamGameRoundScreenState extends State<AddTeamGameRoundScreen> {
                         children: <Widget>[
                           Radio(
                             visualDensity: VisualDensity.compact,
-                            value: _teamGame.them,
-                            groupValue: _selectedTeam,
-                            onChanged: (String value) {
+                            value: TeamGameEnum.THEM,
+                            groupValue: _takerTeam,
+                            onChanged: (TeamGameEnum value) {
                               setState(() {
-                                _selectedTeam = value;
-                                _takerTeam = TeamGameEnum.THEM;
+                                _takerTeam = value;
                                 _defenderTeam = TeamGameEnum.US;
                               });
                               _computeScore();
