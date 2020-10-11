@@ -2,6 +2,7 @@ import 'package:carg/models/game/game.dart';
 import 'package:carg/models/game/game_type.dart';
 import 'package:carg/models/player/tarot_game_players.dart';
 import 'package:carg/services/game/tarot_game_service.dart';
+import 'package:carg/services/score/tarot_score_service.dart';
 
 class TarotGame extends Game {
   List<String> playerIds;
@@ -11,6 +12,7 @@ class TarotGame extends Game {
             id: id,
             gameType: GameType.TAROT,
             gameService: TarotGameService(),
+            scoreService: TarotScoreService(),
             startingDate: startingDate,
             endingDate: endingDate,
             winner: winner,

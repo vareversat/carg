@@ -2,6 +2,7 @@ import 'package:carg/models/carg_object.dart';
 import 'package:carg/models/game/game_type.dart';
 import 'package:carg/models/player/players.dart';
 import 'package:carg/services/game/game_service.dart';
+import 'package:carg/services/score/score_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 
@@ -13,11 +14,13 @@ abstract class Game extends CargObject {
   Players players;
   GameType gameType;
   GameService gameService;
+  ScoreService scoreService;
 
   Game(
       {String id,
       @required this.gameType,
       @required this.gameService,
+      @required this.scoreService,
       this.players,
       this.startingDate,
       this.endingDate,

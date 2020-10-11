@@ -1,6 +1,7 @@
 import 'package:carg/models/game/game_type.dart';
 import 'package:carg/models/game/team_game.dart';
 import 'package:carg/services/game/coinche_game_service.dart';
+import 'package:carg/services/score/coinche_score_service.dart';
 
 class CoincheGame extends TeamGame {
   CoincheGame({id, startingDate, endingDate, winner, isEnded, us, them})
@@ -8,6 +9,7 @@ class CoincheGame extends TeamGame {
             id: id,
             gameType: GameType.COINCHE,
             gameService: CoincheGameService(),
+            scoreService: CoincheScoreService(),
             startingDate: startingDate,
             endingDate: endingDate,
             winner: winner,
