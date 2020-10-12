@@ -1,11 +1,9 @@
 import 'package:carg/helpers/custom_route.dart';
 import 'package:carg/models/game/team_game.dart';
 import 'package:carg/models/score/team_game_score.dart';
-import 'package:carg/models/team.dart';
-import 'package:carg/services/team_service.dart';
 import 'package:carg/views/dialogs/warning_dialog.dart';
 import 'package:carg/views/screens/play_team_game_screen.dart';
-import 'package:carg/views/widgets/api_mini_player_widget.dart';
+import 'package:carg/views/widgets/team_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -29,8 +27,8 @@ class TeamGameWidget extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      _ShowTeamWidget(teamId: teamGame.us, title: 'Nous'),
-                      _ShowTeamWidget(teamId: teamGame.them, title: 'Eux'),
+                      TeamWidget(teamId: teamGame.us, title: 'Nous'),
+                      TeamWidget(teamId: teamGame.them, title: 'Eux'),
                     ],
                   ),
                   _ShowScoreWidget(teamGame: teamGame),
@@ -56,58 +54,6 @@ class _CardTitle extends StatelessWidget {
             'Partie du ' +
                 DateFormat('dd/MM/yyyy à HH:mm').format(startingDate),
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)));
-  }
-}
-
-class _ShowTeamWidget extends StatefulWidget {
-  final String teamId;
-  final String title;
-
-  const _ShowTeamWidget({this.teamId, this.title});
-
-  @override
-  State<StatefulWidget> createState() {
-    return _ShowTeamWidgetState(teamId, title);
-  }
-}
-
-class _ShowTeamWidgetState extends State<_ShowTeamWidget> {
-  final _teamService = TeamService();
-  final String _teamId;
-  final String _title;
-  String _errorMessage = '';
-
-  _ShowTeamWidgetState(this._teamId, this._title);
-
-  @override
-  Widget build(BuildContext context) {
-    return Flexible(
-      child: Column(children: <Widget>[
-        Text(_title,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
-        FutureBuilder<Team>(
-            builder: (context, snapshot) {
-              if (snapshot.hasData &&
-                  snapshot.connectionState == ConnectionState.done) {
-                return ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: snapshot.data.players.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return APIMiniPlayerWidget(
-                          playerId: snapshot.data.players[index],
-                          displayImage: true);
-                    });
-              }
-              return Center(child: Text(_errorMessage));
-            },
-            future: _teamService.getTeam(_teamId).catchError((error) => {
-                  setState(() {
-                    _errorMessage = error.toString();
-                  })
-                }))
-      ]),
-    );
   }
 }
 

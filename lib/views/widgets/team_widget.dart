@@ -5,60 +5,52 @@ import 'package:flutter/material.dart';
 
 class TeamWidget extends StatefulWidget {
   final String teamId;
+  final String title;
 
-  const TeamWidget({@required this.teamId});
+  const TeamWidget({@required this.teamId, this.title});
 
   @override
   State<StatefulWidget> createState() {
-    return _TeamWidgetState(teamId);
+    return _TeamWidgetState(teamId, title);
   }
 }
 
 class _TeamWidgetState extends State<TeamWidget> {
+  final _teamService = TeamService();
   final String _teamId;
-  final TeamService _teamService = TeamService();
+  final String _title;
+  String _errorMessage = '';
 
-  _TeamWidgetState(this._teamId);
+  _TeamWidgetState(this._teamId, this._title);
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<Team>(
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
-        }
-        if (snapshot.connectionState == ConnectionState.none &&
-            snapshot.hasData == null) {
-          return Container(
-              alignment: Alignment.center, child: Icon(Icons.error));
-        }
-        if (snapshot.data != null) {
-          return Column(
-            children: <Widget>[
-              Flexible(
-                flex: 1,
-                child: Text(snapshot.data.name ?? 'No name',
-                    style:
-                        TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
-              ),
-              Flexible(
-                flex: 2,
-                child: ListView.builder(
+    return Flexible(
+      child: Column(children: <Widget>[
+        Text(_title,
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+        FutureBuilder<Team>(
+            builder: (context, snapshot) {
+              if (snapshot.hasData &&
+                  snapshot.connectionState == ConnectionState.done) {
+                return ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
                     itemCount: snapshot.data.players.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return Center(
-                          child: APIMiniPlayerWidget(
-                        playerId: snapshot.data.players[index],
-                        displayImage: true,
-                      ));
-                    }),
-              )
-            ],
-          );
-        }
-        return Text('error');
-      },
-      future: _teamService.getTeam(_teamId),
+                      return APIMiniPlayerWidget(
+                          playerId: snapshot.data.players[index],
+                          displayImage: true);
+                    });
+              }
+              return Center(child: Text(_errorMessage));
+            },
+            future: _teamService.getTeam(_teamId).catchError((error) => {
+              setState(() {
+                _errorMessage = error.toString();
+              })
+            }))
+      ]),
     );
   }
 }
