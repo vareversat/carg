@@ -33,7 +33,6 @@ class _PlayerPickerScreenState extends State<PlayerPickerScreen> {
   _PlayerPickerScreenState({@required this.game, @required this.title});
 
   Future _createGame() async {
-    // ignore: unawaited_futures
     Dialogs.showLoadingDialog(context, _keyLoader, 'Démarrage de la partie');
     var gameTmp = (await game.gameService.createGameWithPlayers(game.players));
     setState(() {
