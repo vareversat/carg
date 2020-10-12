@@ -1,5 +1,6 @@
 import 'package:carg/models/team.dart';
 import 'package:carg/services/team_service.dart';
+import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/widgets/api_mini_player_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -28,7 +29,7 @@ class _TeamWidgetState extends State<TeamWidget> {
     return Flexible(
       child: Column(children: <Widget>[
         Text(_title,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+            style: CustomTextStyle.boldAndItalic(context)),
         FutureBuilder<Team>(
             builder: (context, snapshot) {
               if (snapshot.hasData &&
