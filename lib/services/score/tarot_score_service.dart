@@ -1,5 +1,6 @@
 import 'package:carg/models/score/round/tarot_round.dart';
 import 'package:carg/models/score/tarot_score.dart';
+import 'package:carg/services/custom_exception.dart';
 import 'package:carg/services/score/score_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
@@ -33,7 +34,9 @@ class TarotScoreService extends ScoreService<TarotScore, TarotRound> {
           .where('game', isEqualTo: gameId)
           .snapshots()
           .map((event) {
-        if (event.docs[0] == null) return null;
+        if (event.docs[0] == null) {
+          throw CustomException('no_score');
+        }
         final Map<dynamic, dynamic> value = event.docs[0].data();
         return TarotScore.fromJSON(value, event.docs[0].id);
       });

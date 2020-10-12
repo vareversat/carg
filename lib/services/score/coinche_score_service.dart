@@ -36,7 +36,9 @@ class CoincheScoreService
           .where('game', isEqualTo: gameId)
           .snapshots()
           .map((event) {
-        if (event.docs[0] == null) return null;
+        if (event.docs[0] == null) {
+          throw CustomException('no_score');
+        };
         final Map<dynamic, dynamic> value = event.docs[0].data();
         return CoincheScore.fromJSON(value, event.docs[0].id);
       });
