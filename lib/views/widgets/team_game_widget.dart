@@ -1,288 +1,256 @@
 import 'package:carg/helpers/custom_route.dart';
-import 'package:carg/models/game/belote_game.dart';
-import 'package:carg/models/game/coinche_game.dart';
 import 'package:carg/models/game/team_game.dart';
 import 'package:carg/models/score/team_game_score.dart';
 import 'package:carg/models/team.dart';
-import 'package:carg/services/game/belote_game_service.dart';
-import 'package:carg/services/game/coinche_game_service.dart';
-import 'package:carg/services/game/team_game_service.dart';
-import 'package:carg/services/score/belote_score_service.dart';
-import 'package:carg/services/score/coinche_score_service.dart';
-import 'package:carg/services/score/team_game_score_service.dart';
 import 'package:carg/services/team_service.dart';
 import 'package:carg/views/dialogs/warning_dialog.dart';
 import 'package:carg/views/screens/play_team_game_screen.dart';
 import 'package:carg/views/widgets/api_mini_player_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 
-import 'error_message_widget.dart';
-
-class TeamGameWidget extends StatefulWidget {
+class TeamGameWidget extends StatelessWidget {
   final TeamGame teamGame;
 
   const TeamGameWidget({this.teamGame});
 
   @override
-  State<StatefulWidget> createState() {
-    return _TeamGameWidgetState(teamGame);
+  Widget build(BuildContext context) {
+    return Card(
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+        child: ExpansionTile(
+            title: _CardTitle(startingDate: teamGame.startingDate),
+            children: <Widget>[
+              Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      _ShowTeamWidget(teamId: teamGame.us, title: 'Nous'),
+                      _ShowTeamWidget(teamId: teamGame.them, title: 'Eux'),
+                    ],
+                  ),
+                  _ShowScoreWidget(teamGame: teamGame),
+                  _ButtonRowWidget(teamGame: teamGame),
+                ],
+              )
+            ]),
+        margin: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+        elevation: 2,
+        color: Colors.white);
   }
 }
 
-class _TeamGameWidgetState extends State<TeamGameWidget> {
-  final TeamService _teamService = TeamService();
-  final TeamGame _teamGame;
-  final String _errorMessage = 'Error';
-  TeamGameScoreService _teamGameScoreService;
-  TeamGameService _teamGameService;
+class _CardTitle extends StatelessWidget {
+  final DateTime startingDate;
 
-  _TeamGameWidgetState(this._teamGame) {
-    if (_teamGame is BeloteGame) {
-      _teamGameService = BeloteGameService();
-      _teamGameScoreService = BeloteScoreService();
-    } else if (_teamGame is CoincheGame) {
-      _teamGameService = CoincheGameService();
-      _teamGameScoreService = CoincheScoreService();
-    }
-  }
+  const _CardTitle({this.startingDate});
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-      child: ExpansionTile(
-        title: Center(
-          child: Text(
-              'Partie du ' +
-                  DateFormat('dd/MM/yyyy à HH:mm')
-                      .format(_teamGame.startingDate),
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-        ),
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              Flexible(
-                flex: 3,
-                child: Column(
-                  children: <Widget>[
-                    Row(
+    return Center(
+        child: Text(
+            'Partie du ' +
+                DateFormat('dd/MM/yyyy à HH:mm').format(startingDate),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)));
+  }
+}
+
+class _ShowTeamWidget extends StatefulWidget {
+  final String teamId;
+  final String title;
+
+  const _ShowTeamWidget({this.teamId, this.title});
+
+  @override
+  State<StatefulWidget> createState() {
+    return _ShowTeamWidgetState(teamId, title);
+  }
+}
+
+class _ShowTeamWidgetState extends State<_ShowTeamWidget> {
+  final _teamService = TeamService();
+  final String _teamId;
+  final String _title;
+  String _errorMessage = '';
+
+  _ShowTeamWidgetState(this._teamId, this._title);
+
+  @override
+  Widget build(BuildContext context) {
+    return Flexible(
+      child: Column(children: <Widget>[
+        Text(_title,
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+        FutureBuilder<Team>(
+            builder: (context, snapshot) {
+              if (snapshot.hasData &&
+                  snapshot.connectionState == ConnectionState.done) {
+                return ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: snapshot.data.players.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return APIMiniPlayerWidget(
+                          playerId: snapshot.data.players[index],
+                          displayImage: true);
+                    });
+              }
+              return Center(child: Text(_errorMessage));
+            },
+            future: _teamService.getTeam(_teamId).catchError((error) => {
+                  setState(() {
+                    _errorMessage = error.toString();
+                  })
+                }))
+      ]),
+    );
+  }
+}
+
+class _ShowScoreWidget extends StatefulWidget {
+  final TeamGame teamGame;
+
+  const _ShowScoreWidget({this.teamGame});
+
+  @override
+  State<StatefulWidget> createState() {
+    return _ShowScoreWidgetState(teamGame);
+  }
+}
+
+class _ShowScoreWidgetState extends State<_ShowScoreWidget> {
+  final TeamGame _teamGame;
+  String _errorMessage;
+
+  _ShowScoreWidgetState(this._teamGame);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(children: [
+      Container(
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+              border: Border(top: BorderSide(color: Colors.black, width: 1))),
+          child: FutureBuilder<TeamGameScore>(
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: SpinKitThreeBounce(
+                      size: 30,
+                      itemBuilder: (BuildContext context, int index) {
+                        return DecoratedBox(
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).accentColor,
+                            ));
+                      }));
+                }
+                if (snapshot.hasData &&
+                    snapshot.connectionState == ConnectionState.done) {
+                  return Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[
-                        Flexible(
-                          flex: 2,
-                          child: Column(
-                            children: <Widget>[
-                              Text(
-                                'Nous',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 15),
-                              ),
-                              FutureBuilder<Team>(
-                                builder: (context, snapshot) {
-                                  if (snapshot.connectionState ==
-                                      ConnectionState.waiting) {
-                                    return Center(
-                                        child: CircularProgressIndicator());
-                                  }
-                                  if (snapshot.connectionState ==
-                                              ConnectionState.none &&
-                                          snapshot.hasData == null ||
-                                      snapshot.data == null) {
-                                    return ErrorMessageWidget(
-                                        message: _errorMessage);
-                                  }
-                                  return ListView.builder(
-                                      shrinkWrap: true,
-                                      itemCount: snapshot.data.players.length,
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        return Padding(
-                                            padding: EdgeInsets.all(5),
-                                            child: APIMiniPlayerWidget(
-                                              playerId:
-                                                  snapshot.data.players[index],
-                                              displayImage: true,
-                                            ));
-                                      });
-                                },
-                                future: _teamService.getTeam(_teamGame.us),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Flexible(
-                          flex: 2,
-                          child: Column(
-                            children: <Widget>[
-                              Text(
-                                'Eux',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 15),
-                              ),
-                              FutureBuilder<Team>(
-                                builder: (context, snapshot) {
-                                  if (snapshot.connectionState ==
-                                      ConnectionState.waiting) {
-                                    return Center(
-                                        child: CircularProgressIndicator());
-                                  }
-                                  if (snapshot.connectionState ==
-                                              ConnectionState.none &&
-                                          snapshot.hasData == null ||
-                                      snapshot.data == null) {
-                                    return ErrorMessageWidget(
-                                        message: _errorMessage);
-                                  }
-                                  return ListView.builder(
-                                      shrinkWrap: true,
-                                      itemCount: snapshot.data.players.length,
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        return Padding(
-                                            padding: EdgeInsets.all(5),
-                                            child: APIMiniPlayerWidget(
-                                              playerId:
-                                                  snapshot.data.players[index],
-                                              displayImage: true,
-                                            ));
-                                      });
-                                },
-                                future: _teamService.getTeam(_teamGame.them),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    Container(
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          border: Border(
-                        top: BorderSide(
-                          color: Colors.black,
-                          width: 1,
-                        ),
-                      )),
-                      child: FutureBuilder<TeamGameScore>(
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return Center(child: CircularProgressIndicator());
-                          }
-                          if (snapshot.connectionState ==
-                                      ConnectionState.none &&
-                                  snapshot.hasData == null ||
-                              snapshot.data == null) {
-                            return ErrorMessageWidget(message: _errorMessage);
-                          }
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: <Widget>[
-                              Text(
-                                snapshot.data.usTotalPoints.toString(),
-                                style: TextStyle(
-                                    fontSize: 25, fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                snapshot.data.themTotalPoints.toString(),
-                                style: TextStyle(
-                                    fontSize: 25, fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          );
-                        },
-                        future:
-                            _teamGameScoreService.getScoreByGame(_teamGame.id),
+                        Text(snapshot.data.usTotalPoints.toString(),
+                            style: TextStyle(
+                                fontSize: 25, fontWeight: FontWeight.bold)),
+                        Text(snapshot.data.themTotalPoints.toString(),
+                            style: TextStyle(
+                                fontSize: 25, fontWeight: FontWeight.bold))
+                      ]);
+                }
+                return Center(child: Text(_errorMessage));
+              },
+              future: _teamGame.scoreService
+                  .getScoreByGame(_teamGame.id)
+                  .catchError((error) => {
+                        setState(() {
+                          _errorMessage = error.toString();
+                        })
+                      }))),
+      if (_teamGame.isEnded)
+        Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text('Partie terminée',
+                style: TextStyle(fontStyle: FontStyle.italic)))
+      else
+        Container()
+    ]);
+  }
+}
+
+class _ButtonRowWidget extends StatelessWidget {
+  final TeamGame teamGame;
+
+  const _ButtonRowWidget({this.teamGame});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: <
+        Widget>[
+      if (!teamGame.isEnded)
+        RaisedButton.icon(
+            color: Colors.black,
+            textColor: Theme.of(context).cardColor,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18.0)),
+            onPressed: () async => {
+                  await showDialog(
+                      context: context,
+                      child: WarningDialog(
+                          onConfirm: () async => {
+                                await teamGame.gameService.endAGame(teamGame),
+                              },
+                          message:
+                              'Tu es sur le point de terminer cette partie. Les gagnants ainsi que les perdants (honteux) vont être désignés',
+                          title: 'Attention',
+                          color: Colors.black))
+                },
+            label: Text(
+              'Arrêter',
+            ),
+            icon: Icon(Icons.stop))
+      else
+        Container(),
+      RaisedButton.icon(
+          color: Theme.of(context).errorColor,
+          textColor: Theme.of(context).cardColor,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0)),
+          onPressed: () async => {
+                await showDialog(
+                    context: context,
+                    child: WarningDialog(
+                        onConfirm: () =>
+                            {teamGame.gameService.deleteGame(teamGame.id)},
+                        message: 'Tu es sur le point de supprimer une partie.',
+                        title: 'Suppression'))
+              },
+          label: Text(MaterialLocalizations.of(context).deleteButtonTooltip),
+          icon: Icon(Icons.delete_forever)),
+      if (!teamGame.isEnded)
+        RaisedButton.icon(
+            color: Theme.of(context).primaryColor,
+            textColor: Theme.of(context).cardColor,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18.0)),
+            onPressed: () async => {
+                  Navigator.push(
+                    context,
+                    CustomRouteScaleAndSlide(
+                      builder: (context) => PlayTeamGameScreen(
+                        teamGame: teamGame,
                       ),
                     ),
-                    _teamGame.isEnded
-                        ? Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              'Partie terminée',
-                              style: TextStyle(fontStyle: FontStyle.italic),
-                            ),
-                          )
-                        : Container()
-                  ],
-                ),
-              ),
-              Flexible(
-                flex: 1,
-                child: Column(
-                  children: <Widget>[
-                    MaterialButton(
-                      onPressed: () async {
-                        await showDialog(
-                            context: context,
-                            child: WarningDialog(
-                              onConfirm: () =>
-                                  {_teamGameService.deleteGame(_teamGame.id)},
-                              message:
-                                  'Tu es sur le point de supprimer une partie.',
-                              title: 'Suppression',
-                            ));
-                      },
-                      color: Theme.of(context).errorColor,
-                      textColor: Colors.white,
-                      child: Icon(Icons.delete_forever),
-                      padding: EdgeInsets.all(8),
-                      shape: CircleBorder(),
-                    ),
-                    !_teamGame.isEnded
-                        ? MaterialButton(
-                            onPressed: () async => {
-                              await showDialog(
-                                  context: context,
-                                  child: WarningDialog(
-                                    onConfirm: () async => {
-                                      await _teamGameService
-                                          .endAGame(_teamGame),
-                                    },
-                                    message:
-                                        'Tu es sur le point de terminer cette partie. Les gagnants ainsi que les perdants (honteux) vont être désignés',
-                                    title: 'Attention',
-                                    color: Theme.of(context).errorColor,
-                                  )),
-                            },
-                            color: Colors.black,
-                            textColor: Colors.white,
-                            child: Icon(Icons.stop),
-                            padding: EdgeInsets.all(8),
-                            shape: CircleBorder(),
-                          )
-                        : Container(),
-                    !_teamGame.isEnded
-                        ? MaterialButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                CustomRouteScaleAndSlide(
-                                  builder: (context) => PlayTeamGameScreen(
-                                    teamGame: _teamGame,
-                                  ),
-                                ),
-                              );
-                            },
-                            color: Theme.of(context).primaryColor,
-                            textColor: Colors.white,
-                            child: Icon(Icons.play_arrow),
-                            padding: EdgeInsets.all(8),
-                            shape: CircleBorder(),
-                          )
-                        : Container(),
-                  ],
-                ),
-              )
-            ],
-          )
-        ],
-      ),
-      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-      elevation: 2,
-      color: Colors.white,
-    );
+                  )
+                },
+            label: Text(
+              'Jouer',
+            ),
+            icon: Icon(Icons.play_arrow))
+      else
+        Container()
+    ]);
   }
 }

@@ -40,7 +40,11 @@ class TeamService {
           .collection('team-' + flavor)
           .doc(id)
           .get();
-      return Team.fromJSON(querySnapshot.data(), querySnapshot.id);
+      if (querySnapshot.data() != null) {
+        return Team.fromJSON(querySnapshot.data(), querySnapshot.id);
+      } else {
+        throw CustomException('unknown_team');
+      }
     } on PlatformException catch (e) {
       throw CustomException(e.message);
     }
