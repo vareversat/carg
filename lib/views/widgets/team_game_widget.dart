@@ -1,3 +1,4 @@
+import 'package:carg/helpers/custom_route.dart';
 import 'package:carg/models/game/belote_game.dart';
 import 'package:carg/models/game/coinche_game.dart';
 import 'package:carg/models/game/team_game.dart';
@@ -258,7 +259,7 @@ class _TeamGameWidgetState extends State<TeamGameWidget> {
                             onPressed: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(
+                                CustomRouteScaleAndSlide(
                                   builder: (context) => PlayTeamGameScreen(
                                     teamGame: _teamGame,
                                   ),

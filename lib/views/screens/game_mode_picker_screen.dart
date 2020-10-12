@@ -1,3 +1,4 @@
+import 'package:carg/helpers/custom_route.dart';
 import 'package:carg/models/game/belote_game.dart';
 import 'package:carg/models/game/coinche_game.dart';
 import 'package:carg/models/game/game.dart';
@@ -58,7 +59,7 @@ class _GameModeButton extends StatelessWidget {
       onTap: () => {
         Navigator.push(
           context,
-          MaterialPageRoute(
+          CustomRouteLeftAndRight(
             builder: (context) => PlayerPickerScreen(
               newGame: game,
               title: EnumToString.convertToString(game.gameType),

@@ -1,3 +1,4 @@
+import 'package:carg/helpers/custom_route.dart';
 import 'package:carg/services/game/belote_game_service.dart';
 import 'package:carg/services/game/coinche_game_service.dart';
 import 'package:carg/styles/text_style.dart';
@@ -31,7 +32,7 @@ class GameListScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(18.0)),
                         onPressed: () async => Navigator.push(
                               context,
-                              MaterialPageRoute(
+                              CustomRouteLeftAndRight(
                                 builder: (context) => GameModePickerScreen(),
                               ),
                             ),
