@@ -184,7 +184,7 @@ class _ButtonRowWidget extends StatelessWidget {
             onPressed: () async => {
                   Navigator.push(
                     context,
-                    CustomRouteScaleAndSlide(
+                    CustomRouteScale(
                       builder: (context) => PlayTeamGameScreen(
                         teamGame: teamGame,
                       ),

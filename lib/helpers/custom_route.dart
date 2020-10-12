@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class CustomRouteScaleAndSlide<T> extends MaterialPageRoute<T> {
-  CustomRouteScaleAndSlide({WidgetBuilder builder, RouteSettings settings})
+class CustomRouteScale<T> extends MaterialPageRoute<T> {
+  CustomRouteScale({WidgetBuilder builder, RouteSettings settings})
       : super(builder: builder, settings: settings);
 
   @override
@@ -9,13 +9,7 @@ class CustomRouteScaleAndSlide<T> extends MaterialPageRoute<T> {
       Animation<double> secondaryAnimation, Widget child) {
     return ScaleTransition(
       scale: animation,
-      child: SlideTransition(
-        position: Tween<Offset>(
-          begin: Offset.zero,
-          end: const Offset(0.0, 1.0),
-        ).animate(secondaryAnimation),
-        child: child,
-      ),
+      child: child
     );
   }
 }
