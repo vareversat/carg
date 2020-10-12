@@ -127,10 +127,6 @@ class _PlayTeamGameScreenState extends State<PlayTeamGameScreen> {
                       FutureBuilder<Team>(
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return Center(child: CircularProgressIndicator());
-                          }
-                          if (snapshot.connectionState ==
                                       ConnectionState.none &&
                                   snapshot.hasData == null ||
                               snapshot.data == null) {
