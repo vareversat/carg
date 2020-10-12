@@ -9,7 +9,6 @@ import 'package:carg/views/screens/add_team_game_round_screen.dart';
 import 'package:carg/views/screens/home_screen.dart';
 import 'package:carg/views/widgets/error_message_widget.dart';
 import 'package:carg/views/widgets/team_widget.dart';
-import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -102,7 +101,7 @@ class _PlayTeamGameScreenState extends State<PlayTeamGameScreen> {
 
     return Scaffold(
         appBar: AppBar(
-            title: Text(EnumToString.convertToString(_teamGame.gameType),
+            title: Text(_teamGame.getGameTypeName(),
                 style: CustomTextStyle.screenHeadLine2(context)),
             centerTitle: true,
             automaticallyImplyLeading: false,

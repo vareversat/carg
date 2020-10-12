@@ -16,6 +16,10 @@ abstract class Game extends CargObject {
   GameService gameService;
   ScoreService scoreService;
 
+  String getGameTypeName() {
+    return gameType.name;
+  }
+
   Game(
       {String id,
       @required this.gameType,
