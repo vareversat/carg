@@ -74,7 +74,7 @@ class _WarningDialogState extends State<WarningDialog> {
         ),
       ),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      content: Text(_message),
+      content: Text(_message, style: TextStyle(fontSize: 22),),
       actions: <Widget>[
         if (_isLoading)
           CircularProgressIndicator()
