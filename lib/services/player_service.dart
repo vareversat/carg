@@ -59,7 +59,11 @@ class PlayerService {
           .collection('player-' + flavor)
           .doc(id)
           .get();
+      if (querySnapshot.data() != null) {
       return Player.fromJSON(querySnapshot.data(), querySnapshot.id);
+      } else {
+        throw CustomException('unknown_user');
+      }
     } on PlatformException catch (e) {
       throw CustomException(e.message);
     }
