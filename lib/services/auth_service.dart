@@ -1,12 +1,11 @@
 import 'dart:async';
 
 import 'package:carg/models/player/player.dart';
-import 'package:carg/services/firebase_exception.dart';
+import 'package:carg/services/custom_exception.dart';
 import 'package:carg/services/player_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class AuthService with ChangeNotifier {
   User _connectedUser;
@@ -33,7 +32,7 @@ class AuthService with ChangeNotifier {
       await _playerService.addPlayer(
           Player(userName: username, linkedUserId: _connectedUser.uid));
       return user.uid;
-    } on PlatformException catch (e) {
+    } on FirebaseAuthException catch (e) {
       throw CustomException(e.code);
     }
   }
@@ -47,7 +46,7 @@ class AuthService with ChangeNotifier {
       await _playerService.addPlayer(
           Player(userName: 'joueur', linkedUserId: _connectedUser.uid));
       return _connectedUser.uid;
-    } on PlatformException catch (e) {
+    } on FirebaseAuthException catch (e) {
       throw CustomException(e.code);
     }
   }
@@ -63,7 +62,7 @@ class AuthService with ChangeNotifier {
       }
       await _connectedUser.getIdTokenResult(true);
       return _connectedUser.uid;
-    } on PlatformException catch (e) {
+    } on FirebaseAuthException catch (e) {
       throw CustomException(e.code);
     }
   }
@@ -77,7 +76,7 @@ class AuthService with ChangeNotifier {
       notifyListeners();
       await _sendEmailVerification();
       return _connectedUser.uid;
-    } on PlatformException catch (e) {
+    } on FirebaseAuthException catch (e) {
       throw CustomException(e.code);
     }
   }
@@ -135,7 +134,7 @@ class AuthService with ChangeNotifier {
           email: _connectedUser.email, password: currentPassword);
       await _connectedUser.updateEmail(newEmail);
       await _sendEmailVerification();
-    } on PlatformException catch (e) {
+    } on FirebaseAuthException catch (e) {
       throw CustomException(e.code);
     }
   }

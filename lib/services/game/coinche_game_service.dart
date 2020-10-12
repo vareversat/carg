@@ -3,7 +3,7 @@ import 'package:carg/models/player/team_game_players.dart';
 import 'package:carg/models/score/coinche_score.dart';
 import 'package:carg/models/score/round/coinche_round.dart';
 import 'package:carg/models/team.dart';
-import 'package:carg/services/firebase_exception.dart';
+import 'package:carg/services/custom_exception.dart';
 import 'package:carg/services/game/team_game_service.dart';
 import 'package:carg/services/player_service.dart';
 import 'package:carg/services/score/coinche_score_service.dart';

@@ -1,5 +1,5 @@
 import 'package:carg/models/team.dart';
-import 'package:carg/services/firebase_exception.dart';
+import 'package:carg/services/custom_exception.dart';
 import 'package:carg/services/player_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';

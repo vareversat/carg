@@ -1,7 +1,7 @@
 import 'package:carg/models/score/coinche_score.dart';
 import 'package:carg/models/score/misc/team_game_enum.dart';
 import 'package:carg/models/score/round/coinche_round.dart';
-import 'package:carg/services/firebase_exception.dart';
+import 'package:carg/services/custom_exception.dart';
 import 'package:carg/services/score/team_game_score_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';

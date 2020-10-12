@@ -1,5 +1,5 @@
 import 'package:carg/services/auth_service.dart';
-import 'package:carg/services/firebase_exception.dart';
+import 'package:carg/services/custom_exception.dart';
 import 'package:carg/views/dialogs/warning_dialog.dart';
 import 'package:carg/views/screens/home_screen.dart';
 import 'package:flutter/material.dart';

@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:algolia/algolia.dart';
 import 'package:carg/models/player/player.dart';
-import 'package:carg/services/firebase_exception.dart';
+import 'package:carg/services/custom_exception.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 
