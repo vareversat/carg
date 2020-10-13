@@ -302,13 +302,13 @@ class _UserScreenState extends State<UserScreen> {
                                       fontWeight: FontWeight.bold),
                                   decoration: InputDecoration(
                                       enabledBorder: InputBorder.none,
-                                      labelText: 'Pseudo')),
+                                      labelText: 'Nom d\'utilisateur')),
                               TextFormField(
                                 maxLines: 3,
                                 onChanged: (text) =>
                                     _player.profilePicture = text,
                                 controller: _profilePictureTextController,
-                                style: TextStyle(fontSize: 25),
+                                style: TextStyle(fontSize: 20),
                                 decoration: InputDecoration(
                                   enabledBorder: InputBorder.none,
                                   labelText: 'Image de profile (url)',
