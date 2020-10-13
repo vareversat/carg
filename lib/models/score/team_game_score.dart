@@ -1,7 +1,6 @@
+import 'package:carg/models/score/misc/team_game_enum.dart';
 import 'package:carg/models/score/round/team_game_round.dart';
 import 'package:carg/models/score/score.dart';
-
-import 'misc/team_game_enum.dart';
 
 abstract class TeamGameScore<T extends TeamGameRound> extends Score {
   List<T> rounds;

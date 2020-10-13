@@ -116,4 +116,9 @@ class TarotScoreService extends ScoreService<TarotScore, TarotRound> {
     // TODO: implement deleteLastRoundOfGame
     throw UnimplementedError();
   }
+
+  @override
+  TarotRound getNewRound() {
+    return TarotRound();
+  }
 }

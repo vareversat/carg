@@ -5,13 +5,13 @@ import 'package:carg/models/score/round/team_game_round.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 
 class CoincheRound extends TeamGameRound {
-  int contract;
-  ContractName contractName;
+  int _contract;
+  ContractName _contractName;
 
   CoincheRound(
       {index,
       cardColor,
-      this.contract,
+      contract,
       contractFulfilled,
       dixDeDer,
       beloteRebelote,
@@ -20,7 +20,8 @@ class CoincheRound extends TeamGameRound {
       defenderScore,
       usTrickScore,
       themTrickScore,
-      this.contractName})
+      contractName,
+      defender})
       : super(
             index: index,
             cardColor: cardColor,
@@ -31,7 +32,50 @@ class CoincheRound extends TeamGameRound {
             takerScore: takerScore,
             defenderScore: defenderScore,
             usTrickScore: usTrickScore,
-            themTrickScore: themTrickScore);
+            themTrickScore: themTrickScore,
+            defender: defender) {
+    _contract = contract ?? 0;
+    _contractName = contractName ?? ContractName.NORMAL;
+  }
+
+  ContractName get contractName => _contractName;
+
+  set contractName(ContractName value) {
+    _contractName = value;
+    computeRound();
+  }
+
+  int get contract => _contract;
+
+  set contract(int value) {
+    _contract = value;
+    computeRound();
+  }
+
+  @override
+  void computeRound() {
+    if (isContractFulfilled()) {
+      takerScore = contractName.bonus(
+          contract + getPointsOfTeam(taker) + getBeloteRebeloteOfTeam(taker),
+          contract);
+      defenderScore =
+          getPointsOfTeam(defender) + getBeloteRebeloteOfTeam(defender);
+    } else {
+      takerScore = getBeloteRebeloteOfTeam(taker);
+      defenderScore = contractName.bonus(
+          TeamGameRound.totalScore +
+              contract +
+              getBeloteRebeloteOfTeam(beloteRebelote),
+          contract);
+    }
+    notifyListeners();
+  }
+
+  @override
+  bool isContractFulfilled() {
+    contractFulfilled = getPointsOfTeam(taker) >= contract;
+    return contractFulfilled;
+  }
 
   @override
   Map<String, dynamic> toJSON() {
@@ -72,16 +116,19 @@ class CoincheRound extends TeamGameRound {
 
   @override
   String toString() {
-    return 'CoincheRound{cardColor: $cardColor,'
-        'contract: $contract,'
-        'beloteRebelote : $beloteRebelote,'
-        'dixDeDer: $dixDeDer,'
-        'contractFulfilled: $contractFulfilled,'
-        'taker: $taker,'
-        'takerScore: $takerScore,'
-        'defenderScore: $defenderScore,'
-        'usTrickScore: $usTrickScore,'
-        'themTrickScore: $themTrickScore,'
-        'contractName: $contractName}';
+    return 'CoincheRound{ '
+        'index: $index, '
+        'cardColor: $cardColor, '
+        'contract: $contract, '
+        'beloteRebelote : $beloteRebelote, '
+        'dixDeDer: $dixDeDer, '
+        'contractFulfilled: $contractFulfilled, '
+        'taker: $taker, '
+        'takerScore: $takerScore, '
+        'defenderScore: $defenderScore, '
+        'usTrickScore: $usTrickScore, '
+        'themTrickScore: $themTrickScore, '
+        'contractName: $contractName}, '
+        'defender: $defender}';
   }
 }

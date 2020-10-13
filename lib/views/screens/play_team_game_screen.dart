@@ -5,7 +5,7 @@ import 'package:carg/models/score/round/team_game_round.dart';
 import 'package:carg/models/score/team_game_score.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/dialogs/warning_dialog.dart';
-import 'package:carg/views/screens/add_team_game_round_screen.dart';
+import 'package:carg/views/screens/add_round/add_team_game_round_screen.dart';
 import 'package:carg/views/screens/home_screen.dart';
 import 'package:carg/views/widgets/error_message_widget.dart';
 import 'package:carg/views/widgets/team_widget.dart';
@@ -30,25 +30,25 @@ class _PlayTeamGameScreenState extends State<PlayTeamGameScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => AddTeamGameRoundScreen(
-          teamGame: _teamGame,
-        ),
-      ),
+          builder: (context) => AddTeamGameRoundScreen(
+              teamGame: _teamGame,
+              teamGameRound: _teamGame.scoreService.getNewRound())),
     );
   }
 
   void _deleteLastRound() async {
     await showDialog(
-        context: context,
-        child: WarningDialog(
+      context: context,
+      child: WarningDialog(
           onConfirm: () async => {
-            await _teamGame.scoreService.deleteLastRoundOfGame(_teamGame.id),
-          },
+                await _teamGame.scoreService
+                    .deleteLastRoundOfGame(_teamGame.id),
+              },
           message:
               'Tu es sur le point de supprimer la dernière manche de la partie. Cette action est irréversible',
           title: 'Attention',
-          color: Theme.of(context).errorColor,
-        ));
+          color: Theme.of(context).errorColor),
+    );
   }
 
   void _endGame() async {
@@ -72,14 +72,12 @@ class _PlayTeamGameScreenState extends State<PlayTeamGameScreen> {
       lastRound = (await _teamGame.scoreService.getScoreByGame(_teamGame.id))
           .getLastRound();
       await Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => AddTeamGameRoundScreen(
-            teamGame: _teamGame,
-            teamGameRound: lastRound,
-          ),
-        ),
-      );
+          context,
+          MaterialPageRoute(
+              builder: (context) => AddTeamGameRoundScreen(
+                  teamGame: _teamGame,
+                  teamGameRound: lastRound,
+                  isEditing: true)));
     } on StateError {
       await showDialog(
           context: context,

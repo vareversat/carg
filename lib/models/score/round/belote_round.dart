@@ -28,6 +28,27 @@ class BeloteRound extends TeamGameRound {
             themTrickScore: themTrickScore);
 
   @override
+  void computeRound() {
+    if (isContractFulfilled()) {
+      takerScore = getPointsOfTeam(taker) + getBeloteRebeloteOfTeam(taker);
+      defenderScore =
+          getPointsOfTeam(defender) + getBeloteRebeloteOfTeam(defender);
+    } else {
+      takerScore = getBeloteRebeloteOfTeam(taker);
+      defenderScore = TeamGameRound.totalScore + getBeloteRebeloteOfTeam(defender);
+    }
+    notifyListeners();
+  }
+
+  @override
+  bool isContractFulfilled() {
+    contractFulfilled = (beloteRebelote != null)
+        ? getPointsOfTeam(taker) > 80
+        : getPointsOfTeam(taker) > 90;
+    return contractFulfilled;
+  }
+
+  @override
   Map<String, dynamic> toJSON() {
     return super.toJSON();
   }
@@ -58,6 +79,16 @@ class BeloteRound extends TeamGameRound {
 
   @override
   String toString() {
-    return 'BeloteRound{cardColor: $cardColor, dixDeDer: $dixDeDer, beloteRebelote: $beloteRebelote, contractFulfilled: $contractFulfilled, taker: $taker, takerScore: $takerScore, defenderScore: $defenderScore}';
+    return 'BeloteRound{ '
+        'index: $index, '
+        'cardColor: $cardColor, '
+        'dixDeDer: $dixDeDer, '
+        'beloteRebelote: $beloteRebelote, '
+        'contractFulfilled: $contractFulfilled, '
+        'taker: $taker, '
+        'takerScore: $takerScore, '
+        'defenderScore: $defenderScore, '
+        'usTrickScore: $usTrickScore, '
+        'themTrickScore: $themTrickScore}';
   }
 }

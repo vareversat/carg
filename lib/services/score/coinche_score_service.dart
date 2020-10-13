@@ -122,4 +122,9 @@ class CoincheScoreService
     coincheScore.deleteLastRound();
     await updateScore(coincheScore);
   }
+
+  @override
+  CoincheRound getNewRound() {
+    return CoincheRound();
+  }
 }

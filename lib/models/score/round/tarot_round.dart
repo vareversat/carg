@@ -71,4 +71,15 @@ class TarotRound extends Round {
   String toString() {
     return 'TarotRound{attackPlayer: $attackPlayer, endCount: $boutCount, defensePlayers: $defensePlayers, attackScore: $attackScore, defenseScore: $defenseScore, playerCalled: $playerCalled, contract: $tarotContract, tarotPerk: $tarotPerk}';
   }
+
+  @override
+  void computeRound() {
+    // TODO: implement computeRound
+  }
+
+  @override
+  String realTimeDisplay() {
+    // TODO: implement realTimeDisplay
+    throw UnimplementedError();
+  }
 }

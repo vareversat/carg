@@ -122,4 +122,9 @@ class BeloteScoreService
     beloteScore.deleteLastRound();
     await updateScore(beloteScore);
   }
+
+  @override
+  BeloteRound getNewRound() {
+    return BeloteRound();
+  }
 }

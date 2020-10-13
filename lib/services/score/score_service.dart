@@ -8,6 +8,8 @@ abstract class ScoreService<T extends Score, P extends Round> {
 
   Future<String> saveScore(T score);
 
+  P getNewRound();
+
   Stream<T> getScoreByGameStream(String gameId);
 
   Future addRoundToGame(String gameId, P round);
