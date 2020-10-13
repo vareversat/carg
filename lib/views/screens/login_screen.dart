@@ -3,6 +3,7 @@ import 'package:carg/services/custom_exception.dart';
 import 'package:carg/views/dialogs/warning_dialog.dart';
 import 'package:carg/views/screens/home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -315,7 +316,14 @@ class _LoginScreenState extends State<LoginScreen>
                                   height: 20,
                                 ),
                                 if (_isLoginLoading)
-                                  CircularProgressIndicator()
+                                  SpinKitThreeBounce(
+                                      size: 20,
+                                      itemBuilder: (BuildContext context, int index) {
+                                        return DecoratedBox(
+                                            decoration: BoxDecoration(
+                                              color: Theme.of(context).accentColor,
+                                            ));
+                                      })
                                 else
                                   RaisedButton.icon(
                                     icon: _authMode == AuthMode.Login

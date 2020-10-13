@@ -8,6 +8,7 @@ import 'package:carg/views/dialogs/warning_dialog.dart';
 import 'package:carg/views/widgets/error_message_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -198,7 +199,14 @@ class _UserScreenState extends State<UserScreen> {
                 .catchError((onError) => {_errorMessage = onError.toString()}),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator());
+                return Center(child: SpinKitThreeBounce(
+                    size: 20,
+                    itemBuilder: (BuildContext context, int index) {
+                      return DecoratedBox(
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).accentColor,
+                          ));
+                    }));
               }
               if (snapshot.connectionState == ConnectionState.none &&
                       snapshot.hasData == null ||
