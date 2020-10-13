@@ -35,16 +35,15 @@ class _APIMiniPlayerWidgetState extends State<APIMiniPlayerWidget> {
           child = Center(
             key: ValueKey(0),
             child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 2),
-                child: InputChip(
-                    label: SpinKitThreeBounce(
-                        size: 20,
-                        itemBuilder: (BuildContext context, int index) {
-                          return DecoratedBox(
-                              decoration: BoxDecoration(
-                            color: Theme.of(context).accentColor,
-                          ));
-                        }))),
+                padding: const EdgeInsets.symmetric(horizontal: 5),
+                child: SpinKitThreeBounce(
+                    size: 20,
+                    itemBuilder: (BuildContext context, int index) {
+                      return DecoratedBox(
+                          decoration: BoxDecoration(
+                        color: Theme.of(context).accentColor,
+                      ));
+                    })),
           );
         }
         if (snapshot.hasData) {
