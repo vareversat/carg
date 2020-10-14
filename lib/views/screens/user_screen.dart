@@ -81,7 +81,6 @@ class _UserScreenState extends State<UserScreen> {
       return;
     }
     final _keyLoader = GlobalKey<State>();
-    // ignore: unawaited_futures
     Dialogs.showLoadingDialog(context, _keyLoader, 'Création du compte');
     await Provider.of<AuthService>(context, listen: false)
         .linkAnonymousToCredentials(
