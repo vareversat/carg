@@ -161,13 +161,8 @@ class _PlayTeamGameScreenState extends State<PlayTeamGameScreen> {
                                                   team: TeamGameEnum.US)),
                                           Flexible(
                                               child: Text(
-                                                  CardColor
-                                                      .values[snapshot
-                                                          .data
-                                                          .rounds[index]
-                                                          .cardColor
-                                                          .index]
-                                                      .symbol,
+                                                  snapshot.data.rounds[index]
+                                                      .cardColor.symbol,
                                                   style:
                                                       TextStyle(fontSize: 15))),
                                           Flexible(
