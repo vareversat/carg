@@ -2,10 +2,10 @@ import 'package:carg/helpers/custom_route.dart';
 import 'package:carg/models/game/belote_game.dart';
 import 'package:carg/models/game/coinche_game.dart';
 import 'package:carg/models/game/game.dart';
+import 'package:carg/models/game/game_type.dart';
 import 'package:carg/models/game/tarot_game.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/screens/player_picker_screen.dart';
-import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/material.dart';
 
 class GameModePickerScreen extends StatelessWidget {
@@ -62,14 +62,10 @@ class _GameModeButton extends StatelessWidget {
     return InkWell(
       onTap: () => {
         Navigator.push(
-          context,
-          CustomRouteLeftAndRight(
-            builder: (context) => PlayerPickerScreen(
-              newGame: game,
-              title: EnumToString.convertToString(game.gameType),
-            ),
-          ),
-        )
+            context,
+            CustomRouteLeftAndRight(
+                builder: (context) => PlayerPickerScreen(
+                    newGame: game, title: game.gameType.name)))
       },
       child: Card(
         shape: RoundedRectangleBorder(
@@ -79,10 +75,9 @@ class _GameModeButton extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(EnumToString.convertToString(game.gameType),
-                  style: TextStyle(fontSize: 20)),
-            ),
+                padding: const EdgeInsets.all(8.0),
+                child:
+                    Text(game.gameType.name, style: TextStyle(fontSize: 20))),
           ],
         ),
       ),
