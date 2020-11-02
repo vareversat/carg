@@ -55,7 +55,7 @@ class _GameListWidgetState extends State<GameListWidget> {
                     teamGame: snapshot.data[index],
                   );
                 } else {
-                  return TaroGameWidget(tarotGame: snapshot.data[index]);
+                  return TarotGameWidget(tarotGame: snapshot.data[index]);
                 }
               });
         }

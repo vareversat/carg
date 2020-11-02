@@ -11,10 +11,10 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 
-class TaroGameWidget extends StatelessWidget {
+class TarotGameWidget extends StatelessWidget {
   final TarotGame tarotGame;
 
-  const TaroGameWidget({this.tarotGame});
+  const TarotGameWidget({this.tarotGame});
 
   @override
   Widget build(BuildContext context) {
@@ -24,63 +24,42 @@ class TaroGameWidget extends StatelessWidget {
         child: ExpansionTile(
             title: _CardTitle(startingDate: tarotGame.startingDate),
             children: <Widget>[
-              Column(
-                children: [
-/*                  Container(
-                    height: 40,
-                    child: ListView.builder(
-                        shrinkWrap: true,
-                        scrollDirection: Axis.horizontal,
-                        itemCount: tarotGame.playerIds.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Container(
-                            width: MediaQuery.of(context).size.width /
-                                tarotGame.playerIds.length,
-                            child: APIMiniPlayerWidget(
-                              playerId: tarotGame.playerIds[index],
-                              displayImage: false,
-                            ),
-                          );
-                        }),
-                  )*/
-                  FutureBuilder<TarotScore>(
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return Center(
-                              child: SpinKitThreeBounce(
-                                  size: 30,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return DecoratedBox(
-                                        decoration: BoxDecoration(
-                                      color: Theme.of(context).accentColor,
-                                    ));
-                                  }));
-                        }
-                        if (snapshot.hasData &&
-                            snapshot.connectionState == ConnectionState.done) {
-                          return Wrap(
-                            alignment: WrapAlignment.center,
-                            spacing: 2,
-                            children: tarotGame.playerIds
-                                .map((playerId) => APIMiniPlayerWidget(
-                                      playerId: playerId,
-                                      displayImage: true,
-                                      size: 20,
-                                      additionalText:
-                                          ' | ${snapshot.data.getScoreOf(playerId).score.toString()}',
-                                    ))
-                                .toList()
-                                .cast<Widget>(),
-                          );
-                        }
-                        return Center(child: Text('error'));
-                      },
-                      future:
-                          tarotGame.scoreService.getScoreByGame(tarotGame.id)),
-                ],
-              ),
+              FutureBuilder<TarotScore>(
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState ==
+                        ConnectionState.waiting) {
+                      return Center(
+                          child: SpinKitThreeBounce(
+                              size: 30,
+                              itemBuilder:
+                                  (BuildContext context, int index) {
+                                return DecoratedBox(
+                                    decoration: BoxDecoration(
+                                  color: Theme.of(context).accentColor,
+                                ));
+                              }));
+                    }
+                    if (snapshot.hasData &&
+                        snapshot.connectionState == ConnectionState.done) {
+                      return Wrap(
+                        alignment: WrapAlignment.center,
+                        spacing: 2,
+                        children: tarotGame.playerIds
+                            .map((playerId) => APIMiniPlayerWidget(
+                                  playerId: playerId,
+                                  displayImage: true,
+                                  size: 20,
+                                  additionalText:
+                                      '| ${snapshot.data.getScoreOf(playerId).score.round().toString()}',
+                                ))
+                            .toList()
+                            .cast<Widget>(),
+                      );
+                    }
+                    return Center(child: Text('error'));
+                  },
+                  future:
+                      tarotGame.scoreService.getScoreByGame(tarotGame.id)),
               _ButtonRowWidget(tarotGame: tarotGame),
             ]),
         margin: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
