@@ -6,25 +6,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
-class TrickPointsWidget extends StatefulWidget {
+class TrickPointsTeamGameWidget extends StatefulWidget {
   final TeamGameRound round;
 
-  TrickPointsWidget({this.round});
+  TrickPointsTeamGameWidget({this.round});
 
   @override
   State<StatefulWidget> createState() {
-    return _TrickPointsWidgetState(round);
+    return _TrickPointsTeamGameWidgetState(round);
   }
 }
 
-class _TrickPointsWidgetState extends State<TrickPointsWidget> {
+class _TrickPointsTeamGameWidgetState extends State<TrickPointsTeamGameWidget> {
   TextEditingController _usPointsTextController;
   TextEditingController _themPointsTextController;
   final int _totalPoints = 160;
   final int _dixDeDerBonus = 10;
   final TeamGameRound _round;
 
-  _TrickPointsWidgetState(this._round);
+  _TrickPointsTeamGameWidgetState(this._round);
 
   @override
   void initState() {

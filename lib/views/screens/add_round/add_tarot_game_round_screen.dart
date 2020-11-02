@@ -1,13 +1,13 @@
 import 'package:carg/models/game/tarot_game.dart';
 import 'package:carg/models/player/tarot_game_players_round.dart';
 import 'package:carg/models/score/round/tarot_round.dart';
-import 'package:carg/views/screens/add_round/widget/contract_tarot_widget.dart';
-import 'package:carg/views/screens/add_round/widget/oudler_picker_widget.dart';
+import 'package:carg/views/screens/add_round/widget/tarot_game/contract_tarot_widget.dart';
+import 'package:carg/views/screens/add_round/widget/tarot_game/oudler_picker_widget.dart';
 import 'package:carg/views/screens/add_round/widget/real_time_display_widget.dart';
 import 'package:carg/views/screens/add_round/widget/screen_title_widget.dart';
 import 'package:carg/views/screens/add_round/widget/section_title_widget.dart';
-import 'package:carg/views/screens/add_round/widget/tarot_perk_widget.dart';
-import 'package:carg/views/screens/add_round/widget/trick_points_tarot_widget.dart';
+import 'package:carg/views/screens/add_round/widget/tarot_game/tarot_perk_widget.dart';
+import 'package:carg/views/screens/add_round/widget/tarot_game/trick_points_tarot_widget.dart';
 import 'package:carg/views/widgets/api_mini_player_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
