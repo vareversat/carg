@@ -51,8 +51,6 @@ jobs:
     runs-on: ubuntu-latest
     container: devosud/flutter:latest
     steps:
-      - name: 'Checkout source code'
-        uses: actions/checkout@v2.3.2
       - name: 'Download Artifact'
         uses: actions/download-artifact@v2
         with:
