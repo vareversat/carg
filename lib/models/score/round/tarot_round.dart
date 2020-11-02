@@ -173,8 +173,14 @@ class TarotRound extends Round {
 
   @override
   String realTimeDisplay() {
-    return 'Attaque : ${attackScore.round().toString()} '
-        '| Défense : ${defenseScore.round().toString()}';
+    if (players.playerList.length <= 4) {
+      return 'Attaquant : ${attackScore.round().toString()} '
+          '| Défenseurs : ${defenseScore.round().toString()}';
+    } else {
+      return 'Attaquant : ${(attackScore.round() * (2 / 3)).toString()} '
+          '| Appelé ${(attackScore.round() * (1 / 3)).toString()} '
+          '| Défenseurs : ${defenseScore.round().toString()}';
+    }
   }
 
   Map<String, dynamic> toJSON() {
