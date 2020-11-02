@@ -1,6 +1,6 @@
 class PlayerScore {
   String player;
-  int score;
+  double score;
 
   PlayerScore({this.player, this.score});
 

@@ -12,7 +12,7 @@ class CargAboutDialog extends StatelessWidget {
   final String _errorMessage =
       'Impossible d\'obtenir les informations de l\'application';
   final String _appInfo =
-      'L\'application pour enregistrer vos parties de Belote, Coinche et Tarot (à venir) ! \n';
+      'L\'application pour enregistrer vos parties de Belote, Coinche et Tarot ! \n';
   final String _sourceCode = 'Code source';
   final String _changeLog = 'Journal des modifications';
   final Widget _iconWidget = Padding(

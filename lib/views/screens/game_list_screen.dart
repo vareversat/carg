@@ -1,6 +1,7 @@
 import 'package:carg/helpers/custom_route.dart';
 import 'package:carg/services/game/belote_game_service.dart';
 import 'package:carg/services/game/coinche_game_service.dart';
+import 'package:carg/services/game/tarot_game_service.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/screens/game_mode_picker_screen.dart';
 import 'package:carg/views/tabs/game_list_tab.dart';
@@ -10,11 +11,12 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class GameListScreen extends StatelessWidget {
   final BeloteGameService _beloteGameService = BeloteGameService();
   final CoincheGameService _coincheGameService = CoincheGameService();
+  final TarotGameService _tarotGameService = TarotGameService();
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-        length: 2,
+        length: 3,
         child: Scaffold(
             appBar: PreferredSize(
               preferredSize: Size.fromHeight(120),
@@ -57,6 +59,11 @@ class GameListScreen extends StatelessWidget {
                         child: Text(
                       'Belote',
                       style: TextStyle(fontSize: 15),
+                    )),
+                    Tab(
+                        child: Text(
+                      'Tarot',
+                      style: TextStyle(fontSize: 15),
                     ))
                   ],
                 ),
@@ -69,6 +76,9 @@ class GameListScreen extends StatelessWidget {
                 ),
                 GameListWidget(
                   gamesFuture: _beloteGameService.getAllGames(),
+                ),
+                GameListWidget(
+                  gamesFuture: _tarotGameService.getAllGames(),
                 )
               ],
             )));

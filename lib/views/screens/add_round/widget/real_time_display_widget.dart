@@ -1,8 +1,8 @@
-import 'package:carg/models/score/round/team_game_round.dart';
+import 'package:carg/models/score/round/round.dart';
 import 'package:flutter/material.dart';
 
 class RealTimeDisplayWidget extends StatelessWidget {
-  final TeamGameRound round;
+  final Round round;
 
   const RealTimeDisplayWidget({this.round});
 
@@ -10,7 +10,8 @@ class RealTimeDisplayWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
         child: Text(round.realTimeDisplay(),
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25)));
+            textAlign: TextAlign.center,
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 23)));
   }
 
 }

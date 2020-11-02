@@ -1,14 +1,16 @@
-enum TarotPerk { PETIT_AU_BOUT, POIGNEE }
+enum TarotBonus { SMALL_TO_THE_END, HANDFUL, CHELEM }
 
-extension TarotPrimeExtension on TarotPerk {
-  String get string {
+extension TarotBonusExtension on TarotBonus {
+  String get name {
     switch (this) {
-      case TarotPerk.PETIT_AU_BOUT:
+      case TarotBonus.SMALL_TO_THE_END:
         return 'Petit au bout';
-      case TarotPerk.POIGNEE:
+      case TarotBonus.HANDFUL:
         return 'Poignée';
+      case TarotBonus.CHELEM:
+        return 'Chelem';
       default:
-        return null;
+        return '';
     }
   }
 }

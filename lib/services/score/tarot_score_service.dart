@@ -1,3 +1,4 @@
+import 'package:carg/models/score/misc/player_score.dart';
 import 'package:carg/models/score/round/tarot_round.dart';
 import 'package:carg/models/score/tarot_score.dart';
 import 'package:carg/services/custom_exception.dart';
@@ -50,20 +51,12 @@ class TarotScoreService extends ScoreService<TarotScore, TarotRound> {
     try {
       var tarotScore = await getScoreByGame(gameId);
       if (tarotScore != null) {
-        for (var playerId in tarotRound.defensePlayers) {
-          tarotScore.scores.forEach((e) => e.player == playerId
-              ? e.score += tarotRound.defenseScore
-              : e.score += 0);
-        }
-        tarotScore.scores.forEach((e) => e.player == tarotRound.attackPlayer
-            ? e.score += tarotRound.attackScore
-            : e.score += 0);
-        tarotRound.index = tarotScore.rounds.length;
-        tarotScore.rounds.add(tarotRound);
-        // await FirebaseFirestore.instance
-        //     .collection('tarot-score-' + flavor)
-        //     .document(tarotScore.id)
-        //     .updateData(tarotScore.toJSON());
+        tarotRound = _computePlayerPoints(tarotRound, tarotScore);
+        tarotScore.addRound(tarotRound);
+        await FirebaseFirestore.instance
+            .collection('tarot-score-' + flavor)
+            .doc(tarotScore.id)
+            .update(tarotScore.toJSON());
       }
     } on PlatformException catch (e) {
       throw Exception('[' + e.code + '] Firebase error ' + e.message);
@@ -100,25 +93,58 @@ class TarotScoreService extends ScoreService<TarotScore, TarotRound> {
   }
 
   @override
-  Future editLastRoundOfGame(String gameId, TarotRound round) {
-    // TODO: implement editLastRoundOfGame
-    throw UnimplementedError();
+  Future editLastRoundOfGame(String gameId, TarotRound round) async {
+    var tarotScore = await getScoreByGame(gameId);
+    round = _computePlayerPoints(round, tarotScore);
+    tarotScore.replaceLastRound(round);
+    await updateScore(tarotScore);
   }
 
   @override
-  Future updateScore(TarotScore score) {
-    // TODO: implement updateScore
-    throw UnimplementedError();
+  Future updateScore(TarotScore score) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('tarot-score-' + flavor)
+          .doc(score.id)
+          .update(score.toJSON());
+    } on PlatformException catch (e) {
+      throw CustomException(e.message);
+    }
   }
 
   @override
-  Future deleteLastRoundOfGame(String gameId) {
-    // TODO: implement deleteLastRoundOfGame
-    throw UnimplementedError();
+  Future deleteLastRoundOfGame(String gameId) async {
+    var tarotScore = await getScoreByGame(gameId);
+    tarotScore.removeRound(tarotScore.getLastRound());
+    await updateScore(tarotScore);
   }
 
   @override
   TarotRound getNewRound() {
     return TarotRound();
   }
+
+  TarotRound _computePlayerPoints(TarotRound tarotRound, TarotScore tarotScore) {
+    var _playerPoints = <PlayerScore>[];
+    var realAttackScore = tarotRound.players.playerList.length <= 4
+        ? tarotRound.attackScore
+        : tarotRound.attackScore * (2 / 3);
+    var calledPlayerScore = tarotRound.attackScore * (1 / 3);
+    for (var player in tarotRound.players.playerList) {
+      if (tarotRound.players.attackPlayer == player) {
+        _playerPoints
+            .add(PlayerScore(player: player, score: realAttackScore));
+      } else if (tarotRound.players.calledPlayer == player) {
+        _playerPoints
+            .add(PlayerScore(player: player, score: calledPlayerScore));
+      } else {
+        _playerPoints.add(
+            PlayerScore(player: player, score: tarotRound.defenseScore));
+      }
+    }
+    tarotRound.playerPoints = _playerPoints;
+    tarotRound.index = tarotScore.rounds.length;
+    return tarotRound;
+  }
+
 }

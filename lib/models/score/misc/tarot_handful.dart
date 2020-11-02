@@ -1,9 +1,9 @@
-enum TarotPoignee { SIMPLE, DOUBLE, TRIPLE }
+enum TarotHandful { SIMPLE, DOUBLE, TRIPLE }
 
-extension TarotPoigneeExtension on TarotPoignee {
+extension TarotHandfulExtension on TarotHandful {
   String perkCount(var playerCount) {
     switch (this) {
-      case TarotPoignee.SIMPLE:
+      case TarotHandful.SIMPLE:
         var rules = [
           {'playerCount': 3, 'perkCount': 13},
           {'playerCount': 4, 'perkCount': 10},
@@ -13,7 +13,7 @@ extension TarotPoigneeExtension on TarotPoignee {
             .firstWhere(
                 (element) => element['playerCount'] == playerCount)['perkCount']
             .toString();
-      case TarotPoignee.DOUBLE:
+      case TarotHandful.DOUBLE:
         var rules = [
           {'playerCount': 3, 'perkCount': 15},
           {'playerCount': 4, 'perkCount': 13},
@@ -23,7 +23,7 @@ extension TarotPoigneeExtension on TarotPoignee {
             .firstWhere(
                 (element) => element['playerCount'] == playerCount)['perkCount']
             .toString();
-      case TarotPoignee.TRIPLE:
+      case TarotHandful.TRIPLE:
         var rules = [
           {'playerCount': 3, 'perkCount': 18},
           {'playerCount': 4, 'perkCount': 15},
@@ -40,11 +40,11 @@ extension TarotPoigneeExtension on TarotPoignee {
 
   int get bonus {
     switch (this) {
-      case TarotPoignee.SIMPLE:
+      case TarotHandful.SIMPLE:
         return 20;
-      case TarotPoignee.DOUBLE:
+      case TarotHandful.DOUBLE:
         return 30;
-      case TarotPoignee.TRIPLE:
+      case TarotHandful.TRIPLE:
         return 40;
       default:
         return null;
@@ -53,11 +53,11 @@ extension TarotPoigneeExtension on TarotPoignee {
 
   String get name {
     switch (this) {
-      case TarotPoignee.SIMPLE:
+      case TarotHandful.SIMPLE:
         return 'Simple';
-      case TarotPoignee.DOUBLE:
+      case TarotHandful.DOUBLE:
         return 'Double';
-      case TarotPoignee.TRIPLE:
+      case TarotHandful.TRIPLE:
         return 'Triple';
       default:
         return null;

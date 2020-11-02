@@ -1,5 +1,7 @@
 import 'package:carg/models/game/game.dart';
+import 'package:carg/models/game/game_type.dart';
 import 'package:carg/views/widgets/error_message_widget.dart';
+import 'package:carg/views/widgets/tarot_game_widget.dart';
 import 'package:carg/views/widgets/team_game_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -48,9 +50,13 @@ class _GameListWidgetState extends State<GameListWidget> {
           return ListView.builder(
               itemCount: snapshot.data.length,
               itemBuilder: (BuildContext context, int index) {
-                return TeamGameWidget(
-                  teamGame: snapshot.data[index],
-                );
+                if (snapshot.data[0].gameType != GameType.TAROT) {
+                  return TeamGameWidget(
+                    teamGame: snapshot.data[index],
+                  );
+                } else {
+                  return TaroGameWidget(tarotGame: snapshot.data[index]);
+                }
               });
         }
         return Container();

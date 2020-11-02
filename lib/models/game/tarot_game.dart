@@ -5,7 +5,7 @@ import 'package:carg/services/game/tarot_game_service.dart';
 import 'package:carg/services/score/tarot_score_service.dart';
 
 class TarotGame extends Game {
-  List<String> playerIds;
+  List<dynamic> playerIds;
 
   TarotGame({id, startingDate, endingDate, winner, isEnded, this.playerIds})
       : super(
@@ -22,7 +22,7 @@ class TarotGame extends Game {
   @override
   Map<String, dynamic> toJSON() {
     var tmpJSON = super.toJSON();
-    tmpJSON.addAll({'playerIds': playerIds});
+    tmpJSON.addAll({'players': playerIds});
     return tmpJSON;
   }
 
@@ -38,11 +38,11 @@ class TarotGame extends Game {
             : null,
         isEnded: json['is_ended'],
         winner: json['winner'],
-        playerIds: json['playerIds']);
+        playerIds: json['players']);
   }
 
   @override
   String toString() {
-    return super.toString();
+    return 'TarotGame{playerIds: $playerIds}';
   }
 }

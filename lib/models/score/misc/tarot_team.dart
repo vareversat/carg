@@ -1,0 +1,2 @@
+enum TarotTeam {ATTACK, DEFENSE}
+
