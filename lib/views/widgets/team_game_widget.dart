@@ -84,14 +84,15 @@ class _ShowScoreWidgetState extends State<_ShowScoreWidget> {
           child: FutureBuilder<TeamGameScore>(
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: SpinKitThreeBounce(
-                      size: 30,
-                      itemBuilder: (BuildContext context, int index) {
-                        return DecoratedBox(
-                            decoration: BoxDecoration(
+                  return Center(
+                      child: SpinKitThreeBounce(
+                          size: 30,
+                          itemBuilder: (BuildContext context, int index) {
+                            return DecoratedBox(
+                                decoration: BoxDecoration(
                               color: Theme.of(context).accentColor,
                             ));
-                      }));
+                          }));
                 }
                 if (snapshot.hasData &&
                     snapshot.connectionState == ConnectionState.done) {
@@ -196,7 +197,22 @@ class _ButtonRowWidget extends StatelessWidget {
             ),
             icon: Icon(Icons.play_arrow))
       else
-        Container()
+        RaisedButton(
+            color: Theme.of(context).primaryColor,
+            textColor: Theme.of(context).cardColor,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18.0)),
+            onPressed: () async => {
+                  Navigator.push(
+                    context,
+                    CustomRouteScale(
+                      builder: (context) => PlayTeamGameScreen(
+                        teamGame: teamGame,
+                      ),
+                    ),
+                  )
+                },
+            child: Text('Consulter les scores')),
     ]);
   }
 }

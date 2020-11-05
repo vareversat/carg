@@ -187,6 +187,7 @@ class _PlayTeamGameScreenState extends State<PlayTeamGameScreen> {
                               })
                             })),
               )),
+          if (!_teamGame.isEnded)
           Wrap(
               spacing: 10,
               alignment: WrapAlignment.spaceAround,
@@ -231,7 +232,8 @@ class _PlayTeamGameScreenState extends State<PlayTeamGameScreen> {
           SizedBox(
             height: 10,
           )
-        ]));
+        ])
+    );
   }
 }
 
