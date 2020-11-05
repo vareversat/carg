@@ -66,7 +66,8 @@ class _PlayTarotGameState extends State<PlayTarotGame> {
         child: WarningDialog(
           onConfirm: () async => {
             await _tarotGame.gameService.endAGame(_tarotGame),
-            Navigator.of(context).pop()
+            await Navigator.of(context)
+                .pushReplacementNamed(HomeScreen.routeName, arguments: 1)
           },
           message:
               'Tu es sur le point de terminer cette partie. Les gagnants ainsi que les perdants (honteux) vont être désignés',
