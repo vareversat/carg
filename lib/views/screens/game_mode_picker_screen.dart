@@ -9,13 +9,16 @@ import 'package:carg/views/screens/player_picker_screen.dart';
 import 'package:flutter/material.dart';
 
 class GameModePickerScreen extends StatelessWidget {
+  final String _appBarTitle = 'Nouvelle partie';
+  final String _title = 'Sélection du jeu';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60),
         child: AppBar(
-          title: Text('Nouvelle partie',
+          title: Text(_appBarTitle,
               style: CustomTextStyle.screenHeadLine2(context)),
         ),
       ),
@@ -25,7 +28,7 @@ class GameModePickerScreen extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text('Sélection du mode de jeu',
+              child: Text(_title,
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             ),
             Padding(
