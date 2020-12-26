@@ -17,7 +17,6 @@ class TarotPerkWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(round);
     Future<dynamic> _showHandfulPicker() {
       return showDialog(
         context: context,
