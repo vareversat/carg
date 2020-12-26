@@ -39,38 +39,35 @@ class AddTeamGameRoundScreen extends StatelessWidget {
               onPressed: () => Navigator.pop(context),
             ),
             title: ScreenTitleWidget()),
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Consumer<TeamGameRound>(
-            builder: (context, roundData, child) => Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ListView(children: [
-                TakerTeamWidget(round: roundData),
-                Divider(),
-                TrickPointsTeamGameWidget(round: roundData),
-                Divider(),
-                roundData is CoincheRound
-                    ? ContractCoincheWidget(coincheRound: roundData)
-                    : ContractBeloteWidget(beloteRound: roundData),
-                SizedBox(height: 20),
-                RealTimeDisplayWidget(round: roundData),
-                SizedBox(height: 20),
-                Center(
-                    child: RaisedButton.icon(
-                        color: Theme.of(context).primaryColor,
-                        textColor: Theme.of(context).cardColor,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18.0)),
-                        onPressed: () async =>
-                            {await _setupRound(), Navigator.pop(context)},
-                        label: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text('Valider',
-                              style: Theme.of(context).textTheme.bodyText1),
-                        ),
-                        icon: Icon(Icons.check)))
-              ]),
-            ),
+        body: Consumer<TeamGameRound>(
+          builder: (context, roundData, child) => Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ListView(children: [
+              TakerTeamWidget(round: roundData),
+              Divider(),
+              TrickPointsTeamGameWidget(round: roundData),
+              Divider(),
+              roundData is CoincheRound
+                  ? ContractCoincheWidget(coincheRound: roundData)
+                  : ContractBeloteWidget(beloteRound: roundData),
+              SizedBox(height: 20),
+              RealTimeDisplayWidget(round: roundData),
+              SizedBox(height: 20),
+              Center(
+                  child: RaisedButton.icon(
+                      color: Theme.of(context).primaryColor,
+                      textColor: Theme.of(context).cardColor,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0)),
+                      onPressed: () async =>
+                          {await _setupRound(), Navigator.pop(context)},
+                      label: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text('Valider',
+                            style: Theme.of(context).textTheme.bodyText1),
+                      ),
+                      icon: Icon(Icons.check)))
+            ]),
           ),
         ),
       ),
