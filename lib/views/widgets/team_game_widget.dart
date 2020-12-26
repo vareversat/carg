@@ -193,7 +193,7 @@ class _ButtonRowWidget extends StatelessWidget {
                   )
                 },
             label: Text(
-              'Jouer',
+              MaterialLocalizations.of(context).continueButtonLabel,
             ),
             icon: Icon(Icons.play_arrow))
       else
