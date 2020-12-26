@@ -116,7 +116,6 @@ class _PlayTeamGameScreenState extends State<PlayTeamGameScreen> {
                 TeamWidget(teamId: _teamGame.them, title: 'Eux')
               ])),
           Flexible(
-              flex: 6,
               child: Container(
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
@@ -146,6 +145,7 @@ class _PlayTeamGameScreenState extends State<PlayTeamGameScreen> {
                             ),
                           ),
                           Flexible(
+                            flex: 5,
                               child: ListView.builder(
                                   itemCount: snapshot.data.rounds.length,
                                   itemBuilder:
@@ -261,7 +261,7 @@ class _RoundDisplay extends StatelessWidget {
           Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5),
               child: Text(_getScore(round, team).toString(),
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold))),
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold))),
           if (round.taker == team)
             if (round.contractFulfilled)
               Padding(
