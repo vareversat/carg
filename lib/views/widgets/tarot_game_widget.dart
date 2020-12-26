@@ -57,6 +57,7 @@ class TarotGameWidget extends StatelessWidget {
                     return Center(child: Text('error'));
                   },
                   future: tarotGame.scoreService.getScoreByGame(tarotGame.id)),
+              Divider(height: 10, thickness: 2),
               _ButtonRowWidget(tarotGame: tarotGame),
             ]),
         margin: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
@@ -157,7 +158,7 @@ class _ButtonRowWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: <
+    return Wrap(alignment: WrapAlignment.spaceAround, spacing: 20, children: <
         Widget>[
       if (!tarotGame.isEnded)
         RaisedButton.icon(
@@ -166,17 +167,17 @@ class _ButtonRowWidget extends StatelessWidget {
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(18.0)),
             onPressed: () async => {
-                  await showDialog(
-                      context: context,
-                      child: WarningDialog(
-                          onConfirm: () async => {
-                                await tarotGame.gameService.endAGame(tarotGame),
-                              },
-                          message:
-                              'Tu es sur le point de terminer cette partie. Les gagnants ainsi que les perdants (honteux) vont être désignés',
-                          title: 'Attention',
-                          color: Colors.black))
-                },
+              await showDialog(
+                  context: context,
+                  child: WarningDialog(
+                      onConfirm: () async => {
+                        await tarotGame.gameService.endAGame(tarotGame),
+                      },
+                      message:
+                      'Tu es sur le point de terminer cette partie. Les gagnants ainsi que les perdants (honteux) vont être désignés',
+                      title: 'Attention',
+                      color: Colors.black))
+            },
             label: Text(
               'Arrêter',
             ),
@@ -187,16 +188,16 @@ class _ButtonRowWidget extends StatelessWidget {
           color: Theme.of(context).errorColor,
           textColor: Theme.of(context).cardColor,
           shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0)),
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0)),
           onPressed: () async => {
-                await showDialog(
-                    context: context,
-                    child: WarningDialog(
-                        onConfirm: () =>
-                            {tarotGame.gameService.deleteGame(tarotGame.id)},
-                        message: 'Tu es sur le point de supprimer une partie.',
-                        title: 'Suppression'))
-              },
+            await showDialog(
+                context: context,
+                child: WarningDialog(
+                    onConfirm: () =>
+                    {tarotGame.gameService.deleteGame(tarotGame.id)},
+                    message: 'Tu es sur le point de supprimer une partie.',
+                    title: 'Suppression'))
+          },
           label: Text(MaterialLocalizations.of(context).deleteButtonTooltip),
           icon: Icon(Icons.delete_forever)),
       if (!tarotGame.isEnded)
@@ -206,21 +207,36 @@ class _ButtonRowWidget extends StatelessWidget {
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(18.0)),
             onPressed: () async => {
-                  Navigator.push(
-                    context,
-                    CustomRouteScale(
-                      builder: (context) => PlayTarotGame(
-                        tarotGame: tarotGame,
-                      ),
-                    ),
-                  )
-                },
+              Navigator.push(
+                context,
+                CustomRouteScale(
+                  builder: (context) => PlayTarotGame(
+                    tarotGame: tarotGame,
+                  ),
+                ),
+              )
+            },
             label: Text(
               MaterialLocalizations.of(context).continueButtonLabel,
             ),
             icon: Icon(Icons.play_arrow))
       else
-        Container()
+        RaisedButton(
+            color: Theme.of(context).primaryColor,
+            textColor: Theme.of(context).cardColor,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18.0)),
+            onPressed: () async => {
+              Navigator.push(
+                context,
+                CustomRouteScale(
+                  builder: (context) => PlayTarotGame(
+                    tarotGame: tarotGame,
+                  ),
+                ),
+              )
+            },
+            child: Text('Consulter les scores')),
     ]);
   }
 }

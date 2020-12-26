@@ -32,6 +32,7 @@ class TeamGameWidget extends StatelessWidget {
                     ],
                   ),
                   _ShowScoreWidget(teamGame: teamGame),
+                  Divider(height: 10, thickness: 2),
                   _ButtonRowWidget(teamGame: teamGame),
                 ],
               )
@@ -79,8 +80,6 @@ class _ShowScoreWidgetState extends State<_ShowScoreWidget> {
     return Column(children: [
       Container(
           padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-              border: Border(top: BorderSide(color: Colors.black, width: 1))),
           child: FutureBuilder<TeamGameScore>(
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
