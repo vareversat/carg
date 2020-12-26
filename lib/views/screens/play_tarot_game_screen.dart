@@ -202,6 +202,7 @@ class _PlayTarotGameState extends State<PlayTarotGame> {
                     stream:
                         _tarotScoreService.getScoreByGameStream(_tarotGame.id),
                   ))),
+          if (!_tarotGame.isEnded)
           Wrap(
               spacing: 10,
               alignment: WrapAlignment.spaceAround,
