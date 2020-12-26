@@ -134,7 +134,7 @@ class _ButtonRowWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: <
+    return Wrap(alignment: WrapAlignment.spaceAround, spacing: 20, children: <
         Widget>[
       if (!teamGame.isEnded)
         RaisedButton.icon(
