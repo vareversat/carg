@@ -1,5 +1,6 @@
 import 'package:carg/models/game/tarot_game.dart';
 import 'package:carg/models/player/tarot_game_players.dart';
+import 'package:carg/models/score/misc/player_score.dart';
 import 'package:carg/models/score/round/tarot_round.dart';
 import 'package:carg/models/score/tarot_score.dart';
 import 'package:carg/services/game/game_service.dart';
@@ -83,6 +84,38 @@ class TarotGameService extends GameService<TarotGame, TarotGamePlayers> {
 
   @override
   Future endAGame(TarotGame game) async {
-    return null;
+    try {
+      PlayerScore winner;
+      var score = await _tarotScoreService.getScoreByGame(game.id);
+      var totalPoints = score?.totalPoints;
+      if (totalPoints != null && totalPoints.isNotEmpty) {
+        totalPoints.sort((a, b) => a.score.compareTo(b.score));
+        winner = totalPoints.last;
+      }
+      await FirebaseFirestore.instance
+          .collection('tarot-game-' + flavor)
+          .doc(game.id)
+          .update({
+        'is_ended': true,
+        'ending_date': DateTime.now().toString(),
+        'winner': winner?.player
+      });
+    } on PlatformException catch (e) {
+      throw Exception('[' + e.code + '] Firebase error ' + e.message);
+    }
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
