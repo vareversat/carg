@@ -21,7 +21,6 @@ class OudlerPickerWidget extends StatelessWidget {
                     selected: round.oudler == tarotBoutCount,
                     onPressed: () {
                       round.oudler = tarotBoutCount;
-                      round.attackTrickPoints = tarotBoutCount.pointToDo;
                     },
                     label: Text(tarotBoutCount.name +
                         (round.oudler == tarotBoutCount
