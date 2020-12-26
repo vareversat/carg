@@ -35,7 +35,6 @@ abstract class Game extends CargObject {
   @override
   Map<String, dynamic> toJSON() {
     return {
-      'id': id,
       'starting_date': DateFormat('yyyy-MM-ddTHH:mm:ss').format(startingDate),
       'ending_date': endingDate != null
           ? DateFormat('yyyy-MM-ddTHH:mm:ss').format(endingDate)
