@@ -23,7 +23,7 @@ class TarotGameService extends GameService<TarotGame, TarotGamePlayers> {
       var beloteGames = <TarotGame>[];
       var querySnapshot = await FirebaseFirestore.instance
           .collection('tarot-game-' + flavor)
-          .orderBy('starting_date')
+          .orderBy('starting_date', descending: true)
           .get();
       for (var doc in querySnapshot.docs) {
         beloteGames.add(TarotGame.fromJSON(doc.data(), doc.id));

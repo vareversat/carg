@@ -30,7 +30,7 @@ class CoincheGameService implements TeamGameService<CoincheGame> {
       var coincheGames = <CoincheGame>[];
       var querySnapshot = await FirebaseFirestore.instance
           .collection('coinche-game-' + flavor)
-          .orderBy('starting_date')
+          .orderBy('starting_date', descending: true)
           .get();
       for (var doc in querySnapshot.docs) {
         coincheGames.add(CoincheGame.fromJSON(doc.data(), doc.id));

@@ -30,7 +30,7 @@ class BeloteGameService implements TeamGameService<BeloteGame> {
       var beloteGames = <BeloteGame>[];
       var querySnapshot = await FirebaseFirestore.instance
           .collection('belote-game-' + flavor)
-          .orderBy('starting_date')
+          .orderBy('starting_date', descending: true)
           .get();
       for (var doc in querySnapshot.docs) {
         beloteGames.add(BeloteGame.fromJSON(doc.data(), doc.id));
