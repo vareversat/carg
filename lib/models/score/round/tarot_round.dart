@@ -174,12 +174,12 @@ class TarotRound extends Round {
   @override
   String realTimeDisplay() {
     if (players.playerList.length <= 4) {
-      return 'Attaquant : ${attackScore.round().toString()} '
-          '| Défenseurs : ${defenseScore.round().toString()}';
+      return 'Attaquant : ${attackScore.toStringAsFixed(1)} '
+          '| Défenseurs : ${defenseScore.toStringAsFixed(1)}';
     } else {
-      return 'Attaquant : ${(attackScore.round() * (2 / 3)).toString()} '
-          '| Appelé ${(attackScore.round() * (1 / 3)).toString()} '
-          '| Défenseurs : ${defenseScore.round().toString()}';
+      return 'Attaquant : ${(attackScore.round() * (2 / 3)).toStringAsFixed(1)} '
+          '| Appelé ${(attackScore * (1 / 3)).toStringAsFixed(1)} '
+          '| Défenseurs : ${defenseScore.toStringAsFixed(1)}';
     }
   }
 
