@@ -102,6 +102,7 @@ class CoincheRound extends TeamGameRound {
         contract: json['contract'],
         contractFulfilled: json['contract_fulfilled'],
         taker: EnumToString.fromString(TeamGameEnum.values, json['taker']),
+        defender: EnumToString.fromString(TeamGameEnum.values, json['defender']),
         takerScore: json['taker_score'],
         defenderScore: json['defender_score'],
         usTrickScore: json['us_trick_score'],
@@ -128,7 +129,7 @@ class CoincheRound extends TeamGameRound {
         'defenderScore: $defenderScore, '
         'usTrickScore: $usTrickScore, '
         'themTrickScore: $themTrickScore, '
-        'contractName: $contractName}, '
+        'contractName: $contractName, '
         'defender: $defender}';
   }
 }

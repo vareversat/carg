@@ -143,6 +143,7 @@ abstract class TeamGameRound extends Round {
       'belote_rebelote': EnumToString.convertToString(beloteRebelote),
       'contract_fulfilled': contractFulfilled,
       'taker': EnumToString.convertToString(taker),
+      'defender' : EnumToString.convertToString(defender),
       'taker_score': takerScore,
       'defender_score': defenderScore,
       'us_trick_score': usTrickScore,

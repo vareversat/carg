@@ -11,6 +11,7 @@ class BeloteRound extends TeamGameRound {
       dixDeDer,
       beloteRebelote,
       taker,
+      defender,
       takerScore,
       defenderScore,
       usTrickScore,
@@ -22,6 +23,7 @@ class BeloteRound extends TeamGameRound {
             dixDeDer: dixDeDer,
             beloteRebelote: beloteRebelote,
             taker: taker,
+            defender: defender,
             takerScore: takerScore,
             defenderScore: defenderScore,
             usTrickScore: usTrickScore,
@@ -35,7 +37,8 @@ class BeloteRound extends TeamGameRound {
           getPointsOfTeam(defender) + getBeloteRebeloteOfTeam(defender);
     } else {
       takerScore = getBeloteRebeloteOfTeam(taker);
-      defenderScore = TeamGameRound.totalScore + getBeloteRebeloteOfTeam(defender);
+      defenderScore =
+          TeamGameRound.totalScore + getBeloteRebeloteOfTeam(defender);
     }
     notifyListeners();
   }
@@ -67,6 +70,7 @@ class BeloteRound extends TeamGameRound {
             TeamGameEnum.values, json['belote_rebelote']),
         contractFulfilled: json['contract_fulfilled'],
         taker: EnumToString.fromString(TeamGameEnum.values, json['taker']),
+        defender: EnumToString.fromString(TeamGameEnum.values, json['defender']),
         takerScore: json['taker_score'],
         defenderScore: json['defender_score'],
         usTrickScore: json['us_trick_score'],
@@ -86,6 +90,7 @@ class BeloteRound extends TeamGameRound {
         'beloteRebelote: $beloteRebelote, '
         'contractFulfilled: $contractFulfilled, '
         'taker: $taker, '
+        'defender: $defender, '
         'takerScore: $takerScore, '
         'defenderScore: $defenderScore, '
         'usTrickScore: $usTrickScore, '
