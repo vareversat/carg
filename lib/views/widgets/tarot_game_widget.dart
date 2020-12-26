@@ -26,13 +26,11 @@ class TarotGameWidget extends StatelessWidget {
             children: <Widget>[
               FutureBuilder<TarotScore>(
                   builder: (context, snapshot) {
-                    if (snapshot.connectionState ==
-                        ConnectionState.waiting) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(
                           child: SpinKitThreeBounce(
                               size: 30,
-                              itemBuilder:
-                                  (BuildContext context, int index) {
+                              itemBuilder: (BuildContext context, int index) {
                                 return DecoratedBox(
                                     decoration: BoxDecoration(
                                   color: Theme.of(context).accentColor,
@@ -50,7 +48,7 @@ class TarotGameWidget extends StatelessWidget {
                                   displayImage: true,
                                   size: 20,
                                   additionalText:
-                                      '| ${snapshot.data.getScoreOf(playerId).score.round().toString()}',
+                                      ' | ${snapshot.data.getScoreOf(playerId).score.round().toString()}',
                                 ))
                             .toList()
                             .cast<Widget>(),
@@ -58,8 +56,7 @@ class TarotGameWidget extends StatelessWidget {
                     }
                     return Center(child: Text('error'));
                   },
-                  future:
-                      tarotGame.scoreService.getScoreByGame(tarotGame.id)),
+                  future: tarotGame.scoreService.getScoreByGame(tarotGame.id)),
               _ButtonRowWidget(tarotGame: tarotGame),
             ]),
         margin: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
@@ -219,7 +216,7 @@ class _ButtonRowWidget extends StatelessWidget {
                   )
                 },
             label: Text(
-              'Jouer',
+              MaterialLocalizations.of(context).continueButtonLabel,
             ),
             icon: Icon(Icons.play_arrow))
       else
