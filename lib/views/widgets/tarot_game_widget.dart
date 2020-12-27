@@ -6,10 +6,10 @@ import 'package:carg/models/score/team_game_score.dart';
 import 'package:carg/views/dialogs/warning_dialog.dart';
 import 'package:carg/views/screens/play_tarot_game_screen.dart';
 import 'package:carg/views/widgets/api_mini_player_widget.dart';
+import 'package:carg/views/widgets/team_game_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:intl/intl.dart';
 
 class TarotGameWidget extends StatelessWidget {
   final TarotGame tarotGame;
@@ -22,7 +22,7 @@ class TarotGameWidget extends StatelessWidget {
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
         child: ExpansionTile(
-            title: _CardTitle(startingDate: tarotGame.startingDate),
+            title: CardTitle(game: tarotGame),
             children: <Widget>[
               FutureBuilder<TarotScore>(
                   builder: (context, snapshot) {
@@ -63,21 +63,6 @@ class TarotGameWidget extends StatelessWidget {
         margin: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
         elevation: 2,
         color: Colors.white);
-  }
-}
-
-class _CardTitle extends StatelessWidget {
-  final DateTime startingDate;
-
-  const _CardTitle({this.startingDate});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-        child: Text(
-            'Partie du ' +
-                DateFormat('dd/MM/yyyy à HH:mm').format(startingDate),
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)));
   }
 }
 

@@ -1,4 +1,5 @@
 import 'package:carg/helpers/custom_route.dart';
+import 'package:carg/models/game/game.dart';
 import 'package:carg/models/game/team_game.dart';
 import 'package:carg/models/score/team_game_score.dart';
 import 'package:carg/views/dialogs/warning_dialog.dart';
@@ -20,7 +21,7 @@ class TeamGameWidget extends StatelessWidget {
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
         child: ExpansionTile(
-            title: _CardTitle(startingDate: teamGame.startingDate),
+            title: CardTitle(game: teamGame),
             children: <Widget>[
               Column(
                 children: [
@@ -43,17 +44,18 @@ class TeamGameWidget extends StatelessWidget {
   }
 }
 
-class _CardTitle extends StatelessWidget {
-  final DateTime startingDate;
+class CardTitle extends StatelessWidget {
+  final Game game;
 
-  const _CardTitle({this.startingDate});
+  const CardTitle({this.game});
 
   @override
   Widget build(BuildContext context) {
     return Center(
         child: Text(
-            'Partie du ' +
-                DateFormat('dd/MM/yyyy à HH:mm').format(startingDate),
+            'Le ' +
+                DateFormat('dd/MM/yyyy à HH:mm').format(game.startingDate) +
+                (game.isEnded ? ' ✅️' : ' ⚔️'),
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)));
   }
 }
