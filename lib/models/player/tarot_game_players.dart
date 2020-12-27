@@ -4,6 +4,8 @@ import 'package:carg/models/player/players.dart';
 class TarotGamePlayers extends Players {
   final List<Player> _players = [];
 
+  List<Player> get players => _players;
+
   TarotGamePlayers();
 
   @override

@@ -4,17 +4,20 @@ import 'package:carg/models/score/misc/player_score.dart';
 import 'package:carg/models/score/round/tarot_round.dart';
 import 'package:carg/models/score/tarot_score.dart';
 import 'package:carg/services/game/game_service.dart';
+import 'package:carg/services/player_service.dart';
 import 'package:carg/services/score/tarot_score_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 
 class TarotGameService extends GameService<TarotGame, TarotGamePlayers> {
   TarotScoreService _tarotScoreService;
+  PlayerService _playerService;
   static const String flavor =
       String.fromEnvironment('FLAVOR', defaultValue: 'dev');
 
   TarotGameService() : super() {
     _tarotScoreService = TarotScoreService();
+    _playerService = PlayerService();
   }
 
   @override
@@ -63,6 +66,8 @@ class TarotGameService extends GameService<TarotGame, TarotGamePlayers> {
   @override
   Future<TarotGame> createGameWithPlayers(TarotGamePlayers players) async {
     try {
+      players.players.forEach((player) async =>
+      {await _playerService.incrementPlayedGamesByOne(player)});
       var tarotGame = TarotGame(
           isEnded: false,
           startingDate: DateTime.now(),
@@ -91,6 +96,7 @@ class TarotGameService extends GameService<TarotGame, TarotGamePlayers> {
       if (totalPoints != null && totalPoints.isNotEmpty) {
         totalPoints.sort((a, b) => a.score.compareTo(b.score));
         winner = totalPoints.last;
+        await _playerService.incrementWonGamesByOne(winner.player);
       }
       await FirebaseFirestore.instance
           .collection('tarot-game-' + flavor)
