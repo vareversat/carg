@@ -24,7 +24,7 @@ jobs:
       - name: 'Checkout source code'
         uses: actions/checkout@v2
       - name: 'Test code'
-        run: flutter test
+        run: flutter test -v
   build_android:
     needs: [ analyze, test ]
     name: 'Build Android'
