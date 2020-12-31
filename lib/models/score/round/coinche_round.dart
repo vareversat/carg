@@ -65,7 +65,7 @@ class CoincheRound extends TeamGameRound {
       defenderScore = contractName.bonus(
           TeamGameRound.totalScore +
               contract +
-              getBeloteRebeloteOfTeam(beloteRebelote),
+              getBeloteRebeloteOfTeam(defender),
           contract);
     }
     notifyListeners();
