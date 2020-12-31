@@ -4,7 +4,7 @@ import algoliasearch from 'algoliasearch';
 const ALGOLIA_APP_ID = 'A0M2ID7FCT';
 const ALGOLIA_ADMIN_KEY = 'f897240bd9ba1dbaf4cbda253903f47a';
 
-let client = algoliasearch(ALGOLIA_APP_ID, ALGOLIA_ADMIN_KEY);
+const client = algoliasearch(ALGOLIA_APP_ID, ALGOLIA_ADMIN_KEY);
 const indexDev = client.initIndex('player_dev');
 const indexProd = client.initIndex('player_prod');
 
