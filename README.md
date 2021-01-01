@@ -1,6 +1,8 @@
 [![flutter](https://img.shields.io/badge/flutter-blue?logo=flutter&style=for-the-badge)](https://flutter.dev) 
 [![firebase](https://img.shields.io/badge/firebase-grey?logo=firebase&style=for-the-badge)](https://firebase.google.com)
-[![firebase](https://img.shields.io/badge/algolia-grey?logo=algolia&style=for-the-badge)](https://algolia.com)
+[![algolia](https://img.shields.io/badge/algolia-grey?logo=algolia&style=for-the-badge)](https://algolia.com)
+[![codecov](https://img.shields.io/codecov/c/github/devosud/carg?logo=codecov&style=for-the-badge&token=7EXLUQ93ZT)](https://codecov.io/gh/Devosud/carg/)
+
 # Carg
 This mobile app allow you to register with your own account and then save your games of French Belote (and French Coinched Belote) and Tarot !
 
@@ -30,8 +32,8 @@ $ firebase deploy --only functions
 3) Create a file named *algolia.json* in assets/config like this :
 ```json
 {
-  "app_id": YOUR_APP_ID,
-  "api_key": YOUR_API_KEY
+  "app_id": "YOUR_APP_ID",
+  "api_key": "YOUR_API_KEY"
 }
 ```
 
