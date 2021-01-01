@@ -28,7 +28,6 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           directory: ./coverage/
-          verbose: true
   build_android:
     needs: [ analyze, test ]
     name: 'Build Android'
