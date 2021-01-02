@@ -23,6 +23,7 @@ class TarotRound extends Round {
   TarotContract _contract;
   TarotBonus _bonus;
   TarotHandful _handful;
+  TarotTeam _handfulTeam;
   TarotTeam _smallAtTheEndTeam;
   TarotChelem _chelem;
   List<PlayerScore> playerPoints;
@@ -37,6 +38,7 @@ class TarotRound extends Round {
     contract,
     bonus,
     handful,
+    handfulTeam,
     chelem,
     smallToTheEnd,
     this.playerPoints,
@@ -54,6 +56,7 @@ class TarotRound extends Round {
     _smallAtTheEndTeam = smallToTheEnd;
     _chelem = chelem;
     _handful = handful;
+    _handfulTeam = handfulTeam;
   }
 
   TarotChelem get chelem => _chelem;
@@ -103,6 +106,14 @@ class TarotRound extends Round {
     computeRound();
   }
 
+  TarotTeam get handfulTeam => _handfulTeam;
+
+  set handfulTeam(TarotTeam value) {
+    _handfulTeam = value;
+    computeRound();
+  }
+
+
   double get attackTrickPoints => _attackTrickPoints;
 
   set attackTrickPoints(double value) {
@@ -131,8 +142,9 @@ class TarotRound extends Round {
     var score = 0.0;
     var winCoefficient = 1;
     var smallToTheEndBonus = 0.0;
+    var handfulBonus = 0.0;
     score = (victoryBonus + gain.abs()) * contract.multiplayer;
-    score += (handful?.bonus ?? 0) + (chelem?.bonus ?? 0);
+    score += (chelem?.bonus ?? 0);
     if (gain >= 0) {
       if (smallToTheEndTeam != null) {
         switch (smallToTheEndTeam) {
@@ -143,6 +155,16 @@ class TarotRound extends Round {
           case TarotTeam.DEFENSE:
             smallToTheEndBonus =
                 -TarotRound.smallToTheEndBonus * contract.multiplayer;
+            break;
+        }
+      }
+      if (handfulTeam != null && handful != null) {
+        switch (handfulTeam) {
+          case TarotTeam.ATTACK:
+            handfulBonus = handful.bonus.toDouble();
+            break;
+          case TarotTeam.DEFENSE:
+            handfulBonus = -handful.bonus.toDouble();
             break;
         }
       }
@@ -159,9 +181,20 @@ class TarotRound extends Round {
             break;
         }
       }
+      if (handfulTeam != null && handful != null) {
+        switch (handfulTeam) {
+          case TarotTeam.ATTACK:
+            handfulBonus = -handful.bonus.toDouble();
+            break;
+          case TarotTeam.DEFENSE:
+            handfulBonus = handful.bonus.toDouble();
+            break;
+        }
+      }
       winCoefficient = -1;
     }
     score += smallToTheEndBonus;
+    score += handfulBonus;
     attackScore = winCoefficient * score * (players.playerList.length - 1);
     defenseScore = -winCoefficient * score;
     notifyListeners();

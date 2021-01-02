@@ -23,7 +23,8 @@ class TarotPerkWidget extends StatelessWidget {
         builder: (
           BuildContext context,
         ) {
-          return _HandfulPicker(round.handful, tarotGame.playerIds.length);
+          return _HandfulPicker(
+              round.handful, round.handfulTeam, tarotGame.playerIds.length);
         },
       );
     }
@@ -81,18 +82,21 @@ class TarotPerkWidget extends StatelessWidget {
                 round.handful != null ? () => {round.handful = null} : null,
             avatar: round.handful != null
                 ? CircleAvatar(
-                    child: Text(EnumToString.convertToString(round.handful)
+                    child: Text(EnumToString.convertToString(round.handfulTeam)
                         ?.substring(0, 1)))
                 : null,
             showCheckmark: false,
             selectedColor: Theme.of(context).accentColor,
             selected: round.handful != null,
             onPressed: () async {
-              await _showHandfulPicker().then((value) => round.handful = value);
+              await _showHandfulPicker().then((value) => {
+                    if (value != null)
+                      {round.handful = value[0], round.handfulTeam = value[1]}
+                  });
             },
             label: Text('${TarotBonus.HANDFUL.name}' +
                 (round.handful != null
-                    ? ' |  ${round.handful.bonus} points'
+                    ? ' ${round.handful.name}'
                     : '')),
           ),
           InputChip(
@@ -122,9 +126,10 @@ class TarotPerkWidget extends StatelessWidget {
 
 class _HandfulPicker extends StatelessWidget {
   final TarotHandful handful;
+  final TarotTeam handfulTeam;
   final int playerCount;
 
-  const _HandfulPicker(this.handful, this.playerCount);
+  const _HandfulPicker(this.handful, this.handfulTeam, this.playerCount);
 
   @override
   Widget build(BuildContext context) {
@@ -139,21 +144,57 @@ class _HandfulPicker extends StatelessWidget {
             direction: Axis.horizontal,
             children: TarotHandful.values
                 .map(
-                  (poingnee) => InputChip(
-                    selectedColor: Theme.of(context).primaryColor,
-                    checkmarkColor:
-                        handful == poingnee ? Colors.white : Colors.black,
-                    selected: handful == poingnee,
-                    onPressed: () {
-                      Navigator.pop(context, poingnee);
-                    },
-                    label: Text(
-                      '${poingnee.name} (${poingnee.perkCount(playerCount)} atouts | ${poingnee.bonus} points)',
-                      style: TextStyle(
-                          color: handful == poingnee
-                              ? Colors.white
-                              : Colors.black),
-                    ),
+                  (poingnee) => Column(
+                    children: [
+                      Text(
+                          '${poingnee.name} (${poingnee.perkCount} atouts = ${poingnee.bonus} points)',
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            InputChip(
+                              selectedColor: Theme.of(context).primaryColor,
+                              checkmarkColor: (handful == poingnee &&
+                                      handfulTeam == TarotTeam.ATTACK)
+                                  ? Colors.white
+                                  : Colors.black,
+                              selected: handful == poingnee &&
+                                  handfulTeam == TarotTeam.ATTACK,
+                              onPressed: () {
+                                Navigator.pop(
+                                    context, [poingnee, TarotTeam.ATTACK]);
+                              },
+                              label: Text(
+                                'Attaque',
+                                style: TextStyle(
+                                    color: (handful == poingnee &&
+                                            handfulTeam == TarotTeam.ATTACK)
+                                        ? Colors.white
+                                        : Colors.black),
+                              ),
+                            ),
+                            InputChip(
+                                selectedColor: Theme.of(context).primaryColor,
+                                checkmarkColor: (handful == poingnee &&
+                                        handfulTeam == TarotTeam.DEFENSE)
+                                    ? Colors.white
+                                    : Colors.black,
+                                selected: handful == poingnee &&
+                                    handfulTeam == TarotTeam.DEFENSE,
+                                onPressed: () {
+                                  Navigator.pop(
+                                      context, [poingnee, TarotTeam.DEFENSE]);
+                                },
+                                label: Text(
+                                  'Défense',
+                                  style: TextStyle(
+                                      color: (handful == poingnee &&
+                                              handfulTeam == TarotTeam.DEFENSE)
+                                          ? Colors.white
+                                          : Colors.black),
+                                ))
+                          ])
+                    ],
                   ),
                 )
                 .toList()

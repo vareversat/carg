@@ -1,40 +1,16 @@
 enum TarotHandful { SIMPLE, DOUBLE, TRIPLE }
 
 extension TarotHandfulExtension on TarotHandful {
-  String perkCount(var playerCount) {
+  int get perkCount {
     switch (this) {
       case TarotHandful.SIMPLE:
-        var rules = [
-          {'playerCount': 3, 'perkCount': 13},
-          {'playerCount': 4, 'perkCount': 10},
-          {'playerCount': 5, 'perkCount': 8}
-        ];
-        return rules
-            .firstWhere(
-                (element) => element['playerCount'] == playerCount)['perkCount']
-            .toString();
+        return 10;
       case TarotHandful.DOUBLE:
-        var rules = [
-          {'playerCount': 3, 'perkCount': 15},
-          {'playerCount': 4, 'perkCount': 13},
-          {'playerCount': 5, 'perkCount': 10}
-        ];
-        return rules
-            .firstWhere(
-                (element) => element['playerCount'] == playerCount)['perkCount']
-            .toString();
+        return 13;
       case TarotHandful.TRIPLE:
-        var rules = [
-          {'playerCount': 3, 'perkCount': 18},
-          {'playerCount': 4, 'perkCount': 15},
-          {'playerCount': 5, 'perkCount': 13}
-        ];
-        return rules
-            .firstWhere(
-                (element) => element['playerCount'] == playerCount)['perkCount']
-            .toString();
+        return 15;
       default:
-        return null;
+        return 0;
     }
   }
 
