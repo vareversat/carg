@@ -69,12 +69,12 @@ class TarotPerkWidget extends StatelessWidget {
             selectedColor: Theme.of(context).accentColor,
             selected: round.smallToTheEndTeam != null,
             onPressed: () async {
-              await _showSmallToTheEndPicker()
-                  .then((value) => round.smallToTheEndTeam = value);
+              await _showSmallToTheEndPicker().then((value) =>
+                  {if (value != null) round.smallToTheEndTeam = value});
             },
             label: Text('${TarotBonus.SMALL_TO_THE_END.name}' +
                 (round.smallToTheEndTeam != null
-                    ? ' |  ${TarotRound.smallToTheEndBonus.round()} points'
+                    ? ' |  ${TarotRound.smallToTheEndBonus.round()} pts'
                     : '')),
           ),
           InputChip(
@@ -95,9 +95,7 @@ class TarotPerkWidget extends StatelessWidget {
                   });
             },
             label: Text('${TarotBonus.HANDFUL.name}' +
-                (round.handful != null
-                    ? ' ${round.handful.name}'
-                    : '')),
+                (round.handful != null ? ' ${round.handful.name}' : '')),
           ),
           InputChip(
             onDeleted:
@@ -111,12 +109,11 @@ class TarotPerkWidget extends StatelessWidget {
             selectedColor: Theme.of(context).accentColor,
             selected: round.chelem != null,
             onPressed: () async {
-              await _showChelemPicker().then((value) => round.chelem = value);
+              await _showChelemPicker()
+                  .then((value) => {if (value != null) round.chelem = value});
             },
             label: Text('${TarotBonus.CHELEM.name}' +
-                (round.chelem != null
-                    ? ' |  ${round.chelem.bonus} points'
-                    : '')),
+                (round.chelem != null ? ' |  ${round.chelem.bonus} pts' : '')),
           ),
         ])
       ],
@@ -290,7 +287,7 @@ class _ChelemPicker extends StatelessWidget {
                       Navigator.pop(context, chelem);
                     },
                     label: Text(
-                      '${chelem.name} (${chelem.bonus.toString()} points)',
+                      '${chelem.name} (${chelem.bonus.toString()} pts)',
                       style: TextStyle(
                           color: tarotChelem == chelem
                               ? Colors.white
