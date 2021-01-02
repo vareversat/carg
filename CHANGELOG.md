@@ -1,13 +1,17 @@
-## **v0.8.0** :
-- *Bug fixes* :
-    - The number of game played is now correctly increment when a tarot game is started
-    - Same for the won counter (if the game is won)
-    - Them / Us is now correctly displayed if we edit the last round in Belote / Coinche
-    - Minor fixes
-    - The displaying of rounds for Coinche / Belote is now larger
+## **v0.8.4** :
+- *Fixed bugs* :
+    - Fix a bug which prevented players to get the points of te he Belote / Rebolete if the taker lost in a Coinche game
+    - Fix the handful bad behaviour in a tarot game
 - *New stuff* :
-    - The ending of a tarot game is now correctly handle
-    - Display "Continue" instead of "Play" to continue a game
-    - The score a tarot game can be seen even of the game has ended
+  - Add an icon to directly know if a game is still running on the list
+  - Tapping outside the dialog of the tarot round perk keep the value previously selected
+- *Dev stuff* :
+  - Add crashlytics and performances libraries from Firebase
+  - Move to Kotlin build
+  - Add support for AndroidX
+  - Move firebase functions into a proper directory
+  - Create tests (Belote, Coinche and Tarot rounds)
+  - Upload coverage to Codecov
+  
     
     
