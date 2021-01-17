@@ -8,11 +8,11 @@ environment:
 
 dependencies:
   algolia: ^0.1.7
-  cloud_firestore: ^0.14.1+2
+  cloud_firestore: ^0.16.0
   cupertino_icons: ^1.0.0
   enum_to_string: ^1.0.9
-  firebase_core: ^0.5.0
-  firebase_auth: ^0.18.1+1
+  firebase_core: ^0.7.0
+  firebase_auth: ^0.20.0+1
   flutter:
     sdk: flutter
   flutter_localizations:
