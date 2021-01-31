@@ -1,4 +1,4 @@
-import 'package:carg/models/player/player.dart';
+import 'package:carg/models/player.dart';
 import 'package:carg/views/dialogs/edit_player_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';

@@ -1,5 +1,5 @@
 import 'package:carg/models/game/belote_game.dart';
-import 'package:carg/models/player/team_game_players.dart';
+import 'package:carg/models/players/team_game_players.dart';
 import 'package:carg/models/score/belote_score.dart';
 import 'package:carg/models/score/round/belote_round.dart';
 import 'package:carg/models/team.dart';
@@ -68,20 +68,17 @@ class BeloteGameService implements TeamGameService<BeloteGame> {
   }
 
   @override
-  Future<BeloteGame> createGameWithPlayers(TeamGamePlayers players) async {
+  Future<BeloteGame> createGameWithPlayerList(List<String> playerList) async {
     try {
       var usTeam = await _teamService
-          .getTeamByPlayers(players.us.map((e) => e.id).toList());
+          .getTeamByPlayers(playerList.sublist(0, 2).map((e) => e).toList());
       var themTeam = await _teamService
-          .getTeamByPlayers(players.them.map((e) => e.id).toList());
-      players.us.addAll(players.them);
-      players.us.forEach((player) async =>
-          {await _playerService.incrementPlayedGamesByOne(player)});
+          .getTeamByPlayers(playerList.sublist(2, 4).map((e) => e).toList());
+      playerList.forEach((playerId) async =>
+          {await _playerService.incrementPlayedGamesByOne(playerId)});
       var beloteGame = BeloteGame(
-          isEnded: false,
-          startingDate: DateTime.now(),
-          us: usTeam.id,
-          them: themTeam.id);
+          players: TeamGamePlayers(
+              us: usTeam.id, them: themTeam.id, playerList: playerList));
       var documentReference = await FirebaseFirestore.instance
           .collection('belote-game-' + flavor)
           .add(beloteGame.toJSON());
@@ -104,9 +101,9 @@ class BeloteGameService implements TeamGameService<BeloteGame> {
       Team winners;
       var score = await _beloteScoreService.getScoreByGame(game.id);
       if (score.themTotalPoints > score.usTotalPoints) {
-        winners = await _teamService.incrementWonGamesByOne(game.them);
+        winners = await _teamService.incrementWonGamesByOne(game.players.them);
       } else if (score.themTotalPoints < score.usTotalPoints) {
-        winners = await _teamService.incrementWonGamesByOne(game.us);
+        winners = await _teamService.incrementWonGamesByOne(game.players.us);
       }
       await FirebaseFirestore.instance
           .collection('belote-game-' + flavor)

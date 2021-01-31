@@ -1,5 +1,5 @@
 import 'package:carg/models/game/tarot_game.dart';
-import 'package:carg/models/player/tarot_game_players_round.dart';
+import 'package:carg/models/players/tarot_round_players.dart';
 import 'package:carg/models/score/round/tarot_round.dart';
 import 'package:carg/models/score/tarot_score.dart';
 import 'package:carg/services/score/tarot_score_service.dart';
@@ -9,6 +9,7 @@ import 'package:carg/views/screens/add_round/add_tarot_game_round_screen.dart';
 import 'package:carg/views/screens/home_screen.dart';
 import 'package:carg/views/widgets/api_mini_player_widget.dart';
 import 'package:carg/views/widgets/error_message_widget.dart';
+import 'package:carg/views/widgets/players/next_player_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -38,8 +39,8 @@ class _PlayTarotGameState extends State<PlayTarotGame> {
       MaterialPageRoute(
           builder: (context) => AddTarotGameRoundScreen(
               tarotRound: TarotRound(
-                  players:
-                      TarotGamePlayersRound(players: _tarotGame.playerIds)),
+                  players: TarotRoundPlayers(
+                      playerList: _tarotGame.players.playerList)),
               isEditing: false,
               tarotGame: _tarotGame)),
     );
@@ -118,13 +119,13 @@ class _PlayTarotGameState extends State<PlayTarotGame> {
               child: ListView.builder(
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
-                  itemCount: _tarotGame.playerIds.length,
+                  itemCount: _tarotGame.players.playerList.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
                       width: MediaQuery.of(context).size.width /
-                          _tarotGame.playerIds.length,
+                          _tarotGame.players.playerList.length,
                       child: APIMiniPlayerWidget(
-                        playerId: _tarotGame.playerIds[index],
+                        playerId: _tarotGame.players.playerList[index],
                         displayImage: true,
                       ),
                     );
@@ -155,15 +156,15 @@ class _PlayTarotGameState extends State<PlayTarotGame> {
                           Flexible(
                             child: ListView.builder(
                                 scrollDirection: Axis.horizontal,
-                                itemCount: _tarotGame.playerIds.length,
+                                itemCount: _tarotGame.players.playerList.length,
                                 itemBuilder: (BuildContext context, int index) {
                                   return Container(
                                     width: MediaQuery.of(context).size.width /
-                                        _tarotGame.playerIds.length,
+                                        _tarotGame.players.playerList.length,
                                     child: _TotalPointsWidget(
                                         totalPoints: snapshot.data
-                                            .getScoreOf(
-                                                _tarotGame.playerIds[index])
+                                            .getScoreOf(_tarotGame
+                                                .players.playerList[index])
                                             .score),
                                   );
                                 }),
@@ -186,16 +187,22 @@ class _PlayTarotGameState extends State<PlayTarotGame> {
                                                 width: MediaQuery.of(context)
                                                         .size
                                                         .width /
-                                                    _tarotGame.playerIds.length,
+                                                    _tarotGame.players
+                                                        .playerList.length,
                                                 child: _RoundDisplay(
                                                     round: snapshot
                                                         .data.rounds[index],
-                                                    player:
-                                                        _tarotGame.playerIds[
-                                                            playerIndex]));
+                                                    player: _tarotGame
+                                                            .players.playerList[
+                                                        playerIndex]));
                                           }));
                                 }),
-                          )
+                          ),
+                          if (!_tarotGame.isEnded)
+                            NextPlayerWidget(
+                              playerId: _tarotGame.players.playerList[
+                                  snapshot.data.rounds.length %
+                                      _tarotGame.players.playerList.length]),
                         ],
                       );
                     },
@@ -203,47 +210,47 @@ class _PlayTarotGameState extends State<PlayTarotGame> {
                         _tarotScoreService.getScoreByGameStream(_tarotGame.id),
                   ))),
           if (!_tarotGame.isEnded)
-          Wrap(
-              spacing: 10,
-              alignment: WrapAlignment.spaceAround,
-              children: <Widget>[
-                RaisedButton.icon(
-                    onPressed: () async => {_deleteLastRound()},
-                    color: Theme.of(context).errorColor,
-                    textColor: Theme.of(context).cardColor,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18.0)),
-                    icon: Icon(Icons.delete_forever),
-                    label: Text('Supprimer la dernière manche',
-                        style: TextStyle(fontWeight: FontWeight.bold))),
-                RaisedButton.icon(
-                    onPressed: () async => {_editLastRound()},
-                    color: Colors.black,
-                    textColor: Theme.of(context).cardColor,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18.0)),
-                    icon: Icon(Icons.edit),
-                    label: Text('Éditer la dernière manche',
-                        style: TextStyle(fontWeight: FontWeight.bold))),
-                RaisedButton.icon(
-                    onPressed: () async => {_endGame()},
-                    color: Theme.of(context).errorColor,
-                    textColor: Theme.of(context).cardColor,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18.0)),
-                    icon: Icon(Icons.stop),
-                    label: Text('Terminer la partie',
-                        style: TextStyle(fontWeight: FontWeight.bold))),
-                RaisedButton.icon(
-                    onPressed: () => {_addNewRound()},
-                    color: Theme.of(context).primaryColor,
-                    textColor: Theme.of(context).cardColor,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18.0)),
-                    icon: Icon(Icons.plus_one),
-                    label: Text('Nouvelle manche',
-                        style: TextStyle(fontWeight: FontWeight.bold)))
-              ]),
+            Wrap(
+                spacing: 10,
+                alignment: WrapAlignment.spaceAround,
+                children: <Widget>[
+                  RaisedButton.icon(
+                      onPressed: () async => {_deleteLastRound()},
+                      color: Theme.of(context).errorColor,
+                      textColor: Theme.of(context).cardColor,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0)),
+                      icon: Icon(Icons.delete_forever),
+                      label: Text('Supprimer la dernière manche',
+                          style: TextStyle(fontWeight: FontWeight.bold))),
+                  RaisedButton.icon(
+                      onPressed: () async => {_editLastRound()},
+                      color: Colors.black,
+                      textColor: Theme.of(context).cardColor,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0)),
+                      icon: Icon(Icons.edit),
+                      label: Text('Éditer la dernière manche',
+                          style: TextStyle(fontWeight: FontWeight.bold))),
+                  RaisedButton.icon(
+                      onPressed: () async => {_endGame()},
+                      color: Theme.of(context).errorColor,
+                      textColor: Theme.of(context).cardColor,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0)),
+                      icon: Icon(Icons.stop),
+                      label: Text('Terminer la partie',
+                          style: TextStyle(fontWeight: FontWeight.bold))),
+                  RaisedButton.icon(
+                      onPressed: () => {_addNewRound()},
+                      color: Theme.of(context).primaryColor,
+                      textColor: Theme.of(context).cardColor,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0)),
+                      icon: Icon(Icons.plus_one),
+                      label: Text('Nouvelle manche',
+                          style: TextStyle(fontWeight: FontWeight.bold)))
+                ]),
           SizedBox(
             height: 10,
           )

@@ -1,5 +1,5 @@
 import 'package:carg/models/game/game.dart';
-import 'package:carg/models/player/players.dart';
+import 'package:carg/models/players/players.dart';
 
 abstract class GameService<T extends Game, P extends Players> {
   Future<List<T>> getAllGames();
@@ -10,5 +10,5 @@ abstract class GameService<T extends Game, P extends Players> {
 
   Future endAGame(T game);
 
-  Future<T> createGameWithPlayers(P players);
+  Future<T> createGameWithPlayerList(List<String> playerList);
 }

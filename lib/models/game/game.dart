@@ -1,28 +1,28 @@
 import 'package:carg/models/carg_object.dart';
 import 'package:carg/models/game/game_type.dart';
-import 'package:carg/models/player/players.dart';
+import 'package:carg/models/players/players.dart';
 import 'package:carg/services/game/game_service.dart';
 import 'package:carg/services/score/score_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 
-abstract class Game extends CargObject {
+abstract class Game<T extends Players> extends CargObject {
   DateTime startingDate;
   DateTime endingDate;
   bool isEnded;
   String winner;
-  Players players;
-  GameType gameType;
+  T players;
   GameService gameService;
   ScoreService scoreService;
+  GameType _gameType;
 
   String getGameTypeName() {
-    return gameType.name;
+    return _gameType.name;
   }
 
   Game(
       {String id,
-      @required this.gameType,
+      @required gameType,
       @required this.gameService,
       @required this.scoreService,
       this.players,
@@ -30,7 +30,9 @@ abstract class Game extends CargObject {
       this.endingDate,
       this.winner,
       this.isEnded = false})
-      : super(id: id);
+      : super(id: id) {
+    _gameType = gameType;
+  }
 
   @override
   Map<String, dynamic> toJSON() {
@@ -46,6 +48,10 @@ abstract class Game extends CargObject {
 
   @override
   String toString() {
-    return 'Game{startingDate: $startingDate, endingDate: $endingDate, isEnded: $isEnded, winner: $winner, players: $players, gameType: $gameType, gameService: $gameService}';
+    return 'Game{startingDate: $startingDate, '
+        'endingDate: $endingDate, isEnded: $isEnded, '
+        'winner: $winner, players: $players, '
+        'gameService: $gameService, '
+        'scoreService: $scoreService, _gameType: $_gameType}';
   }
 }

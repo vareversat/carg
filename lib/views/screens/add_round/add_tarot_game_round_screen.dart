@@ -1,5 +1,5 @@
 import 'package:carg/models/game/tarot_game.dart';
-import 'package:carg/models/player/tarot_game_players_round.dart';
+import 'package:carg/models/players/tarot_round_players.dart';
 import 'package:carg/models/score/round/tarot_round.dart';
 import 'package:carg/views/screens/add_round/widget/real_time_display_widget.dart';
 import 'package:carg/views/screens/add_round/widget/screen_title_widget.dart';
@@ -47,22 +47,22 @@ class AddTarotGameRoundScreen extends StatelessWidget {
                           (tarotRound.players.playerList.length > 4
                               ? ' et appelé'
                               : '')),
-                  Consumer<TarotGamePlayersRound>(
+                  Consumer<TarotRoundPlayers>(
                     builder: (context, playerData, _) => Wrap(
                       alignment: WrapAlignment.center,
                       spacing: 10,
                       children: playerData.playerList
-                          .map((playerId) => APIMiniPlayerWidget(
-                              isSelected: playerData.isPlayerSelected(playerId),
-                              playerId: playerId,
+                          .map((player) => APIMiniPlayerWidget(
+                              isSelected: playerData.isPlayerSelected(player),
+                              playerId: player,
                               displayImage:
-                                  !playerData.isPlayerSelected(playerId),
+                                  !playerData.isPlayerSelected(player),
                               showLoading: false,
                               selectedColor: playerData.getSelectedColor(
-                                  playerId, context),
+                                  player, context),
                               size: 20,
                               onTap: () =>
-                                  playerData.onSelectedPlayer2(playerId)))
+                                  playerData.onSelectedPlayer2(player)))
                           .toList()
                           .cast<Widget>(),
                     ),

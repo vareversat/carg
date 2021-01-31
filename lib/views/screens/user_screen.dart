@@ -1,4 +1,4 @@
-import 'package:carg/models/player/player.dart';
+import 'package:carg/models/player.dart';
 import 'package:carg/services/auth_service.dart';
 import 'package:carg/services/player_service.dart';
 import 'package:carg/styles/text_style.dart';

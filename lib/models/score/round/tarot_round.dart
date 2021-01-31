@@ -1,10 +1,10 @@
-import 'package:carg/models/player/tarot_game_players_round.dart';
-import 'package:carg/models/score/misc/player_score.dart';
+import 'package:carg/models/players/tarot_round_players.dart';
 import 'package:carg/models/score/misc/tarot_chelem.dart';
 import 'package:carg/models/score/misc/tarot_contract.dart';
 import 'package:carg/models/score/misc/tarot_handful.dart';
 import 'package:carg/models/score/misc/tarot_oudler.dart';
 import 'package:carg/models/score/misc/tarot_perk.dart';
+import 'package:carg/models/score/misc/tarot_player_score.dart';
 import 'package:carg/models/score/misc/tarot_team.dart';
 import 'package:carg/models/score/round/round.dart';
 import 'package:enum_to_string/enum_to_string.dart';
@@ -18,7 +18,7 @@ class TarotRound extends Round {
   double _defenseScore;
   double _attackTrickPoints;
   double _defenseTrickPoints;
-  TarotGamePlayersRound players;
+  TarotRoundPlayers players;
   TarotOudler _oudler;
   TarotContract _contract;
   TarotBonus _bonus;
@@ -26,7 +26,7 @@ class TarotRound extends Round {
   TarotTeam _handfulTeam;
   TarotTeam _smallAtTheEndTeam;
   TarotChelem _chelem;
-  List<PlayerScore> playerPoints;
+  List<TarotPlayerScore> playerPoints;
 
   TarotRound({
     index,
@@ -200,7 +200,7 @@ class TarotRound extends Round {
     notifyListeners();
   }
 
-  PlayerScore getScoreOf(String player) {
+  TarotPlayerScore getScoreOf(String player) {
     return playerPoints.firstWhere((element) => element.player == player);
   }
 
@@ -244,8 +244,8 @@ class TarotRound extends Round {
       defenseScore: json['defense_score'],
       attackTrickPoints: json['attack_trick_points'],
       defenseTrickPoints: json['defense_trick_points'],
-      playerPoints: PlayerScore.fromJSONList(json['player_points']),
-      players: TarotGamePlayersRound.fromJSON(json['players']),
+      playerPoints: TarotPlayerScore.fromJSONList(json['player_points']),
+      players: TarotRoundPlayers.fromJSON(json['players']),
       oudler: EnumToString.fromString(TarotOudler.values, json['oudler']),
       contract: EnumToString.fromString(TarotContract.values, json['contract']),
       bonus: EnumToString.fromString(TarotBonus.values, json['bonus']),

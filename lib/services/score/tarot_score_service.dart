@@ -1,4 +1,4 @@
-import 'package:carg/models/score/misc/player_score.dart';
+import 'package:carg/models/score/misc/tarot_player_score.dart';
 import 'package:carg/models/score/round/tarot_round.dart';
 import 'package:carg/models/score/tarot_score.dart';
 import 'package:carg/services/custom_exception.dart';
@@ -125,7 +125,7 @@ class TarotScoreService extends ScoreService<TarotScore, TarotRound> {
   }
 
   TarotRound _computePlayerPoints(TarotRound tarotRound, TarotScore tarotScore) {
-    var _playerPoints = <PlayerScore>[];
+    var _playerPoints = <TarotPlayerScore>[];
     var realAttackScore = tarotRound.players.playerList.length <= 4
         ? tarotRound.attackScore
         : tarotRound.attackScore * (2 / 3);
@@ -133,13 +133,13 @@ class TarotScoreService extends ScoreService<TarotScore, TarotRound> {
     for (var player in tarotRound.players.playerList) {
       if (tarotRound.players.attackPlayer == player) {
         _playerPoints
-            .add(PlayerScore(player: player, score: realAttackScore));
+            .add(TarotPlayerScore(player: player, score: realAttackScore));
       } else if (tarotRound.players.calledPlayer == player) {
         _playerPoints
-            .add(PlayerScore(player: player, score: calledPlayerScore));
+            .add(TarotPlayerScore(player: player, score: calledPlayerScore));
       } else {
         _playerPoints.add(
-            PlayerScore(player: player, score: tarotRound.defenseScore));
+            TarotPlayerScore(player: player, score: tarotRound.defenseScore));
       }
     }
     tarotRound.playerPoints = _playerPoints;

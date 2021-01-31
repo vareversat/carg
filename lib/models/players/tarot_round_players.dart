@@ -1,36 +1,17 @@
-import 'package:carg/models/player/player.dart';
-import 'package:carg/models/player/players.dart';
+import 'package:carg/models/player.dart';
+import 'package:carg/models/players/players.dart';
 import 'package:flutter/material.dart';
 
-class TarotGamePlayersRound extends Players {
-  String _attackPlayer;
-  String _calledPlayer;
-  List<dynamic> playerList;
+class TarotRoundPlayers extends Players {
+  String attackPlayer;
+  String calledPlayer;
 
-  TarotGamePlayersRound({attackPlayer, calledPlayer, players}) {
-    _attackPlayer = attackPlayer;
-    _calledPlayer = calledPlayer;
-    playerList = players;
-  }
-
-  String get attackPlayer => _attackPlayer;
-
-  set attackPlayer(String value) {
-    _attackPlayer = value;
-  }
-
-  String get calledPlayer => _calledPlayer;
-
-  set calledPlayer(String value) {
-    _calledPlayer = value;
-  }
+  TarotRoundPlayers({this.attackPlayer, this.calledPlayer, playerList})
+      : super(playerList: playerList);
 
   bool isPlayerSelected(String playerId) {
     return attackPlayer == playerId || calledPlayer == playerId;
   }
-
-  @override
-  void onSelectedPlayer(Player player) {}
 
   Color getSelectedColor(String playerId, BuildContext context) {
     if (calledPlayer == playerId) {
@@ -70,33 +51,35 @@ class TarotGamePlayersRound extends Players {
   }
 
   @override
-  List<String> getPlayerIds() {
-    return playerList;
-  }
-
   Map<String, dynamic> toJSON() {
-    return {
+    var tmpJSON = super.toJSON();
+    tmpJSON.addAll({
       'attack_player': attackPlayer,
       'called_player': calledPlayer,
-      'players': playerList,
-    };
+    });
+    return tmpJSON;
   }
 
-  factory TarotGamePlayersRound.fromJSON(Map<String, dynamic> json) {
+  factory TarotRoundPlayers.fromJSON(Map<String, dynamic> json) {
     if (json == null) {
       return null;
     }
-    return TarotGamePlayersRound(
+    return TarotRoundPlayers(
       attackPlayer: json['attack_player'],
       calledPlayer: json['called_player'],
-      players: json['players'],
+      playerList: json['player_list'],
     );
   }
 
   @override
   String toString() {
-    return 'TarotGamePlayersRound{_attackPlayer: $_attackPlayer, '
-        '_calledPlayer: $_calledPlayer, '
-        'players: $playerList}';
+    return 'TarotGamePlayersRound{attackPlayer: $attackPlayer, '
+        'calledPlayer: $calledPlayer, '
+        'playerList: $playerList}';
+  }
+
+  @override
+  void onSelectedPlayer(Player player) {
+    throw UnimplementedError();
   }
 }

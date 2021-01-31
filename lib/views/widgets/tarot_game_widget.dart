@@ -42,7 +42,7 @@ class TarotGameWidget extends StatelessWidget {
                       return Wrap(
                         alignment: WrapAlignment.center,
                         spacing: 2,
-                        children: tarotGame.playerIds
+                        children: tarotGame.players.playerList
                             .map((playerId) => APIMiniPlayerWidget(
                                   playerId: playerId,
                                   displayImage: true,

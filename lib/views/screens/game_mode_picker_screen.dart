@@ -2,7 +2,6 @@ import 'package:carg/helpers/custom_route.dart';
 import 'package:carg/models/game/belote_game.dart';
 import 'package:carg/models/game/coinche_game.dart';
 import 'package:carg/models/game/game.dart';
-import 'package:carg/models/game/game_type.dart';
 import 'package:carg/models/game/tarot_game.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/screens/player_picker_screen.dart';
@@ -68,7 +67,7 @@ class _GameModeButton extends StatelessWidget {
             context,
             CustomRouteLeftAndRight(
                 builder: (context) => PlayerPickerScreen(
-                    newGame: game, title: game.gameType.name)))
+                    game: game, title: game.getGameTypeName())))
       },
       child: Card(
         shape: RoundedRectangleBorder(
@@ -80,7 +79,7 @@ class _GameModeButton extends StatelessWidget {
             Padding(
                 padding: const EdgeInsets.all(8.0),
                 child:
-                    Text(game.gameType.name, style: TextStyle(fontSize: 20))),
+                    Text(game.getGameTypeName(), style: TextStyle(fontSize: 20))),
           ],
         ),
       ),

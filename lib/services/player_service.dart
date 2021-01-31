@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:algolia/algolia.dart';
-import 'package:carg/models/player/player.dart';
+import 'package:carg/models/player.dart';
 import 'package:carg/services/custom_exception.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
@@ -30,8 +30,9 @@ class PlayerService {
     }
   }
 
-  Future incrementPlayedGamesByOne(Player player) async {
+  Future incrementPlayedGamesByOne(String id) async {
     try {
+      var player = await getPlayer(id);
       await FirebaseFirestore.instance
           .collection('player-' + flavor)
           .doc(player.id)

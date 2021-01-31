@@ -1,4 +1,4 @@
-import 'package:carg/models/player/tarot_game_players_round.dart';
+import 'package:carg/models/players/tarot_round_players.dart';
 import 'package:carg/models/score/misc/tarot_chelem.dart';
 import 'package:carg/models/score/misc/tarot_contract.dart';
 import 'package:carg/models/score/misc/tarot_handful.dart';
@@ -9,9 +9,9 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('TarotRound', () {
-    final players = TarotGamePlayersRound(
+    final players = TarotRoundPlayers(
         attackPlayer: 'player_1',
-        players: ['player_1', 'player_2', 'player_3', 'player_4']);
+        playerList: ['player_1', 'player_2', 'player_3', 'player_4']);
 
     final tarotRound = TarotRound(
         attackTrickPoints: 51.0, defenseTrickPoints: 40.0, players: players);

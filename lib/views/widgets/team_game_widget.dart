@@ -28,8 +28,8 @@ class TeamGameWidget extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      TeamWidget(teamId: teamGame.us, title: 'Nous'),
-                      TeamWidget(teamId: teamGame.them, title: 'Eux'),
+                      TeamWidget(teamId: teamGame.players.us, title: 'Nous'),
+                      TeamWidget(teamId: teamGame.players.them, title: 'Eux'),
                     ],
                   ),
                   _ShowScoreWidget(teamGame: teamGame),

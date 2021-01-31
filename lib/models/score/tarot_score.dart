@@ -1,17 +1,17 @@
-import 'package:carg/models/score/misc/player_score.dart';
+import 'package:carg/models/score/misc/tarot_player_score.dart';
 import 'package:carg/models/score/round/tarot_round.dart';
 import 'package:carg/models/score/score.dart';
 
 class TarotScore extends Score {
   String game;
   List<TarotRound> rounds;
-  List<PlayerScore> totalPoints;
+  List<TarotPlayerScore> totalPoints;
 
   TarotScore({id, this.game, this.rounds, scores, List<String> players})
       : super(id: id) {
-    totalPoints = scores ?? <PlayerScore>[];
-    for (var playerId in players ?? []) {
-      totalPoints.add(PlayerScore(player: playerId, score: 0));
+    totalPoints = scores ?? <TarotPlayerScore>[];
+    for (var player in players ?? []) {
+      totalPoints.add(TarotPlayerScore(player: player, score: 0));
     }
   }
 
@@ -24,7 +24,7 @@ class TarotScore extends Score {
     };
   }
 
-  PlayerScore getScoreOf(String player) {
+  TarotPlayerScore getScoreOf(String player) {
     return totalPoints.firstWhere((element) => element.player == player);
   }
 
@@ -36,7 +36,7 @@ class TarotScore extends Score {
         id: id,
         game: json['game'],
         rounds: TarotRound.fromJSONList(json['rounds']),
-        scores: PlayerScore.fromJSONList(json['player_total_points']));
+        scores: TarotPlayerScore.fromJSONList(json['player_total_points']));
   }
 
   @override

@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:carg/models/player/player.dart';
+import 'package:carg/models/player.dart';
 import 'package:carg/services/custom_exception.dart';
 import 'package:carg/services/player_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';

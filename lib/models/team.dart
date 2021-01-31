@@ -7,6 +7,7 @@ class Team extends CargObject {
   List<dynamic> players;
   List<dynamic> games;
 
+
   Team(
       {String id,
       this.playedGames = 1,

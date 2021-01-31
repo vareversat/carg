@@ -8,6 +8,7 @@ import 'package:carg/views/dialogs/warning_dialog.dart';
 import 'package:carg/views/screens/add_round/add_team_game_round_screen.dart';
 import 'package:carg/views/screens/home_screen.dart';
 import 'package:carg/views/widgets/error_message_widget.dart';
+import 'package:carg/views/widgets/players/next_player_widget.dart';
 import 'package:carg/views/widgets/team_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -112,128 +113,129 @@ class _PlayTeamGameScreenState extends State<PlayTeamGameScreen> {
           Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(children: <Widget>[
-                TeamWidget(teamId: _teamGame.us, title: 'Nous'),
-                TeamWidget(teamId: _teamGame.them, title: 'Eux')
+                TeamWidget(teamId: _teamGame.players.us, title: 'Nous'),
+                TeamWidget(teamId: _teamGame.players.them, title: 'Eux')
               ])),
           Flexible(
               child: Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                    border:
-                        Border(top: BorderSide(color: Colors.black, width: 1))),
-                child: StreamBuilder<TeamGameScore>(
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(child: CircularProgressIndicator());
-                      }
-                      if (snapshot.hasData) {
-                        return Column(children: <Widget>[
-                          Flexible(
-                            child: Padding(
-                              padding: const EdgeInsets.only(bottom: 8.0),
-                              child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: <Widget>[
-                                    _TotalPointsWidget(
-                                        totalPoints:
-                                            snapshot.data.usTotalPoints),
-                                    _TotalPointsWidget(
-                                        totalPoints:
-                                            snapshot.data.themTotalPoints)
-                                  ]),
-                            ),
-                          ),
-                          Flexible(
-                            flex: 5,
-                              child: ListView.builder(
-                                  itemCount: snapshot.data.rounds.length,
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          Flexible(
-                                              flex: 3,
-                                              child: _RoundDisplay(
-                                                  round: snapshot
-                                                      .data.rounds[index],
-                                                  team: TeamGameEnum.US)),
-                                          Flexible(
-                                              child: Text(
-                                                  snapshot.data.rounds[index]
-                                                      .cardColor.symbol,
-                                                  style:
-                                                      TextStyle(fontSize: 15))),
-                                          Flexible(
-                                              flex: 3,
-                                              child: _RoundDisplay(
-                                                  round: snapshot
-                                                      .data.rounds[index],
-                                                  team: TeamGameEnum.THEM))
-                                        ]);
-                                  }))
-                        ]);
-                      } else {
-                        return ErrorMessageWidget(message: _errorMessage);
-                      }
-                    },
-                    stream: _teamGame.scoreService
-                        .getScoreByGameStream(_teamGame.id)
-                        .handleError((error) => {
-                              setState(() {
-                                _errorMessage = error.toString();
-                              })
-                            })),
-              )),
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+                border: Border(top: BorderSide(color: Colors.black, width: 1))),
+            child: StreamBuilder<TeamGameScore>(
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                  if (snapshot.hasData) {
+                    return Column(children: <Widget>[
+                      Flexible(
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 8.0),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: <Widget>[
+                                _TotalPointsWidget(
+                                    totalPoints: snapshot.data.usTotalPoints),
+                                _TotalPointsWidget(
+                                    totalPoints: snapshot.data.themTotalPoints)
+                              ]),
+                        ),
+                      ),
+                      Flexible(
+                          flex: 10,
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 8.0),
+                            child: ListView.builder(
+                                itemCount: snapshot.data.rounds.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Flexible(
+                                            flex: 3,
+                                            child: _RoundDisplay(
+                                                round:
+                                                    snapshot.data.rounds[index],
+                                                team: TeamGameEnum.US)),
+                                        Flexible(
+                                            child: Text(
+                                                snapshot.data.rounds[index]
+                                                    .cardColor.symbol,
+                                                style:
+                                                    TextStyle(fontSize: 15))),
+                                        Flexible(
+                                            flex: 3,
+                                            child: _RoundDisplay(
+                                                round:
+                                                    snapshot.data.rounds[index],
+                                                team: TeamGameEnum.THEM))
+                                      ]);
+                                }),
+                          )),
+                      if (!_teamGame.isEnded)
+                        NextPlayerWidget(
+                            playerId: _teamGame.players
+                                .playerList[snapshot.data.rounds.length % 4]),
+                    ]);
+                  } else {
+                    return ErrorMessageWidget(message: _errorMessage);
+                  }
+                },
+                stream: _teamGame.scoreService
+                    .getScoreByGameStream(_teamGame.id)
+                    .handleError((error) => {
+                          setState(() {
+                            _errorMessage = error.toString();
+                          })
+                        })),
+          )),
           if (!_teamGame.isEnded)
-          Wrap(
-              spacing: 10,
-              alignment: WrapAlignment.spaceAround,
-              children: <Widget>[
-                RaisedButton.icon(
-                    onPressed: () async => {_deleteLastRound()},
-                    color: Theme.of(context).errorColor,
-                    textColor: Theme.of(context).cardColor,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18.0)),
-                    icon: Icon(Icons.delete_forever),
-                    label: Text('Supprimer la dernière manche',
-                        style: TextStyle(fontWeight: FontWeight.bold))),
-                RaisedButton.icon(
-                    onPressed: () async => {_editLastRound()},
-                    color: Colors.black,
-                    textColor: Theme.of(context).cardColor,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18.0)),
-                    icon: Icon(Icons.edit),
-                    label: Text('Éditer la dernière manche',
-                        style: TextStyle(fontWeight: FontWeight.bold))),
-                RaisedButton.icon(
-                    onPressed: () async => {_endGame()},
-                    color: Theme.of(context).errorColor,
-                    textColor: Theme.of(context).cardColor,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18.0)),
-                    icon: Icon(Icons.stop),
-                    label: Text('Terminer la partie',
-                        style: TextStyle(fontWeight: FontWeight.bold))),
-                RaisedButton.icon(
-                    onPressed: () => {_addNewRound()},
-                    color: Theme.of(context).primaryColor,
-                    textColor: Theme.of(context).cardColor,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18.0)),
-                    icon: Icon(Icons.plus_one),
-                    label: Text('Nouvelle manche',
-                        style: TextStyle(fontWeight: FontWeight.bold)))
-              ]),
+            Wrap(
+                spacing: 10,
+                alignment: WrapAlignment.spaceAround,
+                children: <Widget>[
+                  RaisedButton.icon(
+                      onPressed: () async => {_deleteLastRound()},
+                      color: Theme.of(context).errorColor,
+                      textColor: Theme.of(context).cardColor,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0)),
+                      icon: Icon(Icons.delete_forever),
+                      label: Text('Supprimer la dernière manche',
+                          style: TextStyle(fontWeight: FontWeight.bold))),
+                  RaisedButton.icon(
+                      onPressed: () async => {_editLastRound()},
+                      color: Colors.black,
+                      textColor: Theme.of(context).cardColor,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0)),
+                      icon: Icon(Icons.edit),
+                      label: Text('Éditer la dernière manche',
+                          style: TextStyle(fontWeight: FontWeight.bold))),
+                  RaisedButton.icon(
+                      onPressed: () async => {_endGame()},
+                      color: Theme.of(context).errorColor,
+                      textColor: Theme.of(context).cardColor,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0)),
+                      icon: Icon(Icons.stop),
+                      label: Text('Terminer la partie',
+                          style: TextStyle(fontWeight: FontWeight.bold))),
+                  RaisedButton.icon(
+                      onPressed: () => {_addNewRound()},
+                      color: Theme.of(context).primaryColor,
+                      textColor: Theme.of(context).cardColor,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0)),
+                      icon: Icon(Icons.plus_one),
+                      label: Text('Nouvelle manche',
+                          style: TextStyle(fontWeight: FontWeight.bold)))
+                ]),
           SizedBox(
             height: 10,
           )
-        ])
-    );
+        ]));
   }
 }
 

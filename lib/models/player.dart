@@ -2,14 +2,14 @@ import 'package:carg/models/carg_object.dart';
 import 'package:flutter/material.dart';
 
 class Player extends CargObject with ChangeNotifier {
+  int playedGames;
+  int wonGames;
+  String linkedUserId;
   String firstName;
   String lastName;
   String _userName;
   String _profilePicture;
-  int playedGames;
-  int wonGames;
-  String linkedUserId;
-  bool _selected = false;
+  bool _selected;
 
   bool get selected => _selected;
 
@@ -38,13 +38,14 @@ class Player extends CargObject with ChangeNotifier {
       this.lastName,
       userName,
       profilePicture =
-          'https://www.dts.edu/wp-content/uploads/sites/6/2018/04/Blank-Profile-Picture.jpg',
+          'https://firebasestorage.googleapis.com/v0/b/carg-d3732.appspot.com/o/blank-profile-picture-png.png?alt=media&token=15801776-b75f-4ad5-bec1-2fe834a99f9a',
       this.playedGames = 0,
       this.wonGames = 0,
       this.linkedUserId})
       : super(id: id) {
     _profilePicture = profilePicture;
     _userName = userName;
+    _selected = false;
   }
 
   factory Player.fromJSON(Map<String, dynamic> json, String id) {

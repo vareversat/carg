@@ -1,28 +1,27 @@
 import 'package:carg/models/game/game.dart';
 import 'package:carg/models/game/game_type.dart';
-import 'package:carg/models/player/tarot_game_players.dart';
+import 'package:carg/models/players/tarot_game_players.dart';
 import 'package:carg/services/game/tarot_game_service.dart';
 import 'package:carg/services/score/tarot_score_service.dart';
 
-class TarotGame extends Game {
-  List<dynamic> playerIds;
+class TarotGame extends Game<TarotGamePlayers> {
 
-  TarotGame({id, startingDate, endingDate, winner, isEnded, this.playerIds})
+  TarotGame({id, startingDate, endingDate, winner, isEnded, players})
       : super(
             id: id,
             gameType: GameType.TAROT,
             gameService: TarotGameService(),
             scoreService: TarotScoreService(),
+            players: players ?? TarotGamePlayers(),
             startingDate: startingDate,
             endingDate: endingDate,
             winner: winner,
-            isEnded: isEnded,
-            players: TarotGamePlayers());
+            isEnded: isEnded);
 
   @override
   Map<String, dynamic> toJSON() {
     var tmpJSON = super.toJSON();
-    tmpJSON.addAll({'players': playerIds});
+    tmpJSON.addAll({'players': players.toJSON()});
     return tmpJSON;
   }
 
@@ -38,11 +37,6 @@ class TarotGame extends Game {
             : null,
         isEnded: json['is_ended'],
         winner: json['winner'],
-        playerIds: json['players']);
-  }
-
-  @override
-  String toString() {
-    return 'TarotGame{playerIds: $playerIds}';
+        players: TarotGamePlayers.fromJSON(json['players']));
   }
 }

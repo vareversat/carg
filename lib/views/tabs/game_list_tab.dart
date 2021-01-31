@@ -50,7 +50,7 @@ class _GameListWidgetState extends State<GameListWidget> {
           return ListView.builder(
               itemCount: snapshot.data.length,
               itemBuilder: (BuildContext context, int index) {
-                if (snapshot.data[0].gameType != GameType.TAROT) {
+                if (snapshot.data[0].getGameTypeName() != GameType.TAROT.name) {
                   return TeamGameWidget(
                     teamGame: snapshot.data[index],
                   );

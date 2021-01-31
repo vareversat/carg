@@ -1,44 +1,44 @@
+import 'package:carg/helpers/custom_route.dart';
 import 'package:carg/models/game/game.dart';
-import 'package:carg/models/game/game_type.dart';
-import 'package:carg/models/player/player.dart';
-import 'package:carg/models/player/players.dart';
+import 'package:carg/models/player.dart';
+import 'package:carg/models/players/players.dart';
 import 'package:carg/services/player_service.dart';
 import 'package:carg/styles/text_style.dart';
-import 'package:carg/views/dialogs/dialogs.dart';
-import 'package:carg/views/screens/play_tarot_game_screen.dart';
-import 'package:carg/views/screens/play_team_game_screen.dart';
-import 'package:carg/views/widgets/player_widget.dart';
+import 'package:carg/views/screens/player_order_screen.dart';
+import 'package:carg/views/widgets/players/player_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class PlayerPickerScreen extends StatefulWidget {
-  final Game newGame;
+  final Game game;
   final String title;
 
-  PlayerPickerScreen({@required this.newGame, @required this.title});
+  PlayerPickerScreen({@required this.game, @required this.title});
 
   @override
   State<StatefulWidget> createState() {
-    return _PlayerPickerScreenState(game: newGame, title: title);
+    return _PlayerPickerScreenState(game: game, title: title);
   }
 }
 
 class _PlayerPickerScreenState extends State<PlayerPickerScreen> {
-  final GlobalKey<State> _keyLoader = GlobalKey<State>();
   final PlayerService _playerService = PlayerService();
   final Game game;
   final String title;
-  Game newGame;
+  List<Player> newPlayers;
 
   _PlayerPickerScreenState({@required this.game, @required this.title});
 
-  Future _createGame() async {
-    Dialogs.showLoadingDialog(context, _keyLoader, 'Démarrage de la partie');
-    var gameTmp = (await game.gameService.createGameWithPlayers(game.players));
+
+
+  Future<List<Player>> _getPlayers() async {
+    var playerListTmp = <Player>[];
+    for (var playerId in game.players.playerList) {
+      await playerListTmp.add(await _playerService.getPlayer(playerId));
+    }
     setState(() {
-      newGame = gameTmp;
+      newPlayers = playerListTmp;
     });
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override
@@ -106,20 +106,16 @@ class _PlayerPickerScreenState extends State<PlayerPickerScreen> {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(18.0)),
                             onPressed: () async => {
-                                  await _createGame(),
+                              await _getPlayers(),
                                   Navigator.push(
                                       context,
-                                      MaterialPageRoute(
-                                        builder: (context) => newGame
-                                                    .gameType !=
-                                                GameType.TAROT
-                                            ? PlayTeamGameScreen(
-                                                teamGame: newGame)
-                                            : PlayTarotGame(tarotGame: newGame),
+                                      CustomRouteLeftAndRight(
+                                        builder: (context) => PlayerOrderScreen(
+                                            playerList: newPlayers, title: title, game: game),
                                       ))
                                 },
-                            label: Text('Démarrer'),
-                            icon: Icon(Icons.check))
+                            label: Text('Ordre des joueurs'),
+                            icon: Icon(Icons.arrow_right_alt))
                         : Container())
               ],
             ),

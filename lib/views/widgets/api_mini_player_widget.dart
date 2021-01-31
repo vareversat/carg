@@ -1,4 +1,4 @@
-import 'package:carg/models/player/player.dart';
+import 'package:carg/models/player.dart';
 import 'package:carg/services/player_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';

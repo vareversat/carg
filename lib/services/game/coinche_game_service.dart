@@ -1,5 +1,5 @@
 import 'package:carg/models/game/coinche_game.dart';
-import 'package:carg/models/player/team_game_players.dart';
+import 'package:carg/models/players/team_game_players.dart';
 import 'package:carg/models/score/coinche_score.dart';
 import 'package:carg/models/score/round/coinche_round.dart';
 import 'package:carg/models/team.dart';
@@ -12,17 +12,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 
 class CoincheGameService implements TeamGameService<CoincheGame> {
-  TeamService _teamService;
-  PlayerService _playerService;
-  CoincheScoreService _coincheScoreService;
+  final TeamService _teamService = TeamService();
+  final PlayerService _playerService = PlayerService();
+  final CoincheScoreService _coincheScoreService = CoincheScoreService();
   static const String flavor =
       String.fromEnvironment('FLAVOR', defaultValue: 'dev');
 
-  CoincheGameService() : super() {
-    _teamService = TeamService();
-    _playerService = PlayerService();
-    _coincheScoreService = CoincheScoreService();
-  }
+  CoincheGameService() : super();
 
   @override
   Future<List<CoincheGame>> getAllGames() async {
@@ -68,20 +64,17 @@ class CoincheGameService implements TeamGameService<CoincheGame> {
   }
 
   @override
-  Future<CoincheGame> createGameWithPlayers(TeamGamePlayers players) async {
+  Future<CoincheGame> createGameWithPlayerList(List<String> playerList) async {
     try {
       var usTeam = await _teamService
-          .getTeamByPlayers(players.us.map((e) => e.id).toList());
+          .getTeamByPlayers(playerList.sublist(0, 2).map((e) => e).toList());
       var themTeam = await _teamService
-          .getTeamByPlayers(players.them.map((e) => e.id).toList());
-      players.us.addAll(players.them);
-      players.us.forEach((player) async =>
+          .getTeamByPlayers(playerList.sublist(2, 4).map((e) => e).toList());
+      playerList.forEach((player) async =>
           {await _playerService.incrementPlayedGamesByOne(player)});
       var coincheGame = CoincheGame(
-          isEnded: false,
-          startingDate: DateTime.now(),
-          us: usTeam.id,
-          them: themTeam.id);
+          players: TeamGamePlayers(
+              us: usTeam.id, them: themTeam.id, playerList: playerList));
       var documentReference = await FirebaseFirestore.instance
           .collection('coinche-game-' + flavor)
           .add(coincheGame.toJSON());
@@ -104,9 +97,9 @@ class CoincheGameService implements TeamGameService<CoincheGame> {
       Team winners;
       var score = await _coincheScoreService.getScoreByGame(game.id);
       if (score.themTotalPoints > score.usTotalPoints) {
-        winners = await _teamService.incrementWonGamesByOne(game.them);
+        winners = await _teamService.incrementWonGamesByOne(game.players.them);
       } else if (score.themTotalPoints < score.usTotalPoints) {
-        winners = await _teamService.incrementWonGamesByOne(game.us);
+        winners = await _teamService.incrementWonGamesByOne(game.players.us);
       }
       await FirebaseFirestore.instance
           .collection('coinche-game-' + flavor)

@@ -1,10 +1,10 @@
 import 'package:carg/models/game/team_game.dart';
 import 'package:carg/models/score/round/coinche_round.dart';
 import 'package:carg/models/score/round/team_game_round.dart';
-import 'package:carg/views/screens/add_round/widget/team_game/contract_belote_widget.dart';
-import 'package:carg/views/screens/add_round/widget/team_game/contract_coinche_widget.dart';
 import 'package:carg/views/screens/add_round/widget/real_time_display_widget.dart';
 import 'package:carg/views/screens/add_round/widget/screen_title_widget.dart';
+import 'package:carg/views/screens/add_round/widget/team_game/contract_belote_widget.dart';
+import 'package:carg/views/screens/add_round/widget/team_game/contract_coinche_widget.dart';
 import 'package:carg/views/screens/add_round/widget/team_game/taker_team_widget.dart';
 import 'package:carg/views/screens/add_round/widget/team_game/trick_points_team_game_widget.dart';
 import 'package:flutter/material.dart';

@@ -1,6 +1,6 @@
 import 'package:carg/models/game/tarot_game.dart';
-import 'package:carg/models/player/tarot_game_players.dart';
-import 'package:carg/models/score/misc/player_score.dart';
+import 'package:carg/models/players/tarot_game_players.dart';
+import 'package:carg/models/score/misc/tarot_player_score.dart';
 import 'package:carg/models/score/round/tarot_round.dart';
 import 'package:carg/models/score/tarot_score.dart';
 import 'package:carg/services/game/game_service.dart';
@@ -64,22 +64,21 @@ class TarotGameService extends GameService<TarotGame, TarotGamePlayers> {
   }
 
   @override
-  Future<TarotGame> createGameWithPlayers(TarotGamePlayers players) async {
+  Future<TarotGame> createGameWithPlayerList(List<String> playerList) async {
     try {
-      players.players.forEach((player) async =>
-      {await _playerService.incrementPlayedGamesByOne(player)});
+      playerList.forEach((player) async =>
+          {await _playerService.incrementPlayedGamesByOne(player)});
       var tarotGame = TarotGame(
           isEnded: false,
           startingDate: DateTime.now(),
-          playerIds: players.getPlayerIds());
+          players: TarotGamePlayers(playerList: playerList));
+      print(tarotGame.toJSON());
       var documentReference = await FirebaseFirestore.instance
           .collection('tarot-game-' + flavor)
           .add(tarotGame.toJSON());
       tarotGame.id = documentReference.id;
       var tarotScore = TarotScore(
-          game: tarotGame.id,
-          rounds: <TarotRound>[],
-          players: players.getPlayerIds());
+          game: tarotGame.id, rounds: <TarotRound>[], players: playerList);
       await _tarotScoreService.saveScore(tarotScore);
       return tarotGame;
     } on PlatformException catch (e) {
@@ -90,7 +89,7 @@ class TarotGameService extends GameService<TarotGame, TarotGamePlayers> {
   @override
   Future endAGame(TarotGame game) async {
     try {
-      PlayerScore winner;
+      TarotPlayerScore winner;
       var score = await _tarotScoreService.getScoreByGame(game.id);
       var totalPoints = score?.totalPoints;
       if (totalPoints != null && totalPoints.isNotEmpty) {
@@ -111,17 +110,3 @@ class TarotGameService extends GameService<TarotGame, TarotGamePlayers> {
     }
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
