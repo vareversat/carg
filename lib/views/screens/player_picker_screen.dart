@@ -31,7 +31,7 @@ class _PlayerPickerScreenState extends State<PlayerPickerScreen> {
 
 
 
-  Future<List<Player>> _getPlayers() async {
+  Future _getPlayers() async {
     var playerListTmp = <Player>[];
     for (var playerId in game.players.playerList) {
       await playerListTmp.add(await _playerService.getPlayer(playerId));
