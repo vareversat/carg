@@ -45,4 +45,9 @@ class TarotGamePlayers extends Players {
       playerList: json['player_list'],
     );
   }
+
+  @override
+  void reset() {
+    playerList = [];
+  }
 }

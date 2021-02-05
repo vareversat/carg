@@ -26,6 +26,8 @@ abstract class Players with ChangeNotifier {
 
   bool isFull();
 
+  void reset();
+
   Map<String, dynamic> toJSON() {
     return {
       'playerList': playerList.map((e) => e).toList(),

@@ -82,4 +82,9 @@ class TarotRoundPlayers extends Players {
   void onSelectedPlayer(Player player) {
     throw UnimplementedError();
   }
+
+  @override
+  void reset() {
+    throw UnimplementedError();
+  }
 }

@@ -73,6 +73,11 @@ class TeamGamePlayers extends Players {
   }
 
   @override
+  void reset() {
+    playerList = [' ', ' ', ' ', ' '];
+  }
+
+  @override
   String toString() {
     return 'TeamGamePlayers{us: $us, them: $them, playerList: $playerList}';
   }
