@@ -20,6 +20,10 @@ abstract class Game<T extends Players> extends CargObject {
     return _gameType.name;
   }
 
+  String getGameplayDirection() {
+    return _gameType.direction;
+  }
+
   Game(
       {String id,
       @required gameType,

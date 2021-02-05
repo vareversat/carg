@@ -85,24 +85,40 @@ class _PlayerOrderScreenState extends State<PlayerOrderScreen> {
                                 )))
                             .values
                             .toList())),
-                RaisedButton.icon(
-                    color: Theme.of(context).primaryColor,
-                    textColor: Theme.of(context).cardColor,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18.0)),
-                    onPressed: () async => {
-                          await _createGame(),
-                          Navigator.push(
-                              context,
-                              CustomRouteLeftAndRight(
-                                  builder: (context) => _newGame
-                                              .getGameTypeName() !=
-                                          GameType.TAROT.name
-                                      ? PlayTeamGameScreen(teamGame: _newGame)
-                                      : PlayTarotGame(tarotGame: _newGame)))
-                        },
-                    label: Text('Démarre la partie'),
-                    icon: Icon(Icons.check))
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                      'Info : Ce jeu de carte se joue dans le ${game.getGameplayDirection()}',
+                      textAlign: TextAlign.center,
+                      style:
+                          TextStyle(fontSize: 20, fontStyle: FontStyle.italic)),
+                ),
+                SizedBox(
+                    width: double.infinity,
+                    height: 50,
+                    child: Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: RaisedButton.icon(
+                            color: Theme.of(context).primaryColor,
+                            textColor: Theme.of(context).cardColor,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(18.0)),
+                            onPressed: () async => {
+                                  await _createGame(),
+                                  Navigator.pushReplacement(
+                                      context,
+                                      CustomRouteLeftAndRight(
+                                          builder: (context) =>
+                                              _newGame.getGameTypeName() !=
+                                                      GameType.TAROT.name
+                                                  ? PlayTeamGameScreen(
+                                                      teamGame: _newGame)
+                                                  : PlayTarotGame(
+                                                      tarotGame: _newGame)))
+                                },
+                            label: Text('Démarrer la partie',
+                                style: TextStyle(fontSize: 23)),
+                            icon: Icon(Icons.check, size: 30))))
               ],
             )));
   }

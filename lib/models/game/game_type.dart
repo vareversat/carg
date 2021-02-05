@@ -13,4 +13,17 @@ extension GameTypeExtension on GameType {
         return null;
     }
   }
+
+  String get direction {
+    switch (this) {
+      case GameType.COINCHE:
+        return 'sens anti-horaire';
+      case GameType.BELOTE:
+        return 'sens horaire';
+      case GameType.TAROT:
+        return 'sens anti-horaire';
+      default:
+        return null;
+    }
+  }
 }

@@ -4,6 +4,7 @@ import 'package:carg/models/player.dart';
 import 'package:carg/models/players/players.dart';
 import 'package:carg/services/player_service.dart';
 import 'package:carg/styles/text_style.dart';
+import 'package:carg/views/dialogs/dialogs.dart';
 import 'package:carg/views/screens/player_order_screen.dart';
 import 'package:carg/views/widgets/players/player_widget.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +23,7 @@ class PlayerPickerScreen extends StatefulWidget {
 }
 
 class _PlayerPickerScreenState extends State<PlayerPickerScreen> {
+  final GlobalKey<State> _keyLoader = GlobalKey<State>();
   final PlayerService _playerService = PlayerService();
   final Game game;
   final String title;
@@ -29,9 +31,8 @@ class _PlayerPickerScreenState extends State<PlayerPickerScreen> {
 
   _PlayerPickerScreenState({@required this.game, @required this.title});
 
-
-
   Future _getPlayers() async {
+    Dialogs.showLoadingDialog(context, _keyLoader, 'Chargement...');
     var playerListTmp = <Player>[];
     for (var playerId in game.players.playerList) {
       await playerListTmp.add(await _playerService.getPlayer(playerId));
@@ -39,6 +40,7 @@ class _PlayerPickerScreenState extends State<PlayerPickerScreen> {
     setState(() {
       newPlayers = playerListTmp;
     });
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
   }
 
   @override
@@ -97,26 +99,45 @@ class _PlayerPickerScreenState extends State<PlayerPickerScreen> {
                     future: _playerService.getAllPlayers(),
                   ),
                 ),
-                Consumer<Players>(
-                    builder: (context, playersData, child) => playersData
-                            .isFull()
-                        ? RaisedButton.icon(
-                            color: Theme.of(context).primaryColor,
-                            textColor: Theme.of(context).cardColor,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(18.0)),
-                            onPressed: () async => {
-                              await _getPlayers(),
-                                  Navigator.push(
-                                      context,
-                                      CustomRouteLeftAndRight(
-                                        builder: (context) => PlayerOrderScreen(
-                                            playerList: newPlayers, title: title, game: game),
-                                      ))
-                                },
-                            label: Text('Ordre des joueurs'),
-                            icon: Icon(Icons.arrow_right_alt))
-                        : Container())
+                Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: Consumer<Players>(
+                      builder: (context, playersData, child) => playersData
+                              .isFull()
+                          ? SizedBox(
+                              width: double.infinity,
+                              height: 50,
+                              child: Directionality(
+                                textDirection: TextDirection.rtl,
+                                child: RaisedButton.icon(
+                                    color: Theme.of(context).primaryColor,
+                                    textColor: Theme.of(context).cardColor,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(18.0)),
+                                    onPressed: () async => {
+                                          await _getPlayers(),
+                                          game.players.reset(),
+                                          Navigator.push(
+                                              context,
+                                              CustomRouteLeftAndRight(
+                                                builder: (context) =>
+                                                    PlayerOrderScreen(
+                                                        playerList: newPlayers,
+                                                        title: title,
+                                                        game: game),
+                                              ))
+                                        },
+                                    label: Text('Ordre des joueurs',
+                                        style: TextStyle(fontSize: 23)),
+                                    icon: Icon(
+                                      Icons.arrow_right_alt,
+                                      size: 30,
+                                    )),
+                              ),
+                            )
+                          : Container()),
+                )
               ],
             ),
           )),
