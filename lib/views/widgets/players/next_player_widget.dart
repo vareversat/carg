@@ -37,7 +37,7 @@ class NextPlayerWidget extends StatelessWidget {
               TextSpan(
                   text: snapshot.data.userName,
                   style: TextStyle(fontWeight: FontWeight.bold)),
-              TextSpan(text: ' de donner !'),
+              TextSpan(text: ' de donner les cartes !'),
             ],
           ),
           textAlign: TextAlign.center,
