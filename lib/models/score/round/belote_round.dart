@@ -34,7 +34,7 @@ abstract class BeloteRound extends Round {
       : super(index: index) {
     _taker = taker ?? BeloteTeamEnum.US;
     _defender = defender ?? BeloteTeamEnum.THEM;
-    _cardColor = cardColor ?? CardColor.COEUR;
+    _cardColor = cardColor ?? CardColor.HEART;
     _dixDeDer = dixDeDer ?? BeloteTeamEnum.US;
     _beloteRebelote = beloteRebelote;
     _usTrickScore = usTrickScore ?? 0;

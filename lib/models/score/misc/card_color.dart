@@ -1,19 +1,19 @@
-enum CardColor { COEUR, CARREAU, TREFLE, PIC, TOUT_ATOUT, SANS_ATOUT }
+enum CardColor { HEART, DIAMOND, CLUB, SPADE, ALL_TRUMP, NO_TRUMP }
 
 extension CardColorExtension on CardColor {
   String get name {
     switch (this) {
-      case CardColor.COEUR:
+      case CardColor.HEART:
         return 'Coeur';
-      case CardColor.CARREAU:
+      case CardColor.DIAMOND:
         return 'Carreau';
-      case CardColor.TREFLE:
+      case CardColor.CLUB:
         return 'Trèfle';
-      case CardColor.PIC:
+      case CardColor.SPADE:
         return 'Pic';
-      case CardColor.TOUT_ATOUT:
+      case CardColor.ALL_TRUMP:
         return 'Tout atout';
-      case CardColor.SANS_ATOUT:
+      case CardColor.NO_TRUMP:
         return 'Sans atout';
       default:
         return '';
@@ -22,17 +22,17 @@ extension CardColorExtension on CardColor {
 
   String get symbol {
     switch (this) {
-      case CardColor.COEUR:
+      case CardColor.HEART:
         return '❤';
-      case CardColor.CARREAU:
+      case CardColor.DIAMOND:
         return '♦';
-      case CardColor.TREFLE:
+      case CardColor.CLUB:
         return '♣';
-      case CardColor.PIC:
+      case CardColor.SPADE:
         return '♠';
-      case CardColor.TOUT_ATOUT:
+      case CardColor.ALL_TRUMP:
         return '🃋';
-      case CardColor.SANS_ATOUT:
+      case CardColor.NO_TRUMP:
         return '🃁';
       default:
         return '';
