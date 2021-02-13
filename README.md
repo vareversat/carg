@@ -2,6 +2,7 @@
 [![firebase](https://img.shields.io/badge/firebase-grey?logo=firebase&style=for-the-badge)](https://firebase.google.com)
 [![algolia](https://img.shields.io/badge/algolia-grey?logo=algolia&style=for-the-badge)](https://algolia.com)
 [![codecov](https://img.shields.io/codecov/c/github/devosud/carg?logo=codecov&style=for-the-badge&token=7EXLUQ93ZT)](https://codecov.io/gh/Devosud/carg/)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/Devosud/carg/Flutter%20-%20CI%20(firebase%20app%20distribution)?logo=github&style=for-the-badge)
 
 # Carg
 This mobile app allow you to register with your own account and then save your games of French Belote (and French Coinched Belote) and Tarot !
