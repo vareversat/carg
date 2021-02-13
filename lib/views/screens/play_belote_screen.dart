@@ -31,7 +31,7 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => AddTeamBeloteRoundScreen(
+          builder: (context) => AddBeloteRoundScreen(
               teamGame: _teamGame,
               teamGameRound: _teamGame.scoreService.getNewRound())),
     );
@@ -76,7 +76,7 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
       await Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => AddTeamBeloteRoundScreen(
+              builder: (context) => AddBeloteRoundScreen(
                   teamGame: _teamGame,
                   teamGameRound: lastRound,
                   isEditing: true)));

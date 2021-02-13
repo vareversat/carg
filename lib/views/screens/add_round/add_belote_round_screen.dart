@@ -11,12 +11,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:provider/provider.dart';
 
-class AddTeamBeloteRoundScreen extends StatelessWidget {
+class AddBeloteRoundScreen extends StatelessWidget {
   final Belote teamGame;
   final BeloteRound teamGameRound;
   final bool isEditing;
 
-  const AddTeamBeloteRoundScreen(
+  const AddBeloteRoundScreen(
       {this.teamGame, this.teamGameRound, this.isEditing = false});
 
   void _setupRound() async {
