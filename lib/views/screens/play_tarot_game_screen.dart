@@ -5,7 +5,7 @@ import 'package:carg/models/score/tarot_score.dart';
 import 'package:carg/services/score/tarot_score_service.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/dialogs/warning_dialog.dart';
-import 'package:carg/views/screens/add_round/add_tarot_game_round_screen.dart';
+import 'package:carg/views/screens/add_round/add_tarot_round_screen.dart';
 import 'package:carg/views/screens/home_screen.dart';
 import 'package:carg/views/widgets/api_mini_player_widget.dart';
 import 'package:carg/views/widgets/error_message_widget.dart';
@@ -37,7 +37,7 @@ class _PlayTarotGameState extends State<PlayTarotGame> {
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => AddTarotGameRoundScreen(
+          builder: (context) => AddTarotRoundScreen(
               tarotRound: TarotRound(
                   players: TarotRoundPlayers(
                       playerList: _tarotGame.players.playerList)),
@@ -85,7 +85,7 @@ class _PlayTarotGameState extends State<PlayTarotGame> {
       await Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => AddTarotGameRoundScreen(
+              builder: (context) => AddTarotRoundScreen(
                   tarotGame: _tarotGame,
                   tarotRound: lastRound,
                   isEditing: true)));

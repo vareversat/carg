@@ -12,7 +12,7 @@ import 'package:carg/views/widgets/api_mini_player_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class AddTarotGameRoundScreen extends StatelessWidget {
+class AddTarotRoundScreen extends StatelessWidget {
   final Tarot tarotGame;
   final TarotRound tarotRound;
   final bool isEditing;
@@ -26,7 +26,7 @@ class AddTarotGameRoundScreen extends StatelessWidget {
     }
   }
 
-  AddTarotGameRoundScreen({this.tarotGame, this.tarotRound, this.isEditing});
+  AddTarotRoundScreen({this.tarotGame, this.tarotRound, this.isEditing});
 
   @override
   Widget build(BuildContext context) {
