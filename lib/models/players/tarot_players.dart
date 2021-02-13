@@ -29,7 +29,7 @@ class TarotPlayers extends Players {
 
   @override
   String toString() {
-    return 'TarotGamePlayers{playerList: $playerList}';
+    return 'TarotGamePlayers{player_list: $playerList}';
   }
 
   @override

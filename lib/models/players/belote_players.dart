@@ -79,7 +79,7 @@ class BelotePlayers extends Players {
 
   @override
   String toString() {
-    return 'TeamGamePlayers{us: $us, them: $them, playerList: $playerList}';
+    return 'TeamGamePlayers{us: $us, them: $them, player_list: $playerList}';
   }
 
   @override
@@ -94,6 +94,6 @@ class BelotePlayers extends Players {
       return null;
     }
     return BelotePlayers(
-        us: json['us'], them: json['them'], playerList: json['playerList']);
+        us: json['us'], them: json['them'], playerList: json['player_list']);
   }
 }

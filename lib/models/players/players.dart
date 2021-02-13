@@ -30,7 +30,7 @@ abstract class Players with ChangeNotifier {
 
   Map<String, dynamic> toJSON() {
     return {
-      'playerList': playerList.map((e) => e).toList(),
+      'player_list': playerList.map((e) => e).toList(),
     };
   }
 }
