@@ -75,6 +75,21 @@ class CoincheBeloteRound extends BeloteRound {
   }
 
   @override
+  int getPointsOfTeam(BeloteTeamEnum team) {
+    switch (team) {
+      case BeloteTeamEnum.US:
+        return usTrickScore +
+            getDixDeDerOfTeam(BeloteTeamEnum.US) +
+            getBeloteRebeloteOfTeam(BeloteTeamEnum.US);
+      case BeloteTeamEnum.THEM:
+        return themTrickScore +
+            getDixDeDerOfTeam(BeloteTeamEnum.THEM) +
+            getBeloteRebeloteOfTeam(BeloteTeamEnum.THEM);
+    }
+    return 0;
+  }
+
+  @override
   Map<String, dynamic> toJSON() {
     var tmpJSON = super.toJSON();
     tmpJSON.addAll({

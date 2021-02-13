@@ -112,26 +112,14 @@ abstract class BeloteRound extends Round {
 
   bool isContractFulfilled();
 
+  int getPointsOfTeam(BeloteTeamEnum team);
+
   int getBeloteRebeloteOfTeam(BeloteTeamEnum team) {
     return team == _beloteRebelote ? beloteRebeloteBonus : 0;
   }
 
   int getDixDeDerOfTeam(BeloteTeamEnum team) {
     return team == _dixDeDer ? dixDeDerBonus : 0;
-  }
-
-  int getPointsOfTeam(BeloteTeamEnum team) {
-    switch (team) {
-      case BeloteTeamEnum.US:
-        return _usTrickScore +
-            getDixDeDerOfTeam(BeloteTeamEnum.US) +
-            getBeloteRebeloteOfTeam(BeloteTeamEnum.US);
-      case BeloteTeamEnum.THEM:
-        return _themTrickScore +
-            getDixDeDerOfTeam(BeloteTeamEnum.THEM) +
-            getBeloteRebeloteOfTeam(BeloteTeamEnum.THEM);
-    }
-    return 0;
   }
 
   @override

@@ -4,29 +4,30 @@ import 'package:carg/models/score/round/belote_round.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 
 class FrenchBeloteRound extends BeloteRound {
-  FrenchBeloteRound({index,
-    cardColor,
-    contractFulfilled,
-    dixDeDer,
-    beloteRebelote,
-    taker,
-    defender,
-    takerScore,
-    defenderScore,
-    usTrickScore,
-    themTrickScore})
+  FrenchBeloteRound(
+      {index,
+      cardColor,
+      contractFulfilled,
+      dixDeDer,
+      beloteRebelote,
+      taker,
+      defender,
+      takerScore,
+      defenderScore,
+      usTrickScore,
+      themTrickScore})
       : super(
-      index: index,
-      cardColor: cardColor,
-      contractFulfilled: contractFulfilled,
-      dixDeDer: dixDeDer,
-      beloteRebelote: beloteRebelote,
-      taker: taker,
-      defender: defender,
-      takerScore: takerScore,
-      defenderScore: defenderScore,
-      usTrickScore: usTrickScore,
-      themTrickScore: themTrickScore);
+            index: index,
+            cardColor: cardColor,
+            contractFulfilled: contractFulfilled,
+            dixDeDer: dixDeDer,
+            beloteRebelote: beloteRebelote,
+            taker: taker,
+            defender: defender,
+            takerScore: takerScore,
+            defenderScore: defenderScore,
+            usTrickScore: usTrickScore,
+            themTrickScore: themTrickScore);
 
   @override
   void computeRound() {
@@ -48,6 +49,17 @@ class FrenchBeloteRound extends BeloteRound {
         ? getPointsOfTeam(taker) > 80
         : getPointsOfTeam(taker) > 90;
     return contractFulfilled;
+  }
+
+  @override
+  int getPointsOfTeam(BeloteTeamEnum team) {
+    switch (team) {
+      case BeloteTeamEnum.US:
+        return usTrickScore + getDixDeDerOfTeam(BeloteTeamEnum.US);
+      case BeloteTeamEnum.THEM:
+        return themTrickScore + getDixDeDerOfTeam(BeloteTeamEnum.THEM);
+    }
+    return 0;
   }
 
   @override
