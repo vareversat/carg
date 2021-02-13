@@ -1,17 +1,19 @@
-## **v0.8.4** :
+## **v0.9.0** :
+
 - *Fixed bugs* :
-    - Fix a bug which prevented players to get the points of te he Belote / Rebolete if the taker lost in a Coinche game
-    - Fix the handful bad behaviour in a tarot game
+  - Fix the belote / rebolte not taken in count for the contract
+  - Fix the handful bad behaviour in a tarot game
 - *New stuff* :
-  - Add an icon to directly know if a game is still running on the list
-  - Tapping outside the dialog of the tarot round perk keep the value previously selected
+  - Add the possibility of ordering the players and see the user who will gave the cards
+  - UI : bigger buttons on round screens and game setup screens
 - *Dev stuff* :
-  - Add crashlytics and performances libraries from Firebase
-  - Move to Kotlin build
-  - Add support for AndroidX
-  - Move firebase functions into a proper directory
-  - Create tests (Belote, Coinche and Tarot rounds)
-  - Upload coverage to Codecov
+  - Upgrade google-services
+  - Upgrade firebase dependencies
+  - Upgrade Gradle dependencies
+  - Translate card colors
+  - Add 'com.google.android.gms:play-services-base' to prevent error from service registration
+  - Upgrade crashlytics dans analytic versions
+  - Refactor : change class name (TeamGame => Belote, Coinche => CoincheBelote, Belote => FrenchBelote)
   
     
     
