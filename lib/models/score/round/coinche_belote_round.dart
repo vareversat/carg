@@ -8,17 +8,16 @@ class CoincheBeloteRound extends BeloteRound {
   int _contract;
   CoincheBeloteContractName _contractName;
 
-  CoincheBeloteRound(
-      {index,
-      cardColor,
-      contract,
-      contractFulfilled,
-      dixDeDer,
-      beloteRebelote,
-      taker,
-      takerScore,
-      defenderScore,
-      usTrickScore,
+  CoincheBeloteRound({index,
+    cardColor,
+    contract,
+    contractFulfilled,
+    dixDeDer,
+    beloteRebelote,
+    taker,
+    takerScore,
+    defenderScore,
+    usTrickScore,
     themTrickScore,
     contractName,
     defender})
@@ -55,16 +54,16 @@ class CoincheBeloteRound extends BeloteRound {
   @override
   void computeRound() {
     if (isContractFulfilled()) {
-      takerScore = contractName.bonus(
-          contract + getPointsOfTeam(taker) + getBeloteRebeloteOfTeam(taker),
-          contract);
-      defenderScore =
-          getPointsOfTeam(defender) + getBeloteRebeloteOfTeam(defender);
+      takerScore =
+          contractName.bonus(contract + getPointsOfTeam(taker), contract);
+      defenderScore = getPointsOfTeam(defender);
     } else {
-      takerScore = getBeloteRebeloteOfTeam(taker);
+      takerScore = getBeloteRebeloteOfTeam(taker) + getDixDeDerOfTeam(taker);
       defenderScore = contractName.bonus(
-          BeloteRound.totalScore + contract +
-              getBeloteRebeloteOfTeam(defender),
+          BeloteRound.totalScore +
+              contract +
+              getBeloteRebeloteOfTeam(defender) +
+              getDixDeDerOfTeam(defender),
           contract);
     }
     notifyListeners();
