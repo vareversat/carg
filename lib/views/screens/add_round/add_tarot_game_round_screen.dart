@@ -37,70 +37,87 @@ class AddTarotGameRoundScreen extends StatelessWidget {
               onPressed: () => Navigator.pop(context),
             ),
             title: ScreenTitleWidget()),
-        body: ListView(children: [
-          ChangeNotifierProvider(
-              create: (BuildContext context) => tarotRound.players,
-              child: Column(
-                children: [
-                  SectionTitleWidget(
-                      title: 'Peneur' +
-                          (tarotRound.players.playerList.length > 4
-                              ? ' et appelé'
-                              : '')),
-                  Consumer<TarotRoundPlayers>(
-                    builder: (context, playerData, _) => Wrap(
-                      alignment: WrapAlignment.center,
-                      spacing: 10,
-                      children: playerData.playerList
-                          .map((player) => APIMiniPlayerWidget(
-                              isSelected: playerData.isPlayerSelected(player),
-                              playerId: player,
-                              displayImage:
-                                  !playerData.isPlayerSelected(player),
-                              showLoading: false,
-                              selectedColor: playerData.getSelectedColor(
-                                  player, context),
-                              size: 20,
-                              onTap: () =>
-                                  playerData.onSelectedPlayer2(player)))
-                          .toList()
-                          .cast<Widget>(),
+        body: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Column(
+            children: [
+              Flexible(
+                child: ListView(children: [
+                  ChangeNotifierProvider(
+                      create: (BuildContext context) => tarotRound.players,
+                      child: Column(
+                        children: [
+                          SectionTitleWidget(
+                              title: 'Peneur' +
+                                  (tarotRound.players.playerList.length > 4
+                                      ? ' et appelé'
+                                      : '')),
+                          Consumer<TarotRoundPlayers>(
+                            builder: (context, playerData, _) => Wrap(
+                              alignment: WrapAlignment.center,
+                              spacing: 10,
+                              children: playerData.playerList
+                                  .map((player) => APIMiniPlayerWidget(
+                                      isSelected:
+                                          playerData.isPlayerSelected(player),
+                                      playerId: player,
+                                      displayImage:
+                                          !playerData.isPlayerSelected(player),
+                                      showLoading: false,
+                                      selectedColor: playerData
+                                          .getSelectedColor(player, context),
+                                      size: 20,
+                                      onTap: () =>
+                                          playerData.onSelectedPlayer2(player)))
+                                  .toList()
+                                  .cast<Widget>(),
+                            ),
+                          ),
+                        ],
+                      )),
+                  ChangeNotifierProvider(
+                    create: (BuildContext context) =>
+                        tarotRound..computeRound(),
+                    child: Consumer<TarotRound>(
+                      builder: (context, roundData, _) => Column(children: [
+                        Divider(),
+                        ContractTarotWidget(round: roundData),
+                        Divider(),
+                        OudlerPickerWidget(round: roundData),
+                        Divider(),
+                        TrickPointsTarotWidget(round: roundData),
+                        Divider(),
+                        TarotPerkWidget(round: roundData, tarotGame: tarotGame),
+                        SizedBox(height: 20),
+                        RealTimeDisplayWidget(round: tarotRound),
+                        SizedBox(height: 20),
+                      ]),
                     ),
                   ),
-                ],
-              )),
-          ChangeNotifierProvider(
-            create: (BuildContext context) => tarotRound..computeRound(),
-            child: Consumer<TarotRound>(
-              builder: (context, roundData, _) => Column(children: [
-                Divider(),
-                ContractTarotWidget(round: roundData),
-                Divider(),
-                OudlerPickerWidget(round: roundData),
-                Divider(),
-                TrickPointsTarotWidget(round: roundData),
-                Divider(),
-                TarotPerkWidget(round: roundData, tarotGame: tarotGame),
-                SizedBox(height: 20),
-                RealTimeDisplayWidget(round: tarotRound),
-                SizedBox(height: 20),
-                Center(
-                    child: RaisedButton.icon(
-                        color: Theme.of(context).primaryColor,
-                        textColor: Theme.of(context).cardColor,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18.0)),
-                        onPressed: () async =>
-                            {await _setupRound(), Navigator.pop(context)},
-                        label: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text('Valider',
-                              style: Theme.of(context).textTheme.bodyText1),
-                        ),
-                        icon: Icon(Icons.check)))
-              ]),
-            ),
+                ]),
+              ),
+              Center(
+                  child: SizedBox(
+                width: double.infinity,
+                height: 50,
+                child: Directionality(
+                  textDirection: TextDirection.rtl,
+                  child: RaisedButton.icon(
+                      color: Theme.of(context).primaryColor,
+                      textColor: Theme.of(context).cardColor,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0)),
+                      onPressed: () async =>
+                          {await _setupRound(), Navigator.pop(context)},
+                      label: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text('Valider', style: TextStyle(fontSize: 23)),
+                      ),
+                      icon: Icon(Icons.check, size: 30)),
+                ),
+              ))
+            ],
           ),
-        ]));
+        ));
   }
 }

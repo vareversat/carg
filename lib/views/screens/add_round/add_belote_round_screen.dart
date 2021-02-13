@@ -39,21 +39,35 @@ class AddBeloteRoundScreen extends StatelessWidget {
               onPressed: () => Navigator.pop(context),
             ),
             title: ScreenTitleWidget()),
-        body: Consumer<BeloteRound>(
-          builder: (context, roundData, child) => Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ListView(children: [
-              TakerTeamWidget(round: roundData),
-              Divider(),
-              TrickPointsBeloteWidget(round: roundData),
-              Divider(),
-              roundData is CoincheBeloteRound
-                  ? ContractCoincheWidget(coincheRound: roundData)
-                  : ContractBeloteWidget(beloteRound: roundData),
-              SizedBox(height: 20),
-              RealTimeDisplayWidget(round: roundData),
-              SizedBox(height: 20),
+        body: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Column(
+            children: [
+              Flexible(
+                child: Consumer<BeloteRound>(
+                  builder: (context, roundData, child) => Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ListView(children: [
+                      TakerTeamWidget(round: roundData),
+                      Divider(),
+                      TrickPointsBeloteWidget(round: roundData),
+                      Divider(),
+                      roundData is CoincheBeloteRound
+                          ? ContractCoincheWidget(coincheRound: roundData)
+                          : ContractBeloteWidget(beloteRound: roundData),
+                      SizedBox(height: 20),
+                      RealTimeDisplayWidget(round: roundData),
+                      SizedBox(height: 20),
+                    ]),
+                  ),
+                ),
+              ),
               Center(
+                  child: SizedBox(
+                width: double.infinity,
+                height: 50,
+                child: Directionality(
+                  textDirection: TextDirection.rtl,
                   child: RaisedButton.icon(
                       color: Theme.of(context).primaryColor,
                       textColor: Theme.of(context).cardColor,
@@ -63,11 +77,12 @@ class AddBeloteRoundScreen extends StatelessWidget {
                           {await _setupRound(), Navigator.pop(context)},
                       label: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text('Valider',
-                            style: Theme.of(context).textTheme.bodyText1),
+                        child: Text('Valider', style: TextStyle(fontSize: 23)),
                       ),
-                      icon: Icon(Icons.check)))
-            ]),
+                      icon: Icon(Icons.check, size: 30)),
+                ),
+              ))
+            ],
           ),
         ),
       ),
