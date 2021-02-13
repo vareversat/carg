@@ -1,4 +1,5 @@
-import 'package:carg/models/score/misc/contract_name.dart';
+import 'package:carg/models/score/misc/coinche_belote_contract_name.dart';
+import 'package:carg/models/score/round/belote_round.dart';
 import 'package:carg/models/score/round/coinche_belote_round.dart';
 import 'package:carg/views/screens/add_round/widget/section_title_widget.dart';
 import 'package:carg/views/screens/add_round/widget/team_game/card_color_picker_widget.dart';
@@ -20,14 +21,21 @@ class ContractCoincheWidget extends StatelessWidget {
             child: _ContractTextFieldWidget(coincheRound: coincheRound)),
         SizedBox(height: 15),
         Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-          DropdownButton<ContractName>(
+          DropdownButton<CoincheBeloteContractName>(
             value: coincheRound.contractName,
-            items: ContractName.values.map((ContractName value) {
-              return DropdownMenuItem<ContractName>(
+            items: CoincheBeloteContractName.values
+                .map((CoincheBeloteContractName value) {
+              return DropdownMenuItem<CoincheBeloteContractName>(
                   value: value, child: Text(value.name));
             }).toList(),
-            onChanged: (ContractName val) {
+            onChanged: (CoincheBeloteContractName val) {
               coincheRound.contractName = val;
+              if (coincheRound.contractName ==
+                      CoincheBeloteContractName.CAPOT ||
+                  coincheRound.contractName ==
+                      CoincheBeloteContractName.GENERALE) {
+                coincheRound.contract = BeloteRound.totalScore;
+              }
             },
           ),
           CardColorPickerWidget(teamGameRound: coincheRound)
@@ -57,15 +65,18 @@ class _ContractTextFieldWidgetState extends State<_ContractTextFieldWidget> {
   @override
   void initState() {
     _contractTextController = TextEditingController();
-    _contractTextController.text = _coincheRound.contract.toString();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    _contractTextController.text = _coincheRound.contract.toString();
     return TextField(
         controller: _contractTextController,
         style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+        enabled: !(_coincheRound.contractName ==
+                CoincheBeloteContractName.CAPOT ||
+            _coincheRound.contractName == CoincheBeloteContractName.GENERALE),
         textAlign: TextAlign.center,
         keyboardType: TextInputType.number,
         inputFormatters: <TextInputFormatter>[],
