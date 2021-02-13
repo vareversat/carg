@@ -1,9 +1,9 @@
 import 'package:carg/models/score/misc/card_color.dart';
-import 'package:carg/models/score/round/team_game_round.dart';
+import 'package:carg/models/score/round/belote_round.dart';
 import 'package:flutter/material.dart';
 
 class CardColorPickerWidget extends StatelessWidget {
-  final TeamGameRound teamGameRound;
+  final BeloteRound teamGameRound;
 
   const CardColorPickerWidget({@required this.teamGameRound});
 

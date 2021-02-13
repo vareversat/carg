@@ -1,22 +1,22 @@
 import 'package:carg/models/game/team_game.dart';
-import 'package:carg/models/score/round/coinche_round.dart';
-import 'package:carg/models/score/round/team_game_round.dart';
+import 'package:carg/models/score/round/belote_round.dart';
+import 'package:carg/models/score/round/coinche_belote_round.dart';
 import 'package:carg/views/screens/add_round/widget/real_time_display_widget.dart';
 import 'package:carg/views/screens/add_round/widget/screen_title_widget.dart';
 import 'package:carg/views/screens/add_round/widget/team_game/contract_belote_widget.dart';
 import 'package:carg/views/screens/add_round/widget/team_game/contract_coinche_widget.dart';
 import 'package:carg/views/screens/add_round/widget/team_game/taker_team_widget.dart';
-import 'package:carg/views/screens/add_round/widget/team_game/trick_points_team_game_widget.dart';
+import 'package:carg/views/screens/add_round/widget/team_game/trick_points_belote_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:provider/provider.dart';
 
-class AddTeamGameRoundScreen extends StatelessWidget {
-  final TeamGame teamGame;
-  final TeamGameRound teamGameRound;
+class AddTeamBeloteRoundScreen extends StatelessWidget {
+  final Belote teamGame;
+  final BeloteRound teamGameRound;
   final bool isEditing;
 
-  const AddTeamGameRoundScreen(
+  const AddTeamBeloteRoundScreen(
       {this.teamGame, this.teamGameRound, this.isEditing = false});
 
   void _setupRound() async {
@@ -39,15 +39,15 @@ class AddTeamGameRoundScreen extends StatelessWidget {
               onPressed: () => Navigator.pop(context),
             ),
             title: ScreenTitleWidget()),
-        body: Consumer<TeamGameRound>(
+        body: Consumer<BeloteRound>(
           builder: (context, roundData, child) => Padding(
             padding: const EdgeInsets.all(8.0),
             child: ListView(children: [
               TakerTeamWidget(round: roundData),
               Divider(),
-              TrickPointsTeamGameWidget(round: roundData),
+              TrickPointsBeloteWidget(round: roundData),
               Divider(),
-              roundData is CoincheRound
+              roundData is CoincheBeloteRound
                   ? ContractCoincheWidget(coincheRound: roundData)
                   : ContractBeloteWidget(beloteRound: roundData),
               SizedBox(height: 20),

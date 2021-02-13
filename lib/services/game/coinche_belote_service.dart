@@ -1,35 +1,35 @@
-import 'package:carg/models/game/coinche_game.dart';
-import 'package:carg/models/players/team_game_players.dart';
-import 'package:carg/models/score/coinche_score.dart';
-import 'package:carg/models/score/round/coinche_round.dart';
+import 'package:carg/models/game/coinche_belote.dart';
+import 'package:carg/models/players/belote_players.dart';
+import 'package:carg/models/score/coinche_belote_score.dart';
+import 'package:carg/models/score/round/coinche_belote_round.dart';
 import 'package:carg/models/team.dart';
 import 'package:carg/services/custom_exception.dart';
-import 'package:carg/services/game/team_game_service.dart';
+import 'package:carg/services/game/belote_service.dart';
 import 'package:carg/services/player_service.dart';
-import 'package:carg/services/score/coinche_score_service.dart';
+import 'package:carg/services/score/coinche_belote_score_service.dart';
 import 'package:carg/services/team_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 
-class CoincheGameService implements TeamGameService<CoincheGame> {
+class CoincheBeloteService implements BeloteService<CoincheBelote> {
   final TeamService _teamService = TeamService();
   final PlayerService _playerService = PlayerService();
   final CoincheScoreService _coincheScoreService = CoincheScoreService();
   static const String flavor =
       String.fromEnvironment('FLAVOR', defaultValue: 'dev');
 
-  CoincheGameService() : super();
+  CoincheBeloteService() : super();
 
   @override
-  Future<List<CoincheGame>> getAllGames() async {
+  Future<List<CoincheBelote>> getAllGames() async {
     try {
-      var coincheGames = <CoincheGame>[];
+      var coincheGames = <CoincheBelote>[];
       var querySnapshot = await FirebaseFirestore.instance
           .collection('coinche-game-' + flavor)
           .orderBy('starting_date', descending: true)
           .get();
       for (var doc in querySnapshot.docs) {
-        coincheGames.add(CoincheGame.fromJSON(doc.data(), doc.id));
+        coincheGames.add(CoincheBelote.fromJSON(doc.data(), doc.id));
       }
       return coincheGames;
     } on PlatformException catch (e) {
@@ -38,13 +38,13 @@ class CoincheGameService implements TeamGameService<CoincheGame> {
   }
 
   @override
-  Future<CoincheGame> getGame(String id) async {
+  Future<CoincheBelote> getGame(String id) async {
     try {
       var querySnapshot = await FirebaseFirestore.instance
           .collection('coinche-game-' + flavor)
           .doc(id)
           .get();
-      return CoincheGame.fromJSON(querySnapshot.data(), querySnapshot.id);
+      return CoincheBelote.fromJSON(querySnapshot.data(), querySnapshot.id);
     } on PlatformException catch (e) {
       throw CustomException(e.message);
     }
@@ -64,7 +64,7 @@ class CoincheGameService implements TeamGameService<CoincheGame> {
   }
 
   @override
-  Future<CoincheGame> createGameWithPlayerList(List<String> playerList) async {
+  Future<CoincheBelote> createGameWithPlayerList(List<String> playerList) async {
     try {
       var usTeam = await _teamService
           .getTeamByPlayers(playerList.sublist(0, 2).map((e) => e).toList());
@@ -72,18 +72,18 @@ class CoincheGameService implements TeamGameService<CoincheGame> {
           .getTeamByPlayers(playerList.sublist(2, 4).map((e) => e).toList());
       playerList.forEach((player) async =>
           {await _playerService.incrementPlayedGamesByOne(player)});
-      var coincheGame = CoincheGame(
-          players: TeamGamePlayers(
+      var coincheGame = CoincheBelote(
+          players: BelotePlayers(
               us: usTeam.id, them: themTeam.id, playerList: playerList));
       var documentReference = await FirebaseFirestore.instance
           .collection('coinche-game-' + flavor)
           .add(coincheGame.toJSON());
       coincheGame.id = documentReference.id;
-      var coincheScore = CoincheScore(
+      var coincheScore = CoincheBeloteScore(
           usTotalPoints: 0,
           themTotalPoints: 0,
           game: coincheGame.id,
-          rounds: <CoincheRound>[]);
+          rounds: <CoincheBeloteRound>[]);
       await _coincheScoreService.saveScore(coincheScore);
       return coincheGame;
     } on PlatformException catch (e) {
@@ -92,7 +92,7 @@ class CoincheGameService implements TeamGameService<CoincheGame> {
   }
 
   @override
-  Future endAGame(CoincheGame game) async {
+  Future endAGame(CoincheBelote game) async {
     try {
       Team winners;
       var score = await _coincheScoreService.getScoreByGame(game.id);

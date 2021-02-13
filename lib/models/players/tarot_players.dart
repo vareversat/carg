@@ -1,8 +1,8 @@
 import 'package:carg/models/player.dart';
 import 'package:carg/models/players/players.dart';
 
-class TarotGamePlayers extends Players {
-  TarotGamePlayers({playerList}) : super(playerList: playerList);
+class TarotPlayers extends Players {
+  TarotPlayers({playerList}) : super(playerList: playerList);
 
   @override
   void onSelectedPlayer(Player player) {
@@ -37,11 +37,11 @@ class TarotGamePlayers extends Players {
     return super.toJSON();
   }
 
-  factory TarotGamePlayers.fromJSON(Map<String, dynamic> json) {
+  factory TarotPlayers.fromJSON(Map<String, dynamic> json) {
     if (json == null) {
       return null;
     }
-    return TarotGamePlayers(
+    return TarotPlayers(
       playerList: json['player_list'],
     );
   }

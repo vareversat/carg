@@ -1,4 +1,4 @@
-import 'package:carg/models/game/tarot_game.dart';
+import 'package:carg/models/game/tarot.dart';
 import 'package:carg/models/score/misc/tarot_chelem.dart';
 import 'package:carg/models/score/misc/tarot_handful.dart';
 import 'package:carg/models/score/misc/tarot_perk.dart';
@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 
 class TarotPerkWidget extends StatelessWidget {
   final TarotRound round;
-  final TarotGame tarotGame;
+  final Tarot tarotGame;
 
   const TarotPerkWidget({this.round, this.tarotGame});
 

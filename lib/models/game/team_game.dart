@@ -1,9 +1,9 @@
 import 'package:carg/models/game/game.dart';
-import 'package:carg/models/players/team_game_players.dart';
+import 'package:carg/models/players/belote_players.dart';
 import 'package:flutter/cupertino.dart';
 
-abstract class TeamGame<T extends TeamGamePlayers> extends Game<T> {
-  TeamGame(
+abstract class Belote<T extends BelotePlayers> extends Game<T> {
+  Belote(
       {id,
       @required gameType,
       @required gameService,

@@ -4,8 +4,8 @@ import 'package:carg/models/game/game_type.dart';
 import 'package:carg/models/player.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/dialogs/dialogs.dart';
+import 'package:carg/views/screens/play_belote_screen.dart';
 import 'package:carg/views/screens/play_tarot_game_screen.dart';
-import 'package:carg/views/screens/play_team_game_screen.dart';
 import 'package:carg/views/widgets/players/draggable_player_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -109,9 +109,9 @@ class _PlayerOrderScreenState extends State<PlayerOrderScreen> {
                                       context,
                                       CustomRouteLeftAndRight(
                                           builder: (context) =>
-                                              _newGame.getGameTypeName() !=
+                                          _newGame.getGameTypeName() !=
                                                       GameType.TAROT.name
-                                                  ? PlayTeamGameScreen(
+                                                  ? PlayBeloteScreen(
                                                       teamGame: _newGame)
                                                   : PlayTarotGame(
                                                       tarotGame: _newGame)))

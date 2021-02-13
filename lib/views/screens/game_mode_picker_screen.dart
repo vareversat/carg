@@ -1,8 +1,8 @@
 import 'package:carg/helpers/custom_route.dart';
-import 'package:carg/models/game/belote_game.dart';
-import 'package:carg/models/game/coinche_game.dart';
+import 'package:carg/models/game/french_belote.dart';
+import 'package:carg/models/game/coinche_belote.dart';
 import 'package:carg/models/game/game.dart';
-import 'package:carg/models/game/tarot_game.dart';
+import 'package:carg/models/game/tarot.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/screens/player_picker_screen.dart';
 import 'package:flutter/material.dart';
@@ -36,11 +36,11 @@ class GameModePickerScreen extends StatelessWidget {
                 child: Column(
                   children: <Widget>[
                     _GameModeButton(
-                      game: CoincheGame(),
+                      game: CoincheBelote(),
                     ),
-                    _GameModeButton(game: BeloteGame()),
+                    _GameModeButton(game: FrenchBelote()),
                     _GameModeButton(
-                      game: TarotGame(),
+                      game: Tarot(),
                     )
                     //_GameModeButton(game: TarotGame())
                   ],

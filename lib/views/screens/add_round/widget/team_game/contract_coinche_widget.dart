@@ -1,12 +1,12 @@
 import 'package:carg/models/score/misc/contract_name.dart';
-import 'package:carg/models/score/round/coinche_round.dart';
+import 'package:carg/models/score/round/coinche_belote_round.dart';
 import 'package:carg/views/screens/add_round/widget/section_title_widget.dart';
 import 'package:carg/views/screens/add_round/widget/team_game/card_color_picker_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class ContractCoincheWidget extends StatelessWidget {
-  final CoincheRound coincheRound;
+  final CoincheBeloteRound coincheRound;
 
   ContractCoincheWidget({this.coincheRound});
 
@@ -38,7 +38,7 @@ class ContractCoincheWidget extends StatelessWidget {
 }
 
 class _ContractTextFieldWidget extends StatefulWidget {
-  final CoincheRound coincheRound;
+  final CoincheBeloteRound coincheRound;
 
   const _ContractTextFieldWidget({this.coincheRound});
 
@@ -49,7 +49,7 @@ class _ContractTextFieldWidget extends StatefulWidget {
 }
 
 class _ContractTextFieldWidgetState extends State<_ContractTextFieldWidget> {
-  final CoincheRound _coincheRound;
+  final CoincheBeloteRound _coincheRound;
   TextEditingController _contractTextController;
 
   _ContractTextFieldWidgetState(this._coincheRound);

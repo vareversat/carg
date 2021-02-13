@@ -1,12 +1,12 @@
-import 'package:carg/models/score/misc/team_game_enum.dart';
-import 'package:carg/models/score/round/belote_round.dart';
+import 'package:carg/models/score/misc/belote_team_enum.dart';
+import 'package:carg/models/score/round/french_belote_round.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('BeloteRound', () {
-    final beloteRound = BeloteRound(
-        taker: TeamGameEnum.US,
-        defender: TeamGameEnum.THEM,
+    final beloteRound = FrenchBeloteRound(
+        taker: BeloteTeamEnum.US,
+        defender: BeloteTeamEnum.THEM,
         usTrickScore: 110,
         themTrickScore: 52);
 
@@ -22,35 +22,35 @@ void main() {
 
     test('Compute score - fulfilled - BeloteRebelote - US', () {
       beloteRound.dixDeDer = null;
-      beloteRound.beloteRebelote = TeamGameEnum.US;
+      beloteRound.beloteRebelote = BeloteTeamEnum.US;
       expect(beloteRound.takerScore, 130);
       expect(beloteRound.defenderScore, 52);
     });
 
     test('Compute score - fulfilled - BeloteRebelote - THEM', () {
       beloteRound.dixDeDer = null;
-      beloteRound.beloteRebelote = TeamGameEnum.THEM;
+      beloteRound.beloteRebelote = BeloteTeamEnum.THEM;
       expect(beloteRound.takerScore, 110);
       expect(beloteRound.defenderScore, 72);
     });
 
     test('Compute score - fulfilled - Dix de Der - US', () {
       beloteRound.beloteRebelote = null;
-      beloteRound.dixDeDer = TeamGameEnum.US;
+      beloteRound.dixDeDer = BeloteTeamEnum.US;
       expect(beloteRound.takerScore, 120);
       expect(beloteRound.defenderScore, 52);
     });
 
     test('Compute score - fulfilled - Dix de Der - THEM', () {
       beloteRound.beloteRebelote = null;
-      beloteRound.dixDeDer = TeamGameEnum.THEM;
+      beloteRound.dixDeDer = BeloteTeamEnum.THEM;
       expect(beloteRound.takerScore, 110);
       expect(beloteRound.defenderScore, 62);
     });
 
     test('Compute score - failed', () {
-      beloteRound.taker = TeamGameEnum.THEM;
-      beloteRound.defender = TeamGameEnum.US;
+      beloteRound.taker = BeloteTeamEnum.THEM;
+      beloteRound.defender = BeloteTeamEnum.US;
       beloteRound.beloteRebelote = null;
       beloteRound.dixDeDer = null;
       expect(beloteRound.takerScore, 0);

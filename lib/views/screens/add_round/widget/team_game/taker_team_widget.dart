@@ -1,10 +1,10 @@
-import 'package:carg/models/score/misc/team_game_enum.dart';
-import 'package:carg/models/score/round/team_game_round.dart';
+import 'package:carg/models/score/misc/belote_team_enum.dart';
+import 'package:carg/models/score/round/belote_round.dart';
 import 'package:carg/views/screens/add_round/widget/section_title_widget.dart';
 import 'package:flutter/material.dart';
 
 class TakerTeamWidget extends StatelessWidget {
-  final TeamGameRound round;
+  final BeloteRound round;
 
   const TakerTeamWidget({this.round});
 
@@ -15,16 +15,16 @@ class TakerTeamWidget extends StatelessWidget {
         children: <Widget>[
           SectionTitleWidget(title: 'Équipe preneuse'),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            _RadioButtonRow(team: TeamGameEnum.US, round: round),
-            _RadioButtonRow(team: TeamGameEnum.THEM, round: round)
+            _RadioButtonRow(team: BeloteTeamEnum.US, round: round),
+            _RadioButtonRow(team: BeloteTeamEnum.THEM, round: round)
           ])
         ]);
   }
 }
 
 class _RadioButtonRow extends StatelessWidget {
-  final TeamGameEnum team;
-  final TeamGameRound round;
+  final BeloteTeamEnum team;
+  final BeloteRound round;
 
   const _RadioButtonRow({this.team, this.round});
 
@@ -32,19 +32,19 @@ class _RadioButtonRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Wrap(
         textDirection:
-            team == TeamGameEnum.US ? TextDirection.rtl : TextDirection.ltr,
+            team == BeloteTeamEnum.US ? TextDirection.rtl : TextDirection.ltr,
         crossAxisAlignment: WrapCrossAlignment.center,
         children: <Widget>[
           Radio(
               visualDensity: VisualDensity.compact,
               value: team,
               groupValue: round.taker,
-              onChanged: (TeamGameEnum value) {
+              onChanged: (BeloteTeamEnum value) {
                 round.taker = value;
-                if (team == TeamGameEnum.US) {
-                  round.defender = TeamGameEnum.THEM;
+                if (team == BeloteTeamEnum.US) {
+                  round.defender = BeloteTeamEnum.THEM;
                 } else {
-                  round.defender = TeamGameEnum.US;
+                  round.defender = BeloteTeamEnum.US;
                 }
               }),
           Text(team.name, style: Theme.of(context).textTheme.bodyText2)

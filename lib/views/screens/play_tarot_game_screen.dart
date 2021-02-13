@@ -1,4 +1,4 @@
-import 'package:carg/models/game/tarot_game.dart';
+import 'package:carg/models/game/tarot.dart';
 import 'package:carg/models/players/tarot_round_players.dart';
 import 'package:carg/models/score/round/tarot_round.dart';
 import 'package:carg/models/score/tarot_score.dart';
@@ -15,7 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class PlayTarotGame extends StatefulWidget {
-  final TarotGame tarotGame;
+  final Tarot tarotGame;
 
   const PlayTarotGame({@required this.tarotGame});
 
@@ -26,7 +26,7 @@ class PlayTarotGame extends StatefulWidget {
 }
 
 class _PlayTarotGameState extends State<PlayTarotGame> {
-  final TarotGame _tarotGame;
+  final Tarot _tarotGame;
   final String _errorMessage = 'Error';
   final String _title = 'Tarot';
   final TarotScoreService _tarotScoreService = TarotScoreService();

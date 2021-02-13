@@ -1,8 +1,8 @@
 import 'package:carg/models/game/game.dart';
 import 'package:carg/models/game/game_type.dart';
+import 'package:carg/views/widgets/belote_widget.dart';
 import 'package:carg/views/widgets/error_message_widget.dart';
 import 'package:carg/views/widgets/tarot_game_widget.dart';
-import 'package:carg/views/widgets/team_game_widget.dart';
 import 'package:flutter/material.dart';
 
 class GameListWidget extends StatefulWidget {
@@ -51,7 +51,7 @@ class _GameListWidgetState extends State<GameListWidget> {
               itemCount: snapshot.data.length,
               itemBuilder: (BuildContext context, int index) {
                 if (snapshot.data[0].getGameTypeName() != GameType.TAROT.name) {
-                  return TeamGameWidget(
+                  return BeloteWidget(
                     teamGame: snapshot.data[index],
                   );
                 } else {

@@ -1,4 +1,4 @@
-import 'package:carg/models/game/tarot_game.dart';
+import 'package:carg/models/game/tarot.dart';
 import 'package:carg/models/players/tarot_round_players.dart';
 import 'package:carg/models/score/round/tarot_round.dart';
 import 'package:carg/views/screens/add_round/widget/real_time_display_widget.dart';
@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class AddTarotGameRoundScreen extends StatelessWidget {
-  final TarotGame tarotGame;
+  final Tarot tarotGame;
   final TarotRound tarotRound;
   final bool isEditing;
 

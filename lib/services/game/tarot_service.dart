@@ -1,5 +1,5 @@
-import 'package:carg/models/game/tarot_game.dart';
-import 'package:carg/models/players/tarot_game_players.dart';
+import 'package:carg/models/game/tarot.dart';
+import 'package:carg/models/players/tarot_players.dart';
 import 'package:carg/models/score/misc/tarot_player_score.dart';
 import 'package:carg/models/score/round/tarot_round.dart';
 import 'package:carg/models/score/tarot_score.dart';
@@ -9,27 +9,27 @@ import 'package:carg/services/score/tarot_score_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 
-class TarotGameService extends GameService<TarotGame, TarotGamePlayers> {
+class TarotService extends GameService<Tarot, TarotPlayers> {
   TarotScoreService _tarotScoreService;
   PlayerService _playerService;
   static const String flavor =
       String.fromEnvironment('FLAVOR', defaultValue: 'dev');
 
-  TarotGameService() : super() {
+  TarotService() : super() {
     _tarotScoreService = TarotScoreService();
     _playerService = PlayerService();
   }
 
   @override
-  Future<List<TarotGame>> getAllGames() async {
+  Future<List<Tarot>> getAllGames() async {
     try {
-      var beloteGames = <TarotGame>[];
+      var beloteGames = <Tarot>[];
       var querySnapshot = await FirebaseFirestore.instance
           .collection('tarot-game-' + flavor)
           .orderBy('starting_date', descending: true)
           .get();
       for (var doc in querySnapshot.docs) {
-        beloteGames.add(TarotGame.fromJSON(doc.data(), doc.id));
+        beloteGames.add(Tarot.fromJSON(doc.data(), doc.id));
       }
       return beloteGames;
     } on PlatformException catch (e) {
@@ -38,13 +38,13 @@ class TarotGameService extends GameService<TarotGame, TarotGamePlayers> {
   }
 
   @override
-  Future<TarotGame> getGame(String id) async {
+  Future<Tarot> getGame(String id) async {
     try {
       var querySnapshot = await FirebaseFirestore.instance
           .collection('tarot-game-' + flavor)
           .doc(id)
           .get();
-      return TarotGame.fromJSON(querySnapshot.data(), querySnapshot.id);
+      return Tarot.fromJSON(querySnapshot.data(), querySnapshot.id);
     } on PlatformException catch (e) {
       throw Exception('[' + e.code + '] Firebase error ' + e.message);
     }
@@ -64,14 +64,14 @@ class TarotGameService extends GameService<TarotGame, TarotGamePlayers> {
   }
 
   @override
-  Future<TarotGame> createGameWithPlayerList(List<String> playerList) async {
+  Future<Tarot> createGameWithPlayerList(List<String> playerList) async {
     try {
       playerList.forEach((player) async =>
           {await _playerService.incrementPlayedGamesByOne(player)});
-      var tarotGame = TarotGame(
+      var tarotGame = Tarot(
           isEnded: false,
           startingDate: DateTime.now(),
-          players: TarotGamePlayers(playerList: playerList));
+          players: TarotPlayers(playerList: playerList));
       print(tarotGame.toJSON());
       var documentReference = await FirebaseFirestore.instance
           .collection('tarot-game-' + flavor)
@@ -87,7 +87,7 @@ class TarotGameService extends GameService<TarotGame, TarotGamePlayers> {
   }
 
   @override
-  Future endAGame(TarotGame game) async {
+  Future endAGame(Tarot game) async {
     try {
       TarotPlayerScore winner;
       var score = await _tarotScoreService.getScoreByGame(game.id);

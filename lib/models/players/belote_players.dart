@@ -1,11 +1,11 @@
 import 'package:carg/models/player.dart';
 import 'package:carg/models/players/players.dart';
 
-class TeamGamePlayers extends Players {
+class BelotePlayers extends Players {
   String us;
   String them;
 
-  TeamGamePlayers({this.us, this.them, playerList})
+  BelotePlayers({this.us, this.them, playerList})
       : super.prefilledList(playerList: playerList);
 
   @override
@@ -89,11 +89,11 @@ class TeamGamePlayers extends Players {
     return tmpJSON;
   }
 
-  factory TeamGamePlayers.fromJSON(Map<String, dynamic> json) {
+  factory BelotePlayers.fromJSON(Map<String, dynamic> json) {
     if (json == null) {
       return null;
     }
-    return TeamGamePlayers(
+    return BelotePlayers(
         us: json['us'], them: json['them'], playerList: json['playerList']);
   }
 }

@@ -1,30 +1,30 @@
-import 'package:carg/models/score/misc/team_game_enum.dart';
-import 'package:carg/models/score/round/team_game_round.dart';
+import 'package:carg/models/score/misc/belote_team_enum.dart';
+import 'package:carg/models/score/round/belote_round.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/screens/add_round/widget/section_title_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
-class TrickPointsTeamGameWidget extends StatefulWidget {
-  final TeamGameRound round;
+class TrickPointsBeloteWidget extends StatefulWidget {
+  final BeloteRound round;
 
-  TrickPointsTeamGameWidget({this.round});
+  TrickPointsBeloteWidget({this.round});
 
   @override
   State<StatefulWidget> createState() {
-    return _TrickPointsTeamGameWidgetState(round);
+    return _TrickPointsBeloteWidgetState(round);
   }
 }
 
-class _TrickPointsTeamGameWidgetState extends State<TrickPointsTeamGameWidget> {
+class _TrickPointsBeloteWidgetState extends State<TrickPointsBeloteWidget> {
   TextEditingController _usPointsTextController;
   TextEditingController _themPointsTextController;
   final int _totalPoints = 160;
   final int _dixDeDerBonus = 10;
-  final TeamGameRound _round;
+  final BeloteRound _round;
 
-  _TrickPointsTeamGameWidgetState(this._round);
+  _TrickPointsBeloteWidgetState(this._round);
 
   @override
   void initState() {
@@ -99,9 +99,9 @@ class _TrickPointsTeamGameWidgetState extends State<TrickPointsTeamGameWidget> {
             SizedBox(height: 10),
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
               _BeloteRebeloteDixDeDerWidget(
-                  round: _round, team: TeamGameEnum.US),
+                  round: _round, team: BeloteTeamEnum.US),
               _BeloteRebeloteDixDeDerWidget(
-                  round: _round, team: TeamGameEnum.THEM)
+                  round: _round, team: BeloteTeamEnum.THEM)
             ])
           ]))
     ]);
@@ -109,8 +109,8 @@ class _TrickPointsTeamGameWidgetState extends State<TrickPointsTeamGameWidget> {
 }
 
 class _BeloteRebeloteDixDeDerWidget extends StatelessWidget {
-  final TeamGameRound round;
-  final TeamGameEnum team;
+  final BeloteRound round;
+  final BeloteTeamEnum team;
 
   const _BeloteRebeloteDixDeDerWidget({this.round, this.team});
 
@@ -119,7 +119,7 @@ class _BeloteRebeloteDixDeDerWidget extends StatelessWidget {
     return Column(children: <Widget>[
       Row(
           textDirection:
-              team == TeamGameEnum.US ? TextDirection.ltr : TextDirection.rtl,
+              team == BeloteTeamEnum.US ? TextDirection.ltr : TextDirection.rtl,
           children: <Widget>[
             Text('Belote-Rebelote'),
             Checkbox(
@@ -131,16 +131,16 @@ class _BeloteRebeloteDixDeDerWidget extends StatelessWidget {
           ]),
       Row(
           textDirection:
-              team == TeamGameEnum.US ? TextDirection.ltr : TextDirection.rtl,
+              team == BeloteTeamEnum.US ? TextDirection.ltr : TextDirection.rtl,
           children: <Widget>[
             Text('Dix de Der'),
             Radio(
                 visualDensity: VisualDensity.compact,
-                value: team == TeamGameEnum.US,
+                value: team == BeloteTeamEnum.US,
                 onChanged: (bool value) {
                   round.dixDeDer = team;
                 },
-                groupValue: round.dixDeDer == TeamGameEnum.US)
+                groupValue: round.dixDeDer == BeloteTeamEnum.US)
           ])
     ]);
   }

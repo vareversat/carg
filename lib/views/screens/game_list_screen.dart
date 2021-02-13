@@ -1,7 +1,7 @@
 import 'package:carg/helpers/custom_route.dart';
-import 'package:carg/services/game/belote_game_service.dart';
-import 'package:carg/services/game/coinche_game_service.dart';
-import 'package:carg/services/game/tarot_game_service.dart';
+import 'package:carg/services/game/coinche_belote_service.dart';
+import 'package:carg/services/game/french_belote_service.dart';
+import 'package:carg/services/game/tarot_service.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/screens/game_mode_picker_screen.dart';
 import 'package:carg/views/tabs/game_list_tab.dart';
@@ -9,9 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class GameListScreen extends StatelessWidget {
-  final BeloteGameService _beloteGameService = BeloteGameService();
-  final CoincheGameService _coincheGameService = CoincheGameService();
-  final TarotGameService _tarotGameService = TarotGameService();
+  final FrenchBeloteService _beloteGameService = FrenchBeloteService();
+  final CoincheBeloteService _coincheGameService = CoincheBeloteService();
+  final TarotService _tarotGameService = TarotService();
 
   @override
   Widget build(BuildContext context) {

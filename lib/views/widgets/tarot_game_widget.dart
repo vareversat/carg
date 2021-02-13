@@ -1,18 +1,18 @@
 import 'package:carg/helpers/custom_route.dart';
-import 'package:carg/models/game/tarot_game.dart';
+import 'package:carg/models/game/tarot.dart';
 import 'package:carg/models/game/team_game.dart';
+import 'package:carg/models/score/belote_score.dart';
 import 'package:carg/models/score/tarot_score.dart';
-import 'package:carg/models/score/team_game_score.dart';
 import 'package:carg/views/dialogs/warning_dialog.dart';
 import 'package:carg/views/screens/play_tarot_game_screen.dart';
 import 'package:carg/views/widgets/api_mini_player_widget.dart';
-import 'package:carg/views/widgets/team_game_widget.dart';
+import 'package:carg/views/widgets/belote_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class TarotGameWidget extends StatelessWidget {
-  final TarotGame tarotGame;
+  final Tarot tarotGame;
 
   const TarotGameWidget({this.tarotGame});
 
@@ -67,7 +67,7 @@ class TarotGameWidget extends StatelessWidget {
 }
 
 class _ShowScoreWidget extends StatefulWidget {
-  final TeamGame teamGame;
+  final Belote teamGame;
 
   const _ShowScoreWidget({this.teamGame});
 
@@ -78,7 +78,7 @@ class _ShowScoreWidget extends StatefulWidget {
 }
 
 class _ShowScoreWidgetState extends State<_ShowScoreWidget> {
-  final TeamGame _teamGame;
+  final Belote _teamGame;
   String _errorMessage;
 
   _ShowScoreWidgetState(this._teamGame);
@@ -90,7 +90,7 @@ class _ShowScoreWidgetState extends State<_ShowScoreWidget> {
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
               border: Border(top: BorderSide(color: Colors.black, width: 1))),
-          child: FutureBuilder<TeamGameScore>(
+          child: FutureBuilder<BeloteScore>(
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(
@@ -137,7 +137,7 @@ class _ShowScoreWidgetState extends State<_ShowScoreWidget> {
 }
 
 class _ButtonRowWidget extends StatelessWidget {
-  final TarotGame tarotGame;
+  final Tarot tarotGame;
 
   const _ButtonRowWidget({this.tarotGame});
 

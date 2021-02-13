@@ -1,27 +1,27 @@
 import 'package:carg/helpers/custom_route.dart';
 import 'package:carg/models/game/game.dart';
 import 'package:carg/models/game/team_game.dart';
-import 'package:carg/models/score/team_game_score.dart';
+import 'package:carg/models/score/belote_score.dart';
 import 'package:carg/views/dialogs/warning_dialog.dart';
-import 'package:carg/views/screens/play_team_game_screen.dart';
+import 'package:carg/views/screens/play_belote_screen.dart';
 import 'package:carg/views/widgets/team_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 
-class TeamGameWidget extends StatelessWidget {
-  final TeamGame teamGame;
+class BeloteWidget extends StatelessWidget {
+  final Belote teamGame;
 
-  const TeamGameWidget({this.teamGame});
+  const BeloteWidget({this.teamGame});
 
   @override
   Widget build(BuildContext context) {
     return Card(
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-        child: ExpansionTile(
-            title: CardTitle(game: teamGame),
+        child:
+            ExpansionTile(title: CardTitle(game: teamGame),
             children: <Widget>[
               Column(
                 children: [
@@ -61,7 +61,7 @@ class CardTitle extends StatelessWidget {
 }
 
 class _ShowScoreWidget extends StatefulWidget {
-  final TeamGame teamGame;
+  final Belote teamGame;
 
   const _ShowScoreWidget({this.teamGame});
 
@@ -72,7 +72,7 @@ class _ShowScoreWidget extends StatefulWidget {
 }
 
 class _ShowScoreWidgetState extends State<_ShowScoreWidget> {
-  final TeamGame _teamGame;
+  final Belote _teamGame;
   String _errorMessage;
 
   _ShowScoreWidgetState(this._teamGame);
@@ -82,7 +82,7 @@ class _ShowScoreWidgetState extends State<_ShowScoreWidget> {
     return Column(children: [
       Container(
           padding: const EdgeInsets.all(10),
-          child: FutureBuilder<TeamGameScore>(
+          child: FutureBuilder<BeloteScore>(
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(
@@ -129,7 +129,7 @@ class _ShowScoreWidgetState extends State<_ShowScoreWidget> {
 }
 
 class _ButtonRowWidget extends StatelessWidget {
-  final TeamGame teamGame;
+  final Belote teamGame;
 
   const _ButtonRowWidget({this.teamGame});
 
@@ -187,7 +187,7 @@ class _ButtonRowWidget extends StatelessWidget {
                   Navigator.push(
                     context,
                     CustomRouteScale(
-                      builder: (context) => PlayTeamGameScreen(
+                      builder: (context) => PlayBeloteScreen(
                         teamGame: teamGame,
                       ),
                     ),
@@ -207,7 +207,7 @@ class _ButtonRowWidget extends StatelessWidget {
                   Navigator.push(
                     context,
                     CustomRouteScale(
-                      builder: (context) => PlayTeamGameScreen(
+                      builder: (context) => PlayBeloteScreen(
                         teamGame: teamGame,
                       ),
                     ),

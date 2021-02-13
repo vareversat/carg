@@ -1,5 +1,5 @@
-import 'package:carg/models/score/belote_score.dart';
-import 'package:carg/services/score/belote_score_service.dart';
+import 'package:carg/models/score/french_belote_score.dart';
+import 'package:carg/services/score/french_belote_score_service.dart';
 import 'package:flutter/material.dart';
 
 class BeloteRoundWidget extends StatefulWidget {
@@ -16,14 +16,14 @@ class BeloteRoundWidget extends StatefulWidget {
 }
 
 class _BeloteRoundWidgetState extends State<BeloteRoundWidget> {
-  final _roundService = BeloteScoreService();
+  final _roundService = FrenchBeloteScoreService();
   final String _beloteGameId;
 
   _BeloteRoundWidgetState(this._beloteGameId);
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<BeloteScore>(
+    return FutureBuilder<FrenchBeloteScore>(
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(child: CircularProgressIndicator());

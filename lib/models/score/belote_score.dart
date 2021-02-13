@@ -1,34 +1,57 @@
+import 'package:carg/models/score/misc/belote_team_enum.dart';
 import 'package:carg/models/score/round/belote_round.dart';
-import 'package:carg/models/score/team_game_score.dart';
+import 'package:carg/models/score/score.dart';
 
-class BeloteScore extends TeamGameScore<BeloteRound> {
-  BeloteScore({id, rounds, usTotalPoints, themTotalPoints, game})
-      : super(
-            id: id,
-            rounds: rounds,
-            usTotalPoints: usTotalPoints,
-            themTotalPoints: themTotalPoints,
-            game: game);
+abstract class BeloteScore<T extends BeloteRound> extends Score {
+  List<T> rounds;
+  int usTotalPoints;
+  int themTotalPoints;
+  String game;
+
+  BeloteScore(
+      {id, this.rounds, this.usTotalPoints, this.themTotalPoints, this.game})
+      : super(id: id);
+
+  BeloteScore replaceLastRound(T round) {
+    usTotalPoints -= getPointsOfRound(BeloteTeamEnum.US, getLastRound());
+    themTotalPoints -= getPointsOfRound(BeloteTeamEnum.THEM, getLastRound());
+    _setLastRound(round);
+    return this;
+  }
+
+  BeloteScore deleteLastRound() {
+    usTotalPoints -= getPointsOfRound(BeloteTeamEnum.US, getLastRound());
+    themTotalPoints -= getPointsOfRound(BeloteTeamEnum.THEM, getLastRound());
+    rounds.removeLast();
+    return this;
+  }
+
+  @override
+  T getLastRound() {
+    return rounds.last;
+  }
+
+  int getPointsOfRound(BeloteTeamEnum teamGameEnum, T teamGameRound) {
+    if (teamGameEnum == teamGameRound.taker) {
+      return teamGameRound.takerScore;
+    } else {
+      return teamGameRound.defenderScore;
+    }
+  }
+
+  void _setLastRound(T round) {
+    usTotalPoints += getPointsOfRound(BeloteTeamEnum.US, round);
+    themTotalPoints += getPointsOfRound(BeloteTeamEnum.THEM, round);
+    rounds?.last = round;
+  }
 
   @override
   Map<String, dynamic> toJSON() {
-    return super.toJSON();
-  }
-
-  factory BeloteScore.fromJSON(Map<String, dynamic> json, String id) {
-    if (json == null) {
-      return null;
-    }
-    return BeloteScore(
-        id: id,
-        rounds: BeloteRound.fromJSONList(json['rounds']),
-        usTotalPoints: json['us_total_points'],
-        themTotalPoints: json['them_total_points'],
-        game: json['game']);
-  }
-
-  @override
-  String toString() {
-    return 'BeloteScore{rounds: $rounds, usTotalPoints: $usTotalPoints, themTotalPoints: $themTotalPoints}';
+    return {
+      'rounds': rounds.map((round) => round.toJSON()).toList(),
+      'us_total_points': usTotalPoints,
+      'them_total_points': themTotalPoints,
+      'game': game
+    };
   }
 }

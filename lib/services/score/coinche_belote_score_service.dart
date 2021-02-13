@@ -1,25 +1,25 @@
-import 'package:carg/models/score/coinche_score.dart';
-import 'package:carg/models/score/misc/team_game_enum.dart';
-import 'package:carg/models/score/round/coinche_round.dart';
+import 'package:carg/models/score/coinche_belote_score.dart';
+import 'package:carg/models/score/misc/belote_team_enum.dart';
+import 'package:carg/models/score/round/coinche_belote_round.dart';
 import 'package:carg/services/custom_exception.dart';
-import 'package:carg/services/score/team_game_score_service.dart';
+import 'package:carg/services/score/belote_score_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 
 class CoincheScoreService
-    extends TeamGameScoreService<CoincheScore, CoincheRound> {
+    extends BeloteScoreService<CoincheBeloteScore, CoincheBeloteRound> {
   static const String flavor =
       String.fromEnvironment('FLAVOR', defaultValue: 'dev');
 
   @override
-  Future<CoincheScore> getScoreByGame(String gameId) async {
+  Future<CoincheBeloteScore> getScoreByGame(String gameId) async {
     try {
       var querySnapshot = await FirebaseFirestore.instance
           .collection('coinche-score-' + flavor)
           .where('game', isEqualTo: gameId)
           .get();
       if (querySnapshot.docs.isNotEmpty) {
-        return CoincheScore.fromJSON(
+        return CoincheBeloteScore.fromJSON(
             querySnapshot.docs.first.data(), querySnapshot.docs.first.id);
       }
       return null;
@@ -29,7 +29,7 @@ class CoincheScoreService
   }
 
   @override
-  Stream<CoincheScore> getScoreByGameStream(String gameId) {
+  Stream<CoincheBeloteScore> getScoreByGameStream(String gameId) {
     try {
       return FirebaseFirestore.instance
           .collection('coinche-score-' + flavor)
@@ -38,9 +38,10 @@ class CoincheScoreService
           .map((event) {
         if (event.docs[0] == null) {
           throw CustomException('no_score');
-        };
+        }
+        ;
         final Map<dynamic, dynamic> value = event.docs[0].data();
-        return CoincheScore.fromJSON(value, event.docs[0].id);
+        return CoincheBeloteScore.fromJSON(value, event.docs[0].id);
       });
     } on PlatformException catch (e) {
       throw Exception('[' + e.code + '] Firebase error ' + e.message);
@@ -48,15 +49,15 @@ class CoincheScoreService
   }
 
   @override
-  Future addRoundToGame(String gameId, CoincheRound coincheRound) async {
+  Future addRoundToGame(String gameId, CoincheBeloteRound coincheRound) async {
     try {
       //var coincheGame = await _coi
       var coincheScore = await getScoreByGame(gameId);
       if (coincheScore != null) {
         coincheScore.usTotalPoints +=
-            getPointsOfRound(TeamGameEnum.US, coincheRound);
+            getPointsOfRound(BeloteTeamEnum.US, coincheRound);
         coincheScore.themTotalPoints +=
-            getPointsOfRound(TeamGameEnum.THEM, coincheRound);
+            getPointsOfRound(BeloteTeamEnum.THEM, coincheRound);
         coincheRound.index = coincheScore.rounds.length;
         coincheScore.rounds.add(coincheRound);
         await FirebaseFirestore.instance
@@ -87,7 +88,7 @@ class CoincheScoreService
   }
 
   @override
-  Future<String> saveScore(CoincheScore coincheScore) async {
+  Future<String> saveScore(CoincheBeloteScore coincheScore) async {
     try {
       var documentReference = await FirebaseFirestore.instance
           .collection('coinche-score-' + flavor)
@@ -99,14 +100,14 @@ class CoincheScoreService
   }
 
   @override
-  Future editLastRoundOfGame(String gameId, CoincheRound round) async {
+  Future editLastRoundOfGame(String gameId, CoincheBeloteRound round) async {
     var coincheScore = await getScoreByGame(gameId);
     coincheScore.replaceLastRound(round);
     await updateScore(coincheScore);
   }
 
   @override
-  Future updateScore(CoincheScore score) async {
+  Future updateScore(CoincheBeloteScore score) async {
     try {
       await FirebaseFirestore.instance
           .collection('coinche-score-' + flavor)
@@ -125,7 +126,7 @@ class CoincheScoreService
   }
 
   @override
-  CoincheRound getNewRound() {
-    return CoincheRound();
+  CoincheBeloteRound getNewRound() {
+    return CoincheBeloteRound();
   }
 }

@@ -1,39 +1,38 @@
+import 'package:carg/models/score/misc/belote_team_enum.dart';
 import 'package:carg/models/score/misc/card_color.dart';
 import 'package:carg/models/score/misc/contract_name.dart';
-import 'package:carg/models/score/misc/team_game_enum.dart';
-import 'package:carg/models/score/round/team_game_round.dart';
+import 'package:carg/models/score/round/belote_round.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 
-class CoincheRound extends TeamGameRound {
+class CoincheBeloteRound extends BeloteRound {
   int _contract;
   ContractName _contractName;
 
-  CoincheRound(
-      {index,
-      cardColor,
-      contract,
-      contractFulfilled,
-      dixDeDer,
-      beloteRebelote,
-      taker,
-      takerScore,
-      defenderScore,
-      usTrickScore,
-      themTrickScore,
-      contractName,
-      defender})
+  CoincheBeloteRound({index,
+    cardColor,
+    contract,
+    contractFulfilled,
+    dixDeDer,
+    beloteRebelote,
+    taker,
+    takerScore,
+    defenderScore,
+    usTrickScore,
+    themTrickScore,
+    contractName,
+    defender})
       : super(
-            index: index,
-            cardColor: cardColor,
-            contractFulfilled: contractFulfilled,
-            dixDeDer: dixDeDer,
-            beloteRebelote: beloteRebelote,
-            taker: taker,
-            takerScore: takerScore,
-            defenderScore: defenderScore,
-            usTrickScore: usTrickScore,
-            themTrickScore: themTrickScore,
-            defender: defender) {
+      index: index,
+      cardColor: cardColor,
+      contractFulfilled: contractFulfilled,
+      dixDeDer: dixDeDer,
+      beloteRebelote: beloteRebelote,
+      taker: taker,
+      takerScore: takerScore,
+      defenderScore: defenderScore,
+      usTrickScore: usTrickScore,
+      themTrickScore: themTrickScore,
+      defender: defender) {
     _contract = contract ?? 0;
     _contractName = contractName ?? ContractName.NORMAL;
   }
@@ -63,8 +62,7 @@ class CoincheRound extends TeamGameRound {
     } else {
       takerScore = getBeloteRebeloteOfTeam(taker);
       defenderScore = contractName.bonus(
-          TeamGameRound.totalScore +
-              contract +
+          BeloteRound.totalScore + contract +
               getBeloteRebeloteOfTeam(defender),
           contract);
     }
@@ -87,22 +85,23 @@ class CoincheRound extends TeamGameRound {
     return tmpJSON;
   }
 
-  factory CoincheRound.fromJSON(Map<String, dynamic> json) {
+  factory CoincheBeloteRound.fromJSON(Map<String, dynamic> json) {
     if (json == null) {
       return null;
     }
-    return CoincheRound(
+    return CoincheBeloteRound(
         index: json['index'],
         cardColor:
             EnumToString.fromString(CardColor.values, json['card_color']),
         dixDeDer:
-            EnumToString.fromString(TeamGameEnum.values, json['dix_de_der']),
+            EnumToString.fromString(BeloteTeamEnum.values, json['dix_de_der']),
         beloteRebelote: EnumToString.fromString(
-            TeamGameEnum.values, json['belote_rebelote']),
+            BeloteTeamEnum.values, json['belote_rebelote']),
         contract: json['contract'],
         contractFulfilled: json['contract_fulfilled'],
-        taker: EnumToString.fromString(TeamGameEnum.values, json['taker']),
-        defender: EnumToString.fromString(TeamGameEnum.values, json['defender']),
+        taker: EnumToString.fromString(BeloteTeamEnum.values, json['taker']),
+        defender:
+            EnumToString.fromString(BeloteTeamEnum.values, json['defender']),
         takerScore: json['taker_score'],
         defenderScore: json['defender_score'],
         usTrickScore: json['us_trick_score'],
@@ -111,8 +110,8 @@ class CoincheRound extends TeamGameRound {
             ContractName.values, json['contract_name']));
   }
 
-  static List<CoincheRound> fromJSONList(List<dynamic> jsonList) {
-    return jsonList.map((json) => CoincheRound.fromJSON(json)).toList();
+  static List<CoincheBeloteRound> fromJSONList(List<dynamic> jsonList) {
+    return jsonList.map((json) => CoincheBeloteRound.fromJSON(json)).toList();
   }
 
   @override

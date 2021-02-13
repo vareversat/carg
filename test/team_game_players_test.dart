@@ -1,18 +1,18 @@
 import 'package:carg/models/player.dart';
-import 'package:carg/models/players/team_game_players.dart';
+import 'package:carg/models/players/belote_players.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('TeamGamePlayers', () {
     test('Empty initialization ', () {
-      final teamGamePlayers = TeamGamePlayers();
+      final teamGamePlayers = BelotePlayers();
       expect(teamGamePlayers.playerList, [' ', ' ', ' ', ' ']);
     });
   });
 
   group('Teams are full', () {
     test('true', () {
-      final teamGamePlayers = TeamGamePlayers(
+      final teamGamePlayers = BelotePlayers(
           playerList: ['player_1', 'player_2', 'player_3', 'player_4'],
           us: 'team_1',
           them: 'team_2');
@@ -20,7 +20,7 @@ void main() {
     });
 
     test('false', () {
-      final teamGamePlayers = TeamGamePlayers(
+      final teamGamePlayers = BelotePlayers(
           playerList: ['player_1', ' ', 'player_3', 'player_4'],
           us: 'team_1',
           them: 'team_2');
@@ -30,7 +30,7 @@ void main() {
 
   group('Get Selected Players Status', () {
     test('Teams are partially full (1/2)', () {
-      final teamGamePlayers = TeamGamePlayers(
+      final teamGamePlayers = BelotePlayers(
           playerList: ['player_1', ' ', 'player_3', 'player_4'],
           us: 'team_1',
           them: 'team_2');
@@ -38,7 +38,7 @@ void main() {
     });
 
     test('Teams are partially full (2/1)', () {
-      final teamGamePlayers = TeamGamePlayers(
+      final teamGamePlayers = BelotePlayers(
           playerList: ['player_1', 'player_2', 'player_3', ' '],
           us: 'team_1',
           them: 'team_2');
@@ -46,7 +46,7 @@ void main() {
     });
 
     test('Teams are full', () {
-      final teamGamePlayers = TeamGamePlayers(
+      final teamGamePlayers = BelotePlayers(
           playerList: ['player_1', 'player_2', 'player_3', 'player_4'],
           us: 'team_1',
           them: 'team_2');
@@ -56,7 +56,7 @@ void main() {
 
   group('On Selected Player', () {
     test('Remove one', () {
-      final teamGamePlayers = TeamGamePlayers(
+      final teamGamePlayers = BelotePlayers(
           playerList: ['player_1', 'player_2', 'player_3', 'player_4'],
           us: 'team_1',
           them: 'team_2');
@@ -66,7 +66,7 @@ void main() {
     });
 
     test('Add one', () {
-      final teamGamePlayers = TeamGamePlayers(
+      final teamGamePlayers = BelotePlayers(
           playerList: [' ', 'player_2', 'player_3', 'player_4'],
           us: 'team_1',
           them: 'team_2');

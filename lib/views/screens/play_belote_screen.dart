@@ -1,11 +1,11 @@
 import 'package:carg/models/game/team_game.dart';
+import 'package:carg/models/score/belote_score.dart';
+import 'package:carg/models/score/misc/belote_team_enum.dart';
 import 'package:carg/models/score/misc/card_color.dart';
-import 'package:carg/models/score/misc/team_game_enum.dart';
-import 'package:carg/models/score/round/team_game_round.dart';
-import 'package:carg/models/score/team_game_score.dart';
+import 'package:carg/models/score/round/belote_round.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/dialogs/warning_dialog.dart';
-import 'package:carg/views/screens/add_round/add_team_game_round_screen.dart';
+import 'package:carg/views/screens/add_round/add_belote_round_screen.dart';
 import 'package:carg/views/screens/home_screen.dart';
 import 'package:carg/views/widgets/error_message_widget.dart';
 import 'package:carg/views/widgets/players/next_player_widget.dart';
@@ -13,25 +13,25 @@ import 'package:carg/views/widgets/team_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class PlayTeamGameScreen extends StatefulWidget {
-  final TeamGame teamGame;
+class PlayBeloteScreen extends StatefulWidget {
+  final Belote teamGame;
 
-  const PlayTeamGameScreen({@required this.teamGame});
+  const PlayBeloteScreen({@required this.teamGame});
 
   @override
   State<StatefulWidget> createState() {
-    return _PlayTeamGameScreenState(teamGame);
+    return _PlayBeloteScreenState(teamGame);
   }
 }
 
-class _PlayTeamGameScreenState extends State<PlayTeamGameScreen> {
-  final TeamGame _teamGame;
+class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
+  final Belote _teamGame;
 
   void _addNewRound() {
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => AddTeamGameRoundScreen(
+          builder: (context) => AddTeamBeloteRoundScreen(
               teamGame: _teamGame,
               teamGameRound: _teamGame.scoreService.getNewRound())),
     );
@@ -76,7 +76,7 @@ class _PlayTeamGameScreenState extends State<PlayTeamGameScreen> {
       await Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => AddTeamGameRoundScreen(
+              builder: (context) => AddTeamBeloteRoundScreen(
                   teamGame: _teamGame,
                   teamGameRound: lastRound,
                   isEditing: true)));
@@ -93,7 +93,7 @@ class _PlayTeamGameScreenState extends State<PlayTeamGameScreen> {
     }
   }
 
-  _PlayTeamGameScreenState(this._teamGame);
+  _PlayBeloteScreenState(this._teamGame);
 
   @override
   Widget build(BuildContext context) {
@@ -121,7 +121,7 @@ class _PlayTeamGameScreenState extends State<PlayTeamGameScreen> {
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
                 border: Border(top: BorderSide(color: Colors.black, width: 1))),
-            child: StreamBuilder<TeamGameScore>(
+                child: StreamBuilder<BeloteScore>(
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(child: CircularProgressIndicator());
@@ -157,7 +157,7 @@ class _PlayTeamGameScreenState extends State<PlayTeamGameScreen> {
                                             child: _RoundDisplay(
                                                 round:
                                                     snapshot.data.rounds[index],
-                                                team: TeamGameEnum.US)),
+                                                team: BeloteTeamEnum.US)),
                                         Flexible(
                                             child: Text(
                                                 snapshot.data.rounds[index]
@@ -169,7 +169,7 @@ class _PlayTeamGameScreenState extends State<PlayTeamGameScreen> {
                                             child: _RoundDisplay(
                                                 round:
                                                     snapshot.data.rounds[index],
-                                                team: TeamGameEnum.THEM))
+                                                team: BeloteTeamEnum.THEM))
                                       ]);
                                 }),
                           )),
@@ -240,12 +240,12 @@ class _PlayTeamGameScreenState extends State<PlayTeamGameScreen> {
 }
 
 class _RoundDisplay extends StatelessWidget {
-  final TeamGameRound round;
-  final TeamGameEnum team;
+  final BeloteRound round;
+  final BeloteTeamEnum team;
 
   const _RoundDisplay({this.round, this.team});
 
-  int _getScore(TeamGameRound teamGameRound, TeamGameEnum teamGameEnum) {
+  int _getScore(BeloteRound teamGameRound, BeloteTeamEnum teamGameEnum) {
     if (teamGameEnum == teamGameRound.taker) {
       return teamGameRound.takerScore;
     } else {
@@ -258,7 +258,7 @@ class _RoundDisplay extends StatelessWidget {
     return Row(
         mainAxisAlignment: MainAxisAlignment.start,
         textDirection:
-            team == TeamGameEnum.US ? TextDirection.ltr : TextDirection.rtl,
+            team == BeloteTeamEnum.US ? TextDirection.ltr : TextDirection.rtl,
         children: [
           Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5),

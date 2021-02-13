@@ -1,8 +1,8 @@
-import 'package:carg/models/score/round/coinche_round.dart';
-import 'package:carg/models/score/team_game_score.dart';
+import 'package:carg/models/score/belote_score.dart';
+import 'package:carg/models/score/round/coinche_belote_round.dart';
 
-class CoincheScore extends TeamGameScore<CoincheRound> {
-  CoincheScore({id, rounds, usTotalPoints, themTotalPoints, game})
+class CoincheBeloteScore extends BeloteScore<CoincheBeloteRound> {
+  CoincheBeloteScore({id, rounds, usTotalPoints, themTotalPoints, game})
       : super(
             id: id,
             rounds: rounds,
@@ -15,13 +15,13 @@ class CoincheScore extends TeamGameScore<CoincheRound> {
     return super.toJSON();
   }
 
-  factory CoincheScore.fromJSON(Map<String, dynamic> json, String id) {
+  factory CoincheBeloteScore.fromJSON(Map<String, dynamic> json, String id) {
     if (json == null) {
       return null;
     }
-    return CoincheScore(
+    return CoincheBeloteScore(
         id: id,
-        rounds: CoincheRound.fromJSONList(json['rounds']),
+        rounds: CoincheBeloteRound.fromJSONList(json['rounds']),
         usTotalPoints: json['us_total_points'],
         themTotalPoints: json['them_total_points'],
         game: json['game']);

@@ -1,14 +1,14 @@
+import 'package:carg/models/score/misc/belote_team_enum.dart';
 import 'package:carg/models/score/misc/contract_name.dart';
-import 'package:carg/models/score/misc/team_game_enum.dart';
-import 'package:carg/models/score/round/coinche_round.dart';
+import 'package:carg/models/score/round/coinche_belote_round.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('CoincheRound', () {
-    final coincheRound = CoincheRound(
+    final coincheRound = CoincheBeloteRound(
         contract: 100,
-        taker: TeamGameEnum.US,
-        defender: TeamGameEnum.THEM,
+        taker: BeloteTeamEnum.US,
+        defender: BeloteTeamEnum.THEM,
         contractName: ContractName.NORMAL,
         usTrickScore: 110,
         themTrickScore: 52);
@@ -37,7 +37,7 @@ void main() {
 
     test('Compute score - fulfilled - BeloteRebelote - US', () {
       coincheRound.dixDeDer = null;
-      coincheRound.beloteRebelote = TeamGameEnum.US;
+      coincheRound.beloteRebelote = BeloteTeamEnum.US;
       coincheRound.contractName = ContractName.NORMAL;
       coincheRound.contract = 100;
       expect(coincheRound.takerScore, 230);
@@ -46,7 +46,7 @@ void main() {
 
     test('Compute score - fulfilled - BeloteRebelote - THEM', () {
       coincheRound.dixDeDer = null;
-      coincheRound.beloteRebelote = TeamGameEnum.THEM;
+      coincheRound.beloteRebelote = BeloteTeamEnum.THEM;
       coincheRound.contractName = ContractName.NORMAL;
       coincheRound.contract = 100;
       expect(coincheRound.takerScore, 210);
@@ -55,7 +55,7 @@ void main() {
 
     test('Compute score - fulfilled - Dix de Der - US', () {
       coincheRound.beloteRebelote = null;
-      coincheRound.dixDeDer = TeamGameEnum.US;
+      coincheRound.dixDeDer = BeloteTeamEnum.US;
       coincheRound.contractName = ContractName.NORMAL;
       coincheRound.contract = 100;
       expect(coincheRound.takerScore, 220);
@@ -64,7 +64,7 @@ void main() {
 
     test('Compute score - fulfilled - Dix de Der - THEM', () {
       coincheRound.beloteRebelote = null;
-      coincheRound.dixDeDer = TeamGameEnum.THEM;
+      coincheRound.dixDeDer = BeloteTeamEnum.THEM;
       coincheRound.contractName = ContractName.NORMAL;
       coincheRound.contract = 100;
       expect(coincheRound.takerScore, 210);
@@ -90,8 +90,8 @@ void main() {
     });
 
     test('Compute score - failed', () {
-      coincheRound.taker = TeamGameEnum.THEM;
-      coincheRound.defender = TeamGameEnum.US;
+      coincheRound.taker = BeloteTeamEnum.THEM;
+      coincheRound.defender = BeloteTeamEnum.US;
       coincheRound.beloteRebelote = null;
       coincheRound.dixDeDer = null;
       coincheRound.contractName = ContractName.NORMAL;
@@ -99,6 +99,5 @@ void main() {
       expect(coincheRound.takerScore, 0);
       expect(coincheRound.defenderScore, 260);
     });
-
   });
 }
