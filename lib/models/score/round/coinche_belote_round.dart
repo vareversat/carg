@@ -72,8 +72,7 @@ class CoincheBeloteRound extends BeloteRound {
 
   @override
   bool isContractFulfilled() {
-    contractFulfilled = getPointsOfTeam(taker) >= contract;
-    return contractFulfilled;
+    return getPointsOfTeam(taker) >= contract;
   }
 
   @override

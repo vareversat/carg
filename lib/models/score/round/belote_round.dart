@@ -25,12 +25,12 @@ abstract class BeloteRound extends Round {
       this.contractFulfilled,
       dixDeDer,
       beloteRebelote,
-    taker,
-    takerScore,
-    defenderScore,
-    usTrickScore,
-    themTrickScore,
-    defender})
+      taker,
+      takerScore,
+      defenderScore,
+      usTrickScore,
+      themTrickScore,
+      defender})
       : super(index: index) {
     _taker = taker ?? BeloteTeamEnum.US;
     _defender = defender ?? BeloteTeamEnum.THEM;
@@ -123,9 +123,13 @@ abstract class BeloteRound extends Round {
   int getPointsOfTeam(BeloteTeamEnum team) {
     switch (team) {
       case BeloteTeamEnum.US:
-        return _usTrickScore + getDixDeDerOfTeam(BeloteTeamEnum.US);
+        return _usTrickScore +
+            getDixDeDerOfTeam(BeloteTeamEnum.US) +
+            getBeloteRebeloteOfTeam(BeloteTeamEnum.US);
       case BeloteTeamEnum.THEM:
-        return _themTrickScore + getDixDeDerOfTeam(BeloteTeamEnum.THEM);
+        return _themTrickScore +
+            getDixDeDerOfTeam(BeloteTeamEnum.THEM) +
+            getBeloteRebeloteOfTeam(BeloteTeamEnum.THEM);
     }
     return 0;
   }
