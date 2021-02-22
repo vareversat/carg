@@ -31,7 +31,7 @@ class FrenchBeloteRound extends BeloteRound {
 
   @override
   void computeRound() {
-    if (isContractFulfilled()) {
+    if (contractFulfilled) {
       takerScore = getPointsOfTeam(taker) + getBeloteRebeloteOfTeam(taker);
       defenderScore =
           getPointsOfTeam(defender) + getBeloteRebeloteOfTeam(defender);
@@ -44,12 +44,9 @@ class FrenchBeloteRound extends BeloteRound {
   }
 
   @override
-  bool isContractFulfilled() {
-    contractFulfilled = (beloteRebelote != null)
-        ? getPointsOfTeam(taker) > 80
-        : getPointsOfTeam(taker) > 90;
-    return contractFulfilled;
-  }
+  bool get contractFulfilled => contractFulfilled = (beloteRebelote != null)
+      ? getPointsOfTeam(taker) > 80
+      : getPointsOfTeam(taker) > 90;
 
   @override
   int getPointsOfTeam(BeloteTeamEnum team) {

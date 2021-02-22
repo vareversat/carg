@@ -26,16 +26,19 @@ class CoincheBeloteRound extends BeloteRound {
       cardColor: cardColor,
       contractFulfilled: contractFulfilled,
       dixDeDer: dixDeDer,
-      beloteRebelote: beloteRebelote,
-      taker: taker,
-      takerScore: takerScore,
-      defenderScore: defenderScore,
-      usTrickScore: usTrickScore,
-      themTrickScore: themTrickScore,
-      defender: defender) {
+            beloteRebelote: beloteRebelote,
+            taker: taker,
+            takerScore: takerScore,
+            defenderScore: defenderScore,
+            usTrickScore: usTrickScore,
+            themTrickScore: themTrickScore,
+            defender: defender) {
     _contract = contract ?? 0;
     _contractName = contractName ?? CoincheBeloteContractName.NORMAL;
   }
+
+  @override
+  bool get contractFulfilled => getPointsOfTeam(taker) >= contract;
 
   CoincheBeloteContractName get contractName => _contractName;
 
@@ -53,7 +56,7 @@ class CoincheBeloteRound extends BeloteRound {
 
   @override
   void computeRound() {
-    if (isContractFulfilled()) {
+    if (contractFulfilled) {
       takerScore =
           contractName.bonus(contract + getPointsOfTeam(taker), contract);
       defenderScore = getPointsOfTeam(defender);
@@ -67,12 +70,6 @@ class CoincheBeloteRound extends BeloteRound {
           contract);
     }
     notifyListeners();
-  }
-
-  @override
-  bool isContractFulfilled() {
-    contractFulfilled = getPointsOfTeam(taker) >= contract;
-    return contractFulfilled;
   }
 
   @override

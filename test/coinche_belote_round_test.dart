@@ -14,7 +14,6 @@ void main() {
         themTrickScore: 52);
 
     test('Is contract fulfilled', () {
-      expect(coincheRound.isContractFulfilled(), true);
       expect(coincheRound.contractFulfilled, true);
     });
 

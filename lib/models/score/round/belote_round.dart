@@ -22,7 +22,7 @@ abstract class BeloteRound extends Round {
   BeloteRound(
       {index,
       cardColor,
-      this.contractFulfilled,
+      contractFulfilled,
       dixDeDer,
       beloteRebelote,
       taker,
@@ -109,8 +109,6 @@ abstract class BeloteRound extends Round {
     _takerScore = value;
     notifyListeners();
   }
-
-  bool isContractFulfilled();
 
   int getPointsOfTeam(BeloteTeamEnum team);
 

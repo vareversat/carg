@@ -11,7 +11,6 @@ void main() {
         themTrickScore: 50);
 
     test('Is contract fulfilled', () {
-      expect(beloteRound.isContractFulfilled(), true);
       expect(beloteRound.contractFulfilled, true);
     });
 

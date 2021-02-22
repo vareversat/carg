@@ -79,7 +79,7 @@ class PlayerWidget extends StatelessWidget {
                                   style: TextStyle(fontSize: 17),
                                 ),
                                 Text(
-                                  player.totalWonGames().toString() + ' ',
+                                  player.totalPlayedGames().toString() + ' ',
                                   style: TextStyle(fontSize: 17),
                                 ),
                                 Icon(FontAwesomeIcons.gamepad, size: 15)
