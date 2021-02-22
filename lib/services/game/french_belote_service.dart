@@ -75,11 +75,12 @@ class FrenchBeloteService implements BeloteService<FrenchBelote> {
           .getTeamByPlayers(playerList.sublist(0, 2).map((e) => e).toList());
       var themTeam = await _teamService
           .getTeamByPlayers(playerList.sublist(2, 4).map((e) => e).toList());
-      playerList.forEach((playerId) async =>
-          {await _playerService.incrementPlayedGamesByOne(playerId)});
       var beloteGame = FrenchBelote(
           players: BelotePlayers(
               us: usTeam.id, them: themTeam.id, playerList: playerList));
+      playerList.forEach((playerId) async => {
+            await _playerService.incrementPlayedGamesByOne(playerId, beloteGame)
+          });
       var documentReference = await FirebaseFirestore.instance
           .collection('belote-game-' + flavor)
           .add(beloteGame.toJSON());
@@ -102,9 +103,11 @@ class FrenchBeloteService implements BeloteService<FrenchBelote> {
       Team winners;
       var score = await _beloteScoreService.getScoreByGame(game.id);
       if (score.themTotalPoints > score.usTotalPoints) {
-        winners = await _teamService.incrementWonGamesByOne(game.players.them);
+        winners =
+            await _teamService.incrementWonGamesByOne(game.players.them, game);
       } else if (score.themTotalPoints < score.usTotalPoints) {
-        winners = await _teamService.incrementWonGamesByOne(game.players.us);
+        winners =
+            await _teamService.incrementWonGamesByOne(game.players.us, game);
       }
       await FirebaseFirestore.instance
           .collection('belote-game-' + flavor)

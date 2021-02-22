@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:algolia/algolia.dart';
+import 'package:carg/models/game/game.dart';
 import 'package:carg/models/player.dart';
 import 'package:carg/services/custom_exception.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -30,25 +31,21 @@ class PlayerService {
     }
   }
 
-  Future incrementPlayedGamesByOne(String id) async {
+  Future incrementPlayedGamesByOne(String id, Game game) async {
     try {
       var player = await getPlayer(id);
-      await FirebaseFirestore.instance
-          .collection('player-' + flavor)
-          .doc(player.id)
-          .update({'played_games': player.playedGames + 1});
+      player = game.incrementPlayerPlayedGamesByOne(player);
+      await updatePlayer(player);
     } on PlatformException catch (e) {
       throw CustomException(e.message);
     }
   }
 
-  Future incrementWonGamesByOne(String id) async {
+  Future incrementWonGamesByOne(String id, Game game) async {
     try {
       var player = await getPlayer(id);
-      await FirebaseFirestore.instance
-          .collection('player-' + flavor)
-          .doc(player.id)
-          .update({'won_games': player.wonGames + 1});
+      player = game.incrementPlayerWonGamesByOne(player);
+      await updatePlayer(player);
     } on PlatformException catch (e) {
       throw CustomException(e.message);
     }

@@ -1,5 +1,7 @@
 import 'package:carg/models/carg_object.dart';
 import 'package:carg/models/game/game_type.dart';
+import 'package:carg/models/game_stats.dart';
+import 'package:carg/models/player.dart';
 import 'package:carg/models/players/players.dart';
 import 'package:carg/services/game/game_service.dart';
 import 'package:carg/services/score/score_service.dart';
@@ -22,6 +24,26 @@ abstract class Game<T extends Players> extends CargObject {
 
   String getGameplayDirection() {
     return _gameType.direction;
+  }
+
+  Player incrementPlayerPlayedGamesByOne(Player player) {
+    var stat = player.gameStatsList.firstWhere(
+        (element) => element.gameType == _gameType,
+        orElse: () =>
+            GameStats(gameType: _gameType, wonGames: 0, playedGames: 0));
+    stat.playedGames += 1;
+    player.gameStatsList.add(stat);
+    return player;
+  }
+
+  Player incrementPlayerWonGamesByOne(Player player) {
+    var stat = player.gameStatsList.firstWhere(
+        (element) => element.gameType == _gameType,
+        orElse: () =>
+            GameStats(gameType: _gameType, wonGames: 0, playedGames: 1));
+    stat.wonGames += 1;
+    player.gameStatsList.add(stat);
+    return player;
   }
 
   Game(

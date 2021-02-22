@@ -1,7 +1,9 @@
 import 'package:carg/models/carg_object.dart';
+import 'package:carg/models/game_stats.dart';
 import 'package:flutter/material.dart';
 
 class Player extends CargObject with ChangeNotifier {
+  List<GameStats> gameStatsList;
   int playedGames;
   int wonGames;
   String linkedUserId;
@@ -34,6 +36,7 @@ class Player extends CargObject with ChangeNotifier {
 
   Player(
       {String id,
+      this.gameStatsList,
       this.firstName,
       this.lastName,
       userName,
@@ -54,6 +57,7 @@ class Player extends CargObject with ChangeNotifier {
     }
     return Player(
         id: id,
+        gameStatsList: GameStats.fromJSONList(json['game_stats']),
         firstName: json['first_name'] ?? '',
         lastName: json['last_name'] ?? '',
         userName: json['user_name'] ?? '',
@@ -66,6 +70,7 @@ class Player extends CargObject with ChangeNotifier {
   @override
   Map<String, dynamic> toJSON() {
     return {
+      'game_stats': gameStatsList.map((stat) => stat.toJSON()).toList(),
       'first_name': firstName,
       'last_name': lastName,
       'user_name': userName,
@@ -82,6 +87,6 @@ class Player extends CargObject with ChangeNotifier {
 
   @override
   String toString() {
-    return 'Player{id: $id, linkedUserId: $linkedUserId, firstName: $firstName, lastName: $lastName, userName: $userName, profilePicture: $profilePicture, playedGames: $playedGames, wonGames: $wonGames}';
+    return 'Player{gameStatsList: $gameStatsList, playedGames: $playedGames, wonGames: $wonGames, linkedUserId: $linkedUserId, firstName: $firstName, lastName: $lastName, _userName: $_userName, _profilePicture: $_profilePicture, _selected: $_selected}';
   }
 }

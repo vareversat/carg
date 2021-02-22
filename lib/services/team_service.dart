@@ -1,3 +1,4 @@
+import 'package:carg/models/game/game.dart';
 import 'package:carg/models/team.dart';
 import 'package:carg/services/custom_exception.dart';
 import 'package:carg/services/player_service.dart';
@@ -6,7 +7,7 @@ import 'package:flutter/services.dart';
 
 class TeamService {
   static const String flavor =
-      String.fromEnvironment('FLAVOR', defaultValue: 'dev');
+  String.fromEnvironment('FLAVOR', defaultValue: 'dev');
   final PlayerService _playerService = PlayerService();
 
   Future<Team> getTeamByPlayers(List<String> playerIds) async {
@@ -50,7 +51,7 @@ class TeamService {
     }
   }
 
-  Future<Team> incrementWonGamesByOne(String id) async {
+  Future<Team> incrementWonGamesByOne(String id, Game game) async {
     try {
       var team = await getTeam(id);
       await FirebaseFirestore.instance
@@ -58,7 +59,7 @@ class TeamService {
           .doc(id)
           .update({'won_games': team.wonGames + 1});
       for (var player in team.players) {
-        await _playerService.incrementWonGamesByOne(player);
+        await _playerService.incrementWonGamesByOne(player, game);
       }
       return team;
     } on PlatformException catch (e) {

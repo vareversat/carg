@@ -70,11 +70,12 @@ class CoincheBeloteService implements BeloteService<CoincheBelote> {
           .getTeamByPlayers(playerList.sublist(0, 2).map((e) => e).toList());
       var themTeam = await _teamService
           .getTeamByPlayers(playerList.sublist(2, 4).map((e) => e).toList());
-      playerList.forEach((player) async =>
-          {await _playerService.incrementPlayedGamesByOne(player)});
       var coincheGame = CoincheBelote(
           players: BelotePlayers(
               us: usTeam.id, them: themTeam.id, playerList: playerList));
+      playerList.forEach((player) async => {
+            await _playerService.incrementPlayedGamesByOne(player, coincheGame)
+          });
       var documentReference = await FirebaseFirestore.instance
           .collection('coinche-game-' + flavor)
           .add(coincheGame.toJSON());
@@ -97,9 +98,11 @@ class CoincheBeloteService implements BeloteService<CoincheBelote> {
       Team winners;
       var score = await _coincheScoreService.getScoreByGame(game.id);
       if (score.themTotalPoints > score.usTotalPoints) {
-        winners = await _teamService.incrementWonGamesByOne(game.players.them);
+        winners =
+            await _teamService.incrementWonGamesByOne(game.players.them, game);
       } else if (score.themTotalPoints < score.usTotalPoints) {
-        winners = await _teamService.incrementWonGamesByOne(game.players.us);
+        winners =
+            await _teamService.incrementWonGamesByOne(game.players.us, game);
       }
       await FirebaseFirestore.instance
           .collection('coinche-game-' + flavor)

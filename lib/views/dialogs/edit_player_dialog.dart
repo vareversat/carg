@@ -1,3 +1,4 @@
+import 'package:carg/models/game/game_type.dart';
 import 'package:carg/models/player.dart';
 import 'package:carg/services/player_service.dart';
 import 'package:carg/styles/text_style.dart';
@@ -30,6 +31,7 @@ class _EditPlayerDialogState extends State<EditPlayerDialog> {
     _isCreating = player == null ? true : false;
     _title = _isCreating ? 'Nouveau joueur' : 'Infos';
     _player = player ?? Player();
+    print(_player);
   }
 
   void _setProfilePictureUrl(String url) {
@@ -146,6 +148,33 @@ class _EditPlayerDialogState extends State<EditPlayerDialog> {
           )
         else
           Container(),
+        Column(
+          children: _player.gameStatsList
+              .map(
+                (stat) => Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text('${stat.gameType.name} : '),
+                    Icon(Icons.stars, size: 15),
+                    Text(
+                      ' ' + stat.wonGames.toString(),
+                      style: TextStyle(fontSize: 17),
+                    ),
+                    Text(
+                      ' | ',
+                      style: TextStyle(fontSize: 17),
+                    ),
+                    Text(
+                      stat.playedGames.toString() + ' ',
+                      style: TextStyle(fontSize: 17),
+                    ),
+                    Icon(Icons.gamepad, size: 15)
+                  ],
+                ),
+              )
+              .toList()
+              .cast<Widget>(),
+        ),
       ]),
       actions: <Widget>[
         if (_isLoading)
