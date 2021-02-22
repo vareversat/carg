@@ -4,6 +4,7 @@ import 'package:carg/services/player_service.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class EditPlayerDialog extends StatefulWidget {
   final Player player;
@@ -31,7 +32,6 @@ class _EditPlayerDialogState extends State<EditPlayerDialog> {
     _isCreating = player == null ? true : false;
     _title = _isCreating ? 'Nouveau joueur' : 'Infos';
     _player = player ?? Player();
-    print(_player);
   }
 
   void _setProfilePictureUrl(String url) {
@@ -128,7 +128,7 @@ class _EditPlayerDialogState extends State<EditPlayerDialog> {
                       border: InputBorder.none,
                       hintStyle: TextStyle(
                           fontSize: 25, color: Theme.of(context).hintColor),
-                      labelText: 'Pseudo')),
+                      labelText: _isCreating ? 'Pseudo' : null)),
             ),
           ],
         ),
@@ -152,23 +152,34 @@ class _EditPlayerDialogState extends State<EditPlayerDialog> {
           children: _player.gameStatsList
               .map(
                 (stat) => Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.baseline,
                   children: <Widget>[
-                    Text('${stat.gameType.name} : '),
-                    Icon(Icons.stars, size: 15),
+                    SizedBox(
+                        width: 100,
+                        child: Text('${stat.gameType.name} : ',
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(fontSize: 20))),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                      child: Icon(FontAwesomeIcons.trophy, size: 15),
+                    ),
                     Text(
                       ' ' + stat.wonGames.toString(),
-                      style: TextStyle(fontSize: 17),
+                      style: TextStyle(fontSize: 20),
                     ),
                     Text(
                       ' | ',
-                      style: TextStyle(fontSize: 17),
+                      style: TextStyle(fontSize: 20),
                     ),
                     Text(
                       stat.playedGames.toString() + ' ',
-                      style: TextStyle(fontSize: 17),
+                      style: TextStyle(fontSize: 20),
                     ),
-                    Icon(Icons.gamepad, size: 15)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                      child: Icon(FontAwesomeIcons.gamepad, size: 15),
+                    )
                   ],
                 ),
               )

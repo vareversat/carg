@@ -2,6 +2,7 @@ import 'package:carg/models/player.dart';
 import 'package:carg/views/dialogs/edit_player_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class PlayerWidget extends StatelessWidget {
@@ -68,9 +69,9 @@ class PlayerWidget extends StatelessWidget {
                             flex: 4,
                             child: Row(
                               children: <Widget>[
-                                Icon(Icons.stars, size: 15),
+                                Icon(FontAwesomeIcons.trophy, size: 15),
                                 Text(
-                                  ' ' + player.wonGames.toString(),
+                                  ' ' + player.totalWonGames().toString(),
                                   style: TextStyle(fontSize: 17),
                                 ),
                                 Text(
@@ -78,10 +79,10 @@ class PlayerWidget extends StatelessWidget {
                                   style: TextStyle(fontSize: 17),
                                 ),
                                 Text(
-                                  player.playedGames.toString() + ' ',
+                                  player.totalWonGames().toString() + ' ',
                                   style: TextStyle(fontSize: 17),
                                 ),
-                                Icon(Icons.gamepad, size: 15)
+                                Icon(FontAwesomeIcons.gamepad, size: 15)
                               ],
                             ),
                           ),

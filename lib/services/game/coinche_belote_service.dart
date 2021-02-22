@@ -64,7 +64,8 @@ class CoincheBeloteService implements BeloteService<CoincheBelote> {
   }
 
   @override
-  Future<CoincheBelote> createGameWithPlayerList(List<String> playerList) async {
+  Future<CoincheBelote> createGameWithPlayerList(
+      List<String> playerList) async {
     try {
       var usTeam = await _teamService
           .getTeamByPlayers(playerList.sublist(0, 2).map((e) => e).toList());

@@ -27,22 +27,34 @@ abstract class Game<T extends Players> extends CargObject {
   }
 
   Player incrementPlayerPlayedGamesByOne(Player player) {
-    var stat = player.gameStatsList.firstWhere(
-        (element) => element.gameType == _gameType,
-        orElse: () =>
-            GameStats(gameType: _gameType, wonGames: 0, playedGames: 0));
-    stat.playedGames += 1;
-    player.gameStatsList.add(stat);
+    GameStats stat;
+    var index = player.gameStatsList
+        .indexWhere((element) => element.gameType.name == _gameType.name);
+    if (index == -1) {
+      stat = GameStats(gameType: _gameType, wonGames: 0, playedGames: 1);
+      player.gameStatsList.add(stat);
+    } else {
+      stat = player.gameStatsList[index];
+      stat.playedGames += 1;
+      player.gameStatsList.removeAt(index);
+      player.gameStatsList.add(stat);
+    }
     return player;
   }
 
   Player incrementPlayerWonGamesByOne(Player player) {
-    var stat = player.gameStatsList.firstWhere(
-        (element) => element.gameType == _gameType,
-        orElse: () =>
-            GameStats(gameType: _gameType, wonGames: 0, playedGames: 1));
-    stat.wonGames += 1;
-    player.gameStatsList.add(stat);
+    GameStats stat;
+    var index = player.gameStatsList
+        .indexWhere((element) => element.gameType.name == _gameType.name);
+    if (index == -1) {
+      stat = GameStats(gameType: _gameType, wonGames: 1, playedGames: 1);
+      player.gameStatsList.add(stat);
+    } else {
+      stat = player.gameStatsList[index];
+      stat.wonGames += 1;
+      player.gameStatsList.removeAt(index);
+      player.gameStatsList.add(stat);
+    }
     return player;
   }
 

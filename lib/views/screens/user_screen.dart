@@ -249,11 +249,11 @@ class _UserScreenState extends State<UserScreen> {
                           children: [
                             Column(
                               children: [
-                                Icon(Icons.stars, size: 25),
+                                Icon(FontAwesomeIcons.trophy, size: 25),
                                 Padding(
                                   padding: const EdgeInsets.all(5.0),
                                   child: Text(
-                                    _player.wonGames.toString(),
+                                    _player.totalWonGames().toString(),
                                     style: TextStyle(fontSize: 20),
                                   ),
                                 ),
@@ -281,11 +281,11 @@ class _UserScreenState extends State<UserScreen> {
                             ),
                             Column(
                               children: [
-                                Icon(Icons.gamepad, size: 25),
+                                Icon(FontAwesomeIcons.gamepad, size: 25),
                                 Padding(
                                   padding: const EdgeInsets.all(5.0),
                                   child: Text(
-                                    _player.playedGames.toString(),
+                                    _player.totalPlayedGames().toString(),
                                     style: TextStyle(fontSize: 20),
                                   ),
                                 ),

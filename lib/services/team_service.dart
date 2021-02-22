@@ -51,6 +51,22 @@ class TeamService {
     }
   }
 
+  Future<Team> incrementPlayedGamesByOne(String id, Game game) async {
+    try {
+      var team = await getTeam(id);
+      await FirebaseFirestore.instance
+          .collection('team-' + flavor)
+          .doc(id)
+          .update({'won_games': team.wonGames + 1});
+      for (var player in team.players) {
+        await _playerService.incrementPlayedGamesByOne(player, game);
+      }
+      return team;
+    } on PlatformException catch (e) {
+      throw CustomException(e.message);
+    }
+  }
+
   Future<Team> incrementWonGamesByOne(String id, Game game) async {
     try {
       var team = await getTeam(id);
