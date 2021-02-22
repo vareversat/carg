@@ -8,6 +8,15 @@ class GameStats {
 
   GameStats({this.gameType, this.wonGames, this.playedGames});
 
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is GameStats &&
+          runtimeType == other.runtimeType &&
+          gameType == other.gameType &&
+          wonGames == other.wonGames &&
+          playedGames == other.playedGames;
+
   factory GameStats.fromJSON(Map<String, dynamic> json) {
     if (json == null) {
       return null;
