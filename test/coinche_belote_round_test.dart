@@ -15,6 +15,7 @@ void main() {
 
     test('Is contract fulfilled', () {
       expect(coincheRound.isContractFulfilled(), true);
+      expect(coincheRound.contractFulfilled, true);
     });
 
     test('Compute score - Set contract', () {
@@ -31,6 +32,7 @@ void main() {
       coincheRound.beloteRebelote = null;
       coincheRound.contractName = CoincheBeloteContractName.NORMAL;
       coincheRound.contract = 100;
+      expect(coincheRound.contractFulfilled, true);
       expect(coincheRound.takerScore, 210);
       expect(coincheRound.defenderScore, 52);
     });
@@ -40,6 +42,7 @@ void main() {
       coincheRound.beloteRebelote = BeloteTeamEnum.US;
       coincheRound.contractName = CoincheBeloteContractName.NORMAL;
       coincheRound.contract = 100;
+      expect(coincheRound.contractFulfilled, true);
       expect(coincheRound.takerScore, 230);
       expect(coincheRound.defenderScore, 52);
     });
@@ -49,6 +52,7 @@ void main() {
       coincheRound.beloteRebelote = BeloteTeamEnum.THEM;
       coincheRound.contractName = CoincheBeloteContractName.NORMAL;
       coincheRound.contract = 100;
+      expect(coincheRound.contractFulfilled, true);
       expect(coincheRound.takerScore, 210);
       expect(coincheRound.defenderScore, 72);
     });
@@ -58,6 +62,7 @@ void main() {
       coincheRound.dixDeDer = BeloteTeamEnum.US;
       coincheRound.contractName = CoincheBeloteContractName.NORMAL;
       coincheRound.contract = 100;
+      expect(coincheRound.contractFulfilled, true);
       expect(coincheRound.takerScore, 220);
       expect(coincheRound.defenderScore, 52);
     });
@@ -67,6 +72,7 @@ void main() {
       coincheRound.dixDeDer = BeloteTeamEnum.THEM;
       coincheRound.contractName = CoincheBeloteContractName.NORMAL;
       coincheRound.contract = 100;
+      expect(coincheRound.contractFulfilled, true);
       expect(coincheRound.takerScore, 210);
       expect(coincheRound.defenderScore, 62);
     });
@@ -96,6 +102,7 @@ void main() {
       coincheRound.dixDeDer = null;
       coincheRound.contractName = CoincheBeloteContractName.NORMAL;
       coincheRound.contract = 100;
+      expect(coincheRound.contractFulfilled, false);
       expect(coincheRound.takerScore, 0);
       expect(coincheRound.defenderScore, 260);
     });

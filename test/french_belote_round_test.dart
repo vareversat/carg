@@ -12,10 +12,12 @@ void main() {
 
     test('Is contract fulfilled', () {
       expect(beloteRound.isContractFulfilled(), true);
+      expect(beloteRound.contractFulfilled, true);
     });
 
     test('Compute score - fulfilled', () {
       beloteRound.dixDeDer = null;
+      expect(beloteRound.contractFulfilled, true);
       expect(beloteRound.takerScore, 110);
       expect(beloteRound.defenderScore, 50);
     });
@@ -23,6 +25,7 @@ void main() {
     test('Compute score - fulfilled - BeloteRebelote - US', () {
       beloteRound.dixDeDer = null;
       beloteRound.beloteRebelote = BeloteTeamEnum.US;
+      expect(beloteRound.contractFulfilled, true);
       expect(beloteRound.takerScore, 130);
       expect(beloteRound.defenderScore, 50);
     });
@@ -30,6 +33,7 @@ void main() {
     test('Compute score - fulfilled - BeloteRebelote - THEM', () {
       beloteRound.dixDeDer = null;
       beloteRound.beloteRebelote = BeloteTeamEnum.THEM;
+      expect(beloteRound.contractFulfilled, true);
       expect(beloteRound.takerScore, 110);
       expect(beloteRound.defenderScore, 70);
     });
@@ -37,6 +41,7 @@ void main() {
     test('Compute score - fulfilled - Dix de Der - US', () {
       beloteRound.beloteRebelote = null;
       beloteRound.dixDeDer = BeloteTeamEnum.US;
+      expect(beloteRound.contractFulfilled, true);
       expect(beloteRound.takerScore, 120);
       expect(beloteRound.defenderScore, 50);
     });
@@ -44,6 +49,7 @@ void main() {
     test('Compute score - fulfilled - Dix de Der - THEM', () {
       beloteRound.beloteRebelote = null;
       beloteRound.dixDeDer = BeloteTeamEnum.THEM;
+      expect(beloteRound.contractFulfilled, true);
       expect(beloteRound.takerScore, 110);
       expect(beloteRound.defenderScore, 60);
     });
@@ -51,6 +57,7 @@ void main() {
     test('Compute score - failed', () {
       beloteRound.taker = BeloteTeamEnum.THEM;
       beloteRound.defender = BeloteTeamEnum.US;
+      expect(beloteRound.contractFulfilled, false);
       beloteRound.beloteRebelote = null;
       beloteRound.dixDeDer = null;
       expect(beloteRound.takerScore, 0);
