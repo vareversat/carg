@@ -26,7 +26,7 @@ abstract class Game<T extends Players> extends CargObject {
     return _gameType.direction;
   }
 
-  Player incrementPlayerPlayedGamesByOne(Player player) {
+  void incrementPlayerPlayedGamesByOne(Player player) {
     GameStats stat;
     var index = player.gameStatsList
         .indexWhere((element) => element.gameType.name == _gameType.name);
@@ -39,10 +39,9 @@ abstract class Game<T extends Players> extends CargObject {
       player.gameStatsList.removeAt(index);
       player.gameStatsList.add(stat);
     }
-    return player;
   }
 
-  Player incrementPlayerWonGamesByOne(Player player) {
+  void incrementPlayerWonGamesByOne(Player player) {
     GameStats stat;
     var index = player.gameStatsList
         .indexWhere((element) => element.gameType.name == _gameType.name);
@@ -55,7 +54,6 @@ abstract class Game<T extends Players> extends CargObject {
       player.gameStatsList.removeAt(index);
       player.gameStatsList.add(stat);
     }
-    return player;
   }
 
   Game(

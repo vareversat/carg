@@ -34,7 +34,7 @@ class PlayerService {
   Future incrementPlayedGamesByOne(String id, Game game) async {
     try {
       var player = await getPlayer(id);
-      player = game.incrementPlayerPlayedGamesByOne(player);
+      game.incrementPlayerPlayedGamesByOne(player);
       await updatePlayer(player);
     } on PlatformException catch (e) {
       throw CustomException(e.message);
@@ -44,7 +44,7 @@ class PlayerService {
   Future incrementWonGamesByOne(String id, Game game) async {
     try {
       var player = await getPlayer(id);
-      player = game.incrementPlayerWonGamesByOne(player);
+      game.incrementPlayerWonGamesByOne(player);
       await updatePlayer(player);
     } on PlatformException catch (e) {
       throw CustomException(e.message);
