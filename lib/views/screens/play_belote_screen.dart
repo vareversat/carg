@@ -129,17 +129,15 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
                   if (snapshot.hasData) {
                     return Column(children: <Widget>[
                       Flexible(
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 8.0),
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: <Widget>[
-                                _TotalPointsWidget(
-                                    totalPoints: snapshot.data.usTotalPoints),
-                                _TotalPointsWidget(
-                                    totalPoints: snapshot.data.themTotalPoints)
-                              ]),
-                        ),
+                        flex: 2,
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: <Widget>[
+                              _TotalPointsWidget(
+                                  totalPoints: snapshot.data.usTotalPoints),
+                              _TotalPointsWidget(
+                                  totalPoints: snapshot.data.themTotalPoints)
+                            ]),
                       ),
                       Flexible(
                           flex: 10,
