@@ -3,75 +3,75 @@ import 'package:carg/models/players/belote_players.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  group('TeamGamePlayers', () {
+  group('BelotePlayers', () {
     test('Empty initialization ', () {
-      final teamGamePlayers = BelotePlayers();
-      expect(teamGamePlayers.playerList, [' ', ' ', ' ', ' ']);
+      final belotePlayers = BelotePlayers();
+      expect(belotePlayers.playerList, [' ', ' ', ' ', ' ']);
     });
   });
 
   group('Teams are full', () {
     test('true', () {
-      final teamGamePlayers = BelotePlayers(
+      final belotePlayers = BelotePlayers(
           playerList: ['player_1', 'player_2', 'player_3', 'player_4'],
           us: 'team_1',
           them: 'team_2');
-      expect(teamGamePlayers.isFull(), true);
+      expect(belotePlayers.isFull(), true);
     });
 
     test('false', () {
-      final teamGamePlayers = BelotePlayers(
+      final belotePlayers = BelotePlayers(
           playerList: ['player_1', ' ', 'player_3', 'player_4'],
           us: 'team_1',
           them: 'team_2');
-      expect(teamGamePlayers.isFull(), false);
+      expect(belotePlayers.isFull(), false);
     });
   });
 
   group('Get Selected Players Status', () {
     test('Teams are partially full (1/2)', () {
-      final teamGamePlayers = BelotePlayers(
+      final belotePlayers = BelotePlayers(
           playerList: ['player_1', ' ', 'player_3', 'player_4'],
           us: 'team_1',
           them: 'team_2');
-      expect(teamGamePlayers.getSelectedPlayersStatus(), 'Nous 1/2 - Eux 2/2');
+      expect(belotePlayers.getSelectedPlayersStatus(), 'Nous 1/2 - Eux 2/2');
     });
 
     test('Teams are partially full (2/1)', () {
-      final teamGamePlayers = BelotePlayers(
+      final belotePlayers = BelotePlayers(
           playerList: ['player_1', 'player_2', 'player_3', ' '],
           us: 'team_1',
           them: 'team_2');
-      expect(teamGamePlayers.getSelectedPlayersStatus(), 'Nous 2/2 - Eux 1/2');
+      expect(belotePlayers.getSelectedPlayersStatus(), 'Nous 2/2 - Eux 1/2');
     });
 
     test('Teams are full', () {
-      final teamGamePlayers = BelotePlayers(
+      final belotePlayers = BelotePlayers(
           playerList: ['player_1', 'player_2', 'player_3', 'player_4'],
           us: 'team_1',
           them: 'team_2');
-      expect(teamGamePlayers.getSelectedPlayersStatus(), 'Nous 2/2 - Eux 2/2');
+      expect(belotePlayers.getSelectedPlayersStatus(), 'Nous 2/2 - Eux 2/2');
     });
   });
 
   group('On Selected Player', () {
     test('Remove one', () {
-      final teamGamePlayers = BelotePlayers(
+      final belotePlayers = BelotePlayers(
           playerList: ['player_1', 'player_2', 'player_3', 'player_4'],
           us: 'team_1',
           them: 'team_2');
-      teamGamePlayers.onSelectedPlayer(Player(id: 'player_1'));
-      expect(teamGamePlayers.playerList,
-          [' ', 'player_2', 'player_3', 'player_4']);
+      belotePlayers.onSelectedPlayer(Player(id: 'player_1'));
+      expect(
+          belotePlayers.playerList, [' ', 'player_2', 'player_3', 'player_4']);
     });
 
     test('Add one', () {
-      final teamGamePlayers = BelotePlayers(
+      final belotePlayers = BelotePlayers(
           playerList: [' ', 'player_2', 'player_3', 'player_4'],
           us: 'team_1',
           them: 'team_2');
-      teamGamePlayers.onSelectedPlayer(Player(id: 'player_5'));
-      expect(teamGamePlayers.playerList,
+      belotePlayers.onSelectedPlayer(Player(id: 'player_5'));
+      expect(belotePlayers.playerList,
           ['player_5', 'player_2', 'player_3', 'player_4']);
     });
   });
