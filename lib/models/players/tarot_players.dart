@@ -6,13 +6,14 @@ class TarotPlayers extends Players {
 
   @override
   void onSelectedPlayer(Player player) {
-    if (playerList.length < 5 && !playerList.contains(player)) {
+    print('OK');
+    if (playerList.length < 5 && !playerList.contains(player.id)) {
       player.selected = true;
       playerList.add(player.id);
       notifyListeners();
-    } else if (playerList.contains(player)) {
+    } else if (playerList.contains(player.id)) {
       player.selected = false;
-      playerList.remove(player);
+      playerList.remove(player.id);
       notifyListeners();
     }
   }
