@@ -1,5 +1,6 @@
 import 'package:carg/models/player.dart';
 import 'package:carg/services/player_service.dart';
+import 'package:carg/views/dialogs/edit_player_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -14,16 +15,18 @@ class APIMiniPlayerWidget extends StatelessWidget {
   final String additionalText;
   final PlayerService _playerService = PlayerService();
 
-  APIMiniPlayerWidget({
-    @required this.playerId,
-    @required this.displayImage,
-    this.showLoading = true,
-    this.size = 13,
-    this.isSelected = false,
-    this.onTap,
-    this.selectedColor,
-    this.additionalText = ''
-  });
+  APIMiniPlayerWidget({@required this.playerId,
+      @required this.displayImage,
+      this.showLoading = true,
+      this.size = 13,
+      this.isSelected = false,
+      this.onTap,
+      this.selectedColor,
+      this.additionalText = ''});
+
+  Future _showEditPlayerDialog(BuildContext context, Player player) async {
+    await showDialog(context: context, child: EditPlayerDialog(player: player));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +55,8 @@ class APIMiniPlayerWidget extends StatelessWidget {
               child: InputChip(
                   selected: isSelected,
                   selectedColor: selectedColor ?? Theme.of(context).accentColor,
-                  onPressed: onTap ?? () {},
+                  onPressed: onTap ??
+                      () => {_showEditPlayerDialog(context, snapshot.data)},
                   avatar: (snapshot.data.profilePicture != '' && displayImage)
                       ? Container(
                           decoration: BoxDecoration(
