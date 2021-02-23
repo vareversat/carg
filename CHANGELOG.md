@@ -1,19 +1,13 @@
-## **v0.9.0** :
+## **v0.9.5** :
 
 - *Fixed bugs* :
-  - Fix the belote / rebolte not taken in count for the contract
-  - Fix the handful bad behaviour in a tarot game
+  - Fix bug that block the user to add a round to a coinche game
+  - Fix bug where picking players for tarot game were broken
 - *New stuff* :
-  - Add the possibility of ordering the players and see the user who will gave the cards
-  - UI : bigger buttons on round screens and game setup screens
-- *Dev stuff* :
-  - Upgrade google-services
-  - Upgrade firebase dependencies
-  - Upgrade Gradle dependencies
-  - Translate card colors
-  - Add 'com.google.android.gms:play-services-base' to prevent error from service registration
-  - Upgrade crashlytics dans analytic versions
-  - Refactor : change class name (TeamGame => Belote, Coinche => CoincheBelote, Belote => FrenchBelote)
+  - We can see now stats per type of game
+  - Reset selected player when move to picking screen to choosing the order screen
+  - New UI for belote, coinche and tarot game screen
+  - When press on player name, by default show he's stats
   
     
     
