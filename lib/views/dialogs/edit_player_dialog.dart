@@ -105,7 +105,7 @@ class _EditPlayerDialogState extends State<EditPlayerDialog> {
         Row(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.fromLTRB(0, 20, 20, 20),
+              padding: const EdgeInsets.fromLTRB(0, 15, 15, 15),
               child: Container(
                   width: 60,
                   height: 60,
@@ -148,43 +148,46 @@ class _EditPlayerDialogState extends State<EditPlayerDialog> {
           )
         else
           Container(),
-        Column(
-          children: _player.gameStatsList
-              .map(
-                (stat) => Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.baseline,
-                  children: <Widget>[
-                    SizedBox(
-                        width: 100,
-                        child: Text('${stat.gameType.name} : ',
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(fontSize: 20))),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                      child: Icon(FontAwesomeIcons.trophy, size: 15),
-                    ),
-                    Text(
-                      ' ' + stat.wonGames.toString(),
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    Text(
-                      ' | ',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    Text(
-                      stat.playedGames.toString() + ' ',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                      child: Icon(FontAwesomeIcons.gamepad, size: 15),
-                    )
-                  ],
-                ),
-              )
-              .toList()
-              .cast<Widget>(),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: Column(
+            children: _player.gameStatsList
+                .map(
+                  (stat) => Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.baseline,
+                    children: <Widget>[
+                      SizedBox(
+                          width: 100,
+                          child: Text('${stat.gameType.name} : ',
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(fontSize: 20))),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                        child: Icon(FontAwesomeIcons.trophy, size: 15),
+                      ),
+                      Text(
+                        ' ' + stat.wonGames.toString(),
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      Text(
+                        ' | ',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      Text(
+                        stat.playedGames.toString() + ' ',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                        child: Icon(FontAwesomeIcons.gamepad, size: 15),
+                      )
+                    ],
+                  ),
+                )
+                .toList()
+                .cast<Widget>(),
+          ),
         ),
       ]),
       actions: <Widget>[
