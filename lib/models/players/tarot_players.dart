@@ -6,7 +6,6 @@ class TarotPlayers extends Players {
 
   @override
   void onSelectedPlayer(Player player) {
-    print('OK');
     if (playerList.length < 5 && !playerList.contains(player.id)) {
       player.selected = true;
       playerList.add(player.id);

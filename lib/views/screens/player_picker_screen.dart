@@ -45,6 +45,7 @@ class _PlayerPickerScreenState extends State<PlayerPickerScreen> {
 
   @override
   Widget build(BuildContext context) {
+    game.players.reset();
     return ChangeNotifierProvider.value(
       value: game.players,
       child: Scaffold(
@@ -63,7 +64,7 @@ class _PlayerPickerScreenState extends State<PlayerPickerScreen> {
                   padding: const EdgeInsets.all(8.0),
                   child: Text('Sélection des joueurs',
                       style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                      TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                 ),
                 Consumer<Players>(
                   builder: (context, playersData, child) => Padding(
@@ -88,7 +89,7 @@ class _PlayerPickerScreenState extends State<PlayerPickerScreen> {
                           itemBuilder: (BuildContext context, int index) {
                             return ChangeNotifierProvider(
                               create: (BuildContext context) =>
-                                  snapshot.data[index],
+                              snapshot.data[index],
                               child: PlayerWidget(
                                   player: snapshot.data[index],
                                   onTap: () => game.players
@@ -103,39 +104,39 @@ class _PlayerPickerScreenState extends State<PlayerPickerScreen> {
                   padding: const EdgeInsets.only(top: 10),
                   child: Consumer<Players>(
                       builder: (context, playersData, child) => playersData
-                              .isFull()
+                          .isFull()
                           ? SizedBox(
-                              width: double.infinity,
-                              height: 50,
-                              child: Directionality(
-                                textDirection: TextDirection.rtl,
-                                child: RaisedButton.icon(
-                                    color: Theme.of(context).primaryColor,
-                                    textColor: Theme.of(context).cardColor,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(18.0)),
-                                    onPressed: () async => {
-                                          await _getPlayers(),
-                                          game.players.reset(),
-                                          Navigator.push(
-                                              context,
-                                              CustomRouteLeftAndRight(
-                                                builder: (context) =>
-                                                    PlayerOrderScreen(
-                                                        playerList: newPlayers,
-                                                        title: title,
-                                                        game: game),
-                                              ))
-                                        },
-                                    label: Text('Ordre des joueurs',
-                                        style: TextStyle(fontSize: 23)),
-                                    icon: Icon(
-                                      Icons.arrow_right_alt,
-                                      size: 30,
-                                    )),
-                              ),
-                            )
+                        width: double.infinity,
+                        height: 50,
+                        child: Directionality(
+                          textDirection: TextDirection.rtl,
+                          child: RaisedButton.icon(
+                              color: Theme.of(context).primaryColor,
+                              textColor: Theme.of(context).cardColor,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                  BorderRadius.circular(18.0)),
+                              onPressed: () async => {
+                                await _getPlayers(),
+                                game.players.reset(),
+                                Navigator.push(
+                                    context,
+                                    CustomRouteLeftAndRight(
+                                      builder: (context) =>
+                                          PlayerOrderScreen(
+                                              playerList: newPlayers,
+                                              title: title,
+                                              game: game),
+                                    ))
+                              },
+                              label: Text('Ordre des joueurs',
+                                  style: TextStyle(fontSize: 23)),
+                              icon: Icon(
+                                Icons.arrow_right_alt,
+                                size: 30,
+                              )),
+                        ),
+                      )
                           : Container()),
                 )
               ],
