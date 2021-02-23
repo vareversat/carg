@@ -198,14 +198,15 @@ class _UserScreenState extends State<UserScreen> {
                 .catchError((onError) => {_errorMessage = onError.toString()}),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: SpinKitThreeBounce(
-                    size: 20,
-                    itemBuilder: (BuildContext context, int index) {
-                      return DecoratedBox(
-                          decoration: BoxDecoration(
+                return Center(
+                    child: SpinKitThreeBounce(
+                        size: 20,
+                        itemBuilder: (BuildContext context, int index) {
+                          return DecoratedBox(
+                              decoration: BoxDecoration(
                             color: Theme.of(context).accentColor,
                           ));
-                    }));
+                        }));
               }
               if (snapshot.connectionState == ConnectionState.none &&
                       snapshot.hasData == null ||
@@ -247,53 +248,60 @@ class _UserScreenState extends State<UserScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            Column(
-                              children: [
-                                Icon(FontAwesomeIcons.trophy, size: 25),
-                                Padding(
-                                  padding: const EdgeInsets.all(5.0),
-                                  child: Text(
-                                    _player.totalWonGames().toString(),
-                                    style: TextStyle(fontSize: 20),
+                            Flexible(
+                              child: Column(
+                                children: [
+                                  Icon(FontAwesomeIcons.trophy, size: 20),
+                                  Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: Text(
+                                      _player.totalWonGames().toString(),
+                                      style: TextStyle(fontSize: 20),
+                                    ),
                                   ),
-                                ),
-                                Text('Victoires',
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        fontStyle: FontStyle.italic)),
-                              ],
+                                  Text('Victoires',
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          fontStyle: FontStyle.italic)),
+                                ],
+                              ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 20),
-                              child: Container(
-                                  width: 100,
-                                  height: 100,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      border: Border.all(
-                                          width: 4,
-                                          color:
-                                              Theme.of(context).primaryColor),
-                                      image: DecorationImage(
-                                          fit: BoxFit.fill,
-                                          image: NetworkImage(
-                                              player.profilePicture)))),
+                            Flexible(
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 20),
+                                child: Container(
+                                    width: 100,
+                                    height: 100,
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                            width: 4,
+                                            color:
+                                                Theme.of(context).primaryColor),
+                                        image: DecorationImage(
+                                            fit: BoxFit.fill,
+                                            image: NetworkImage(
+                                                player.profilePicture)))),
+                              ),
                             ),
-                            Column(
-                              children: [
-                                Icon(FontAwesomeIcons.gamepad, size: 25),
-                                Padding(
-                                  padding: const EdgeInsets.all(5.0),
-                                  child: Text(
-                                    _player.totalPlayedGames().toString(),
-                                    style: TextStyle(fontSize: 20),
+                            Flexible(
+                              child: Column(
+                                children: [
+                                  Icon(FontAwesomeIcons.gamepad, size: 20),
+                                  Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: Text(
+                                      _player.totalPlayedGames().toString(),
+                                      style: TextStyle(fontSize: 20),
+                                    ),
                                   ),
-                                ),
-                                Text('Parties',
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        fontStyle: FontStyle.italic)),
-                              ],
+                                  Text('Parties',
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          fontStyle: FontStyle.italic))
+                                ],
+                              ),
                             )
                           ],
                         ),
