@@ -21,23 +21,22 @@ class BeloteWidget extends StatelessWidget {
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
         child:
-            ExpansionTile(title: CardTitle(game: teamGame),
-            children: <Widget>[
-              Column(
+            ExpansionTile(title: CardTitle(game: teamGame), children: <Widget>[
+          Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      TeamWidget(teamId: teamGame.players.us, title: 'Nous'),
-                      TeamWidget(teamId: teamGame.players.them, title: 'Eux'),
-                    ],
-                  ),
-                  _ShowScoreWidget(teamGame: teamGame),
-                  Divider(height: 10, thickness: 2),
-                  _ButtonRowWidget(teamGame: teamGame),
+                  TeamWidget(teamId: teamGame.players.us, title: 'Nous'),
+                  TeamWidget(teamId: teamGame.players.them, title: 'Eux'),
                 ],
-              )
-            ]),
+              ),
+              _ShowScoreWidget(teamGame: teamGame),
+              Divider(height: 10, thickness: 2),
+              _ButtonRowWidget(teamGame: teamGame),
+            ],
+          )
+        ]),
         margin: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
         elevation: 2,
         color: Colors.white);
@@ -52,11 +51,34 @@ class CardTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-        child: Text(
-            'Le ' +
-                DateFormat('dd/MM/yyyy à HH:mm').format(game.startingDate) +
-                (game.isEnded ? ' ✅️' : ' ⚔️'),
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)));
+        child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        Flexible(
+          flex: 2,
+          child: Text(DateFormat('dd/MM/yyyy, HH:mm').format(game.startingDate),
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+        ),
+        Flexible(
+          flex: 1,
+          child: ClipRRect(
+              borderRadius: BorderRadius.circular(80.0),
+              child: Container(
+                color: game.isEnded
+                    ? Theme.of(context).primaryColor
+                    : Theme.of(context).accentColor,
+                height: 30,
+                child: Center(
+                    child: Text(game.isEnded ? 'Terminée' : 'En cours',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).cardColor,
+                            fontSize: 15),
+                        overflow: TextOverflow.ellipsis)),
+              )),
+        )
+      ],
+    ));
   }
 }
 
