@@ -88,7 +88,7 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
             showCancelButton: false,
             message: 'Aucune manche n\'est enregistrée pour cette partie',
             title: 'Erreur',
-            color: Theme.of(context).errorColor,
+            color: Colors.black,
           ));
     }
   }
@@ -127,19 +127,22 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
                     return Center(child: CircularProgressIndicator());
                   }
                   if (snapshot.hasData) {
-                    return Column(children: <Widget>[
-                      Flexible(
-                        flex: 2,
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: <Widget>[
-                              _TotalPointsWidget(
-                                  totalPoints: snapshot.data.usTotalPoints),
-                              _TotalPointsWidget(
-                                  totalPoints: snapshot.data.themTotalPoints)
-                            ]),
-                      ),
-                      Flexible(
+                    return Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Flexible(
+                            child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: <Widget>[
+                                  _TotalPointsWidget(
+                                      totalPoints: snapshot.data.usTotalPoints),
+                                  _TotalPointsWidget(
+                                      totalPoints:
+                                          snapshot.data.themTotalPoints)
+                                ]),
+                          ),
+                          Flexible(
                           flex: 10,
                           child: Padding(
                             padding: const EdgeInsets.only(bottom: 8.0),
@@ -190,49 +193,68 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
           )),
           if (!_teamGame.isEnded)
             Wrap(
+                runSpacing: 10,
                 spacing: 10,
-                alignment: WrapAlignment.spaceAround,
+                alignment: WrapAlignment.spaceEvenly,
                 children: <Widget>[
-                  RaisedButton.icon(
-                      onPressed: () async => {_deleteLastRound()},
-                      color: Theme.of(context).errorColor,
-                      textColor: Theme.of(context).cardColor,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18.0)),
-                      icon: Icon(Icons.delete_forever),
-                      label: Text('Supprimer la dernière manche',
-                          style: TextStyle(fontWeight: FontWeight.bold))),
-                  RaisedButton.icon(
-                      onPressed: () async => {_editLastRound()},
-                      color: Colors.black,
-                      textColor: Theme.of(context).cardColor,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18.0)),
-                      icon: Icon(Icons.edit),
-                      label: Text('Éditer la dernière manche',
-                          style: TextStyle(fontWeight: FontWeight.bold))),
-                  RaisedButton.icon(
-                      onPressed: () async => {_endGame()},
-                      color: Theme.of(context).errorColor,
-                      textColor: Theme.of(context).cardColor,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18.0)),
-                      icon: Icon(Icons.stop),
-                      label: Text('Terminer la partie',
-                          style: TextStyle(fontWeight: FontWeight.bold))),
-                  RaisedButton.icon(
-                      onPressed: () => {_addNewRound()},
-                      color: Theme.of(context).primaryColor,
-                      textColor: Theme.of(context).cardColor,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18.0)),
-                      icon: Icon(Icons.plus_one),
-                      label: Text('Nouvelle manche',
-                          style: TextStyle(fontWeight: FontWeight.bold)))
-                ]),
-          SizedBox(
-            height: 10,
-          )
+                  RawMaterialButton(
+                    onPressed: () async => {_deleteLastRound()},
+                    elevation: 2.0,
+                    fillColor: Theme.of(context).errorColor,
+                    textStyle: TextStyle(color: Theme.of(context).cardColor),
+                    child: Icon(
+                      Icons.delete_rounded,
+                      size: 22,
+                    ),
+                    padding: EdgeInsets.all(15.0),
+                    shape: CircleBorder(),
+                  ),
+                  RawMaterialButton(
+                    onPressed: () async => {_editLastRound()},
+                    elevation: 2.0,
+                    fillColor: Colors.black,
+                    textStyle: TextStyle(color: Theme.of(context).cardColor),
+                    child: Icon(
+                      Icons.edit,
+                      size: 22,
+                    ),
+                    padding: EdgeInsets.all(15.0),
+                    shape: CircleBorder(),
+                  ),
+                  RawMaterialButton(
+                    onPressed: () async => {_endGame()},
+                    elevation: 2.0,
+                    fillColor: Theme.of(context).errorColor,
+                    textStyle: TextStyle(color: Theme.of(context).cardColor),
+                    child: Icon(
+                      Icons.stop,
+                      size: 22,
+                    ),
+                    padding: EdgeInsets.all(15.0),
+                    shape: CircleBorder(),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: SizedBox(
+                      width: double.infinity,
+                      height: 50,
+                      child: Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: RaisedButton.icon(
+                            onPressed: () => {_addNewRound()},
+                            color: Theme.of(context).primaryColor,
+                            textColor: Theme.of(context).cardColor,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(18.0)),
+                            icon: Icon(Icons.plus_one, size: 30),
+                            label: Text('Nouvelle manche',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 23))),
+                      ),
+                    ),
+                  )
+                ])
         ]));
   }
 }

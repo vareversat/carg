@@ -1,6 +1,5 @@
 import 'package:carg/models/player.dart';
 import 'package:carg/services/player_service.dart';
-import 'package:carg/views/widgets/error_message_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -27,11 +26,14 @@ class NextPlayerWidget extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.none &&
                 snapshot.hasData == null ||
             snapshot.data == null) {
-          return ErrorMessageWidget(message: 'no player');
+          return Text(
+            'Error : no player',
+            style: TextStyle(fontStyle: FontStyle.italic),
+          );
         }
         return RichText(
           text: TextSpan(
-            text: 'Au tours de  ',
+            text: 'Au tours de ',
             style: DefaultTextStyle.of(context).style,
             children: <TextSpan>[
               TextSpan(
