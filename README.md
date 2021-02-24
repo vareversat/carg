@@ -1,21 +1,22 @@
-![](banner.png)
-
-[![flutter](https://img.shields.io/badge/flutter-blue?logo=flutter&style=for-the-badge)](https://flutter.dev) 
+[![flutter](https://img.shields.io/badge/flutter-blue?logo=flutter&style=for-the-badge)](https://flutter.dev)
 [![firebase](https://img.shields.io/badge/firebase-grey?logo=firebase&style=for-the-badge)](https://firebase.google.com)
 [![algolia](https://img.shields.io/badge/algolia-grey?logo=algolia&style=for-the-badge)](https://algolia.com)
 [![codecov](https://img.shields.io/codecov/c/github/devosud/carg?logo=codecov&style=for-the-badge&token=7EXLUQ93ZT)](https://codecov.io/gh/Devosud/carg/)
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/Devosud/carg/Flutter%20-%20CI%20(firebase%20app%20distribution)?logo=github&style=for-the-badge)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/Devosud/carg/Flutter%20-%20CI%20(firebase%20app%20distribution)?logo=github&style=for-the-badge)](https://github.com/Devosud/carg/actions)
 
-# Carg
-This mobile app allow you to register with your own account and then save your games of French Belote (and French Coinched Belote) and Tarot !
+![](banner.png)
 
+Mobile app where you to register with your own account and save your games of French Belote, Coinche Belote and Tarot !
 
 # How to use it ?
-For now, the app is only available on Android. YOu can go to the "Action" menu and download the artificats of the last 
-green pipeline. You can also email me with a gmail address so I can add you to the broadcast list :)
+
+For now, the app is only available on Android. YOu can go to the "Action" menu and download the artifacts of the last
+green pipeline. You can also email me with a gmail address, so I can add you to the broadcast list :)
 
 # How to dev on it ?
+
 You need a couple of things to be able to start the app in dev mode on your own computer
+
 1) Download the [Flutter SDK](https://flutter.dev/docs/get-started/install) according to your OS
 2) Create a virtual device
 3) Clone the source code (of course)
