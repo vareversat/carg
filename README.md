@@ -1,10 +1,14 @@
-[![flutter](https://img.shields.io/badge/flutter-blue?logo=flutter&style=for-the-badge)](https://flutter.dev)
-[![firebase](https://img.shields.io/badge/firebase-grey?logo=firebase&style=for-the-badge)](https://firebase.google.com)
-[![algolia](https://img.shields.io/badge/algolia-grey?logo=algolia&style=for-the-badge)](https://algolia.com)
-[![codecov](https://img.shields.io/codecov/c/github/devosud/carg?logo=codecov&style=for-the-badge&token=7EXLUQ93ZT)](https://codecov.io/gh/Devosud/carg/)
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/Devosud/carg/Flutter%20-%20CI%20(firebase%20app%20distribution)?logo=github&style=for-the-badge)](https://github.com/Devosud/carg/actions)
-
 ![](banner.png)
+
+<h3 align="center">Get coinched ! ♦ ️♣ ️♠ ️♥ ️</h3>
+
+<p align="center">
+  <a href="https://flutter.dev"><img src="https://img.shields.io/badge/flutter-blue?logo=flutter&style=for-the-badge"></a> 
+  <a href="https://firebase.google.com"><img src="https://img.shields.io/badge/firebase-grey?logo=firebase&style=for-the-badge"></a>
+  <a href="https://algolia.com"><img src="https://img.shields.io/badge/algolia-grey?logo=algolia&style=for-the-badge"></a>
+  <a href="https://codecov.io/gh/Devosud/carg/"><img src="https://img.shields.io/codecov/c/github/devosud/carg?logo=codecov&style=for-the-badge&token=7EXLUQ93ZT"></a>
+  <a href="https://github.com/Devosud/carg/actions"><img src="https://img.shields.io/github/workflow/status/Devosud/carg/Flutter%20-%20CI%20(firebase%20app%20distribution)?logo=github&style=for-the-badge"></a>
+</p>
 
 Mobile app where you to register with your own account and save your games of French Belote, Coinche Belote and Tarot !
 
@@ -13,13 +17,13 @@ Mobile app where you to register with your own account and save your games of Fr
 For now, the app is only available on Android. YOu can go to the "Action" menu and download the artifacts of the last
 green pipeline. You can also email me with a gmail address, so I can add you to the broadcast list :)
 
-# How to dev on it ?
+# How to work on it ?
 
 You need a couple of things to be able to start the app in dev mode on your own computer
 
 1) Download the [Flutter SDK](https://flutter.dev/docs/get-started/install) according to your OS
 2) Create a virtual device
-3) Clone the source code (of course)
+3) Fork the source code (of course)
 
 ### Firebase
 1) Create on project on the [Firebase console](https://console.firebase.google.com/u/0/?hl=fr)
