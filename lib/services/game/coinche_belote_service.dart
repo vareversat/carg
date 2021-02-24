@@ -74,9 +74,6 @@ class CoincheBeloteService implements BeloteService<CoincheBelote> {
       var coincheGame = CoincheBelote(
           players: BelotePlayers(
               us: usTeam.id, them: themTeam.id, playerList: playerList));
-      playerList.forEach((player) async => {
-            await _playerService.incrementPlayedGamesByOne(player, coincheGame)
-          });
       var documentReference = await FirebaseFirestore.instance
           .collection('coinche-game-' + flavor)
           .add(coincheGame.toJSON());
@@ -97,6 +94,8 @@ class CoincheBeloteService implements BeloteService<CoincheBelote> {
   Future endAGame(CoincheBelote game) async {
     try {
       Team winners;
+      game.players.playerList.forEach((player) async =>
+          {await _playerService.incrementPlayedGamesByOne(player, game)});
       var score = await _coincheScoreService.getScoreByGame(game.id);
       if (score.themTotalPoints > score.usTotalPoints) {
         winners =

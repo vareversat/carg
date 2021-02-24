@@ -70,8 +70,6 @@ class TarotService extends GameService<Tarot, TarotPlayers> {
           isEnded: false,
           startingDate: DateTime.now(),
           players: TarotPlayers(playerList: playerList));
-      playerList.forEach((player) async =>
-          {await _playerService.incrementPlayedGamesByOne(player, tarotGame)});
       var documentReference = await FirebaseFirestore.instance
           .collection('tarot-game-' + flavor)
           .add(tarotGame.toJSON());
@@ -89,6 +87,8 @@ class TarotService extends GameService<Tarot, TarotPlayers> {
   Future endAGame(Tarot game) async {
     try {
       TarotPlayerScore winner;
+      game.players.playerList.forEach((player) async =>
+          {await _playerService.incrementPlayedGamesByOne(player, game)});
       var score = await _tarotScoreService.getScoreByGame(game.id);
       var totalPoints = score?.totalPoints;
       if (totalPoints != null && totalPoints.isNotEmpty) {

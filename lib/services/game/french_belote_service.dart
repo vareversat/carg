@@ -101,6 +101,8 @@ class FrenchBeloteService implements BeloteService<FrenchBelote> {
   Future endAGame(FrenchBelote game) async {
     try {
       Team winners;
+      game.players.playerList.forEach((player) async =>
+          {await _playerService.incrementPlayedGamesByOne(player, game)});
       var score = await _beloteScoreService.getScoreByGame(game.id);
       if (score.themTotalPoints > score.usTotalPoints) {
         winners =
