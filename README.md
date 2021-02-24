@@ -1,3 +1,5 @@
+![](banner.png)
+
 [![flutter](https://img.shields.io/badge/flutter-blue?logo=flutter&style=for-the-badge)](https://flutter.dev) 
 [![firebase](https://img.shields.io/badge/firebase-grey?logo=firebase&style=for-the-badge)](https://firebase.google.com)
 [![algolia](https://img.shields.io/badge/algolia-grey?logo=algolia&style=for-the-badge)](https://algolia.com)
