@@ -21,11 +21,12 @@ class CoincheBeloteService implements BeloteService<CoincheBelote> {
   CoincheBeloteService() : super();
 
   @override
-  Future<List<CoincheBelote>> getAllGames() async {
+  Future<List<CoincheBelote>> getAllGames(String playerId) async {
     try {
       var coincheGames = <CoincheBelote>[];
       var querySnapshot = await FirebaseFirestore.instance
           .collection('coinche-game-' + flavor)
+          .where('players.player_list', arrayContains: playerId)
           .orderBy('starting_date', descending: true)
           .get();
       for (var doc in querySnapshot.docs) {

@@ -1,4 +1,5 @@
 import 'package:carg/helpers/custom_route.dart';
+import 'package:carg/services/auth_service.dart';
 import 'package:carg/services/game/coinche_belote_service.dart';
 import 'package:carg/services/game/french_belote_service.dart';
 import 'package:carg/services/game/tarot_service.dart';
@@ -7,6 +8,7 @@ import 'package:carg/views/screens/game_mode_picker_screen.dart';
 import 'package:carg/views/tabs/game_list_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class GameListScreen extends StatelessWidget {
   final FrenchBeloteService _beloteGameService = FrenchBeloteService();
@@ -69,18 +71,22 @@ class GameListScreen extends StatelessWidget {
                 ),
               ),
             ),
-            body: TabBarView(
-              children: [
-                GameListWidget(
-                  gamesFuture: _coincheGameService.getAllGames(),
-                ),
-                GameListWidget(
-                  gamesFuture: _beloteGameService.getAllGames(),
-                ),
-                GameListWidget(
-                  gamesFuture: _tarotGameService.getAllGames(),
-                )
-              ],
-            )));
+            body: Consumer<AuthService>(
+                builder: (context, auth, _) => TabBarView(
+                      children: [
+                        GameListWidget(
+                          gamesFuture: _coincheGameService
+                              .getAllGames(auth.getPlayerIdOfUser()),
+                        ),
+                        GameListWidget(
+                          gamesFuture: _beloteGameService
+                              .getAllGames(auth.getPlayerIdOfUser()),
+                        ),
+                        GameListWidget(
+                          gamesFuture: _tarotGameService
+                              .getAllGames(auth.getPlayerIdOfUser()),
+                        )
+                      ],
+                    ))));
   }
 }

@@ -21,11 +21,12 @@ class TarotService extends GameService<Tarot, TarotPlayers> {
   }
 
   @override
-  Future<List<Tarot>> getAllGames() async {
+  Future<List<Tarot>> getAllGames(String playerId) async {
     try {
       var beloteGames = <Tarot>[];
       var querySnapshot = await FirebaseFirestore.instance
           .collection('tarot-game-' + flavor)
+          .where('players.player_list', arrayContains: playerId)
           .orderBy('starting_date', descending: true)
           .get();
       for (var doc in querySnapshot.docs) {

@@ -194,7 +194,7 @@ class _UserScreenState extends State<UserScreen> {
             future: _playerService
                 .getPlayerOfUser(
                     Provider.of<AuthService>(context, listen: false)
-                        .getConnectedConnectedId())
+                        .getConnectedUserId())
                 .catchError((onError) => {_errorMessage = onError.toString()}),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {

@@ -26,6 +26,7 @@ class PlayBeloteScreen extends StatefulWidget {
 
 class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
   final Belote _teamGame;
+  String _errorMessage;
 
   void _addNewRound() {
     Navigator.push(
@@ -97,7 +98,6 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var _errorMessage = '';
 
     return Scaffold(
         appBar: AppBar(
@@ -143,53 +143,51 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
                                 ]),
                           ),
                           Flexible(
-                          flex: 10,
-                          child: Padding(
-                            padding: const EdgeInsets.only(bottom: 8.0),
-                            child: ListView.builder(
-                                itemCount: snapshot.data.rounds.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        Flexible(
-                                            flex: 3,
-                                            child: _RoundDisplay(
-                                                round:
-                                                    snapshot.data.rounds[index],
-                                                team: BeloteTeamEnum.US)),
-                                        Flexible(
-                                            child: Text(
-                                                snapshot.data.rounds[index]
-                                                    .cardColor.symbol,
-                                                style:
-                                                    TextStyle(fontSize: 15))),
-                                        Flexible(
-                                            flex: 3,
-                                            child: _RoundDisplay(
-                                                round:
-                                                    snapshot.data.rounds[index],
-                                                team: BeloteTeamEnum.THEM))
-                                      ]);
-                                }),
-                          )),
-                      if (!_teamGame.isEnded)
-                        NextPlayerWidget(
-                            playerId: _teamGame.players
-                                .playerList[snapshot.data.rounds.length % 4]),
-                    ]);
+                              flex: 10,
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 8.0),
+                                child: ListView.builder(
+                                    itemCount: snapshot.data.rounds.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: <Widget>[
+                                            Flexible(
+                                                flex: 3,
+                                                child: _RoundDisplay(
+                                                    round: snapshot
+                                                        .data.rounds[index],
+                                                    team: BeloteTeamEnum.US)),
+                                            Flexible(
+                                                child: Text(
+                                                    snapshot.data.rounds[index]
+                                                        .cardColor.symbol,
+                                                    style: TextStyle(
+                                                        fontSize: 15))),
+                                            Flexible(
+                                                flex: 3,
+                                                child: _RoundDisplay(
+                                                    round: snapshot
+                                                        .data.rounds[index],
+                                                    team: BeloteTeamEnum.THEM))
+                                          ]);
+                                    }),
+                              )),
+                          if (!_teamGame.isEnded)
+                            NextPlayerWidget(
+                                playerId: _teamGame.players.playerList[
+                                    snapshot.data.rounds.length % 4]),
+                        ]);
                   } else {
                     return ErrorMessageWidget(message: _errorMessage);
                   }
                 },
                 stream: _teamGame.scoreService
                     .getScoreByGameStream(_teamGame.id)
-                    .handleError((error) => {
-                          setState(() {
-                            _errorMessage = error.toString();
-                          })
-                        })),
+                    .handleError(
+                        (error) => {_errorMessage = error.toString()})),
           )),
           if (!_teamGame.isEnded)
             Wrap(

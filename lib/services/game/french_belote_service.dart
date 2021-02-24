@@ -26,11 +26,12 @@ class FrenchBeloteService implements BeloteService<FrenchBelote> {
   }
 
   @override
-  Future<List<FrenchBelote>> getAllGames() async {
+  Future<List<FrenchBelote>> getAllGames(String playerId) async {
     try {
       var beloteGames = <FrenchBelote>[];
       var querySnapshot = await FirebaseFirestore.instance
           .collection('belote-game-' + flavor)
+          .where('players.player_list', arrayContains: playerId)
           .orderBy('starting_date', descending: true)
           .get();
       for (var doc in querySnapshot.docs) {
