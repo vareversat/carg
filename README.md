@@ -5,7 +5,7 @@
 <p align="center">
   <a href="https://flutter.dev"><img src="https://img.shields.io/badge/flutter-blue?logo=flutter&style=for-the-badge"></a> 
   <a href="https://firebase.google.com"><img src="https://img.shields.io/badge/firebase-grey?logo=firebase&style=for-the-badge"></a>
-  <a href="https://algolia.com"><img src="https://img.shields.io/badge/algolia-grey?logo=algolia&style=for-the-badge"></a>
+  <a href="https://algolia.com"><img src="https://img.shields.io/badge/algolia-white?logo=algolia&style=for-the-badge"></a>
   <a href="https://codecov.io/gh/Devosud/carg/"><img src="https://img.shields.io/codecov/c/github/devosud/carg?logo=codecov&style=for-the-badge&token=7EXLUQ93ZT"></a>
   <a href="https://github.com/Devosud/carg/actions"><img src="https://img.shields.io/github/workflow/status/Devosud/carg/Flutter%20-%20CI%20(firebase%20app%20distribution)?logo=github&style=for-the-badge"></a>
 </p>
