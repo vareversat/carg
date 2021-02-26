@@ -4,6 +4,7 @@ import 'package:carg/views/screens/user_screen.dart';
 import 'package:carg/views/widgets/nav_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home';
@@ -48,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
             textAlign: TextAlign.center,
           ),
           BottomNavyBarItem(
-            icon: Icon(Icons.games),
+            icon: Icon(FontAwesomeIcons.gamepad),
             title: Text('Parties'),
             activeColor: Theme.of(context).primaryColor,
             textAlign: TextAlign.center,
