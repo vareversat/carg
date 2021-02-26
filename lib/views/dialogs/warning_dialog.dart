@@ -70,7 +70,7 @@ class _WarningDialogState extends State<WarningDialog> {
         child: Text(
           _title,
           overflow: TextOverflow.ellipsis,
-          style: CustomTextStyle.screenHeadLine1(context),
+          style: CustomTextStyle.dialogHeaderStyle(context),
         ),
       ),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),

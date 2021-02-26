@@ -9,6 +9,11 @@ class CustomTextStyle {
         fontSize: 30, color: Colors.black, fontWeight: FontWeight.bold);
   }
 
+  static TextStyle dialogHeaderStyle(BuildContext context) {
+    return Theme.of(context).textTheme.headline1.copyWith(
+        fontSize: 30, fontWeight: FontWeight.bold, color: Colors.white);
+  }
+
   static TextStyle screenHeadLine1(BuildContext context) {
     return Theme.of(context)
         .textTheme
