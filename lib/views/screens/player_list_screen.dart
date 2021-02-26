@@ -1,7 +1,7 @@
 import 'package:carg/models/player.dart';
 import 'package:carg/services/player_service.dart';
 import 'package:carg/styles/text_style.dart';
-import 'package:carg/views/dialogs/edit_player_dialog.dart';
+import 'package:carg/views/dialogs/player_info_dialog.dart';
 import 'package:carg/views/widgets/error_message_widget.dart';
 import 'package:carg/views/widgets/players/player_widget.dart';
 import 'package:flutter/material.dart';
@@ -56,9 +56,8 @@ class _PlayerListScreenState extends State<PlayerListScreen> {
                       onPressed: () async => {
                             await showDialog(
                                 context: context,
-                                child: EditPlayerDialog(
-                                  player: null,
-                                ))
+                                child: PlayerInfoDialog(
+                                    player: null, isEditing: false))
                           },
                       label: Text('Ajouter un joueur',
                           style: TextStyle(fontSize: 14)),
