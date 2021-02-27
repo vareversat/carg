@@ -90,7 +90,7 @@ class _CredentialsDialogState extends State<CredentialsDialog> {
       case CredentialsStatus.EDITING:
         _title = 'Edition du compte';
         _infoMessage = 'Après validation, un mail de confirmation va vous être '
-            'envoyé sur votre nouvelle adresse mail. Vous serez automatiquement connects';
+            'envoyé sur votre nouvelle adresse mail. Vous serez automatiquement déconnects';
         break;
       case CredentialsStatus.CREATING:
         _title = 'Création du compte';

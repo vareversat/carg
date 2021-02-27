@@ -12,6 +12,7 @@ import 'package:carg/views/dialogs/warning_dialog.dart';
 import 'package:carg/views/widgets/error_message_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -36,7 +37,10 @@ class _UserScreenState extends State<UserScreen> {
         child: PlayerInfoDialog(player: _player, isEditing: true));
     if (message != null) {
       Scaffold.of(context).showSnackBar(SnackBar(
-        content: Text(message, style: (TextStyle(fontWeight: FontWeight.bold))),
+        margin: EdgeInsets.all(20),
+        behavior: SnackBarBehavior.floating,
+        content:
+            Text(message, style: CustomTextStyle.snackBarTextStyle(context)),
       ));
     }
   }
@@ -48,7 +52,10 @@ class _UserScreenState extends State<UserScreen> {
             CredentialsDialog(credentialsStatus: CredentialsStatus.CREATING));
     if (message != null) {
       Scaffold.of(context).showSnackBar(SnackBar(
-        content: Text(message, style: (TextStyle(fontWeight: FontWeight.bold))),
+        margin: EdgeInsets.all(20),
+        behavior: SnackBarBehavior.floating,
+        content:
+            Text(message, style: CustomTextStyle.snackBarTextStyle(context)),
       ));
     }
   }
@@ -59,7 +66,10 @@ class _UserScreenState extends State<UserScreen> {
         child: CredentialsDialog(credentialsStatus: CredentialsStatus.EDITING));
     if (message != null) {
       Scaffold.of(context).showSnackBar(SnackBar(
-        content: Text(message, style: (TextStyle(fontWeight: FontWeight.bold))),
+        margin: EdgeInsets.all(20),
+        behavior: SnackBarBehavior.floating,
+        content:
+            Text(message, style: CustomTextStyle.snackBarTextStyle(context)),
       ));
     }
   }

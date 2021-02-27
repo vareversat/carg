@@ -14,6 +14,10 @@ class CustomTextStyle {
         fontSize: 30, fontWeight: FontWeight.bold, color: Colors.white);
   }
 
+  static TextStyle snackBarTextStyle(BuildContext context) {
+    return Theme.of(context).textTheme.bodyText2.copyWith(color: Colors.white);
+  }
+
   static TextStyle screenHeadLine1(BuildContext context) {
     return Theme.of(context)
         .textTheme
