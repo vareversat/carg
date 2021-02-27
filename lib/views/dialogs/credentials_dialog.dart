@@ -22,6 +22,8 @@ class _CredentialsDialogState extends State<CredentialsDialog> {
   final _emailTextController = TextEditingController();
   final _passwordTextController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey();
+  final emailRegex =
+      RegExp(r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$');
   var _title = '';
   var _credentialsStatus;
   var _isLoading = false;
@@ -142,12 +144,12 @@ class _CredentialsDialogState extends State<CredentialsDialog> {
                       fontSize: 20, color: Theme.of(context).accentColor),
                   labelText: 'Nouvelle adresse mail'),
               validator: (value) {
-                if (value.isEmpty ||
-                    !value.contains('@') ||
-                    value ==
-                        Provider.of<AuthService>(context, listen: false)
-                            .getConnectedUserEmail()) {
-                  return 'Email invalide ou inchangé';
+                if (value ==
+                    Provider.of<AuthService>(context, listen: false)
+                        .getConnectedUserEmail()) {
+                  return 'Adresse mail inchangée';
+                } else if (value.isEmpty || !emailRegex.hasMatch(value)) {
+                  return 'Adresse email invalide';
                 }
                 return null;
               }),
@@ -178,7 +180,7 @@ class _CredentialsDialogState extends State<CredentialsDialog> {
                 style: TextStyle(fontStyle: FontStyle.italic, fontSize: 18)),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 8.0),
+            padding: const EdgeInsets.only(top: 12.0),
             child: Text(_errorMessage,
                 style: TextStyle(
                     fontStyle: FontStyle.italic,
