@@ -20,6 +20,7 @@ GeneratedPluginRegistrant.java
 
 # Firebase
 android/app/google-services.json
+migration_scripts/key.json
 
 # Algolia
 assets/config/algolia.json
