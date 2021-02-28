@@ -1,6 +1,4 @@
-import 'dart:convert';
-
-import 'package:algolia/algolia.dart';
+import 'package:carg/helpers/algolia_helper.dart';
 import 'package:carg/models/game/game.dart';
 import 'package:carg/models/player.dart';
 import 'package:carg/services/custom_exception.dart';
@@ -12,21 +10,16 @@ class PlayerService {
       String.fromEnvironment('FLAVOR', defaultValue: 'dev');
 
   Future<List<Player>> getAllPlayers({String query = ''}) async {
-    final algoliaConfig = jsonDecode(await rootBundle.loadString(
-      'assets/config/algolia.json',
-    ));
-    var algolia = Algolia.init(
-        applicationId: algoliaConfig['app_id'],
-        apiKey: algoliaConfig['api_key']);
-    var algoliaQuery = algolia.instance.index('player_' + flavor).search(query);
+    var algoliaHelper = await AlgoliaHelper.create();
     try {
       var players = <Player>[];
-      var snapshot = await algoliaQuery.getObjects();
-      for (var doc in snapshot.hits) {
-        players.add(Player.fromJSON(doc.data, doc.objectID));
+      var snapshot = await algoliaHelper.search(query);
+      for (var doc in snapshot) {
+        players.add(Player.fromJSON(doc, doc['objectID']));
       }
       return players;
     } on PlatformException catch (e) {
+      print(e);
       throw CustomException(e.message);
     }
   }
@@ -58,7 +51,7 @@ class PlayerService {
           .doc(id)
           .get();
       if (querySnapshot.data() != null) {
-      return Player.fromJSON(querySnapshot.data(), querySnapshot.id);
+        return Player.fromJSON(querySnapshot.data(), querySnapshot.id);
       } else {
         throw CustomException('unknown_user');
       }

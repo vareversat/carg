@@ -7,7 +7,6 @@ environment:
   sdk: ">=2.6.0 <3.0.0"
 
 dependencies:
-  algolia: ^0.1.7
   cloud_firestore: ^0.16.0
   cupertino_icons: ^1.0.0
   enum_to_string: ^1.0.9
