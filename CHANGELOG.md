@@ -1,13 +1,15 @@
-## **v0.9.5** :
+## **v0.10.0** :
 
-- *Fixed bugs* :
-  - Fix bug that block the user to add a round to a coinche game
-  - Fix bug where picking players for tarot game were broken
+- *Dev stuff* :
+  - Android SDK 29 => 30
+  - com.google.android.gms:play-services-base 17.5.0 => 17.6.0
+  - Kotlin 1.4.21 => 1.4.31
+  - com.google.firebase:firebase-crashlytics-gradle 2.4.1 => 2.5.0
+  - Remove algolia dependency (blocking for future upgrades)
+
 - *New stuff* :
-  - We can see now stats per type of game
-  - Reset selected player when move to picking screen to choosing the order screen
-  - New UI for belote, coinche and tarot game screen
-  - When press on player name, by default show he's stats
-  
+  - Increment the number of played game at the end of the game instead at the beginning
+  - You only see your games now
+  - Redesign of the profil page
     
     
