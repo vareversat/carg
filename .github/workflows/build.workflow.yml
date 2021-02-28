@@ -52,7 +52,7 @@ jobs:
     needs: [ analyze, test ]
     continue-on-error: true
     name: 'Build iOS'
-    runs-on: macos-11.0
+    runs-on: macos-latest
     container: devosud/flutter:latest
     steps:
       - name: 'Checkout source code'
