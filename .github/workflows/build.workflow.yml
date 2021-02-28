@@ -48,3 +48,19 @@ jobs:
         with:
           name: 'apk-build'
           path: build/app/outputs/apk/release/app-arm64-v8a-release.apk
+  build_ios:
+    needs: [ analyze, test ]
+    continue-on-error: true
+    name: 'Build iOS'
+    runs-on: macos-11.0
+    container: devosud/flutter:latest
+    steps:
+      - name: 'Checkout source code'
+        uses: actions/checkout@v2
+      - name: 'Decrypt secret configuration'
+        run: ./.github/scripts/decrypt_secret.sh
+        env:
+          PASSPHRASE: ${{secrets.PASSPHRASE}}
+      - name: 'Build IPA'
+        run: flutter build ios
+        shell: 'bash'
