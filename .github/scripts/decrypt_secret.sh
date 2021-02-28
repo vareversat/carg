@@ -1,6 +1,8 @@
 
 # Decrypt google-services.json.gpg
 gpg --quiet --batch --yes --decrypt --passphrase="$PASSPHRASE" --output "$GITHUB_WORKSPACE"/android/app/google-services.json "$GITHUB_WORKSPACE"/encrypted_config/google-services.json.gpg
+# Decrypt GoogleService-Info.plist.gpg
+gpg --quiet --batch --yes --decrypt --passphrase="$PASSPHRASE" --output "$GITHUB_WORKSPACE"/ios/Runner/GoogleService-Info.plist "$GITHUB_WORKSPACE"/encrypted_config/GoogleService-Info.plist.gpg
 # Decrypt key.json.gpg
 gpg --quiet --batch --yes --decrypt --passphrase="$PASSPHRASE" --output "$GITHUB_WORKSPACE"/migration_scripts/key.json "$GITHUB_WORKSPACE"/encrypted_config/key.json.gpg
 # Decrypt algolia.json.gpg

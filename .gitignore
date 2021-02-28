@@ -19,6 +19,7 @@ GeneratedPluginRegistrant.java
 .idea/
 
 # Firebase
+ios/Runner/GoogleService-Info.plist
 android/app/google-services.json
 migration_scripts/key.json
 
