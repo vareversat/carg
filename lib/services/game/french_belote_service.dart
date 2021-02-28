@@ -79,9 +79,6 @@ class FrenchBeloteService implements BeloteService<FrenchBelote> {
       var beloteGame = FrenchBelote(
           players: BelotePlayers(
               us: usTeam.id, them: themTeam.id, playerList: playerList));
-      playerList.forEach((playerId) async => {
-            await _playerService.incrementPlayedGamesByOne(playerId, beloteGame)
-          });
       var documentReference = await FirebaseFirestore.instance
           .collection('belote-game-' + flavor)
           .add(beloteGame.toJSON());
