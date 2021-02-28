@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:carg/models/game/game_type.dart';
+import 'package:carg/models/game_stats.dart';
 import 'package:carg/models/player.dart';
 import 'package:carg/services/auth_service.dart';
 import 'package:carg/services/player_service.dart';
@@ -16,6 +17,8 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class UserScreen extends StatefulWidget {
   static const routeName = '/user';
@@ -253,72 +256,48 @@ class _UserScreenState extends State<UserScreen> {
                                         fontSize: 40,
                                         fontWeight: FontWeight.bold),
                                     textAlign: TextAlign.center)),
-                            Divider(),
+                            Divider(thickness: 2),
                             Padding(
                                 padding: const EdgeInsets.all(10),
                                 child: Text('- STATISTIQUES -',
                                     style: TextStyle(
                                         fontSize: 25,
                                         fontWeight: FontWeight.bold))),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 8.0),
-                              child: Column(
-                                children: _player.gameStatsList.isNotEmpty
-                                    ? _player.gameStatsList
-                                        .map(
-                                          (stat) => Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.baseline,
-                                            children: <Widget>[
-                                              SizedBox(
-                                                  width: 100,
-                                                  child: Text(
-                                                      '${stat.gameType.name} : ',
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      style: TextStyle(
-                                                          fontSize: 22))),
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 5.0),
-                                                child: Icon(
-                                                    FontAwesomeIcons.trophy,
-                                                    size: 15),
-                                              ),
-                                              Text(
-                                                ' ' + stat.wonGames.toString(),
-                                                style: TextStyle(fontSize: 22),
-                                              ),
-                                              Text(
-                                                ' - ',
-                                                style: TextStyle(fontSize: 22),
-                                              ),
-                                              Text(
-                                                stat.playedGames.toString() +
-                                                    ' ',
-                                                style: TextStyle(fontSize: 22),
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 5.0),
-                                                child: Icon(
-                                                    FontAwesomeIcons.gamepad,
-                                                    size: 22),
-                                              )
-                                            ],
-                                          ),
-                                        )
-                                        .toList()
-                                        .cast<Widget>()
-                                    : [Text('Pas encore de statistiques')],
-                              ),
-                            ),
-                            Divider(),
+                            _player.gameStatsList.isNotEmpty
+                                ? Column(children: [
+                                    _StatCircularChart(
+                                        gameStatsList: _player.gameStatsList),
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 30),
+                                      child: Text('Pourcentages de victoires',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyText2),
+                                    ),
+                                    Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 35),
+                                        child: Wrap(
+                                            runSpacing: 40,
+                                            spacing: 25,
+                                            alignment:
+                                                WrapAlignment.spaceEvenly,
+                                            children: _player.gameStatsList
+                                                .map(
+                                                  (stat) => ConstrainedBox(
+                                                      constraints:
+                                                          BoxConstraints(
+                                                              maxWidth: 120,
+                                                              maxHeight: 120),
+                                                      child: _StatGauge(
+                                                          gameStats: stat)),
+                                                )
+                                                .toList()
+                                                .cast<Widget>()))
+                                  ])
+                                : Text('Pas encore de statistiques'),
+                            Divider(thickness: 2),
                             Padding(
                                 padding: const EdgeInsets.all(20.0),
                                 child: Column(children: [
@@ -495,5 +474,93 @@ class _UserScreenState extends State<UserScreen> {
                                 ]))
                           ]))));
                 })));
+  }
+}
+
+class _StatGauge extends StatelessWidget {
+  final GameStats gameStats;
+
+  const _StatGauge({this.gameStats});
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () => print('ok'),
+      child: SfRadialGauge(
+        axes: <RadialAxis>[
+          RadialAxis(
+              annotations: <GaugeAnnotation>[
+                GaugeAnnotation(
+                    axisValue: 50,
+                    positionFactor: 0,
+                    widget: Text(
+                      '${gameStats.getWinPercentage().toString()}%',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                    )),
+                GaugeAnnotation(
+                    axisValue: 50,
+                    positionFactor: 0.3,
+                    widget: Text(
+                      '${gameStats.wonGames} | ${gameStats.playedGames}',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                    )),
+                GaugeAnnotation(
+                    axisValue: 50,
+                    positionFactor: 1.45,
+                    widget: Text(
+                      '${gameStats.gameType.name}',
+                      style: TextStyle(fontSize: 18),
+                    ))
+              ],
+              startAngle: 270,
+              endAngle: 270,
+              interval: 10,
+              showLabels: false,
+              showTicks: false,
+              ranges: <GaugeRange>[
+                GaugeRange(
+                    startValue: 0,
+                    endValue: gameStats.getWinPercentage(),
+                    color: Theme.of(context).primaryColor),
+                GaugeRange(
+                    startValue: gameStats.getWinPercentage(),
+                    endValue: 100,
+                    color: Theme.of(context).accentColor),
+              ]),
+        ],
+        enableLoadingAnimation: true,
+      ),
+    );
+  }
+}
+
+class _StatCircularChart extends StatelessWidget {
+  final List<GameStats> gameStatsList;
+
+  const _StatCircularChart({this.gameStatsList});
+
+  @override
+  Widget build(BuildContext context) {
+    return SfCircularChart(
+        tooltipBehavior: TooltipBehavior(
+            enable: true, textStyle: Theme.of(context).textTheme.bodyText1),
+        title: ChartTitle(
+            text: 'Distributions des parties',
+            alignment: ChartAlignment.center,
+            textStyle: Theme.of(context).textTheme.bodyText2),
+        series: <CircularSeries>[
+          DoughnutSeries<GameStats, String>(
+            dataSource: gameStatsList,
+            xValueMapper: (GameStats data, _) => data.gameType.name,
+            yValueMapper: (GameStats data, _) => data.playedGames,
+          )
+        ],
+        legend: Legend(
+            textStyle: Theme.of(context).textTheme.bodyText2,
+            position: LegendPosition.right,
+            isVisible: true,
+            toggleSeriesVisibility: false));
   }
 }

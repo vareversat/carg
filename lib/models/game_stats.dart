@@ -27,6 +27,10 @@ class GameStats {
         playedGames: json['played_games']);
   }
 
+  double getWinPercentage() {
+    return (wonGames * 100) / playedGames;
+  }
+
   static List<GameStats> fromJSONList(List<dynamic> jsonList) {
     return jsonList?.map((json) => GameStats.fromJSON(json))?.toList() ?? [];
   }
