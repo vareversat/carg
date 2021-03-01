@@ -148,8 +148,8 @@ class _CredentialsDialogState extends State<CredentialsDialog> {
                     Provider.of<AuthService>(context, listen: false)
                         .getConnectedUserEmail()) {
                   return 'Adresse mail inchangée';
-                } else if (value.isEmpty || !emailRegex.hasMatch(value)) {
-                  return 'Adresse email invalide';
+                } else if (!emailRegex.hasMatch(value)) {
+                  return 'Adresse email invalid';
                 }
                 return null;
               }),
@@ -173,20 +173,21 @@ class _CredentialsDialogState extends State<CredentialsDialog> {
                 }
                 return null;
               }),
-          Divider(),
           Padding(
             padding: const EdgeInsets.only(top: 8.0),
             child: Text('Info : ' + _infoMessage,
                 style: TextStyle(fontStyle: FontStyle.italic, fontSize: 18)),
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 12.0),
-            child: Text(_errorMessage,
-                style: TextStyle(
-                    fontStyle: FontStyle.italic,
-                    fontSize: 18,
-                    color: Colors.red)),
-          )
+          _errorMessage.isNotEmpty
+              ? Padding(
+                  padding: const EdgeInsets.only(top: 12.0),
+                  child: Text(_errorMessage,
+                      style: TextStyle(
+                          fontStyle: FontStyle.italic,
+                          fontSize: 18,
+                          color: Colors.red)),
+                )
+              : Container()
         ]),
       ),
       actions: <Widget>[
