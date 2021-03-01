@@ -288,8 +288,8 @@ class _UserScreenState extends State<UserScreen> {
                                                   (stat) => ConstrainedBox(
                                                       constraints:
                                                           BoxConstraints(
-                                                              maxWidth: 120,
-                                                              maxHeight: 120),
+                                                              maxWidth: 140,
+                                                              maxHeight: 140),
                                                       child: _StatGauge(
                                                           gameStats: stat)),
                                                 )
@@ -485,8 +485,13 @@ class _StatGauge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => print('ok'),
       child: SfRadialGauge(
+        title: GaugeTitle(
+            text: gameStats.gameType.name,
+            textStyle: Theme.of(context)
+                .textTheme
+                .bodyText2
+                .copyWith(fontWeight: FontWeight.bold)),
         axes: <RadialAxis>[
           RadialAxis(
               annotations: <GaugeAnnotation>[
@@ -504,14 +509,7 @@ class _StatGauge extends StatelessWidget {
                     widget: Text(
                       '${gameStats.wonGames} | ${gameStats.playedGames}',
                       style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
-                    )),
-                GaugeAnnotation(
-                    axisValue: 50,
-                    positionFactor: 1.45,
-                    widget: Text(
-                      '${gameStats.gameType.name}',
-                      style: TextStyle(fontSize: 18),
+                      TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
                     ))
               ],
               startAngle: 270,
@@ -549,7 +547,10 @@ class _StatCircularChart extends StatelessWidget {
         title: ChartTitle(
             text: 'Distributions des parties',
             alignment: ChartAlignment.center,
-            textStyle: Theme.of(context).textTheme.bodyText2),
+            textStyle: Theme.of(context)
+                .textTheme
+                .bodyText2
+                .copyWith(fontStyle: FontStyle.italic)),
         series: <CircularSeries>[
           DoughnutSeries<GameStats, String>(
             dataSource: gameStatsList,
