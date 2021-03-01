@@ -87,14 +87,15 @@ class _PlayerPickerScreenState extends State<PlayerPickerScreen> {
                       return ListView.builder(
                           itemCount: snapshot.data.length,
                           itemBuilder: (BuildContext context, int index) {
-                            return ChangeNotifierProvider(
-                              create: (BuildContext context) =>
-                                  snapshot.data[index],
-                              child: PlayerWidget(
-                                  player: snapshot.data[index],
-                                  onTap: () => game.players
-                                      .onSelectedPlayer(snapshot.data[index])),
-                            );
+                            return ChangeNotifierProvider.value(
+                                value: snapshot.data[index],
+                                child: Consumer<Player>(
+                                    builder: (context, playerData, child) =>
+                                        PlayerWidget(
+                                            player: playerData,
+                                            onTap: () => game.players
+                                                .onSelectedPlayer(
+                                                    playerData))));
                           });
                     },
                     future: _playerService.getAllPlayers(),
@@ -103,8 +104,7 @@ class _PlayerPickerScreenState extends State<PlayerPickerScreen> {
                 Padding(
                   padding: const EdgeInsets.only(top: 10),
                   child: Consumer<Players>(
-                      builder: (context, playersData, child) =>
-                      playersData
+                      builder: (context, playersData, child) => playersData
                               .isFull()
                           ? SizedBox(
                               width: double.infinity,

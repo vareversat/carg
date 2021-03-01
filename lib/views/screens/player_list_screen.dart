@@ -47,7 +47,8 @@ class _PlayerListScreenState extends State<PlayerListScreen> {
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Joueurs', style: CustomTextStyle.screenHeadLine1(context)),
+                  Text('Joueurs',
+                      style: CustomTextStyle.screenHeadLine1(context)),
                   RaisedButton.icon(
                       color: Theme.of(context).accentColor,
                       textColor: Theme.of(context).cardColor,
@@ -104,9 +105,8 @@ class _PlayerListScreenState extends State<PlayerListScreen> {
             Padding(
               padding: const EdgeInsets.all(4.0),
               child: Container(
-                  child: SvgPicture.asset(
-                      'assets/images/search_by_algolia.svg')
-              ),
+                  child:
+                      SvgPicture.asset('assets/images/search_by_algolia.svg')),
             ),
             Flexible(
               child: FutureBuilder<List<Player>>(
@@ -136,7 +136,9 @@ class _PlayerListScreenState extends State<PlayerListScreen> {
                       itemBuilder: (BuildContext context, int index) {
                         return ChangeNotifierProvider.value(
                           value: snapshot.data[index],
-                          child: PlayerWidget(player: snapshot.data[index]),
+                          child: Consumer<Player>(
+                              builder: (context, playerData, child) =>
+                                  PlayerWidget(player: playerData)),
                         );
                       });
                 },
