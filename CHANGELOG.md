@@ -1,3 +1,14 @@
+# **v0.10.3** :
+
+- *Dev stuff* :
+  - Preliminary work to add iOS pipeline for the CI
+  - Move the Consumer from the PlayerWidget
+  - All changelogs are now displayed
+- *New stuff* :
+  - Statistics are display on the user screen
+
+***
+
 # **v0.10.0** :
 
 - *Dev stuff* :
