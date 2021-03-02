@@ -28,7 +28,7 @@ class GameStats {
   }
 
   double getWinPercentage() {
-    return (wonGames * 100) / playedGames;
+    return double.parse(((wonGames * 100) / playedGames).toStringAsFixed(1));
   }
 
   static List<GameStats> fromJSONList(List<dynamic> jsonList) {
