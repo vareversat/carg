@@ -273,7 +273,9 @@ class _UserScreenState extends State<UserScreen> {
                                       child: Text('Pourcentages de victoires',
                                           style: Theme.of(context)
                                               .textTheme
-                                              .bodyText2),
+                                              .bodyText2
+                                              .copyWith(
+                                                  fontStyle: FontStyle.italic)),
                                     ),
                                     Padding(
                                         padding:
@@ -488,10 +490,7 @@ class _StatGauge extends StatelessWidget {
       child: SfRadialGauge(
         title: GaugeTitle(
             text: gameStats.gameType.name,
-            textStyle: Theme.of(context)
-                .textTheme
-                .bodyText2
-                .copyWith(fontWeight: FontWeight.bold)),
+            textStyle: Theme.of(context).textTheme.bodyText2),
         axes: <RadialAxis>[
           RadialAxis(
               annotations: <GaugeAnnotation>[
