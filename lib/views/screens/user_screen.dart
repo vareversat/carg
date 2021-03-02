@@ -268,8 +268,8 @@ class _UserScreenState extends State<UserScreen> {
                                     _StatCircularChart(
                                         gameStatsList: _player.gameStatsList),
                                     Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 30),
+                                      padding: const EdgeInsets.only(
+                                          top: 30, bottom: 25),
                                       child: Text('Pourcentages de victoires',
                                           style: Theme.of(context)
                                               .textTheme
@@ -277,26 +277,21 @@ class _UserScreenState extends State<UserScreen> {
                                               .copyWith(
                                                   fontStyle: FontStyle.italic)),
                                     ),
-                                    Padding(
-                                        padding:
-                                            const EdgeInsets.only(bottom: 35),
-                                        child: Wrap(
-                                            runSpacing: 40,
-                                            spacing: 25,
-                                            alignment:
-                                                WrapAlignment.spaceEvenly,
-                                            children: _player.gameStatsList
-                                                .map(
-                                                  (stat) => ConstrainedBox(
-                                                      constraints:
-                                                          BoxConstraints(
-                                                              maxWidth: 140,
-                                                              maxHeight: 140),
-                                                      child: _StatGauge(
-                                                          gameStats: stat)),
-                                                )
-                                                .toList()
-                                                .cast<Widget>()))
+                                    Wrap(
+                                        runSpacing: 20,
+                                        spacing: 10,
+                                        alignment: WrapAlignment.spaceEvenly,
+                                        children: _player.gameStatsList
+                                            .map(
+                                              (stat) => ConstrainedBox(
+                                                  constraints: BoxConstraints(
+                                                      maxWidth: 140,
+                                                      maxHeight: 140),
+                                                  child: _StatGauge(
+                                                      gameStats: stat)),
+                                            )
+                                            .toList()
+                                            .cast<Widget>())
                                   ])
                                 : Text('Pas encore de statistiques'),
                             Divider(thickness: 2),
@@ -552,6 +547,8 @@ class _StatCircularChart extends StatelessWidget {
                 .copyWith(fontStyle: FontStyle.italic)),
         series: <CircularSeries>[
           DoughnutSeries<GameStats, String>(
+            radius: '100%',
+            innerRadius: '70%',
             dataSource: gameStatsList,
             xValueMapper: (GameStats data, _) => data.gameType.name,
             yValueMapper: (GameStats data, _) => data.playedGames,
