@@ -40,6 +40,10 @@ jobs:
         run: ./.github/scripts/decrypt_secret.sh
         env:
           PASSPHRASE: ${{secrets.PASSPHRASE}}
+      - name: 'Check secret configuration'
+        run: ./.github/scripts/check_secrets_decryption.sh
+        env:
+          PASSPHRASE: ${{secrets.PASSPHRASE}}
       - name: 'Build APK'
         run: flutter build apk --split-per-abi --dart-define=FLAVOR=dev
         shell: 'bash'
