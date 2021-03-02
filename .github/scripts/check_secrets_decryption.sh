@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ -s "$GITHUB_WORKSPACE"/android/app/keystore.jks ]; then
-  echo "keystore.jks decrypted ✅"
+  echo "keystore.jks ✅"
 else
   echo "keystore.jks is empty ❌"
   exit 1
