@@ -98,7 +98,6 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
         appBar: AppBar(
             title: Text(_teamGame.getGameTypeName(),
@@ -106,8 +105,7 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
             centerTitle: true,
             automaticallyImplyLeading: false,
             leading: IconButton(
-                onPressed: () => Navigator.of(context)
-                    .pushReplacementNamed(HomeScreen.routeName, arguments: 1),
+                onPressed: () => Navigator.pop(context, 1),
                 icon: Icon(Icons.cancel))),
         body: Column(children: <Widget>[
           Padding(

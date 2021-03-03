@@ -194,11 +194,11 @@ class _ButtonRowWidget extends StatelessWidget {
             onPressed: () async => {
               Navigator.push(
                 context,
-                CustomRouteScale(
-                  builder: (context) => PlayTarotGame(
-                    tarotGame: tarotGame,
-                  ),
-                ),
+                CustomRouteOpenFromBottom(
+                      builder: (context) => PlayTarotGame(
+                        tarotGame: tarotGame,
+                      ),
+                    ),
               )
             },
             label: Text(
@@ -214,11 +214,11 @@ class _ButtonRowWidget extends StatelessWidget {
             onPressed: () async => {
               Navigator.push(
                 context,
-                CustomRouteScale(
-                  builder: (context) => PlayTarotGame(
-                    tarotGame: tarotGame,
-                  ),
-                ),
+                CustomRouteOpenFromBottom(
+                      builder: (context) => PlayTarotGame(
+                        tarotGame: tarotGame,
+                      ),
+                    ),
               )
             },
             child: Text('Consulter les scores')),

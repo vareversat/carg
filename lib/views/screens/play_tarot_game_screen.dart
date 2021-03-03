@@ -111,8 +111,7 @@ class _PlayTarotGameState extends State<PlayTarotGame> {
             centerTitle: true,
             automaticallyImplyLeading: false,
             leading: IconButton(
-                onPressed: () => Navigator.of(context)
-                    .pushReplacementNamed(HomeScreen.routeName, arguments: 1),
+                onPressed: () => Navigator.pop(context, 1),
                 icon: Icon(Icons.cancel))),
         body: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

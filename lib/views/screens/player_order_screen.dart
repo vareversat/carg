@@ -105,16 +105,17 @@ class _PlayerOrderScreenState extends State<PlayerOrderScreen> {
                                 borderRadius: BorderRadius.circular(18.0)),
                             onPressed: () async => {
                                   await _createGame(),
-                                  Navigator.pushReplacement(
+                                  Navigator.pushAndRemoveUntil(
                                       context,
                                       CustomRouteLeftAndRight(
                                           builder: (context) =>
-                                          _newGame.getGameTypeName() !=
+                                              _newGame.getGameTypeName() !=
                                                       GameType.TAROT.name
                                                   ? PlayBeloteScreen(
                                                       teamGame: _newGame)
                                                   : PlayTarotGame(
-                                                      tarotGame: _newGame)))
+                                                      tarotGame: _newGame)),
+                                      ModalRoute.withName('/'))
                                 },
                             label: Text('Démarrer la partie',
                                 style: TextStyle(fontSize: 23)),

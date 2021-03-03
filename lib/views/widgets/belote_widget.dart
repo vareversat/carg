@@ -208,7 +208,7 @@ class _ButtonRowWidget extends StatelessWidget {
             onPressed: () async => {
                   Navigator.push(
                     context,
-                    CustomRouteScale(
+                    CustomRouteOpenFromBottom(
                       builder: (context) => PlayBeloteScreen(
                         teamGame: teamGame,
                       ),
@@ -228,7 +228,7 @@ class _ButtonRowWidget extends StatelessWidget {
             onPressed: () async => {
                   Navigator.push(
                     context,
-                    CustomRouteScale(
+                    CustomRouteOpenFromBottom(
                       builder: (context) => PlayBeloteScreen(
                         teamGame: teamGame,
                       ),

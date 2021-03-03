@@ -15,10 +15,11 @@ class APIMiniPlayerWidget extends StatelessWidget {
   final String additionalText;
   final PlayerService _playerService = PlayerService();
 
-  APIMiniPlayerWidget({@required this.playerId,
+  APIMiniPlayerWidget(
+      {@required this.playerId,
       @required this.displayImage,
       this.showLoading = true,
-      this.size = 13,
+      this.size = 15,
       this.isSelected = false,
       this.onTap,
       this.selectedColor,
