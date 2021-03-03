@@ -1,3 +1,13 @@
+# **v0.10.4** :
+
+- *New stuff* :
+  - Better transitions between screens
+  - User screen get a better look
+  - More statistics are display on the user screen
+  - Player widget use a dash instead of a pipe to display stats
+
+***
+
 # **v0.10.3** :
 
 - *Dev stuff* :
