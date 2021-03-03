@@ -199,64 +199,53 @@ class _UserScreenState extends State<UserScreen> {
                   return Consumer<Player>(
                       builder: (context, player, _) => SingleChildScrollView(
                               child: (Column(children: <Widget>[
-                            Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  Flexible(
-                                      child: Column(children: [
-                                    Icon(FontAwesomeIcons.trophy, size: 20),
-                                    Padding(
-                                        padding: const EdgeInsets.all(5.0),
-                                        child: Text(
-                                            _player.totalWonGames().toString(),
-                                            style: TextStyle(fontSize: 20))),
-                                    Text('Victoires',
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            fontStyle: FontStyle.italic)),
-                                  ])),
-                                  Flexible(
-                                      child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 20),
-                                          child: Container(
-                                              width: 120,
-                                              height: 120,
-                                              decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  border: Border.all(
-                                                      width: 4,
-                                                      color: Theme.of(context)
-                                                          .primaryColor),
-                                                  image: DecorationImage(
-                                                      fit: BoxFit.fill,
-                                                      image: NetworkImage(player
-                                                          .profilePicture)))))),
-                                  Flexible(
-                                      child: Column(children: [
-                                    Icon(FontAwesomeIcons.gamepad, size: 20),
-                                    Padding(
-                                        padding: const EdgeInsets.all(5.0),
-                                        child: Text(
-                                            _player
-                                                .totalPlayedGames()
-                                                .toString(),
-                                            style: TextStyle(fontSize: 20))),
-                                    Text('Parties',
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            fontStyle: FontStyle.italic))
-                                  ]))
-                                ]),
                             Padding(
-                                padding: const EdgeInsets.all(20),
-                                child: Text(_player.userName,
-                                    style: TextStyle(
-                                        fontSize: 40,
-                                        fontWeight: FontWeight.bold),
-                                    textAlign: TextAlign.center)),
-                            Divider(thickness: 2),
+                              padding: const EdgeInsets.all(20.0),
+                              child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Flexible(
+                                      child: Container(
+                                          width: 100,
+                                          height: 100,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            border: Border.all(
+                                                width: 4,
+                                                color: Theme.of(context)
+                                                    .primaryColor),
+                                            image: DecorationImage(
+                                                fit: BoxFit.fill,
+                                                image: NetworkImage(
+                                                    player.profilePicture)),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey
+                                                    .withOpacity(0.5),
+                                                spreadRadius: 5,
+                                                blurRadius: 7,
+                                                offset: Offset(0,
+                                                    3), // changes position of shadow
+                                              ),
+                                            ],
+                                          )),
+                                    ),
+                                    Flexible(
+                                      flex: 2,
+                                      child: Center(
+                                        child: Padding(
+                                            padding:
+                                                const EdgeInsets.only(left: 25),
+                                            child: Text(_player.userName,
+                                                overflow: TextOverflow.clip,
+                                                style: TextStyle(fontSize: 40),
+                                                textAlign: TextAlign.center)),
+                                      ),
+                                    )
+                                  ]),
+                            ),
+                            Divider(thickness: 1.5),
                             Padding(
                                 padding: const EdgeInsets.all(10),
                                 child: Text('- STATISTIQUES -',
@@ -270,7 +259,75 @@ class _UserScreenState extends State<UserScreen> {
                                     Padding(
                                       padding: const EdgeInsets.only(
                                           top: 30, bottom: 25),
-                                      child: Text('Pourcentages de victoires',
+                                      child: Text(
+                                          '-- Pourcentages de victoires totales --',
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyText2
+                                              .copyWith(
+                                                  fontStyle: FontStyle.italic)),
+                                    ),
+                                    Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        children: [
+                                          Flexible(
+                                              child: Column(children: [
+                                            Icon(FontAwesomeIcons.trophy,
+                                                size: 20),
+                                            Padding(
+                                                padding:
+                                                    const EdgeInsets.all(5.0),
+                                                child: Text(
+                                                    _player
+                                                        .totalWonGames()
+                                                        .toString(),
+                                                    style: TextStyle(
+                                                        fontSize: 20,
+                                                        fontWeight:
+                                                            FontWeight.bold))),
+                                            Text('Victoires',
+                                                style: TextStyle(fontSize: 20))
+                                          ])),
+                                          Container(
+                                            decoration: BoxDecoration(
+                                                border: Border(
+                                                    bottom: BorderSide(
+                                              color: Theme.of(context)
+                                                  .primaryColor,
+                                              width: 6, // Underline thickness
+                                            ))),
+                                            child: Text(
+                                                '${_player.totalWinPercentage()} %',
+                                                style: TextStyle(
+                                                    fontSize: 35,
+                                                    fontWeight:
+                                                        FontWeight.bold)),
+                                          ),
+                                          Flexible(
+                                              child: Column(children: [
+                                            Icon(FontAwesomeIcons.gamepad,
+                                                size: 20),
+                                            Padding(
+                                                padding:
+                                                    const EdgeInsets.all(5.0),
+                                                child: Text(
+                                                    _player
+                                                        .totalPlayedGames()
+                                                        .toString(),
+                                                    style: TextStyle(
+                                                        fontSize: 20,
+                                                        fontWeight:
+                                                            FontWeight.bold))),
+                                            Text('Parties',
+                                                style: TextStyle(fontSize: 20))
+                                          ]))
+                                        ]),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 30, bottom: 25),
+                                      child: Text(
+                                          '-- Pourcentages de victoires par jeu de cartes --',
                                           style: Theme.of(context)
                                               .textTheme
                                               .bodyText2
@@ -294,7 +351,6 @@ class _UserScreenState extends State<UserScreen> {
                                             .cast<Widget>())
                                   ])
                                 : Text('Pas encore de statistiques'),
-                            Divider(thickness: 2),
                             Padding(
                                 padding: const EdgeInsets.all(20.0),
                                 child: Column(children: [
@@ -485,7 +541,10 @@ class _StatGauge extends StatelessWidget {
       child: SfRadialGauge(
         title: GaugeTitle(
             text: gameStats.gameType.name,
-            textStyle: Theme.of(context).textTheme.bodyText2),
+            textStyle: Theme.of(context)
+                .textTheme
+                .bodyText2
+                .copyWith(fontWeight: FontWeight.bold)),
         axes: <RadialAxis>[
           RadialAxis(
               annotations: <GaugeAnnotation>[
@@ -493,17 +552,16 @@ class _StatGauge extends StatelessWidget {
                     axisValue: 50,
                     positionFactor: 0,
                     widget: Text(
-                      '${gameStats.getWinPercentage().toString()}%',
+                      '${gameStats.winPercentage().toString()}%',
                       style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
                     )),
                 GaugeAnnotation(
                     axisValue: 50,
                     positionFactor: 0.3,
                     widget: Text(
                       '${gameStats.wonGames} | ${gameStats.playedGames}',
-                      style:
-                      TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                      style: TextStyle(fontSize: 12),
                     ))
               ],
               startAngle: 270,
@@ -514,10 +572,10 @@ class _StatGauge extends StatelessWidget {
               ranges: <GaugeRange>[
                 GaugeRange(
                     startValue: 0,
-                    endValue: gameStats.getWinPercentage(),
+                    endValue: gameStats.winPercentage(),
                     color: Theme.of(context).primaryColor),
                 GaugeRange(
-                    startValue: gameStats.getWinPercentage(),
+                    startValue: gameStats.winPercentage(),
                     endValue: 100,
                     color: Theme.of(context).accentColor),
               ]),
@@ -539,7 +597,7 @@ class _StatCircularChart extends StatelessWidget {
         tooltipBehavior: TooltipBehavior(
             enable: true, textStyle: Theme.of(context).textTheme.bodyText1),
         title: ChartTitle(
-            text: 'Distributions des parties',
+            text: '-- Distributions des parties --',
             alignment: ChartAlignment.center,
             textStyle: Theme.of(context)
                 .textTheme
@@ -547,7 +605,7 @@ class _StatCircularChart extends StatelessWidget {
                 .copyWith(fontStyle: FontStyle.italic)),
         series: <CircularSeries>[
           DoughnutSeries<GameStats, String>(
-            radius: '100%',
+            radius: '110%',
             innerRadius: '70%',
             dataSource: gameStatsList,
             xValueMapper: (GameStats data, _) => data.gameType.name,

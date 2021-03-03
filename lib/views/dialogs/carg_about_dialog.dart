@@ -49,23 +49,37 @@ class CargAboutDialog extends StatelessWidget {
           contentPadding: const EdgeInsets.symmetric(horizontal: 20),
           actionsPadding: const EdgeInsets.fromLTRB(0, 10, 20, 20),
           title: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              IconTheme(data: Theme.of(context).iconTheme, child: _iconWidget),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                  child: ListBody(
-                    children: <Widget>[
-                      Text(snapshot.data.appName,
-                          style: Theme.of(context).textTheme.headline5),
-                      Text(
-                          'v${snapshot.data.version}+${snapshot.data.buildNumber}',
-                          style: Theme.of(context).textTheme.bodyText2),
-                      SizedBox(height: 10),
-                      Text(_legalLease,
-                          style: Theme.of(context).textTheme.caption),
-                    ],
+            crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                IconTheme(
+                    data: Theme.of(context).iconTheme, child: _iconWidget),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Row(
+                          children: [
+                            Text(snapshot.data.appName,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline5
+                                    .copyWith(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 30)),
+                            Text(
+                                ' | v${snapshot.data.version}+${snapshot.data.buildNumber}',
+                                style: Theme.of(context).textTheme.bodyText2),
+                          ],
+                        ),
+                        SizedBox(height: 10),
+                        Text(_legalLease,
+                            style: Theme.of(context)
+                                .textTheme
+                                .caption
+                                .copyWith(fontSize: 15)),
+                      ],
                   ),
                 ),
               ),
@@ -75,35 +89,38 @@ class CargAboutDialog extends StatelessWidget {
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           content: ListBody(
             children: <Widget>[
-              Text(_appInfo),
-              RaisedButton.icon(
-                  key: ValueKey('sourceCodeButton'),
-                  onPressed: () => _launchURL(),
-                  color: Colors.black,
-                  textColor: Theme.of(context).cardColor,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(18.0)),
-                  label: Text(_sourceCode),
-                  icon: Icon(
-                    FontAwesomeIcons.github,
-                    size: 16,
-                  )),
+                Text(
+                  _appInfo,
+                  style: TextStyle(fontSize: 18),
+                ),
+                RaisedButton.icon(
+                    key: ValueKey('sourceCodeButton'),
+                    onPressed: () => _launchURL(),
+                    color: Colors.black,
+                    textColor: Theme.of(context).cardColor,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18.0)),
+                    label: Text(_sourceCode, style: TextStyle(fontSize: 18)),
+                    icon: Icon(
+                      FontAwesomeIcons.github,
+                      size: 20,
+                    )),
               RaisedButton.icon(
                   color: Theme.of(context).accentColor,
-                  textColor: Theme.of(context).cardColor,
-                  onPressed: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ChangeLogScreen(),
+                    textColor: Theme.of(context).cardColor,
+                    onPressed: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ChangeLogScreen(),
+                          ),
                         ),
-                      ),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(18.0)),
-                  label: Text(_changeLog, style: TextStyle(fontSize: 14)),
-                  icon: Icon(
-                    FontAwesomeIcons.fileCode,
-                    size: 16,
-                  ))
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18.0)),
+                    label: Text(_changeLog, style: TextStyle(fontSize: 18)),
+                    icon: Icon(
+                      FontAwesomeIcons.fileCode,
+                      size: 20,
+                    ))
             ],
           ),
           actions: <Widget>[

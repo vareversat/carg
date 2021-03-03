@@ -27,7 +27,7 @@ class GameStats {
         playedGames: json['played_games']);
   }
 
-  double getWinPercentage() {
+  double winPercentage() {
     return double.parse(((wonGames * 100) / playedGames).toStringAsFixed(1));
   }
 

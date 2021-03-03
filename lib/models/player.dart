@@ -48,6 +48,11 @@ class Player extends CargObject with ChangeNotifier {
     _selected = false;
   }
 
+  double totalWinPercentage() {
+    return double.parse(
+        ((totalWonGames() * 100) / totalPlayedGames()).toStringAsFixed(1));
+  }
+
   int totalWonGames() {
     var total = 0;
     for (var gameStat in gameStatsList) {
