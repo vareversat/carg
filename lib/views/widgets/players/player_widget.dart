@@ -67,15 +67,15 @@ class PlayerWidget extends StatelessWidget {
                       children: <Widget>[
                         Icon(FontAwesomeIcons.trophy, size: 15),
                         Text(
-                          ' ' + player.totalWonGames().toString(),
+                          '  ' + player.totalWonGames().toString(),
                           style: TextStyle(fontSize: 17),
                         ),
                         Text(
-                          ' | ',
+                          ' - ',
                           style: TextStyle(fontSize: 17),
                         ),
                         Text(
-                          player.totalPlayedGames().toString() + ' ',
+                          player.totalPlayedGames().toString() + '  ',
                           style: TextStyle(fontSize: 17),
                         ),
                         Icon(FontAwesomeIcons.gamepad, size: 15)
