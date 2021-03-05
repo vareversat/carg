@@ -3,6 +3,7 @@ import 'package:carg/models/game/game.dart';
 import 'package:carg/models/player.dart';
 import 'package:carg/models/players/players.dart';
 import 'package:carg/services/player_service.dart';
+import 'package:carg/styles/properties.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/dialogs/dialogs.dart';
 import 'package:carg/views/screens/player_order_screen.dart';
@@ -35,7 +36,7 @@ class _PlayerPickerScreenState extends State<PlayerPickerScreen> {
     Dialogs.showLoadingDialog(context, _keyLoader, 'Chargement...');
     var playerListTmp = <Player>[];
     for (var playerId in game.players.playerList) {
-      await playerListTmp.add(await _playerService.getPlayer(playerId));
+      playerListTmp.add(await _playerService.getPlayer(playerId));
     }
     setState(() {
       newPlayers = playerListTmp;
@@ -111,12 +112,21 @@ class _PlayerPickerScreenState extends State<PlayerPickerScreen> {
                               height: 50,
                               child: Directionality(
                                 textDirection: TextDirection.rtl,
-                                child: RaisedButton.icon(
-                                    color: Theme.of(context).primaryColor,
-                                    textColor: Theme.of(context).cardColor,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(18.0)),
+                                child: ElevatedButton.icon(
+                                    style: ButtonStyle(
+                                        backgroundColor:
+                                            MaterialStateProperty.all<Color>(
+                                                Theme.of(context).primaryColor),
+                                        foregroundColor:
+                                            MaterialStateProperty.all<Color>(
+                                                Theme.of(context).cardColor),
+                                        shape:
+                                            MaterialStateProperty.all<OutlinedBorder>(
+                                                RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            CustomProperties
+                                                                .borderRadius)))),
                                     onPressed: () async => {
                                           await _getPlayers(),
                                           game.players.reset(),
@@ -130,8 +140,7 @@ class _PlayerPickerScreenState extends State<PlayerPickerScreen> {
                                                         game: game),
                                               ))
                                         },
-                                    label: Text('Ordre des joueurs',
-                                        style: TextStyle(fontSize: 23)),
+                                    label: Text('Ordre des joueurs', style: TextStyle(fontSize: 23)),
                                     icon: Icon(
                                       Icons.arrow_right_alt,
                                       size: 30,

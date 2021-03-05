@@ -2,7 +2,6 @@ import 'package:carg/styles/text_style.dart';
 import 'package:flutter/material.dart';
 
 class ScreenTitleWidget extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return Container(

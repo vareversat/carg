@@ -1,5 +1,6 @@
 import 'package:carg/services/auth_service.dart';
 import 'package:carg/services/custom_exception.dart';
+import 'package:carg/styles/properties.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -194,11 +195,16 @@ class _CredentialsDialogState extends State<CredentialsDialog> {
         if (_isLoading)
           CircularProgressIndicator()
         else
-          RaisedButton.icon(
-              color: Theme.of(context).accentColor,
-              textColor: Theme.of(context).cardColor,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(18.0)),
+          ElevatedButton.icon(
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(
+                      Theme.of(context).accentColor),
+                  foregroundColor: MaterialStateProperty.all<Color>(
+                      Theme.of(context).cardColor),
+                  shape: MaterialStateProperty.all<OutlinedBorder>(
+                      RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              CustomProperties.borderRadius)))),
               onPressed: () async => {
                     await _credentialsStatus == CredentialsStatus.EDITING
                         ? _changeEmail()
@@ -206,13 +212,16 @@ class _CredentialsDialogState extends State<CredentialsDialog> {
                   },
               label: Text(MaterialLocalizations.of(context).okButtonLabel),
               icon: Icon(Icons.check)),
-        FlatButton.icon(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(18.0),
-              side: BorderSide(color: Theme.of(context).accentColor)),
+        ElevatedButton.icon(
+          style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+              foregroundColor: MaterialStateProperty.all<Color>(
+                  Theme.of(context).accentColor),
+              shape: MaterialStateProperty.all<OutlinedBorder>(
+                  RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                          CustomProperties.borderRadius)))),
           onPressed: () => {Navigator.pop(context, null)},
-          color: Colors.white,
-          textColor: Theme.of(context).accentColor,
           icon: Icon(Icons.close),
           label: Text(MaterialLocalizations.of(context).cancelButtonLabel),
         )

@@ -1,4 +1,4 @@
-enum TarotChelem {PASSED, ANNOUNCED_AND_PASSED, FAILED}
+enum TarotChelem { PASSED, ANNOUNCED_AND_PASSED, FAILED }
 
 extension TarotChelemExtension on TarotChelem {
   String get name {

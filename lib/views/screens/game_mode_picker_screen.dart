@@ -1,6 +1,6 @@
 import 'package:carg/helpers/custom_route.dart';
-import 'package:carg/models/game/french_belote.dart';
 import 'package:carg/models/game/coinche_belote.dart';
+import 'package:carg/models/game/french_belote.dart';
 import 'package:carg/models/game/game.dart';
 import 'package:carg/models/game/tarot.dart';
 import 'package:carg/styles/text_style.dart';
@@ -78,8 +78,8 @@ class _GameModeButton extends StatelessWidget {
           children: [
             Padding(
                 padding: const EdgeInsets.all(8.0),
-                child:
-                    Text(game.getGameTypeName(), style: TextStyle(fontSize: 20))),
+                child: Text(game.getGameTypeName(),
+                    style: TextStyle(fontSize: 20))),
           ],
         ),
       ),

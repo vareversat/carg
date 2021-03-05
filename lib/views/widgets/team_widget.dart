@@ -28,8 +28,7 @@ class _TeamWidgetState extends State<TeamWidget> {
   Widget build(BuildContext context) {
     return Flexible(
       child: Column(children: <Widget>[
-        Text(_title,
-            style: CustomTextStyle.boldAndItalic(context)),
+        Text(_title, style: CustomTextStyle.boldAndItalic(context)),
         FutureBuilder<Team>(
             builder: (context, snapshot) {
               if (snapshot.hasData &&
@@ -46,11 +45,11 @@ class _TeamWidgetState extends State<TeamWidget> {
               }
               return Center(child: Text(_errorMessage));
             },
-            future: _teamService.getTeam(_teamId).catchError((error) => {
-              setState(() {
-                _errorMessage = error.toString();
-              })
-            }))
+            // ignore: return_of_invalid_type_from_catch_error
+            future: _teamService
+                .getTeam(_teamId)
+                // ignore: return_of_invalid_type_from_catch_error
+                .catchError((error) => {_errorMessage = error.toString()}))
       ]),
     );
   }

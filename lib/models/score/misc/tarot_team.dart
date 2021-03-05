@@ -1,2 +1,1 @@
-enum TarotTeam {ATTACK, DEFENSE}
-
+enum TarotTeam { ATTACK, DEFENSE }

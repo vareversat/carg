@@ -3,6 +3,7 @@ import 'package:carg/services/auth_service.dart';
 import 'package:carg/services/game/coinche_belote_service.dart';
 import 'package:carg/services/game/french_belote_service.dart';
 import 'package:carg/services/game/tarot_service.dart';
+import 'package:carg/styles/properties.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/screens/game_mode_picker_screen.dart';
 import 'package:carg/views/tabs/game_list_tab.dart';
@@ -29,11 +30,16 @@ class GameListScreen extends StatelessWidget {
                   children: [
                     Text('Parties',
                         style: CustomTextStyle.screenHeadLine1(context)),
-                    RaisedButton.icon(
-                        color: Theme.of(context).accentColor,
-                        textColor: Theme.of(context).cardColor,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(18.0)),
+                    ElevatedButton.icon(
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                Theme.of(context).accentColor),
+                            foregroundColor: MaterialStateProperty.all<Color>(
+                                Theme.of(context).cardColor),
+                            shape: MaterialStateProperty.all<OutlinedBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(
+                                        CustomProperties.borderRadius)))),
                         onPressed: () async => Navigator.push(
                               context,
                               CustomRouteLeftAndRight(

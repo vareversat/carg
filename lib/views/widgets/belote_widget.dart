@@ -2,6 +2,7 @@ import 'package:carg/helpers/custom_route.dart';
 import 'package:carg/models/game/game.dart';
 import 'package:carg/models/game/team_game.dart';
 import 'package:carg/models/score/belote_score.dart';
+import 'package:carg/styles/properties.dart';
 import 'package:carg/views/dialogs/warning_dialog.dart';
 import 'package:carg/views/screens/play_belote_screen.dart';
 import 'package:carg/views/widgets/team_widget.dart';
@@ -20,6 +21,9 @@ class BeloteWidget extends StatelessWidget {
     return Card(
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+        margin: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+        elevation: 2,
+        color: Colors.white,
         child:
             ExpansionTile(title: CardTitle(game: teamGame), children: <Widget>[
           Column(
@@ -36,10 +40,7 @@ class BeloteWidget extends StatelessWidget {
               _ButtonRowWidget(teamGame: teamGame),
             ],
           )
-        ]),
-        margin: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-        elevation: 2,
-        color: Colors.white);
+        ]));
   }
 }
 
@@ -134,11 +135,8 @@ class _ShowScoreWidgetState extends State<_ShowScoreWidget> {
               },
               future: _teamGame.scoreService
                   .getScoreByGame(_teamGame.id)
-                  .catchError((error) => {
-                        setState(() {
-                          _errorMessage = error.toString();
-                        })
-                      }))),
+                  // ignore: return_of_invalid_type_from_catch_error
+                  .catchError((error) => {_errorMessage = error.toString()}))),
       if (_teamGame.isEnded)
         Padding(
             padding: const EdgeInsets.all(8.0),
@@ -160,15 +158,19 @@ class _ButtonRowWidget extends StatelessWidget {
     return Wrap(alignment: WrapAlignment.spaceAround, spacing: 20, children: <
         Widget>[
       if (!teamGame.isEnded)
-        RaisedButton.icon(
-            color: Colors.black,
-            textColor: Theme.of(context).cardColor,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(18.0)),
+        ElevatedButton.icon(
+            style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.black),
+                foregroundColor: MaterialStateProperty.all<Color>(
+                    Theme.of(context).cardColor),
+                shape: MaterialStateProperty.all<OutlinedBorder>(
+                    RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                            CustomProperties.borderRadius)))),
             onPressed: () async => {
                   await showDialog(
                       context: context,
-                      child: WarningDialog(
+                      builder: (BuildContext context) => WarningDialog(
                           onConfirm: () async => {
                                 await teamGame.gameService.endAGame(teamGame),
                               },
@@ -183,15 +185,20 @@ class _ButtonRowWidget extends StatelessWidget {
             icon: Icon(Icons.stop))
       else
         Container(),
-      RaisedButton.icon(
-          color: Theme.of(context).errorColor,
-          textColor: Theme.of(context).cardColor,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0)),
+      ElevatedButton.icon(
+          style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(
+                  Theme.of(context).errorColor),
+              foregroundColor:
+                  MaterialStateProperty.all<Color>(Theme.of(context).cardColor),
+              shape: MaterialStateProperty.all<OutlinedBorder>(
+                  RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                          CustomProperties.borderRadius)))),
           onPressed: () async => {
                 await showDialog(
                     context: context,
-                    child: WarningDialog(
+                    builder: (BuildContext context) => WarningDialog(
                         onConfirm: () =>
                             {teamGame.gameService.deleteGame(teamGame.id)},
                         message: 'Tu es sur le point de supprimer une partie.',
@@ -200,11 +207,16 @@ class _ButtonRowWidget extends StatelessWidget {
           label: Text(MaterialLocalizations.of(context).deleteButtonTooltip),
           icon: Icon(Icons.delete_forever)),
       if (!teamGame.isEnded)
-        RaisedButton.icon(
-            color: Theme.of(context).primaryColor,
-            textColor: Theme.of(context).cardColor,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(18.0)),
+        ElevatedButton.icon(
+            style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(
+                    Theme.of(context).primaryColor),
+                foregroundColor: MaterialStateProperty.all<Color>(
+                    Theme.of(context).cardColor),
+                shape: MaterialStateProperty.all<OutlinedBorder>(
+                    RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                            CustomProperties.borderRadius)))),
             onPressed: () async => {
                   Navigator.push(
                     context,
@@ -220,11 +232,16 @@ class _ButtonRowWidget extends StatelessWidget {
             ),
             icon: Icon(Icons.play_arrow))
       else
-        RaisedButton(
-            color: Theme.of(context).primaryColor,
-            textColor: Theme.of(context).cardColor,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(18.0)),
+        ElevatedButton(
+            style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(
+                    Theme.of(context).primaryColor),
+                foregroundColor: MaterialStateProperty.all<Color>(
+                    Theme.of(context).cardColor),
+                shape: MaterialStateProperty.all<OutlinedBorder>(
+                    RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                            CustomProperties.borderRadius)))),
             onPressed: () async => {
                   Navigator.push(
                     context,

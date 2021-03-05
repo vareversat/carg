@@ -3,6 +3,7 @@ import 'package:carg/models/game/tarot.dart';
 import 'package:carg/models/game/team_game.dart';
 import 'package:carg/models/score/belote_score.dart';
 import 'package:carg/models/score/tarot_score.dart';
+import 'package:carg/styles/properties.dart';
 import 'package:carg/views/dialogs/warning_dialog.dart';
 import 'package:carg/views/screens/play_tarot_game_screen.dart';
 import 'package:carg/views/widgets/api_mini_player_widget.dart';
@@ -21,48 +22,47 @@ class TarotGameWidget extends StatelessWidget {
     return Card(
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-        child: ExpansionTile(
-            title: CardTitle(game: tarotGame),
-            children: <Widget>[
-              FutureBuilder<TarotScore>(
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(
-                          child: SpinKitThreeBounce(
-                              size: 30,
-                              itemBuilder: (BuildContext context, int index) {
-                                return DecoratedBox(
-                                    decoration: BoxDecoration(
-                                  color: Theme.of(context).accentColor,
-                                ));
-                              }));
-                    }
-                    if (snapshot.hasData &&
-                        snapshot.connectionState == ConnectionState.done) {
-                      return Wrap(
-                        alignment: WrapAlignment.center,
-                        spacing: 2,
-                        children: tarotGame.players.playerList
-                            .map((playerId) => APIMiniPlayerWidget(
-                                  playerId: playerId,
-                                  displayImage: true,
-                                  size: 20,
-                                  additionalText:
-                                      ' | ${snapshot.data.getScoreOf(playerId).score.round().toString()}',
-                                ))
-                            .toList()
-                            .cast<Widget>(),
-                      );
-                    }
-                    return Center(child: Text('error'));
-                  },
-                  future: tarotGame.scoreService.getScoreByGame(tarotGame.id)),
-              Divider(height: 10, thickness: 2),
-              _ButtonRowWidget(tarotGame: tarotGame),
-            ]),
         margin: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
         elevation: 2,
-        color: Colors.white);
+        color: Colors.white,
+        child:
+            ExpansionTile(title: CardTitle(game: tarotGame), children: <Widget>[
+          FutureBuilder<TarotScore>(
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(
+                      child: SpinKitThreeBounce(
+                          size: 30,
+                          itemBuilder: (BuildContext context, int index) {
+                            return DecoratedBox(
+                                decoration: BoxDecoration(
+                              color: Theme.of(context).accentColor,
+                            ));
+                          }));
+                }
+                if (snapshot.hasData &&
+                    snapshot.connectionState == ConnectionState.done) {
+                  return Wrap(
+                    alignment: WrapAlignment.center,
+                    spacing: 2,
+                    children: tarotGame.players.playerList
+                        .map((playerId) => APIMiniPlayerWidget(
+                              playerId: playerId,
+                              displayImage: true,
+                              size: 20,
+                              additionalText:
+                                  ' | ${snapshot.data.getScoreOf(playerId).score.round().toString()}',
+                            ))
+                        .toList()
+                        .cast<Widget>(),
+                  );
+                }
+                return Center(child: Text('error'));
+              },
+              future: tarotGame.scoreService.getScoreByGame(tarotGame.id)),
+          Divider(height: 10, thickness: 2),
+          _ButtonRowWidget(tarotGame: tarotGame),
+        ]));
   }
 }
 
@@ -120,11 +120,8 @@ class _ShowScoreWidgetState extends State<_ShowScoreWidget> {
               },
               future: _teamGame.scoreService
                   .getScoreByGame(_teamGame.id)
-                  .catchError((error) => {
-                        setState(() {
-                          _errorMessage = error.toString();
-                        })
-                      }))),
+                  // ignore: return_of_invalid_type_from_catch_error
+                  .catchError((error) => {_errorMessage = error.toString()}))),
       if (_teamGame.isEnded)
         Padding(
             padding: const EdgeInsets.all(8.0),
@@ -146,81 +143,100 @@ class _ButtonRowWidget extends StatelessWidget {
     return Wrap(alignment: WrapAlignment.spaceAround, spacing: 20, children: <
         Widget>[
       if (!tarotGame.isEnded)
-        RaisedButton.icon(
-            color: Colors.black,
-            textColor: Theme.of(context).cardColor,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(18.0)),
+        ElevatedButton.icon(
+            style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.black),
+                foregroundColor: MaterialStateProperty.all<Color>(
+                    Theme.of(context).cardColor),
+                shape: MaterialStateProperty.all<OutlinedBorder>(
+                    RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                            CustomProperties.borderRadius)))),
             onPressed: () async => {
-              await showDialog(
-                  context: context,
-                  child: WarningDialog(
-                      onConfirm: () async => {
-                        await tarotGame.gameService.endAGame(tarotGame),
-                      },
-                      message:
-                      'Tu es sur le point de terminer cette partie. Les gagnants ainsi que les perdants (honteux) vont être désignés',
-                      title: 'Attention',
-                      color: Colors.black))
-            },
+                  await showDialog(
+                      context: context,
+                      builder: (BuildContext context) => WarningDialog(
+                          onConfirm: () async => {
+                                await tarotGame.gameService.endAGame(tarotGame),
+                              },
+                          message:
+                              'Tu es sur le point de terminer cette partie. Les gagnants ainsi que les perdants (honteux) vont être désignés',
+                          title: 'Attention',
+                          color: Colors.black))
+                },
             label: Text(
               'Arrêter',
             ),
             icon: Icon(Icons.stop))
       else
         Container(),
-      RaisedButton.icon(
-          color: Theme.of(context).errorColor,
-          textColor: Theme.of(context).cardColor,
-          shape:
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0)),
+      ElevatedButton.icon(
+          style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(
+                  Theme.of(context).errorColor),
+              foregroundColor:
+                  MaterialStateProperty.all<Color>(Theme.of(context).cardColor),
+              shape: MaterialStateProperty.all<OutlinedBorder>(
+                  RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                          CustomProperties.borderRadius)))),
           onPressed: () async => {
-            await showDialog(
-                context: context,
-                child: WarningDialog(
-                    onConfirm: () =>
-                    {tarotGame.gameService.deleteGame(tarotGame.id)},
-                    message: 'Tu es sur le point de supprimer une partie.',
-                    title: 'Suppression'))
-          },
+                await showDialog(
+                    context: context,
+                    builder: (BuildContext context) => WarningDialog(
+                        onConfirm: () =>
+                            {tarotGame.gameService.deleteGame(tarotGame.id)},
+                        message: 'Tu es sur le point de supprimer une partie.',
+                        title: 'Suppression'))
+              },
           label: Text(MaterialLocalizations.of(context).deleteButtonTooltip),
           icon: Icon(Icons.delete_forever)),
       if (!tarotGame.isEnded)
-        RaisedButton.icon(
-            color: Theme.of(context).primaryColor,
-            textColor: Theme.of(context).cardColor,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(18.0)),
+        ElevatedButton.icon(
+            style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(
+                    Theme.of(context).primaryColor),
+                foregroundColor: MaterialStateProperty.all<Color>(
+                    Theme.of(context).cardColor),
+                shape: MaterialStateProperty.all<OutlinedBorder>(
+                    RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                            CustomProperties.borderRadius)))),
             onPressed: () async => {
-              Navigator.push(
-                context,
-                CustomRouteOpenFromBottom(
+                  Navigator.push(
+                    context,
+                    CustomRouteOpenFromBottom(
                       builder: (context) => PlayTarotGame(
                         tarotGame: tarotGame,
                       ),
                     ),
-              )
-            },
+                  )
+                },
             label: Text(
               MaterialLocalizations.of(context).continueButtonLabel,
             ),
             icon: Icon(Icons.play_arrow))
       else
-        RaisedButton(
-            color: Theme.of(context).primaryColor,
-            textColor: Theme.of(context).cardColor,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(18.0)),
+        ElevatedButton(
+            style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(
+                    Theme.of(context).primaryColor),
+                foregroundColor: MaterialStateProperty.all<Color>(
+                    Theme.of(context).cardColor),
+                shape: MaterialStateProperty.all<OutlinedBorder>(
+                    RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                            CustomProperties.borderRadius)))),
             onPressed: () async => {
-              Navigator.push(
-                context,
-                CustomRouteOpenFromBottom(
+                  Navigator.push(
+                    context,
+                    CustomRouteOpenFromBottom(
                       builder: (context) => PlayTarotGame(
                         tarotGame: tarotGame,
                       ),
                     ),
-              )
-            },
+                  )
+                },
             child: Text('Consulter les scores')),
     ]);
   }

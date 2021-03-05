@@ -5,10 +5,9 @@ import 'package:carg/services/game/tarot_service.dart';
 import 'package:carg/services/score/tarot_score_service.dart';
 
 class Tarot extends Game<TarotPlayers> {
-
   Tarot({id, startingDate, endingDate, winner, isEnded, players})
       : super(
-      id: id,
+            id: id,
             gameType: GameType.TAROT,
             gameService: TarotService(),
             scoreService: TarotScoreService(),

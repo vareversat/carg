@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 
 class TeamService {
   static const String flavor =
-  String.fromEnvironment('FLAVOR', defaultValue: 'dev');
+      String.fromEnvironment('FLAVOR', defaultValue: 'dev');
   final PlayerService _playerService = PlayerService();
 
   Future<Team> getTeamByPlayers(List<String> playerIds) async {

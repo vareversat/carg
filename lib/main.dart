@@ -66,7 +66,13 @@ class _CargState extends State<Carg> {
             routes: {
               LoginScreen.routeName: (context) => LoginScreen(),
               UserScreen.routeName: (context) => UserScreen(),
-              HomeScreen.routeName: (context) => HomeScreen(requestedIndex : ModalRoute.of(context).settings.arguments ?? 0)
+              HomeScreen.routeName: (context) =>
+                  HomeScreen(
+                      requestedIndex:
+                      ModalRoute
+                          .of(context)
+                          .settings
+                          .arguments ?? 0)
             },
             title: 'Carg',
             theme: ThemeData(

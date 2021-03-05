@@ -1,3 +1,4 @@
+import 'package:carg/styles/properties.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,13 +11,12 @@ class WarningDialog extends StatefulWidget {
   final bool showCancelButton;
   final String onConfirmButtonMessage;
 
-  WarningDialog(
-      {@required this.message,
-      @required this.title,
-      @required this.onConfirm,
-      this.color,
-      this.showCancelButton = true,
-      this.onConfirmButtonMessage});
+  WarningDialog({@required this.message,
+    @required this.title,
+    @required this.onConfirm,
+    this.color,
+    this.showCancelButton = true,
+    this.onConfirmButtonMessage});
 
   @override
   State<StatefulWidget> createState() {
@@ -74,34 +74,57 @@ class _WarningDialogState extends State<WarningDialog> {
         ),
       ),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      content: Text(_message, style: TextStyle(fontSize: 22),),
+      content: Text(
+        _message,
+        style: TextStyle(fontSize: 22),
+      ),
       actions: <Widget>[
         if (_isLoading)
           CircularProgressIndicator()
         else
-          RaisedButton.icon(
-              color: _color ?? Theme.of(context).errorColor,
-              textColor: Theme.of(context).cardColor,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(18.0)),
+          ElevatedButton.icon(
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(
+                      _color ?? Theme
+                          .of(context)
+                          .errorColor),
+                  foregroundColor: MaterialStateProperty.all<Color>(
+                      Theme
+                          .of(context)
+                          .cardColor),
+                  shape: MaterialStateProperty.all<OutlinedBorder>(
+                      RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              CustomProperties.borderRadius)))),
               onPressed: () async => {await _exec(), Navigator.pop(context)},
               label: Text(
                 _onConfirmButtonMessage?.toUpperCase() ??
-                    MaterialLocalizations.of(context).okButtonLabel,
+                    MaterialLocalizations
+                        .of(context)
+                        .okButtonLabel,
               ),
               icon: Icon(Icons.check)),
         if (_showCancelButton)
-          FlatButton.icon(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(18.0),
-                side:
-                    BorderSide(color: _color ?? Theme.of(context).errorColor)),
+          ElevatedButton.icon(
+            style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(
+                    Theme
+                        .of(context)
+                        .cardColor),
+                foregroundColor: MaterialStateProperty.all<Color>(
+                    _color ?? Theme
+                        .of(context)
+                        .errorColor),
+                shape: MaterialStateProperty.all<OutlinedBorder>(
+                    RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                            CustomProperties.borderRadius)))),
             onPressed: () => {Navigator.pop(context)},
-            color: Colors.white,
-            textColor: _color ?? Theme.of(context).errorColor,
             icon: Icon(Icons.close),
             label: Text(
-              MaterialLocalizations.of(context).cancelButtonLabel,
+              MaterialLocalizations
+                  .of(context)
+                  .cancelButtonLabel,
             ),
           )
         else

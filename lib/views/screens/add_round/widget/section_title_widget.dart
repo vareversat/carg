@@ -11,7 +11,6 @@ class SectionTitleWidget extends StatelessWidget {
     return Padding(
         padding: const EdgeInsets.all(8.0),
         child: Center(
-            child: Text(title,
-                style: CustomTextStyle.roundHeadLine(context))));
+            child: Text(title, style: CustomTextStyle.roundHeadLine(context))));
   }
 }

@@ -1,5 +1,3 @@
-
-
 class TarotPlayerScore {
   String player;
   double score;

@@ -23,8 +23,8 @@ class TarotPerkWidget extends StatelessWidget {
         builder: (
           BuildContext context,
         ) {
-          return _HandfulPicker(
-              round.handful, round.handfulTeam, tarotGame.players.playerList.length);
+          return _HandfulPicker(round.handful, round.handfulTeam,
+              tarotGame.players.playerList.length);
         },
       );
     }

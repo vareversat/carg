@@ -17,15 +17,14 @@ class TrickPointsTarotWidget extends StatelessWidget {
           children: [
             Flexible(
               child: MaterialButton(
-                padding: EdgeInsets.zero,
-                onPressed: () {
-                  round.attackTrickPoints--;
-                },
-                color: Theme.of(context).primaryColor,
-                textColor: Colors.white,
-                child: Icon(Icons.chevron_left_outlined),
-                shape: CircleBorder(),
-              ),
+                  padding: EdgeInsets.zero,
+                  onPressed: () {
+                    round.attackTrickPoints--;
+                  },
+                  color: Theme.of(context).primaryColor,
+                  textColor: Colors.white,
+                  shape: CircleBorder(),
+                  child: Icon(Icons.chevron_left_outlined)),
             ),
             Flexible(
               flex: 5,
@@ -43,15 +42,14 @@ class TrickPointsTarotWidget extends StatelessWidget {
             ),
             Flexible(
               child: MaterialButton(
-                onPressed: () {
-                  round.attackTrickPoints++;
-                },
-                color: Theme.of(context).primaryColor,
-                textColor: Colors.white,
-                child: Icon(Icons.chevron_right_outlined),
-                padding: EdgeInsets.zero,
-                shape: CircleBorder(),
-              ),
+                  onPressed: () {
+                    round.attackTrickPoints++;
+                  },
+                  color: Theme.of(context).primaryColor,
+                  textColor: Colors.white,
+                  padding: EdgeInsets.zero,
+                  shape: CircleBorder(),
+                  child: Icon(Icons.chevron_right_outlined)),
             ),
           ],
         ),

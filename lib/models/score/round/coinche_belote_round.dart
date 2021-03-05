@@ -8,24 +8,25 @@ class CoincheBeloteRound extends BeloteRound {
   int _contract;
   CoincheBeloteContractName _contractName;
 
-  CoincheBeloteRound({index,
-    cardColor,
-    contract,
-    contractFulfilled,
-    dixDeDer,
-    beloteRebelote,
-    taker,
-    takerScore,
-    defenderScore,
-    usTrickScore,
-    themTrickScore,
-    contractName,
-    defender})
+  CoincheBeloteRound(
+      {index,
+      cardColor,
+      contract,
+      contractFulfilled,
+      dixDeDer,
+      beloteRebelote,
+      taker,
+      takerScore,
+      defenderScore,
+      usTrickScore,
+      themTrickScore,
+      contractName,
+      defender})
       : super(
-      index: index,
-      cardColor: cardColor,
-      contractFulfilled: contractFulfilled,
-      dixDeDer: dixDeDer,
+            index: index,
+            cardColor: cardColor,
+            contractFulfilled: contractFulfilled,
+            dixDeDer: dixDeDer,
             beloteRebelote: beloteRebelote,
             taker: taker,
             takerScore: takerScore,

@@ -13,5 +13,4 @@ class RealTimeDisplayWidget extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 23)));
   }
-
 }

@@ -2,6 +2,7 @@ import 'package:carg/helpers/custom_route.dart';
 import 'package:carg/models/game/game.dart';
 import 'package:carg/models/game/game_type.dart';
 import 'package:carg/models/player.dart';
+import 'package:carg/styles/properties.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/dialogs/dialogs.dart';
 import 'package:carg/views/screens/play_belote_screen.dart';
@@ -98,11 +99,18 @@ class _PlayerOrderScreenState extends State<PlayerOrderScreen> {
                     height: 50,
                     child: Directionality(
                         textDirection: TextDirection.rtl,
-                        child: RaisedButton.icon(
-                            color: Theme.of(context).primaryColor,
-                            textColor: Theme.of(context).cardColor,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(18.0)),
+                        child: ElevatedButton.icon(
+                            style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        Theme.of(context).primaryColor),
+                                foregroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        Theme.of(context).cardColor),
+                                shape: MaterialStateProperty
+                                    .all<OutlinedBorder>(RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(
+                                            CustomProperties.borderRadius)))),
                             onPressed: () async => {
                                   await _createGame(),
                                   Navigator.pushAndRemoveUntil(

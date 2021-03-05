@@ -1,3 +1,4 @@
+import 'package:carg/styles/properties.dart';
 import 'package:carg/views/screens/change_log_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -34,22 +35,22 @@ class CargAboutDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<PackageInfo>(
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
-        }
-        if (snapshot.connectionState == ConnectionState.none &&
-                snapshot.hasData == null ||
-            snapshot.data == null) {
-          return Text(_errorMessage);
-        }
-        return AlertDialog(
-          insetPadding: const EdgeInsets.symmetric(horizontal: 20),
-          titlePadding: const EdgeInsets.all(20),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 20),
-          actionsPadding: const EdgeInsets.fromLTRB(0, 10, 20, 20),
-          title: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.connectionState == ConnectionState.none &&
+                  snapshot.hasData == null ||
+              snapshot.data == null) {
+            return Text(_errorMessage);
+          }
+          return AlertDialog(
+            insetPadding: const EdgeInsets.symmetric(horizontal: 20),
+            titlePadding: const EdgeInsets.all(20),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 20),
+            actionsPadding: const EdgeInsets.fromLTRB(0, 10, 20, 20),
+            title: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 IconTheme(
                     data: Theme.of(context).iconTheme, child: _iconWidget),
@@ -66,8 +67,8 @@ class CargAboutDialog extends StatelessWidget {
                                     .textTheme
                                     .headline5
                                     .copyWith(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 30)),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 30)),
                             Text(
                                 ' | v${snapshot.data.version}+${snapshot.data.buildNumber}',
                                 style: Theme.of(context).textTheme.bodyText2),
@@ -80,89 +81,108 @@ class CargAboutDialog extends StatelessWidget {
                                 .caption
                                 .copyWith(fontSize: 15)),
                       ],
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-          content: ListBody(
-            children: <Widget>[
+              ],
+            ),
+            shape: RoundedRectangleBorder(
+                borderRadius:
+                    BorderRadius.circular(CustomProperties.borderRadius)),
+            content: ListBody(
+              children: <Widget>[
                 Text(
                   _appInfo,
                   style: TextStyle(fontSize: 18),
                 ),
-                RaisedButton.icon(
+                ElevatedButton.icon(
                     key: ValueKey('sourceCodeButton'),
                     onPressed: () => _launchURL(),
-                    color: Colors.black,
-                    textColor: Theme.of(context).cardColor,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18.0)),
+                    style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all<Color>(Colors.black),
+                        foregroundColor: MaterialStateProperty.all<Color>(
+                            Theme.of(context).cardColor),
+                        shape: MaterialStateProperty.all<OutlinedBorder>(
+                            RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    CustomProperties.borderRadius)))),
                     label: Text(_sourceCode, style: TextStyle(fontSize: 18)),
                     icon: Icon(
                       FontAwesomeIcons.github,
                       size: 20,
                     )),
-              RaisedButton.icon(
-                  color: Theme.of(context).accentColor,
-                    textColor: Theme.of(context).cardColor,
+                ElevatedButton.icon(
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            Theme.of(context).accentColor),
+                        foregroundColor: MaterialStateProperty.all<Color>(
+                            Theme.of(context).cardColor),
+                        shape: MaterialStateProperty.all<OutlinedBorder>(
+                            RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    CustomProperties.borderRadius)))),
                     onPressed: () => Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => ChangeLogScreen(),
                           ),
                         ),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18.0)),
                     label: Text(_changeLog, style: TextStyle(fontSize: 18)),
                     icon: Icon(
                       FontAwesomeIcons.fileCode,
                       size: 20,
                     ))
-            ],
-          ),
-          actions: <Widget>[
-            RaisedButton.icon(
-                color: Theme.of(context).primaryColor,
-                textColor: Theme.of(context).cardColor,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(18.0)),
-                onPressed: () {
-                  showLicensePage(
-                    context: context,
-                    applicationName: snapshot.data.appName,
-                    applicationVersion:
-                        'v${snapshot.data.version}+${snapshot.data.buildNumber}',
-                    applicationIcon: _iconWidget,
-                    applicationLegalese: _legalLease,
-                  );
-                },
+              ],
+            ),
+            actions: <Widget>[
+              ElevatedButton.icon(
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          Theme.of(context).primaryColor),
+                      foregroundColor: MaterialStateProperty.all<Color>(
+                          Theme.of(context).cardColor),
+                      shape: MaterialStateProperty.all<OutlinedBorder>(
+                          RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  CustomProperties.borderRadius)))),
+                  onPressed: () {
+                    showLicensePage(
+                      context: context,
+                      applicationName: snapshot.data.appName,
+                      applicationVersion:
+                          'v${snapshot.data.version}+${snapshot.data.buildNumber}',
+                      applicationIcon: _iconWidget,
+                      applicationLegalese: _legalLease,
+                    );
+                  },
+                  label: Text(
+                    MaterialLocalizations.of(context).viewLicensesButtonLabel,
+                  ),
+                  icon: Icon(
+                    FontAwesomeIcons.fileAlt,
+                    size: 16,
+                  )),
+              ElevatedButton.icon(
+                style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(Colors.white),
+                    foregroundColor: MaterialStateProperty.all<Color>(
+                        Theme.of(context).primaryColor),
+                    shape: MaterialStateProperty.all<OutlinedBorder>(
+                        RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                CustomProperties.borderRadius)))),
+                onPressed: () => {Navigator.pop(context)},
+                icon: Icon(Icons.close),
                 label: Text(
-                  MaterialLocalizations.of(context).viewLicensesButtonLabel,
+                  MaterialLocalizations.of(context).closeButtonLabel,
                 ),
-                icon: Icon(
-                  FontAwesomeIcons.fileAlt,
-                  size: 16,
-                )),
-            FlatButton.icon(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(18.0),
-                  side: BorderSide(color: Theme.of(context).primaryColor)),
-              onPressed: () => {Navigator.pop(context)},
-              color: Colors.white,
-              textColor: Theme.of(context).primaryColor,
-              icon: Icon(Icons.close),
-              label: Text(
-                MaterialLocalizations.of(context).closeButtonLabel,
-              ),
-            )
-          ],
-          scrollable: true,
-        );
-      },
-      future: PackageInfo.fromPlatform()
-    );
+              )
+            ],
+            scrollable: true,
+          );
+        },
+        future: PackageInfo.fromPlatform());
   }
 }

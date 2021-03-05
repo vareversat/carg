@@ -1,5 +1,6 @@
 import 'package:carg/models/player.dart';
 import 'package:carg/services/player_service.dart';
+import 'package:carg/styles/properties.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/dialogs/player_info_dialog.dart';
 import 'package:carg/views/widgets/error_message_widget.dart';
@@ -49,17 +50,28 @@ class _PlayerListScreenState extends State<PlayerListScreen> {
                 children: [
                   Text('Joueurs',
                       style: CustomTextStyle.screenHeadLine1(context)),
-                  RaisedButton.icon(
-                      color: Theme.of(context).accentColor,
-                      textColor: Theme.of(context).cardColor,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18.0)),
-                      onPressed: () async => {
-                            await showDialog(
-                                context: context,
-                                child: PlayerInfoDialog(
+                  ElevatedButton.icon(
+                      style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              Theme
+                                  .of(context)
+                                  .accentColor),
+                          foregroundColor: MaterialStateProperty.all<Color>(
+                              Theme
+                                  .of(context)
+                                  .cardColor),
+                          shape: MaterialStateProperty.all<OutlinedBorder>(
+                              RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                      CustomProperties.borderRadius)))),
+                      onPressed: () async =>
+                      {
+                        await showDialog(
+                            context: context,
+                            builder: (BuildContext context) =>
+                                PlayerInfoDialog(
                                     player: null, isEditing: false))
-                          },
+                      },
                       label: Text('Ajouter un joueur',
                           style: TextStyle(fontSize: 14)),
                       icon: FaIcon(
@@ -94,9 +106,9 @@ class _PlayerListScreenState extends State<PlayerListScreen> {
                       onPressed: () => _resetSearch(),
                       color: Theme.of(context).primaryColor,
                       textColor: Colors.white,
-                      child: Icon(Icons.close),
                       padding: EdgeInsets.all(8),
                       shape: CircleBorder(),
+                      child: Icon(Icons.close),
                     ),
                   ),
                 ],
@@ -142,10 +154,10 @@ class _PlayerListScreenState extends State<PlayerListScreen> {
                         );
                       });
                 },
-                future: _playerService
-                    .getAllPlayers(query: searchQuery)
-                    .catchError(
-                        (onError) => {_errorMessage = onError.toString()}),
+                future:
+                    _playerService.getAllPlayers(query: searchQuery).catchError(
+                        // ignore: return_of_invalid_type_from_catch_error
+                        (error) => {_errorMessage = error.toString()}),
               ),
             ),
           ],

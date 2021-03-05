@@ -1,6 +1,7 @@
 import 'package:carg/models/game/game_type.dart';
 import 'package:carg/models/player.dart';
 import 'package:carg/services/player_service.dart';
+import 'package:carg/styles/properties.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -169,7 +170,6 @@ class _PlayerInfoDialogState extends State<PlayerInfoDialog> {
                   .map(
                     (stat) => Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.baseline,
                       children: <Widget>[
                         SizedBox(
                             width: 100,
@@ -208,32 +208,53 @@ class _PlayerInfoDialogState extends State<PlayerInfoDialog> {
         if (_isLoading)
           CircularProgressIndicator()
         else
-          RaisedButton.icon(
-              color: Theme.of(context).primaryColor,
-              textColor: Theme.of(context).cardColor,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(18.0)),
-              onPressed: () async => _isCreating || _isEditing
+          ElevatedButton.icon(
+              style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(
+                      Theme
+                          .of(context)
+                          .primaryColor),
+                  foregroundColor: MaterialStateProperty.all<Color>(
+                      Theme
+                          .of(context)
+                          .cardColor),
+                  shape: MaterialStateProperty.all<OutlinedBorder>(
+                      RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              CustomProperties.borderRadius)))),
+              onPressed: () async =>
+              _isCreating || _isEditing
                   ? {
-                      await _commitPlayer(),
-                      Navigator.pop(context, 'Joueur mis à jour')
-                    }
+                await _commitPlayer(),
+                Navigator.pop(context, 'Joueur mis à jour')
+              }
                   : Navigator.pop(context),
               label: Text(_isCreating || _isEditing
-                  ? MaterialLocalizations.of(context).okButtonLabel
-                  : MaterialLocalizations.of(context).closeButtonLabel),
-              icon:
-                  Icon(_isCreating || _isEditing ? Icons.check : Icons.close)),
+                  ? MaterialLocalizations
+                  .of(context)
+                  .okButtonLabel
+                  : MaterialLocalizations
+                  .of(context)
+                  .closeButtonLabel),
+              icon: Icon(
+                  _isCreating || _isEditing ? Icons.check : Icons.close)),
         if (_isCreating || _isEditing)
-          FlatButton.icon(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(18.0),
-                side: BorderSide(color: Theme.of(context).primaryColor)),
+          ElevatedButton.icon(
+            style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                foregroundColor: MaterialStateProperty.all<Color>(
+                    Theme
+                        .of(context)
+                        .primaryColor),
+                shape: MaterialStateProperty.all<OutlinedBorder>(
+                    RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                            CustomProperties.borderRadius)))),
             onPressed: () => {Navigator.pop(context, null)},
-            color: Colors.white,
-            textColor: Theme.of(context).primaryColor,
             icon: Icon(Icons.close),
-            label: Text(MaterialLocalizations.of(context).cancelButtonLabel),
+            label: Text(MaterialLocalizations
+                .of(context)
+                .cancelButtonLabel),
           )
         else
           Container(),

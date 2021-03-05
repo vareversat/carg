@@ -3,6 +3,7 @@ import 'package:carg/models/score/belote_score.dart';
 import 'package:carg/models/score/misc/belote_team_enum.dart';
 import 'package:carg/models/score/misc/card_color.dart';
 import 'package:carg/models/score/round/belote_round.dart';
+import 'package:carg/styles/properties.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/dialogs/warning_dialog.dart';
 import 'package:carg/views/screens/add_round/add_belote_round_screen.dart';
@@ -41,32 +42,40 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
   void _deleteLastRound() async {
     await showDialog(
       context: context,
-      child: WarningDialog(
-          onConfirm: () async => {
+      builder: (BuildContext context) =>
+          WarningDialog(
+              onConfirm: () async =>
+              {
                 await _teamGame.scoreService
                     .deleteLastRoundOfGame(_teamGame.id),
               },
-          message:
+              message:
               'Tu es sur le point de supprimer la dernière manche de la partie. Cette action est irréversible',
-          title: 'Attention',
-          color: Theme.of(context).errorColor),
+              title: 'Attention',
+              color: Theme
+                  .of(context)
+                  .errorColor),
     );
   }
 
   void _endGame() async {
     await showDialog(
         context: context,
-        child: WarningDialog(
-          onConfirm: () async => {
-            await _teamGame.gameService.endAGame(_teamGame),
-            await Navigator.of(context)
-                .pushReplacementNamed(HomeScreen.routeName, arguments: 1)
-          },
-          message:
+        builder: (BuildContext context) =>
+            WarningDialog(
+              onConfirm: () async =>
+              {
+                await _teamGame.gameService.endAGame(_teamGame),
+                await Navigator.of(context)
+                    .pushReplacementNamed(HomeScreen.routeName, arguments: 1)
+              },
+              message:
               'Tu es sur le point de terminer cette partie. Les gagnants ainsi que les perdants (honteux) vont être désignés',
-          title: 'Attention',
-          color: Theme.of(context).errorColor,
-        ));
+              title: 'Attention',
+              color: Theme
+                  .of(context)
+                  .errorColor,
+            ));
   }
 
   void _editLastRound() async {
@@ -84,13 +93,14 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
     } on StateError {
       await showDialog(
           context: context,
-          child: WarningDialog(
-            onConfirm: () => {},
-            showCancelButton: false,
-            message: 'Aucune manche n\'est enregistrée pour cette partie',
-            title: 'Erreur',
-            color: Colors.black,
-          ));
+          builder: (BuildContext context) =>
+              WarningDialog(
+                onConfirm: () => {},
+                showCancelButton: false,
+                message: 'Aucune manche n\'est enregistrée pour cette partie',
+                title: 'Erreur',
+                color: Colors.black,
+              ));
     }
   }
 
@@ -120,16 +130,16 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
             decoration: BoxDecoration(
                 border: Border(top: BorderSide(color: Colors.black, width: 1))),
                 child: StreamBuilder<BeloteScore>(
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
-                  }
-                  if (snapshot.hasData) {
-                    return Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Flexible(
-                            child: Row(
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(child: CircularProgressIndicator());
+                      }
+                      if (snapshot.hasData) {
+                        return Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Flexible(
+                                child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
                                 children: <Widget>[
@@ -194,40 +204,38 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
                 alignment: WrapAlignment.spaceEvenly,
                 children: <Widget>[
                   RawMaterialButton(
-                    onPressed: () async => {_deleteLastRound()},
-                    elevation: 2.0,
-                    fillColor: Theme.of(context).errorColor,
-                    textStyle: TextStyle(color: Theme.of(context).cardColor),
-                    child: Icon(
-                      Icons.delete_rounded,
-                      size: 22,
-                    ),
-                    padding: EdgeInsets.all(15.0),
-                    shape: CircleBorder(),
-                  ),
+                      onPressed: () async => {_deleteLastRound()},
+                      elevation: 2.0,
+                      fillColor: Theme.of(context).errorColor,
+                      textStyle: TextStyle(color: Theme.of(context).cardColor),
+                      padding: EdgeInsets.all(15.0),
+                      shape: CircleBorder(),
+                      child: Icon(
+                        Icons.delete_rounded,
+                        size: 22,
+                      )),
                   RawMaterialButton(
-                    onPressed: () async => {_editLastRound()},
-                    elevation: 2.0,
-                    fillColor: Colors.black,
-                    textStyle: TextStyle(color: Theme.of(context).cardColor),
-                    child: Icon(
-                      Icons.edit,
-                      size: 22,
-                    ),
-                    padding: EdgeInsets.all(15.0),
-                    shape: CircleBorder(),
-                  ),
+                      onPressed: () async => {_editLastRound()},
+                      elevation: 2.0,
+                      fillColor: Colors.black,
+                      textStyle: TextStyle(color: Theme.of(context).cardColor),
+                      padding: EdgeInsets.all(15.0),
+                      shape: CircleBorder(),
+                      child: Icon(
+                        Icons.edit,
+                        size: 22,
+                      )),
                   RawMaterialButton(
                     onPressed: () async => {_endGame()},
                     elevation: 2.0,
                     fillColor: Theme.of(context).errorColor,
                     textStyle: TextStyle(color: Theme.of(context).cardColor),
+                    padding: EdgeInsets.all(15.0),
+                    shape: CircleBorder(),
                     child: Icon(
                       Icons.stop,
                       size: 22,
                     ),
-                    padding: EdgeInsets.all(15.0),
-                    shape: CircleBorder(),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -236,17 +244,21 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
                       height: 50,
                       child: Directionality(
                         textDirection: TextDirection.rtl,
-                        child: RaisedButton.icon(
+                        child: ElevatedButton.icon(
+                            style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all<Color>(
+                                    Theme.of(context).primaryColor),
+                                foregroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                        Theme.of(context).cardColor),
+                                shape: MaterialStateProperty.all<OutlinedBorder>(
+                                    RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(
+                                            CustomProperties.borderRadius)))),
                             onPressed: () => {_addNewRound()},
-                            color: Theme.of(context).primaryColor,
-                            textColor: Theme.of(context).cardColor,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(18.0)),
                             icon: Icon(Icons.plus_one, size: 30),
                             label: Text('Nouvelle manche',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 23))),
+                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 23))),
                       ),
                     ),
                   )

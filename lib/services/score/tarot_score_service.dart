@@ -124,7 +124,8 @@ class TarotScoreService extends ScoreService<TarotScore, TarotRound> {
     return TarotRound();
   }
 
-  TarotRound _computePlayerPoints(TarotRound tarotRound, TarotScore tarotScore) {
+  TarotRound _computePlayerPoints(
+      TarotRound tarotRound, TarotScore tarotScore) {
     var _playerPoints = <TarotPlayerScore>[];
     var realAttackScore = tarotRound.players.playerList.length <= 4
         ? tarotRound.attackScore
@@ -146,5 +147,4 @@ class TarotScoreService extends ScoreService<TarotScore, TarotRound> {
     tarotRound.index = tarotScore.rounds.length;
     return tarotRound;
   }
-
 }

@@ -28,7 +28,8 @@ class APIMiniPlayerWidget extends StatelessWidget {
   Future _showEditPlayerDialog(BuildContext context, Player player) async {
     await showDialog(
         context: context,
-        child: PlayerInfoDialog(player: player, isEditing: false));
+        builder: (BuildContext context) =>
+            PlayerInfoDialog(player: player, isEditing: false));
   }
 
   @override

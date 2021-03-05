@@ -1,6 +1,7 @@
 import 'package:carg/models/game/team_game.dart';
 import 'package:carg/models/score/round/belote_round.dart';
 import 'package:carg/models/score/round/coinche_belote_round.dart';
+import 'package:carg/styles/properties.dart';
 import 'package:carg/views/screens/add_round/widget/real_time_display_widget.dart';
 import 'package:carg/views/screens/add_round/widget/screen_title_widget.dart';
 import 'package:carg/views/screens/add_round/widget/team_game/contract_belote_widget.dart';
@@ -68,13 +69,17 @@ class AddBeloteRoundScreen extends StatelessWidget {
                 height: 50,
                 child: Directionality(
                   textDirection: TextDirection.rtl,
-                  child: RaisedButton.icon(
-                      color: Theme.of(context).primaryColor,
-                      textColor: Theme.of(context).cardColor,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18.0)),
-                      onPressed: () async =>
-                          {await _setupRound(), Navigator.pop(context)},
+                  child: ElevatedButton.icon(
+                      style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              Theme.of(context).primaryColor),
+                          foregroundColor: MaterialStateProperty.all<Color>(
+                              Theme.of(context).cardColor),
+                          shape: MaterialStateProperty.all<OutlinedBorder>(
+                              RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                      CustomProperties.borderRadius)))),
+                      onPressed: () => {_setupRound(), Navigator.pop(context)},
                       label: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text('Valider', style: TextStyle(fontSize: 23)),

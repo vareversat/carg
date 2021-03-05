@@ -35,7 +35,7 @@ class AlgoliaHelper {
       'query': query,
     };
     final uri = Uri.https(
-        '${_appID}-dsn.algolia.net', '/1/indexes/player_${flavor}', params);
+        '$_appID-dsn.algolia.net', '/1/indexes/player_$flavor', params);
 
     final response = await http.get(uri, headers: _header);
     var body = json.decode(response.body);

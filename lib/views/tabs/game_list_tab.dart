@@ -62,6 +62,7 @@ class _GameListWidgetState extends State<GameListWidget> {
         return Container();
       },
       future: _gamesFuture
+          // ignore: return_of_invalid_type_from_catch_error
           .catchError((onError) => {_errorMessage = onError.toString()}),
     );
   }

@@ -3,6 +3,7 @@ import 'package:carg/models/players/tarot_round_players.dart';
 import 'package:carg/models/score/round/tarot_round.dart';
 import 'package:carg/models/score/tarot_score.dart';
 import 'package:carg/services/score/tarot_score_service.dart';
+import 'package:carg/styles/properties.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/dialogs/warning_dialog.dart';
 import 'package:carg/views/screens/add_round/add_tarot_round_screen.dart';
@@ -37,44 +38,53 @@ class _PlayTarotGameState extends State<PlayTarotGame> {
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => AddTarotRoundScreen(
-              tarotRound: TarotRound(
-                  players: TarotRoundPlayers(
-                      playerList: _tarotGame.players.playerList)),
-              isEditing: false,
-              tarotGame: _tarotGame)),
+          builder: (context) =>
+              AddTarotRoundScreen(
+                  tarotRound: TarotRound(
+                      players: TarotRoundPlayers(
+                          playerList: _tarotGame.players.playerList)),
+                  isEditing: false,
+                  tarotGame: _tarotGame)),
     );
   }
 
   void _deleteLastRound() async {
     await showDialog(
       context: context,
-      child: WarningDialog(
-          onConfirm: () async => {
+      builder: (BuildContext context) =>
+          WarningDialog(
+              onConfirm: () async =>
+              {
                 await _tarotGame.scoreService
                     .deleteLastRoundOfGame(_tarotGame.id),
               },
-          message:
+              message:
               'Tu es sur le point de supprimer la dernière manche de la partie. Cette action est irréversible',
-          title: 'Attention',
-          color: Theme.of(context).errorColor),
+              title: 'Attention',
+              color: Theme
+                  .of(context)
+                  .errorColor),
     );
   }
 
   void _endGame() async {
     await showDialog(
         context: context,
-        child: WarningDialog(
-          onConfirm: () async => {
-            await _tarotGame.gameService.endAGame(_tarotGame),
-            await Navigator.of(context)
-                .pushReplacementNamed(HomeScreen.routeName, arguments: 1)
-          },
-          message:
+        builder: (BuildContext context) =>
+            WarningDialog(
+              onConfirm: () async =>
+              {
+                await _tarotGame.gameService.endAGame(_tarotGame),
+                await Navigator.of(context)
+                    .pushReplacementNamed(HomeScreen.routeName, arguments: 1)
+              },
+              message:
               'Tu es sur le point de terminer cette partie. Les gagnants ainsi que les perdants (honteux) vont être désignés',
-          title: 'Attention',
-          color: Theme.of(context).errorColor,
-        ));
+              title: 'Attention',
+              color: Theme
+                  .of(context)
+                  .errorColor,
+            ));
   }
 
   void _editLastRound() async {
@@ -85,20 +95,24 @@ class _PlayTarotGameState extends State<PlayTarotGame> {
       await Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => AddTarotRoundScreen(
-                  tarotGame: _tarotGame,
-                  tarotRound: lastRound,
-                  isEditing: true)));
+              builder: (context) =>
+                  AddTarotRoundScreen(
+                      tarotGame: _tarotGame,
+                      tarotRound: lastRound,
+                      isEditing: true)));
     } on StateError {
       await showDialog(
           context: context,
-          child: WarningDialog(
-            onConfirm: () => {},
-            showCancelButton: false,
-            message: 'Aucune manche n\'est enregistrée pour cette partie',
-            title: 'Erreur',
-            color: Theme.of(context).errorColor,
-          ));
+          builder: (BuildContext context) =>
+              WarningDialog(
+                onConfirm: () => {},
+                showCancelButton: false,
+                message: 'Aucune manche n\'est enregistrée pour cette partie',
+                title: 'Erreur',
+                color: Theme
+                    .of(context)
+                    .errorColor,
+              ));
     }
   }
 
@@ -107,7 +121,7 @@ class _PlayTarotGameState extends State<PlayTarotGame> {
     return Scaffold(
         appBar: AppBar(
             title:
-                Text(_title, style: CustomTextStyle.screenHeadLine2(context)),
+            Text(_title, style: CustomTextStyle.screenHeadLine2(context)),
             centerTitle: true,
             automaticallyImplyLeading: false,
             leading: IconButton(
@@ -123,7 +137,10 @@ class _PlayTarotGameState extends State<PlayTarotGame> {
                       itemCount: _tarotGame.players.playerList.length,
                       itemBuilder: (BuildContext context, int index) {
                         return Container(
-                          width: MediaQuery.of(context).size.width /
+                          width: MediaQuery
+                              .of(context)
+                              .size
+                              .width /
                               _tarotGame.players.playerList.length,
                           child: APIMiniPlayerWidget(
                             playerId: _tarotGame.players.playerList[index],
@@ -137,11 +154,11 @@ class _PlayTarotGameState extends State<PlayTarotGame> {
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
                           border: Border(
-                        top: BorderSide(
-                          color: Colors.black,
-                          width: 1,
-                        ),
-                      )),
+                            top: BorderSide(
+                              color: Colors.black,
+                              width: 1,
+                            ),
+                          )),
                       child: StreamBuilder<TarotScore>(
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
@@ -149,8 +166,8 @@ class _PlayTarotGameState extends State<PlayTarotGame> {
                             return Center(child: CircularProgressIndicator());
                           }
                           if (snapshot.connectionState ==
-                                      ConnectionState.none &&
-                                  snapshot.hasData == null ||
+                              ConnectionState.none &&
+                              snapshot.hasData == null ||
                               snapshot.data == null) {
                             return ErrorMessageWidget(message: _errorMessage);
                           }
@@ -160,18 +177,21 @@ class _PlayTarotGameState extends State<PlayTarotGame> {
                                 child: ListView.builder(
                                     scrollDirection: Axis.horizontal,
                                     itemCount:
-                                        _tarotGame.players.playerList.length,
+                                    _tarotGame.players.playerList.length,
                                     itemBuilder:
                                         (BuildContext context, int index) {
                                       return Container(
                                         width:
-                                            MediaQuery.of(context).size.width /
-                                                _tarotGame
-                                                    .players.playerList.length,
+                                        MediaQuery
+                                            .of(context)
+                                            .size
+                                            .width /
+                                            _tarotGame
+                                                .players.playerList.length,
                                         child: _TotalPointsWidget(
                                             totalPoints: snapshot.data
                                                 .getScoreOf(_tarotGame
-                                                    .players.playerList[index])
+                                                .players.playerList[index])
                                                 .score),
                                       );
                                     }),
@@ -185,7 +205,10 @@ class _PlayTarotGameState extends State<PlayTarotGame> {
                                       return Container(
                                           height: 20,
                                           width:
-                                              MediaQuery.of(context).size.width,
+                                          MediaQuery
+                                              .of(context)
+                                              .size
+                                              .width,
                                           child: ListView.builder(
                                               scrollDirection: Axis.horizontal,
                                               itemCount: snapshot
@@ -195,32 +218,33 @@ class _PlayTarotGameState extends State<PlayTarotGame> {
                                                   .length,
                                               itemBuilder:
                                                   (BuildContext context,
-                                                      int playerIndex) {
+                                                  int playerIndex) {
                                                 return Container(
                                                     width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width /
-                                                            _tarotGame
-                                                                .players
-                                                                .playerList
-                                                                .length,
+                                                    MediaQuery
+                                                        .of(context)
+                                                        .size
+                                                        .width /
+                                                        _tarotGame
+                                                            .players
+                                                            .playerList
+                                                            .length,
                                                     child: _RoundDisplay(
                                                         round: snapshot
                                                             .data.rounds[index],
                                                         player: _tarotGame
-                                                                .players
-                                                                .playerList[
-                                                            playerIndex]));
+                                                            .players
+                                                            .playerList[
+                                                        playerIndex]));
                                               }));
                                     }),
                               ),
                               if (!_tarotGame.isEnded)
                                 NextPlayerWidget(
                                     playerId: _tarotGame.players.playerList[
-                                        snapshot.data.rounds.length %
-                                            _tarotGame
-                                                .players.playerList.length]),
+                                    snapshot.data.rounds.length %
+                                        _tarotGame
+                                            .players.playerList.length]),
                             ],
                           );
                         },
@@ -236,41 +260,51 @@ class _PlayTarotGameState extends State<PlayTarotGame> {
                       RawMaterialButton(
                         onPressed: () async => {_deleteLastRound()},
                         elevation: 2.0,
-                        fillColor: Theme.of(context).errorColor,
+                        fillColor: Theme
+                            .of(context)
+                            .errorColor,
                         textStyle:
-                            TextStyle(color: Theme.of(context).cardColor),
+                        TextStyle(color: Theme
+                            .of(context)
+                            .cardColor),
+                        padding: EdgeInsets.all(15.0),
+                        shape: CircleBorder(),
                         child: Icon(
                           Icons.delete_rounded,
                           size: 22,
                         ),
-                        padding: EdgeInsets.all(15.0),
-                        shape: CircleBorder(),
                       ),
                       RawMaterialButton(
                         onPressed: () async => {_editLastRound()},
                         elevation: 2.0,
                         fillColor: Colors.black,
                         textStyle:
-                            TextStyle(color: Theme.of(context).cardColor),
+                        TextStyle(color: Theme
+                            .of(context)
+                            .cardColor),
+                        padding: EdgeInsets.all(15.0),
+                        shape: CircleBorder(),
                         child: Icon(
                           Icons.edit,
                           size: 22,
                         ),
-                        padding: EdgeInsets.all(15.0),
-                        shape: CircleBorder(),
                       ),
                       RawMaterialButton(
                         onPressed: () async => {_endGame()},
                         elevation: 2.0,
-                        fillColor: Theme.of(context).errorColor,
+                        fillColor: Theme
+                            .of(context)
+                            .errorColor,
                         textStyle:
-                            TextStyle(color: Theme.of(context).cardColor),
+                        TextStyle(color: Theme
+                            .of(context)
+                            .cardColor),
+                        padding: EdgeInsets.all(15.0),
+                        shape: CircleBorder(),
                         child: Icon(
                           Icons.stop,
                           size: 22,
                         ),
-                        padding: EdgeInsets.all(15.0),
-                        shape: CircleBorder(),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -279,12 +313,25 @@ class _PlayTarotGameState extends State<PlayTarotGame> {
                           height: 50,
                           child: Directionality(
                             textDirection: TextDirection.rtl,
-                            child: RaisedButton.icon(
+                            child: ElevatedButton.icon(
+                                style: ButtonStyle(
+                                    backgroundColor: MaterialStateProperty.all<
+                                        Color>(
+                                        Theme
+                                            .of(context)
+                                            .primaryColor),
+                                    foregroundColor: MaterialStateProperty.all<
+                                        Color>(
+                                        Theme
+                                            .of(context)
+                                            .cardColor),
+                                    shape: MaterialStateProperty.all<
+                                        OutlinedBorder>(
+                                        RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(
+                                                CustomProperties
+                                                    .borderRadius)))),
                                 onPressed: () => {_addNewRound()},
-                                color: Theme.of(context).primaryColor,
-                                textColor: Theme.of(context).cardColor,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(18.0)),
                                 icon: Icon(Icons.plus_one, size: 30),
                                 label: Text('Nouvelle manche',
                                     style: TextStyle(
@@ -306,7 +353,10 @@ class _RoundDisplay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var score = round.getScoreOf(player).score.round();
+    var score = round
+        .getScoreOf(player)
+        .score
+        .round();
     return Wrap(
       children: [
         Text(score.toString(),

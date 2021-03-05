@@ -14,8 +14,8 @@ class TarotRound extends Round {
   static const double victoryBonus = 25;
   static const double smallToTheEndBonus = 10;
 
-  double _attackScore;
-  double _defenseScore;
+  double attackScore;
+  double defenseScore;
   double _attackTrickPoints;
   double _defenseTrickPoints;
   TarotRoundPlayers players;
@@ -45,8 +45,8 @@ class TarotRound extends Round {
     this.players,
   }) : super(index: index) {
     _oudler = oudler;
-    _attackScore = attackScore ?? 0;
-    _defenseScore = defenseScore ?? 0;
+    this.attackScore = attackScore ?? 0;
+    this.defenseScore = defenseScore ?? 0;
     _contract = contract ?? TarotContract.PETITE;
     _bonus = bonus;
     _oudler = oudler ?? TarotOudler.ONE;
@@ -64,18 +64,6 @@ class TarotRound extends Round {
   set chelem(TarotChelem value) {
     _chelem = value;
     computeRound();
-  }
-
-  double get attackScore => _attackScore;
-
-  set attackScore(double value) {
-    _attackScore = value;
-  }
-
-  double get defenseScore => _defenseScore;
-
-  set defenseScore(double value) {
-    _defenseScore = value;
   }
 
   TarotOudler get oudler => _oudler;
@@ -112,7 +100,6 @@ class TarotRound extends Round {
     _handfulTeam = value;
     computeRound();
   }
-
 
   double get attackTrickPoints => _attackTrickPoints;
 
@@ -262,8 +249,8 @@ class TarotRound extends Round {
 
   @override
   String toString() {
-    return 'TarotRound{_attackScore: $_attackScore, '
-        '_defenseScore: $_defenseScore, '
+    return 'TarotRound{_attackScore: $attackScore, '
+        '_defenseScore: $defenseScore, '
         '_attackTrickPoints: $_attackTrickPoints, '
         '_defenseTrickPoints: $_defenseTrickPoints, '
         'players: $players, '

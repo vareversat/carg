@@ -19,7 +19,6 @@ class PlayerService {
       }
       return players;
     } on PlatformException catch (e) {
-      print(e);
       throw CustomException(e.message);
     }
   }
