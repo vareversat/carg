@@ -62,7 +62,6 @@ abstract class BeloteRound extends Round {
 
   set defender(BeloteTeamEnum value) {
     _defender = value;
-    print('cc');
     computeRound();
   }
 

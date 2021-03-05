@@ -19,7 +19,6 @@ class CustomException implements Exception {
       code = 'ERROR_TOO_MANY_REQUESTS';
       message = 'Erreur : Trop d\'essais de connexion infructeux';
     } else if (rawMessage.contains('ERROR_EMAIL_NOT_VALIDATED')) {
-      print(rawMessage);
       code = 'ERROR_EMAIL_NOT_VALIDATED';
       message = 'Erreur : L\'email n\'est pas encore été validé';
     } else if (rawMessage == 'email-already-in-use') {
