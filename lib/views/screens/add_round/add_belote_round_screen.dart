@@ -46,24 +46,20 @@ class AddBeloteRoundScreen extends StatelessWidget {
           child: Column(
             children: [
               Flexible(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ListView(children: [
-                    TakerTeamWidget(beloteRound: beloteRound!),
-                    Divider(),
-                    TrickPointsBeloteWidget(round: beloteRound!),
-                    Divider(),
-                    beloteRound! is CoincheBeloteRound
-                        ? ContractCoincheWidget(
-                            coincheRound: beloteRound! as CoincheBeloteRound)
-                        : ContractBeloteWidget(
-                            frenchBeloteRound:
-                                beloteRound! as FrenchBeloteRound),
-                    SizedBox(height: 20),
-                    RealTimeDisplayWidget(round: beloteRound!),
-                    SizedBox(height: 20),
-                  ]),
-                ),
+                child: ListView(children: [
+                  TakerTeamWidget(beloteRound: beloteRound!),
+                  Divider(),
+                  TrickPointsBeloteWidget(round: beloteRound!),
+                  Divider(),
+                  beloteRound! is CoincheBeloteRound
+                      ? ContractCoincheWidget(
+                          coincheRound: beloteRound! as CoincheBeloteRound)
+                      : ContractBeloteWidget(
+                          frenchBeloteRound: beloteRound! as FrenchBeloteRound),
+                  SizedBox(height: 20),
+                  RealTimeDisplayWidget(round: beloteRound!),
+                  SizedBox(height: 20),
+                ]),
               ),
               Center(
                   child: SizedBox(
