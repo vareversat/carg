@@ -15,16 +15,13 @@ class CoincheBeloteScore extends BeloteScore<CoincheBeloteRound> {
     return super.toJSON();
   }
 
-  factory CoincheBeloteScore.fromJSON(Map<String, dynamic> json, String id) {
-    if (json == null) {
-      return null;
-    }
+  factory CoincheBeloteScore.fromJSON(Map<String, dynamic>? json, String id) {
     return CoincheBeloteScore(
         id: id,
-        rounds: CoincheBeloteRound.fromJSONList(json['rounds']),
-        usTotalPoints: json['us_total_points'],
-        themTotalPoints: json['them_total_points'],
-        game: json['game']);
+        rounds: CoincheBeloteRound.fromJSONList(json?['rounds']),
+        usTotalPoints: json?['us_total_points'],
+        themTotalPoints: json?['them_total_points'],
+        game: json?['game']);
   }
 
   @override

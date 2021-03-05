@@ -6,12 +6,12 @@ import 'package:carg/services/score/score_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 
-class TarotScoreService extends ScoreService<TarotScore, TarotRound> {
+class TarotScoreService extends ScoreService<TarotScore?, TarotRound> {
   static const String flavor =
       String.fromEnvironment('FLAVOR', defaultValue: 'dev');
 
   @override
-  Future<TarotScore> getScoreByGame(String gameId) async {
+  Future<TarotScore?> getScoreByGame(String? gameId) async {
     try {
       var querySnapshot = await FirebaseFirestore.instance
           .collection('tarot-score-' + flavor)
@@ -23,31 +23,29 @@ class TarotScoreService extends ScoreService<TarotScore, TarotRound> {
       }
       return null;
     } on PlatformException catch (e) {
-      throw Exception('[' + e.code + '] Firebase error ' + e.message);
+      throw Exception('[' + e.code + '] Firebase error ' + e.message!);
     }
   }
 
   @override
-  Stream<TarotScore> getScoreByGameStream(String gameId) {
+  Stream<TarotScore> getScoreByGameStream(String? gameId) {
     try {
       return FirebaseFirestore.instance
           .collection('tarot-score-' + flavor)
           .where('game', isEqualTo: gameId)
           .snapshots()
           .map((event) {
-        if (event.docs[0] == null) {
-          throw CustomException('no_score');
-        }
-        final Map<dynamic, dynamic> value = event.docs[0].data();
-        return TarotScore.fromJSON(value, event.docs[0].id);
+        final Map<dynamic, dynamic>? value = event.docs[0].data();
+        return TarotScore.fromJSON(
+            value as Map<String, dynamic>?, event.docs[0].id);
       });
     } on PlatformException catch (e) {
-      throw Exception('[' + e.code + '] Firebase error ' + e.message);
+      throw Exception('[' + e.code + '] Firebase error ' + e.message!);
     }
   }
 
   @override
-  Future addRoundToGame(String gameId, TarotRound tarotRound) async {
+  Future addRoundToGame(String? gameId, TarotRound tarotRound) async {
     try {
       var tarotScore = await getScoreByGame(gameId);
       if (tarotScore != null) {
@@ -59,12 +57,12 @@ class TarotScoreService extends ScoreService<TarotScore, TarotRound> {
             .update(tarotScore.toJSON());
       }
     } on PlatformException catch (e) {
-      throw Exception('[' + e.code + '] Firebase error ' + e.message);
+      throw Exception('[' + e.code + '] Firebase error ' + e.message!);
     }
   }
 
   @override
-  Future deleteScoreByGame(String gameId) async {
+  Future deleteScoreByGame(String? gameId) async {
     try {
       await FirebaseFirestore.instance
           .collection('tarot-score-' + flavor)
@@ -76,46 +74,46 @@ class TarotScoreService extends ScoreService<TarotScore, TarotRound> {
         }
       });
     } on PlatformException catch (e) {
-      throw Exception('[' + e.code + '] Firebase error ' + e.message);
+      throw Exception('[' + e.code + '] Firebase error ' + e.message!);
     }
   }
 
   @override
-  Future<String> saveScore(TarotScore beloteScore) async {
+  Future<String> saveScore(TarotScore? beloteScore) async {
     try {
       var documentReference = await FirebaseFirestore.instance
           .collection('tarot-score-' + flavor)
-          .add(beloteScore.toJSON());
+          .add(beloteScore!.toJSON());
       return documentReference.id;
     } on PlatformException catch (e) {
-      throw Exception('[' + e.code + '] Firebase error ' + e.message);
+      throw Exception('[' + e.code + '] Firebase error ' + e.message!);
     }
   }
 
   @override
-  Future editLastRoundOfGame(String gameId, TarotRound round) async {
+  Future editLastRoundOfGame(String? gameId, TarotRound round) async {
     var tarotScore = await getScoreByGame(gameId);
-    round = _computePlayerPoints(round, tarotScore);
+    round = _computePlayerPoints(round, tarotScore!);
     tarotScore.replaceLastRound(round);
     await updateScore(tarotScore);
   }
 
   @override
-  Future updateScore(TarotScore score) async {
+  Future updateScore(TarotScore? score) async {
     try {
       await FirebaseFirestore.instance
           .collection('tarot-score-' + flavor)
-          .doc(score.id)
+          .doc(score!.id)
           .update(score.toJSON());
     } on PlatformException catch (e) {
-      throw CustomException(e.message);
+      throw CustomException(e.message!);
     }
   }
 
   @override
-  Future deleteLastRoundOfGame(String gameId) async {
+  Future deleteLastRoundOfGame(String? gameId) async {
     var tarotScore = await getScoreByGame(gameId);
-    tarotScore.removeRound(tarotScore.getLastRound());
+    tarotScore?.removeRound(tarotScore.getLastRound());
     await updateScore(tarotScore);
   }
 
@@ -127,15 +125,15 @@ class TarotScoreService extends ScoreService<TarotScore, TarotRound> {
   TarotRound _computePlayerPoints(
       TarotRound tarotRound, TarotScore tarotScore) {
     var _playerPoints = <TarotPlayerScore>[];
-    var realAttackScore = tarotRound.players.playerList.length <= 4
+    var realAttackScore = tarotRound.players!.playerList!.length <= 4
         ? tarotRound.attackScore
         : tarotRound.attackScore * (2 / 3);
     var calledPlayerScore = tarotRound.attackScore * (1 / 3);
-    for (var player in tarotRound.players.playerList) {
-      if (tarotRound.players.attackPlayer == player) {
+    for (var player in tarotRound.players!.playerList!) {
+      if (tarotRound.players!.attackPlayer == player) {
         _playerPoints
             .add(TarotPlayerScore(player: player, score: realAttackScore));
-      } else if (tarotRound.players.calledPlayer == player) {
+      } else if (tarotRound.players!.calledPlayer == player) {
         _playerPoints
             .add(TarotPlayerScore(player: player, score: calledPlayerScore));
       } else {
@@ -144,7 +142,7 @@ class TarotScoreService extends ScoreService<TarotScore, TarotRound> {
       }
     }
     tarotRound.playerPoints = _playerPoints;
-    tarotRound.index = tarotScore.rounds.length;
+    tarotRound.index = tarotScore.rounds!.length;
     return tarotRound;
   }
 }

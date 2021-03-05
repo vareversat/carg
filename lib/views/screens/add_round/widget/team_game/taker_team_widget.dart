@@ -2,31 +2,39 @@ import 'package:carg/models/score/misc/belote_team_enum.dart';
 import 'package:carg/models/score/round/belote_round.dart';
 import 'package:carg/views/screens/add_round/widget/section_title_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class TakerTeamWidget extends StatelessWidget {
-  final BeloteRound round;
+  final BeloteRound beloteRound;
 
-  const TakerTeamWidget({this.round});
+  const TakerTeamWidget({required this.beloteRound});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          SectionTitleWidget(title: 'Équipe preneuse'),
-          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            _RadioButtonRow(team: BeloteTeamEnum.US, round: round),
-            _RadioButtonRow(team: BeloteTeamEnum.THEM, round: round)
-          ])
-        ]);
+    return ChangeNotifierProvider.value(
+      value: beloteRound..computeRound(),
+      child: Consumer<BeloteRound>(
+        builder: (context, roundData, child) => Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              SectionTitleWidget(title: 'Équipe preneuse'),
+              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                _RadioButtonRow(
+                    team: BeloteTeamEnum.US, beloteRound: roundData),
+                _RadioButtonRow(
+                    team: BeloteTeamEnum.THEM, beloteRound: roundData)
+              ])
+            ]),
+      ),
+    );
   }
 }
 
 class _RadioButtonRow extends StatelessWidget {
   final BeloteTeamEnum team;
-  final BeloteRound round;
+  final BeloteRound beloteRound;
 
-  const _RadioButtonRow({this.team, this.round});
+  const _RadioButtonRow({required this.team, required this.beloteRound});
 
   @override
   Widget build(BuildContext context) {
@@ -38,13 +46,13 @@ class _RadioButtonRow extends StatelessWidget {
           Radio(
               visualDensity: VisualDensity.compact,
               value: team,
-              groupValue: round.taker,
-              onChanged: (BeloteTeamEnum value) {
-                round.taker = value;
+              groupValue: beloteRound.taker,
+              onChanged: (BeloteTeamEnum? value) {
+                beloteRound.taker = value!;
                 if (team == BeloteTeamEnum.US) {
-                  round.defender = BeloteTeamEnum.THEM;
+                  beloteRound.defender = BeloteTeamEnum.THEM;
                 } else {
-                  round.defender = BeloteTeamEnum.US;
+                  beloteRound.defender = BeloteTeamEnum.US;
                 }
               }),
           Text(team.name, style: Theme.of(context).textTheme.bodyText2)

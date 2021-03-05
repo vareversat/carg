@@ -6,9 +6,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class PlayerWidget extends StatelessWidget {
   final Player player;
-  final Function onTap;
+  final Function? onTap;
 
-  PlayerWidget({@required this.player, this.onTap});
+  PlayerWidget({required this.player, this.onTap});
 
   Future _showEditPlayerDialog(BuildContext context) async {
     await showDialog(
@@ -20,7 +20,7 @@ class PlayerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => onTap == null ? _showEditPlayerDialog(context) : onTap(),
+      onTap: () => onTap == null ? _showEditPlayerDialog(context) : onTap!(),
       child: Card(
         margin: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
         elevation: 2,
@@ -56,7 +56,7 @@ class PlayerWidget extends StatelessWidget {
                   Flexible(
                     flex: 6,
                     child: Text(
-                      player.userName,
+                      player.userName!,
                       overflow: TextOverflow.ellipsis,
                       style:
                           TextStyle(fontSize: 25, fontWeight: FontWeight.bold),

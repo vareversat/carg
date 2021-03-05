@@ -12,10 +12,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class PlayerPickerScreen extends StatefulWidget {
-  final Game game;
-  final String title;
+  final Game? game;
+  final String? title;
 
-  PlayerPickerScreen({@required this.game, @required this.title});
+  PlayerPickerScreen({required this.game, required this.title});
 
   @override
   State<StatefulWidget> createState() {
@@ -26,84 +26,85 @@ class PlayerPickerScreen extends StatefulWidget {
 class _PlayerPickerScreenState extends State<PlayerPickerScreen> {
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   final PlayerService _playerService = PlayerService();
-  final Game game;
-  final String title;
-  List<Player> newPlayers;
+  final Game? game;
+  final String? title;
+  List<Player>? newPlayers;
 
-  _PlayerPickerScreenState({@required this.game, @required this.title});
+  _PlayerPickerScreenState({required this.game, required this.title});
 
   Future _getPlayers() async {
     Dialogs.showLoadingDialog(context, _keyLoader, 'Chargement...');
     var playerListTmp = <Player>[];
-    for (var playerId in game.players.playerList) {
+    for (var playerId in game!.players!.playerList!) {
       playerListTmp.add(await _playerService.getPlayer(playerId));
     }
     setState(() {
       newPlayers = playerListTmp;
     });
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    Navigator.of(_keyLoader.currentContext!, rootNavigator: true).pop();
   }
 
   @override
   Widget build(BuildContext context) {
-    game.players.reset();
-    return ChangeNotifierProvider.value(
-      value: game.players,
-      child: Scaffold(
-          appBar: PreferredSize(
-            preferredSize: Size.fromHeight(60),
-            child: AppBar(
-              title:
-                  Text(title, style: CustomTextStyle.screenHeadLine1(context)),
-            ),
+    game!.players!.reset();
+    return Scaffold(
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(60),
+          child: AppBar(
+            title:
+                Text(title!, style: CustomTextStyle.screenHeadLine1(context)),
           ),
-          body: Padding(
-            padding: EdgeInsets.all(10.0),
-            child: Column(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text('Sélection des joueurs',
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                ),
-                Consumer<Players>(
+        ),
+        body: Padding(
+          padding: EdgeInsets.all(10.0),
+          child: Column(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text('Sélection des joueurs',
+                    style:
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              ),
+              ChangeNotifierProvider.value(
+                value: game!.players!,
+                child: Consumer<Players>(
                   builder: (context, playersData, child) => Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(playersData.getSelectedPlayersStatus()),
                   ),
                 ),
-                Flexible(
-                  child: FutureBuilder<List<Player>>(
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(child: CircularProgressIndicator());
-                      }
-                      if (snapshot.connectionState == ConnectionState.none &&
-                          snapshot.hasData == null) {
-                        return Container(
-                            alignment: Alignment.center,
-                            child: Icon(Icons.error));
-                      }
-                      return ListView.builder(
-                          itemCount: snapshot.data.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return ChangeNotifierProvider.value(
-                                value: snapshot.data[index],
-                                child: Consumer<Player>(
-                                    builder: (context, playerData, child) =>
-                                        PlayerWidget(
-                                            player: playerData,
-                                            onTap: () => game.players
-                                                .onSelectedPlayer(
-                                                    playerData))));
-                          });
-                    },
-                    future: _playerService.getAllPlayers(),
-                  ),
+              ),
+              Flexible(
+                child: FutureBuilder<List<Player>>(
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(child: CircularProgressIndicator());
+                    }
+                    if (snapshot.connectionState == ConnectionState.none) {
+                      return Container(
+                          alignment: Alignment.center,
+                          child: Icon(Icons.error));
+                    }
+                    return ListView.builder(
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return ChangeNotifierProvider.value(
+                              value: snapshot.data![index],
+                              child: Consumer<Player>(
+                                  builder: (context, playerData, child) =>
+                                      PlayerWidget(
+                                          player: playerData,
+                                          onTap: () => game!.players!
+                                              .onSelectedPlayer(playerData))));
+                        });
+                  },
+                  future: _playerService.getAllPlayers(),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: ChangeNotifierProvider.value(
+                  value: game!.players!,
                   child: Consumer<Players>(
                       builder: (context, playersData, child) => playersData
                               .isFull()
@@ -127,17 +128,18 @@ class _PlayerPickerScreenState extends State<PlayerPickerScreen> {
                                                         BorderRadius.circular(
                                                             CustomProperties
                                                                 .borderRadius)))),
-                                    onPressed: () async => {
+                                    onPressed: () async =>
+                                    {
                                           await _getPlayers(),
-                                          game.players.reset(),
+                                          game!.players!.reset(),
                                           Navigator.push(
                                               context,
                                               CustomRouteLeftAndRight(
                                                 builder: (context) =>
                                                     PlayerOrderScreen(
-                                                        playerList: newPlayers,
-                                                        title: title,
-                                                        game: game),
+                                                        playerList: newPlayers!,
+                                                        title: title!,
+                                                        game: game!),
                                               ))
                                         },
                                     label: Text('Ordre des joueurs', style: TextStyle(fontSize: 23)),
@@ -148,10 +150,10 @@ class _PlayerPickerScreenState extends State<PlayerPickerScreen> {
                               ),
                             )
                           : Container()),
-                )
-              ],
-            ),
-          )),
-    );
+                ),
+              )
+            ],
+          ),
+        ));
   }
 }

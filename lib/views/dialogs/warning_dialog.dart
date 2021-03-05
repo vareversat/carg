@@ -7,13 +7,13 @@ class WarningDialog extends StatefulWidget {
   final String message;
   final String title;
   final Function onConfirm;
-  final Color color;
+  final Color? color;
   final bool showCancelButton;
-  final String onConfirmButtonMessage;
+  final String? onConfirmButtonMessage;
 
-  WarningDialog({@required this.message,
-    @required this.title,
-    @required this.onConfirm,
+  WarningDialog({required this.message,
+    required this.title,
+    required this.onConfirm,
     this.color,
     this.showCancelButton = true,
     this.onConfirmButtonMessage});
@@ -29,9 +29,9 @@ class _WarningDialogState extends State<WarningDialog> {
   final String _message;
   final String _title;
   final Function _onConfirm;
-  final Color _color;
+  final Color? _color;
   final bool _showCancelButton;
-  final String _onConfirmButtonMessage;
+  final String? _onConfirmButtonMessage;
   bool _isLoading = false;
 
   _WarningDialogState(this._message, this._title, this._onConfirm, this._color,

@@ -1,6 +1,6 @@
 enum CoincheBeloteContractName { NORMAL, COINCHE, SURCOINCHE, CAPOT, GENERALE }
 
-extension CoincheBeloteContractNameExtension on CoincheBeloteContractName {
+extension CoincheBeloteContractNameExtension on CoincheBeloteContractName? {
   String get name {
     switch (this) {
       case CoincheBeloteContractName.NORMAL:
@@ -18,7 +18,7 @@ extension CoincheBeloteContractNameExtension on CoincheBeloteContractName {
     }
   }
 
-  int bonus(int currentScore, int contract) {
+  int bonus(int currentScore, int? contract) {
     switch (this) {
       case CoincheBeloteContractName.NORMAL:
         return currentScore;

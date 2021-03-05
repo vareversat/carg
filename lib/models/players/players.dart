@@ -2,7 +2,7 @@ import 'package:carg/models/player.dart';
 import 'package:flutter/foundation.dart';
 
 abstract class Players with ChangeNotifier {
-  List<String> playerList;
+  List<String?>? playerList;
 
   Players({playerList}) {
     if (playerList == null) {
@@ -30,7 +30,7 @@ abstract class Players with ChangeNotifier {
 
   Map<String, dynamic> toJSON() {
     return {
-      'player_list': playerList.map((e) => e).toList(),
+      'player_list': playerList!.map((e) => e).toList(),
     };
   }
 }

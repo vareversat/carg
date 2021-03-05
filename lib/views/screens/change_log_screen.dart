@@ -16,7 +16,7 @@ class ChangeLogScreen extends StatelessWidget {
             future: rootBundle.loadString(_fileName),
             builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
               if (snapshot.hasData) {
-                return Markdown(data: snapshot.data);
+                return Markdown(data: snapshot.data!);
               }
               return Center(
                 child: CircularProgressIndicator(),

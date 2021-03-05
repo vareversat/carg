@@ -20,22 +20,19 @@ class Tarot extends Game<TarotPlayers> {
   @override
   Map<String, dynamic> toJSON() {
     var tmpJSON = super.toJSON();
-    tmpJSON.addAll({'players': players.toJSON()});
+    tmpJSON.addAll({'players': players!.toJSON()});
     return tmpJSON;
   }
 
-  factory Tarot.fromJSON(Map<String, dynamic> json, String id) {
-    if (json == null) {
-      return null;
-    }
+  factory Tarot.fromJSON(Map<String, dynamic>? json, String id) {
     return Tarot(
         id: id,
-        startingDate: DateTime.parse(json['starting_date']),
-        endingDate: json['ending_date'] != null
-            ? DateTime.parse(json['ending_date'])
+        startingDate: DateTime.parse(json?['starting_date']),
+        endingDate: json?['ending_date'] != null
+            ? DateTime.parse(json?['ending_date'])
             : null,
-        isEnded: json['is_ended'],
-        winner: json['winner'],
-        players: TarotPlayers.fromJSON(json['players']));
+        isEnded: json?['is_ended'],
+        winner: json?['winner'],
+        players: TarotPlayers.fromJSON(json?['players']));
   }
 }

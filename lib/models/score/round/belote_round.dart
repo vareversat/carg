@@ -1,6 +1,7 @@
 import 'package:carg/models/score/misc/belote_team_enum.dart';
 import 'package:carg/models/score/misc/card_color.dart';
 import 'package:carg/models/score/round/round.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:enum_to_string/enum_to_string.dart';
 
 abstract class BeloteRound extends Round {
@@ -8,16 +9,16 @@ abstract class BeloteRound extends Round {
   static const int dixDeDerBonus = 10;
   static const int totalScore = 160;
 
-  CardColor _cardColor;
-  bool contractFulfilled;
-  BeloteTeamEnum _dixDeDer;
-  BeloteTeamEnum _beloteRebelote;
-  BeloteTeamEnum _taker;
-  BeloteTeamEnum _defender;
-  int _takerScore;
-  int _defenderScore;
-  int _usTrickScore;
-  int _themTrickScore;
+  late CardColor _cardColor;
+  late bool contractFulfilled;
+  late BeloteTeamEnum _dixDeDer;
+  BeloteTeamEnum? _beloteRebelote;
+  late BeloteTeamEnum _taker;
+  late BeloteTeamEnum _defender;
+  late int _takerScore;
+  late int _defenderScore;
+  late int _usTrickScore;
+  late int _themTrickScore;
 
   BeloteRound(
       {index,
@@ -61,6 +62,7 @@ abstract class BeloteRound extends Round {
 
   set defender(BeloteTeamEnum value) {
     _defender = value;
+    print('cc');
     computeRound();
   }
 
@@ -71,9 +73,9 @@ abstract class BeloteRound extends Round {
     computeRound();
   }
 
-  BeloteTeamEnum get beloteRebelote => _beloteRebelote;
+  BeloteTeamEnum? get beloteRebelote => _beloteRebelote;
 
-  set beloteRebelote(BeloteTeamEnum value) {
+  set beloteRebelote(BeloteTeamEnum? value) {
     if (_beloteRebelote != value) {
       _beloteRebelote = value;
     } else {
@@ -112,11 +114,11 @@ abstract class BeloteRound extends Round {
 
   int getPointsOfTeam(BeloteTeamEnum team);
 
-  int getBeloteRebeloteOfTeam(BeloteTeamEnum team) {
+  int getBeloteRebeloteOfTeam(BeloteTeamEnum? team) {
     return team == _beloteRebelote ? beloteRebeloteBonus : 0;
   }
 
-  int getDixDeDerOfTeam(BeloteTeamEnum team) {
+  int getDixDeDerOfTeam(BeloteTeamEnum? team) {
     return team == _dixDeDer ? dixDeDerBonus : 0;
   }
 

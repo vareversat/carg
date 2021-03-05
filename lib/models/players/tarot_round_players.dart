@@ -3,17 +3,17 @@ import 'package:carg/models/players/players.dart';
 import 'package:flutter/material.dart';
 
 class TarotRoundPlayers extends Players {
-  String attackPlayer;
-  String calledPlayer;
+  String? attackPlayer;
+  String? calledPlayer;
 
   TarotRoundPlayers({this.attackPlayer, this.calledPlayer, playerList})
       : super(playerList: playerList);
 
-  bool isPlayerSelected(String playerId) {
+  bool isPlayerSelected(String? playerId) {
     return attackPlayer == playerId || calledPlayer == playerId;
   }
 
-  Color getSelectedColor(String playerId, BuildContext context) {
+  Color? getSelectedColor(String? playerId, BuildContext context) {
     if (calledPlayer == playerId) {
       return Colors.yellow;
     }
@@ -23,8 +23,8 @@ class TarotRoundPlayers extends Players {
     return null;
   }
 
-  void onSelectedPlayer2(String player) {
-    if (playerList.length <= 4) {
+  void onSelectedPlayer2(String? player) {
+    if (playerList!.length <= 4) {
       attackPlayer = (player != attackPlayer ? player : null);
     } else {
       if (attackPlayer == null && calledPlayer == null) {
@@ -42,12 +42,12 @@ class TarotRoundPlayers extends Players {
 
   @override
   String getSelectedPlayersStatus() {
-    return 'Joueurs : ' + playerList.length.toString() + '/5';
+    return 'Joueurs : ' + playerList!.length.toString() + '/5';
   }
 
   @override
   bool isFull() {
-    return playerList.length >= 3;
+    return playerList!.length >= 3;
   }
 
   @override
@@ -61,9 +61,6 @@ class TarotRoundPlayers extends Players {
   }
 
   factory TarotRoundPlayers.fromJSON(Map<String, dynamic> json) {
-    if (json == null) {
-      return null;
-    }
     return TarotRoundPlayers(
       attackPlayer: json['attack_player'],
       calledPlayer: json['called_player'],

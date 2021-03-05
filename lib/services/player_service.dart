@@ -19,31 +19,31 @@ class PlayerService {
       }
       return players;
     } on PlatformException catch (e) {
-      throw CustomException(e.message);
+      throw CustomException(e.message!);
     }
   }
 
-  Future incrementPlayedGamesByOne(String id, Game game) async {
+  Future incrementPlayedGamesByOne(String? id, Game game) async {
     try {
       var player = await getPlayer(id);
       game.incrementPlayerPlayedGamesByOne(player);
       await updatePlayer(player);
     } on PlatformException catch (e) {
-      throw CustomException(e.message);
+      throw CustomException(e.message!);
     }
   }
 
-  Future incrementWonGamesByOne(String id, Game game) async {
+  Future incrementWonGamesByOne(String? id, Game game) async {
     try {
       var player = await getPlayer(id);
       game.incrementPlayerWonGamesByOne(player);
       await updatePlayer(player);
     } on PlatformException catch (e) {
-      throw CustomException(e.message);
+      throw CustomException(e.message!);
     }
   }
 
-  Future<Player> getPlayer(String id) async {
+  Future<Player> getPlayer(String? id) async {
     try {
       var querySnapshot = await FirebaseFirestore.instance
           .collection('player-' + flavor)
@@ -55,11 +55,11 @@ class PlayerService {
         throw CustomException('unknown_user');
       }
     } on PlatformException catch (e) {
-      throw CustomException(e.message);
+      throw CustomException(e.message!);
     }
   }
 
-  Future<Player> getPlayerOfUser(String userId) async {
+  Future<Player?> getPlayerOfUser(String? userId) async {
     try {
       var querySnapshot = await FirebaseFirestore.instance
           .collection('player-' + flavor)
@@ -71,7 +71,7 @@ class PlayerService {
       }
       return null;
     } on PlatformException catch (e) {
-      throw CustomException(e.message);
+      throw CustomException(e.message!);
     }
   }
 
@@ -82,7 +82,7 @@ class PlayerService {
           .doc(player.id)
           .update(player.toJSON());
     } on PlatformException catch (e) {
-      throw CustomException(e.message);
+      throw CustomException(e.message!);
     }
   }
 
@@ -93,7 +93,7 @@ class PlayerService {
           .add(player.toJSON());
       return documentReference.id;
     } on PlatformException catch (e) {
-      throw CustomException(e.message);
+      throw CustomException(e.message!);
     }
   }
 
@@ -104,7 +104,7 @@ class PlayerService {
           .doc(player.id)
           .delete();
     } on PlatformException catch (e) {
-      throw CustomException(e.message);
+      throw CustomException(e.message!);
     }
   }
 }

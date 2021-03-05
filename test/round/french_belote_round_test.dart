@@ -15,25 +15,25 @@ void main() {
     });
 
     test('Compute score - fulfilled', () {
-      beloteRound.dixDeDer = null;
+      beloteRound.dixDeDer = BeloteTeamEnum.US;
       expect(beloteRound.contractFulfilled, true);
-      expect(beloteRound.takerScore, 110);
+      expect(beloteRound.takerScore, 120);
       expect(beloteRound.defenderScore, 50);
     });
 
     test('Compute score - fulfilled - BeloteRebelote - US', () {
-      beloteRound.dixDeDer = null;
+      beloteRound.dixDeDer = BeloteTeamEnum.US;
       beloteRound.beloteRebelote = BeloteTeamEnum.US;
       expect(beloteRound.contractFulfilled, true);
-      expect(beloteRound.takerScore, 130);
+      expect(beloteRound.takerScore, 140);
       expect(beloteRound.defenderScore, 50);
     });
 
     test('Compute score - fulfilled - BeloteRebelote - THEM', () {
-      beloteRound.dixDeDer = null;
+      beloteRound.dixDeDer = BeloteTeamEnum.US;
       beloteRound.beloteRebelote = BeloteTeamEnum.THEM;
       expect(beloteRound.contractFulfilled, true);
-      expect(beloteRound.takerScore, 110);
+      expect(beloteRound.takerScore, 120);
       expect(beloteRound.defenderScore, 70);
     });
 
@@ -58,7 +58,7 @@ void main() {
       beloteRound.defender = BeloteTeamEnum.US;
       expect(beloteRound.contractFulfilled, false);
       beloteRound.beloteRebelote = null;
-      beloteRound.dixDeDer = null;
+      beloteRound.dixDeDer = BeloteTeamEnum.US;
       expect(beloteRound.takerScore, 0);
       expect(beloteRound.defenderScore, 160);
     });

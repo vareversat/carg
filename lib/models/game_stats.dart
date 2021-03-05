@@ -1,4 +1,5 @@
 import 'package:carg/models/game/game_type.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:enum_to_string/enum_to_string.dart';
 
 class GameStats {
@@ -6,7 +7,10 @@ class GameStats {
   int wonGames;
   int playedGames;
 
-  GameStats({this.gameType, this.wonGames, this.playedGames});
+  GameStats(
+      {required this.gameType,
+      required this.wonGames,
+      required this.playedGames});
 
   @override
   bool operator ==(Object other) =>
@@ -18,9 +22,6 @@ class GameStats {
           playedGames == other.playedGames;
 
   factory GameStats.fromJSON(Map<String, dynamic> json) {
-    if (json == null) {
-      return null;
-    }
     return GameStats(
         gameType: EnumToString.fromString(GameType.values, json['game_type']),
         wonGames: json['won_games'],
@@ -31,8 +32,8 @@ class GameStats {
     return double.parse(((wonGames * 100) / playedGames).toStringAsFixed(1));
   }
 
-  static List<GameStats> fromJSONList(List<dynamic> jsonList) {
-    return jsonList?.map((json) => GameStats.fromJSON(json))?.toList() ?? [];
+  static List<GameStats> fromJSONList(List<dynamic>? jsonList) {
+    return jsonList?.map((json) => GameStats.fromJSON(json)).toList() ?? [];
   }
 
   Map<String, dynamic> toJSON() {

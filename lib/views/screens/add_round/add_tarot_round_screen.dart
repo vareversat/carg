@@ -14,16 +14,16 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class AddTarotRoundScreen extends StatelessWidget {
-  final Tarot tarotGame;
-  final TarotRound tarotRound;
-  final bool isEditing;
+  final Tarot? tarotGame;
+  final TarotRound? tarotRound;
+  final bool? isEditing;
 
   void _setupRound() async {
-    if (isEditing) {
-      await tarotGame.scoreService
-          .editLastRoundOfGame(tarotGame.id, tarotRound);
+    if (isEditing!) {
+      await tarotGame!.scoreService
+          .editLastRoundOfGame(tarotGame!.id, tarotRound);
     } else {
-      await tarotGame.scoreService.addRoundToGame(tarotGame.id, tarotRound);
+      await tarotGame!.scoreService.addRoundToGame(tarotGame!.id, tarotRound);
     }
   }
 
@@ -44,57 +44,48 @@ class AddTarotRoundScreen extends StatelessWidget {
             children: [
               Flexible(
                 child: ListView(children: [
-                  ChangeNotifierProvider(
-                      create: (BuildContext context) => tarotRound.players,
-                      child: Column(
-                        children: [
-                          SectionTitleWidget(
-                              title: 'Peneur' +
-                                  (tarotRound.players.playerList.length > 4
-                                      ? ' et appelé'
-                                      : '')),
-                          Consumer<TarotRoundPlayers>(
+                  Column(children: [
+                    SectionTitleWidget(
+                        title: 'Peneur' +
+                            (tarotRound!.players!.playerList!.length > 4
+                                ? ' et appelé'
+                                : '')),
+                    ChangeNotifierProvider.value(
+                        value: tarotRound!.players!,
+                        child: Consumer<TarotRoundPlayers>(
                             builder: (context, playerData, _) => Wrap(
-                              alignment: WrapAlignment.center,
-                              spacing: 10,
-                              children: playerData.playerList
-                                  .map((player) => APIMiniPlayerWidget(
-                                      isSelected:
-                                          playerData.isPlayerSelected(player),
-                                      playerId: player,
-                                      displayImage:
-                                          !playerData.isPlayerSelected(player),
-                                      showLoading: false,
-                                      selectedColor: playerData
-                                          .getSelectedColor(player, context),
-                                      size: 20,
-                                      onTap: () =>
-                                          playerData.onSelectedPlayer2(player)))
-                                  .toList()
-                                  .cast<Widget>(),
-                            ),
-                          ),
-                        ],
-                      )),
-                  ChangeNotifierProvider(
-                    create: (BuildContext context) =>
-                        tarotRound..computeRound(),
-                    child: Consumer<TarotRound>(
-                      builder: (context, roundData, _) => Column(children: [
-                        Divider(),
-                        ContractTarotWidget(round: roundData),
-                        Divider(),
-                        OudlerPickerWidget(round: roundData),
-                        Divider(),
-                        TrickPointsTarotWidget(round: roundData),
-                        Divider(),
-                        TarotPerkWidget(round: roundData, tarotGame: tarotGame),
-                        SizedBox(height: 20),
-                        RealTimeDisplayWidget(round: tarotRound),
-                        SizedBox(height: 20),
-                      ]),
-                    ),
-                  ),
+                                alignment: WrapAlignment.center,
+                                spacing: 10,
+                                children: playerData.playerList!
+                                    .map((player) => APIMiniPlayerWidget(
+                                        isSelected:
+                                            playerData.isPlayerSelected(player),
+                                        playerId: player,
+                                        displayImage: !playerData
+                                            .isPlayerSelected(player),
+                                        showLoading: false,
+                                        selectedColor: playerData
+                                            .getSelectedColor(player, context),
+                                        size: 20,
+                                        onTap: () => playerData
+                                            .onSelectedPlayer2(player)))
+                                    .toList()
+                                    .cast<Widget>())))
+                  ]),
+                  Column(children: [
+                    Divider(),
+                    ContractTarotWidget(tarotRound: tarotRound!),
+                    Divider(),
+                    OudlerPickerWidget(tarotRound: tarotRound!),
+                    Divider(),
+                    TrickPointsTarotWidget(tarotRound: tarotRound!),
+                    Divider(),
+                    TarotPerkWidget(
+                        tarotRound: tarotRound!, tarotGame: tarotGame),
+                    SizedBox(height: 20),
+                    RealTimeDisplayWidget(round: tarotRound!),
+                    SizedBox(height: 20),
+                  ]),
                 ]),
               ),
               Center(

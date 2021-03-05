@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 class NavBar extends StatelessWidget {
   final int selectedIndex;
   final double iconSize;
-  final Color backgroundColor;
+  final Color? backgroundColor;
   final bool showElevation;
   final Duration animationDuration;
   final List<BottomNavyBarItem> items;
@@ -14,7 +14,7 @@ class NavBar extends StatelessWidget {
   final Curve curve;
 
   NavBar({
-    Key key,
+    Key? key,
     this.selectedIndex = 0,
     this.showElevation = true,
     this.iconSize = 24,
@@ -22,14 +22,11 @@ class NavBar extends StatelessWidget {
     this.itemCornerRadius = 80,
     this.animationDuration = const Duration(milliseconds: 300),
     this.mainAxisAlignment = MainAxisAlignment.spaceAround,
-    @required this.items,
-    @required this.onItemSelected,
+    required this.items,
+    required this.onItemSelected,
     this.curve = Curves.linear,
   }) {
-    assert(items != null);
     assert(items.length >= 2 && items.length <= 5);
-    assert(onItemSelected != null);
-    assert(curve != null);
   }
 
   @override
@@ -64,7 +61,7 @@ class NavBar extends StatelessWidget {
                   item: item,
                   iconSize: iconSize,
                   isSelected: index == selectedIndex,
-                  backgroundColor: bgColor,
+                  backgroundColor: bgColor!,
                   itemCornerRadius: itemCornerRadius,
                   animationDuration: animationDuration,
                   curve: curve,
@@ -88,22 +85,15 @@ class _ItemWidget extends StatelessWidget {
   final Curve curve;
 
   const _ItemWidget({
-    Key key,
-    @required this.item,
-    @required this.isSelected,
-    @required this.backgroundColor,
-    @required this.animationDuration,
-    @required this.itemCornerRadius,
-    @required this.iconSize,
+    Key? key,
+    required this.item,
+    required this.isSelected,
+    required this.backgroundColor,
+    required this.animationDuration,
+    required this.itemCornerRadius,
+    required this.iconSize,
     this.curve = Curves.linear,
-  })  : assert(isSelected != null),
-        assert(item != null),
-        assert(backgroundColor != null),
-        assert(animationDuration != null),
-        assert(itemCornerRadius != null),
-        assert(iconSize != null),
-        assert(curve != null),
-        super(key: key);
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -161,17 +151,14 @@ class BottomNavyBarItem {
   final Icon icon;
   final Text title;
   final Color activeColor;
-  final Color inactiveColor;
-  final TextAlign textAlign;
+  final Color? inactiveColor;
+  final TextAlign? textAlign;
 
   BottomNavyBarItem({
-    @required this.icon,
-    @required this.title,
+    required this.icon,
+    required this.title,
     this.activeColor = Colors.blue,
     this.textAlign,
     this.inactiveColor,
-  }) {
-    assert(icon != null);
-    assert(title != null);
-  }
+  });
 }

@@ -1,6 +1,6 @@
 enum TarotChelem { PASSED, ANNOUNCED_AND_PASSED, FAILED }
 
-extension TarotChelemExtension on TarotChelem {
+extension TarotChelemExtension on TarotChelem? {
   String get name {
     switch (this) {
       case TarotChelem.PASSED:

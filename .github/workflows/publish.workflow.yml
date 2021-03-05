@@ -24,7 +24,7 @@ jobs:
       - name: 'Checkout source code'
         uses: actions/checkout@v2
       - name: 'Test code'
-        run: flutter test --coverage
+        run: flutter test --coverage --no-sound-null-safety
       - name: 'Upload coverage report'
         uses: codecov/codecov-action@v1.1.1
         with:
@@ -47,7 +47,7 @@ jobs:
         env:
           PASSPHRASE: ${{secrets.PASSPHRASE}}
       - name: 'Build APK'
-        run: flutter build apk --split-per-abi --dart-define=FLAVOR=prod
+        run: flutter build apk --split-per-abi --dart-define=FLAVOR=prod --no-sound-null-safety
         shell: 'bash'
       - name: 'Save APK'
         uses: actions/upload-artifact@v2

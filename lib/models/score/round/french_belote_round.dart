@@ -1,6 +1,7 @@
 import 'package:carg/models/score/misc/belote_team_enum.dart';
 import 'package:carg/models/score/misc/card_color.dart';
 import 'package:carg/models/score/round/belote_round.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:enum_to_string/enum_to_string.dart';
 
 class FrenchBeloteRound extends BeloteRound {
@@ -49,14 +50,15 @@ class FrenchBeloteRound extends BeloteRound {
       : getPointsOfTeam(taker) > 90;
 
   @override
-  int getPointsOfTeam(BeloteTeamEnum team) {
+  int getPointsOfTeam(BeloteTeamEnum? team) {
     switch (team) {
       case BeloteTeamEnum.US:
         return usTrickScore + getDixDeDerOfTeam(BeloteTeamEnum.US);
       case BeloteTeamEnum.THEM:
         return themTrickScore + getDixDeDerOfTeam(BeloteTeamEnum.THEM);
+      case null:
+        return 0;
     }
-    return 0;
   }
 
   @override
@@ -65,9 +67,6 @@ class FrenchBeloteRound extends BeloteRound {
   }
 
   factory FrenchBeloteRound.fromJSON(Map<String, dynamic> json) {
-    if (json == null) {
-      return null;
-    }
     return FrenchBeloteRound(
         index: json['index'],
         cardColor:

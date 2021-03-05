@@ -1,6 +1,6 @@
 enum TarotHandful { SIMPLE, DOUBLE, TRIPLE }
 
-extension TarotHandfulExtension on TarotHandful {
+extension TarotHandfulExtension on TarotHandful? {
   int get perkCount {
     switch (this) {
       case TarotHandful.SIMPLE:
@@ -14,7 +14,7 @@ extension TarotHandfulExtension on TarotHandful {
     }
   }
 
-  int get bonus {
+  int? get bonus {
     switch (this) {
       case TarotHandful.SIMPLE:
         return 20;
@@ -27,7 +27,7 @@ extension TarotHandfulExtension on TarotHandful {
     }
   }
 
-  String get name {
+  String? get name {
     switch (this) {
       case TarotHandful.SIMPLE:
         return 'Simple';

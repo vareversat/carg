@@ -1,6 +1,6 @@
 import 'package:carg/helpers/custom_route.dart';
+import 'package:carg/models/game/belote_game.dart';
 import 'package:carg/models/game/game.dart';
-import 'package:carg/models/game/team_game.dart';
 import 'package:carg/models/score/belote_score.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/views/dialogs/warning_dialog.dart';
@@ -12,9 +12,9 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 
 class BeloteWidget extends StatelessWidget {
-  final Belote teamGame;
+  final Belote beloteGame;
 
-  const BeloteWidget({this.teamGame});
+  const BeloteWidget({required this.beloteGame});
 
   @override
   Widget build(BuildContext context) {
@@ -24,28 +24,30 @@ class BeloteWidget extends StatelessWidget {
         margin: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
         elevation: 2,
         color: Colors.white,
-        child:
-            ExpansionTile(title: CardTitle(game: teamGame), children: <Widget>[
-          Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+        child: ExpansionTile(
+            title: CardTitle(game: beloteGame),
+            children: <Widget>[
+              Column(
                 children: [
-                  TeamWidget(teamId: teamGame.players.us, title: 'Nous'),
-                  TeamWidget(teamId: teamGame.players.them, title: 'Eux'),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TeamWidget(teamId: beloteGame.players!.us, title: 'Nous'),
+                      TeamWidget(
+                          teamId: beloteGame.players!.them, title: 'Eux'),
+                    ],
+                  ),
+                  _ShowScoreWidget(beloteGame: beloteGame),
+                  Divider(height: 10, thickness: 2),
+                  _ButtonRowWidget(beloteGame: beloteGame),
                 ],
-              ),
-              _ShowScoreWidget(teamGame: teamGame),
-              Divider(height: 10, thickness: 2),
-              _ButtonRowWidget(teamGame: teamGame),
-            ],
-          )
-        ]));
+              )
+            ]));
   }
 }
 
 class CardTitle extends StatelessWidget {
-  final Game game;
+  final Game? game;
 
   const CardTitle({this.game});
 
@@ -57,7 +59,8 @@ class CardTitle extends StatelessWidget {
       children: [
         Flexible(
           flex: 2,
-          child: Text(DateFormat('dd/MM/yyyy, HH:mm').format(game.startingDate),
+          child: Text(
+              DateFormat('dd/MM/yyyy, HH:mm').format(game!.startingDate),
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
         ),
         Flexible(
@@ -65,12 +68,12 @@ class CardTitle extends StatelessWidget {
           child: ClipRRect(
               borderRadius: BorderRadius.circular(80.0),
               child: Container(
-                color: game.isEnded
+                color: game!.isEnded!
                     ? Theme.of(context).primaryColor
                     : Theme.of(context).accentColor,
                 height: 30,
                 child: Center(
-                    child: Text(game.isEnded ? 'Terminée' : 'En cours',
+                    child: Text(game!.isEnded! ? 'Terminée' : 'En cours',
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Theme.of(context).cardColor,
@@ -84,28 +87,28 @@ class CardTitle extends StatelessWidget {
 }
 
 class _ShowScoreWidget extends StatefulWidget {
-  final Belote teamGame;
+  final Belote beloteGame;
 
-  const _ShowScoreWidget({this.teamGame});
+  const _ShowScoreWidget({required this.beloteGame});
 
   @override
   State<StatefulWidget> createState() {
-    return _ShowScoreWidgetState(teamGame);
+    return _ShowScoreWidgetState(beloteGame);
   }
 }
 
 class _ShowScoreWidgetState extends State<_ShowScoreWidget> {
-  final Belote _teamGame;
-  String _errorMessage;
+  final Belote _beloteGame;
+  late String _errorMessage = '';
 
-  _ShowScoreWidgetState(this._teamGame);
+  _ShowScoreWidgetState(this._beloteGame);
 
   @override
   Widget build(BuildContext context) {
     return Column(children: [
       Container(
           padding: const EdgeInsets.all(10),
-          child: FutureBuilder<BeloteScore>(
+          child: FutureBuilder<BeloteScore?>(
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(
@@ -123,21 +126,22 @@ class _ShowScoreWidgetState extends State<_ShowScoreWidget> {
                   return Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[
-                        Text(snapshot.data.usTotalPoints.toString(),
+                        Text(snapshot.data!.usTotalPoints.toString(),
                             style: TextStyle(
                                 fontSize: 25, fontWeight: FontWeight.bold)),
-                        Text(snapshot.data.themTotalPoints.toString(),
+                        Text(snapshot.data!.themTotalPoints.toString(),
                             style: TextStyle(
                                 fontSize: 25, fontWeight: FontWeight.bold))
                       ]);
                 }
                 return Center(child: Text(_errorMessage));
               },
-              future: _teamGame.scoreService
-                  .getScoreByGame(_teamGame.id)
-                  // ignore: return_of_invalid_type_from_catch_error
-                  .catchError((error) => {_errorMessage = error.toString()}))),
-      if (_teamGame.isEnded)
+              future: _beloteGame.scoreService
+                      .getScoreByGame(_beloteGame.id)
+                      // ignore: return_of_invalid_type_from_catch_error
+                      .catchError((error) => {_errorMessage = error.toString()})
+                  as Future<BeloteScore?>?)),
+      if (_beloteGame.isEnded!)
         Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text('Partie terminée',
@@ -149,15 +153,15 @@ class _ShowScoreWidgetState extends State<_ShowScoreWidget> {
 }
 
 class _ButtonRowWidget extends StatelessWidget {
-  final Belote teamGame;
+  final Belote? beloteGame;
 
-  const _ButtonRowWidget({this.teamGame});
+  const _ButtonRowWidget({this.beloteGame});
 
   @override
   Widget build(BuildContext context) {
     return Wrap(alignment: WrapAlignment.spaceAround, spacing: 20, children: <
         Widget>[
-      if (!teamGame.isEnded)
+      if (!beloteGame!.isEnded!)
         ElevatedButton.icon(
             style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(Colors.black),
@@ -171,8 +175,10 @@ class _ButtonRowWidget extends StatelessWidget {
                   await showDialog(
                       context: context,
                       builder: (BuildContext context) => WarningDialog(
-                          onConfirm: () async => {
-                                await teamGame.gameService.endAGame(teamGame),
+                          onConfirm: () async =>
+                          {
+                                await beloteGame!.gameService
+                                    .endAGame(beloteGame),
                               },
                           message:
                               'Tu es sur le point de terminer cette partie. Les gagnants ainsi que les perdants (honteux) vont être désignés',
@@ -199,14 +205,15 @@ class _ButtonRowWidget extends StatelessWidget {
                 await showDialog(
                     context: context,
                     builder: (BuildContext context) => WarningDialog(
-                        onConfirm: () =>
-                            {teamGame.gameService.deleteGame(teamGame.id)},
+                        onConfirm: () => {
+                              beloteGame!.gameService.deleteGame(beloteGame!.id)
+                            },
                         message: 'Tu es sur le point de supprimer une partie.',
                         title: 'Suppression'))
               },
           label: Text(MaterialLocalizations.of(context).deleteButtonTooltip),
           icon: Icon(Icons.delete_forever)),
-      if (!teamGame.isEnded)
+      if (!beloteGame!.isEnded!)
         ElevatedButton.icon(
             style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(
@@ -222,7 +229,7 @@ class _ButtonRowWidget extends StatelessWidget {
                     context,
                     CustomRouteOpenFromBottom(
                       builder: (context) => PlayBeloteScreen(
-                        teamGame: teamGame,
+                        teamGame: beloteGame,
                       ),
                     ),
                   )
@@ -247,7 +254,7 @@ class _ButtonRowWidget extends StatelessWidget {
                     context,
                     CustomRouteOpenFromBottom(
                       builder: (context) => PlayBeloteScreen(
-                        teamGame: teamGame,
+                        teamGame: beloteGame,
                       ),
                     ),
                   )

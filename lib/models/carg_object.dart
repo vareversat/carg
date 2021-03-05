@@ -1,5 +1,5 @@
 abstract class CargObject {
-  String id;
+  String? id;
 
   CargObject({this.id});
 

@@ -10,8 +10,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 
 class TarotService extends GameService<Tarot, TarotPlayers> {
-  TarotScoreService _tarotScoreService;
-  PlayerService _playerService;
+  late TarotScoreService _tarotScoreService;
+  late PlayerService _playerService;
   static const String flavor =
       String.fromEnvironment('FLAVOR', defaultValue: 'dev');
 
@@ -21,7 +21,7 @@ class TarotService extends GameService<Tarot, TarotPlayers> {
   }
 
   @override
-  Future<List<Tarot>> getAllGames(String playerId) async {
+  Future<List<Tarot>> getAllGames(String? playerId) async {
     try {
       var beloteGames = <Tarot>[];
       var querySnapshot = await FirebaseFirestore.instance
@@ -34,7 +34,7 @@ class TarotService extends GameService<Tarot, TarotPlayers> {
       }
       return beloteGames;
     } on PlatformException catch (e) {
-      throw Exception('[' + e.code + '] Firebase error ' + e.message);
+      throw Exception('[' + e.code + '] Firebase error ' + e.message!);
     }
   }
 
@@ -47,12 +47,12 @@ class TarotService extends GameService<Tarot, TarotPlayers> {
           .get();
       return Tarot.fromJSON(querySnapshot.data(), querySnapshot.id);
     } on PlatformException catch (e) {
-      throw Exception('[' + e.code + '] Firebase error ' + e.message);
+      throw Exception('[' + e.code + '] Firebase error ' + e.message!);
     }
   }
 
   @override
-  Future deleteGame(String id) async {
+  Future deleteGame(String? id) async {
     try {
       await FirebaseFirestore.instance
           .collection('tarot-game-' + flavor)
@@ -60,12 +60,12 @@ class TarotService extends GameService<Tarot, TarotPlayers> {
           .delete();
       await _tarotScoreService.deleteScoreByGame(id);
     } on PlatformException catch (e) {
-      throw Exception('[' + e.code + '] Firebase error ' + e.message);
+      throw Exception('[' + e.code + '] Firebase error ' + e.message!);
     }
   }
 
   @override
-  Future<Tarot> createGameWithPlayerList(List<String> playerList) async {
+  Future<Tarot> createGameWithPlayerList(List<String?> playerList) async {
     try {
       var tarotGame = Tarot(
           isEnded: false,
@@ -80,15 +80,15 @@ class TarotService extends GameService<Tarot, TarotPlayers> {
       await _tarotScoreService.saveScore(tarotScore);
       return tarotGame;
     } on PlatformException catch (e) {
-      throw Exception('[' + e.code + '] Firebase error ' + e.message);
+      throw Exception('[' + e.code + '] Firebase error ' + e.message!);
     }
   }
 
   @override
   Future endAGame(Tarot game) async {
     try {
-      TarotPlayerScore winner;
-      game.players.playerList.forEach((player) async =>
+      TarotPlayerScore? winner;
+      game.players!.playerList!.forEach((player) async =>
           {await _playerService.incrementPlayedGamesByOne(player, game)});
       var score = await _tarotScoreService.getScoreByGame(game.id);
       var totalPoints = score?.totalPoints;
@@ -106,7 +106,7 @@ class TarotService extends GameService<Tarot, TarotPlayers> {
         'winner': winner?.player
       });
     } on PlatformException catch (e) {
-      throw Exception('[' + e.code + '] Firebase error ' + e.message);
+      throw Exception('[' + e.code + '] Firebase error ' + e.message!);
     }
   }
 }

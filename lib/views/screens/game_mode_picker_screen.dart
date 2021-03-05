@@ -55,7 +55,7 @@ class GameModePickerScreen extends StatelessWidget {
 }
 
 class _GameModeButton extends StatelessWidget {
-  final Game game;
+  final Game? game;
 
   const _GameModeButton({this.game});
 
@@ -67,7 +67,7 @@ class _GameModeButton extends StatelessWidget {
             context,
             CustomRouteLeftAndRight(
                 builder: (context) => PlayerPickerScreen(
-                    game: game, title: game.getGameTypeName())))
+                    game: game, title: game!.getGameTypeName())))
       },
       child: Card(
         shape: RoundedRectangleBorder(
@@ -78,7 +78,7 @@ class _GameModeButton extends StatelessWidget {
           children: [
             Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text(game.getGameTypeName(),
+                child: Text(game!.getGameTypeName()!,
                     style: TextStyle(fontSize: 20))),
           ],
         ),

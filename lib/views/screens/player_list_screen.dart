@@ -21,7 +21,7 @@ class PlayerListScreen extends StatefulWidget {
 class _PlayerListScreenState extends State<PlayerListScreen> {
   final PlayerService _playerService = PlayerService();
   final _searchTextController = TextEditingController();
-  String _errorMessage;
+  String? _errorMessage;
   String searchQuery = '';
 
   void _resetSearch() {
@@ -53,25 +53,20 @@ class _PlayerListScreenState extends State<PlayerListScreen> {
                   ElevatedButton.icon(
                       style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all<Color>(
-                              Theme
-                                  .of(context)
-                                  .accentColor),
+                              Theme.of(context).accentColor),
                           foregroundColor: MaterialStateProperty.all<Color>(
-                              Theme
-                                  .of(context)
-                                  .cardColor),
+                              Theme.of(context).cardColor),
                           shape: MaterialStateProperty.all<OutlinedBorder>(
                               RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(
                                       CustomProperties.borderRadius)))),
-                      onPressed: () async =>
-                      {
-                        await showDialog(
-                            context: context,
-                            builder: (BuildContext context) =>
-                                PlayerInfoDialog(
-                                    player: null, isEditing: false))
-                      },
+                      onPressed: () async => {
+                            await showDialog(
+                                context: context,
+                                builder: (BuildContext context) =>
+                                    PlayerInfoDialog(
+                                        player: null, isEditing: false))
+                          },
                       label: Text('Ajouter un joueur',
                           style: TextStyle(fontSize: 14)),
                       icon: FaIcon(
@@ -126,12 +121,11 @@ class _PlayerListScreenState extends State<PlayerListScreen> {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(child: CircularProgressIndicator());
                   }
-                  if (snapshot.connectionState == ConnectionState.none &&
-                          snapshot.hasData == null ||
+                  if (snapshot.connectionState == ConnectionState.none ||
                       snapshot.data == null) {
                     return ErrorMessageWidget(message: _errorMessage);
                   }
-                  if (snapshot.data.isEmpty) {
+                  if (snapshot.data!.isEmpty) {
                     return Center(
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -144,10 +138,10 @@ class _PlayerListScreenState extends State<PlayerListScreen> {
                     );
                   }
                   return ListView.builder(
-                      itemCount: snapshot.data.length,
+                      itemCount: snapshot.data!.length,
                       itemBuilder: (BuildContext context, int index) {
                         return ChangeNotifierProvider.value(
-                          value: snapshot.data[index],
+                          value: snapshot.data![index],
                           child: Consumer<Player>(
                               builder: (context, playerData, child) =>
                                   PlayerWidget(player: playerData)),

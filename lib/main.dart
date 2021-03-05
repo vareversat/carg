@@ -70,9 +70,9 @@ class _CargState extends State<Carg> {
                   HomeScreen(
                       requestedIndex:
                       ModalRoute
-                          .of(context)
+                          .of(context)!
                           .settings
-                          .arguments ?? 0)
+                          .arguments as int? ?? 0)
             },
             title: 'Carg',
             theme: ThemeData(
@@ -91,7 +91,7 @@ class _CargState extends State<Carg> {
                     return SplashScreen();
                   }
                   if (authResult.connectionState == ConnectionState.done) {
-                    if (authResult.data) {
+                    if (authResult.data!) {
                       return HomeScreen(requestedIndex: 0);
                     } else {
                       return LoginScreen();

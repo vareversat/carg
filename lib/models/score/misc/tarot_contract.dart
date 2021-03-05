@@ -5,7 +5,7 @@ enum TarotContract {
   GARDE_CONTRE,
 }
 
-extension TarotContractExtension on TarotContract {
+extension TarotContractExtension on TarotContract? {
   int get multiplayer {
     switch (this) {
       case TarotContract.PETITE:

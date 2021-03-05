@@ -1,4 +1,4 @@
-import 'package:carg/models/game/team_game.dart';
+import 'package:carg/models/game/belote_game.dart';
 import 'package:carg/models/score/belote_score.dart';
 import 'package:carg/models/score/misc/belote_team_enum.dart';
 import 'package:carg/models/score/misc/card_color.dart';
@@ -15,9 +15,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class PlayBeloteScreen extends StatefulWidget {
-  final Belote teamGame;
+  final Belote? teamGame;
 
-  const PlayBeloteScreen({@required this.teamGame});
+  const PlayBeloteScreen({required this.teamGame});
 
   @override
   State<StatefulWidget> createState() {
@@ -26,8 +26,8 @@ class PlayBeloteScreen extends StatefulWidget {
 }
 
 class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
-  final Belote _teamGame;
-  String _errorMessage;
+  final Belote? _teamGame;
+  String? _errorMessage;
 
   void _addNewRound() {
     Navigator.push(
@@ -35,66 +35,58 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
       MaterialPageRoute(
           builder: (context) => AddBeloteRoundScreen(
               teamGame: _teamGame,
-              teamGameRound: _teamGame.scoreService.getNewRound())),
+              beloteRound:
+                  _teamGame!.scoreService.getNewRound() as BeloteRound?)),
     );
   }
 
   void _deleteLastRound() async {
     await showDialog(
       context: context,
-      builder: (BuildContext context) =>
-          WarningDialog(
-              onConfirm: () async =>
-              {
-                await _teamGame.scoreService
-                    .deleteLastRoundOfGame(_teamGame.id),
+      builder: (BuildContext context) => WarningDialog(
+          onConfirm: () async => {
+                await _teamGame!.scoreService
+                    .deleteLastRoundOfGame(_teamGame!.id),
               },
-              message:
+          message:
               'Tu es sur le point de supprimer la dernière manche de la partie. Cette action est irréversible',
-              title: 'Attention',
-              color: Theme
-                  .of(context)
-                  .errorColor),
+          title: 'Attention',
+          color: Theme.of(context).errorColor),
     );
   }
 
   void _endGame() async {
     await showDialog(
         context: context,
-        builder: (BuildContext context) =>
-            WarningDialog(
-              onConfirm: () async =>
-              {
-                await _teamGame.gameService.endAGame(_teamGame),
+        builder: (BuildContext context) => WarningDialog(
+              onConfirm: () async => {
+                await _teamGame!.gameService.endAGame(_teamGame),
                 await Navigator.of(context)
                     .pushReplacementNamed(HomeScreen.routeName, arguments: 1)
               },
               message:
-              'Tu es sur le point de terminer cette partie. Les gagnants ainsi que les perdants (honteux) vont être désignés',
+                  'Tu es sur le point de terminer cette partie. Les gagnants ainsi que les perdants (honteux) vont être désignés',
               title: 'Attention',
-              color: Theme
-                  .of(context)
-                  .errorColor,
+              color: Theme.of(context).errorColor,
             ));
   }
 
   void _editLastRound() async {
     var lastRound;
     try {
-      lastRound = (await _teamGame.scoreService.getScoreByGame(_teamGame.id))
+      lastRound = (await _teamGame!.scoreService.getScoreByGame(_teamGame!.id))!
           .getLastRound();
       await Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => AddBeloteRoundScreen(
                   teamGame: _teamGame,
-                  teamGameRound: lastRound,
+                  beloteRound: lastRound,
                   isEditing: true)));
     } on StateError {
       await showDialog(
           context: context,
-          builder: (BuildContext context) =>
-              WarningDialog(
+          builder: (BuildContext context) => WarningDialog(
                 onConfirm: () => {},
                 showCancelButton: false,
                 message: 'Aucune manche n\'est enregistrée pour cette partie',
@@ -110,7 +102,7 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            title: Text(_teamGame.getGameTypeName(),
+            title: Text(_teamGame!.getGameTypeName()!,
                 style: CustomTextStyle.screenHeadLine2(context)),
             centerTitle: true,
             automaticallyImplyLeading: false,
@@ -121,33 +113,34 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
           Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(children: <Widget>[
-                TeamWidget(teamId: _teamGame.players.us, title: 'Nous'),
-                TeamWidget(teamId: _teamGame.players.them, title: 'Eux')
+                TeamWidget(teamId: _teamGame!.players!.us, title: 'Nous'),
+                TeamWidget(teamId: _teamGame!.players!.them, title: 'Eux')
               ])),
           Flexible(
               child: Container(
-            padding: const EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
                 border: Border(top: BorderSide(color: Colors.black, width: 1))),
-                child: StreamBuilder<BeloteScore>(
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(child: CircularProgressIndicator());
-                      }
-                      if (snapshot.hasData) {
-                        return Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Flexible(
-                                child: Row(
+            child: StreamBuilder<BeloteScore?>(
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                  if (snapshot.hasData) {
+                    return Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Flexible(
+                            child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
                                 children: <Widget>[
                                   _TotalPointsWidget(
-                                      totalPoints: snapshot.data.usTotalPoints),
+                                      totalPoints:
+                                          snapshot.data!.usTotalPoints),
                                   _TotalPointsWidget(
                                       totalPoints:
-                                          snapshot.data.themTotalPoints)
+                                          snapshot.data!.themTotalPoints)
                                 ]),
                           ),
                           Flexible(
@@ -155,7 +148,7 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
                               child: Padding(
                                 padding: const EdgeInsets.only(bottom: 8.0),
                                 child: ListView.builder(
-                                    itemCount: snapshot.data.rounds.length,
+                                    itemCount: snapshot.data!.rounds!.length,
                                     itemBuilder:
                                         (BuildContext context, int index) {
                                       return Row(
@@ -166,38 +159,42 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
                                                 flex: 3,
                                                 child: _RoundDisplay(
                                                     round: snapshot
-                                                        .data.rounds[index],
+                                                        .data!.rounds![index],
                                                     team: BeloteTeamEnum.US)),
                                             Flexible(
                                                 child: Text(
-                                                    snapshot.data.rounds[index]
-                                                        .cardColor.symbol,
+                                                    snapshot
+                                                        .data!
+                                                        .rounds![index]
+                                                        .cardColor
+                                                        .symbol,
                                                     style: TextStyle(
                                                         fontSize: 15))),
                                             Flexible(
                                                 flex: 3,
                                                 child: _RoundDisplay(
                                                     round: snapshot
-                                                        .data.rounds[index],
+                                                        .data!.rounds![index],
                                                     team: BeloteTeamEnum.THEM))
                                           ]);
                                     }),
                               )),
-                          if (!_teamGame.isEnded)
+                          if (!_teamGame!.isEnded!)
                             NextPlayerWidget(
-                                playerId: _teamGame.players.playerList[
-                                    snapshot.data.rounds.length % 4]),
+                                playerId: _teamGame!.players!.playerList![
+                                    snapshot.data!.rounds!.length % 4]),
                         ]);
                   } else {
                     return ErrorMessageWidget(message: _errorMessage);
                   }
                 },
-                stream: _teamGame.scoreService
-                    .getScoreByGameStream(_teamGame.id)
-                    .handleError(
-                        (error) => {_errorMessage = error.toString()})),
+                stream: _teamGame!.scoreService
+                        .getScoreByGameStream(_teamGame!.id)
+                        .handleError(
+                            (error) => {_errorMessage = error.toString()})
+                    as Stream<BeloteScore<BeloteRound>?>?),
           )),
-          if (!_teamGame.isEnded)
+          if (!_teamGame!.isEnded!)
             Wrap(
                 runSpacing: 10,
                 spacing: 10,
@@ -268,12 +265,12 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
 }
 
 class _RoundDisplay extends StatelessWidget {
-  final BeloteRound round;
-  final BeloteTeamEnum team;
+  final BeloteRound? round;
+  final BeloteTeamEnum? team;
 
   const _RoundDisplay({this.round, this.team});
 
-  int _getScore(BeloteRound teamGameRound, BeloteTeamEnum teamGameEnum) {
+  int? _getScore(BeloteRound teamGameRound, BeloteTeamEnum? teamGameEnum) {
     if (teamGameEnum == teamGameRound.taker) {
       return teamGameRound.takerScore;
     } else {
@@ -290,10 +287,10 @@ class _RoundDisplay extends StatelessWidget {
         children: [
           Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5),
-              child: Text(_getScore(round, team).toString(),
+              child: Text(_getScore(round!, team).toString(),
                   style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold))),
-          if (round.taker == team)
-            if (round.contractFulfilled)
+          if (round!.taker == team)
+            if (round!.contractFulfilled)
               Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 5),
                   child: FaIcon(FontAwesomeIcons.solidCheckCircle,
@@ -305,13 +302,13 @@ class _RoundDisplay extends StatelessWidget {
                       size: 10, color: Colors.red))
           else
             Container(),
-          if (round.dixDeDer == team)
+          if (round!.dixDeDer == team)
             Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 5),
                 child: Text('+10', style: TextStyle(fontSize: 15)))
           else
             Container(),
-          if (round.beloteRebelote == team)
+          if (round!.beloteRebelote == team)
             Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 5),
                 child: Row(children: [
@@ -326,7 +323,7 @@ class _RoundDisplay extends StatelessWidget {
 }
 
 class _TotalPointsWidget extends StatelessWidget {
-  final int totalPoints;
+  final int? totalPoints;
 
   const _TotalPointsWidget({this.totalPoints});
 

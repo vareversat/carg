@@ -16,9 +16,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class PlayTarotGame extends StatefulWidget {
-  final Tarot tarotGame;
+  final Tarot? tarotGame;
 
-  const PlayTarotGame({@required this.tarotGame});
+  const PlayTarotGame({required this.tarotGame});
 
   @override
   State<StatefulWidget> createState() {
@@ -27,7 +27,7 @@ class PlayTarotGame extends StatefulWidget {
 }
 
 class _PlayTarotGameState extends State<PlayTarotGame> {
-  final Tarot _tarotGame;
+  final Tarot? _tarotGame;
   final String _errorMessage = 'Error';
   final String _title = 'Tarot';
   final TarotScoreService _tarotScoreService = TarotScoreService();
@@ -42,7 +42,7 @@ class _PlayTarotGameState extends State<PlayTarotGame> {
               AddTarotRoundScreen(
                   tarotRound: TarotRound(
                       players: TarotRoundPlayers(
-                          playerList: _tarotGame.players.playerList)),
+                          playerList: _tarotGame!.players!.playerList)),
                   isEditing: false,
                   tarotGame: _tarotGame)),
     );
@@ -55,8 +55,8 @@ class _PlayTarotGameState extends State<PlayTarotGame> {
           WarningDialog(
               onConfirm: () async =>
               {
-                await _tarotGame.scoreService
-                    .deleteLastRoundOfGame(_tarotGame.id),
+                await _tarotGame!.scoreService
+                    .deleteLastRoundOfGame(_tarotGame!.id),
               },
               message:
               'Tu es sur le point de supprimer la dernière manche de la partie. Cette action est irréversible',
@@ -74,7 +74,7 @@ class _PlayTarotGameState extends State<PlayTarotGame> {
             WarningDialog(
               onConfirm: () async =>
               {
-                await _tarotGame.gameService.endAGame(_tarotGame),
+                await _tarotGame!.gameService.endAGame(_tarotGame),
                 await Navigator.of(context)
                     .pushReplacementNamed(HomeScreen.routeName, arguments: 1)
               },
@@ -90,8 +90,9 @@ class _PlayTarotGameState extends State<PlayTarotGame> {
   void _editLastRound() async {
     var lastRound;
     try {
-      lastRound = (await _tarotGame.scoreService.getScoreByGame(_tarotGame.id))
-          .getLastRound();
+      lastRound =
+          (await _tarotGame!.scoreService.getScoreByGame(_tarotGame!.id))!
+              .getLastRound();
       await Navigator.push(
           context,
           MaterialPageRoute(
@@ -134,16 +135,16 @@ class _PlayTarotGameState extends State<PlayTarotGame> {
                   child: ListView.builder(
                       shrinkWrap: true,
                       scrollDirection: Axis.horizontal,
-                      itemCount: _tarotGame.players.playerList.length,
+                      itemCount: _tarotGame!.players!.playerList!.length,
                       itemBuilder: (BuildContext context, int index) {
                         return Container(
                           width: MediaQuery
                               .of(context)
                               .size
                               .width /
-                              _tarotGame.players.playerList.length,
+                              _tarotGame!.players!.playerList!.length,
                           child: APIMiniPlayerWidget(
-                            playerId: _tarotGame.players.playerList[index],
+                            playerId: _tarotGame!.players!.playerList![index],
                             displayImage: true,
                           ),
                         );
@@ -166,9 +167,7 @@ class _PlayTarotGameState extends State<PlayTarotGame> {
                             return Center(child: CircularProgressIndicator());
                           }
                           if (snapshot.connectionState ==
-                              ConnectionState.none &&
-                              snapshot.hasData == null ||
-                              snapshot.data == null) {
+                              ConnectionState.none && snapshot.data == null) {
                             return ErrorMessageWidget(message: _errorMessage);
                           }
                           return Column(
@@ -177,7 +176,7 @@ class _PlayTarotGameState extends State<PlayTarotGame> {
                                 child: ListView.builder(
                                     scrollDirection: Axis.horizontal,
                                     itemCount:
-                                    _tarotGame.players.playerList.length,
+                                    _tarotGame!.players!.playerList!.length,
                                     itemBuilder:
                                         (BuildContext context, int index) {
                                       return Container(
@@ -186,12 +185,12 @@ class _PlayTarotGameState extends State<PlayTarotGame> {
                                             .of(context)
                                             .size
                                             .width /
-                                            _tarotGame
-                                                .players.playerList.length,
+                                            _tarotGame!
+                                                .players!.playerList!.length,
                                         child: _TotalPointsWidget(
-                                            totalPoints: snapshot.data
-                                                .getScoreOf(_tarotGame
-                                                .players.playerList[index])
+                                            totalPoints: snapshot.data!
+                                                .getScoreOf(_tarotGame!
+                                                .players!.playerList![index])
                                                 .score),
                                       );
                                     }),
@@ -199,7 +198,7 @@ class _PlayTarotGameState extends State<PlayTarotGame> {
                               Flexible(
                                 flex: 10,
                                 child: ListView.builder(
-                                    itemCount: snapshot.data.rounds.length,
+                                    itemCount: snapshot.data!.rounds!.length,
                                     itemBuilder:
                                         (BuildContext context, int index) {
                                       return Container(
@@ -212,9 +211,9 @@ class _PlayTarotGameState extends State<PlayTarotGame> {
                                           child: ListView.builder(
                                               scrollDirection: Axis.horizontal,
                                               itemCount: snapshot
-                                                  .data
-                                                  .rounds[index]
-                                                  .playerPoints
+                                                  .data!
+                                                  .rounds![index]
+                                                  .playerPoints!
                                                   .length,
                                               itemBuilder:
                                                   (BuildContext context,
@@ -225,33 +224,34 @@ class _PlayTarotGameState extends State<PlayTarotGame> {
                                                         .of(context)
                                                         .size
                                                         .width /
-                                                        _tarotGame
-                                                            .players
-                                                            .playerList
+                                                        _tarotGame!
+                                                            .players!
+                                                            .playerList!
                                                             .length,
                                                     child: _RoundDisplay(
                                                         round: snapshot
-                                                            .data.rounds[index],
-                                                        player: _tarotGame
-                                                            .players
-                                                            .playerList[
+                                                            .data!
+                                                            .rounds![index],
+                                                        player: _tarotGame!
+                                                            .players!
+                                                            .playerList![
                                                         playerIndex]));
                                               }));
                                     }),
                               ),
-                              if (!_tarotGame.isEnded)
+                              if (!_tarotGame!.isEnded!)
                                 NextPlayerWidget(
-                                    playerId: _tarotGame.players.playerList[
-                                    snapshot.data.rounds.length %
-                                        _tarotGame
-                                            .players.playerList.length]),
+                                    playerId: _tarotGame!.players!.playerList![
+                                    snapshot.data!.rounds!.length %
+                                        _tarotGame!
+                                            .players!.playerList!.length]),
                             ],
                           );
                         },
                         stream: _tarotScoreService
-                            .getScoreByGameStream(_tarotGame.id),
+                            .getScoreByGameStream(_tarotGame!.id),
                       ))),
-              if (!_tarotGame.isEnded)
+              if (!_tarotGame!.isEnded!)
                 Wrap(
                     runSpacing: 10,
                     spacing: 10,
@@ -346,14 +346,14 @@ class _PlayTarotGameState extends State<PlayTarotGame> {
 }
 
 class _RoundDisplay extends StatelessWidget {
-  final TarotRound round;
-  final String player;
+  final TarotRound? round;
+  final String? player;
 
   const _RoundDisplay({this.round, this.player});
 
   @override
   Widget build(BuildContext context) {
-    var score = round
+    var score = round!
         .getScoreOf(player)
         .score
         .round();
@@ -362,7 +362,7 @@ class _RoundDisplay extends StatelessWidget {
         Text(score.toString(),
             style: TextStyle(
                 fontSize: 20, color: score > 0 ? Colors.green : Colors.red)),
-        if (round.players.attackPlayer == player)
+        if (round!.players!.attackPlayer == player)
           Padding(
             padding: const EdgeInsets.only(left: 5),
             child: Icon(
@@ -378,16 +378,16 @@ class _RoundDisplay extends StatelessWidget {
 }
 
 class _TotalPointsWidget extends StatelessWidget {
-  final double totalPoints;
+  final double? totalPoints;
 
   const _TotalPointsWidget({this.totalPoints});
 
   @override
   Widget build(BuildContext context) {
-    return Text(totalPoints.round().toString(),
+    return Text(totalPoints!.round().toString(),
         style: TextStyle(
             fontSize: 25,
             fontWeight: FontWeight.bold,
-            color: totalPoints >= 0 ? Colors.green : Colors.red));
+            color: totalPoints! >= 0 ? Colors.green : Colors.red));
   }
 }

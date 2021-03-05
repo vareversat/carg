@@ -2,11 +2,12 @@ import 'package:carg/models/score/misc/belote_team_enum.dart';
 import 'package:carg/models/score/misc/card_color.dart';
 import 'package:carg/models/score/misc/coinche_belote_contract_name.dart';
 import 'package:carg/models/score/round/belote_round.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:enum_to_string/enum_to_string.dart';
 
 class CoincheBeloteRound extends BeloteRound {
-  int _contract;
-  CoincheBeloteContractName _contractName;
+  late int _contract;
+  late CoincheBeloteContractName _contractName;
 
   CoincheBeloteRound(
       {index,
@@ -74,7 +75,7 @@ class CoincheBeloteRound extends BeloteRound {
   }
 
   @override
-  int getPointsOfTeam(BeloteTeamEnum team) {
+  int getPointsOfTeam(BeloteTeamEnum? team) {
     switch (team) {
       case BeloteTeamEnum.US:
         return usTrickScore +
@@ -84,8 +85,9 @@ class CoincheBeloteRound extends BeloteRound {
         return themTrickScore +
             getDixDeDerOfTeam(BeloteTeamEnum.THEM) +
             getBeloteRebeloteOfTeam(BeloteTeamEnum.THEM);
+      case null:
+        return 0;
     }
-    return 0;
   }
 
   @override
@@ -99,9 +101,6 @@ class CoincheBeloteRound extends BeloteRound {
   }
 
   factory CoincheBeloteRound.fromJSON(Map<String, dynamic> json) {
-    if (json == null) {
-      return null;
-    }
     return CoincheBeloteRound(
         index: json['index'],
         cardColor:

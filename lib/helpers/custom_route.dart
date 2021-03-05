@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class CustomRouteOpenFromBottom<T> extends MaterialPageRoute<T> {
-  CustomRouteOpenFromBottom({WidgetBuilder builder, RouteSettings settings})
+  CustomRouteOpenFromBottom(
+      {required WidgetBuilder builder, RouteSettings? settings})
       : super(builder: builder, settings: settings);
 
   @override
@@ -21,7 +22,8 @@ class CustomRouteOpenFromBottom<T> extends MaterialPageRoute<T> {
 }
 
 class CustomRouteLeftAndRight<T> extends MaterialPageRoute<T> {
-  CustomRouteLeftAndRight({WidgetBuilder builder, RouteSettings settings})
+  CustomRouteLeftAndRight(
+      {required WidgetBuilder builder, RouteSettings? settings})
       : super(builder: builder, settings: settings);
 
   @override

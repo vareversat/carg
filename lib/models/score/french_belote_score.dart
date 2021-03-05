@@ -15,16 +15,13 @@ class FrenchBeloteScore extends BeloteScore<FrenchBeloteRound> {
     return super.toJSON();
   }
 
-  factory FrenchBeloteScore.fromJSON(Map<String, dynamic> json, String id) {
-    if (json == null) {
-      return null;
-    }
+  factory FrenchBeloteScore.fromJSON(Map<String, dynamic>? json, String id) {
     return FrenchBeloteScore(
         id: id,
-        rounds: FrenchBeloteRound.fromJSONList(json['rounds']),
-        usTotalPoints: json['us_total_points'],
-        themTotalPoints: json['them_total_points'],
-        game: json['game']);
+        rounds: FrenchBeloteRound.fromJSONList(json?['rounds']),
+        usTotalPoints: json?['us_total_points'],
+        themTotalPoints: json?['them_total_points'],
+        game: json?['game']);
   }
 
   @override

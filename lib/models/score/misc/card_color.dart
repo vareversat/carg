@@ -1,6 +1,6 @@
 enum CardColor { HEART, DIAMOND, CLUB, SPADE, ALL_TRUMP, NO_TRUMP }
 
-extension CardColorExtension on CardColor {
+extension CardColorExtension on CardColor? {
   String get name {
     switch (this) {
       case CardColor.HEART:

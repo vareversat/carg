@@ -21,7 +21,7 @@ class CoincheBeloteService implements BeloteService<CoincheBelote> {
   CoincheBeloteService() : super();
 
   @override
-  Future<List<CoincheBelote>> getAllGames(String playerId) async {
+  Future<List<CoincheBelote>> getAllGames(String? playerId) async {
     try {
       var coincheGames = <CoincheBelote>[];
       var querySnapshot = await FirebaseFirestore.instance
@@ -34,7 +34,7 @@ class CoincheBeloteService implements BeloteService<CoincheBelote> {
       }
       return coincheGames;
     } on PlatformException catch (e) {
-      throw CustomException(e.message);
+      throw CustomException(e.message!);
     }
   }
 
@@ -47,12 +47,12 @@ class CoincheBeloteService implements BeloteService<CoincheBelote> {
           .get();
       return CoincheBelote.fromJSON(querySnapshot.data(), querySnapshot.id);
     } on PlatformException catch (e) {
-      throw CustomException(e.message);
+      throw CustomException(e.message!);
     }
   }
 
   @override
-  Future deleteGame(String id) async {
+  Future deleteGame(String? id) async {
     try {
       await FirebaseFirestore.instance
           .collection('coinche-game-' + flavor)
@@ -60,13 +60,13 @@ class CoincheBeloteService implements BeloteService<CoincheBelote> {
           .delete();
       await _coincheScoreService.deleteScoreByGame(id);
     } on PlatformException catch (e) {
-      throw CustomException(e.message);
+      throw CustomException(e.message!);
     }
   }
 
   @override
   Future<CoincheBelote> createGameWithPlayerList(
-      List<String> playerList) async {
+      List<String?> playerList) async {
     try {
       var usTeam = await _teamService
           .getTeamByPlayers(playerList.sublist(0, 2).map((e) => e).toList());
@@ -87,23 +87,23 @@ class CoincheBeloteService implements BeloteService<CoincheBelote> {
       await _coincheScoreService.saveScore(coincheScore);
       return coincheGame;
     } on PlatformException catch (e) {
-      throw CustomException(e.message);
+      throw CustomException(e.message!);
     }
   }
 
   @override
   Future endAGame(CoincheBelote game) async {
     try {
-      Team winners;
-      game.players.playerList.forEach((player) async =>
+      Team? winners;
+      game.players!.playerList!.forEach((player) async =>
           {await _playerService.incrementPlayedGamesByOne(player, game)});
       var score = await _coincheScoreService.getScoreByGame(game.id);
-      if (score.themTotalPoints > score.usTotalPoints) {
+      if (score!.themTotalPoints > score.usTotalPoints) {
         winners =
-            await _teamService.incrementWonGamesByOne(game.players.them, game);
+            await _teamService.incrementWonGamesByOne(game.players!.them, game);
       } else if (score.themTotalPoints < score.usTotalPoints) {
         winners =
-            await _teamService.incrementWonGamesByOne(game.players.us, game);
+            await _teamService.incrementWonGamesByOne(game.players!.us, game);
       }
       await FirebaseFirestore.instance
           .collection('coinche-game-' + flavor)
@@ -114,7 +114,7 @@ class CoincheBeloteService implements BeloteService<CoincheBelote> {
         'winners': winners?.id
       });
     } on PlatformException catch (e) {
-      throw CustomException(e.message);
+      throw CustomException(e.message!);
     }
   }
 }

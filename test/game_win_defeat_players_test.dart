@@ -9,14 +9,14 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('Game - Assign win and defeat ', () {
-    Game game1;
-    Game game2;
-    Game game3;
+    late Game game1;
+    late Game game2;
+    late Game game3;
     GameStats gameStat1;
-    GameStats gameStat2;
-    GameStats gameStat3;
-    Player player1;
-    Player player2;
+    GameStats? gameStat2;
+    GameStats? gameStat3;
+    late Player player1;
+    late Player player2;
     setUp(() {
       game1 = CoincheBelote();
       game2 = FrenchBelote();

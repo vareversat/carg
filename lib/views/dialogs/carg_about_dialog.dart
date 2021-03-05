@@ -40,7 +40,6 @@ class CargAboutDialog extends StatelessWidget {
             return Center(child: CircularProgressIndicator());
           }
           if (snapshot.connectionState == ConnectionState.none &&
-                  snapshot.hasData == null ||
               snapshot.data == null) {
             return Text(_errorMessage);
           }
@@ -62,15 +61,15 @@ class CargAboutDialog extends StatelessWidget {
                       children: <Widget>[
                         Row(
                           children: [
-                            Text(snapshot.data.appName,
+                            Text(snapshot.data!.appName,
                                 style: Theme.of(context)
                                     .textTheme
-                                    .headline5
+                                    .headline5!
                                     .copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 30)),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 30)),
                             Text(
-                                ' | v${snapshot.data.version}+${snapshot.data.buildNumber}',
+                                ' | v${snapshot.data!.version}+${snapshot.data!.buildNumber}',
                                 style: Theme.of(context).textTheme.bodyText2),
                           ],
                         ),
@@ -78,7 +77,7 @@ class CargAboutDialog extends StatelessWidget {
                         Text(_legalLease,
                             style: Theme.of(context)
                                 .textTheme
-                                .caption
+                                .caption!
                                 .copyWith(fontSize: 15)),
                       ],
                     ),
@@ -149,9 +148,9 @@ class CargAboutDialog extends StatelessWidget {
                   onPressed: () {
                     showLicensePage(
                       context: context,
-                      applicationName: snapshot.data.appName,
+                      applicationName: snapshot.data!.appName,
                       applicationVersion:
-                          'v${snapshot.data.version}+${snapshot.data.buildNumber}',
+                          'v${snapshot.data!.version}+${snapshot.data!.buildNumber}',
                       applicationIcon: _iconWidget,
                       applicationLegalese: _legalLease,
                     );

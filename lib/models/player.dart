@@ -3,13 +3,13 @@ import 'package:carg/models/game_stats.dart';
 import 'package:flutter/material.dart';
 
 class Player extends CargObject with ChangeNotifier {
-  List<GameStats> gameStatsList;
-  String linkedUserId;
-  String firstName;
-  String lastName;
-  String _userName;
-  String _profilePicture;
-  bool _selected;
+  List<GameStats>? gameStatsList;
+  String? linkedUserId;
+  String? firstName;
+  String? lastName;
+  String? _userName;
+  late String _profilePicture;
+  late bool _selected;
 
   bool get selected => _selected;
 
@@ -18,14 +18,14 @@ class Player extends CargObject with ChangeNotifier {
     notifyListeners();
   }
 
-  String get userName => _userName;
+  String? get userName => _userName;
 
-  set userName(String value) {
+  set userName(String? value) {
     _userName = value;
     notifyListeners();
   }
 
-  String get profilePicture => _profilePicture ?? '';
+  String get profilePicture => _profilePicture;
 
   set profilePicture(String value) {
     _profilePicture = value;
@@ -33,7 +33,7 @@ class Player extends CargObject with ChangeNotifier {
   }
 
   Player(
-      {String id,
+      {String? id,
       gameStatsList,
       this.firstName,
       this.lastName,
@@ -55,7 +55,7 @@ class Player extends CargObject with ChangeNotifier {
 
   int totalWonGames() {
     var total = 0;
-    for (var gameStat in gameStatsList) {
+    for (var gameStat in gameStatsList!) {
       total += gameStat.wonGames;
     }
     return total;
@@ -63,30 +63,27 @@ class Player extends CargObject with ChangeNotifier {
 
   int totalPlayedGames() {
     var total = 0;
-    for (var gameStat in gameStatsList) {
+    for (var gameStat in gameStatsList!) {
       total += gameStat.playedGames;
     }
     return total;
   }
 
-  factory Player.fromJSON(Map<String, dynamic> json, String id) {
-    if (json == null) {
-      return null;
-    }
+  factory Player.fromJSON(Map<String, dynamic>? json, String? id) {
     return Player(
         id: id,
-        gameStatsList: GameStats.fromJSONList(json['game_stats']),
-        firstName: json['first_name'] ?? '',
-        lastName: json['last_name'] ?? '',
-        userName: json['user_name'] ?? '',
-        linkedUserId: json['linked_user_id'] ?? '',
-        profilePicture: json['profile_picture'] ?? '');
+        gameStatsList: GameStats.fromJSONList(json?['game_stats']),
+        firstName: json?['first_name'] ?? '',
+        lastName: json?['last_name'] ?? '',
+        userName: json?['user_name'] ?? '',
+        linkedUserId: json?['linked_user_id'] ?? '',
+        profilePicture: json?['profile_picture'] ?? '');
   }
 
   @override
   Map<String, dynamic> toJSON() {
     return {
-      'game_stats': gameStatsList.map((stat) => stat.toJSON()).toList(),
+      'game_stats': gameStatsList!.map((stat) => stat.toJSON()).toList(),
       'first_name': firstName,
       'last_name': lastName,
       'user_name': userName,

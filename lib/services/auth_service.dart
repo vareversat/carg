@@ -8,26 +8,27 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 class AuthService with ChangeNotifier {
-  User _connectedUser;
-  Player _player;
-  DateTime _expiryDate;
+  User? _connectedUser;
+  Player? _player;
+  DateTime? _expiryDate;
   final _playerService = PlayerService();
 
   bool get isAuth {
-    return _connectedUser != null && _expiryDate.isAfter(DateTime.now());
+    return _connectedUser != null && _expiryDate!.isAfter(DateTime.now());
   }
 
   Future<String> localLoginIn() async {
     try {
       var result = await FirebaseAuth.instance.signInAnonymously();
       _connectedUser = result.user;
-      _expiryDate = (await _connectedUser.getIdTokenResult()).expirationTime;
-      await _connectedUser.getIdTokenResult(true);
-      var player = Player(userName: 'joueur', linkedUserId: _connectedUser.uid);
+      _expiryDate = (await _connectedUser!.getIdTokenResult()).expirationTime;
+      await _connectedUser!.getIdTokenResult(true);
+      var player =
+          Player(userName: 'joueur', linkedUserId: _connectedUser!.uid);
       var playerId = await _playerService.addPlayer(player);
       player.id = playerId;
       _player = player;
-      return _connectedUser.uid;
+      return _connectedUser!.uid;
     } on FirebaseAuthException catch (e) {
       throw CustomException(e.code);
     }
@@ -38,13 +39,13 @@ class AuthService with ChangeNotifier {
       var result = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
       _connectedUser = result.user;
-      _player = await _playerService.getPlayerOfUser(_connectedUser.uid);
-      _expiryDate = (await _connectedUser.getIdTokenResult()).expirationTime;
+      _player = await _playerService.getPlayerOfUser(_connectedUser!.uid);
+      _expiryDate = (await _connectedUser!.getIdTokenResult()).expirationTime;
       if (!await _isEmailVerified()) {
         throw CustomException('ERROR_EMAIL_NOT_VALIDATED');
       }
-      await _connectedUser.getIdTokenResult(true);
-      return _connectedUser.uid;
+      await _connectedUser!.getIdTokenResult(true);
+      return _connectedUser!.uid;
     } on FirebaseAuthException catch (e) {
       throw CustomException(e.code);
     }
@@ -55,10 +56,10 @@ class AuthService with ChangeNotifier {
     try {
       var credentials =
           EmailAuthProvider.credential(email: email, password: password);
-      await _connectedUser.linkWithCredential(credentials);
+      await _connectedUser!.linkWithCredential(credentials);
       notifyListeners();
       await _sendEmailVerification();
-      return _connectedUser.uid;
+      return _connectedUser!.uid;
     } on FirebaseAuthException catch (e) {
       throw CustomException(e.code);
     }
@@ -75,27 +76,27 @@ class AuthService with ChangeNotifier {
     if (firebaseUser == null) {
       return false;
     }
-    final expiryDate = (await firebaseUser.getIdTokenResult()).expirationTime;
+    final expiryDate = (await firebaseUser.getIdTokenResult()).expirationTime!;
     if (expiryDate.isBefore(DateTime.now())) {
       return false;
     }
     await firebaseUser.getIdTokenResult(true);
     _connectedUser = firebaseUser;
-    _player = await _playerService.getPlayerOfUser(_connectedUser.uid);
+    _player = await _playerService.getPlayerOfUser(_connectedUser!.uid);
     _expiryDate = expiryDate;
     return true;
   }
 
-  Future<String> signUp(String email, String password, String username) async {
+  Future<String> signUp(String email, String password, String? username) async {
     try {
       var result = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
-      var user = result.user;
+      var user = result.user!;
       _connectedUser = user;
-      _expiryDate = (await _connectedUser.getIdTokenResult()).expirationTime;
+      _expiryDate = (await _connectedUser!.getIdTokenResult()).expirationTime;
       await _sendEmailVerification();
       await _playerService.addPlayer(
-          Player(userName: username, linkedUserId: _connectedUser.uid));
+          Player(userName: username, linkedUserId: _connectedUser!.uid));
       return user.uid;
     } on FirebaseAuthException catch (e) {
       throw CustomException(e.code);
@@ -109,41 +110,41 @@ class AuthService with ChangeNotifier {
     return FirebaseAuth.instance.signOut();
   }
 
-  Future<void> resetPassword(String email) async {
+  Future<void> resetPassword(String? email) async {
     await FirebaseAuth.instance
-        .sendPasswordResetEmail(email: email ?? _connectedUser.email);
+        .sendPasswordResetEmail(email: email ?? _connectedUser!.email!);
   }
 
   Future<void> changeEmail(String newEmail, String currentPassword) async {
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: _connectedUser.email, password: currentPassword);
-      await _connectedUser.updateEmail(newEmail);
+          email: _connectedUser!.email!, password: currentPassword);
+      await _connectedUser!.updateEmail(newEmail);
       await _sendEmailVerification();
     } on FirebaseAuthException catch (e) {
       throw CustomException(e.code);
     }
   }
 
-  String getConnectedUserId() {
+  String? getConnectedUserId() {
     return _connectedUser?.uid;
   }
 
-  String getConnectedUserEmail() {
+  String? getConnectedUserEmail() {
     return _connectedUser?.email;
   }
 
-  String getPlayerIdOfUser() {
+  String? getPlayerIdOfUser() {
     return _player?.id;
   }
 
   Future<void> _sendEmailVerification() async {
-    var user = FirebaseAuth.instance.currentUser;
+    var user = FirebaseAuth.instance.currentUser!;
     await user.sendEmailVerification();
   }
 
   Future<bool> _isEmailVerified() async {
-    var user = FirebaseAuth.instance.currentUser;
+    var user = FirebaseAuth.instance.currentUser!;
     return user.emailVerified;
   }
 }

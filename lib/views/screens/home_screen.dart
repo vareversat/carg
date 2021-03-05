@@ -10,7 +10,7 @@ class HomeScreen extends StatefulWidget {
   static const routeName = '/home';
   final int requestedIndex;
 
-  HomeScreen({@required this.requestedIndex});
+  HomeScreen({required this.requestedIndex});
 
   @override
   State<StatefulWidget> createState() {

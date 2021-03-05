@@ -5,15 +5,17 @@ import 'package:carg/models/score/misc/tarot_perk.dart';
 import 'package:carg/models/score/misc/tarot_team.dart';
 import 'package:carg/models/score/round/tarot_round.dart';
 import 'package:carg/views/screens/add_round/widget/section_title_widget.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class TarotPerkWidget extends StatelessWidget {
-  final TarotRound round;
-  final Tarot tarotGame;
+  final TarotRound tarotRound;
+  final Tarot? tarotGame;
 
-  const TarotPerkWidget({this.round, this.tarotGame});
+  const TarotPerkWidget({required this.tarotRound, this.tarotGame});
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +25,8 @@ class TarotPerkWidget extends StatelessWidget {
         builder: (
           BuildContext context,
         ) {
-          return _HandfulPicker(round.handful, round.handfulTeam,
-              tarotGame.players.playerList.length);
+          return _HandfulPicker(tarotRound.handful, tarotRound.handfulTeam,
+              tarotGame!.players!.playerList!.length);
         },
       );
     }
@@ -35,95 +37,112 @@ class TarotPerkWidget extends StatelessWidget {
         builder: (
           BuildContext context,
         ) {
-          return _ChelemPicker(round.chelem);
+          return _ChelemPicker(tarotRound.chelem);
         },
       );
     }
 
-    Future<TarotTeam> _showSmallToTheEndPicker() {
+    Future<TarotTeam?> _showSmallToTheEndPicker() {
       return showDialog(
         context: context,
         builder: (
           BuildContext context,
         ) {
-          return _PetitAuBoutPicker(round.smallToTheEndTeam);
+          return _PetitAuBoutPicker(tarotRound.smallToTheEndTeam);
         },
       );
     }
 
-    return Column(
-      children: [
-        SectionTitleWidget(title: 'Bonus'),
-        Wrap(spacing: 10, alignment: WrapAlignment.center, children: [
-          InputChip(
-            onDeleted: round.smallToTheEndTeam != null
-                ? () => {round.smallToTheEndTeam = null}
-                : null,
-            avatar: round.smallToTheEndTeam != null
-                ? CircleAvatar(
-                    child: Text(
-                        EnumToString.convertToString(round.smallToTheEndTeam)
-                            ?.substring(0, 1)))
-                : null,
-            showCheckmark: false,
-            selectedColor: Theme.of(context).accentColor,
-            selected: round.smallToTheEndTeam != null,
-            onPressed: () async {
-              await _showSmallToTheEndPicker().then((value) =>
-                  {if (value != null) round.smallToTheEndTeam = value});
-            },
-            label: Text('${TarotBonus.SMALL_TO_THE_END.name}' +
-                (round.smallToTheEndTeam != null
-                    ? ' |  ${TarotRound.smallToTheEndBonus.round()} pts'
-                    : '')),
-          ),
-          InputChip(
-            onDeleted:
-                round.handful != null ? () => {round.handful = null} : null,
-            avatar: round.handful != null
-                ? CircleAvatar(
-                    child: Text(EnumToString.convertToString(round.handfulTeam)
-                        ?.substring(0, 1)))
-                : null,
-            showCheckmark: false,
-            selectedColor: Theme.of(context).accentColor,
-            selected: round.handful != null,
-            onPressed: () async {
-              await _showHandfulPicker().then((value) => {
-                    if (value != null)
-                      {round.handful = value[0], round.handfulTeam = value[1]}
-                  });
-            },
-            label: Text('${TarotBonus.HANDFUL.name}' +
-                (round.handful != null ? ' ${round.handful.name}' : '')),
-          ),
-          InputChip(
-            onDeleted:
-                round.chelem != null ? () => {round.chelem = null} : null,
-            avatar: round.chelem != null
-                ? CircleAvatar(
-                    child: Text(EnumToString.convertToString(round.chelem)
-                        ?.substring(0, 1)))
-                : null,
-            showCheckmark: false,
-            selectedColor: Theme.of(context).accentColor,
-            selected: round.chelem != null,
-            onPressed: () async {
-              await _showChelemPicker()
-                  .then((value) => {if (value != null) round.chelem = value});
-            },
-            label: Text('${TarotBonus.CHELEM.name}' +
-                (round.chelem != null ? ' |  ${round.chelem.bonus} pts' : '')),
-          ),
-        ])
-      ],
+    return ChangeNotifierProvider.value(
+      value: tarotRound,
+      child: Consumer<TarotRound>(
+          builder: (context, roundData, _) => Column(
+                children: [
+                  SectionTitleWidget(title: 'Bonus'),
+                  Wrap(spacing: 10, alignment: WrapAlignment.center, children: [
+                    InputChip(
+                      onDeleted: roundData.smallToTheEndTeam != null
+                          ? () => {roundData.smallToTheEndTeam = null}
+                          : null,
+                      avatar: roundData.smallToTheEndTeam != null
+                          ? CircleAvatar(
+                              child: Text(EnumToString.convertToString(
+                                      roundData.smallToTheEndTeam)
+                                  .substring(0, 1)))
+                          : null,
+                      showCheckmark: false,
+                      selectedColor: Theme.of(context).accentColor,
+                      selected: roundData.smallToTheEndTeam != null,
+                      onPressed: () async {
+                        await _showSmallToTheEndPicker().then((value) => {
+                              if (value != null)
+                                roundData.smallToTheEndTeam = value
+                            });
+                      },
+                      label: Text('${TarotBonus.SMALL_TO_THE_END.name}' +
+                          (roundData.smallToTheEndTeam != null
+                              ? ' |  ${TarotRound.smallToTheEndBonus.round()} pts'
+                              : '')),
+                    ),
+                    InputChip(
+                      onDeleted: roundData.handful != null
+                          ? () => {roundData.handful = null}
+                          : null,
+                      avatar: roundData.handful != null
+                          ? CircleAvatar(
+                              child: Text(EnumToString.convertToString(
+                                      roundData.handfulTeam)
+                                  .substring(0, 1)))
+                          : null,
+                      showCheckmark: false,
+                      selectedColor: Theme.of(context).accentColor,
+                      selected: roundData.handful != null,
+                      onPressed: () async {
+                        await _showHandfulPicker().then((value) => {
+                              if (value != null)
+                                {
+                                  roundData.handful = value[0],
+                                  roundData.handfulTeam = value[1]
+                                }
+                            });
+                      },
+                      label: Text('${TarotBonus.HANDFUL.name}' +
+                          (roundData.handful != null
+                              ? ' ${roundData.handful.name}'
+                              : '')),
+                    ),
+                    InputChip(
+                      onDeleted: roundData.chelem != null
+                          ? () => {roundData.chelem = null}
+                          : null,
+                      avatar: roundData.chelem != null
+                          ? CircleAvatar(
+                              child: Text(
+                                  EnumToString.convertToString(roundData.chelem)
+                                      .substring(0, 1)))
+                          : null,
+                      showCheckmark: false,
+                      selectedColor: Theme.of(context).accentColor,
+                      selected: roundData.chelem != null,
+                      onPressed: () async {
+                        await _showChelemPicker().then((value) =>
+                            {if (value != null) roundData.chelem = value});
+                      },
+                      label: Text('${TarotBonus.CHELEM.name}' +
+                          (roundData.chelem != null
+                              ? ' |  ${roundData.chelem.bonus} pts'
+                              : '')),
+                    ),
+                  ])
+                ],
+              )),
     );
   }
 }
 
 class _HandfulPicker extends StatelessWidget {
-  final TarotHandful handful;
-  final TarotTeam handfulTeam;
+  final TarotHandful? handful;
+  final TarotTeam? handfulTeam;
   final int playerCount;
 
   const _HandfulPicker(this.handful, this.handfulTeam, this.playerCount);
@@ -202,7 +221,7 @@ class _HandfulPicker extends StatelessWidget {
 }
 
 class _PetitAuBoutPicker extends StatelessWidget {
-  final TarotTeam selectedTeamForBout;
+  final TarotTeam? selectedTeamForBout;
 
   const _PetitAuBoutPicker(this.selectedTeamForBout);
 
@@ -261,7 +280,7 @@ class _PetitAuBoutPicker extends StatelessWidget {
 }
 
 class _ChelemPicker extends StatelessWidget {
-  final TarotChelem tarotChelem;
+  final TarotChelem? tarotChelem;
 
   const _ChelemPicker(this.tarotChelem);
 

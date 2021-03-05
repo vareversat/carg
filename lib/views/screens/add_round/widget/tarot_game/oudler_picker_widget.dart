@@ -2,35 +2,42 @@ import 'package:carg/models/score/misc/tarot_oudler.dart';
 import 'package:carg/models/score/round/tarot_round.dart';
 import 'package:carg/views/screens/add_round/widget/section_title_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class OudlerPickerWidget extends StatelessWidget {
-  final TarotRound round;
+  final TarotRound tarotRound;
 
-  const OudlerPickerWidget({this.round});
+  const OudlerPickerWidget({required this.tarotRound});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SectionTitleWidget(title: 'Nombre de bout(s)'),
-        Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: TarotOudler.values
-                .map((tarotBoutCount) => InputChip(
-                    selectedColor: Theme.of(context).accentColor,
-                    selected: round.oudler == tarotBoutCount,
-                    onPressed: () {
-                      round.oudler = tarotBoutCount;
-                    },
-                    label: Text(tarotBoutCount.name +
-                        (round.oudler == tarotBoutCount
-                            ? ' (' +
-                                round.oudler.pointToDo.round().toString() +
-                                ')'
-                            : ''))))
-                .toList()
-                .cast<Widget>())
-      ],
+    return ChangeNotifierProvider.value(
+      value: tarotRound,
+      child: Consumer<TarotRound>(
+          builder: (context, roundData, _) => Column(
+                children: [
+                  SectionTitleWidget(title: 'Nombre de bout(s)'),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: TarotOudler.values
+                          .map((tarotBoutCount) => InputChip(
+                              selectedColor: Theme.of(context).accentColor,
+                              selected: roundData.oudler == tarotBoutCount,
+                              onPressed: () {
+                                roundData.oudler = tarotBoutCount;
+                              },
+                              label: Text(tarotBoutCount.name! +
+                                  (roundData.oudler == tarotBoutCount
+                                      ? ' (' +
+                                          roundData.oudler.pointToDo!
+                                              .round()
+                                              .toString() +
+                                          ')'
+                                      : ''))))
+                          .toList()
+                          .cast<Widget>())
+                ],
+              )),
     );
   }
 }

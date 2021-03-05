@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class NextPlayerWidget extends StatelessWidget {
-  final String playerId;
+  final String? playerId;
   final PlayerService playerService = PlayerService();
 
   NextPlayerWidget({this.playerId});
@@ -23,8 +23,7 @@ class NextPlayerWidget extends StatelessWidget {
                 ));
               });
         }
-        if (snapshot.connectionState == ConnectionState.none &&
-                snapshot.hasData == null ||
+        if (snapshot.connectionState == ConnectionState.none ||
             snapshot.data == null) {
           return Text(
             'Error : no player',
@@ -37,7 +36,7 @@ class NextPlayerWidget extends StatelessWidget {
             style: DefaultTextStyle.of(context).style,
             children: <TextSpan>[
               TextSpan(
-                  text: snapshot.data.userName,
+                  text: snapshot.data!.userName,
                   style: TextStyle(fontWeight: FontWeight.bold)),
               TextSpan(text: ' de donner les cartes !'),
             ],

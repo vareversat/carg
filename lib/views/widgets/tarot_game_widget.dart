@@ -1,13 +1,11 @@
 import 'package:carg/helpers/custom_route.dart';
 import 'package:carg/models/game/tarot.dart';
-import 'package:carg/models/game/team_game.dart';
-import 'package:carg/models/score/belote_score.dart';
 import 'package:carg/models/score/tarot_score.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/views/dialogs/warning_dialog.dart';
 import 'package:carg/views/screens/play_tarot_game_screen.dart';
 import 'package:carg/views/widgets/api_mini_player_widget.dart';
-import 'package:carg/views/widgets/belote_widget.dart';
+import 'package:carg/views/widgets/belote_game_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -15,7 +13,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 class TarotGameWidget extends StatelessWidget {
   final Tarot tarotGame;
 
-  const TarotGameWidget({this.tarotGame});
+  const TarotGameWidget({required this.tarotGame});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +25,7 @@ class TarotGameWidget extends StatelessWidget {
         color: Colors.white,
         child:
             ExpansionTile(title: CardTitle(game: tarotGame), children: <Widget>[
-          FutureBuilder<TarotScore>(
+              FutureBuilder<TarotScore?>(
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(
@@ -45,13 +43,13 @@ class TarotGameWidget extends StatelessWidget {
                   return Wrap(
                     alignment: WrapAlignment.center,
                     spacing: 2,
-                    children: tarotGame.players.playerList
+                    children: tarotGame.players!.playerList!
                         .map((playerId) => APIMiniPlayerWidget(
                               playerId: playerId,
                               displayImage: true,
                               size: 20,
                               additionalText:
-                                  ' | ${snapshot.data.getScoreOf(playerId).score.round().toString()}',
+                                  ' | ${snapshot.data!.getScoreOf(playerId).score.round().toString()}',
                             ))
                         .toList()
                         .cast<Widget>(),
@@ -59,90 +57,24 @@ class TarotGameWidget extends StatelessWidget {
                 }
                 return Center(child: Text('error'));
               },
-              future: tarotGame.scoreService.getScoreByGame(tarotGame.id)),
+              future: tarotGame.scoreService.getScoreByGame(tarotGame.id)
+                  as Future<TarotScore?>?),
           Divider(height: 10, thickness: 2),
           _ButtonRowWidget(tarotGame: tarotGame),
         ]));
   }
 }
 
-class _ShowScoreWidget extends StatefulWidget {
-  final Belote teamGame;
-
-  const _ShowScoreWidget({this.teamGame});
-
-  @override
-  State<StatefulWidget> createState() {
-    return _ShowScoreWidgetState(teamGame);
-  }
-}
-
-class _ShowScoreWidgetState extends State<_ShowScoreWidget> {
-  final Belote _teamGame;
-  String _errorMessage;
-
-  _ShowScoreWidgetState(this._teamGame);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(children: [
-      Container(
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-              border: Border(top: BorderSide(color: Colors.black, width: 1))),
-          child: FutureBuilder<BeloteScore>(
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
-                      child: SpinKitThreeBounce(
-                          size: 30,
-                          itemBuilder: (BuildContext context, int index) {
-                            return DecoratedBox(
-                                decoration: BoxDecoration(
-                              color: Theme.of(context).accentColor,
-                            ));
-                          }));
-                }
-                if (snapshot.hasData &&
-                    snapshot.connectionState == ConnectionState.done) {
-                  return Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        Text(snapshot.data.usTotalPoints.toString(),
-                            style: TextStyle(
-                                fontSize: 25, fontWeight: FontWeight.bold)),
-                        Text(snapshot.data.themTotalPoints.toString(),
-                            style: TextStyle(
-                                fontSize: 25, fontWeight: FontWeight.bold))
-                      ]);
-                }
-                return Center(child: Text(_errorMessage));
-              },
-              future: _teamGame.scoreService
-                  .getScoreByGame(_teamGame.id)
-                  // ignore: return_of_invalid_type_from_catch_error
-                  .catchError((error) => {_errorMessage = error.toString()}))),
-      if (_teamGame.isEnded)
-        Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text('Partie terminée',
-                style: TextStyle(fontStyle: FontStyle.italic)))
-      else
-        Container()
-    ]);
-  }
-}
-
 class _ButtonRowWidget extends StatelessWidget {
   final Tarot tarotGame;
 
-  const _ButtonRowWidget({this.tarotGame});
+  const _ButtonRowWidget({required this.tarotGame});
 
   @override
   Widget build(BuildContext context) {
     return Wrap(alignment: WrapAlignment.spaceAround, spacing: 20, children: <
         Widget>[
-      if (!tarotGame.isEnded)
+      if (!tarotGame.isEnded!)
         ElevatedButton.icon(
             style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(Colors.black),
@@ -191,7 +123,7 @@ class _ButtonRowWidget extends StatelessWidget {
               },
           label: Text(MaterialLocalizations.of(context).deleteButtonTooltip),
           icon: Icon(Icons.delete_forever)),
-      if (!tarotGame.isEnded)
+      if (!tarotGame.isEnded!)
         ElevatedButton.icon(
             style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(

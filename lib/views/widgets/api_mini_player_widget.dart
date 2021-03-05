@@ -5,19 +5,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class APIMiniPlayerWidget extends StatelessWidget {
-  final String playerId;
+  final String? playerId;
   final bool displayImage;
   final bool showLoading;
   final double size;
   final bool isSelected;
-  final Function onTap;
-  final Color selectedColor;
+  final Function? onTap;
+  final Color? selectedColor;
   final String additionalText;
   final PlayerService _playerService = PlayerService();
 
   APIMiniPlayerWidget(
-      {@required this.playerId,
-      @required this.displayImage,
+      {required this.playerId,
+      required this.displayImage,
       this.showLoading = true,
       this.size = 15,
       this.isSelected = false,
@@ -25,7 +25,7 @@ class APIMiniPlayerWidget extends StatelessWidget {
       this.selectedColor,
       this.additionalText = ''});
 
-  Future _showEditPlayerDialog(BuildContext context, Player player) async {
+  Future _showEditPlayerDialog(BuildContext context, Player? player) async {
     await showDialog(
         context: context,
         builder: (BuildContext context) =>
@@ -36,7 +36,7 @@ class APIMiniPlayerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return FutureBuilder<Player>(
       builder: (context, snapshot) {
-        Widget child;
+        Widget? child;
         if (snapshot.connectionState == ConnectionState.waiting) {
           child = Padding(
               key: ValueKey(0),
@@ -59,9 +59,9 @@ class APIMiniPlayerWidget extends StatelessWidget {
               child: InputChip(
                   selected: isSelected,
                   selectedColor: selectedColor ?? Theme.of(context).accentColor,
-                  onPressed: onTap ??
+                  onPressed: onTap as void Function()? ??
                       () => {_showEditPlayerDialog(context, snapshot.data)},
-                  avatar: (snapshot.data.profilePicture != '' && displayImage)
+                  avatar: (snapshot.data!.profilePicture != '' && displayImage)
                       ? Container(
                           decoration: BoxDecoration(
                               border: Border.all(
@@ -71,10 +71,10 @@ class APIMiniPlayerWidget extends StatelessWidget {
                               shape: BoxShape.circle,
                               image: DecorationImage(
                                   image: NetworkImage(
-                                      snapshot.data.profilePicture))),
+                                      snapshot.data!.profilePicture))),
                         )
                       : null,
-                  label: Text(snapshot.data.userName + additionalText,
+                  label: Text(snapshot.data!.userName! + additionalText,
                       style: TextStyle(fontSize: size),
                       overflow: TextOverflow.ellipsis)));
         }

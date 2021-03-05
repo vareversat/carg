@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ErrorMessageWidget extends StatelessWidget {
-  final String message;
+  final String? message;
 
   ErrorMessageWidget({this.message});
 
@@ -32,7 +32,7 @@ class ErrorMessageWidget extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
-            message,
+            message!,
             textAlign: TextAlign.center,
             style: TextStyle(fontStyle: FontStyle.italic, fontSize: 13),
           ),

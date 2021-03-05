@@ -1,6 +1,6 @@
 class CustomException implements Exception {
-  String message;
-  String code;
+  String? message;
+  String? code;
 
   CustomException(String rawMessage) {
     if (rawMessage.contains('PERMISSION_DENIED')) {
@@ -39,6 +39,6 @@ class CustomException implements Exception {
 
   @override
   String toString() {
-    return message;
+    return message!;
   }
 }

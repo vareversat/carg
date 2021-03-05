@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 abstract class Round with ChangeNotifier {
-  int index;
+  int? index;
 
   void computeRound();
 

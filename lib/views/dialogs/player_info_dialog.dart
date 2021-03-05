@@ -8,10 +8,10 @@ import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class PlayerInfoDialog extends StatefulWidget {
-  final Player player;
+  final Player? player;
   final bool isEditing;
 
-  PlayerInfoDialog({this.player, @required this.isEditing});
+  PlayerInfoDialog({this.player, required this.isEditing});
 
   @override
   State<StatefulWidget> createState() {
@@ -29,16 +29,16 @@ class _PlayerInfoDialogState extends State<PlayerInfoDialog> {
   var _isLoading = false;
 
   String _profilePictureUrl = '';
-  Player _player;
+  Player? _player;
 
-  _PlayerInfoDialogState(Player player, bool isEditing) {
+  _PlayerInfoDialogState(Player? player, bool isEditing) {
     if (player == null && !isEditing) {
       _isCreating = true;
       _title = 'Nouveau joueur';
     } else if (player != null && isEditing) {
       _isEditing = true;
       _title = 'Edition du profil';
-      _usernameTextController.text = player.userName;
+      _usernameTextController.text = player.userName!;
       _profilePictureTextController.text = player.profilePicture;
     }
     _player = player ?? Player();
@@ -58,11 +58,11 @@ class _PlayerInfoDialogState extends State<PlayerInfoDialog> {
       _player = Player(
           userName: _usernameTextController.text,
           profilePicture: _profilePictureUrl);
-      await _playerService.addPlayer(_player);
+      await _playerService.addPlayer(_player!);
     } else {
-      _player.userName = _usernameTextController.text;
-      _player.profilePicture = _profilePictureTextController.text;
-      await _playerService.updatePlayer(_player);
+      _player!.userName = _usernameTextController.text;
+      _player!.profilePicture = _profilePictureTextController.text;
+      await _playerService.updatePlayer(_player!);
     }
     setState(() {
       _isLoading = false;
@@ -71,9 +71,9 @@ class _PlayerInfoDialogState extends State<PlayerInfoDialog> {
 
   void _getInitialValues() {
     if (_player != null) {
-      _profilePictureUrl = _player.profilePicture;
-      _usernameTextController.text = _player.userName;
-      _profilePictureTextController.text = _player.profilePicture;
+      _profilePictureUrl = _player!.profilePicture;
+      _usernameTextController.text = _player!.userName ?? '';
+      _profilePictureTextController.text = _player!.profilePicture;
     }
   }
 
@@ -166,7 +166,7 @@ class _PlayerInfoDialogState extends State<PlayerInfoDialog> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0),
             child: Column(
-              children: _player.gameStatsList
+              children: _player!.gameStatsList!
                   .map(
                     (stat) => Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -211,50 +211,36 @@ class _PlayerInfoDialogState extends State<PlayerInfoDialog> {
           ElevatedButton.icon(
               style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all<Color>(
-                      Theme
-                          .of(context)
-                          .primaryColor),
+                      Theme.of(context).primaryColor),
                   foregroundColor: MaterialStateProperty.all<Color>(
-                      Theme
-                          .of(context)
-                          .cardColor),
+                      Theme.of(context).cardColor),
                   shape: MaterialStateProperty.all<OutlinedBorder>(
                       RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(
                               CustomProperties.borderRadius)))),
-              onPressed: () async =>
-              _isCreating || _isEditing
+              onPressed: () async => _isCreating || _isEditing
                   ? {
-                await _commitPlayer(),
-                Navigator.pop(context, 'Joueur mis à jour')
-              }
+                      await _commitPlayer(),
+                      Navigator.pop(context, 'Joueur mis à jour')
+                    }
                   : Navigator.pop(context),
               label: Text(_isCreating || _isEditing
-                  ? MaterialLocalizations
-                  .of(context)
-                  .okButtonLabel
-                  : MaterialLocalizations
-                  .of(context)
-                  .closeButtonLabel),
-              icon: Icon(
-                  _isCreating || _isEditing ? Icons.check : Icons.close)),
+                  ? MaterialLocalizations.of(context).okButtonLabel
+                  : MaterialLocalizations.of(context).closeButtonLabel),
+              icon: Icon(_isCreating || _isEditing ? Icons.check : Icons.close)),
         if (_isCreating || _isEditing)
           ElevatedButton.icon(
             style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
                 foregroundColor: MaterialStateProperty.all<Color>(
-                    Theme
-                        .of(context)
-                        .primaryColor),
+                    Theme.of(context).primaryColor),
                 shape: MaterialStateProperty.all<OutlinedBorder>(
                     RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
                             CustomProperties.borderRadius)))),
             onPressed: () => {Navigator.pop(context, null)},
             icon: Icon(Icons.close),
-            label: Text(MaterialLocalizations
-                .of(context)
-                .cancelButtonLabel),
+            label: Text(MaterialLocalizations.of(context).cancelButtonLabel),
           )
         else
           Container(),

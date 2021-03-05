@@ -1,6 +1,7 @@
-import 'package:carg/models/game/team_game.dart';
+import 'package:carg/models/game/belote_game.dart';
 import 'package:carg/models/score/round/belote_round.dart';
 import 'package:carg/models/score/round/coinche_belote_round.dart';
+import 'package:carg/models/score/round/french_belote_round.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/views/screens/add_round/widget/real_time_display_widget.dart';
 import 'package:carg/views/screens/add_round/widget/screen_title_widget.dart';
@@ -13,26 +14,26 @@ import 'package:flutter/painting.dart';
 import 'package:provider/provider.dart';
 
 class AddBeloteRoundScreen extends StatelessWidget {
-  final Belote teamGame;
-  final BeloteRound teamGameRound;
+  final Belote? teamGame;
+  final BeloteRound? beloteRound;
   final bool isEditing;
 
   const AddBeloteRoundScreen(
-      {this.teamGame, this.teamGameRound, this.isEditing = false});
+      {this.teamGame, required this.beloteRound, this.isEditing = false});
 
   void _setupRound() async {
     if (isEditing) {
-      await teamGame.scoreService
-          .editLastRoundOfGame(teamGame.id, teamGameRound);
+      await teamGame!.scoreService
+          .editLastRoundOfGame(teamGame!.id, beloteRound);
     } else {
-      await teamGame.scoreService.addRoundToGame(teamGame.id, teamGameRound);
+      await teamGame!.scoreService.addRoundToGame(teamGame!.id, beloteRound);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (BuildContext context) => teamGameRound..computeRound(),
+      create: (BuildContext context) => beloteRound?..computeRound(),
       child: Scaffold(
         appBar: AppBar(
             leading: IconButton(
@@ -45,22 +46,23 @@ class AddBeloteRoundScreen extends StatelessWidget {
           child: Column(
             children: [
               Flexible(
-                child: Consumer<BeloteRound>(
-                  builder: (context, roundData, child) => Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ListView(children: [
-                      TakerTeamWidget(round: roundData),
-                      Divider(),
-                      TrickPointsBeloteWidget(round: roundData),
-                      Divider(),
-                      roundData is CoincheBeloteRound
-                          ? ContractCoincheWidget(coincheRound: roundData)
-                          : ContractBeloteWidget(beloteRound: roundData),
-                      SizedBox(height: 20),
-                      RealTimeDisplayWidget(round: roundData),
-                      SizedBox(height: 20),
-                    ]),
-                  ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ListView(children: [
+                    TakerTeamWidget(beloteRound: beloteRound!),
+                    Divider(),
+                    TrickPointsBeloteWidget(round: beloteRound!),
+                    Divider(),
+                    beloteRound! is CoincheBeloteRound
+                        ? ContractCoincheWidget(
+                            coincheRound: beloteRound! as CoincheBeloteRound)
+                        : ContractBeloteWidget(
+                            frenchBeloteRound:
+                                beloteRound! as FrenchBeloteRound),
+                    SizedBox(height: 20),
+                    RealTimeDisplayWidget(round: beloteRound!),
+                    SizedBox(height: 20),
+                  ]),
                 ),
               ),
               Center(

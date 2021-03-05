@@ -1,12 +1,14 @@
+import 'package:carg/models/game/belote_game.dart';
 import 'package:carg/models/game/game.dart';
 import 'package:carg/models/game/game_type.dart';
-import 'package:carg/views/widgets/belote_widget.dart';
+import 'package:carg/models/game/tarot.dart';
+import 'package:carg/views/widgets/belote_game_widget.dart';
 import 'package:carg/views/widgets/error_message_widget.dart';
 import 'package:carg/views/widgets/tarot_game_widget.dart';
 import 'package:flutter/material.dart';
 
 class GameListWidget extends StatefulWidget {
-  final Future<List<Game>> gamesFuture;
+  final Future<List<Game>>? gamesFuture;
 
   GameListWidget({this.gamesFuture});
 
@@ -17,8 +19,8 @@ class GameListWidget extends StatefulWidget {
 }
 
 class _GameListWidgetState extends State<GameListWidget> {
-  final Future<List<Game>> _gamesFuture;
-  String _errorMessage;
+  final Future<List<Game>>? _gamesFuture;
+  String? _errorMessage;
 
   _GameListWidgetState(this._gamesFuture);
 
@@ -29,12 +31,11 @@ class _GameListWidgetState extends State<GameListWidget> {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(child: CircularProgressIndicator());
         }
-        if (snapshot.connectionState == ConnectionState.none &&
-                snapshot.hasData == null ||
+        if (snapshot.connectionState == ConnectionState.none ||
             snapshot.data == null) {
           return ErrorMessageWidget(message: _errorMessage);
         }
-        if (snapshot.data.isEmpty) {
+        if (snapshot.data!.isEmpty) {
           return Center(
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -48,20 +49,22 @@ class _GameListWidgetState extends State<GameListWidget> {
         }
         if (snapshot.hasData) {
           return ListView.builder(
-              itemCount: snapshot.data.length,
+              itemCount: snapshot.data!.length,
               itemBuilder: (BuildContext context, int index) {
-                if (snapshot.data[0].getGameTypeName() != GameType.TAROT.name) {
+                if (snapshot.data![0].getGameTypeName() !=
+                    GameType.TAROT.name) {
                   return BeloteWidget(
-                    teamGame: snapshot.data[index],
+                    beloteGame: snapshot.data![index] as Belote,
                   );
                 } else {
-                  return TarotGameWidget(tarotGame: snapshot.data[index]);
+                  return TarotGameWidget(
+                      tarotGame: snapshot.data![index] as Tarot);
                 }
               });
         }
         return Container();
       },
-      future: _gamesFuture
+      future: _gamesFuture!
           // ignore: return_of_invalid_type_from_catch_error
           .catchError((onError) => {_errorMessage = onError.toString()}),
     );

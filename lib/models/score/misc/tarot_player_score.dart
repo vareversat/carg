@@ -1,17 +1,14 @@
 class TarotPlayerScore {
-  String player;
+  String? player;
   double score;
 
-  TarotPlayerScore({this.player, this.score});
+  TarotPlayerScore({this.player, required this.score});
 
   Map<String, dynamic> toJSON() {
     return {'player': player, 'score': score};
   }
 
   factory TarotPlayerScore.fromJSON(Map<String, dynamic> json) {
-    if (json == null) {
-      return null;
-    }
     return TarotPlayerScore(player: json['player'], score: json['score']);
   }
 

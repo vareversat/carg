@@ -1,7 +1,7 @@
 enum TarotOudler { ZERO, ONE, TWO, THREE }
 
-extension TarotOudlerExtension on TarotOudler {
-  double get pointToDo {
+extension TarotOudlerExtension on TarotOudler? {
+  double? get pointToDo {
     switch (this) {
       case TarotOudler.ZERO:
         return 56;
@@ -16,7 +16,7 @@ extension TarotOudlerExtension on TarotOudler {
     }
   }
 
-  String get name {
+  String? get name {
     switch (this) {
       case TarotOudler.ZERO:
         return '0';

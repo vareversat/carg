@@ -11,7 +11,7 @@ enum CredentialsStatus { EDITING, CREATING }
 class CredentialsDialog extends StatefulWidget {
   final CredentialsStatus credentialsStatus;
 
-  CredentialsDialog({@required this.credentialsStatus});
+  CredentialsDialog({required this.credentialsStatus});
 
   @override
   State<StatefulWidget> createState() {
@@ -29,11 +29,11 @@ class _CredentialsDialogState extends State<CredentialsDialog> {
   var _credentialsStatus;
   var _isLoading = false;
   var _infoMessage = '';
-  var _errorMessage = '';
+  String? _errorMessage = '';
 
   Future<void> _createFirebaseAccount() async {
     var transactionCompleted = true;
-    if (!_formKey.currentState.validate()) {
+    if (!_formKey.currentState!.validate()) {
       return;
     } else {
       setState(() {
@@ -61,7 +61,7 @@ class _CredentialsDialogState extends State<CredentialsDialog> {
 
   Future<void> _changeEmail() async {
     var transactionCompleted = true;
-    if (!_formKey.currentState.validate()) {
+    if (!_formKey.currentState!.validate()) {
       return;
     } else {
       setState(() {
@@ -149,7 +149,7 @@ class _CredentialsDialogState extends State<CredentialsDialog> {
                     Provider.of<AuthService>(context, listen: false)
                         .getConnectedUserEmail()) {
                   return 'Adresse mail inchangée';
-                } else if (!emailRegex.hasMatch(value)) {
+                } else if (!emailRegex.hasMatch(value!)) {
                   return 'Adresse email invalid';
                 }
                 return null;
@@ -169,7 +169,7 @@ class _CredentialsDialogState extends State<CredentialsDialog> {
                       fontSize: 20, color: Theme.of(context).accentColor),
                   labelText: 'Mot de passe'),
               validator: (value) {
-                if (value.isEmpty) {
+                if (value!.isEmpty) {
                   return 'Mot de passe non renseigné';
                 }
                 return null;
@@ -179,10 +179,10 @@ class _CredentialsDialogState extends State<CredentialsDialog> {
             child: Text('Info : ' + _infoMessage,
                 style: TextStyle(fontStyle: FontStyle.italic, fontSize: 18)),
           ),
-          _errorMessage.isNotEmpty
+          _errorMessage!.isNotEmpty
               ? Padding(
                   padding: const EdgeInsets.only(top: 12.0),
-                  child: Text(_errorMessage,
+            child: Text(_errorMessage!,
                       style: TextStyle(
                           fontStyle: FontStyle.italic,
                           fontSize: 18,

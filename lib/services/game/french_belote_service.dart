@@ -13,9 +13,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 
 class FrenchBeloteService implements BeloteService<FrenchBelote> {
-  TeamService _teamService;
-  PlayerService _playerService;
-  BeloteScoreService _beloteScoreService;
+  late TeamService _teamService;
+  late PlayerService _playerService;
+  late BeloteScoreService _beloteScoreService;
   static const String flavor =
       String.fromEnvironment('FLAVOR', defaultValue: 'dev');
 
@@ -26,7 +26,7 @@ class FrenchBeloteService implements BeloteService<FrenchBelote> {
   }
 
   @override
-  Future<List<FrenchBelote>> getAllGames(String playerId) async {
+  Future<List<FrenchBelote>> getAllGames(String? playerId) async {
     try {
       var beloteGames = <FrenchBelote>[];
       var querySnapshot = await FirebaseFirestore.instance
@@ -39,7 +39,7 @@ class FrenchBeloteService implements BeloteService<FrenchBelote> {
       }
       return beloteGames;
     } on PlatformException catch (e) {
-      throw CustomException(e.message);
+      throw CustomException(e.message!);
     }
   }
 
@@ -52,12 +52,12 @@ class FrenchBeloteService implements BeloteService<FrenchBelote> {
           .get();
       return FrenchBelote.fromJSON(querySnapshot.data(), querySnapshot.id);
     } on PlatformException catch (e) {
-      throw CustomException(e.message);
+      throw CustomException(e.message!);
     }
   }
 
   @override
-  Future deleteGame(String id) async {
+  Future deleteGame(String? id) async {
     try {
       await FirebaseFirestore.instance
           .collection('belote-game-' + flavor)
@@ -65,12 +65,13 @@ class FrenchBeloteService implements BeloteService<FrenchBelote> {
           .delete();
       await _beloteScoreService.deleteScoreByGame(id);
     } on PlatformException catch (e) {
-      throw CustomException(e.message);
+      throw CustomException(e.message!);
     }
   }
 
   @override
-  Future<FrenchBelote> createGameWithPlayerList(List<String> playerList) async {
+  Future<FrenchBelote> createGameWithPlayerList(
+      List<String?> playerList) async {
     try {
       var usTeam = await _teamService
           .getTeamByPlayers(playerList.sublist(0, 2).map((e) => e).toList());
@@ -91,23 +92,23 @@ class FrenchBeloteService implements BeloteService<FrenchBelote> {
       await _beloteScoreService.saveScore(beloteScore);
       return beloteGame;
     } on PlatformException catch (e) {
-      throw CustomException(e.message);
+      throw CustomException(e.message!);
     }
   }
 
   @override
   Future endAGame(FrenchBelote game) async {
     try {
-      Team winners;
-      game.players.playerList.forEach((player) async =>
+      Team? winners;
+      game.players!.playerList!.forEach((player) async =>
           {await _playerService.incrementPlayedGamesByOne(player, game)});
       var score = await _beloteScoreService.getScoreByGame(game.id);
-      if (score.themTotalPoints > score.usTotalPoints) {
+      if (score!.themTotalPoints > score.usTotalPoints) {
         winners =
-            await _teamService.incrementWonGamesByOne(game.players.them, game);
+            await _teamService.incrementWonGamesByOne(game.players!.them, game);
       } else if (score.themTotalPoints < score.usTotalPoints) {
         winners =
-            await _teamService.incrementWonGamesByOne(game.players.us, game);
+            await _teamService.incrementWonGamesByOne(game.players!.us, game);
       }
       await FirebaseFirestore.instance
           .collection('belote-game-' + flavor)
@@ -118,7 +119,7 @@ class FrenchBeloteService implements BeloteService<FrenchBelote> {
         'winners': winners?.id
       });
     } on PlatformException catch (e) {
-      throw CustomException(e.message);
+      throw CustomException(e.message!);
     }
   }
 }

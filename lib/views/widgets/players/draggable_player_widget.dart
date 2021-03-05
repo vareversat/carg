@@ -6,7 +6,7 @@ class DraggablePlayerWidget extends StatelessWidget {
   final Player player;
   final int index;
 
-  DraggablePlayerWidget({@required this.player, @required this.index});
+  DraggablePlayerWidget({required this.player, required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class DraggablePlayerWidget extends StatelessWidget {
             Flexible(
               flex: 5,
               child: Text(
-                player.userName,
+                player.userName!,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
               ),

@@ -2,15 +2,15 @@ import 'package:carg/models/player.dart';
 import 'package:carg/models/players/players.dart';
 
 class BelotePlayers extends Players {
-  String us;
-  String them;
+  String? us;
+  String? them;
 
   BelotePlayers({this.us, this.them, playerList})
       : super.prefilledList(playerList: playerList);
 
   @override
   void onSelectedPlayer(Player player) {
-    if (!playerList.contains(player.id) && !isFull()) {
+    if (!playerList!.contains(player.id) && !isFull()) {
       _add(player);
     } else {
       _remove(player);
@@ -35,22 +35,22 @@ class BelotePlayers extends Players {
 
   void _add(Player player) {
     player.selected = true;
-    var nullId = playerList.indexOf(' ');
+    var nullId = playerList!.indexOf(' ');
     if (nullId != -1) {
-      playerList[nullId] = player.id;
+      playerList![nullId] = player.id;
     } else {
-      playerList.add(player.id);
+      playerList!.add(player.id);
     }
   }
 
   void _remove(Player player) {
     player.selected = false;
-    playerList[playerList.indexOf(player.id)] = ' ';
+    playerList![playerList!.indexOf(player.id)] = ' ';
   }
 
   int _size() {
     var size = 0;
-    playerList.forEach((element) {
+    playerList!.forEach((element) {
       element != ' ' ? size++ : size += 0;
     });
     return size;
@@ -58,7 +58,7 @@ class BelotePlayers extends Players {
 
   int _usCount() {
     var size = 0;
-    playerList.sublist(0, 2).forEach((element) {
+    playerList!.sublist(0, 2).forEach((element) {
       element != ' ' ? size++ : size += 0;
     });
     return size;
@@ -66,7 +66,7 @@ class BelotePlayers extends Players {
 
   int _themCount() {
     var size = 0;
-    playerList.sublist(2, 4).forEach((element) {
+    playerList!.sublist(2, 4).forEach((element) {
       element != ' ' ? size++ : size += 0;
     });
     return size;
@@ -90,9 +90,6 @@ class BelotePlayers extends Players {
   }
 
   factory BelotePlayers.fromJSON(Map<String, dynamic> json) {
-    if (json == null) {
-      return null;
-    }
     return BelotePlayers(
         us: json['us'], them: json['them'], playerList: json['player_list']);
   }

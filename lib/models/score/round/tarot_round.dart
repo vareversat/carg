@@ -7,6 +7,7 @@ import 'package:carg/models/score/misc/tarot_perk.dart';
 import 'package:carg/models/score/misc/tarot_player_score.dart';
 import 'package:carg/models/score/misc/tarot_team.dart';
 import 'package:carg/models/score/round/round.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:enum_to_string/enum_to_string.dart';
 
 class TarotRound extends Round {
@@ -14,19 +15,19 @@ class TarotRound extends Round {
   static const double victoryBonus = 25;
   static const double smallToTheEndBonus = 10;
 
-  double attackScore;
-  double defenseScore;
-  double _attackTrickPoints;
-  double _defenseTrickPoints;
-  TarotRoundPlayers players;
-  TarotOudler _oudler;
-  TarotContract _contract;
-  TarotBonus _bonus;
-  TarotHandful _handful;
-  TarotTeam _handfulTeam;
-  TarotTeam _smallAtTheEndTeam;
-  TarotChelem _chelem;
-  List<TarotPlayerScore> playerPoints;
+  late double attackScore;
+  late double defenseScore;
+  late double _attackTrickPoints;
+  late double _defenseTrickPoints;
+  TarotRoundPlayers? players;
+  late TarotOudler _oudler;
+  late TarotContract _contract;
+  TarotBonus? _bonus;
+  TarotHandful? _handful;
+  TarotTeam? _handfulTeam;
+  TarotTeam? _smallAtTheEndTeam;
+  TarotChelem? _chelem;
+  List<TarotPlayerScore>? playerPoints;
 
   TarotRound({
     index,
@@ -59,9 +60,9 @@ class TarotRound extends Round {
     _handfulTeam = handfulTeam;
   }
 
-  TarotChelem get chelem => _chelem;
+  TarotChelem? get chelem => _chelem;
 
-  set chelem(TarotChelem value) {
+  set chelem(TarotChelem? value) {
     _chelem = value;
     computeRound();
   }
@@ -80,23 +81,23 @@ class TarotRound extends Round {
     computeRound();
   }
 
-  TarotBonus get bonus => _bonus;
+  TarotBonus? get bonus => _bonus;
 
-  set bonus(TarotBonus value) {
+  set bonus(TarotBonus? value) {
     _bonus = value;
     computeRound();
   }
 
-  TarotHandful get handful => _handful;
+  TarotHandful? get handful => _handful;
 
-  set handful(TarotHandful value) {
+  set handful(TarotHandful? value) {
     _handful = value;
     computeRound();
   }
 
-  TarotTeam get handfulTeam => _handfulTeam;
+  TarotTeam? get handfulTeam => _handfulTeam;
 
-  set handfulTeam(TarotTeam value) {
+  set handfulTeam(TarotTeam? value) {
     _handfulTeam = value;
     computeRound();
   }
@@ -116,16 +117,16 @@ class TarotRound extends Round {
     computeRound();
   }
 
-  TarotTeam get smallToTheEndTeam => _smallAtTheEndTeam;
+  TarotTeam? get smallToTheEndTeam => _smallAtTheEndTeam;
 
-  set smallToTheEndTeam(TarotTeam value) {
+  set smallToTheEndTeam(TarotTeam? value) {
     _smallAtTheEndTeam = value;
     computeRound();
   }
 
   @override
   void computeRound() {
-    var gain = (attackTrickPoints - oudler.pointToDo);
+    var gain = (attackTrickPoints - oudler.pointToDo!);
     var score = 0.0;
     var winCoefficient = 1;
     var smallToTheEndBonus = 0.0;
@@ -133,48 +134,56 @@ class TarotRound extends Round {
     score = (victoryBonus + gain.abs()) * contract.multiplayer;
     score += (chelem?.bonus ?? 0);
     if (gain >= 0) {
-      if (smallToTheEndTeam != null) {
-        switch (smallToTheEndTeam) {
-          case TarotTeam.ATTACK:
-            smallToTheEndBonus =
-                TarotRound.smallToTheEndBonus * contract.multiplayer;
-            break;
-          case TarotTeam.DEFENSE:
-            smallToTheEndBonus =
-                -TarotRound.smallToTheEndBonus * contract.multiplayer;
-            break;
-        }
+      switch (smallToTheEndTeam) {
+        case TarotTeam.ATTACK:
+          smallToTheEndBonus =
+              TarotRound.smallToTheEndBonus * contract.multiplayer;
+          break;
+        case TarotTeam.DEFENSE:
+          smallToTheEndBonus =
+              -TarotRound.smallToTheEndBonus * contract.multiplayer;
+          break;
+        case null:
+          smallToTheEndBonus = 0.0;
+          break;
       }
       if (handfulTeam != null && handful != null) {
         switch (handfulTeam) {
           case TarotTeam.ATTACK:
-            handfulBonus = handful.bonus.toDouble();
+            handfulBonus = handful.bonus!.toDouble();
             break;
           case TarotTeam.DEFENSE:
-            handfulBonus = -handful.bonus.toDouble();
+            handfulBonus = -handful.bonus!.toDouble();
+            break;
+          case null:
+            handfulBonus = 0.0;
             break;
         }
       }
     } else {
-      if (smallToTheEndTeam != null) {
-        switch (smallToTheEndTeam) {
-          case TarotTeam.ATTACK:
-            smallToTheEndBonus =
-                -TarotRound.smallToTheEndBonus * contract.multiplayer;
-            break;
-          case TarotTeam.DEFENSE:
-            smallToTheEndBonus =
-                TarotRound.smallToTheEndBonus * contract.multiplayer;
-            break;
-        }
+      switch (smallToTheEndTeam) {
+        case TarotTeam.ATTACK:
+          smallToTheEndBonus =
+              -TarotRound.smallToTheEndBonus * contract.multiplayer;
+          break;
+        case TarotTeam.DEFENSE:
+          smallToTheEndBonus =
+              TarotRound.smallToTheEndBonus * contract.multiplayer;
+          break;
+        case null:
+          smallToTheEndBonus = 0.0;
+          break;
       }
       if (handfulTeam != null && handful != null) {
         switch (handfulTeam) {
           case TarotTeam.ATTACK:
-            handfulBonus = -handful.bonus.toDouble();
+            handfulBonus = -handful.bonus!.toDouble();
             break;
           case TarotTeam.DEFENSE:
-            handfulBonus = handful.bonus.toDouble();
+            handfulBonus = handful.bonus!.toDouble();
+            break;
+          case null:
+            handfulBonus = 0.0;
             break;
         }
       }
@@ -182,18 +191,18 @@ class TarotRound extends Round {
     }
     score += smallToTheEndBonus;
     score += handfulBonus;
-    attackScore = winCoefficient * score * (players.playerList.length - 1);
+    attackScore = winCoefficient * score * (players!.playerList!.length - 1);
     defenseScore = -winCoefficient * score;
     notifyListeners();
   }
 
-  TarotPlayerScore getScoreOf(String player) {
-    return playerPoints.firstWhere((element) => element.player == player);
+  TarotPlayerScore getScoreOf(String? player) {
+    return playerPoints!.firstWhere((element) => element.player == player);
   }
 
   @override
   String realTimeDisplay() {
-    if (players.playerList.length <= 4) {
+    if (players!.playerList!.length <= 4) {
       return 'Attaquant : ${attackScore.toStringAsFixed(1)} '
           '| Défenseurs : ${defenseScore.toStringAsFixed(1)}';
     } else {
@@ -210,21 +219,18 @@ class TarotRound extends Round {
       'defense_score': defenseScore,
       'attack_trick_points': attackTrickPoints,
       'defense_trick_points': defenseTrickPoints,
-      'players': players.toJSON(),
+      'players': players?.toJSON(),
       'oudler': EnumToString.convertToString(oudler),
       'contract': EnumToString.convertToString(contract),
       'bonus': EnumToString.convertToString(bonus),
       'handful': EnumToString.convertToString(handful),
       'small_to_the_end': EnumToString.convertToString(smallToTheEndTeam),
       'chelem': EnumToString.convertToString(chelem),
-      'player_points': playerPoints.map((e) => e.toJSON()).toList()
+      'player_points': playerPoints!.map((e) => e.toJSON()).toList()
     };
   }
 
   factory TarotRound.fromJSON(Map<String, dynamic> json) {
-    if (json == null) {
-      return null;
-    }
     return TarotRound(
       index: json['index'],
       attackScore: json['attack_score'],

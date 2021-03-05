@@ -23,15 +23,15 @@ class _LoginScreenState extends State<LoginScreen>
   final AuthMode _authMode = AuthMode.Login;
   final GlobalKey<FormState> _formKey = GlobalKey();
   final _passwordController = TextEditingController();
-  final Map<String, String> _authData = {
+  final Map<String, String?> _authData = {
     'email': '',
     'password': '',
     'username': ''
   };
   var _isLoginLoading = false;
   var _isLocalLoginLoading = false;
-  AnimationController _animationController;
-  Animation<double> _opacityAnimation;
+  late AnimationController _animationController;
+  late Animation<double> _opacityAnimation;
 
   Future<void> _localLogin() async {
     setState(() {
@@ -63,10 +63,10 @@ class _LoginScreenState extends State<LoginScreen>
   }
 
   Future<void> _resetPassword() async {
-    if (!_formKey.currentState.validate()) {
+    if (!_formKey.currentState!.validate()) {
       return;
     }
-    _formKey.currentState.save();
+    _formKey.currentState!.save();
     await showDialog(
         context: context,
         builder: (BuildContext context) =>
@@ -88,22 +88,22 @@ class _LoginScreenState extends State<LoginScreen>
     if (!currentFocus.hasPrimaryFocus) {
       currentFocus.unfocus();
     }
-    if (!_formKey.currentState.validate()) {
+    if (!_formKey.currentState!.validate()) {
       return;
     }
-    _formKey.currentState.save();
+    _formKey.currentState!.save();
     setState(() {
       _isLoginLoading = true;
     });
     try {
       if (_authMode == AuthMode.Login) {
         await Provider.of<AuthService>(context, listen: false)
-            .firebaseLoginIn(_authData['email'], _authData['password']);
+            .firebaseLoginIn(_authData['email']!, _authData['password']!);
         await Navigator.of(context)
             .pushReplacementNamed(HomeScreen.routeName, arguments: 0);
       } else {
         await Provider.of<AuthService>(context, listen: false).signUp(
-            _authData['email'], _authData['password'], _authData['username']);
+            _authData['email']!, _authData['password']!, _authData['username']);
         setState(() {
           _isLoginLoading = false;
         });
@@ -251,7 +251,7 @@ class _LoginScreenState extends State<LoginScreen>
                                                   .emailAddress,
                                               // ignore: missing_return
                                               validator: (value) {
-                                                if (value.isEmpty ||
+                                                if (value!.isEmpty ||
                                                     !value.contains('@')) {
                                                   return 'Email invalide';
                                                 }
@@ -280,7 +280,7 @@ class _LoginScreenState extends State<LoginScreen>
                                                   ),
                                                   // ignore: missing_return
                                                   validator: (value) {
-                                                    if (value.isEmpty) {
+                                                    if (value!.isEmpty) {
                                                       return 'Nom d`\'utilisateur non renseigné';
                                                     }
                                                   },
@@ -366,11 +366,11 @@ class _LoginScreenState extends State<LoginScreen>
                                                             .primaryColor),
                                                     foregroundColor:
                                                     MaterialStateProperty.all<
-                                                        Color>(
+                                                        Color?>(
                                                         Theme
                                                             .of(context)
                                                             .primaryTextTheme
-                                                            .button
+                                                            .button!
                                                             .color),
                                                     shape: MaterialStateProperty
                                                         .all<OutlinedBorder>(
@@ -494,11 +494,11 @@ class _LoginScreenState extends State<LoginScreen>
                               Theme
                                   .of(context)
                                   .primaryColor),
-                          foregroundColor: MaterialStateProperty.all<Color>(
+                          foregroundColor: MaterialStateProperty.all<Color?>(
                               Theme
                                   .of(context)
                                   .primaryTextTheme
-                                  .button
+                                  .button!
                                   .color),
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                           shape: MaterialStateProperty.all<OutlinedBorder>(

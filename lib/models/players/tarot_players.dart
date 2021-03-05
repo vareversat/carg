@@ -6,25 +6,25 @@ class TarotPlayers extends Players {
 
   @override
   void onSelectedPlayer(Player player) {
-    if (playerList.length < 5 && !playerList.contains(player.id)) {
+    if (playerList!.length < 5 && !playerList!.contains(player.id)) {
       player.selected = true;
-      playerList.add(player.id);
+      playerList!.add(player.id);
       notifyListeners();
-    } else if (playerList.contains(player.id)) {
+    } else if (playerList!.contains(player.id)) {
       player.selected = false;
-      playerList.remove(player.id);
+      playerList!.remove(player.id);
       notifyListeners();
     }
   }
 
   @override
   String getSelectedPlayersStatus() {
-    return 'Joueurs : ' + playerList.length.toString() + '/5';
+    return 'Joueurs : ' + playerList!.length.toString() + '/5';
   }
 
   @override
   bool isFull() {
-    return playerList.length >= 3;
+    return playerList!.length >= 3;
   }
 
   @override
@@ -38,9 +38,6 @@ class TarotPlayers extends Players {
   }
 
   factory TarotPlayers.fromJSON(Map<String, dynamic> json) {
-    if (json == null) {
-      return null;
-    }
     return TarotPlayers(
       playerList: json['player_list'],
     );

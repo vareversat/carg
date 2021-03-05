@@ -5,69 +5,68 @@ import 'package:carg/models/player.dart';
 import 'package:carg/models/players/players.dart';
 import 'package:carg/services/game/game_service.dart';
 import 'package:carg/services/score/score_service.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 
 abstract class Game<T extends Players> extends CargObject {
   DateTime startingDate;
-  DateTime endingDate;
-  bool isEnded;
-  String winner;
-  T players;
+  DateTime? endingDate;
+  bool? isEnded;
+  String? winner;
+  T? players;
   GameService gameService;
   ScoreService scoreService;
-  GameType _gameType;
+  late GameType _gameType;
 
-  String getGameTypeName() {
+  Game(
+      {String? id,
+      required gameType,
+      required this.gameService,
+      required this.scoreService,
+      this.players,
+      required this.startingDate,
+      this.endingDate,
+      this.winner,
+      this.isEnded = false})
+      : super(id: id) {
+    _gameType = gameType ?? GameType.UNDEFINE;
+  }
+
+  String? getGameTypeName() {
     return _gameType.name;
   }
 
-  String getGameplayDirection() {
+  String? getGameplayDirection() {
     return _gameType.direction;
   }
 
   void incrementPlayerPlayedGamesByOne(Player player) {
     GameStats stat;
-    var index = player.gameStatsList
+    var index = player.gameStatsList!
         .indexWhere((element) => element.gameType.name == _gameType.name);
     if (index == -1) {
       stat = GameStats(gameType: _gameType, wonGames: 0, playedGames: 1);
-      player.gameStatsList.add(stat);
+      player.gameStatsList!.add(stat);
     } else {
-      stat = player.gameStatsList[index];
+      stat = player.gameStatsList![index];
       stat.playedGames += 1;
-      player.gameStatsList.removeAt(index);
-      player.gameStatsList.add(stat);
+      player.gameStatsList!.removeAt(index);
+      player.gameStatsList!.add(stat);
     }
   }
 
   void incrementPlayerWonGamesByOne(Player player) {
     GameStats stat;
-    var index = player.gameStatsList
+    var index = player.gameStatsList!
         .indexWhere((element) => element.gameType.name == _gameType.name);
     if (index == -1) {
       stat = GameStats(gameType: _gameType, wonGames: 1, playedGames: 1);
-      player.gameStatsList.add(stat);
+      player.gameStatsList!.add(stat);
     } else {
-      stat = player.gameStatsList[index];
+      stat = player.gameStatsList![index];
       stat.wonGames += 1;
-      player.gameStatsList.removeAt(index);
-      player.gameStatsList.add(stat);
+      player.gameStatsList!.removeAt(index);
+      player.gameStatsList!.add(stat);
     }
-  }
-
-  Game(
-      {String id,
-      @required gameType,
-      @required this.gameService,
-      @required this.scoreService,
-      this.players,
-      this.startingDate,
-      this.endingDate,
-      this.winner,
-      this.isEnded = false})
-      : super(id: id) {
-    _gameType = gameType;
   }
 
   @override
@@ -75,7 +74,7 @@ abstract class Game<T extends Players> extends CargObject {
     return {
       'starting_date': DateFormat('yyyy-MM-ddTHH:mm:ss').format(startingDate),
       'ending_date': endingDate != null
-          ? DateFormat('yyyy-MM-ddTHH:mm:ss').format(endingDate)
+          ? DateFormat('yyyy-MM-ddTHH:mm:ss').format(endingDate!)
           : null,
       'is_ended': isEnded,
       'winners': winner
