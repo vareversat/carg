@@ -1,3 +1,11 @@
+# **v0.11.0** :
+
+- *Dev stuff* :
+  - Bump to Flutter 2
+  - Migrate to Dart null-safety
+  - Upgrade all packages
+  - Replace all deprecated packages
+
 # **v0.10.4** :
 
 - *New stuff* :
