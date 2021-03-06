@@ -6,6 +6,8 @@
   - Upgrade all packages
   - Replace all deprecated packages
 
+***
+
 # **v0.10.4** :
 
 - *New stuff* :
