@@ -1,20 +1,13 @@
 import 'package:carg/helpers/custom_route.dart';
-import 'package:carg/services/auth_service.dart';
-import 'package:carg/services/game/coinche_belote_service.dart';
-import 'package:carg/services/game/french_belote_service.dart';
-import 'package:carg/services/game/tarot_service.dart';
+import 'package:carg/models/game/game_type.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/screens/game_mode_picker_screen.dart';
 import 'package:carg/views/tabs/game_list_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 
 class GameListScreen extends StatelessWidget {
-  final FrenchBeloteService _beloteGameService = FrenchBeloteService();
-  final CoincheBeloteService _coincheGameService = CoincheBeloteService();
-  final TarotService _tarotGameService = TarotService();
 
   @override
   Widget build(BuildContext context) {
@@ -48,10 +41,7 @@ class GameListScreen extends StatelessWidget {
                             ),
                         label: Text('Nouvelle partie',
                             style: TextStyle(fontSize: 14)),
-                        icon: FaIcon(
-                          FontAwesomeIcons.plusCircle,
-                          size: 15,
-                        ))
+                        icon: FaIcon(FontAwesomeIcons.plusCircle, size: 15))
                   ],
                 ),
                 bottom: TabBar(
@@ -59,40 +49,24 @@ class GameListScreen extends StatelessWidget {
                   indicatorSize: TabBarIndicatorSize.tab,
                   tabs: [
                     Tab(
-                        child: Text(
-                      'Coinche',
-                      style: TextStyle(fontSize: 15),
-                    )),
+                        child: Text(GameType.COINCHE.name,
+                            style: TextStyle(fontSize: 15))),
                     Tab(
-                        child: Text(
-                      'Belote',
-                      style: TextStyle(fontSize: 15),
-                    )),
+                        child: Text(GameType.BELOTE.name,
+                            style: TextStyle(fontSize: 15))),
                     Tab(
-                        child: Text(
-                      'Tarot',
-                      style: TextStyle(fontSize: 15),
-                    ))
+                        child: Text(GameType.TAROT.name,
+                            style: TextStyle(fontSize: 15)))
                   ],
                 ),
               ),
             ),
-            body: Consumer<AuthService>(
-                builder: (context, auth, _) => TabBarView(
-                      children: [
-                        GameListWidget(
-                          gamesFuture: _coincheGameService
-                              .getAllGames(auth.getPlayerIdOfUser()),
-                        ),
-                        GameListWidget(
-                          gamesFuture: _beloteGameService
-                              .getAllGames(auth.getPlayerIdOfUser()),
-                        ),
-                        GameListWidget(
-                          gamesFuture: _tarotGameService
-                              .getAllGames(auth.getPlayerIdOfUser()),
-                        )
-                      ],
-                    ))));
+            body: TabBarView(
+              children: [
+                GameListWidget(gameType: GameType.COINCHE),
+                GameListWidget(gameType: GameType.BELOTE),
+                GameListWidget(gameType: GameType.TAROT)
+              ],
+            )));
   }
 }
