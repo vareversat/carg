@@ -21,7 +21,7 @@ class CoincheBeloteService implements BeloteService<CoincheBelote> {
   CoincheBeloteService() : super();
 
   @override
-  Future<List<CoincheBelote>> getAllGames(String? playerId) async {
+  Future<List<CoincheBelote>> getAllGames(String playerId) async {
     try {
       var coincheGames = <CoincheBelote>[];
       var querySnapshot = await FirebaseFirestore.instance

@@ -26,7 +26,7 @@ class FrenchBeloteService implements BeloteService<FrenchBelote> {
   }
 
   @override
-  Future<List<FrenchBelote>> getAllGames(String? playerId) async {
+  Future<List<FrenchBelote>> getAllGames(String playerId) async {
     try {
       var beloteGames = <FrenchBelote>[];
       var querySnapshot = await FirebaseFirestore.instance
