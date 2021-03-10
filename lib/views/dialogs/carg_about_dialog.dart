@@ -9,7 +9,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 class CargAboutDialog extends StatelessWidget {
   final String _repoUrl = 'https://github.com/vareversat/carg';
-  final String _legalLease = '© 2020 - Valentin REVERSAT';
+  final String _legalLease = '© ${DateTime.now().year} - Valentin REVERSAT';
   final String _errorMessage =
       'Impossible d\'obtenir les informations de l\'application';
   final String _appInfo =
