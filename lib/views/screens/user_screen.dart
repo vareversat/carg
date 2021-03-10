@@ -167,13 +167,17 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
                         backgroundColor: MaterialStateProperty.all<Color>(
                             Theme
                                 .of(context)
-                                .accentColor),
+                                .cardColor),
+                        foregroundColor: MaterialStateProperty.all<Color>(
+                            Theme
+                                .of(context)
+                                .primaryColor),
                         shape: MaterialStateProperty.all<OutlinedBorder>(
                             RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(
                                     CustomProperties.borderRadius)))),
                     onPressed: () async => await _showUpdatePlayerDialog(),
-                    label: Text('Editer'),
+                    label: Text('Éditer'),
                     icon: Icon(
                       FontAwesomeIcons.pen,
                       size: 13,

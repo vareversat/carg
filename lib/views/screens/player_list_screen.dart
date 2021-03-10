@@ -53,9 +53,9 @@ class _PlayerListScreenState extends State<PlayerListScreen> {
                   ElevatedButton.icon(
                       style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all<Color>(
-                              Theme.of(context).accentColor),
-                          foregroundColor: MaterialStateProperty.all<Color>(
                               Theme.of(context).cardColor),
+                          foregroundColor: MaterialStateProperty.all<Color>(
+                              Theme.of(context).primaryColor),
                           shape: MaterialStateProperty.all<OutlinedBorder>(
                               RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(
@@ -67,7 +67,7 @@ class _PlayerListScreenState extends State<PlayerListScreen> {
                                     PlayerInfoDialog(
                                         player: null, isEditing: false))
                           },
-                      label: Text('Ajouter un joueur',
+                      label: Text('Nouveau joueur',
                           style: TextStyle(fontSize: 14)),
                       icon: FaIcon(
                         FontAwesomeIcons.plusCircle,
