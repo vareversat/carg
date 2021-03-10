@@ -1,5 +1,8 @@
 import 'package:carg/helpers/custom_route.dart';
 import 'package:carg/models/game/game_type.dart';
+import 'package:carg/services/game/coinche_belote_service.dart';
+import 'package:carg/services/game/french_belote_service.dart';
+import 'package:carg/services/game/tarot_service.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/screens/game_mode_picker_screen.dart';
@@ -63,9 +66,9 @@ class GameListScreen extends StatelessWidget {
             ),
             body: TabBarView(
               children: [
-                GameListWidget(gameType: GameType.COINCHE),
-                GameListWidget(gameType: GameType.BELOTE),
-                GameListWidget(gameType: GameType.TAROT)
+                GameListWidget(gameService: CoincheBeloteService()),
+                GameListWidget(gameService: FrenchBeloteService()),
+                GameListWidget(gameService: TarotService())
               ],
             )));
   }

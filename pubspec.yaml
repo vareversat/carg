@@ -26,6 +26,7 @@ dependencies:
   url_launcher: ^6.0.2
   syncfusion_flutter_charts: ^18.4.44+1
   syncfusion_flutter_gauges: ^18.4.44
+  infinite_scroll_pagination: ^3.0.0
   flutter:
     sdk: flutter
   flutter_localizations:
