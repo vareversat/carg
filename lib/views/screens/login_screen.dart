@@ -144,17 +144,17 @@ class _LoginScreenState extends State<LoginScreen>
 
   @override
   void initState() {
-    super.initState();
     _animationController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 400));
     _opacityAnimation = Tween<double>(begin: 0, end: 1).animate(
         CurvedAnimation(parent: _animationController, curve: Curves.linear));
+    super.initState();
   }
 
   @override
   void dispose() {
-    super.dispose();
     _animationController.dispose();
+    super.dispose();
   }
 
   @override

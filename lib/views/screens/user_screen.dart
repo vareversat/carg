@@ -23,7 +23,7 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
-class UserScreen extends StatefulWidget {
+class UserScreen extends StatefulWidget  {
   static const routeName = '/user';
 
   @override
@@ -32,10 +32,12 @@ class UserScreen extends StatefulWidget {
   }
 }
 
-class _UserScreenState extends State<UserScreen> {
+class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateMixin  {
   String _errorMessage = 'Vous ne disposez pas de joueur';
-  final _playerService = PlayerService();
   Player? _player;
+  final _playerService = PlayerService();
+  late  Animation<Offset> _opacityAnimation;
+  late AnimationController _animationController;
 
   Future<void> _showUpdatePlayerDialog() async {
     var message = await showDialog(
@@ -130,6 +132,22 @@ class _UserScreenState extends State<UserScreen> {
                 color: Theme
                     .of(context)
                     .accentColor));
+  }
+
+  @override
+  void initState() {
+    _animationController =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 500));
+    _opacityAnimation = Tween<Offset>(begin: const Offset(-1.0, 0.0), end: Offset(0.0, 0.0)).animate(
+        CurvedAnimation(parent: _animationController, curve: Curves.ease));
+    _animationController.forward();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
   }
 
   @override
@@ -242,31 +260,34 @@ class _UserScreenState extends State<UserScreen> {
                                         .center,
                                     children: [
                                       Flexible(
-                                        child: Container(
-                                            width: 100,
-                                            height: 100,
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              border: Border.all(
-                                                  width: 4,
-                                                  color: Theme
-                                                      .of(context)
-                                                      .primaryColor),
-                                              image: DecorationImage(
-                                                  fit: BoxFit.fill,
-                                                  image: NetworkImage(
-                                                      player.profilePicture)),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: Colors.grey
-                                                      .withOpacity(0.5),
-                                                  spreadRadius: 5,
-                                                  blurRadius: 7,
-                                                  offset: Offset(0,
-                                                      3), // changes position of shadow
-                                                ),
-                                              ],
-                                            )),
+                                        child: SlideTransition(
+                                          position: _opacityAnimation,
+                                          child: Container(
+                                              width: 100,
+                                              height: 100,
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                border: Border.all(
+                                                    width: 4,
+                                                    color: Theme
+                                                        .of(context)
+                                                        .primaryColor),
+                                                image: DecorationImage(
+                                                    fit: BoxFit.fill,
+                                                    image: NetworkImage(
+                                                        player.profilePicture)),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.5),
+                                                    spreadRadius: 5,
+                                                    blurRadius: 7,
+                                                    offset: Offset(0,
+                                                        3), // changes position of shadow
+                                                  ),
+                                                ],
+                                              )),
+                                        ),
                                       ),
                                       Flexible(
                                         flex: 2,
