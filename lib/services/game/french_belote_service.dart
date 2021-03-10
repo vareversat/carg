@@ -12,28 +12,36 @@ import 'package:carg/services/team_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 
-class FrenchBeloteService implements BeloteService<FrenchBelote> {
-  late TeamService _teamService;
-  late PlayerService _playerService;
-  late BeloteScoreService _beloteScoreService;
+class FrenchBeloteService extends BeloteService<FrenchBelote> {
+  final TeamService _teamService = TeamService();
+  final PlayerService _playerService = PlayerService();
+  final BeloteScoreService _beloteScoreService = FrenchBeloteScoreService();
   static const String flavor =
       String.fromEnvironment('FLAVOR', defaultValue: 'dev');
 
-  FrenchBeloteService() : super() {
-    _teamService = TeamService();
-    _playerService = PlayerService();
-    _beloteScoreService = FrenchBeloteScoreService();
-  }
-
   @override
-  Future<List<FrenchBelote>> getAllGames(String playerId) async {
+  Future<List<FrenchBelote>> getAllGamesOfPlayerPaginated(
+      String playerId, int pageSize) async {
     try {
       var beloteGames = <FrenchBelote>[];
-      var querySnapshot = await FirebaseFirestore.instance
-          .collection('belote-game-' + flavor)
-          .where('players.player_list', arrayContains: playerId)
-          .orderBy('starting_date', descending: true)
-          .get();
+      var querySnapshot;
+      if (lastFetchGameDocument != null) {
+        querySnapshot = await FirebaseFirestore.instance
+            .collection('belote-game-' + flavor)
+            .where('players.player_list', arrayContains: playerId)
+            .orderBy('starting_date', descending: true)
+            .startAfterDocument(lastFetchGameDocument!)
+            .limit(pageSize)
+            .get();
+      } else {
+        querySnapshot = await FirebaseFirestore.instance
+            .collection('belote-game-' + flavor)
+            .where('players.player_list', arrayContains: playerId)
+            .orderBy('starting_date', descending: true)
+            .limit(pageSize)
+            .get();
+      }
+      lastFetchGameDocument = querySnapshot.docs.last;
       for (var doc in querySnapshot.docs) {
         beloteGames.add(FrenchBelote.fromJSON(doc.data(), doc.id));
       }

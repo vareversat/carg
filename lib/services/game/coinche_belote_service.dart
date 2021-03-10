@@ -11,24 +11,36 @@ import 'package:carg/services/team_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 
-class CoincheBeloteService implements BeloteService<CoincheBelote> {
+class CoincheBeloteService extends BeloteService<CoincheBelote> {
   final TeamService _teamService = TeamService();
   final PlayerService _playerService = PlayerService();
   final CoincheScoreService _coincheScoreService = CoincheScoreService();
   static const String flavor =
       String.fromEnvironment('FLAVOR', defaultValue: 'dev');
 
-  CoincheBeloteService() : super();
-
   @override
-  Future<List<CoincheBelote>> getAllGames(String playerId) async {
+  Future<List<CoincheBelote>> getAllGamesOfPlayerPaginated(
+      String playerId, int pageSize) async {
     try {
       var coincheGames = <CoincheBelote>[];
-      var querySnapshot = await FirebaseFirestore.instance
-          .collection('coinche-game-' + flavor)
-          .where('players.player_list', arrayContains: playerId)
-          .orderBy('starting_date', descending: true)
-          .get();
+      var querySnapshot;
+      if (lastFetchGameDocument != null) {
+        querySnapshot = await FirebaseFirestore.instance
+            .collection('coinche-game-' + flavor)
+            .where('players.player_list', arrayContains: playerId)
+            .orderBy('starting_date', descending: true)
+            .startAfterDocument(lastFetchGameDocument!)
+            .limit(pageSize)
+            .get();
+      } else {
+        querySnapshot = await FirebaseFirestore.instance
+            .collection('coinche-game-' + flavor)
+            .where('players.player_list', arrayContains: playerId)
+            .orderBy('starting_date', descending: true)
+            .limit(pageSize)
+            .get();
+      }
+      lastFetchGameDocument = querySnapshot.docs.last;
       for (var doc in querySnapshot.docs) {
         coincheGames.add(CoincheBelote.fromJSON(doc.data(), doc.id));
       }
