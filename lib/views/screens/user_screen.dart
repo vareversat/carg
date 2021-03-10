@@ -18,12 +18,14 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:syncfusion_flutter_charts/charts.dart';
+
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
-class UserScreen extends StatefulWidget  {
+class UserScreen extends StatefulWidget {
   static const routeName = '/user';
 
   @override
@@ -32,14 +34,15 @@ class UserScreen extends StatefulWidget  {
   }
 }
 
-class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateMixin  {
+class _UserScreenState extends State<UserScreen>
+    with SingleTickerProviderStateMixin {
   String _errorMessage = 'Vous ne disposez pas de joueur';
   Player? _player;
   final _playerService = PlayerService();
-  late  Animation<Offset> _opacityAnimation;
+  late Animation<Offset> _opacityAnimation;
   late AnimationController _animationController;
 
-  Future<void> _showUpdatePlayerDialog() async {
+  Future _showUpdatePlayerDialog() async {
     var message = await showDialog(
         context: context,
         builder: (BuildContext context) =>
@@ -49,7 +52,7 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
         margin: EdgeInsets.all(20),
         behavior: SnackBarBehavior.floating,
         content:
-        Text(message, style: CustomTextStyle.snackBarTextStyle(context)),
+            Text(message, style: CustomTextStyle.snackBarTextStyle(context)),
       ));
     }
   }
@@ -64,7 +67,7 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
         margin: EdgeInsets.all(20),
         behavior: SnackBarBehavior.floating,
         content:
-        Text(message, style: CustomTextStyle.snackBarTextStyle(context)),
+            Text(message, style: CustomTextStyle.snackBarTextStyle(context)),
       ));
     }
   }
@@ -79,7 +82,7 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
         margin: EdgeInsets.all(20),
         behavior: SnackBarBehavior.floating,
         content:
-        Text(message, style: CustomTextStyle.snackBarTextStyle(context)),
+            Text(message, style: CustomTextStyle.snackBarTextStyle(context)),
       ));
     }
   }
@@ -90,25 +93,19 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
           .isLocalLogin()) {
         await showDialog(
             context: context,
-            builder: (BuildContext context) =>
-                WarningDialog(
-                    message:
+            builder: (BuildContext context) => WarningDialog(
+                message:
                     'Vous utilisez actuellement un compte local. Si vous vous '
-                        'déconnecter, vous ne pourrez pas récupérer l\'utilisateur actuel',
-                    title: 'Attention',
-                    onConfirm: () async =>
-                    {
+                    'déconnecter, vous ne pourrez pas récupérer l\'utilisateur actuel',
+                title: 'Attention',
+                onConfirm: () async => {
                       await Provider.of<AuthService>(context, listen: false)
                           .signOut(),
                       await Navigator.of(context).pushReplacementNamed('/login')
                     },
-                    color: Theme
-                        .of(context)
-                        .errorColor,
-                    onConfirmButtonMessage:
-                    MaterialLocalizations
-                        .of(context)
-                        .okButtonLabel));
+                color: Theme.of(context).errorColor,
+                onConfirmButtonMessage:
+                    MaterialLocalizations.of(context).okButtonLabel));
       } else {
         await Provider.of<AuthService>(context, listen: false).signOut();
         await Navigator.of(context).pushReplacementNamed('/login');
@@ -121,28 +118,28 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
   Future<void> _resetPassword() async {
     await showDialog(
         context: context,
-        builder: (BuildContext context) =>
-            WarningDialog(
-                message:
+        builder: (BuildContext context) => WarningDialog(
+            message:
                 'Un email vous permettant de réinitialiser votre mot de passe va vous être envoyé',
-                title: 'Information',
-                onConfirm: () async =>
+            title: 'Information',
+            onConfirm: () async =>
                 await Provider.of<AuthService>(context, listen: false)
                     .resetPassword(null),
-                color: Theme
-                    .of(context)
-                    .accentColor));
+            color: Theme.of(context).accentColor));
   }
 
   @override
   void initState() {
     _animationController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 500));
-    _opacityAnimation = Tween<Offset>(begin: const Offset(-1.0, 0.0), end: Offset(0.0, 0.0)).animate(
-        CurvedAnimation(parent: _animationController, curve: Curves.ease));
+    _opacityAnimation = Tween<Offset>(
+            begin: const Offset(-1.0, 0.0), end: Offset(0.0, 0.0))
+        .animate(
+            CurvedAnimation(parent: _animationController, curve: Curves.ease));
     _animationController.forward();
     super.initState();
   }
+
 
   @override
   void dispose() {
@@ -150,49 +147,26 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
     super.dispose();
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(60),
           child: AppBar(
-            automaticallyImplyLeading: false,
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Profil',
-                    style: CustomTextStyle.screenHeadLine1(context)),
-                ElevatedButton.icon(
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            Theme
-                                .of(context)
-                                .cardColor),
-                        foregroundColor: MaterialStateProperty.all<Color>(
-                            Theme
-                                .of(context)
-                                .primaryColor),
-                        shape: MaterialStateProperty.all<OutlinedBorder>(
-                            RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                    CustomProperties.borderRadius)))),
-                    onPressed: () async => await _showUpdatePlayerDialog(),
-                    label: Text('Éditer'),
-                    icon: Icon(
-                      FontAwesomeIcons.pen,
-                      size: 13,
-                    ))
-              ],
-            ),
-          ),
+              automaticallyImplyLeading: false,
+              title: _AppBarTitle(
+                onPressEdit: _showUpdatePlayerDialog,
+              )),
         ),
         body: FutureBuilder<Player?>(
             future: _playerService
                 .getPlayerOfUser(
-                Provider.of<AuthService>(context, listen: false)
-                    .getConnectedUserId())
+                    Provider.of<AuthService>(context, listen: false)
+                        .getConnectedUserId())
                 .catchError(
-              // ignore: return_of_invalid_type_from_catch_error
+                    // ignore: return_of_invalid_type_from_catch_error
                     (onError) => {_errorMessage = onError.toString()}),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
@@ -202,10 +176,8 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
                         itemBuilder: (BuildContext context, int index) {
                           return DecoratedBox(
                               decoration: BoxDecoration(
-                                color: Theme
-                                    .of(context)
-                                    .accentColor,
-                              ));
+                            color: Theme.of(context).accentColor,
+                          ));
                         }));
               }
               if (snapshot.connectionState == ConnectionState.none ||
@@ -216,24 +188,17 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
                     ErrorMessageWidget(message: _errorMessage),
                     ElevatedButton.icon(
                         style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<
-                                Color>(
-                                Theme
-                                    .of(context)
-                                    .primaryColor),
-                            foregroundColor: MaterialStateProperty.all<
-                                Color>(
-                                Theme
-                                    .of(context)
-                                    .cardColor),
-                            shape: MaterialStateProperty.all<
-                                OutlinedBorder>(
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                Theme.of(context).primaryColor),
+                            foregroundColor: MaterialStateProperty.all<Color>(
+                                Theme.of(context).cardColor),
+                            shape: MaterialStateProperty.all<OutlinedBorder>(
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(
                                         CustomProperties.borderRadius)))),
                         onPressed: () async => _signOut(),
-                        label: Text('Connexion',
-                            style: TextStyle(fontSize: 14)),
+                        label:
+                            Text('Connexion', style: TextStyle(fontSize: 14)),
                         icon: Icon(Icons.arrow_back)),
                   ],
                 );
@@ -252,391 +217,67 @@ class _UserScreenState extends State<UserScreen> with SingleTickerProviderStateM
               return ChangeNotifierProvider.value(
                 value: _player!,
                 child: Consumer<Player>(
-                    builder: (context, player, _) =>
-                        SingleChildScrollView(
+                    builder: (context, player, _) => SingleChildScrollView(
                             child: (Column(children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.all(20.0),
-                                child: Row(
-                                    mainAxisAlignment: MainAxisAlignment
-                                        .start,
-                                    crossAxisAlignment: CrossAxisAlignment
-                                        .center,
-                                    children: [
-                                      Flexible(
-                                        child: SlideTransition(
-                                          position: _opacityAnimation,
-                                          child: Container(
-                                              width: 100,
-                                              height: 100,
-                                              decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                border: Border.all(
-                                                    width: 4,
-                                                    color: Theme
-                                                        .of(context)
-                                                        .primaryColor),
-                                                image: DecorationImage(
-                                                    fit: BoxFit.fill,
-                                                    image: NetworkImage(
-                                                        player.profilePicture)),
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                    color: Colors.grey
-                                                        .withOpacity(0.5),
-                                                    spreadRadius: 5,
-                                                    blurRadius: 7,
-                                                    offset: Offset(0,
-                                                        3), // changes position of shadow
-                                                  ),
-                                                ],
-                                              )),
-                                        ),
-                                      ),
-                                      Flexible(
-                                        flex: 2,
-                                        child: Center(
-                                          child: Padding(
-                                              padding:
-                                              const EdgeInsets.only(left: 25),
-                                              child: Text(_player!.userName!,
-                                                  overflow: TextOverflow.clip,
-                                                  style: TextStyle(
-                                                      fontSize: 40),
-                                                  textAlign: TextAlign
-                                                      .center)),
-                                        ),
-                                      )
-                                    ]),
-                              ),
-                              Divider(thickness: 1.5),
-                              Padding(
-                                  padding: const EdgeInsets.all(10),
-                                  child: Text('- STATISTIQUES -',
-                                      style: TextStyle(
-                                          fontSize: 25,
-                                          fontWeight: FontWeight.bold))),
-                              _player!.gameStatsList!.isNotEmpty
-                                  ? Column(children: [
-                                _StatCircularChart(
-                                    gameStatsList: _player!.gameStatsList),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 30),
-                                  child: Text(
-                                      '-- Pourcentages de victoires --',
-                                      style: Theme
-                                          .of(context)
-                                          .textTheme
-                                          .bodyText2!
-                                          .copyWith(
-                                          fontStyle: FontStyle.italic)),
-                                ),
-                                Row(
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                    children: [
-                                      Flexible(
-                                          child: Column(children: [
-                                            Icon(FontAwesomeIcons.trophy,
-                                                size: 20),
-                                            Padding(
-                                                padding:
-                                                const EdgeInsets.all(5.0),
-                                                child: Text(
-                                                    _player!
-                                                        .totalWonGames()
-                                                        .toString(),
-                                                    style: TextStyle(
-                                                        fontSize: 20,
-                                                        fontWeight:
-                                                        FontWeight.bold))),
-                                            Text('Victoires',
-                                                style: TextStyle(
-                                                    fontSize: 20))
-                                          ])),
-                                      Container(
-                                        decoration: BoxDecoration(
-                                            border: Border(
-                                                bottom: BorderSide(
-                                                  color: Theme
-                                                      .of(context)
-                                                      .primaryColor,
-                                                  width: 6, // Underline thickness
-                                                ))),
-                                        child: Text(
-                                            '${_player!
-                                                .totalWinPercentage()} %',
-                                            style: TextStyle(
-                                                fontSize: 35,
-                                                fontWeight:
-                                                FontWeight.bold)),
-                                      ),
-                                      Flexible(
-                                          child: Column(children: [
-                                            Icon(FontAwesomeIcons.gamepad,
-                                                size: 20),
-                                            Padding(
-                                                padding:
-                                                const EdgeInsets.all(5.0),
-                                                child: Text(
-                                                    _player!
-                                                        .totalPlayedGames()
-                                                        .toString(),
-                                                    style: TextStyle(
-                                                        fontSize: 20,
-                                                        fontWeight:
-                                                        FontWeight.bold))),
-                                            Text('Parties',
-                                                style: TextStyle(
-                                                    fontSize: 20))
-                                          ]))
-                                    ]),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 30),
-                                  child: Wrap(
-                                      runSpacing: 20,
-                                      spacing: 10,
-                                      alignment: WrapAlignment.spaceEvenly,
-                                      children: _player!.gameStatsList!
-                                          .map(
-                                            (stat) =>
-                                            ConstrainedBox(
-                                                constraints: BoxConstraints(
-                                                    maxWidth: 140,
-                                                    maxHeight: 140),
-                                                child: _StatGauge(
-                                                    gameStats: stat)),
-                                      )
-                                          .toList()
-                                          .cast<Widget>()),
-                                )
-                              ])
-                                  : Text('Pas encore de statistiques'),
-                              Padding(
-                                  padding: const EdgeInsets.all(20.0),
-                                  child: Column(children: [
-                                    FutureBuilder<bool>(
-                                        future: Provider.of<AuthService>(
-                                            context,
-                                            listen: true)
-                                            .isLocalLogin(),
-                                        builder: (context, snapshot) {
-                                          if (snapshot.connectionState ==
-                                              ConnectionState.done &&
-                                              snapshot.data != null) {
-                                            if (snapshot.data!) {
-                                              return Padding(
-                                                  padding:
-                                                  const EdgeInsets.all(8.0),
-                                                  child: ElevatedButton.icon(
-                                                      style: ButtonStyle(
-                                                          backgroundColor: MaterialStateProperty
-                                                              .all<Color>(
-                                                              Theme
-                                                                  .of(context)
-                                                                  .accentColor),
-                                                          foregroundColor: MaterialStateProperty
-                                                              .all<Color>(
-                                                              Theme
-                                                                  .of(context)
-                                                                  .cardColor),
-                                                          shape: MaterialStateProperty
-                                                              .all<
-                                                              OutlinedBorder>(
-                                                              RoundedRectangleBorder(
-                                                                  borderRadius: BorderRadius
-                                                                      .circular(
-                                                                      CustomProperties
-                                                                          .borderRadius)))),
-                                                      onPressed: () async =>
-                                                          _showCreateCredentials(),
-                                                      label: Flexible(
-                                                          child: Padding(
-                                                              padding: const EdgeInsets
-                                                                  .all(
-                                                                  12.0),
-                                                              child: Text(
-                                                                  'Créer un compte',
-                                                                  textAlign: TextAlign
-                                                                      .center,
-                                                                  style: TextStyle(
-                                                                      fontSize: Theme
-                                                                          .of(
-                                                                          context)
-                                                                          .textTheme
-                                                                          .bodyText1!
-                                                                          .fontSize)))),
-                                                      icon: FaIcon(
-                                                          FontAwesomeIcons
-                                                              .userPlus,
-                                                          size: 15)));
-                                            } else {
-                                              return Column(children: [
-                                                Padding(
-                                                    padding:
-                                                    const EdgeInsets.all(8.0),
-                                                    child: ElevatedButton
-                                                        .icon(
-                                                        style: ButtonStyle(
-                                                            backgroundColor: MaterialStateProperty
-                                                                .all<Color>(
-                                                                Theme
-                                                                    .of(
-                                                                    context)
-                                                                    .accentColor),
-                                                            foregroundColor: MaterialStateProperty
-                                                                .all<Color>(
-                                                                Theme
-                                                                    .of(
-                                                                    context)
-                                                                    .cardColor),
-                                                            shape: MaterialStateProperty
-                                                                .all<
-                                                                OutlinedBorder>(
-                                                                RoundedRectangleBorder(
-                                                                    borderRadius: BorderRadius
-                                                                        .circular(
-                                                                        CustomProperties
-                                                                            .borderRadius)))),
-                                                        onPressed: () async =>
-                                                        await _showUpdateCredentials(),
-                                                        label: Text(
-                                                            'Changer mon adresse email',
-                                                            textAlign:
-                                                            TextAlign
-                                                                .center,
-                                                            style: TextStyle(
-                                                                fontSize: 20)),
-                                                        icon: Icon(
-                                                            FontAwesomeIcons
-                                                                .at,
-                                                            size: 20))),
-                                                Padding(
-                                                    padding:
-                                                    const EdgeInsets.all(8.0),
-                                                    child: ElevatedButton
-                                                        .icon(
-                                                        style: ButtonStyle(
-                                                            backgroundColor: MaterialStateProperty
-                                                                .all<Color>(
-                                                                Theme
-                                                                    .of(
-                                                                    context)
-                                                                    .accentColor),
-                                                            foregroundColor: MaterialStateProperty
-                                                                .all<Color>(
-                                                                Theme
-                                                                    .of(
-                                                                    context)
-                                                                    .cardColor),
-                                                            shape: MaterialStateProperty
-                                                                .all<
-                                                                OutlinedBorder>(
-                                                                RoundedRectangleBorder(
-                                                                    borderRadius: BorderRadius
-                                                                        .circular(
-                                                                        CustomProperties
-                                                                            .borderRadius)))),
-                                                        onPressed: () async =>
-                                                            _resetPassword(),
-                                                        label: Text(
-                                                            'Changer mon mot de passe',
-                                                            textAlign:
-                                                            TextAlign
-                                                                .center,
-                                                            style: TextStyle(
-                                                                fontSize: 20)),
-                                                        icon: Icon(
-                                                          FontAwesomeIcons
-                                                              .lock,
-                                                          size: 20,
-                                                        )))
-                                              ]);
-                                            }
-                                          }
-                                          return Container();
-                                        }),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment
-                                          .center,
-                                      children: [
-                                        Padding(
-                                            padding: const EdgeInsets.all(
-                                                8.0),
-                                            child: ElevatedButton.icon(
-                                                style: ButtonStyle(
-                                                    backgroundColor: MaterialStateProperty
-                                                        .all<Color>(
-                                                        Colors.black),
-                                                    foregroundColor: MaterialStateProperty
-                                                        .all<Color>(
-                                                        Theme
-                                                            .of(context)
-                                                            .cardColor),
-                                                    shape: MaterialStateProperty
-                                                        .all<OutlinedBorder>(
-                                                        RoundedRectangleBorder(
-                                                            borderRadius: BorderRadius
-                                                                .circular(
-                                                                CustomProperties
-                                                                    .borderRadius)))),
-                                                onPressed: () async =>
-                                                await showGeneralDialog(
-                                                    transitionDuration: Duration(
-                                                        milliseconds: 300),
-                                                    context: context,
-                                                    pageBuilder: (
-                                                        BuildContext context,
-                                                        Animation<double>
-                                                        animation,
-                                                        Animation<double>
-                                                        secondaryAnimation) {
-                                                      return CargAboutDialog();
-                                                    }),
-                                                label: Text('A propos',
-                                                    textAlign:
-                                                    TextAlign.center,
-                                                    style: TextStyle(
-                                                        fontSize: 15)),
-                                                icon: Icon(
-                                                  FontAwesomeIcons.infoCircle,
-                                                  size: 16,
-                                                ))),
-                                        Padding(
-                                            padding: const EdgeInsets.all(
-                                                8.0),
-                                            child: ElevatedButton.icon(
-                                                style: ButtonStyle(
-                                                    backgroundColor: MaterialStateProperty
-                                                        .all<Color>(
-                                                        Theme
-                                                            .of(context)
-                                                            .errorColor),
-                                                    foregroundColor: MaterialStateProperty
-                                                        .all<Color>(
-                                                        Theme
-                                                            .of(context)
-                                                            .cardColor),
-                                                    shape: MaterialStateProperty
-                                                        .all<OutlinedBorder>(
-                                                        RoundedRectangleBorder(
-                                                            borderRadius: BorderRadius
-                                                                .circular(
-                                                                CustomProperties
-                                                                    .borderRadius)))),
-                                                onPressed: () async =>
-                                                    _signOut(),
-                                                label: Text('Déconnexion',
-                                                    style: TextStyle(
-                                                        fontSize: 15)),
-                                                icon: Icon(
-                                                  FontAwesomeIcons.signOutAlt,
-                                                  size: 16,
-                                                )))
-                                      ],
-                                    ),
-                                  ]))
-                            ])))),
+                          Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child: _PlayerUsernameAndProfilePictureWidget(
+                                  player: _player,
+                                  animation: _opacityAnimation)),
+                          Divider(thickness: 1.5),
+                          Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: Text('- STATISTIQUES -',
+                                  style: TextStyle(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold))),
+                          _player!.gameStatsList!.isNotEmpty
+                              ? Column(children: [
+                                  _StatCircularChart(
+                                      gameStatsList: _player!.gameStatsList),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 30),
+                                    child: Text(
+                                        '-- Pourcentages de victoires --',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyText2!
+                                            .copyWith(
+                                                fontStyle: FontStyle.italic)),
+                                  ),
+                                  _WonPlayedWidget(player: _player),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 30),
+                                    child: Wrap(
+                                        runSpacing: 20,
+                                        spacing: 10,
+                                        alignment: WrapAlignment.spaceEvenly,
+                                        children: _player!.gameStatsList!
+                                            .map(
+                                              (stat) => ConstrainedBox(
+                                                  constraints: BoxConstraints(
+                                                      maxWidth: 140,
+                                                      maxHeight: 140),
+                                                  child: _StatGauge(
+                                                      gameStats: stat)),
+                                            )
+                                            .toList()
+                                            .cast<Widget>()),
+                                  )
+                                ])
+                              : Text('Pas encore de statistiques'),
+                          Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child: _ButtonsBlockWidget(
+                                  onSignOut: _signOut,
+                                  onResetPassword: _resetPassword,
+                                  onShowCreateCredentials:
+                                      _showCreateCredentials,
+                                  onShowUpdateCredentials:
+                                      _showUpdateCredentials))
+                        ])))),
               );
             }));
   }
@@ -653,8 +294,7 @@ class _StatGauge extends StatelessWidget {
       child: SfRadialGauge(
         title: GaugeTitle(
             text: gameStats!.gameType.name,
-            textStyle: Theme
-                .of(context)
+            textStyle: Theme.of(context)
                 .textTheme
                 .bodyText2!
                 .copyWith(fontWeight: FontWeight.bold)),
@@ -667,7 +307,7 @@ class _StatGauge extends StatelessWidget {
                     widget: Text(
                       '${gameStats!.winPercentage().toString()}%',
                       style:
-                      TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
                     )),
                 GaugeAnnotation(
                     axisValue: 50,
@@ -686,15 +326,11 @@ class _StatGauge extends StatelessWidget {
                 GaugeRange(
                     startValue: 0,
                     endValue: gameStats!.winPercentage(),
-                    color: Theme
-                        .of(context)
-                        .primaryColor),
+                    color: Theme.of(context).primaryColor),
                 GaugeRange(
                     startValue: gameStats!.winPercentage(),
                     endValue: 100,
-                    color: Theme
-                        .of(context)
-                        .accentColor),
+                    color: Theme.of(context).accentColor),
               ]),
         ],
         enableLoadingAnimation: true,
@@ -712,15 +348,11 @@ class _StatCircularChart extends StatelessWidget {
   Widget build(BuildContext context) {
     return SfCircularChart(
         tooltipBehavior: TooltipBehavior(
-            enable: true, textStyle: Theme
-            .of(context)
-            .textTheme
-            .bodyText1!),
+            enable: true, textStyle: Theme.of(context).textTheme.bodyText1!),
         title: ChartTitle(
             text: '-- Distributions des parties --',
             alignment: ChartAlignment.center,
-            textStyle: Theme
-                .of(context)
+            textStyle: Theme.of(context)
                 .textTheme
                 .bodyText2!
                 .copyWith(fontStyle: FontStyle.italic)),
@@ -734,14 +366,269 @@ class _StatCircularChart extends StatelessWidget {
           )
         ],
         legend: Legend(
-          iconHeight: 20,
-          iconWidth: 20,
-            textStyle: Theme
-                .of(context)
-                .textTheme
-                .bodyText2!,
+            iconHeight: 20,
+            iconWidth: 20,
+            textStyle: Theme.of(context).textTheme.bodyText2!,
             position: LegendPosition.bottom,
             isVisible: true,
             toggleSeriesVisibility: true));
+  }
+}
+
+class _PlayerUsernameAndProfilePictureWidget extends StatelessWidget {
+  final Player? player;
+  final Animation<Offset> animation;
+
+  const _PlayerUsernameAndProfilePictureWidget(
+      {this.player, required this.animation});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Flexible(
+              child: SlideTransition(
+                  position: animation,
+                  child: Container(
+                      width: 100,
+                      height: 100,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                              width: 4, color: Theme.of(context).primaryColor),
+                          image: DecorationImage(
+                              fit: BoxFit.fill,
+                              image: NetworkImage(player!.profilePicture)),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 5,
+                                blurRadius: 7,
+                                offset: Offset(0, 3))
+                          ])))),
+          Flexible(
+              flex: 2,
+              child: Center(
+                  child: Padding(
+                      padding: const EdgeInsets.only(left: 25),
+                      child: Text(player!.userName!,
+                          overflow: TextOverflow.clip,
+                          style: TextStyle(fontSize: 40),
+                          textAlign: TextAlign.center))))
+        ]);
+  }
+}
+
+class _AppBarTitle extends StatelessWidget {
+  final Function onPressEdit;
+
+  const _AppBarTitle({required this.onPressEdit});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text('Profil', style: CustomTextStyle.screenHeadLine1(context)),
+        ElevatedButton.icon(
+            style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(
+                    Theme.of(context).cardColor),
+                foregroundColor: MaterialStateProperty.all<Color>(
+                    Theme.of(context).primaryColor),
+                shape: MaterialStateProperty.all<OutlinedBorder>(
+                    RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                            CustomProperties.borderRadius)))),
+            onPressed: () async => await onPressEdit(),
+            label: Text('Éditer'),
+            icon: Icon(
+              FontAwesomeIcons.pen,
+              size: 13,
+            ))
+      ],
+    );
+  }
+}
+
+class _WonPlayedWidget extends StatelessWidget {
+  final Player? player;
+
+  const _WonPlayedWidget({this.player});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+      Flexible(
+          child: Column(children: [
+        Icon(FontAwesomeIcons.trophy, size: 20),
+        Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: Text(player!.totalWonGames().toString(),
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold))),
+        Text('Victoires', style: TextStyle(fontSize: 20))
+      ])),
+      Container(
+        decoration: BoxDecoration(
+            border: Border(
+                bottom: BorderSide(
+          color: Theme.of(context).primaryColor,
+          width: 6, // Underline thickness
+        ))),
+        child: Text('${player!.totalWinPercentage()} %',
+            style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold)),
+      ),
+      Flexible(
+          child: Column(children: [
+        Icon(FontAwesomeIcons.gamepad, size: 20),
+        Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: Text(player!.totalPlayedGames().toString(),
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold))),
+        Text('Parties', style: TextStyle(fontSize: 20))
+      ]))
+    ]);
+  }
+}
+
+class _ButtonsBlockWidget extends StatelessWidget {
+  final Function onSignOut;
+  final Function onResetPassword;
+  final Function onShowCreateCredentials;
+  final Function onShowUpdateCredentials;
+
+  const _ButtonsBlockWidget(
+      {required this.onSignOut,
+      required this.onResetPassword,
+      required this.onShowCreateCredentials,
+      required this.onShowUpdateCredentials});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(children: [
+      FutureBuilder<bool>(
+          future:
+              Provider.of<AuthService>(context, listen: true).isLocalLogin(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done &&
+                snapshot.data != null) {
+              if (snapshot.data!) {
+                return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ElevatedButton.icon(
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                Theme.of(context).accentColor),
+                            foregroundColor: MaterialStateProperty.all<Color>(
+                                Theme.of(context).cardColor),
+                            shape: MaterialStateProperty.all<OutlinedBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(
+                                        CustomProperties.borderRadius)))),
+                        onPressed: () async => onShowCreateCredentials(),
+                        label: Flexible(
+                            child:
+                                Padding(padding: const EdgeInsets.all(12.0), child: Text('Créer un compte',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(fontSize: Theme.of(context).textTheme.bodyText1!.fontSize)))),
+                        icon: FaIcon(FontAwesomeIcons.userPlus, size: 15)));
+              } else {
+                return Column(children: [
+                  Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ElevatedButton.icon(
+                          style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                  Theme.of(context).accentColor),
+                              foregroundColor: MaterialStateProperty.all<Color>(
+                                  Theme.of(context).cardColor),
+                              shape: MaterialStateProperty.all<OutlinedBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(
+                                          CustomProperties.borderRadius)))),
+                          onPressed: () async =>
+                              await onShowUpdateCredentials(),
+                          label: Text('Changer mon adresse email',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(fontSize: 20)),
+                          icon: Icon(FontAwesomeIcons.at, size: 20))),
+                  Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ElevatedButton.icon(
+                          style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                  Theme.of(context).accentColor),
+                              foregroundColor: MaterialStateProperty.all<Color>(
+                                  Theme.of(context).cardColor),
+                              shape: MaterialStateProperty.all<OutlinedBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(
+                                          CustomProperties.borderRadius)))),
+                          onPressed: () async => onResetPassword(),
+                          label: Text('Changer mon mot de passe',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(fontSize: 20)),
+                          icon: Icon(
+                            FontAwesomeIcons.lock,
+                            size: 20,
+                          )))
+                ]);
+              }
+            }
+            return Container();
+          }),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton.icon(
+                  style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.black),
+                      foregroundColor: MaterialStateProperty.all<Color>(
+                          Theme.of(context).cardColor),
+                      shape: MaterialStateProperty.all<OutlinedBorder>(
+                          RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  CustomProperties.borderRadius)))),
+                  onPressed: () async => await showGeneralDialog(
+                      transitionDuration: Duration(milliseconds: 300),
+                      context: context,
+                      pageBuilder: (BuildContext context,
+                          Animation<double> animation,
+                          Animation<double> secondaryAnimation) {
+                        return CargAboutDialog();
+                      }),
+                  label: Text('A propos',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 15)),
+                  icon: Icon(
+                    FontAwesomeIcons.infoCircle,
+                    size: 16,
+                  ))),
+          Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton.icon(
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          Theme.of(context).errorColor),
+                      foregroundColor: MaterialStateProperty.all<Color>(
+                          Theme.of(context).cardColor),
+                      shape: MaterialStateProperty.all<OutlinedBorder>(
+                          RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  CustomProperties.borderRadius)))),
+                  onPressed: () async => onSignOut(),
+                  label: Text('Déconnexion', style: TextStyle(fontSize: 15)),
+                  icon: Icon(
+                    FontAwesomeIcons.signOutAlt,
+                    size: 16,
+                  )))
+        ],
+      ),
+    ]);
   }
 }
