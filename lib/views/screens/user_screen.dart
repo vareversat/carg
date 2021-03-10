@@ -20,7 +20,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:syncfusion_flutter_charts/charts.dart';
-
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
@@ -143,7 +142,7 @@ class _UserScreenState extends State<UserScreen> {
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Mon profil',
+                Text('Profil',
                     style: CustomTextStyle.screenHeadLine1(context)),
                 ElevatedButton.icon(
                     style: ButtonStyle(
@@ -297,8 +296,7 @@ class _UserScreenState extends State<UserScreen> {
                                 _StatCircularChart(
                                     gameStatsList: _player!.gameStatsList),
                                 Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 30, bottom: 25),
+                                  padding: const EdgeInsets.symmetric(vertical: 30),
                                   child: Text(
                                       '-- Pourcentages de victoires --',
                                       style: Theme
@@ -369,33 +367,24 @@ class _UserScreenState extends State<UserScreen> {
                                           ]))
                                     ]),
                                 Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 30, bottom: 25),
-                                  child: Text(
-                                      '-- Pourcentages de victoires par jeu de cartes --',
-                                      style: Theme
-                                          .of(context)
-                                          .textTheme
-                                          .bodyText2!
-                                          .copyWith(
-                                          fontStyle: FontStyle.italic)),
-                                ),
-                                Wrap(
-                                    runSpacing: 20,
-                                    spacing: 10,
-                                    alignment: WrapAlignment.spaceEvenly,
-                                    children: _player!.gameStatsList!
-                                        .map(
-                                          (stat) =>
-                                          ConstrainedBox(
-                                              constraints: BoxConstraints(
-                                                  maxWidth: 140,
-                                                  maxHeight: 140),
-                                              child: _StatGauge(
-                                                  gameStats: stat)),
-                                    )
-                                        .toList()
-                                        .cast<Widget>())
+                                  padding: const EdgeInsets.symmetric(vertical: 30),
+                                  child: Wrap(
+                                      runSpacing: 20,
+                                      spacing: 10,
+                                      alignment: WrapAlignment.spaceEvenly,
+                                      children: _player!.gameStatsList!
+                                          .map(
+                                            (stat) =>
+                                            ConstrainedBox(
+                                                constraints: BoxConstraints(
+                                                    maxWidth: 140,
+                                                    maxHeight: 140),
+                                                child: _StatGauge(
+                                                    gameStats: stat)),
+                                      )
+                                          .toList()
+                                          .cast<Widget>()),
+                                )
                               ])
                                   : Text('Pas encore de statistiques'),
                               Padding(
@@ -720,12 +709,14 @@ class _StatCircularChart extends StatelessWidget {
           )
         ],
         legend: Legend(
+          iconHeight: 20,
+          iconWidth: 20,
             textStyle: Theme
                 .of(context)
                 .textTheme
                 .bodyText2!,
-            position: LegendPosition.right,
+            position: LegendPosition.bottom,
             isVisible: true,
-            toggleSeriesVisibility: false));
+            toggleSeriesVisibility: true));
   }
 }

@@ -22,7 +22,7 @@ class CustomTextStyle {
     return Theme.of(context)
         .textTheme
         .headline1!
-        .copyWith(fontSize: 35, color: Colors.white);
+        .copyWith(fontSize: 35, color: Colors.white, fontWeight: FontWeight.bold);
   }
 
   static TextStyle screenHeadLine2(BuildContext context) {
