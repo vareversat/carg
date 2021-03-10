@@ -153,15 +153,15 @@ class _ShowScoreWidgetState extends State<_ShowScoreWidget> {
 }
 
 class _ButtonRowWidget extends StatelessWidget {
-  final Belote? beloteGame;
+  final Belote beloteGame;
 
-  const _ButtonRowWidget({this.beloteGame});
+  const _ButtonRowWidget({required this.beloteGame});
 
   @override
   Widget build(BuildContext context) {
     return Wrap(alignment: WrapAlignment.spaceAround, spacing: 20, children: <
         Widget>[
-      if (!beloteGame!.isEnded!)
+      if (!beloteGame.isEnded!)
         ElevatedButton.icon(
             style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(Colors.black),
@@ -177,7 +177,7 @@ class _ButtonRowWidget extends StatelessWidget {
                       builder: (BuildContext context) => WarningDialog(
                           onConfirm: () async =>
                           {
-                                await beloteGame!.gameService
+                                await beloteGame.gameService
                                     .endAGame(beloteGame),
                               },
                           message:
@@ -206,14 +206,14 @@ class _ButtonRowWidget extends StatelessWidget {
                     context: context,
                     builder: (BuildContext context) => WarningDialog(
                         onConfirm: () => {
-                              beloteGame!.gameService.deleteGame(beloteGame!.id)
+                              beloteGame.gameService.deleteGame(beloteGame.id)
                             },
                         message: 'Tu es sur le point de supprimer une partie.',
                         title: 'Suppression'))
               },
           label: Text(MaterialLocalizations.of(context).deleteButtonTooltip),
           icon: Icon(Icons.delete_forever)),
-      if (!beloteGame!.isEnded!)
+      if (!beloteGame.isEnded!)
         ElevatedButton.icon(
             style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(

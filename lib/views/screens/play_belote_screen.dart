@@ -15,7 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class PlayBeloteScreen extends StatefulWidget {
-  final Belote? teamGame;
+  final Belote teamGame;
 
   const PlayBeloteScreen({required this.teamGame});
 
@@ -26,7 +26,7 @@ class PlayBeloteScreen extends StatefulWidget {
 }
 
 class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
-  final Belote? _teamGame;
+  final Belote _teamGame;
   String? _errorMessage;
 
   void _addNewRound() {
@@ -36,7 +36,7 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
           builder: (context) => AddBeloteRoundScreen(
               teamGame: _teamGame,
               beloteRound:
-                  _teamGame!.scoreService.getNewRound() as BeloteRound?)),
+                  _teamGame.scoreService.getNewRound() as BeloteRound?)),
     );
   }
 
@@ -44,9 +44,10 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
     await showDialog(
       context: context,
       builder: (BuildContext context) => WarningDialog(
-          onConfirm: () async => {
-                await _teamGame!.scoreService
-                    .deleteLastRoundOfGame(_teamGame!.id),
+          onConfirm: () async =>
+          {
+                await _teamGame.scoreService
+                    .deleteLastRoundOfGame(_teamGame.id),
               },
           message:
               'Tu es sur le point de supprimer la dernière manche de la partie. Cette action est irréversible',
@@ -59,8 +60,9 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
     await showDialog(
         context: context,
         builder: (BuildContext context) => WarningDialog(
-              onConfirm: () async => {
-                await _teamGame!.gameService.endAGame(_teamGame),
+              onConfirm: () async =>
+              {
+                await _teamGame.gameService.endAGame(_teamGame),
                 await Navigator.of(context)
                     .pushReplacementNamed(HomeScreen.routeName, arguments: 1)
               },
@@ -74,7 +76,7 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
   void _editLastRound() async {
     var lastRound;
     try {
-      lastRound = (await _teamGame!.scoreService.getScoreByGame(_teamGame!.id))!
+      lastRound = (await _teamGame.scoreService.getScoreByGame(_teamGame.id))!
           .getLastRound();
       await Navigator.push(
           context,
@@ -102,7 +104,7 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            title: Text(_teamGame!.getGameTypeName()!,
+            title: Text(_teamGame.getGameTypeName()!,
                 style: CustomTextStyle.screenHeadLine2(context)),
             centerTitle: true,
             automaticallyImplyLeading: false,
@@ -113,8 +115,8 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
           Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(children: <Widget>[
-                TeamWidget(teamId: _teamGame!.players!.us, title: 'Nous'),
-                TeamWidget(teamId: _teamGame!.players!.them, title: 'Eux')
+                TeamWidget(teamId: _teamGame.players!.us, title: 'Nous'),
+                TeamWidget(teamId: _teamGame.players!.them, title: 'Eux')
               ])),
           Flexible(
               child: Container(
@@ -179,22 +181,22 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
                                           ]);
                                     }),
                               )),
-                          if (!_teamGame!.isEnded!)
+                          if (!_teamGame.isEnded!)
                             NextPlayerWidget(
-                                playerId: _teamGame!.players!.playerList![
+                                playerId: _teamGame.players!.playerList![
                                     snapshot.data!.rounds!.length % 4]),
                         ]);
                   } else {
                     return ErrorMessageWidget(message: _errorMessage);
                   }
                 },
-                stream: _teamGame!.scoreService
-                        .getScoreByGameStream(_teamGame!.id)
+                stream: _teamGame.scoreService
+                        .getScoreByGameStream(_teamGame.id)
                         .handleError(
                             (error) => {_errorMessage = error.toString()})
                     as Stream<BeloteScore<BeloteRound>?>?),
           )),
-          if (!_teamGame!.isEnded!)
+          if (!_teamGame.isEnded!)
             Wrap(
                 runSpacing: 10,
                 spacing: 10,
