@@ -20,9 +20,12 @@ class CoincheBeloteService extends BeloteService<CoincheBelote> {
 
   @override
   Future<List<CoincheBelote>> getAllGamesOfPlayerPaginated(
-      String playerId, int pageSize) async {
+      String? playerId, int pageSize) async {
     try {
       var coincheGames = <CoincheBelote>[];
+      if (playerId == null) {
+        return coincheGames;
+      }
       var querySnapshot;
       if (lastFetchGameDocument != null) {
         querySnapshot = await FirebaseFirestore.instance
@@ -39,6 +42,9 @@ class CoincheBeloteService extends BeloteService<CoincheBelote> {
             .orderBy('starting_date', descending: true)
             .limit(pageSize)
             .get();
+      }
+      if (querySnapshot.docs.isEmpty) {
+        return coincheGames;
       }
       lastFetchGameDocument = querySnapshot.docs.last;
       for (var doc in querySnapshot.docs) {

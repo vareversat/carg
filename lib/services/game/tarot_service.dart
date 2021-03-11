@@ -18,9 +18,12 @@ class TarotService extends GameService<Tarot, TarotPlayers> {
 
   @override
   Future<List<Tarot>> getAllGamesOfPlayerPaginated(
-      String playerId, int pageSize) async {
+      String? playerId, int pageSize) async {
     try {
       var tarotGames = <Tarot>[];
+      if (playerId == null) {
+        return tarotGames;
+      }
       var querySnapshot;
       if (lastFetchGameDocument != null) {
         querySnapshot = await FirebaseFirestore.instance
@@ -37,6 +40,9 @@ class TarotService extends GameService<Tarot, TarotPlayers> {
             .orderBy('starting_date', descending: true)
             .limit(pageSize)
             .get();
+      }
+      if (querySnapshot.docs.isEmpty) {
+        return tarotGames;
       }
       lastFetchGameDocument = querySnapshot.docs.last;
       for (var doc in querySnapshot.docs) {

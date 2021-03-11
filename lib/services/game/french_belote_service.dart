@@ -21,10 +21,13 @@ class FrenchBeloteService extends BeloteService<FrenchBelote> {
 
   @override
   Future<List<FrenchBelote>> getAllGamesOfPlayerPaginated(
-      String playerId, int pageSize) async {
+      String? playerId, int pageSize) async {
     try {
       var beloteGames = <FrenchBelote>[];
-      var querySnapshot;
+      if (playerId == null) {
+        return beloteGames;
+      }
+      QuerySnapshot querySnapshot;
       if (lastFetchGameDocument != null) {
         querySnapshot = await FirebaseFirestore.instance
             .collection('belote-game-' + flavor)
@@ -40,6 +43,9 @@ class FrenchBeloteService extends BeloteService<FrenchBelote> {
             .orderBy('starting_date', descending: true)
             .limit(pageSize)
             .get();
+      }
+      if (querySnapshot.docs.isEmpty) {
+        return beloteGames;
       }
       lastFetchGameDocument = querySnapshot.docs.last;
       for (var doc in querySnapshot.docs) {
