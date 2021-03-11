@@ -159,9 +159,10 @@ class _UserScreenState extends State<UserScreen>
                 return CustomScrollView(
                   slivers: [
                     SliverAppBar(
+                      automaticallyImplyLeading: false,
                       forceElevated: true,
-                      expandedHeight: 170,
-                      collapsedHeight: 100,
+                      expandedHeight: 200,
+                      collapsedHeight: 140,
                       title: _AppBarTitle(
                         onPressEdit: _showUpdatePlayerDialog,
                       ),
@@ -213,11 +214,12 @@ class _UserScreenState extends State<UserScreen>
                     builder: (context, player, _) => CustomScrollView(
                           slivers: [
                             SliverAppBar(
+                              automaticallyImplyLeading: false,
                               floating: true,
                               pinned: true,
                               forceElevated: true,
                               expandedHeight: 200,
-                              collapsedHeight: 130,
+                              collapsedHeight: 140,
                               title: _AppBarTitle(
                                 onPressEdit: _showUpdatePlayerDialog,
                               ),
@@ -270,7 +272,10 @@ class _UserScreenState extends State<UserScreen>
                                                   .cast<Widget>()),
                                         )
                                       ])
-                                    : Text('Pas encore de statistiques'),
+                                    : Center(child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text('Pas encore de statistiques', style: TextStyle(fontSize: 25, fontStyle: FontStyle.italic),),
+                                    )),
                                 Padding(
                                     padding: const EdgeInsets.all(20.0),
                                     child: _ButtonsBlockWidget(
