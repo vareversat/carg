@@ -1,3 +1,17 @@
+# **v0.11.5** :
+
+- *Dev stuff* :
+  - com.google.firebase:perf-plugin 1.3.4 => 1.3.5
+  - com.google.firebase:firebase-bom 26.2.0 => 26.6.0 
+  - All firebase dependencies are now dictated by the BOM version
+
+- *New stuff* :
+  - New UI for the UserScreen
+  - Games are now paginated
+  - AppBar buttons are now white instead of accent color
+
+***
+
 # **v0.11.0** :
 
 - *Dev stuff* :
