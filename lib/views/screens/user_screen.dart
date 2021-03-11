@@ -15,13 +15,10 @@ import 'package:carg/views/widgets/error_message_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:syncfusion_flutter_charts/charts.dart';
-
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
@@ -133,13 +130,12 @@ class _UserScreenState extends State<UserScreen>
     _animationController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 500));
     _opacityAnimation = Tween<Offset>(
-            begin: const Offset(-1.0, 0.0), end: Offset(0.0, 0.0))
+            begin: const Offset(0.0, -1.0), end: Offset(0.0, 0.0))
         .animate(
             CurvedAnimation(parent: _animationController, curve: Curves.ease));
     _animationController.forward();
     super.initState();
   }
-
 
   @override
   void dispose() {
@@ -147,19 +143,9 @@ class _UserScreenState extends State<UserScreen>
     super.dispose();
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(60),
-          child: AppBar(
-              automaticallyImplyLeading: false,
-              title: _AppBarTitle(
-                onPressEdit: _showUpdatePlayerDialog,
-              )),
-        ),
         body: FutureBuilder<Player?>(
             future: _playerService
                 .getPlayerOfUser(
@@ -170,15 +156,22 @@ class _UserScreenState extends State<UserScreen>
                     (onError) => {_errorMessage = onError.toString()}),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(
-                    child: SpinKitThreeBounce(
-                        size: 20,
-                        itemBuilder: (BuildContext context, int index) {
-                          return DecoratedBox(
-                              decoration: BoxDecoration(
-                            color: Theme.of(context).accentColor,
-                          ));
-                        }));
+                return CustomScrollView(
+                  slivers: [
+                    SliverAppBar(
+                      forceElevated: true,
+                      expandedHeight: 170,
+                      collapsedHeight: 100,
+                      title: _AppBarTitle(
+                        onPressEdit: _showUpdatePlayerDialog,
+                      ),
+                      flexibleSpace: FlexibleSpaceBar(
+                        centerTitle: true,
+                        title: Text(''),
+                      ),
+                    )
+                  ],
+                );
               }
               if (snapshot.connectionState == ConnectionState.none ||
                   snapshot.data == null) {
@@ -217,67 +210,80 @@ class _UserScreenState extends State<UserScreen>
               return ChangeNotifierProvider.value(
                 value: _player!,
                 child: Consumer<Player>(
-                    builder: (context, player, _) => SingleChildScrollView(
-                            child: (Column(children: <Widget>[
-                          Padding(
-                              padding: const EdgeInsets.all(20.0),
-                              child: _PlayerUsernameAndProfilePictureWidget(
-                                  player: _player,
-                                  animation: _opacityAnimation)),
-                          Divider(thickness: 1.5),
-                          Padding(
-                              padding: const EdgeInsets.all(10),
-                              child: Text('- STATISTIQUES -',
-                                  style: TextStyle(
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.bold))),
-                          _player!.gameStatsList!.isNotEmpty
-                              ? Column(children: [
-                                  _StatCircularChart(
-                                      gameStatsList: _player!.gameStatsList),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 30),
-                                    child: Text(
-                                        '-- Pourcentages de victoires --',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText2!
-                                            .copyWith(
-                                                fontStyle: FontStyle.italic)),
-                                  ),
-                                  _WonPlayedWidget(player: _player),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 30),
-                                    child: Wrap(
-                                        runSpacing: 20,
-                                        spacing: 10,
-                                        alignment: WrapAlignment.spaceEvenly,
-                                        children: _player!.gameStatsList!
-                                            .map(
-                                              (stat) => ConstrainedBox(
-                                                  constraints: BoxConstraints(
-                                                      maxWidth: 140,
-                                                      maxHeight: 140),
-                                                  child: _StatGauge(
-                                                      gameStats: stat)),
-                                            )
-                                            .toList()
-                                            .cast<Widget>()),
-                                  )
-                                ])
-                              : Text('Pas encore de statistiques'),
-                          Padding(
-                              padding: const EdgeInsets.all(20.0),
-                              child: _ButtonsBlockWidget(
-                                  onSignOut: _signOut,
-                                  onResetPassword: _resetPassword,
-                                  onShowCreateCredentials:
-                                      _showCreateCredentials,
-                                  onShowUpdateCredentials:
-                                      _showUpdateCredentials))
-                        ])))),
+                    builder: (context, player, _) => CustomScrollView(
+                          slivers: [
+                            SliverAppBar(
+                              floating: true,
+                              pinned: true,
+                              forceElevated: true,
+                              expandedHeight: 200,
+                              collapsedHeight: 130,
+                              title: _AppBarTitle(
+                                onPressEdit: _showUpdatePlayerDialog,
+                              ),
+                              flexibleSpace: FlexibleSpaceBar(
+                                centerTitle: true,
+                                title: _PlayerUsernameAndProfilePictureWidget(
+                                    player: _player,
+                                    animation: _opacityAnimation),
+                              ),
+                            ),
+                            SliverList(
+                              delegate: SliverChildListDelegate([
+                                _player!.gameStatsList!.isNotEmpty
+                                    ? Column(children: [
+                                        _StatCircularChart(
+                                            gameStatsList:
+                                                _player!.gameStatsList),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 30),
+                                          child: Text(
+                                              '-- Pourcentages de victoires --',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyText2!
+                                                  .copyWith(
+                                                      fontStyle:
+                                                          FontStyle.italic)),
+                                        ),
+                                        _WonPlayedWidget(player: _player),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 30),
+                                          child: Wrap(
+                                              runSpacing: 20,
+                                              spacing: 10,
+                                              alignment:
+                                                  WrapAlignment.spaceEvenly,
+                                              children: _player!.gameStatsList!
+                                                  .map(
+                                                    (stat) => ConstrainedBox(
+                                                        constraints:
+                                                            BoxConstraints(
+                                                                maxWidth: 140,
+                                                                maxHeight: 140),
+                                                        child: _StatGauge(
+                                                            gameStats: stat)),
+                                                  )
+                                                  .toList()
+                                                  .cast<Widget>()),
+                                        )
+                                      ])
+                                    : Text('Pas encore de statistiques'),
+                                Padding(
+                                    padding: const EdgeInsets.all(20.0),
+                                    child: _ButtonsBlockWidget(
+                                        onSignOut: _signOut,
+                                        onResetPassword: _resetPassword,
+                                        onShowCreateCredentials:
+                                            _showCreateCredentials,
+                                        onShowUpdateCredentials:
+                                            _showUpdateCredentials))
+                              ]),
+                            )
+                          ],
+                        )),
               );
             }));
   }
@@ -384,40 +390,31 @@ class _PlayerUsernameAndProfilePictureWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Flexible(
-              child: SlideTransition(
-                  position: animation,
-                  child: Container(
-                      width: 100,
-                      height: 100,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                              width: 4, color: Theme.of(context).primaryColor),
-                          image: DecorationImage(
-                              fit: BoxFit.fill,
-                              image: NetworkImage(player!.profilePicture)),
-                          boxShadow: [
-                            BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                spreadRadius: 5,
-                                blurRadius: 7,
-                                offset: Offset(0, 3))
-                          ])))),
-          Flexible(
-              flex: 2,
-              child: Center(
-                  child: Padding(
-                      padding: const EdgeInsets.only(left: 25),
-                      child: Text(player!.userName!,
-                          overflow: TextOverflow.clip,
-                          style: TextStyle(fontSize: 40),
-                          textAlign: TextAlign.center))))
-        ]);
+    return Column(mainAxisAlignment: MainAxisAlignment.end, children: [
+      Flexible(
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 6.0),
+          child: SlideTransition(
+              position: animation,
+              child: Container(
+                  width: 80,
+                  height: 80,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                        width: 2, color: Theme.of(context).cardColor),
+                    image: DecorationImage(
+                        fit: BoxFit.fill,
+                        image: NetworkImage(player!.profilePicture)),
+                  ))),
+        ),
+      ),
+      Center(
+          child: Text(player!.userName!,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(fontSize: 25),
+              textAlign: TextAlign.center))
+    ]);
   }
 }
 
@@ -530,10 +527,8 @@ class _ButtonsBlockWidget extends StatelessWidget {
                         onPressed: () async => onShowCreateCredentials(),
                         label: Flexible(
                             child:
-                                Padding(padding: const EdgeInsets.all(12.0), child: Text('Créer un compte',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(fontSize: Theme.of(context).textTheme.bodyText1!.fontSize)))),
-                        icon: FaIcon(FontAwesomeIcons.userPlus, size: 15)));
+                                Padding(padding: const EdgeInsets.all(12.0), child: Text('Créer un compte', textAlign: TextAlign.center))),
+                        icon: FaIcon(FontAwesomeIcons.userPlus, size: 13)));
               } else {
                 return Column(children: [
                   Padding(
@@ -551,9 +546,8 @@ class _ButtonsBlockWidget extends StatelessWidget {
                           onPressed: () async =>
                               await onShowUpdateCredentials(),
                           label: Text('Changer mon adresse email',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 20)),
-                          icon: Icon(FontAwesomeIcons.at, size: 20))),
+                              textAlign: TextAlign.center),
+                          icon: Icon(FontAwesomeIcons.at, size: 13))),
                   Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: ElevatedButton.icon(
@@ -568,11 +562,10 @@ class _ButtonsBlockWidget extends StatelessWidget {
                                           CustomProperties.borderRadius)))),
                           onPressed: () async => onResetPassword(),
                           label: Text('Changer mon mot de passe',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 20)),
+                              textAlign: TextAlign.center),
                           icon: Icon(
                             FontAwesomeIcons.lock,
-                            size: 20,
+                            size: 13,
                           )))
                 ]);
               }
@@ -602,12 +595,10 @@ class _ButtonsBlockWidget extends StatelessWidget {
                           Animation<double> secondaryAnimation) {
                         return CargAboutDialog();
                       }),
-                  label: Text('A propos',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 15)),
+                  label: Text('A propos', textAlign: TextAlign.center),
                   icon: Icon(
                     FontAwesomeIcons.infoCircle,
-                    size: 16,
+                    size: 13,
                   ))),
           Padding(
               padding: const EdgeInsets.all(8.0),
@@ -622,10 +613,10 @@ class _ButtonsBlockWidget extends StatelessWidget {
                               borderRadius: BorderRadius.circular(
                                   CustomProperties.borderRadius)))),
                   onPressed: () async => onSignOut(),
-                  label: Text('Déconnexion', style: TextStyle(fontSize: 15)),
+                  label: Text('Déconnexion'),
                   icon: Icon(
                     FontAwesomeIcons.signOutAlt,
-                    size: 16,
+                    size: 13,
                   )))
         ],
       ),

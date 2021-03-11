@@ -24,7 +24,7 @@ class GameListWidget extends StatefulWidget {
 
 class _GameListWidgetState extends State<GameListWidget> {
   final GameService _gameService;
-  late final String _playerId;
+  late final String? _playerId;
   final _pagingController = PagingController<int, Game>(
     firstPageKey: 1,
   );
@@ -52,7 +52,7 @@ class _GameListWidgetState extends State<GameListWidget> {
   void initState() {
     _gameService.lastFetchGameDocument = null;
     _playerId =
-        Provider.of<AuthService>(context, listen: false).getPlayerIdOfUser()!;
+        Provider.of<AuthService>(context, listen: false).getPlayerIdOfUser();
     _pagingController.addPageRequestListener((pageKey) {
       _fetchGames(pageKey);
     });
@@ -83,6 +83,21 @@ class _GameListWidgetState extends State<GameListWidget> {
           builderDelegate: PagedChildBuilderDelegate<Game>(
             firstPageErrorIndicatorBuilder: (_) =>
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Center(
+                  child: Text(
+                'Erreur rencontrer lors du chargement de la page.',
+                textAlign: TextAlign.center,
+              )),
+              ElevatedButton.icon(
+                  onPressed: () => {
+                        _gameService.lastFetchGameDocument = null,
+                        _pagingController.refresh()
+                      },
+                  icon: Icon(Icons.refresh),
+                  label: Text('Rafraîchir'))
+            ]),
+            noItemsFoundIndicatorBuilder: (_) =>
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               Center(child: Text('Pas encore de parties')),
               ElevatedButton.icon(
                   onPressed: () => {
@@ -94,8 +109,7 @@ class _GameListWidgetState extends State<GameListWidget> {
             ]),
             noMoreItemsIndicatorBuilder: (_) => Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Center(
-                    child: Text('♦ ️♣ ♥ ♠ '))),
+                child: Center(child: Text('♦ ️♣ ♥ ♠ '))),
             itemBuilder: (BuildContext context, Game game, int index) {
               if (game.getGameTypeName() != GameType.TAROT.name) {
                 return BeloteWidget(
