@@ -23,7 +23,7 @@ class _CredentialsDialogState extends State<CredentialsDialog> {
   final _emailTextController = TextEditingController();
   final _passwordTextController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey();
-  final emailRegex =
+  final _emailRegex =
       RegExp(r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$');
   var _title = '';
   var _credentialsStatus;
@@ -149,8 +149,8 @@ class _CredentialsDialogState extends State<CredentialsDialog> {
                     Provider.of<AuthService>(context, listen: false)
                         .getConnectedUserEmail()) {
                   return 'Adresse mail inchangée';
-                } else if (!emailRegex.hasMatch(value!)) {
-                  return 'Adresse email invalid';
+                } else if (!_emailRegex.hasMatch(value!)) {
+                  return 'Adresse email invalide';
                 }
                 return null;
               }),
