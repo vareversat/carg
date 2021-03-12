@@ -10,7 +10,7 @@ jobs:
   analyze:
     name: 'Analyze'
     runs-on: ubuntu-latest
-    container: devosud/flutter:latest
+    container: vareversat/flutter:latest
     steps:
       - name: 'Checkout source code'
         uses: actions/checkout@v2
@@ -19,7 +19,7 @@ jobs:
   test:
     name: 'Test'
     runs-on: ubuntu-latest
-    container: devosud/flutter:latest
+    container: vareversat/flutter:latest
     steps:
       - name: 'Checkout source code'
         uses: actions/checkout@v2
@@ -34,7 +34,7 @@ jobs:
     needs: [ analyze, test ]
     name: 'Build Android'
     runs-on: ubuntu-latest
-    container: devosud/flutter:latest
+    container: vareversat/flutter:latest
     steps:
       - name: 'Checkout source code'
         uses: actions/checkout@v2
@@ -58,7 +58,7 @@ jobs:
     needs: build_android
     name: 'Upload APK on Firebase'
     runs-on: ubuntu-latest
-    container: devosud/flutter:latest
+    container: vareversat/flutter:latest
     steps:
       - name: 'Checkout source code'
         uses: actions/checkout@v2.3.2
