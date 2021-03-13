@@ -1,3 +1,11 @@
+# **v0.11.8** :
+
+- *New stuff* :
+  - New Login screen
+  - Proper screen for settings
+
+***
+
 # **v0.11.5** :
 
 - *Dev stuff* :
