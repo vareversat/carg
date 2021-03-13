@@ -7,10 +7,8 @@ import 'package:carg/services/auth_service.dart';
 import 'package:carg/services/player_service.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/styles/text_style.dart';
-import 'package:carg/views/dialogs/carg_about_dialog.dart';
-import 'package:carg/views/dialogs/credentials_dialog.dart';
-import 'package:carg/views/dialogs/player_info_dialog.dart';
 import 'package:carg/views/dialogs/warning_dialog.dart';
+import 'package:carg/views/screens/settings_screen.dart';
 import 'package:carg/views/widgets/error_message_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -39,48 +37,14 @@ class _UserScreenState extends State<UserScreen>
   late Animation<Offset> _opacityAnimation;
   late AnimationController _animationController;
 
-  Future _showUpdatePlayerDialog() async {
-    var message = await showDialog(
-        context: context,
-        builder: (BuildContext context) =>
-            PlayerInfoDialog(player: _player, isEditing: true));
-    if (message != null) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        margin: EdgeInsets.all(20),
-        behavior: SnackBarBehavior.floating,
-        content:
-            Text(message, style: CustomTextStyle.snackBarTextStyle(context)),
-      ));
-    }
-  }
-
-  Future<void> _showCreateCredentials() async {
-    var message = await showDialog(
-        context: context,
-        builder: (BuildContext context) =>
-            CredentialsDialog(credentialsStatus: CredentialsStatus.CREATING));
-    if (message != null) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        margin: EdgeInsets.all(20),
-        behavior: SnackBarBehavior.floating,
-        content:
-            Text(message, style: CustomTextStyle.snackBarTextStyle(context)),
-      ));
-    }
-  }
-
-  Future<void> _showUpdateCredentials() async {
-    var message = await showDialog(
-        context: context,
-        builder: (BuildContext context) =>
-            CredentialsDialog(credentialsStatus: CredentialsStatus.EDITING));
-    if (message != null) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        margin: EdgeInsets.all(20),
-        behavior: SnackBarBehavior.floating,
-        content:
-            Text(message, style: CustomTextStyle.snackBarTextStyle(context)),
-      ));
+  Future _showSettingsScreen() async {
+    if (_player != null) {
+      await Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => SettingsScreen(
+                    player: _player!,
+                  )));
     }
   }
 
@@ -112,23 +76,10 @@ class _UserScreenState extends State<UserScreen>
     }
   }
 
-  Future<void> _resetPassword() async {
-    await showDialog(
-        context: context,
-        builder: (BuildContext context) => WarningDialog(
-            message:
-                'Un email vous permettant de réinitialiser votre mot de passe va vous être envoyé',
-            title: 'Information',
-            onConfirm: () async =>
-                await Provider.of<AuthService>(context, listen: false)
-                    .resetPassword(null),
-            color: Theme.of(context).accentColor));
-  }
-
   @override
   void initState() {
-    _animationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 500));
+    _animationController = AnimationController(
+        vsync: this, duration: Duration(milliseconds: 1100));
     _opacityAnimation = Tween<Offset>(
             begin: const Offset(0.0, -1.0), end: Offset(0.0, 0.0))
         .animate(
@@ -164,7 +115,7 @@ class _UserScreenState extends State<UserScreen>
                       expandedHeight: 200,
                       collapsedHeight: 140,
                       title: _AppBarTitle(
-                        onPressEdit: _showUpdatePlayerDialog,
+                        onPressEdit: _showSettingsScreen,
                       ),
                       flexibleSpace: FlexibleSpaceBar(
                         centerTitle: true,
@@ -221,7 +172,7 @@ class _UserScreenState extends State<UserScreen>
                               expandedHeight: 200,
                               collapsedHeight: 140,
                               title: _AppBarTitle(
-                                onPressEdit: _showUpdatePlayerDialog,
+                                onPressEdit: _showSettingsScreen,
                               ),
                               flexibleSpace: FlexibleSpaceBar(
                                 centerTitle: true,
@@ -255,7 +206,7 @@ class _UserScreenState extends State<UserScreen>
                                               vertical: 30),
                                           child: Wrap(
                                               runSpacing: 20,
-                                              spacing: 10,
+                                              spacing: 80,
                                               alignment:
                                                   WrapAlignment.spaceEvenly,
                                               children: _player!.gameStatsList!
@@ -263,8 +214,8 @@ class _UserScreenState extends State<UserScreen>
                                                     (stat) => ConstrainedBox(
                                                         constraints:
                                                             BoxConstraints(
-                                                                maxWidth: 140,
-                                                                maxHeight: 140),
+                                                                maxWidth: 160,
+                                                                maxHeight: 160),
                                                         child: _StatGauge(
                                                             gameStats: stat)),
                                                   )
@@ -272,19 +223,16 @@ class _UserScreenState extends State<UserScreen>
                                                   .cast<Widget>()),
                                         )
                                       ])
-                                    : Center(child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text('Pas encore de statistiques', style: TextStyle(fontSize: 25, fontStyle: FontStyle.italic),),
-                                    )),
-                                Padding(
-                                    padding: const EdgeInsets.all(20.0),
-                                    child: _ButtonsBlockWidget(
-                                        onSignOut: _signOut,
-                                        onResetPassword: _resetPassword,
-                                        onShowCreateCredentials:
-                                            _showCreateCredentials,
-                                        onShowUpdateCredentials:
-                                            _showUpdateCredentials))
+                                    : Center(
+                                        child: Padding(
+                                        padding: const EdgeInsets.all(30),
+                                        child: Text(
+                                          'Pas encore de statistiques',
+                                          style: TextStyle(
+                                              fontSize: 25,
+                                              fontStyle: FontStyle.italic),
+                                        ),
+                                      ))
                               ]),
                             )
                           ],
@@ -325,7 +273,7 @@ class _StatGauge extends StatelessWidget {
                     positionFactor: 0.3,
                     widget: Text(
                       '${gameStats!.wonGames} | ${gameStats!.playedGames}',
-                      style: TextStyle(fontSize: 12),
+                      style: TextStyle(fontSize: 15),
                     ))
               ],
               startAngle: 270,
@@ -445,9 +393,9 @@ class _AppBarTitle extends StatelessWidget {
                         borderRadius: BorderRadius.circular(
                             CustomProperties.borderRadius)))),
             onPressed: () async => await onPressEdit(),
-            label: Text('Éditer'),
+            label: Text('Paramètres'),
             icon: Icon(
-              FontAwesomeIcons.pen,
+              FontAwesomeIcons.cogs,
               size: 13,
             ))
       ],
@@ -491,140 +439,6 @@ class _WonPlayedWidget extends StatelessWidget {
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold))),
         Text('Parties', style: TextStyle(fontSize: 20))
       ]))
-    ]);
-  }
-}
-
-class _ButtonsBlockWidget extends StatelessWidget {
-  final Function onSignOut;
-  final Function onResetPassword;
-  final Function onShowCreateCredentials;
-  final Function onShowUpdateCredentials;
-
-  const _ButtonsBlockWidget(
-      {required this.onSignOut,
-      required this.onResetPassword,
-      required this.onShowCreateCredentials,
-      required this.onShowUpdateCredentials});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(children: [
-      FutureBuilder<bool>(
-          future:
-              Provider.of<AuthService>(context, listen: true).isLocalLogin(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done &&
-                snapshot.data != null) {
-              if (snapshot.data!) {
-                return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ElevatedButton.icon(
-                        style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(
-                                Theme.of(context).accentColor),
-                            foregroundColor: MaterialStateProperty.all<Color>(
-                                Theme.of(context).cardColor),
-                            shape: MaterialStateProperty.all<OutlinedBorder>(
-                                RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(
-                                        CustomProperties.borderRadius)))),
-                        onPressed: () async => onShowCreateCredentials(),
-                        label: Flexible(
-                            child:
-                                Padding(padding: const EdgeInsets.all(12.0), child: Text('Créer un compte', textAlign: TextAlign.center))),
-                        icon: FaIcon(FontAwesomeIcons.userPlus, size: 13)));
-              } else {
-                return Column(children: [
-                  Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ElevatedButton.icon(
-                          style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                  Theme.of(context).accentColor),
-                              foregroundColor: MaterialStateProperty.all<Color>(
-                                  Theme.of(context).cardColor),
-                              shape: MaterialStateProperty.all<OutlinedBorder>(
-                                  RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(
-                                          CustomProperties.borderRadius)))),
-                          onPressed: () async =>
-                              await onShowUpdateCredentials(),
-                          label: Text('Changer mon adresse email',
-                              textAlign: TextAlign.center),
-                          icon: Icon(FontAwesomeIcons.at, size: 13))),
-                  Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ElevatedButton.icon(
-                          style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                  Theme.of(context).accentColor),
-                              foregroundColor: MaterialStateProperty.all<Color>(
-                                  Theme.of(context).cardColor),
-                              shape: MaterialStateProperty.all<OutlinedBorder>(
-                                  RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(
-                                          CustomProperties.borderRadius)))),
-                          onPressed: () async => onResetPassword(),
-                          label: Text('Changer mon mot de passe',
-                              textAlign: TextAlign.center),
-                          icon: Icon(
-                            FontAwesomeIcons.lock,
-                            size: 13,
-                          )))
-                ]);
-              }
-            }
-            return Container();
-          }),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton.icon(
-                  style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.black),
-                      foregroundColor: MaterialStateProperty.all<Color>(
-                          Theme.of(context).cardColor),
-                      shape: MaterialStateProperty.all<OutlinedBorder>(
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                  CustomProperties.borderRadius)))),
-                  onPressed: () async => await showGeneralDialog(
-                      transitionDuration: Duration(milliseconds: 300),
-                      context: context,
-                      pageBuilder: (BuildContext context,
-                          Animation<double> animation,
-                          Animation<double> secondaryAnimation) {
-                        return CargAboutDialog();
-                      }),
-                  label: Text('A propos', textAlign: TextAlign.center),
-                  icon: Icon(
-                    FontAwesomeIcons.infoCircle,
-                    size: 13,
-                  ))),
-          Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ElevatedButton.icon(
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                          Theme.of(context).errorColor),
-                      foregroundColor: MaterialStateProperty.all<Color>(
-                          Theme.of(context).cardColor),
-                      shape: MaterialStateProperty.all<OutlinedBorder>(
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                  CustomProperties.borderRadius)))),
-                  onPressed: () async => onSignOut(),
-                  label: Text('Déconnexion'),
-                  icon: Icon(
-                    FontAwesomeIcons.signOutAlt,
-                    size: 13,
-                  )))
-        ],
-      ),
     ]);
   }
 }

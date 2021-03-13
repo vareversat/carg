@@ -8,8 +8,23 @@ class Player extends CargObject with ChangeNotifier {
   String? firstName;
   String? lastName;
   String? _userName;
+  late String _gravatarProfilePicture;
   late String _profilePicture;
   late bool _selected;
+  late bool _useGravatarProfilePicture;
+
+  String get gravatarProfilePicture => _gravatarProfilePicture;
+
+  set gravatarProfilePicture(String value) {
+    _gravatarProfilePicture = 'https://gravatar.com/avatar/$value?s=200';
+  }
+
+  bool get useGravatarProfilePicture => _useGravatarProfilePicture;
+
+  set useGravatarProfilePicture(bool value) {
+    _useGravatarProfilePicture = value;
+    notifyListeners();
+  }
 
   bool get selected => _selected;
 
@@ -25,7 +40,13 @@ class Player extends CargObject with ChangeNotifier {
     notifyListeners();
   }
 
-  String get profilePicture => _profilePicture;
+  String get profilePicture {
+    if (!useGravatarProfilePicture) {
+      return _profilePicture;
+    } else {
+      return _gravatarProfilePicture;
+    }
+  }
 
   set profilePicture(String value) {
     _profilePicture = value;
@@ -40,12 +61,16 @@ class Player extends CargObject with ChangeNotifier {
       userName,
       profilePicture =
           'https://firebasestorage.googleapis.com/v0/b/carg-d3732.appspot.com/o/blank-profile-picture-png.png?alt=media&token=15801776-b75f-4ad5-bec1-2fe834a99f9a',
-      this.linkedUserId})
+      this.linkedUserId,
+      useGravatarProfilePicture,
+      gravatarProfilePicture})
       : super(id: id) {
     this.gameStatsList = gameStatsList ?? [];
     _profilePicture = profilePicture;
     _userName = userName;
     _selected = false;
+    _useGravatarProfilePicture = useGravatarProfilePicture ?? false;
+    _gravatarProfilePicture = gravatarProfilePicture ?? '';
   }
 
   double totalWinPercentage() {
@@ -71,13 +96,16 @@ class Player extends CargObject with ChangeNotifier {
 
   factory Player.fromJSON(Map<String, dynamic>? json, String? id) {
     return Player(
-        id: id,
-        gameStatsList: GameStats.fromJSONList(json?['game_stats']),
-        firstName: json?['first_name'] ?? '',
-        lastName: json?['last_name'] ?? '',
-        userName: json?['user_name'] ?? '',
-        linkedUserId: json?['linked_user_id'] ?? '',
-        profilePicture: json?['profile_picture'] ?? '');
+      id: id,
+      gameStatsList: GameStats.fromJSONList(json?['game_stats']),
+      firstName: json?['first_name'] ?? '',
+      lastName: json?['last_name'] ?? '',
+      userName: json?['user_name'] ?? '',
+      linkedUserId: json?['linked_user_id'] ?? '',
+      profilePicture: json?['profile_picture'] ?? '',
+      useGravatarProfilePicture: json?['use_gravatar_profile_picture'] ?? false,
+      gravatarProfilePicture: json?['gravatar_profile_picture'] ?? '',
+    );
   }
 
   @override
@@ -87,7 +115,9 @@ class Player extends CargObject with ChangeNotifier {
       'first_name': firstName,
       'last_name': lastName,
       'user_name': userName,
-      'profile_picture': profilePicture,
+      'profile_picture': _profilePicture,
+      'gravatar_profile_picture': gravatarProfilePicture,
+      'use_gravatar_profile_picture': useGravatarProfilePicture,
       'linked_user_id': linkedUserId
     };
   }
