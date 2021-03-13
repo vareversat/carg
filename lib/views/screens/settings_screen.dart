@@ -55,8 +55,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 onConfirmButtonMessage:
                     MaterialLocalizations.of(context).okButtonLabel));
       } else {
-        await Provider.of<AuthService>(context, listen: false).signOut();
         await Navigator.of(context).pushReplacementNamed('/login');
+        await Provider.of<AuthService>(context, listen: false).signOut();
       }
     // ignore: empty_catches
     } catch (e) {
