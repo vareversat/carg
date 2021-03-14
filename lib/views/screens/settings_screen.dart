@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:carg/models/player.dart';
 import 'package:carg/services/auth_service.dart';
 import 'package:carg/services/player_service.dart';
@@ -7,7 +5,6 @@ import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/dialogs/carg_about_dialog.dart';
 import 'package:carg/views/dialogs/credentials_dialog.dart';
 import 'package:carg/views/dialogs/warning_dialog.dart';
-import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -210,13 +207,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                           title: Text('Utiliser mon Gravatar',
                                               style: TextStyle(fontSize: 20)),
                                           onChanged: (bool value) async {
-                                            playerData.gravatarProfilePicture = md5
-                                                .convert(utf8.encode(Provider
-                                                        .of<AuthService>(
-                                                            context,
-                                                            listen: false)
-                                                    .getConnectedUserEmail()!))
-                                                .toString();
+                                            playerData.gravatarProfilePicture =
+                                                Provider.of<AuthService>(
+                                                        context,
+                                                        listen: false)
+                                                    .getConnectedUserEmail();
                                             playerData
                                                     .useGravatarProfilePicture =
                                                 value;

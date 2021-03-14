@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:carg/models/carg_object.dart';
 import 'package:carg/models/game_stats.dart';
+import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 
 class Player extends CargObject with ChangeNotifier {
@@ -15,8 +18,14 @@ class Player extends CargObject with ChangeNotifier {
 
   String get gravatarProfilePicture => _gravatarProfilePicture;
 
-  set gravatarProfilePicture(String value) {
-    _gravatarProfilePicture = 'https://gravatar.com/avatar/$value?s=200';
+  set gravatarProfilePicture(String? value) {
+    var emailHash;
+    if (value == null) {
+      emailHash = '';
+    } else {
+      emailHash = md5.convert(utf8.encode(value)).toString();
+    }
+    _gravatarProfilePicture = 'https://gravatar.com/avatar/$emailHash?s=200';
   }
 
   bool get useGravatarProfilePicture => _useGravatarProfilePicture;
