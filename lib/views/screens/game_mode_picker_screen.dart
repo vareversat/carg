@@ -2,11 +2,11 @@ import 'package:carg/helpers/custom_route.dart';
 import 'package:carg/models/game/coinche_belote.dart';
 import 'package:carg/models/game/french_belote.dart';
 import 'package:carg/models/game/game.dart';
+import 'package:carg/models/game/game_type.dart';
 import 'package:carg/models/game/tarot.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/screens/player_picker_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:carg/models/game/game_type.dart';
 
 class GameModePickerScreen extends StatelessWidget {
   final String _appBarTitle = 'Nouvelle partie';
@@ -67,8 +67,8 @@ class _GameModeButton extends StatelessWidget {
         Navigator.push(
             context,
             CustomRouteLeftAndRight(
-                builder: (context) => PlayerPickerScreen(
-                    game: game, title: game!.gameType.name)))
+                builder: (context) =>
+                    PlayerPickerScreen(game: game, title: game!.gameType.name)))
       },
       child: Card(
         shape: RoundedRectangleBorder(
@@ -79,8 +79,8 @@ class _GameModeButton extends StatelessWidget {
           children: [
             Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text(game!.gameType.name,
-                    style: TextStyle(fontSize: 20))),
+                child:
+                    Text(game!.gameType.name, style: TextStyle(fontSize: 20))),
           ],
         ),
       ),

@@ -1,5 +1,3 @@
-
-
 enum GameType { COINCHE, BELOTE, TAROT, UNDEFINE }
 
 extension GameTypeExtension on GameType? {
@@ -12,7 +10,8 @@ extension GameTypeExtension on GameType? {
       case GameType.TAROT:
         return 'Tarot';
       case GameType.UNDEFINE:
-        throw Exception('Name not defined for game type' + GameType.UNDEFINE.name);
+        throw Exception(
+            'Name not defined for game type' + GameType.UNDEFINE.name);
       case null:
         throw Exception('Direction not defined for null');
     }
@@ -27,7 +26,8 @@ extension GameTypeExtension on GameType? {
       case GameType.TAROT:
         return 'sens anti-horaire';
       case GameType.UNDEFINE:
-        throw Exception('Direction not defined for game type ' + GameType.UNDEFINE.name);
+        throw Exception(
+            'Direction not defined for game type ' + GameType.UNDEFINE.name);
       case null:
         throw Exception('Direction not defined for null');
     }
@@ -42,7 +42,8 @@ extension GameTypeExtension on GameType? {
       case GameType.TAROT:
         return 'french_belote_rules.md';
       case GameType.UNDEFINE:
-        throw Exception('Rules not defined for game type ' + GameType.UNDEFINE.name);
+        throw Exception(
+            'Rules not defined for game type ' + GameType.UNDEFINE.name);
       case null:
         throw Exception('Rules not defined for null');
     }

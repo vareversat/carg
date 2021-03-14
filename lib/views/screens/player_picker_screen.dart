@@ -128,8 +128,7 @@ class _PlayerPickerScreenState extends State<PlayerPickerScreen> {
                                                         BorderRadius.circular(
                                                             CustomProperties
                                                                 .borderRadius)))),
-                                    onPressed: () async =>
-                                    {
+                                    onPressed: () async => {
                                           await _getPlayers(),
                                           game!.players!.reset(),
                                           Navigator.push(

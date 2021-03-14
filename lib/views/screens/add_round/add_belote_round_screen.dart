@@ -33,7 +33,6 @@ class AddBeloteRoundScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-
           leading: IconButton(
             icon: Icon(Icons.cancel),
             onPressed: () => Navigator.pop(context),

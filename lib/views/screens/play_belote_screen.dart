@@ -1,4 +1,5 @@
 import 'package:carg/models/game/belote_game.dart';
+import 'package:carg/models/game/game_type.dart';
 import 'package:carg/models/score/belote_score.dart';
 import 'package:carg/models/score/misc/belote_team_enum.dart';
 import 'package:carg/models/score/misc/card_color.dart';
@@ -14,7 +15,6 @@ import 'package:carg/views/widgets/players/next_player_widget.dart';
 import 'package:carg/views/widgets/team_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:carg/models/game/game_type.dart';
 
 class PlayBeloteScreen extends StatefulWidget {
   final Belote teamGame;
@@ -46,8 +46,7 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
     await showDialog(
       context: context,
       builder: (BuildContext context) => WarningDialog(
-          onConfirm: () async =>
-          {
+          onConfirm: () async => {
                 await _beloteGame.scoreService
                     .deleteLastRoundOfGame(_beloteGame.id),
               },
@@ -62,8 +61,7 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
     await showDialog(
         context: context,
         builder: (BuildContext context) => WarningDialog(
-              onConfirm: () async =>
-              {
+              onConfirm: () async => {
                 await _beloteGame.gameService.endAGame(_beloteGame),
                 await Navigator.of(context)
                     .pushReplacementNamed(HomeScreen.routeName, arguments: 1)
@@ -78,8 +76,9 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
   void _editLastRound() async {
     var lastRound;
     try {
-      lastRound = (await _beloteGame.scoreService.getScoreByGame(_beloteGame.id))!
-          .getLastRound();
+      lastRound =
+          (await _beloteGame.scoreService.getScoreByGame(_beloteGame.id))!
+              .getLastRound();
       await Navigator.push(
           context,
           MaterialPageRoute(
@@ -106,17 +105,18 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          actions: [
-            IconButton(
-              icon: Icon(Icons.help),
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => RulesScreen(gameType: _beloteGame.gameType),
+            actions: [
+              IconButton(
+                icon: Icon(Icons.help),
+                onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        RulesScreen(gameType: _beloteGame.gameType),
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
             title: Text(_beloteGame.gameType.name,
                 style: CustomTextStyle.screenHeadLine2(context)),
             centerTitle: true,
@@ -133,7 +133,7 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
               ])),
           Flexible(
               child: Container(
-                padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
                 border: Border(top: BorderSide(color: Colors.black, width: 1))),
             child: StreamBuilder<BeloteScore?>(

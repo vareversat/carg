@@ -175,8 +175,7 @@ class _ButtonRowWidget extends StatelessWidget {
                   await showDialog(
                       context: context,
                       builder: (BuildContext context) => WarningDialog(
-                          onConfirm: () async =>
-                          {
+                          onConfirm: () async => {
                                 await beloteGame.gameService
                                     .endAGame(beloteGame),
                               },
@@ -205,9 +204,8 @@ class _ButtonRowWidget extends StatelessWidget {
                 await showDialog(
                     context: context,
                     builder: (BuildContext context) => WarningDialog(
-                        onConfirm: () => {
-                              beloteGame.gameService.deleteGame(beloteGame.id)
-                            },
+                        onConfirm: () =>
+                            {beloteGame.gameService.deleteGame(beloteGame.id)},
                         message: 'Tu es sur le point de supprimer une partie.',
                         title: 'Suppression'))
               },

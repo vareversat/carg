@@ -25,7 +25,7 @@ class TarotGameWidget extends StatelessWidget {
         color: Colors.white,
         child:
             ExpansionTile(title: CardTitle(game: tarotGame), children: <Widget>[
-              FutureBuilder<TarotScore?>(
+          FutureBuilder<TarotScore?>(
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(
