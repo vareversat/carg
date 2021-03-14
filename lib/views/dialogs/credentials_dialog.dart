@@ -91,12 +91,12 @@ class _CredentialsDialogState extends State<CredentialsDialog> {
       case CredentialsStatus.EDITING:
         _title = 'Edition du compte';
         _infoMessage = 'Après validation, un mail de confirmation va vous être '
-            'envoyé sur votre nouvelle adresse mail. Vous serez automatiquement déconnects';
+            'envoyé sur votre nouvelle adresse mail. Vous serez automatiquement déconnectés';
         break;
       case CredentialsStatus.CREATING:
         _title = 'Création du compte';
         _infoMessage = 'Merci de renseigner une adresse mail valide ainsi '
-            'qu\'un mot de passe fort. Vous serez ensuite invité à vous connecter';
+            'qu\'un mot de passe fort. Vous serez ensuite redirigés vers l\'écran de connexion';
         break;
     }
   }
@@ -182,7 +182,7 @@ class _CredentialsDialogState extends State<CredentialsDialog> {
           _errorMessage!.isNotEmpty
               ? Padding(
                   padding: const EdgeInsets.only(top: 12.0),
-            child: Text(_errorMessage!,
+                  child: Text(_errorMessage!,
                       style: TextStyle(
                           fontStyle: FontStyle.italic,
                           fontSize: 18,
