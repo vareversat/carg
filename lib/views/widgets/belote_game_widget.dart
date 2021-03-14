@@ -4,7 +4,7 @@ import 'package:carg/models/game/game.dart';
 import 'package:carg/models/score/belote_score.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/views/dialogs/warning_dialog.dart';
-import 'package:carg/views/screens/play_belote_screen.dart';
+import 'package:carg/views/screens/play/play_belote_screen.dart';
 import 'package:carg/views/widgets/team_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';

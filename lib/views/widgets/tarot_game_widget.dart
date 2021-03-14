@@ -3,7 +3,7 @@ import 'package:carg/models/game/tarot.dart';
 import 'package:carg/models/score/tarot_score.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/views/dialogs/warning_dialog.dart';
-import 'package:carg/views/screens/play_tarot_game_screen.dart';
+import 'package:carg/views/screens/play/play_tarot_game_screen.dart';
 import 'package:carg/views/widgets/api_mini_player_widget.dart';
 import 'package:carg/views/widgets/belote_game_widget.dart';
 import 'package:flutter/material.dart';

@@ -8,8 +8,8 @@ import 'package:carg/models/players/belote_players.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/dialogs/dialogs.dart';
-import 'package:carg/views/screens/play_belote_screen.dart';
-import 'package:carg/views/screens/play_tarot_game_screen.dart';
+import 'package:carg/views/screens/play/play_belote_screen.dart';
+import 'package:carg/views/screens/play/play_tarot_game_screen.dart';
 import 'package:carg/views/widgets/players/draggable_player_widget.dart';
 import 'package:flutter/material.dart';
 

@@ -1,15 +1,13 @@
 import 'package:carg/models/game/belote_game.dart';
-import 'package:carg/models/game/game_type.dart';
 import 'package:carg/models/score/belote_score.dart';
 import 'package:carg/models/score/misc/belote_team_enum.dart';
 import 'package:carg/models/score/misc/card_color.dart';
 import 'package:carg/models/score/round/belote_round.dart';
-import 'package:carg/styles/properties.dart';
-import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/dialogs/warning_dialog.dart';
 import 'package:carg/views/screens/add_round/add_belote_round_screen.dart';
 import 'package:carg/views/screens/home_screen.dart';
-import 'package:carg/views/screens/rules_screen.dart';
+import 'package:carg/views/screens/play/play_screen_app_bar.dart';
+import 'package:carg/views/screens/play/play_screen_button_block.dart';
 import 'package:carg/views/widgets/error_message_widget.dart';
 import 'package:carg/views/widgets/players/next_player_widget.dart';
 import 'package:carg/views/widgets/team_widget.dart';
@@ -104,26 +102,7 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            actions: [
-              IconButton(
-                icon: Icon(Icons.help),
-                onPressed: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        RulesScreen(gameType: _beloteGame.gameType),
-                  ),
-                ),
-              ),
-            ],
-            title: Text(_beloteGame.gameType.name,
-                style: CustomTextStyle.screenHeadLine2(context)),
-            centerTitle: true,
-            automaticallyImplyLeading: false,
-            leading: IconButton(
-                onPressed: () => Navigator.pop(context, 1),
-                icon: Icon(Icons.cancel))),
+        appBar: PlayScreenAppBar(gameType: _beloteGame.gameType),
         body: Column(children: <Widget>[
           Padding(
               padding: const EdgeInsets.all(8.0),
@@ -210,71 +189,11 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
                     as Stream<BeloteScore<BeloteRound>?>?),
           )),
           if (!_beloteGame.isEnded!)
-            Wrap(
-                runSpacing: 10,
-                spacing: 10,
-                alignment: WrapAlignment.spaceEvenly,
-                children: <Widget>[
-                  RawMaterialButton(
-                      onPressed: () async => {_deleteLastRound()},
-                      elevation: 2.0,
-                      fillColor: Theme.of(context).errorColor,
-                      textStyle: TextStyle(color: Theme.of(context).cardColor),
-                      padding: EdgeInsets.all(15.0),
-                      shape: CircleBorder(),
-                      child: Icon(
-                        Icons.delete_rounded,
-                        size: 22,
-                      )),
-                  RawMaterialButton(
-                      onPressed: () async => {_editLastRound()},
-                      elevation: 2.0,
-                      fillColor: Colors.black,
-                      textStyle: TextStyle(color: Theme.of(context).cardColor),
-                      padding: EdgeInsets.all(15.0),
-                      shape: CircleBorder(),
-                      child: Icon(
-                        Icons.edit,
-                        size: 22,
-                      )),
-                  RawMaterialButton(
-                    onPressed: () async => {_endGame()},
-                    elevation: 2.0,
-                    fillColor: Theme.of(context).errorColor,
-                    textStyle: TextStyle(color: Theme.of(context).cardColor),
-                    padding: EdgeInsets.all(15.0),
-                    shape: CircleBorder(),
-                    child: Icon(
-                      Icons.stop,
-                      size: 22,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SizedBox(
-                      width: double.infinity,
-                      height: 50,
-                      child: Directionality(
-                        textDirection: TextDirection.rtl,
-                        child: ElevatedButton.icon(
-                            style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all<Color>(
-                                    Theme.of(context).primaryColor),
-                                foregroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                        Theme.of(context).cardColor),
-                                shape: MaterialStateProperty.all<OutlinedBorder>(
-                                    RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(
-                                            CustomProperties.borderRadius)))),
-                            onPressed: () => {_addNewRound()},
-                            icon: Icon(Icons.plus_one, size: 30),
-                            label: Text('Nouvelle manche',
-                                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 23))),
-                      ),
-                    ),
-                  )
-                ])
+            PlayScreenButtonBlock(
+                deleteLastRound: _deleteLastRound,
+                editLastRound: _editLastRound,
+                endGame: _endGame,
+                addNewRound: _addNewRound)
         ]));
   }
 }
