@@ -15,9 +15,9 @@ extension GameTypeExtension on GameType? {
       case GameType.TAROT:
         return 'Tarot';
       case GameType.UNDEFINE:
-        return 'Undefine';
+        throw Exception('Name not defined for game type' + GameType.UNDEFINE.name);
       case null:
-        return 'null';
+        throw Exception('Direction not defined for null');
     }
   }
 
@@ -30,9 +30,9 @@ extension GameTypeExtension on GameType? {
       case GameType.TAROT:
         return 'sens anti-horaire';
       case GameType.UNDEFINE:
-        return 'sens UNDEFINE';
+        throw Exception('Direction not defined for game type ' + GameType.UNDEFINE.name);
       case null:
-        return 'null';
+        throw Exception('Direction not defined for null');
     }
   }
 
