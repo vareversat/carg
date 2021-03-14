@@ -26,7 +26,7 @@ class PlayBeloteScreen extends StatefulWidget {
 }
 
 class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
-  final Belote _teamGame;
+  final Belote _beloteGame;
   String? _errorMessage;
 
   void _addNewRound() {
@@ -34,9 +34,9 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
       context,
       MaterialPageRoute(
           builder: (context) => AddBeloteRoundScreen(
-              teamGame: _teamGame,
+              teamGame: _beloteGame,
               beloteRound:
-                  _teamGame.scoreService.getNewRound() as BeloteRound?)),
+                  _beloteGame.scoreService.getNewRound() as BeloteRound?)),
     );
   }
 
@@ -46,8 +46,8 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
       builder: (BuildContext context) => WarningDialog(
           onConfirm: () async =>
           {
-                await _teamGame.scoreService
-                    .deleteLastRoundOfGame(_teamGame.id),
+                await _beloteGame.scoreService
+                    .deleteLastRoundOfGame(_beloteGame.id),
               },
           message:
               'Tu es sur le point de supprimer la dernière manche de la partie. Cette action est irréversible',
@@ -62,7 +62,7 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
         builder: (BuildContext context) => WarningDialog(
               onConfirm: () async =>
               {
-                await _teamGame.gameService.endAGame(_teamGame),
+                await _beloteGame.gameService.endAGame(_beloteGame),
                 await Navigator.of(context)
                     .pushReplacementNamed(HomeScreen.routeName, arguments: 1)
               },
@@ -76,13 +76,13 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
   void _editLastRound() async {
     var lastRound;
     try {
-      lastRound = (await _teamGame.scoreService.getScoreByGame(_teamGame.id))!
+      lastRound = (await _beloteGame.scoreService.getScoreByGame(_beloteGame.id))!
           .getLastRound();
       await Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => AddBeloteRoundScreen(
-                  teamGame: _teamGame,
+                  teamGame: _beloteGame,
                   beloteRound: lastRound,
                   isEditing: true)));
     } on StateError {
@@ -98,7 +98,7 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
     }
   }
 
-  _PlayBeloteScreenState(this._teamGame);
+  _PlayBeloteScreenState(this._beloteGame);
 
   @override
   Widget build(BuildContext context) {
@@ -115,8 +115,8 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
           Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(children: <Widget>[
-                TeamWidget(teamId: _teamGame.players!.us, title: 'Nous'),
-                TeamWidget(teamId: _teamGame.players!.them, title: 'Eux')
+                TeamWidget(teamId: _beloteGame.players!.us, title: 'Nous'),
+                TeamWidget(teamId: _beloteGame.players!.them, title: 'Eux')
               ])),
           Flexible(
               child: Container(
@@ -181,22 +181,22 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
                                           ]);
                                     }),
                               )),
-                          if (!_teamGame.isEnded!)
+                          if (!_beloteGame.isEnded!)
                             NextPlayerWidget(
-                                playerId: _teamGame.players!.playerList![
+                                playerId: _beloteGame.players!.playerList![
                                     snapshot.data!.rounds!.length % 4]),
                         ]);
                   } else {
                     return ErrorMessageWidget(message: _errorMessage);
                   }
                 },
-                stream: _teamGame.scoreService
-                        .getScoreByGameStream(_teamGame.id)
+                stream: _beloteGame.scoreService
+                        .getScoreByGameStream(_beloteGame.id)
                         .handleError(
                             (error) => {_errorMessage = error.toString()})
                     as Stream<BeloteScore<BeloteRound>?>?),
           )),
-          if (!_teamGame.isEnded!)
+          if (!_beloteGame.isEnded!)
             Wrap(
                 runSpacing: 10,
                 spacing: 10,
