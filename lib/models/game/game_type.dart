@@ -1,7 +1,4 @@
-import 'package:carg/services/game/coinche_belote_service.dart';
-import 'package:carg/services/game/french_belote_service.dart';
-import 'package:carg/services/game/game_service.dart';
-import 'package:carg/services/game/tarot_service.dart';
+
 
 enum GameType { COINCHE, BELOTE, TAROT, UNDEFINE }
 
@@ -36,18 +33,18 @@ extension GameTypeExtension on GameType? {
     }
   }
 
-  GameService get gameService {
+  String get rulesFile {
     switch (this) {
       case GameType.COINCHE:
-        return CoincheBeloteService();
+        return 'coinche_belote_rules.md';
       case GameType.BELOTE:
-        return FrenchBeloteService();
+        return 'french_belote_rules.md';
       case GameType.TAROT:
-        return TarotService();
+        return 'french_belote_rules.md';
       case GameType.UNDEFINE:
-        throw Exception('Service not defined for ' + GameType.UNDEFINE.name);
+        throw Exception('Rules not defined for game type ' + GameType.UNDEFINE.name);
       case null:
-        throw Exception('Service not defined for null');
+        throw Exception('Rules not defined for null');
     }
   }
 }

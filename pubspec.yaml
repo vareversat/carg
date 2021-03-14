@@ -51,6 +51,7 @@ flutter:
     - assets/images/card_game.svg
     - assets/images/search_by_algolia.svg
     - assets/config/
+    - assets/rules/
     - CHANGELOG.md
 
 flutter_icons:

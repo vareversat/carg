@@ -8,11 +8,13 @@ import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/dialogs/warning_dialog.dart';
 import 'package:carg/views/screens/add_round/add_belote_round_screen.dart';
 import 'package:carg/views/screens/home_screen.dart';
+import 'package:carg/views/screens/rules_screen.dart';
 import 'package:carg/views/widgets/error_message_widget.dart';
 import 'package:carg/views/widgets/players/next_player_widget.dart';
 import 'package:carg/views/widgets/team_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:carg/models/game/game_type.dart';
 
 class PlayBeloteScreen extends StatefulWidget {
   final Belote teamGame;
@@ -104,7 +106,18 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            title: Text(_teamGame.getGameTypeName()!,
+          actions: [
+            IconButton(
+              icon: Icon(Icons.help),
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => RulesScreen(gameType: _beloteGame.gameType),
+                ),
+              ),
+            ),
+          ],
+            title: Text(_beloteGame.gameType.name,
                 style: CustomTextStyle.screenHeadLine2(context)),
             centerTitle: true,
             automaticallyImplyLeading: false,
