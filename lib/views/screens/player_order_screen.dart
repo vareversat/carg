@@ -95,7 +95,7 @@ class _PlayerOrderScreenState extends State<PlayerOrderScreen> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                      'Info : Ce jeu de carte se joue dans le ${game!.getGameplayDirection()}',
+                      'Info : Ce jeu de carte se joue dans le ${game!.gameType.direction}',
                       textAlign: TextAlign.center,
                       style:
                           TextStyle(fontSize: 20, fontStyle: FontStyle.italic)),
@@ -123,8 +123,8 @@ class _PlayerOrderScreenState extends State<PlayerOrderScreen> {
                                       context,
                                       CustomRouteLeftAndRight(
                                           builder: (context) => _newGame!
-                                                      .getGameTypeName() !=
-                                                  GameType.TAROT.name
+                                                      .gameType !=
+                                                  GameType.TAROT
                                               ? PlayBeloteScreen(
                                                   teamGame: _newGame
                                                       as Belote<BelotePlayers>)

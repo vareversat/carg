@@ -15,7 +15,7 @@ abstract class Game<T extends Players> extends CargObject {
   T? players;
   GameService gameService;
   ScoreService scoreService;
-  late GameType _gameType;
+  late GameType gameType;
 
   Game(
       {String? id,
@@ -28,23 +28,15 @@ abstract class Game<T extends Players> extends CargObject {
       this.winner,
       this.isEnded = false})
       : super(id: id) {
-    _gameType = gameType ?? GameType.UNDEFINE;
-  }
-
-  String? getGameTypeName() {
-    return _gameType.name;
-  }
-
-  String? getGameplayDirection() {
-    return _gameType.direction;
+    this.gameType = gameType ?? GameType.UNDEFINE;
   }
 
   void incrementPlayerPlayedGamesByOne(Player player) {
     GameStats stat;
     var index = player.gameStatsList!
-        .indexWhere((element) => element.gameType.name == _gameType.name);
+        .indexWhere((element) => element.gameType.name == gameType.name);
     if (index == -1) {
-      stat = GameStats(gameType: _gameType, wonGames: 0, playedGames: 1);
+      stat = GameStats(gameType: gameType, wonGames: 0, playedGames: 1);
       player.gameStatsList!.add(stat);
     } else {
       stat = player.gameStatsList![index];
@@ -57,9 +49,9 @@ abstract class Game<T extends Players> extends CargObject {
   void incrementPlayerWonGamesByOne(Player player) {
     GameStats stat;
     var index = player.gameStatsList!
-        .indexWhere((element) => element.gameType.name == _gameType.name);
+        .indexWhere((element) => element.gameType.name == gameType.name);
     if (index == -1) {
-      stat = GameStats(gameType: _gameType, wonGames: 1, playedGames: 1);
+      stat = GameStats(gameType: gameType, wonGames: 1, playedGames: 1);
       player.gameStatsList!.add(stat);
     } else {
       stat = player.gameStatsList![index];
@@ -87,6 +79,6 @@ abstract class Game<T extends Players> extends CargObject {
         'endingDate: $endingDate, isEnded: $isEnded, '
         'winner: $winner, players: $players, '
         'gameService: $gameService, '
-        'scoreService: $scoreService, _gameType: $_gameType}';
+        'scoreService: $scoreService, _gameType: $gameType}';
   }
 }

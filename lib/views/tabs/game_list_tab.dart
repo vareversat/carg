@@ -111,7 +111,7 @@ class _GameListWidgetState extends State<GameListWidget> {
                 padding: const EdgeInsets.all(8.0),
                 child: Center(child: Text('♦ ️♣ ♥ ♠ '))),
             itemBuilder: (BuildContext context, Game game, int index) {
-              if (game.getGameTypeName() != GameType.TAROT.name) {
+              if (game.gameType != GameType.TAROT) {
                 return BeloteWidget(
                   beloteGame: game as Belote,
                 );
