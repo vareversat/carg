@@ -14,13 +14,12 @@ class PlayScreenAppBar extends StatelessWidget implements PreferredSizeWidget {
         actions: [
           IconButton(
             icon: Icon(Icons.help),
-            onPressed: () =>
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => RulesScreen(gameType: gameType),
-                  ),
-                ),
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => RulesScreen(gameType: gameType),
+              ),
+            ),
           ),
         ],
         title: Text(gameType.name,
