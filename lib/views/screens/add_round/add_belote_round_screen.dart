@@ -11,7 +11,6 @@ import 'package:carg/views/screens/add_round/widget/team_game/taker_team_widget.
 import 'package:carg/views/screens/add_round/widget/team_game/trick_points_belote_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:provider/provider.dart';
 
 class AddBeloteRoundScreen extends StatelessWidget {
   final Belote? teamGame;
@@ -32,61 +31,59 @@ class AddBeloteRoundScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (BuildContext context) => beloteRound?..computeRound(),
-      child: Scaffold(
-        appBar: AppBar(
-            leading: IconButton(
-              icon: Icon(Icons.cancel),
-              onPressed: () => Navigator.pop(context),
-            ),
-            title: ScreenTitleWidget()),
-        body: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(
-            children: [
-              Flexible(
-                child: ListView(children: [
-                  TakerTeamWidget(beloteRound: beloteRound!),
-                  Divider(),
-                  TrickPointsBeloteWidget(round: beloteRound!),
-                  Divider(),
-                  beloteRound! is CoincheBeloteRound
-                      ? ContractCoincheWidget(
-                          coincheRound: beloteRound! as CoincheBeloteRound)
-                      : ContractBeloteWidget(
-                          frenchBeloteRound: beloteRound! as FrenchBeloteRound),
-                  SizedBox(height: 20),
-                  RealTimeDisplayWidget(round: beloteRound!),
-                  SizedBox(height: 20),
-                ]),
-              ),
-              Center(
-                  child: SizedBox(
-                width: double.infinity,
-                height: 50,
-                child: Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: ElevatedButton.icon(
-                      style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                              Theme.of(context).primaryColor),
-                          foregroundColor: MaterialStateProperty.all<Color>(
-                              Theme.of(context).cardColor),
-                          shape: MaterialStateProperty.all<OutlinedBorder>(
-                              RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                      CustomProperties.borderRadius)))),
-                      onPressed: () => {_setupRound(), Navigator.pop(context)},
-                      label: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text('Valider', style: TextStyle(fontSize: 23)),
-                      ),
-                      icon: Icon(Icons.check, size: 30)),
-                ),
-              ))
-            ],
+    return Scaffold(
+      appBar: AppBar(
+
+          leading: IconButton(
+            icon: Icon(Icons.cancel),
+            onPressed: () => Navigator.pop(context),
           ),
+          title: ScreenTitleWidget()),
+      body: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Column(
+          children: [
+            Flexible(
+              child: ListView(children: [
+                TakerTeamWidget(beloteRound: beloteRound!),
+                Divider(),
+                TrickPointsBeloteWidget(round: beloteRound!),
+                Divider(),
+                beloteRound! is CoincheBeloteRound
+                    ? ContractCoincheWidget(
+                        coincheRound: beloteRound! as CoincheBeloteRound)
+                    : ContractBeloteWidget(
+                        frenchBeloteRound: beloteRound! as FrenchBeloteRound),
+                SizedBox(height: 20),
+                RealTimeDisplayWidget(round: beloteRound!),
+                SizedBox(height: 20),
+              ]),
+            ),
+            Center(
+                child: SizedBox(
+              width: double.infinity,
+              height: 50,
+              child: Directionality(
+                textDirection: TextDirection.rtl,
+                child: ElevatedButton.icon(
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            Theme.of(context).primaryColor),
+                        foregroundColor: MaterialStateProperty.all<Color>(
+                            Theme.of(context).cardColor),
+                        shape: MaterialStateProperty.all<OutlinedBorder>(
+                            RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    CustomProperties.borderRadius)))),
+                    onPressed: () => {_setupRound(), Navigator.pop(context)},
+                    label: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text('Valider', style: TextStyle(fontSize: 23)),
+                    ),
+                    icon: Icon(Icons.check, size: 30)),
+              ),
+            ))
+          ],
         ),
       ),
     );
