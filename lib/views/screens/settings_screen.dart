@@ -28,7 +28,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     await _playerService.updatePlayer(_player);
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       margin: EdgeInsets.all(20),
-      duration: Duration(seconds: 1),
+      duration: Duration(seconds: 2),
       behavior: SnackBarBehavior.floating,
       content: Text('Profil modifié avec succès',
           style: CustomTextStyle.snackBarTextStyle(context)),
@@ -58,9 +58,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
         await Navigator.of(context).pushReplacementNamed('/login');
         await Provider.of<AuthService>(context, listen: false).signOut();
       }
-    // ignore: empty_catches
-    } catch (e) {
-    }
+      // ignore: empty_catches
+    } catch (e) {}
   }
 
   Future<void> _showCreateCredentials() async {
