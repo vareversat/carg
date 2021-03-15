@@ -32,5 +32,5 @@ class PlayScreenAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(85.0);
+  Size get preferredSize => Size.fromHeight(70.0);
 }
