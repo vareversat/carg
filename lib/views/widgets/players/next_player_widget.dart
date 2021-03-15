@@ -26,7 +26,7 @@ class NextPlayerWidget extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.none ||
             snapshot.data == null) {
           return Text(
-            'Error : no player',
+            'Error : player $playerId unknown',
             style: TextStyle(fontStyle: FontStyle.italic),
           );
         }
