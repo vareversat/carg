@@ -1,3 +1,10 @@
+# **v0.12.0** :
+
+- *New stuff* :
+  - Add rules for each type of card game
+
+***
+
 # **v0.11.8** :
 
 - *New stuff* :
