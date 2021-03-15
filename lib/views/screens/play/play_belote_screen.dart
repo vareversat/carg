@@ -92,7 +92,7 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
                 showCancelButton: false,
                 message: 'Aucune manche n\'est enregistrée pour cette partie',
                 title: 'Erreur',
-                color: Colors.black,
+                color: Theme.of(context).errorColor,
               ));
     }
   }
