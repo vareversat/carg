@@ -40,7 +40,7 @@ extension GameTypeExtension on GameType? {
       case GameType.BELOTE:
         return 'french_belote_rules.md';
       case GameType.TAROT:
-        return 'french_belote_rules.md';
+        return 'tarot_rules.md';
       case GameType.UNDEFINE:
         throw Exception(
             'Rules not defined for game type ' + GameType.UNDEFINE.name);
