@@ -63,4 +63,4 @@ jobs:
       - name: 'Setup Flutter action'
         uses: subosito/flutter-action@v1
         with:
-          chanel: 'stable'
+          channel: 'stable'
