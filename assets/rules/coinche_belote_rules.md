@@ -41,7 +41,7 @@ un mélange avant de reposer le paquet sur la table, toujours face cachée.
 Le joueur situé à la gauche du donneur effectue une coupe en 2 de manière franche sans compter le nombre de cartes qu’il
 souhaite couper. **Chaque tas doit contenir au moins 3 cartes**. Le donneur referme la coupe.
 
-## **3.4. La distribution **
+## **3.4. La distribution**
 
 Le donneur distribue 8 cartes à chaque joueur, **dans le sens inverse des aiguilles d’une montre en commençant par son
 voisin de droite**, de l’une des manières suivantes :
