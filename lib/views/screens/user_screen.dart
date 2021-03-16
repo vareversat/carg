@@ -318,7 +318,7 @@ class _StatCircularChart extends StatelessWidget {
         series: <CircularSeries>[
           DoughnutSeries<GameStats, String?>(
             radius: '110%',
-            innerRadius: '70%',
+            innerRadius: '60%',
             dataSource: gameStatsList!,
             xValueMapper: (GameStats data, _) => data.gameType.name,
             yValueMapper: (GameStats data, _) => data.playedGames,
@@ -328,7 +328,7 @@ class _StatCircularChart extends StatelessWidget {
             iconHeight: 20,
             iconWidth: 20,
             textStyle: Theme.of(context).textTheme.bodyText2!,
-            position: LegendPosition.bottom,
+            position: LegendPosition.left,
             isVisible: true,
             toggleSeriesVisibility: true));
   }
@@ -425,7 +425,7 @@ class _WonPlayedWidget extends StatelessWidget {
             border: Border(
                 bottom: BorderSide(
           color: Theme.of(context).primaryColor,
-          width: 6, // Underline thickness
+          width: 6,
         ))),
         child: Text('${player!.totalWinPercentage()} %',
             style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold)),
