@@ -57,14 +57,10 @@ jobs:
     continue-on-error: true
     name: 'Build iOS'
     runs-on: macos-latest
-    container: vareversat/flutter:latest
     steps:
       - name: 'Checkout source code'
-        uses: actions/checkout@v2
-      - name: 'Decrypt secret configuration'
-        run: ./.github/scripts/decrypt_secret.sh
-        env:
-          PASSPHRASE: ${{secrets.PASSPHRASE}}
-      - name: 'Build IPA'
-        run: flutter build ios --no-sound-null-safety
-        shell: 'bash'
+      - uses: actions/checkout@v2
+      - name: 'Setup Flutter action'
+      - uses: subosito/flutter-action@v1
+        with:
+          chanel: 'stable'
