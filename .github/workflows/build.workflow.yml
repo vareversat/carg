@@ -64,5 +64,4 @@ jobs:
         uses: subosito/flutter-action@v1
         with:
           channel: 'stable'
-      - name: 'Build IPA'
-        run: flutter build ios --release --no-codesign --dart-define=FLAVOR=dev --no-sound-null-safety
+      - run: flutter build ios --release --no-codesign --dart-define=FLAVOR=dev --no-sound-null-safety
