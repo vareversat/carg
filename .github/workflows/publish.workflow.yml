@@ -10,21 +10,25 @@ jobs:
   analyze:
     name: 'Analyze'
     runs-on: ubuntu-latest
-    container: vareversat/flutter:latest
     steps:
       - name: 'Checkout source code'
         uses: actions/checkout@v2
-      - name: 'Analyze code'
-        run: flutter analyze
+      - name: 'Setup flutter action'
+        uses: subosito/flutter-action@v1.4.0
+        with:
+          channel: 'stable'
+      - run: flutter analyze
   test:
     name: 'Test'
     runs-on: ubuntu-latest
-    container: vareversat/flutter:latest
     steps:
       - name: 'Checkout source code'
         uses: actions/checkout@v2
-      - name: 'Test code'
-        run: flutter test --coverage --no-sound-null-safety
+      - name: 'Setup flutter action'
+        uses: subosito/flutter-action@v1.4.0
+        with:
+          channel: 'stable'
+      - run: flutter test --coverage --no-sound-null-safety
       - name: 'Upload coverage report'
         uses: codecov/codecov-action@v1.1.1
         with:
@@ -34,7 +38,6 @@ jobs:
     needs: [ analyze, test ]
     name: 'Build Android'
     runs-on: ubuntu-latest
-    container: vareversat/flutter:latest
     steps:
       - name: 'Checkout source code'
         uses: actions/checkout@v2
@@ -46,9 +49,11 @@ jobs:
         run: ./.github/scripts/check_secrets_decryption.sh
         env:
           PASSPHRASE: ${{secrets.PASSPHRASE}}
-      - name: 'Build APK'
-        run: flutter build apk --split-per-abi --dart-define=FLAVOR=prod --no-sound-null-safety
-        shell: 'bash'
+      - name: 'Setup flutter action'
+        uses: subosito/flutter-action@v1.4.0
+        with:
+          channel: 'stable'
+      - run: flutter build apk --split-per-abi --dart-define=FLAVOR=dev --no-sound-null-safety
       - name: 'Save APK'
         uses: actions/upload-artifact@v2
         with:
@@ -58,14 +63,16 @@ jobs:
     needs: build_android
     name: 'Upload APK on Firebase'
     runs-on: ubuntu-latest
-    container: vareversat/flutter:latest
     steps:
-      - name: 'Checkout source code'
-        uses: actions/checkout@v2.3.2
       - name: 'Download Artifact'
         uses: actions/download-artifact@v2
         with:
           name: 'apk-build'
+      - name: 'Setup Node / NPM'
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '12.x'
+      - run: npm install -g firebase-tools
       - name: 'Deploy to Firebase'
         run: firebase appdistribution:distribute --token "$FIREBASE_TOKEN" app-arm64-v8a-release.apk --app "$APP_ID" --release-notes-file CHANGELOG.md --groups-file groups_file.txt
         env:
