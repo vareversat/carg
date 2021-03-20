@@ -1,7 +1,6 @@
 import 'package:carg/models/score/misc/belote_team_enum.dart';
 import 'package:carg/models/score/misc/card_color.dart';
 import 'package:carg/models/score/round/round.dart';
-// ignore: import_of_legacy_library_into_null_safe
 import 'package:enum_to_string/enum_to_string.dart';
 
 abstract class BeloteRound extends Round {
@@ -131,7 +130,9 @@ abstract class BeloteRound extends Round {
       'index': index,
       'card_color': EnumToString.convertToString(cardColor),
       'dix_de_der': EnumToString.convertToString(dixDeDer),
-      'belote_rebelote': EnumToString.convertToString(beloteRebelote),
+      'belote_rebelote': beloteRebelote != null
+          ? EnumToString.convertToString(beloteRebelote)
+          : null,
       'contract_fulfilled': contractFulfilled,
       'taker': EnumToString.convertToString(taker),
       'defender': EnumToString.convertToString(defender),

@@ -7,7 +7,6 @@ import 'package:carg/models/score/misc/tarot_perk.dart';
 import 'package:carg/models/score/misc/tarot_player_score.dart';
 import 'package:carg/models/score/misc/tarot_team.dart';
 import 'package:carg/models/score/round/round.dart';
-// ignore: import_of_legacy_library_into_null_safe
 import 'package:enum_to_string/enum_to_string.dart';
 
 class TarotRound extends Round {
@@ -222,10 +221,12 @@ class TarotRound extends Round {
       'players': players?.toJSON(),
       'oudler': EnumToString.convertToString(oudler),
       'contract': EnumToString.convertToString(contract),
-      'bonus': EnumToString.convertToString(bonus),
-      'handful': EnumToString.convertToString(handful),
-      'small_to_the_end': EnumToString.convertToString(smallToTheEndTeam),
-      'chelem': EnumToString.convertToString(chelem),
+      'bonus': bonus != null ? EnumToString.convertToString(bonus) : null,
+      'handful': handful != null ? EnumToString.convertToString(handful) : null,
+      'small_to_the_end': smallToTheEndTeam != null
+          ? EnumToString.convertToString(smallToTheEndTeam)
+          : null,
+      'chelem': chelem != null ? EnumToString.convertToString(chelem) : null,
       'player_points': playerPoints!.map((e) => e.toJSON()).toList()
     };
   }
@@ -241,11 +242,12 @@ class TarotRound extends Round {
       players: TarotRoundPlayers.fromJSON(json['players']),
       oudler: EnumToString.fromString(TarotOudler.values, json['oudler']),
       contract: EnumToString.fromString(TarotContract.values, json['contract']),
-      bonus: EnumToString.fromString(TarotBonus.values, json['bonus']),
-      handful: EnumToString.fromString(TarotHandful.values, json['handful']),
-      smallToTheEnd:
-          EnumToString.fromString(TarotTeam.values, json['small_to_the_end']),
-      chelem: EnumToString.fromString(TarotChelem.values, json['chelem']),
+      bonus: EnumToString.fromString(TarotBonus.values, json['bonus'] ?? ''),
+      handful:
+          EnumToString.fromString(TarotHandful.values, json['handful'] ?? ''),
+      smallToTheEnd: EnumToString.fromString(
+          TarotTeam.values, json['small_to_the_end'] ?? ''),
+      chelem: EnumToString.fromString(TarotChelem.values, json['chelem'] ?? ''),
     );
   }
 

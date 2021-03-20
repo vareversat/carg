@@ -2,7 +2,6 @@ import 'package:carg/models/score/misc/belote_team_enum.dart';
 import 'package:carg/models/score/misc/card_color.dart';
 import 'package:carg/models/score/misc/coinche_belote_contract_name.dart';
 import 'package:carg/models/score/round/belote_round.dart';
-// ignore: import_of_legacy_library_into_null_safe
 import 'package:enum_to_string/enum_to_string.dart';
 
 class CoincheBeloteRound extends BeloteRound {
@@ -108,7 +107,7 @@ class CoincheBeloteRound extends BeloteRound {
         dixDeDer:
             EnumToString.fromString(BeloteTeamEnum.values, json['dix_de_der']),
         beloteRebelote: EnumToString.fromString(
-            BeloteTeamEnum.values, json['belote_rebelote']),
+            BeloteTeamEnum.values, json['belote_rebelote'] ?? ''),
         contract: json['contract'],
         contractFulfilled: json['contract_fulfilled'],
         taker: EnumToString.fromString(BeloteTeamEnum.values, json['taker']),

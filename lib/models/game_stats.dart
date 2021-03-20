@@ -1,5 +1,4 @@
 import 'package:carg/models/game/game_type.dart';
-// ignore: import_of_legacy_library_into_null_safe
 import 'package:enum_to_string/enum_to_string.dart';
 
 class GameStats {
@@ -23,7 +22,7 @@ class GameStats {
 
   factory GameStats.fromJSON(Map<String, dynamic> json) {
     return GameStats(
-        gameType: EnumToString.fromString(GameType.values, json['game_type']),
+        gameType: EnumToString.fromString(GameType.values, json['game_type'])!,
         wonGames: json['won_games'],
         playedGames: json['played_games']);
   }
