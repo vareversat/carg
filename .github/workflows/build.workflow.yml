@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: 'Checkout source code'
         uses: actions/checkout@v2
-      - name: 'Analyze code'
+      - name: 'Setup flutter action'
         uses: subosito/flutter-action@v1.4.0
         with:
           channel: 'stable'
@@ -22,7 +22,7 @@ jobs:
     steps:
       - name: 'Checkout source code'
         uses: actions/checkout@v2
-      - name: 'Test code'
+      - name: 'Setup flutter action'
         uses: subosito/flutter-action@v1.4.0
         with:
           channel: 'stable'
@@ -47,7 +47,7 @@ jobs:
         run: ./.github/scripts/check_secrets_decryption.sh
         env:
           PASSPHRASE: ${{secrets.PASSPHRASE}}
-      - name: 'Build APK'
+      - name: 'Setup flutter action'
         uses: subosito/flutter-action@v1.4.0
         with:
           channel: 'stable'
@@ -73,7 +73,7 @@ jobs:
         run: ./.github/scripts/check_secrets_decryption.sh
         env:
           PASSPHRASE: ${{secrets.PASSPHRASE}}
-      - name: 'Build IPA'
+      - name: 'Setup flutter action'
         uses: subosito/flutter-action@v1.4.0
         with:
           channel: 'stable'
