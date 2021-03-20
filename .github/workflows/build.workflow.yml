@@ -8,21 +8,25 @@ jobs:
   analyze:
     name: 'Analyze'
     runs-on: ubuntu-latest
-    container: vareversat/flutter:latest
     steps:
       - name: 'Checkout source code'
         uses: actions/checkout@v2
       - name: 'Analyze code'
-        run: flutter analyze
+        uses: subosito/flutter-action@1.4.0
+        with:
+          channel: 'stable'
+      - run: flutter analyze
   test:
     name: 'Test'
     runs-on: ubuntu-latest
-    container: vareversat/flutter:latest
     steps:
       - name: 'Checkout source code'
         uses: actions/checkout@v2
       - name: 'Test code'
-        run: flutter test --coverage --no-sound-null-safety
+        uses: subosito/flutter-action@1.4.0
+        with:
+          channel: 'stable'
+      - run: flutter test --coverage --no-sound-null-safety
       - name: 'Upload coverage report'
         uses: codecov/codecov-action@v1.1.1
         with:
@@ -32,7 +36,6 @@ jobs:
     needs: [ analyze, test ]
     name: 'Build Android'
     runs-on: ubuntu-latest
-    container: vareversat/flutter:latest
     steps:
       - name: 'Checkout source code'
         uses: actions/checkout@v2
@@ -45,8 +48,10 @@ jobs:
         env:
           PASSPHRASE: ${{secrets.PASSPHRASE}}
       - name: 'Build APK'
-        run: flutter build apk --split-per-abi --dart-define=FLAVOR=dev --no-sound-null-safety
-        shell: 'bash'
+        uses: subosito/flutter-action@1.4.0
+        with:
+          channel: 'stable'
+      - run: flutter build apk --split-per-abi --dart-define=FLAVOR=dev --no-sound-null-safety
       - name: 'Save APK'
         uses: actions/upload-artifact@v2
         with:
@@ -60,8 +65,16 @@ jobs:
     steps:
       - name: 'Checkout source code'
         uses: actions/checkout@v2
-      - name: 'Setup Flutter action'
-        uses: subosito/flutter-action@v1
+      - name: 'Decrypt secret configuration'
+        run: ./.github/scripts/decrypt_secret.sh
+        env:
+          PASSPHRASE: ${{secrets.PASSPHRASE}}
+      - name: 'Check secret configuration'
+        run: ./.github/scripts/check_secrets_decryption.sh
+        env:
+          PASSPHRASE: ${{secrets.PASSPHRASE}}
+      - name: 'Build IPA'
+        uses: subosito/flutter-action@1.4.0
         with:
           channel: 'stable'
       - run: flutter build ios --release --no-codesign --dart-define=FLAVOR=dev --no-sound-null-safety
