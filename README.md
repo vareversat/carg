@@ -8,6 +8,7 @@
   <a href="https://algolia.com"><img src="https://img.shields.io/badge/algolia-white?logo=algolia&style=for-the-badge"></a>
   <a href="https://codecov.io/gh/vareversat/carg/"><img src="https://img.shields.io/codecov/c/github/devosud/carg?logo=codecov&style=for-the-badge&token=7EXLUQ93ZT"></a>
   <a href="https://github.com/vareversat/carg/actions"><img src="https://img.shields.io/github/workflow/status/vareversat/carg/Flutter%20-%20CI%20(firebase%20app%20distribution)?logo=github&style=for-the-badge"></a>
+  <a href="https://github.com/vareversat/carg/releases"><img src="https://img.shields.io/github/v/tag/vareversat/carg?label=version&logo=git&logoColor=white&style=for-the-badge"></a>
 </p>
 
 Mobile app where you to register with your own account and save your games of French Belote, Coinche Belote and Tarot !
