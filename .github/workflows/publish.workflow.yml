@@ -69,7 +69,7 @@ jobs:
         with:
           name: 'apk-build'
       - name: 'Setup Node / NPM'
-      - uses: actions/setup-node@v2
+        uses: actions/setup-node@v2
         with:
           node-version: '12.x'
       - run: npm install -g firebase-tools
