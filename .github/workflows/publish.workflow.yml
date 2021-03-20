@@ -53,7 +53,7 @@ jobs:
         uses: subosito/flutter-action@v1.4.0
         with:
           channel: 'stable'
-      - run: flutter build apk --split-per-abi --dart-define=FLAVOR=dev --no-sound-null-safety
+      - run: flutter build apk --split-per-abi --dart-define=FLAVOR=prod --no-sound-null-safety
       - name: 'Save APK'
         uses: actions/upload-artifact@v2
         with:
