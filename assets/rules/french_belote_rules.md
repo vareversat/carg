@@ -1,4 +1,4 @@
-# 1. Préambule
+# **1. Préambule**
 
 Ce document a pour fonction d’établir les règles officielles de la belote, dans sa variante la plus pratiquée,
 c’est-à-dire la belote à 4 joueurs répartis en 2 équipes de 2 joueurs, seules règles reconnues par la Fédération
@@ -8,7 +8,7 @@ Source : [Règles officielles de la Belote](http://www.ffbelote.org/wp-content/u
 
 ***
 
-# 2. Présentation
+# **2. Présentation**
 
 Le jeu de belote se joue avec un jeu de **32 cartes**, comprenant les 7, 8, 9, 10, Valets, Dames, Rois et As les quatre
 couleurs pique, cœur, carreau et trèfle et oppose deux équipes de deux joueurs se faisant face : équipe nord/sud opposée
@@ -24,9 +24,9 @@ un nombre de points défini au départ, ou après un nombre défini de donnes. U
 
 ***
 
-# 3. La distribution
+# **3. La distribution**
 
-## **3.1. Le donneur**
+## 3.1. Le donneur
 
 Le premier donneur est tiré au sort de la façon suivante : une personne de chaque équipe tire une carte au hasard dans
 le jeu étalé face cachée au milieu de la table. Le joueur ayant tiré la plus petite carte donne. La couleur des cartes
@@ -35,33 +35,33 @@ n'a pas d'importance. L'ordre des cartes à suivre, par ordre décroissant est l
 
 En cas d'égalité, un nouveau tirage a lieu.
 
-## **3.2. Mélange des cartes**
+## 3.2. Mélange des cartes
 
 Le mélange du jeu est obligatoire avant chaque distribution. Le donneur saisit les 32 cartes faces cachées, effectue un
 mélange avant de reposer le paquet sur la table, toujours face cachée, en direction du joueur situé à sa gauche qui
 effectue la coupe.
 
-## **3.3. La coupe**
+## 3.3. La coupe
 
 Le joueur situé à la gauche du donneur effectue une coupe en 2 de manière franche sans compter le nombre de cartes qu’il
 souhaite couper. **Chaque tas doit contenir au moins 3 cartes**. Le donneur referme la coupe.
 
-## **3.4. La distribution (première partie)**
+## 3.4. La distribution (première partie)
 
 Le donneur distribue 5 cartes à chaque joueur, **dans le sens inverse des aiguilles d’une montre en commençant par son
 voisin de droite**, de l’une des manières suivantes : 3 cartes chacun puis 2, ou 2 cartes chacun puis 3. Il pose le
 paquet de cartes restantes, face cachée, puis retourne dessus la première carte. Il est strictement interdit aux joueurs
 de ramasser leurs cartes avant la fin de la distribution. Le premier tour d'enchère débute (4.1).
 
-## **3.5. La distribution (deuxième partie)**
+## 3.5. La distribution (deuxième partie)
 
 Le donneur distribue la carte retournée au preneur, puis dans le sens inverse des aiguilles d'une montre 3 cartes à
 chaque joueur ou 2 cartes au preneur.
 ***
 
-# 4. Les enchères
+# **4. Les enchères**
 
-## **4.1. Premier tour**
+## 4.1. Premier tour
 
 Les joueurs s'expriment chacun à leur tour en commençant par le joueur placé à droite du donneur et ont les possibilités
 suivantes :
@@ -75,7 +75,7 @@ suivantes :
 **Dans le cas où les quatre joueurs passent leur tour, un deuxième tour d'enchères a lieu dans les conditions
 suivantes :**
 
-## **4.2. Deuxième tour**
+## 4.2. Deuxième tour
 
 Les joueurs s'expriment chacun à leur tour en commençant par le joueur placé à droite du donneur et ont les possibilités
 suivantes :
@@ -91,11 +91,11 @@ suivantes :
 du donneur devient le nouveau donneur.**
 ***
 
-# 5. Le jeu de la carte
+# **5. Le jeu de la carte**
 
 Le jeu de la carte se compose de huit plis (ou « levées ») de quatre cartes.
 
-## **5.1. Déroulement**
+## 5.1. Déroulement
 
 Le joueur situé à droite du donneur joue la carte de son choix : c’est l’entame. La couleur de la carte de l’entame fixe
 la couleur demandée. Les trois autres joueurs jouent alors une carte chacun leur tour, toujours dans le sens inverse des
@@ -112,7 +112,7 @@ Lorsqu'un pli est retourné, il n'est consultable qu'à l'issue du pli suivant (
 avant que celui-ci ne soit retourné à son tour. En aucun cas un joueur ne peut demander à consulter le pli précédent
 avant de jouer sa carte. Lorsque toutes les cartes ont été jouées, on procède au calcul des points.
 
-## **5.2. Règles**
+## 5.2. Règles
 
 + On doit **toujours** fournir la couleur demandée à l'entame si l'on en possède. Si la couleur demandée est l'atout,
   lorsque c'est possible, il faut en plus monter sur la carte la plus haute déjà posée.
@@ -131,7 +131,7 @@ avant de jouer sa carte. Lorsque toutes les cartes ont été jouées, on procèd
 
 ***
 
-# 6. Ordre et valeur des cartes
+# **6. Ordre et valeur des cartes**
 
 Les cartes n’ont pas le même ordre ni la même valeur selon qu’il s’agisse d’atout ou non. Les tableaux suivants
 indiquent l’ordre et la valeur des cartes dans l’ordre décroissant.
@@ -149,7 +149,7 @@ indiquent l’ordre et la valeur des cartes dans l’ordre décroissant.
 
 ***
 
-# 7. La belote et la rebelote
+# **7. La belote et la rebelote**
 
 Lorsqu'un joueur détient ensemble **le roi et la dame d’atout**, on dit qu’il a la belote, ce qui offre à son équipe un
 bonus de **20 points**.
@@ -163,29 +163,29 @@ Pour être conforme, elle doit être annoncée en disant « belote » lorsqu'il 
 
 ***
 
-# 8. Les annonces
+# **8. Les annonces**
 
 La belote classique se joue sans annonces.
 
 ***
 
-# 9. Dix de der et capot
+# **9. Dix de der et capot**
 
-## **9.1. Dix de der**
+## 9.1. Dix de der
 
 L’équipe réalisant le dernier pli obtient un bonus de 10 points pour ce pli. Il s'agit de la règle du « dix de der »,
 der étant le diminutif de « dernier pli ». Le total des points du jeu est donc de 162, en comptant le « dix de der ».
 
-## **9.2. Capot**
+## 9.2. Capot
 
 En cas de capot, c’est-à-dire les 8 plis remportés par la même équipe, le dix de der vaut 100 points, portant ainsi le
 total à 252 points.
 
 ***
 
-# 10. Calcul du score
+# **10. Calcul du score**
 
-## **10.1. Résultat de la donne**
+## 10.1. Résultat de la donne
 
 Lorsque les 8 plis ont été joués, on procède au calcul du score. Chaque camp totalise ses points, à savoir :
 
@@ -213,7 +213,7 @@ suivante.** L'équipe qui n'avait pas pris marque ses points (81 ou 91) dès la 
 > le cas où elle n'est pas appliquée, le tournoi doit définir à l'avance si l'égalité de score provoque la chute ou la
 > réussite du contrat pour l'équipe preneuse.
 
-## **10.2. Score de la donne**
+## 10.2. Score de la donne
 
 À l'issue du décompte des points, chaque équipe marque le nombre de points de la façon suivante :
 
@@ -257,18 +257,18 @@ de l'arrondi 90 points ce qui mène son score à 1000 points. Elle remporte la p
 
 ***
 
-# 11. Variante : Sans Atout / Tout Atout
+# **11. Variante : Sans Atout / Tout Atout**
 
 L’organisateur d’un tournoi peut décider de le jouer avec la variante du Sans Atout / Tout Atout. Cette variante permet
 de prendre, en sus des 4 couleurs d’atout possibles, à « Sans Atout »
 (il n’existe aucune couleur d’atout) et « Tout atout » (toutes les couleurs sont atout), et implique les changements
 suivants :
 
-## **11.1. Tour d’enchères**
+## 11.1. Tour d’enchères
 
 Un joueur peut prendre à la couleur ainsi qu’à Sans Atout et Tout Atout.
 
-## **11.2. Sans Atout**
+## 11.2. Sans Atout
 
 Lors d'un contrat à Sans Atout, il n'y a aucun atout. De fait, il est impossible de couper. Il n'y a pas de belote
 possible.
@@ -286,7 +286,7 @@ L'ordre et la valeur des cartes sont les suivants :
 | Huit  | 0 point   |
 | Sept  | 0 point   |
 
-## **11.3. Tout Atout**
+## 11.3. Tout Atout
 
 Lors d'un contrat à Tout Atout, toutes les couleurs sont définies comme atout. De fait, il est impossible de couper et
 il est obligatoire de monter sur la carte qui tient, quand cela est possible.

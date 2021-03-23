@@ -1,4 +1,4 @@
-# 1. Préambule
+# **1. Préambule**
 
 Ce document a pour fonction d’établir les règles officielles de la belote, dans sa variante la plus pratiquée,
 c’est-à-dire la belote à 4 joueurs répartis en 2 équipes de 2 joueurs, seules règles reconnues par la Fédération
@@ -8,7 +8,7 @@ Source : [Règles officielles de la Belote Coinchée](http://www.ffbelote.org/wp
 
 ***
 
-# 2. Présentation
+# **2. Présentation**
 
 Le jeu de belote se joue avec un jeu de **32 cartes**, comprenant les 7, 8, 9, 10, Valets, Dames, Rois et As les quatre
 couleurs pique, cœur, carreau et trèfle et oppose deux équipes de deux joueurs se faisant face : équipe nord/sud opposée
@@ -24,24 +24,24 @@ un nombre de points défini au départ, ou après un nombre défini de donnes. U
 
 ***
 
-# 3. La distribution
+# **3. La distribution**
 
-## **3.1. Le donneur**
+## 3.1. Le donneur
 
 Le premier donneur de la partie est tiré au sort. Pour la donne suivante, le donneur sera son voisin de droite et ainsi
 de suite.
 
-## **3.2. Mélange des cartes**
+## 3.2. Mélange des cartes
 
 Le mélange du jeu est obligatoire avant chaque distribution. Le donneur saisit les 32 cartes faces cachées et effectue
 un mélange avant de reposer le paquet sur la table, toujours face cachée.
 
-## **3.3. La coupe**
+## 3.3. La coupe
 
 Le joueur situé à la gauche du donneur effectue une coupe en 2 de manière franche sans compter le nombre de cartes qu’il
 souhaite couper. **Chaque tas doit contenir au moins 3 cartes**. Le donneur referme la coupe.
 
-## **3.4. La distribution**
+## 3.4. La distribution
 
 Le donneur distribue 8 cartes à chaque joueur, **dans le sens inverse des aiguilles d’une montre en commençant par son
 voisin de droite**, de l’une des manières suivantes :
@@ -52,13 +52,13 @@ voisin de droite**, de l’une des manières suivantes :
 
 ***
 
-# 4. Les enchères
+# **4. Les enchères**
 
-## **4.1. Tour d’enchères**
+## 4.1. Tour d’enchères
 
 Les joueurs s'expriment chacun à leur tour en commençant par le joueur placé à droite du donneur. Chaque joueur peut :
 
-## **Passer**
+## *Passer*
 
 Un joueur passe son tour en disant « je passe » à l’exception de toute autre locution sauf accord préalable entre les 2
 équipes. Un joueur qui a passé une fois pourra enchérir par la suite s’il en a l’opportunité. Si les 4 joueurs passent
@@ -66,7 +66,7 @@ sans enchérir, la donne est terminée sans points marqués.
 
 > Le donneur rassemble les cartes et les fait passer au joueur à sa droite qui sera le nouveau donneur.
 
-## **Enchérir**
+## *Enchérir*
 
 Un joueur fait une enchère en désignant clairement le nombre de points qu’il engage son équipe à obtenir, et la couleur
 de l'atout qu'il choisit.
@@ -84,7 +84,7 @@ puis la couleur (pique, cœur…), par exemple « 90 cœur ».
 Il est impossible de surenchérir sur soi-même : le tour de d’enchère s’achève lorsqu'après une enchère ou une coinche,
 les trois joueurs suivants passent.
 
-## **Coincher**
+## *Coincher*
 
 Un joueur peut coincher une enchère adverse, mettant ainsi en doute la capacité de son adversaire à réaliser son
 contrat, en disant « Coinché ».
@@ -95,14 +95,14 @@ Le fait de coincher fige le contrat, empêchant ainsi toute possibilité de sure
 
 **Le score de la donne sera multiplié par 2.**
 
-## **Surcoincher**
+## *Surcoincher*
 
 Lorsqu'une équipe a coinché, l’équipe adverse a la possibilité de surcoincher en disant « Surcoinché ». Le tour
 d’enchères s’arrête alors immédiatement.
 
 **Le score de la donne sera multiplié par 4.**
 
-## **4.2. Contrat**
+## 4.2. Contrat
 
 En prenant, le joueur engage son équipe (les preneurs) à réussir deux conditions, avec un jeu de la carte basé sur la
 couleur d’atout qu’il a désignée :
@@ -118,11 +118,11 @@ Le nombre de points comprend :
 
 ***
 
-# 5. Le jeu de la carte
+# **5. Le jeu de la carte**
 
 Le jeu de la carte se compose de huit plis (ou « levées ») de quatre cartes.
 
-## **5.1. Déroulement**
+## 5.1. Déroulement
 
 Le joueur situé à droite du donneur joue la carte de son choix : c’est l’entame. La couleur de la carte de l’entame fixe
 la couleur demandée.
@@ -138,7 +138,7 @@ d’apparition. Le dernier pli peut être consulté par n’importe quel joueur 
 
 Lorsque toutes les cartes ont été jouées, on procède au calcul des points.
 
-## **5.2. Règles**
+## 5.2. Règles
 
 + On doit **toujours** fournir la couleur demandée à l'entame si l'on en possède. Si la couleur demandée est l'atout,
   lorsque c'est possible, il faut en plus monter sur la carte la plus haute déjà posée.
@@ -164,7 +164,7 @@ Lorsque toutes les cartes ont été jouées, on procède au calcul des points.
 
 ***
 
-# 6. Ordre et valeur des cartes
+# **6. Ordre et valeur des cartes**
 
 Les cartes n’ont pas le même ordre ni la même valeur selon qu’il s’agisse d’atout ou non. Les tableaux suivants
 indiquent l’ordre et la valeur des cartes dans l’ordre décroissant.
@@ -182,7 +182,7 @@ indiquent l’ordre et la valeur des cartes dans l’ordre décroissant.
 
 ***
 
-# 7. La belote et la rebelote
+# **7. La belote et la rebelote**
 
 Lorsqu'un joueur détient ensemble **le roi et la dame d’atout**, on dit qu’il a la belote, ce qui offre à son équipe un
 bonus de **20 points**.
@@ -196,7 +196,7 @@ indifféremment la Dame ou le Roi), puis obligatoirement « rebelote » lorsqu'i
 
 ***
 
-# 8. Les annonces
+# **8. Les annonces**
 
 La coinche se joue toujours avec les annonces.
 
@@ -205,7 +205,7 @@ plus faible.
 
 > Important : une carte ne peut compter que pour une seule annonce à la fois
 
-## **Le carré**
+## *Le carré*
 
 *4 cartes de la même hauteur. La valeur d'un carré dépend de la hauteur*
 
@@ -220,31 +220,31 @@ plus faible.
 
 Remarquue : les carrés de 7 et 8 ne comptent pas. Un carré de 100 points est plus fort qu'un cent.
 
-# **Le cent**
+# *Le cent*
 
 5 cartes qui se suivent dans la même couleur en respectant l'ordre suivant :
 > 7 8 9 10 Valet Dame Roi As.
 
 **Valeur : 100 points.**
 
-## **Le Cinquante**
+## *Le Cinquante*
 
 4 cartes qui se suivent dans la même couleur.
 
 **Valeur : 50 points.**
 
-## **La tierce**
+## *La tierce*
 
 3 cartes qui se suivent de la même couleur.
 
 **Valeur : 20 points.**
 
-## **8.2. Déclaration des annonces**
+## 8.2. Déclaration des annonces
 
 Lors du premier pli, chacun des joueurs annonce simplement la nature de son ou ses annonce(s) au moment où il joue sa
 carte.
 
-## **8.3. Résolution des annonces**
+## 8.3. Résolution des annonces
 
 Lorsque la première carte du second pli vient d’être jouée, on procède à **la résolution des annonces**. En effet, les
 annonces d'un seul camp peuvent être prises en compte : celui qui montre l'annonce la plus haute. En cas d'égalité (
@@ -263,7 +263,7 @@ Processus à respecter en cas d’annonces équivalentes entre les deux équipes
 > s’annonce Tierce hauteur Valet). Le joueur adverse réplique en disant « pas mieux » ou bien déclare sa
 > hauteur si celle-ci est supérieure ou égale.
 
-## **8.4. Renonce**
+## 8.4. Renonce
 
 Si un joueur se révèle incapable de montrer les combinaisons qu'il a annoncées, il y a renonce: le camp adverse marquera
 les points que le camp fautif avait annoncés.
@@ -271,23 +271,23 @@ les points que le camp fautif avait annoncés.
 
 ***
 
-# 9. Dix de der et capot
+# **9. Dix de der et capot**
 
-## **9.1. Dix de der**
+## 9.1. Dix de der
 
 L’équipe réalisant le dernier pli obtient un bonus de 10 points pour ce pli. Il s'agit de la règle du « dix de der »,
 der étant le diminutif de « dernier pli ». Le total des points du jeu est donc de 162, en comptant le « dix de der ».
 
-## **9.2. Capot**
+## 9.2. Capot
 
 En cas de capot, c’est-à-dire les 8 plis remportés par la même équipe, le dix de der vaut 100 points, portant ainsi le
 total à 252 points.
 
 ***
 
-# 10. Calcul du score
+# **10. Calcul du score**
 
-## **10.1. Résultat de la donne**
+## 10.1. Résultat de la donne
 
 Lorsque les 8 plis ont été joués, on procède au calcul du score. Chaque camp totalise ses points, à savoir :
 
@@ -358,18 +358,18 @@ valider la partie.
 
 ***
 
-# 11. Variante : Sans Atout / Tout Atout
+# **11. Variante : Sans Atout / Tout Atout**
 
 L’organisateur d’un tournoi peut décider de le jouer avec la variante du Sans Atout / Tout Atout. Cette variante permet
 de prendre, en sus des 4 couleurs d’atout possibles, à « Sans Atout »
 (il n’existe aucune couleur d’atout) et « Tout atout » (toutes les couleurs sont atout), et implique les changements
 suivants :
 
-## **11.1. Tour d’enchères**
+## 11.1. Tour d’enchères
 
 Un joueur peut prendre à la couleur ainsi qu’à Sans Atout et Tout Atout.
 
-## **11.2. Sans Atout**
+## 11.2. Sans Atout
 
 Lors d'un contrat à Sans Atout, il n'y a aucun atout. De fait, il est impossible de couper. Il n'y a pas de belote
 possible.
@@ -398,7 +398,7 @@ L'ordre et la valeur des carrés sont les suivants
 | *4 Valet* | 100 points |
 | *4 Neuf*  | 100 points |
 
-## **11.3. Tout Atout**
+## 11.3. Tout Atout
 
 Lors d'un contrat à Tout Atout, toutes les couleurs sont définies comme atout. De fait, il est impossible de couper et
 il est obligatoire de monter sur la carte qui tient, quand cela est possible.
