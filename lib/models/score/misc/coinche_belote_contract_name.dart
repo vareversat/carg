@@ -18,7 +18,7 @@ extension CoincheBeloteContractNameExtension on CoincheBeloteContractName? {
     }
   }
 
-  int bonus(int currentScore, int? contract) {
+  int bonus(int currentScore) {
     switch (this) {
       case CoincheBeloteContractName.NORMAL:
         return currentScore;
@@ -27,9 +27,9 @@ extension CoincheBeloteContractNameExtension on CoincheBeloteContractName? {
       case CoincheBeloteContractName.SURCOINCHE:
         return currentScore * 4;
       case CoincheBeloteContractName.CAPOT:
-        return 250;
-      case CoincheBeloteContractName.GENERALE:
         return 500;
+      case CoincheBeloteContractName.GENERALE:
+        return 1000;
       default:
         return currentScore;
     }

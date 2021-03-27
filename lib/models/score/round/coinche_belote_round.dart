@@ -39,7 +39,10 @@ class CoincheBeloteRound extends BeloteRound {
   }
 
   @override
-  bool get contractFulfilled => getPointsOfTeam(taker) >= contract;
+  bool get contractFulfilled =>
+      getTrickPointsOfTeam(taker) + getDixDeDerOfTeam(taker, 0) >= contract &&
+      (getTrickPointsOfTeam(taker) + getDixDeDerOfTeam(taker, 0) >
+          getTrickPointsOfTeam(defender) + getDixDeDerOfTeam(defender, 0));
 
   CoincheBeloteContractName get contractName => _contractName;
 
@@ -57,33 +60,35 @@ class CoincheBeloteRound extends BeloteRound {
 
   @override
   void computeRound() {
+    var takerTrickPoints = getTrickPointsOfTeam(taker);
+    var defenderTrickPoints = getTrickPointsOfTeam(defender);
     if (contractFulfilled) {
-      takerScore =
-          contractName.bonus(contract + getPointsOfTeam(taker), contract);
-      defenderScore = getPointsOfTeam(defender);
+      var takerScoreTmp = takerTrickPoints +
+          getDixDeDerOfTeam(taker, takerTrickPoints) +
+          getBeloteRebeloteOfTeam(taker);
+      takerScore = roundScore(contractName.bonus(contract + takerScoreTmp));
+      defenderScore = roundScore(defenderTrickPoints +
+          getDixDeDerOfTeam(defender, defenderTrickPoints) +
+          getBeloteRebeloteOfTeam(defender));
     } else {
-      takerScore = getBeloteRebeloteOfTeam(taker) + getDixDeDerOfTeam(taker);
-      defenderScore = contractName.bonus(
-          BeloteRound.totalScore +
-              contract +
-              getBeloteRebeloteOfTeam(defender) +
-              getDixDeDerOfTeam(defender),
-          contract);
+      var defenderScoreTmp = BeloteRound.totalTrickScore +
+          BeloteRound.dixDeDerBonus +
+          getBeloteRebeloteOfTeam(defender) +
+          getDixDeDerOfTeam(defender, defenderTrickPoints);
+      takerScore = roundScore(getBeloteRebeloteOfTeam(taker) +
+          getDixDeDerOfTeam(taker, takerTrickPoints));
+      defenderScore = roundScore(contractName.bonus(contract + defenderScoreTmp));
     }
     notifyListeners();
   }
 
   @override
-  int getPointsOfTeam(BeloteTeamEnum? team) {
+  int getTrickPointsOfTeam(BeloteTeamEnum? team) {
     switch (team) {
       case BeloteTeamEnum.US:
-        return usTrickScore +
-            getDixDeDerOfTeam(BeloteTeamEnum.US) +
-            getBeloteRebeloteOfTeam(BeloteTeamEnum.US);
+        return usTrickScore;
       case BeloteTeamEnum.THEM:
-        return themTrickScore +
-            getDixDeDerOfTeam(BeloteTeamEnum.THEM) +
-            getBeloteRebeloteOfTeam(BeloteTeamEnum.THEM);
+        return themTrickScore;
       case null:
         return 0;
     }

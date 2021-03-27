@@ -6,7 +6,8 @@ import 'package:enum_to_string/enum_to_string.dart';
 abstract class BeloteRound extends Round {
   static const int beloteRebeloteBonus = 20;
   static const int dixDeDerBonus = 10;
-  static const int totalScore = 160;
+  static const int dixDeDerCapotBonus = 100;
+  static const int totalTrickScore = 152;
 
   late CardColor _cardColor;
   late bool contractFulfilled;
@@ -110,14 +111,26 @@ abstract class BeloteRound extends Round {
     notifyListeners();
   }
 
-  int getPointsOfTeam(BeloteTeamEnum team);
+  int getTrickPointsOfTeam(BeloteTeamEnum team);
 
   int getBeloteRebeloteOfTeam(BeloteTeamEnum? team) {
     return team == _beloteRebelote ? beloteRebeloteBonus : 0;
   }
 
-  int getDixDeDerOfTeam(BeloteTeamEnum? team) {
-    return team == _dixDeDer ? dixDeDerBonus : 0;
+  int getDixDeDerOfTeam(BeloteTeamEnum? team, int score) {
+    if (team == dixDeDer) {
+      if (score == BeloteRound.totalTrickScore) {
+        return BeloteRound.dixDeDerCapotBonus;
+      } else {
+        return BeloteRound.dixDeDerBonus;
+      }
+    } else {
+      return 0;
+    }
+  }
+
+  int roundScore(int trickPoints) {
+    return (trickPoints / 10).round() * 10;
   }
 
   @override

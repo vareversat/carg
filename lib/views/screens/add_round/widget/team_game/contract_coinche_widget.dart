@@ -40,7 +40,7 @@ class ContractCoincheWidget extends StatelessWidget {
                                     CoincheBeloteContractName.CAPOT ||
                                 roundData.contractName ==
                                     CoincheBeloteContractName.GENERALE) {
-                              roundData.contract = BeloteRound.totalScore;
+                              roundData.contract = BeloteRound.totalTrickScore + BeloteRound.dixDeDerBonus;
                             }
                           },
                         ),

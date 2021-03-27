@@ -31,30 +31,35 @@ class FrenchBeloteRound extends BeloteRound {
 
   @override
   void computeRound() {
+    var takerTrickPoints = getTrickPointsOfTeam(taker);
+    var defenderTrickPoints = getTrickPointsOfTeam(defender);
     if (contractFulfilled) {
-      takerScore = getPointsOfTeam(taker) + getBeloteRebeloteOfTeam(taker);
-      defenderScore =
-          getPointsOfTeam(defender) + getBeloteRebeloteOfTeam(defender);
+      takerScore = roundScore(takerTrickPoints +
+          getDixDeDerOfTeam(taker, takerTrickPoints) +
+          getBeloteRebeloteOfTeam(taker));
+      defenderScore = roundScore(defenderTrickPoints +
+          getDixDeDerOfTeam(defender, defenderTrickPoints) +
+          getBeloteRebeloteOfTeam(defender));
     } else {
-      takerScore = getBeloteRebeloteOfTeam(taker);
-      defenderScore =
-          BeloteRound.totalScore + getBeloteRebeloteOfTeam(defender);
+      takerScore = roundScore(getBeloteRebeloteOfTeam(taker));
+      defenderScore = roundScore(BeloteRound.totalTrickScore +
+          getDixDeDerOfTeam(defender, defenderTrickPoints) +
+          getBeloteRebeloteOfTeam(defender));
     }
     notifyListeners();
   }
 
   @override
-  bool get contractFulfilled => contractFulfilled = (beloteRebelote != null)
-      ? getPointsOfTeam(taker) > 80
-      : getPointsOfTeam(taker) > 90;
+  bool get contractFulfilled => contractFulfilled =
+      getTrickPointsOfTeam(taker) + getDixDeDerOfTeam(taker, 0) >= 80;
 
   @override
-  int getPointsOfTeam(BeloteTeamEnum? team) {
+  int getTrickPointsOfTeam(BeloteTeamEnum? team) {
     switch (team) {
       case BeloteTeamEnum.US:
-        return usTrickScore + getDixDeDerOfTeam(BeloteTeamEnum.US);
+        return usTrickScore;
       case BeloteTeamEnum.THEM:
-        return themTrickScore + getDixDeDerOfTeam(BeloteTeamEnum.THEM);
+        return themTrickScore;
       case null:
         return 0;
     }

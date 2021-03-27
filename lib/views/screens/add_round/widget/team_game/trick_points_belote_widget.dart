@@ -21,8 +21,6 @@ class TrickPointsBeloteWidget extends StatefulWidget {
 class _TrickPointsBeloteWidgetState extends State<TrickPointsBeloteWidget> {
   TextEditingController? _usPointsTextController;
   TextEditingController? _themPointsTextController;
-  final int _totalPoints = 160;
-  final int _dixDeDerBonus = 10;
   final BeloteRound _round;
 
   _TrickPointsBeloteWidgetState(this._round);
@@ -66,12 +64,11 @@ class _TrickPointsBeloteWidgetState extends State<TrickPointsBeloteWidget> {
                                 inputFormatters: <TextInputFormatter>[],
                                 onSubmitted: (String value) => {
                                       roundData.usTrickScore = int.parse(value),
-                                      roundData.themTrickScore = (_totalPoints -
-                                          _dixDeDerBonus -
-                                          int.parse(value)),
+                                      roundData.themTrickScore =
+                                          (BeloteRound.totalTrickScore -
+                                              int.parse(value)),
                                       _themPointsTextController!.text =
-                                          (_totalPoints -
-                                                  _dixDeDerBonus -
+                                          (BeloteRound.totalTrickScore -
                                                   int.parse(value))
                                               .toString(),
                                     },
@@ -92,12 +89,11 @@ class _TrickPointsBeloteWidgetState extends State<TrickPointsBeloteWidget> {
                                 onSubmitted: (String value) => {
                                       roundData.themTrickScore =
                                           int.parse(value),
-                                      roundData.usTrickScore = (_totalPoints -
-                                          _dixDeDerBonus -
-                                          int.parse(value)),
+                                      roundData.usTrickScore =
+                                          (BeloteRound.totalTrickScore -
+                                              int.parse(value)),
                                       _usPointsTextController!.text =
-                                          (_totalPoints -
-                                                  _dixDeDerBonus -
+                                          (BeloteRound.totalTrickScore -
                                                   int.parse(value))
                                               .toString(),
                                     },

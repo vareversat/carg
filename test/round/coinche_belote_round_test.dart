@@ -11,7 +11,7 @@ void main() {
         defender: BeloteTeamEnum.THEM,
         contractName: CoincheBeloteContractName.NORMAL,
         usTrickScore: 110,
-        themTrickScore: 52);
+        themTrickScore: 50);
 
     test('Is contract fulfilled', () {
       expect(coincheRound.contractFulfilled, true);
@@ -23,7 +23,7 @@ void main() {
       coincheRound.contractName = CoincheBeloteContractName.NORMAL;
       coincheRound.contract = 90;
       expect(coincheRound.takerScore, 210);
-      expect(coincheRound.defenderScore, 52);
+      expect(coincheRound.defenderScore, 50);
     });
 
     test('Compute score - fulfilled', () {
@@ -33,7 +33,7 @@ void main() {
       coincheRound.contract = 100;
       expect(coincheRound.contractFulfilled, true);
       expect(coincheRound.takerScore, 220);
-      expect(coincheRound.defenderScore, 52);
+      expect(coincheRound.defenderScore, 50);
     });
 
     test('Compute score - fulfilled - BeloteRebelote - US', () {
@@ -43,7 +43,7 @@ void main() {
       coincheRound.contract = 100;
       expect(coincheRound.contractFulfilled, true);
       expect(coincheRound.takerScore, 240);
-      expect(coincheRound.defenderScore, 52);
+      expect(coincheRound.defenderScore, 50);
     });
 
     test('Compute score - fulfilled - BeloteRebelote - THEM', () {
@@ -53,7 +53,7 @@ void main() {
       coincheRound.contract = 100;
       expect(coincheRound.contractFulfilled, true);
       expect(coincheRound.takerScore, 220);
-      expect(coincheRound.defenderScore, 72);
+      expect(coincheRound.defenderScore, 70);
     });
 
     test('Compute score - fulfilled - Dix de Der - US', () {
@@ -63,7 +63,7 @@ void main() {
       coincheRound.contract = 100;
       expect(coincheRound.contractFulfilled, true);
       expect(coincheRound.takerScore, 220);
-      expect(coincheRound.defenderScore, 52);
+      expect(coincheRound.defenderScore, 50);
     });
 
     test('Compute score - fulfilled - Dix de Der - THEM', () {
@@ -73,7 +73,7 @@ void main() {
       coincheRound.contract = 100;
       expect(coincheRound.contractFulfilled, true);
       expect(coincheRound.takerScore, 210);
-      expect(coincheRound.defenderScore, 62);
+      expect(coincheRound.defenderScore, 60);
     });
 
     test('Compute score - Contract - Coinche', () {
@@ -82,7 +82,7 @@ void main() {
       coincheRound.contractName = CoincheBeloteContractName.COINCHE;
       coincheRound.contract = 100;
       expect(coincheRound.takerScore, 440);
-      expect(coincheRound.defenderScore, 52);
+      expect(coincheRound.defenderScore, 50);
     });
 
     test('Compute score - Contract - Sur Coinche', () {
@@ -91,7 +91,7 @@ void main() {
       coincheRound.contractName = CoincheBeloteContractName.SURCOINCHE;
       coincheRound.contract = 100;
       expect(coincheRound.takerScore, 880);
-      expect(coincheRound.defenderScore, 52);
+      expect(coincheRound.defenderScore, 50);
     });
 
     test('Compute score - failed', () {
