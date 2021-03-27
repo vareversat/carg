@@ -109,7 +109,7 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: PlayScreenAppBar(gameType: _beloteGame.gameType),
+        appBar: PlayScreenAppBar(game: _beloteGame),
         body: Column(children: <Widget>[
           Padding(
               padding: const EdgeInsets.all(8.0),
@@ -180,7 +180,7 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
                                           ]);
                                     }),
                               )),
-                          if (!_beloteGame.isEnded!)
+                          if (!_beloteGame.isEnded)
                             NextPlayerWidget(
                                 playerId: _beloteGame.players!.playerList![
                                     snapshot.data!.rounds!.length % 4]),
@@ -195,7 +195,7 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
                             (error) => {_errorMessage = error.toString()})
                     as Stream<BeloteScore<BeloteRound>?>?),
           )),
-          if (!_beloteGame.isEnded!)
+          if (!_beloteGame.isEnded)
             PlayScreenButtonBlock(
                 deleteLastRound: _deleteLastRound,
                 editLastRound: _editLastRound,

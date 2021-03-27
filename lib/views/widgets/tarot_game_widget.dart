@@ -74,7 +74,7 @@ class _ButtonRowWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Wrap(alignment: WrapAlignment.spaceAround, spacing: 20, children: <
         Widget>[
-      if (!tarotGame.isEnded!)
+      if (!tarotGame.isEnded)
         ElevatedButton.icon(
             style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(Colors.black),
@@ -123,7 +123,7 @@ class _ButtonRowWidget extends StatelessWidget {
               },
           label: Text(MaterialLocalizations.of(context).deleteButtonTooltip),
           icon: Icon(Icons.delete_forever)),
-      if (!tarotGame.isEnded!)
+      if (!tarotGame.isEnded)
         ElevatedButton.icon(
             style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(

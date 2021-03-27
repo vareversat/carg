@@ -68,12 +68,12 @@ class CardTitle extends StatelessWidget {
           child: ClipRRect(
               borderRadius: BorderRadius.circular(80.0),
               child: Container(
-                color: game!.isEnded!
+                color: game!.isEnded
                     ? Theme.of(context).primaryColor
                     : Theme.of(context).accentColor,
                 height: 30,
                 child: Center(
-                    child: Text(game!.isEnded! ? 'Terminée' : 'En cours',
+                    child: Text(game!.isEnded ? 'Terminée' : 'En cours',
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Theme.of(context).cardColor,
@@ -141,7 +141,7 @@ class _ShowScoreWidgetState extends State<_ShowScoreWidget> {
                       // ignore: return_of_invalid_type_from_catch_error
                       .catchError((error) => {_errorMessage = error.toString()})
                   as Future<BeloteScore?>?)),
-      if (_beloteGame.isEnded!)
+      if (_beloteGame.isEnded)
         Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text('Partie terminée',
@@ -161,7 +161,7 @@ class _ButtonRowWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Wrap(alignment: WrapAlignment.spaceAround, spacing: 20, children: <
         Widget>[
-      if (!beloteGame.isEnded!)
+      if (!beloteGame.isEnded)
         ElevatedButton.icon(
             style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(Colors.black),
@@ -211,7 +211,7 @@ class _ButtonRowWidget extends StatelessWidget {
               },
           label: Text(MaterialLocalizations.of(context).deleteButtonTooltip),
           icon: Icon(Icons.delete_forever)),
-      if (!beloteGame.isEnded!)
+      if (!beloteGame.isEnded)
         ElevatedButton.icon(
             style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(

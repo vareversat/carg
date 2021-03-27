@@ -10,7 +10,7 @@ import 'package:intl/intl.dart';
 abstract class Game<T extends Players> extends CargObject {
   DateTime startingDate;
   DateTime? endingDate;
-  bool? isEnded;
+  bool isEnded;
   String? winner;
   T? players;
   GameService gameService;

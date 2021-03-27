@@ -112,7 +112,7 @@ class _PlayTarotGameState extends State<PlayTarotGame> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: PlayScreenAppBar(gameType: _tarotGame.gameType),
+        appBar: PlayScreenAppBar(game: _tarotGame),
         body: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
@@ -214,7 +214,7 @@ class _PlayTarotGameState extends State<PlayTarotGame> {
                                               }));
                                     }),
                               ),
-                              if (!_tarotGame.isEnded!)
+                              if (!_tarotGame.isEnded)
                                 NextPlayerWidget(
                                     playerId: _tarotGame.players!.playerList![
                                         snapshot.data!.rounds!.length %
@@ -226,7 +226,7 @@ class _PlayTarotGameState extends State<PlayTarotGame> {
                         stream: _tarotScoreService
                             .getScoreByGameStream(_tarotGame.id),
                       ))),
-              if (!_tarotGame.isEnded!)
+              if (!_tarotGame.isEnded)
                 PlayScreenButtonBlock(
                     deleteLastRound: _deleteLastRound,
                     editLastRound: _editLastRound,
