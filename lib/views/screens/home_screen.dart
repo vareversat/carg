@@ -43,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
         items: [
           BottomNavyBarItem(
             icon: Icon(Icons.account_circle),
-            title: Text('Moi'),
+            title: Text('Profil'),
             activeColor: Theme.of(context).primaryColor,
             textAlign: TextAlign.center,
           ),
