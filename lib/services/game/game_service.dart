@@ -14,4 +14,6 @@ abstract class GameService<T extends Game, P extends Players> {
   Future endAGame(T game);
 
   Future<T> createGameWithPlayerList(List<String?> playerList);
+
+  Future updateGame(T game);
 }

@@ -5,17 +5,18 @@ import 'package:carg/services/game/coinche_belote_service.dart';
 import 'package:carg/services/score/coinche_belote_score_service.dart';
 
 class CoincheBelote extends Belote {
-  CoincheBelote({id, startingDate, endingDate, winner, isEnded, players})
+  CoincheBelote({id, startingDate, endingDate, winner, isEnded, players, notes})
       : super(
-      id: id,
-      gameType: GameType.COINCHE,
-      gameService: CoincheBeloteService(),
-      scoreService: CoincheScoreService(),
-      players: players ?? BelotePlayers(),
-      startingDate: startingDate ?? DateTime.now(),
-      endingDate: endingDate,
-      winner: winner,
-      isEnded: isEnded ?? false);
+            id: id,
+            gameType: GameType.COINCHE,
+            gameService: CoincheBeloteService(),
+            scoreService: CoincheScoreService(),
+            players: players ?? BelotePlayers(),
+            startingDate: startingDate ?? DateTime.now(),
+            endingDate: endingDate,
+            winner: winner,
+            notes: notes,
+            isEnded: isEnded ?? false);
 
   @override
   Map<String, dynamic> toJSON() {
@@ -31,6 +32,7 @@ class CoincheBelote extends Belote {
             : null,
         isEnded: json?['is_ended'],
         players: BelotePlayers.fromJSON(json?['players']),
-        winner: json?['winners']);
+        winner: json?['winners'],
+        notes: json?['notes']);
   }
 }

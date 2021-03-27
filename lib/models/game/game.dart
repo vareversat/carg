@@ -15,6 +15,7 @@ abstract class Game<T extends Players> extends CargObject {
   T? players;
   GameService gameService;
   ScoreService scoreService;
+  String? notes;
   late GameType gameType;
 
   Game(
@@ -26,6 +27,7 @@ abstract class Game<T extends Players> extends CargObject {
       required this.startingDate,
       this.endingDate,
       this.winner,
+      this.notes,
       this.isEnded = false})
       : super(id: id) {
     this.gameType = gameType ?? GameType.UNDEFINE;
@@ -69,7 +71,8 @@ abstract class Game<T extends Players> extends CargObject {
           ? DateFormat('yyyy-MM-ddTHH:mm:ss').format(endingDate!)
           : null,
       'is_ended': isEnded,
-      'winners': winner
+      'winners': winner,
+      'notes': notes
     };
   }
 

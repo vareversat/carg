@@ -11,6 +11,7 @@ abstract class Belote<T extends BelotePlayers> extends Game<T> {
       endingDate,
       winner,
       isEnded,
+      notes,
       T? players})
       : super(
             id: id,
@@ -21,6 +22,7 @@ abstract class Belote<T extends BelotePlayers> extends Game<T> {
             gameService: gameService,
             scoreService: scoreService,
             winner: winner,
+            notes: notes,
             isEnded: isEnded);
 
   @override

@@ -3,6 +3,7 @@ import 'package:carg/models/players/tarot_round_players.dart';
 import 'package:carg/models/score/round/tarot_round.dart';
 import 'package:carg/models/score/tarot_score.dart';
 import 'package:carg/services/score/tarot_score_service.dart';
+import 'package:carg/views/dialogs/notes_dialog.dart';
 import 'package:carg/views/dialogs/warning_dialog.dart';
 import 'package:carg/views/screens/add_round/add_tarot_round_screen.dart';
 import 'package:carg/views/screens/home_screen.dart';
@@ -100,6 +101,12 @@ class _PlayTarotGameState extends State<PlayTarotGame> {
                 color: Theme.of(context).errorColor,
               ));
     }
+  }
+
+  void _addNotes() async {
+    await showDialog(
+        context: context,
+        builder: (BuildContext context) => NotesDialog(game: _tarotGame));
   }
 
   @override
@@ -224,7 +231,29 @@ class _PlayTarotGameState extends State<PlayTarotGame> {
                     deleteLastRound: _deleteLastRound,
                     editLastRound: _editLastRound,
                     endGame: _endGame,
-                    addNewRound: _addNewRound)
+                    addNewRound: _addNewRound,
+                    addNotes: _addNotes)
+              else if (_tarotGame.notes != null)
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Card(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0)),
+                      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                      elevation: 2,
+                      color: Colors.white,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            Text('Notes de partie : ',
+                                style: TextStyle(fontWeight: FontWeight.bold)),
+                            Divider(color: Colors.transparent),
+                            Text(_tarotGame.notes!),
+                          ],
+                        ),
+                      )),
+                )
             ]));
   }
 }

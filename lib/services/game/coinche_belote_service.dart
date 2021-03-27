@@ -135,4 +135,17 @@ class CoincheBeloteService extends BeloteService<CoincheBelote> {
       throw CustomException(e.message!);
     }
   }
+
+  @override
+  Future updateGame(CoincheBelote game) async {
+    print('AAAAAAA');
+    try {
+      await FirebaseFirestore.instance
+          .collection('coinche-game-' + flavor)
+          .doc(game.id)
+          .update(game.toJSON());
+    } on PlatformException catch (e) {
+      throw CustomException(e.message!);
+    }
+  }
 }

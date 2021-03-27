@@ -125,4 +125,16 @@ class TarotService extends GameService<Tarot, TarotPlayers> {
       throw CustomException(e.message!);
     }
   }
+
+  @override
+  Future updateGame(Tarot game) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('tarot-game-' + flavor)
+          .doc(game.id)
+          .update(game.toJSON());
+    } on PlatformException catch (e) {
+      throw CustomException(e.message!);
+    }
+  }
 }

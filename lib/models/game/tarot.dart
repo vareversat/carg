@@ -5,7 +5,7 @@ import 'package:carg/services/game/tarot_service.dart';
 import 'package:carg/services/score/tarot_score_service.dart';
 
 class Tarot extends Game<TarotPlayers> {
-  Tarot({id, startingDate, endingDate, winner, isEnded, players})
+  Tarot({id, startingDate, endingDate, winner, isEnded, players, notes})
       : super(
             id: id,
             gameType: GameType.TAROT,
@@ -15,6 +15,7 @@ class Tarot extends Game<TarotPlayers> {
             startingDate: startingDate,
             endingDate: endingDate,
             winner: winner,
+            notes: notes,
             isEnded: isEnded);
 
   @override
@@ -33,6 +34,7 @@ class Tarot extends Game<TarotPlayers> {
             : null,
         isEnded: json?['is_ended'],
         winner: json?['winner'],
-        players: TarotPlayers.fromJSON(json?['players']));
+        players: TarotPlayers.fromJSON(json?['players']),
+        notes: json?['notes']);
   }
 }

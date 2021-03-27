@@ -5,17 +5,18 @@ import 'package:carg/services/game/french_belote_service.dart';
 import 'package:carg/services/score/french_belote_score_service.dart';
 
 class FrenchBelote extends Belote {
-  FrenchBelote({id, startingDate, endingDate, winner, isEnded, players})
+  FrenchBelote({id, startingDate, endingDate, winner, isEnded, players, notes})
       : super(
-      id: id,
-      gameType: GameType.BELOTE,
-      gameService: FrenchBeloteService(),
-      scoreService: FrenchBeloteScoreService(),
-      players: players ?? BelotePlayers(),
-      startingDate: startingDate ?? DateTime.now(),
-      endingDate: endingDate,
-      winner: winner,
-      isEnded: isEnded ?? false);
+            id: id,
+            gameType: GameType.BELOTE,
+            gameService: FrenchBeloteService(),
+            scoreService: FrenchBeloteScoreService(),
+            players: players ?? BelotePlayers(),
+            startingDate: startingDate ?? DateTime.now(),
+            endingDate: endingDate,
+            winner: winner,
+            notes: notes,
+            isEnded: isEnded ?? false);
 
   @override
   Map<String, dynamic> toJSON() {
@@ -31,6 +32,7 @@ class FrenchBelote extends Belote {
             : null,
         isEnded: json?['is_ended'],
         players: BelotePlayers.fromJSON(json?['players']),
-        winner: json?['winners']);
+        winner: json?['winners'],
+        notes: json?['notes']);
   }
 }

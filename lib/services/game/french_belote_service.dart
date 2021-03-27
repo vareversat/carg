@@ -136,4 +136,16 @@ class FrenchBeloteService extends BeloteService<FrenchBelote> {
       throw CustomException(e.message!);
     }
   }
+
+  @override
+  Future updateGame(FrenchBelote game) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('belote-game-' + flavor)
+          .doc(game.id)
+          .update(game.toJSON());
+    } on PlatformException catch (e) {
+      throw CustomException(e.message!);
+    }
+  }
 }

@@ -3,6 +3,7 @@ import 'package:carg/models/score/belote_score.dart';
 import 'package:carg/models/score/misc/belote_team_enum.dart';
 import 'package:carg/models/score/misc/card_color.dart';
 import 'package:carg/models/score/round/belote_round.dart';
+import 'package:carg/views/dialogs/notes_dialog.dart';
 import 'package:carg/views/dialogs/warning_dialog.dart';
 import 'package:carg/views/screens/add_round/add_belote_round_screen.dart';
 import 'package:carg/views/screens/home_screen.dart';
@@ -95,6 +96,12 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
                 color: Theme.of(context).errorColor,
               ));
     }
+  }
+
+  void _addNotes() async {
+    await showDialog(
+        context: context,
+        builder: (BuildContext context) => NotesDialog(game: _beloteGame));
   }
 
   _PlayBeloteScreenState(this._beloteGame);
@@ -193,7 +200,29 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
                 deleteLastRound: _deleteLastRound,
                 editLastRound: _editLastRound,
                 endGame: _endGame,
-                addNewRound: _addNewRound)
+                addNewRound: _addNewRound,
+                addNotes: _addNotes)
+          else if (_beloteGame.notes != null)
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Card(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0)),
+                  margin: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  elevation: 2,
+                  color: Colors.white,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        Text('Notes de partie : ',
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                        Divider(color: Colors.transparent),
+                        Text(_beloteGame.notes!),
+                      ],
+                    ),
+                  )),
+            )
         ]));
   }
 }
