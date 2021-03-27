@@ -1,3 +1,27 @@
+# **v0.13.0** :
+
+- *Fixed stuff* :
+  - Fix round computation to match the official rules
+- *New stuff* :
+  - UI : Bold title for the headers on the rules screens
+  - UI : Add the ability to put a note during the game
+  - UI : Change 'Moi' to 'Profil'
+  - UI : Add the beginning and the ending date (when the game is over) ont the play screen
+- *Dev stuff* :
+  - Android :
+    - gradle : 5.6.4 => 6.8.3
+  - Actions : 
+    - actions/checkout : 2.3.2 => 2.3.4
+    - codecov/codecov-action 1.1.1 : => 1.3.1
+  - Functions :
+    - algoliasearch : 4.8.3 => 4.8.6
+    - firebase-admin : 9.4.2 => 9.5.0
+    - firebase-functions : 3.13.0 => 3.13.3
+    - node : 12 => 14
+    - typescript : 4.1.3 => 4.2.3
+
+***
+
 # **v0.12.1** :
 
 - *New stuff* :
