@@ -225,7 +225,7 @@ class _ButtonRowWidget extends StatelessWidget {
             onPressed: () async => {
                   Navigator.push(
                     context,
-                    CustomRouteOpenFromBottom(
+                    CustomRouteFade(
                       builder: (context) => PlayBeloteScreen(
                         teamGame: beloteGame,
                       ),
@@ -250,7 +250,7 @@ class _ButtonRowWidget extends StatelessWidget {
             onPressed: () async => {
                   Navigator.push(
                     context,
-                    CustomRouteOpenFromBottom(
+                    CustomRouteFade(
                       builder: (context) => PlayBeloteScreen(
                         teamGame: beloteGame,
                       ),

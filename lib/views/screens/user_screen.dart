@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:carg/helpers/custom_route.dart';
 import 'package:carg/models/game/game_type.dart';
 import 'package:carg/models/game_stats.dart';
 import 'package:carg/models/player.dart';
@@ -41,7 +42,7 @@ class _UserScreenState extends State<UserScreen>
     if (_player != null) {
       await Navigator.push(
           context,
-          MaterialPageRoute(
+          CustomRouteFade(
               builder: (context) => SettingsScreen(
                     player: _player!,
                   )));

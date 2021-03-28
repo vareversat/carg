@@ -44,3 +44,21 @@ class CustomRouteLeftAndRight<T> extends MaterialPageRoute<T> {
     );
   }
 }
+
+class CustomRouteFade<T> extends MaterialPageRoute<T> {
+  CustomRouteFade(
+      {required WidgetBuilder builder, RouteSettings? settings})
+      : super(builder: builder, settings: settings);
+
+  @override
+  Widget buildTransitions(BuildContext context, Animation<double> animation,
+      Animation<double> secondaryAnimation, Widget child) {
+    return FadeTransition(
+      opacity: Tween(
+        begin: 0.0,
+        end: 1.0,
+      ).animate(animation),
+      child: child,
+    );
+  }
+}

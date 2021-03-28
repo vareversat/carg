@@ -121,7 +121,7 @@ class _PlayerOrderScreenState extends State<PlayerOrderScreen> {
                                   await _createGame(),
                                   Navigator.pushAndRemoveUntil(
                                       context,
-                                      CustomRouteLeftAndRight(
+                                      CustomRouteFade(
                                           builder: (context) => _newGame!
                                                       .gameType !=
                                                   GameType.TAROT

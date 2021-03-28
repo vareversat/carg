@@ -137,7 +137,7 @@ class _ButtonRowWidget extends StatelessWidget {
             onPressed: () async => {
                   Navigator.push(
                     context,
-                    CustomRouteOpenFromBottom(
+                    CustomRouteFade(
                       builder: (context) => PlayTarotGame(
                         tarotGame: tarotGame,
                       ),
@@ -162,7 +162,7 @@ class _ButtonRowWidget extends StatelessWidget {
             onPressed: () async => {
                   Navigator.push(
                     context,
-                    CustomRouteOpenFromBottom(
+                    CustomRouteFade(
                       builder: (context) => PlayTarotGame(
                         tarotGame: tarotGame,
                       ),
