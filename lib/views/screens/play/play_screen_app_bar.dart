@@ -30,12 +30,14 @@ class PlayScreenAppBar extends StatelessWidget implements PreferredSizeWidget {
             Text(game.gameType.name,
                 style: CustomTextStyle.screenHeadLine1(context)),
             Text(
-                'Commencée le ${DateFormat('d MMMM yyyy à HH:mm').format(game.startingDate)}',
-                style: TextStyle(fontSize: 12)),
+              'Commencée le ${DateFormat.yMMMMEEEEd(Localizations.localeOf(context).languageCode).add_jm().format(game.startingDate)}',
+              style: TextStyle(fontSize: 12),
+              overflow: TextOverflow.clip,
+            ),
             Divider(color: Colors.transparent, height: 5),
             if (game.isEnded)
               Text(
-                  'Terminée le ${DateFormat('d MMMM yyyy à HH:mm').format(game.endingDate!)}',
+                  'Terminée le ${DateFormat.yMMMMEEEEd(Localizations.localeOf(context).languageCode).add_jm().format(game.endingDate!)}',
                   style: TextStyle(fontSize: 12))
           ],
         ),
