@@ -131,37 +131,43 @@ class CargAboutDialog extends StatelessWidget {
                     icon: Icon(
                       FontAwesomeIcons.fileCode,
                       size: 20,
+                    )),
+                ElevatedButton.icon(
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            Theme.of(context).primaryColor),
+                        foregroundColor: MaterialStateProperty.all<Color>(
+                            Theme.of(context).cardColor),
+                        shape: MaterialStateProperty.all<OutlinedBorder>(
+                            RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    CustomProperties.borderRadius)))),
+                    onPressed: () {
+                      showLicensePage(
+                        context: context,
+                        applicationName: snapshot.data!.appName,
+                        applicationVersion:
+                            'v${snapshot.data!.version}+${snapshot.data!.buildNumber}',
+                        applicationIcon: _iconWidget,
+                        applicationLegalese: _legalLease,
+                      );
+                    },
+                    label: Text(
+                      MaterialLocalizations.of(context)
+                              .viewLicensesButtonLabel[0] +
+                          MaterialLocalizations.of(context)
+                              .viewLicensesButtonLabel
+                              .substring(1)
+                              .toLowerCase(),
+                        style: TextStyle(fontSize: 18)
+                    ),
+                    icon: Icon(
+                      FontAwesomeIcons.fileAlt,
+                      size: 20,
                     ))
               ],
             ),
             actions: <Widget>[
-              ElevatedButton.icon(
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                          Theme.of(context).primaryColor),
-                      foregroundColor: MaterialStateProperty.all<Color>(
-                          Theme.of(context).cardColor),
-                      shape: MaterialStateProperty.all<OutlinedBorder>(
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                  CustomProperties.borderRadius)))),
-                  onPressed: () {
-                    showLicensePage(
-                      context: context,
-                      applicationName: snapshot.data!.appName,
-                      applicationVersion:
-                          'v${snapshot.data!.version}+${snapshot.data!.buildNumber}',
-                      applicationIcon: _iconWidget,
-                      applicationLegalese: _legalLease,
-                    );
-                  },
-                  label: Text(
-                    MaterialLocalizations.of(context).viewLicensesButtonLabel,
-                  ),
-                  icon: Icon(
-                    FontAwesomeIcons.fileAlt,
-                    size: 16,
-                  )),
               ElevatedButton.icon(
                 style: ButtonStyle(
                     backgroundColor:
