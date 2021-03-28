@@ -227,7 +227,7 @@ class _ButtonRowWidget extends StatelessWidget {
                     context,
                     CustomRouteFade(
                       builder: (context) => PlayBeloteScreen(
-                        teamGame: beloteGame,
+                        beloteGame: beloteGame,
                       ),
                     ),
                   )
@@ -252,7 +252,7 @@ class _ButtonRowWidget extends StatelessWidget {
                     context,
                     CustomRouteFade(
                       builder: (context) => PlayBeloteScreen(
-                        teamGame: beloteGame,
+                        beloteGame: beloteGame,
                       ),
                     ),
                   )

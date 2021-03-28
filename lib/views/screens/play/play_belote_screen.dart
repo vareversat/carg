@@ -16,13 +16,13 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class PlayBeloteScreen extends StatefulWidget {
-  final Belote teamGame;
+  final Belote beloteGame;
 
-  const PlayBeloteScreen({required this.teamGame});
+  const PlayBeloteScreen({required this.beloteGame});
 
   @override
   State<StatefulWidget> createState() {
-    return _PlayBeloteScreenState(teamGame);
+    return _PlayBeloteScreenState(beloteGame);
   }
 }
 

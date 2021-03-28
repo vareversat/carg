@@ -126,7 +126,7 @@ class _PlayerOrderScreenState extends State<PlayerOrderScreen> {
                                                       .gameType !=
                                                   GameType.TAROT
                                               ? PlayBeloteScreen(
-                                                  teamGame: _newGame
+                                                  beloteGame: _newGame
                                                       as Belote<BelotePlayers>)
                                               : PlayTarotGame(
                                                   tarotGame:
