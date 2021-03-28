@@ -75,11 +75,7 @@ abstract class BeloteRound extends Round {
   BeloteTeamEnum? get beloteRebelote => _beloteRebelote;
 
   set beloteRebelote(BeloteTeamEnum? value) {
-    if (_beloteRebelote != value) {
-      _beloteRebelote = value;
-    } else {
-      _beloteRebelote = null;
-    }
+    _beloteRebelote = value;
     computeRound();
   }
 
