@@ -138,7 +138,6 @@ class CoincheBeloteService extends BeloteService<CoincheBelote> {
 
   @override
   Future updateGame(CoincheBelote game) async {
-    print('AAAAAAA');
     try {
       await FirebaseFirestore.instance
           .collection('coinche-game-' + flavor)
