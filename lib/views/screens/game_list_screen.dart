@@ -20,31 +20,33 @@ class GameListScreen extends StatelessWidget {
               preferredSize: Size.fromHeight(120),
               child: AppBar(
                 automaticallyImplyLeading: false,
-                title: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Parties',
-                        style: CustomTextStyle.screenHeadLine1(context)),
-                    ElevatedButton.icon(
-                        style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(
-                                Theme.of(context).cardColor),
-                            foregroundColor: MaterialStateProperty.all<Color>(
-                                Theme.of(context).primaryColor),
-                            shape: MaterialStateProperty.all<OutlinedBorder>(
-                                RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(
-                                        CustomProperties.borderRadius)))),
-                        onPressed: () async => Navigator.push(
-                              context,
-                              CustomRouteLeftAndRight(
-                                builder: (context) => GameModePickerScreen(),
+                title: Hero(
+                  tag: 'game_screen_title',
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Parties',
+                          style: CustomTextStyle.screenHeadLine1(context)),
+                      ElevatedButton.icon(
+                          style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                  Theme.of(context).cardColor),
+                              foregroundColor: MaterialStateProperty.all<Color>(
+                                  Theme.of(context).primaryColor),
+                              shape: MaterialStateProperty.all<OutlinedBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(
+                                          CustomProperties.borderRadius)))),
+                          onPressed: () async => Navigator.push(
+                                context,
+                                CustomRouteFade(
+                                  builder: (context) => GameModePickerScreen(),
+                                ),
                               ),
-                            ),
-                        label: Text('Nouvelle partie',
-                            style: TextStyle(fontSize: 14)),
-                        icon: FaIcon(FontAwesomeIcons.plusCircle, size: 15))
-                  ],
+                          label: Text('Nouvelle partie',),
+                          icon: FaIcon(FontAwesomeIcons.plusCircle, size: 15))
+                    ],
+                  ),
                 ),
                 bottom: TabBar(
                   indicatorWeight: 4,
