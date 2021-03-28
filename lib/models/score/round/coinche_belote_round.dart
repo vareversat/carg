@@ -40,9 +40,16 @@ class CoincheBeloteRound extends BeloteRound {
 
   @override
   bool get contractFulfilled =>
-      getTrickPointsOfTeam(taker) + getDixDeDerOfTeam(taker, 0) >= contract &&
-      (getTrickPointsOfTeam(taker) + getDixDeDerOfTeam(taker, 0) >
-          getTrickPointsOfTeam(defender) + getDixDeDerOfTeam(defender, 0));
+      getTrickPointsOfTeam(taker) +
+              getDixDeDerOfTeam(taker, 0) +
+              getBeloteRebeloteOfTeam(taker) >=
+          contract &&
+      (getTrickPointsOfTeam(taker) +
+              getDixDeDerOfTeam(taker, 0) +
+              getBeloteRebeloteOfTeam(taker) >
+          getTrickPointsOfTeam(defender) +
+              getDixDeDerOfTeam(defender, 0) +
+              getBeloteRebeloteOfTeam(defender));
 
   CoincheBeloteContractName get contractName => _contractName;
 
@@ -77,7 +84,8 @@ class CoincheBeloteRound extends BeloteRound {
           getDixDeDerOfTeam(defender, defenderTrickPoints);
       takerScore = roundScore(getBeloteRebeloteOfTeam(taker) +
           getDixDeDerOfTeam(taker, takerTrickPoints));
-      defenderScore = roundScore(contractName.bonus(contract + defenderScoreTmp));
+      defenderScore =
+          roundScore(contractName.bonus(contract + defenderScoreTmp));
     }
     notifyListeners();
   }

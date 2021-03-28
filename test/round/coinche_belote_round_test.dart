@@ -6,10 +6,8 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   group('CoincheRound', () {
     final coincheRound = CoincheBeloteRound(
-        contract: 100,
         taker: BeloteTeamEnum.US,
         defender: BeloteTeamEnum.THEM,
-        contractName: CoincheBeloteContractName.NORMAL,
         usTrickScore: 110,
         themTrickScore: 50);
 
@@ -37,13 +35,13 @@ void main() {
     });
 
     test('Compute score - fulfilled - BeloteRebelote - US', () {
-      coincheRound.dixDeDer = BeloteTeamEnum.US;
+      coincheRound.dixDeDer = BeloteTeamEnum.THEM;
       coincheRound.beloteRebelote = BeloteTeamEnum.US;
       coincheRound.contractName = CoincheBeloteContractName.NORMAL;
-      coincheRound.contract = 100;
+      coincheRound.contract = 120;
       expect(coincheRound.contractFulfilled, true);
-      expect(coincheRound.takerScore, 240);
-      expect(coincheRound.defenderScore, 50);
+      expect(coincheRound.takerScore, 250);
+      expect(coincheRound.defenderScore, 60);
     });
 
     test('Compute score - fulfilled - BeloteRebelote - THEM', () {
