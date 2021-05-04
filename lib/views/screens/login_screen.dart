@@ -3,6 +3,7 @@ import 'package:carg/services/custom_exception.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/views/dialogs/warning_dialog.dart';
 import 'package:carg/views/screens/home_screen.dart';
+import 'package:carg/views/screens/signing_options_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -35,7 +36,7 @@ class _LoginScreenState extends State<LoginScreen>
       _isLocalLoginLoading = true;
     });
     try {
-      await Provider.of<AuthService>(context, listen: false).localLoginIn();
+      await Provider.of<AuthService>(context, listen: false).localLogIn();
       await Navigator.of(context)
           .pushReplacementNamed(HomeScreen.routeName, arguments: 0);
     } on CustomException catch (e) {
@@ -76,7 +77,7 @@ class _LoginScreenState extends State<LoginScreen>
             onConfirmButtonMessage: 'Confirmer'));
   }
 
-  Future<void> _submit() async {
+  Future<void> _mailLogin() async {
     var currentFocus = FocusScope.of(context);
     if (!currentFocus.hasPrimaryFocus) {
       currentFocus.unfocus();
@@ -90,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen>
     });
     try {
       await Provider.of<AuthService>(context, listen: false)
-          .firebaseLoginIn(_authData['email']!, _authData['password']!);
+          .mailLogIn(_authData['email']!, _authData['password']!);
       await Navigator.pushReplacementNamed(context, HomeScreen.routeName,
           arguments: 0);
     } on CustomException catch (e) {
@@ -99,12 +100,43 @@ class _LoginScreenState extends State<LoginScreen>
       });
       await showDialog(
           context: context,
-          builder: (BuildContext context) => WarningDialog(
-              message: e.toString(),
-              title: 'Erreur',
-              onConfirm: () => {},
-              onConfirmButtonMessage: 'Fermer',
-              showCancelButton: false));
+          builder: (BuildContext context) =>
+              WarningDialog(
+                  message: e.toString(),
+                  title: 'Erreur',
+                  onConfirm: () => {},
+                  onConfirmButtonMessage: 'Fermer',
+                  showCancelButton: false));
+    }
+    if (mounted) {
+      setState(() {
+        _isLoginLoading = false;
+      });
+    }
+  }
+
+  Future<void> _googleLogin() async {
+    setState(() {
+      _isLoginLoading = true;
+    });
+    try {
+      await Provider.of<AuthService>(context, listen: false)
+          .googleLogIn();
+      await Navigator.pushReplacementNamed(context, HomeScreen.routeName,
+          arguments: 0);
+    } on CustomException catch (e) {
+      setState(() {
+        _isLoginLoading = false;
+      });
+      await showDialog(
+          context: context,
+          builder: (BuildContext context) =>
+              WarningDialog(
+                  message: e.toString(),
+                  title: 'Erreur',
+                  onConfirm: () => {},
+                  onConfirmButtonMessage: 'Fermer',
+                  showCancelButton: false));
     }
     if (mounted) {
       setState(() {
@@ -171,7 +203,7 @@ class _LoginScreenState extends State<LoginScreen>
                             style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold),
-                            onFieldSubmitted: (term) => _submit(),
+                            onFieldSubmitted: (term) => _mailLogin(),
                             decoration: InputDecoration(
                               labelStyle: TextStyle(
                                   color: Colors.white,
@@ -231,7 +263,7 @@ class _LoginScreenState extends State<LoginScreen>
                             style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold),
-                            onFieldSubmitted: (term) => _submit(),
+                            onFieldSubmitted: (term) => _mailLogin(),
                             keyboardType: TextInputType.visiblePassword,
                             decoration: InputDecoration(
                               labelStyle: TextStyle(
@@ -299,81 +331,147 @@ class _LoginScreenState extends State<LoginScreen>
                                 child: ElevatedButton.icon(
                                   style: ButtonStyle(
                                       backgroundColor:
-                                          MaterialStateProperty.all<Color>(
-                                              Colors.white),
+                                      MaterialStateProperty.all<Color>(
+                                          Colors.white),
                                       foregroundColor:
-                                          MaterialStateProperty.all<Color?>(
-                                              Theme.of(context).primaryColor),
-                                      shape: MaterialStateProperty.all<OutlinedBorder>(RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(
-                                              CustomProperties.borderRadius))),
+                                      MaterialStateProperty.all<Color?>(
+                                          Theme
+                                              .of(context)
+                                              .primaryColor),
+                                      shape: MaterialStateProperty.all<
+                                          OutlinedBorder>(
+                                          RoundedRectangleBorder(
+                                              borderRadius: BorderRadius
+                                                  .circular(
+                                                  CustomProperties
+                                                      .borderRadius))),
                                       padding:
-                                          MaterialStateProperty.all<EdgeInsetsGeometry>(
-                                              EdgeInsets.symmetric(horizontal: 20.0, vertical: 6.0))),
+                                      MaterialStateProperty.all<
+                                          EdgeInsetsGeometry>(
+                                          EdgeInsets.symmetric(horizontal: 20.0,
+                                              vertical: 6.0))),
                                   icon: FaIcon(FontAwesomeIcons.signInAlt,
                                       size: 30),
                                   label: Text(
-                                    'Connexion',
+                                    'Se connecter',
                                     style: TextStyle(fontSize: 25),
                                   ),
-                                  onPressed: _submit,
+                                  onPressed: _mailLogin,
                                 ),
                               ),
                             ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          TextButton(
-                              style: ButtonStyle(
-                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              SizedBox(
+                                height: 10,
                               ),
-                              onPressed: _resetPassword,
-                              child: Text('Mot de passe oublié',
-                                  style: TextStyle(
-                                      decoration: TextDecoration.underline,
-                                      color: Colors.white))),
-                          Divider(
-                            height: 30,
-                            thickness: 2,
-                            color: Colors.white,
-                          ),
-                          if (_isLocalLoginLoading)
-                            SpinKitThreeBounce(
-                                size: 20,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return DecoratedBox(
-                                      decoration: BoxDecoration(
-                                    color: Theme.of(context).accentColor,
-                                  ));
-                                })
-                          else
-                            Directionality(
-                              textDirection: TextDirection.rtl,
-                              child: SizedBox(
+                              TextButton(
+                                  style: ButtonStyle(
+                                    tapTargetSize: MaterialTapTargetSize
+                                        .shrinkWrap,
+                                  ),
+                                  onPressed: _resetPassword,
+                                  child: Text('Mot de passe oublié',
+                                      style: TextStyle(
+                                          decoration: TextDecoration.underline,
+                                          color: Colors.white))),
+                              SizedBox(
                                 width: double.infinity,
                                 height: 50,
-                                child: ElevatedButton.icon(
+                                child: ElevatedButton(
                                   style: ButtonStyle(
                                       backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Colors.white),
+                                      foregroundColor:
+                                      MaterialStateProperty.all<Color?>(
+                                          Theme
+                                              .of(context)
+                                              .primaryColor),
+                                      shape: MaterialStateProperty.all<
+                                          OutlinedBorder>(
+                                          RoundedRectangleBorder(
+                                              borderRadius: BorderRadius
+                                                  .circular(
+                                                  CustomProperties
+                                                      .borderRadius))),
+                                      padding:
+                                      MaterialStateProperty.all<
+                                          EdgeInsetsGeometry>(
+                                          EdgeInsets.symmetric(horizontal: 20.0,
+                                              vertical: 6.0))),
+                                  onPressed: _googleLogin,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment
+                                        .spaceAround,
+                                    children: [
+                                      Container(
+                                          height: 30,
+                                          child: SvgPicture.asset(
+                                              'assets/images/google_logo.svg')),
+                                      Text(
+                                        'Se connecter avec Google',
+                                        style: TextStyle(fontSize: 20),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Divider(
+                                height: 30,
+                                thickness: 2,
+                                color: Colors.white,
+                              ),
+                              if (_isLocalLoginLoading)
+                                SpinKitThreeBounce(
+                                    size: 20,
+                                    itemBuilder: (BuildContext context,
+                                        int index) {
+                                      return DecoratedBox(
+                                          decoration: BoxDecoration(
+                                            color: Theme
+                                                .of(context)
+                                                .accentColor,
+                                          ));
+                                    })
+                              else
+                                Directionality(
+                                  textDirection: TextDirection.rtl,
+                                  child: SizedBox(
+                                    width: double.infinity,
+                                    height: 50,
+                                    child: ElevatedButton(
+                                      style: ButtonStyle(
+                                          backgroundColor:
                                           MaterialStateProperty.all<Color>(
                                               Colors.white),
-                                      foregroundColor:
+                                          foregroundColor:
                                           MaterialStateProperty.all<Color?>(
-                                              Theme.of(context).primaryColor),
-                                      tapTargetSize:
+                                              Theme
+                                                  .of(context)
+                                                  .primaryColor),
+                                          tapTargetSize:
                                           MaterialTapTargetSize.shrinkWrap,
-                                      shape: MaterialStateProperty.all<OutlinedBorder>(RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(
-                                              CustomProperties.borderRadius))),
-                                      padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                                          EdgeInsets.symmetric(horizontal: 20.0, vertical: 6))),
-                                  icon: FaIcon(FontAwesomeIcons.userPlus,
-                                      size: 25),
-                                  label: Text(
-                                    'Créer un compte',
-                                    style: TextStyle(fontSize: 25),
-                                  ),
-                                  onPressed: _localLogin,
+                                          shape: MaterialStateProperty.all<
+                                              OutlinedBorder>(
+                                              RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius
+                                                      .circular(
+                                                      CustomProperties
+                                                          .borderRadius))),
+                                          padding: MaterialStateProperty.all<
+                                              EdgeInsetsGeometry>(
+                                              EdgeInsets.symmetric(
+                                                  horizontal: 20.0,
+                                                  vertical: 6))),
+                                      onPressed: () =>
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      SigningOptionsScreen())),
+                                      child: Text(
+                                        'Utiliser un compte local',
+                                        style: TextStyle(fontSize: 25),
+                                      ),
                                 ),
                               ),
                             ),
