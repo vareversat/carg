@@ -14,7 +14,7 @@ jobs:
       - name: 'Checkout source code'
         uses: actions/checkout@v2
       - name: 'Setup flutter action'
-        uses: subosito/flutter-action@v1.4.0
+        uses: subosito/flutter-action@v1.5.3
         with:
           channel: 'stable'
       - run: flutter analyze
@@ -25,7 +25,7 @@ jobs:
       - name: 'Checkout source code'
         uses: actions/checkout@v2
       - name: 'Setup flutter action'
-        uses: subosito/flutter-action@v1.4.0
+        uses: subosito/flutter-action@v1.5.3
         with:
           channel: 'stable'
       - run: flutter test --coverage --no-sound-null-safety
@@ -50,7 +50,7 @@ jobs:
         env:
           PASSPHRASE: ${{secrets.PASSPHRASE}}
       - name: 'Setup flutter action'
-        uses: subosito/flutter-action@v1.4.0
+        uses: subosito/flutter-action@v1.5.3
         with:
           channel: 'stable'
       - run: flutter build apk --split-per-abi --dart-define=FLAVOR=prod --no-sound-null-safety
