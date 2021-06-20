@@ -16,14 +16,12 @@ abstract class Belote<T extends BelotePlayers> extends Game<T> {
       : super(
             id: id,
             gameType: gameType,
-            startingDate: startingDate,
             endingDate: endingDate,
             players: players,
             gameService: gameService,
             scoreService: scoreService,
             winner: winner,
-            notes: notes,
-            isEnded: isEnded);
+            notes: notes);
 
   @override
   Map<String, dynamic> toJSON() {

@@ -12,11 +12,9 @@ class Tarot extends Game<TarotPlayers> {
             gameService: TarotService(),
             scoreService: TarotScoreService(),
             players: players ?? TarotPlayers(),
-            startingDate: startingDate,
             endingDate: endingDate,
             winner: winner,
-            notes: notes,
-            isEnded: isEnded);
+            notes: notes);
 
   @override
   Map<String, dynamic> toJSON() {

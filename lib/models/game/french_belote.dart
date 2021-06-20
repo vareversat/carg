@@ -12,11 +12,9 @@ class FrenchBelote extends Belote {
             gameService: FrenchBeloteService(),
             scoreService: FrenchBeloteScoreService(),
             players: players ?? BelotePlayers(),
-            startingDate: startingDate ?? DateTime.now(),
             endingDate: endingDate,
             winner: winner,
-            notes: notes,
-            isEnded: isEnded ?? false);
+            notes: notes);
 
   @override
   Map<String, dynamic> toJSON() {

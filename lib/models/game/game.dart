@@ -8,9 +8,9 @@ import 'package:carg/services/score/score_service.dart';
 import 'package:intl/intl.dart';
 
 abstract class Game<T extends Players> extends CargObject {
-  DateTime startingDate;
+  late DateTime startingDate;
+  late bool isEnded;
   DateTime? endingDate;
-  bool isEnded;
   String? winner;
   T? players;
   GameService gameService;
@@ -24,13 +24,13 @@ abstract class Game<T extends Players> extends CargObject {
       required this.gameService,
       required this.scoreService,
       this.players,
-      required this.startingDate,
       this.endingDate,
       this.winner,
-      this.notes,
-      this.isEnded = false})
+      this.notes})
       : super(id: id) {
     this.gameType = gameType ?? GameType.UNDEFINE;
+    startingDate = DateTime.now();
+    isEnded = false;
   }
 
   void incrementPlayerPlayedGamesByOne(Player player) {
