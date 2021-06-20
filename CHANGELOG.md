@@ -1,3 +1,10 @@
+# **v0.13.2+1** :
+
+- *Fixed stuff* :
+  - Fix data displayed during the round
+
+***
+
 # **v0.13.2** :
 
 - *Fixed stuff* :
