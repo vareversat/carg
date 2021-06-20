@@ -15,7 +15,6 @@ class AuthService with ChangeNotifier {
   User? _connectedUser;
   Player? _player;
   DateTime? _expiryDate;
-  AUTH_PROVIDER? _authProvider;
   final _playerService = PlayerService();
 
   bool get isAuth {
@@ -24,7 +23,6 @@ class AuthService with ChangeNotifier {
 
   Future<String> localLogIn() async {
     try {
-      _authProvider = AUTH_PROVIDER.LOCAL;
       var result = await FirebaseAuth.instance.signInAnonymously();
       _connectedUser = result.user;
       _expiryDate = (await _connectedUser!.getIdTokenResult()).expirationTime;
@@ -42,7 +40,6 @@ class AuthService with ChangeNotifier {
 
   Future<String> googleLogIn() async {
     try {
-      _authProvider = AUTH_PROVIDER.GOOGLE;
       var _googleSignIn = GoogleSignIn();
       await _googleSignIn.signOut();
       final googleUser = (await _googleSignIn.signIn())!;
@@ -62,7 +59,6 @@ class AuthService with ChangeNotifier {
 
   Future<String> mailLogIn(String email, String password) async {
     try {
-      _authProvider = AUTH_PROVIDER.EMAIL;
       var result = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
       _connectedUser = result.user;
