@@ -1,3 +1,33 @@
+# **v0.13.2** :
+
+- *Fixed stuff* :
+  - Fix players not shown properly when a game of Belote / Coinche started
+- *New stuff* :
+  - UI : Improve About dialog
+  - UI : Add obscuringCharacter below "change password"
+  - UI : New transitions
+  - UI : Better formatting for date display at the top of the screen during games
+  - Start working on login providers (Google, Apple, ...). Expected for 0.14.0
+- *Dev stuff* :
+  - CI : Remove --no-sound-null-safety 
+  - Dart : 
+    - cloud_firestore : 1.0.0 => 2.2.0
+  - Android :
+    - gradle : 6.8.3 => 6.9
+  - Actions :
+    - codecov : v1.3.1 => v1.5.2
+    - flutter-action : v1.4.0 => v1.5.3
+  - Functions :
+    - lodash : 4.17.20 => 4.17.21
+    - firebase-functions :  3.13.2 => 3.14.1 
+    - firebase-admin : 9.5.0 =>  9.9.0
+    - date-and-time : 0.14.2 => 1.0.0 
+    - firebase-functions-test : 0.2.3 => 0.3.0
+    - algoliasearch : 4.8.6 => 4.9.3
+    - typescript : 4.2.3 => 4.3.4
+
+***
+
 # **v0.13.0** :
 
 - *Fixed stuff* :
