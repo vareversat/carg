@@ -59,6 +59,7 @@ class _CargState extends State<Carg> {
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
             ],
+            debugShowCheckedModeBanner: false,
             supportedLocales: [
               const Locale('fr', 'FR'),
               const Locale('en', 'US')
