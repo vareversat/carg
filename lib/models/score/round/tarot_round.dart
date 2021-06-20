@@ -19,7 +19,7 @@ class TarotRound extends Round {
   late double _attackTrickPoints;
   late double _defenseTrickPoints;
   TarotRoundPlayers? players;
-  late TarotOudler _oudler;
+  TarotOudler? _oudler;
   late TarotContract _contract;
   TarotBonus? _bonus;
   TarotHandful? _handful;
@@ -44,7 +44,6 @@ class TarotRound extends Round {
     this.playerPoints,
     this.players,
   }) : super(index: index) {
-    _oudler = oudler;
     this.attackScore = attackScore ?? 0;
     this.defenseScore = defenseScore ?? 0;
     _contract = contract ?? TarotContract.PETITE;
@@ -66,9 +65,9 @@ class TarotRound extends Round {
     computeRound();
   }
 
-  TarotOudler get oudler => _oudler;
+  TarotOudler? get oudler => _oudler;
 
-  set oudler(TarotOudler value) {
+  set oudler(TarotOudler? value) {
     _oudler = value;
     computeRound();
   }

@@ -13,8 +13,8 @@ void main() {
     late Game game2;
     late Game game3;
     GameStats gameStat1;
-    GameStats? gameStat2;
-    GameStats? gameStat3;
+    GameStats gameStat2;
+    GameStats gameStat3;
     late Player player1;
     late Player player2;
     setUp(() {
@@ -62,8 +62,8 @@ void main() {
     test('Player2 - Played Belote game', () {
       game2.incrementPlayerPlayedGamesByOne(player2);
       expect(player2.gameStatsList, [
-        gameStat2,
-        gameStat3,
+        GameStats(gameType: GameType.COINCHE, wonGames: 10, playedGames: 20),
+        GameStats(gameType: GameType.TAROT, wonGames: 3, playedGames: 5),
         GameStats(gameType: GameType.BELOTE, wonGames: 0, playedGames: 1)
       ]);
     });
@@ -71,7 +71,7 @@ void main() {
     test('Player2 - Played Tarot game', () {
       game3.incrementPlayerPlayedGamesByOne(player2);
       expect(player2.gameStatsList, [
-        gameStat2,
+        GameStats(gameType: GameType.COINCHE, wonGames: 10, playedGames: 20),
         GameStats(gameType: GameType.TAROT, wonGames: 3, playedGames: 6)
       ]);
     });
@@ -79,7 +79,7 @@ void main() {
     test('Player2 - Won Coinche game', () {
       game1.incrementPlayerWonGamesByOne(player2);
       expect(player2.gameStatsList, [
-        gameStat3,
+        GameStats(gameType: GameType.TAROT, wonGames: 3, playedGames: 5),
         GameStats(gameType: GameType.COINCHE, wonGames: 11, playedGames: 20)
       ]);
     });
