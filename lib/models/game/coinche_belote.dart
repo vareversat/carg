@@ -12,6 +12,7 @@ class CoincheBelote extends Belote {
             gameService: CoincheBeloteService(),
             scoreService: CoincheScoreService(),
             players: players ?? BelotePlayers(),
+            startingDate: startingDate,
             endingDate: endingDate,
             winner: winner,
             isEnded: isEnded ?? false,

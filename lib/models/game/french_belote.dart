@@ -13,6 +13,7 @@ class FrenchBelote extends Belote {
             scoreService: FrenchBeloteScoreService(),
             players: players ?? BelotePlayers(),
             endingDate: endingDate,
+            startingDate: startingDate,
             isEnded: isEnded ?? false,
             winner: winner,
             notes: notes);

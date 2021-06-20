@@ -13,6 +13,7 @@ class Tarot extends Game<TarotPlayers> {
             scoreService: TarotScoreService(),
             players: players ?? TarotPlayers(),
             endingDate: endingDate,
+            startingDate: startingDate,
             isEnded : isEnded,
             winner: winner,
             notes: notes);

@@ -20,6 +20,7 @@ abstract class Belote<T extends BelotePlayers> extends Game<T> {
             players: players,
             gameService: gameService,
             scoreService: scoreService,
+            startingDate: startingDate,
             winner: winner,
             isEnded: isEnded,
             notes: notes);
