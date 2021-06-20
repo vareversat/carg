@@ -26,7 +26,7 @@ jobs:
         uses: subosito/flutter-action@v1.4.0
         with:
           channel: 'stable'
-      - run: flutter test --coverage --no-sound-null-safety
+      - run: flutter test --coverage
       - name: 'Upload coverage report'
         uses: codecov/codecov-action@v1.3.1
         with:
@@ -51,7 +51,7 @@ jobs:
         uses: subosito/flutter-action@v1.4.0
         with:
           channel: 'stable'
-      - run: flutter build apk --split-per-abi --dart-define=FLAVOR=dev --no-sound-null-safety
+      - run: flutter build apk --split-per-abi --dart-define=FLAVOR=dev
       - name: 'Save APK'
         uses: actions/upload-artifact@v2
         with:
@@ -77,4 +77,4 @@ jobs:
         uses: subosito/flutter-action@v1.4.0
         with:
           channel: 'stable'
-      - run: flutter build ios --release --no-codesign --dart-define=FLAVOR=dev --no-sound-null-safety
+      - run: flutter build ios --release --no-codesign --dart-define=FLAVOR=dev
