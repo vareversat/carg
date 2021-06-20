@@ -13,6 +13,7 @@ class FrenchBelote extends Belote {
             scoreService: FrenchBeloteScoreService(),
             players: players ?? BelotePlayers(),
             endingDate: endingDate,
+            isEnded: isEnded ?? false,
             winner: winner,
             notes: notes);
 
@@ -28,7 +29,7 @@ class FrenchBelote extends Belote {
         endingDate: json?['ending_date'] != null
             ? DateTime.parse(json?['ending_date'])
             : null,
-        isEnded: json?['is_ended'],
+        isEnded: json?['is_ended'] as bool,
         players: BelotePlayers.fromJSON(json?['players']),
         winner: json?['winners'],
         notes: json?['notes']);

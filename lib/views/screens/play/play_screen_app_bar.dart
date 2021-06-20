@@ -38,7 +38,8 @@ class PlayScreenAppBar extends StatelessWidget implements PreferredSizeWidget {
             Divider(color: Colors.transparent, height: 5),
             if (game.isEnded)
               Text(
-                  'Terminée le ${DateFormat.yMMMMEEEEd(Localizations.localeOf(context).languageCode).add_jm().format(game.endingDate!)}',
+                  'Terminée le ${DateFormat.yMMMMEEEEd(Localizations.localeOf(context).languageCode).format(game.endingDate!)} à '
+                      '${DateFormat.jm(Localizations.localeOf(context).languageCode).format(game.endingDate!)}',
                   style: TextStyle(fontSize: 12))
           ],
         ),

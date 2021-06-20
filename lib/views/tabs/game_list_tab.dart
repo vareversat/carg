@@ -85,7 +85,7 @@ class _GameListWidgetState extends State<GameListWidget> {
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               Center(
                   child: Text(
-                'Erreur rencontrer lors du chargement de la page.',
+                'Erreur rencontrée lors du chargement de la page.',
                 textAlign: TextAlign.center,
               )),
               ElevatedButton.icon(

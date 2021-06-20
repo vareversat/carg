@@ -14,6 +14,7 @@ class CoincheBelote extends Belote {
             players: players ?? BelotePlayers(),
             endingDate: endingDate,
             winner: winner,
+            isEnded: isEnded ?? false,
             notes: notes);
 
   @override

@@ -21,6 +21,7 @@ abstract class Belote<T extends BelotePlayers> extends Game<T> {
             gameService: gameService,
             scoreService: scoreService,
             winner: winner,
+            isEnded: isEnded,
             notes: notes);
 
   @override

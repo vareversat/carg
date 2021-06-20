@@ -26,11 +26,12 @@ abstract class Game<T extends Players> extends CargObject {
       this.players,
       this.endingDate,
       this.winner,
+      required isEnded,
       this.notes})
       : super(id: id) {
     this.gameType = gameType ?? GameType.UNDEFINE;
     startingDate = DateTime.now();
-    isEnded = false;
+    this.isEnded = isEnded ?? false;
   }
 
   void incrementPlayerPlayedGamesByOne(Player player) {

@@ -27,7 +27,7 @@ class FrenchBeloteService extends BeloteService<FrenchBelote> {
       if (playerId == null) {
         return beloteGames;
       }
-      QuerySnapshot querySnapshot;
+      var querySnapshot;
       if (lastFetchGameDocument != null) {
         querySnapshot = await FirebaseFirestore.instance
             .collection('belote-game-' + flavor)
@@ -50,7 +50,7 @@ class FrenchBeloteService extends BeloteService<FrenchBelote> {
       lastFetchGameDocument = querySnapshot.docs.last;
       for (var doc in querySnapshot.docs) {
         beloteGames.add(
-            FrenchBelote.fromJSON(doc.data() as Map<String, String>, doc.id));
+            FrenchBelote.fromJSON(doc.data(), doc.id));
       }
       return beloteGames;
     } on PlatformException catch (e) {
