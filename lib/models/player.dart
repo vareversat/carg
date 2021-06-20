@@ -103,7 +103,7 @@ class Player extends CargObject with ChangeNotifier {
     return total;
   }
 
-  factory Player.fromJSON(Map<String, dynamic>? json, String? id) {
+  factory Player.fromJSON(Map<String?, dynamic>? json, String? id) {
     return Player(
       id: id,
       gameStatsList: GameStats.fromJSONList(json?['game_stats']),
