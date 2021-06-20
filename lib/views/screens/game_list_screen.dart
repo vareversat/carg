@@ -43,7 +43,9 @@ class GameListScreen extends StatelessWidget {
                                   builder: (context) => GameModePickerScreen(),
                                 ),
                               ),
-                          label: Text('Nouvelle partie',),
+                          label: Text(
+                            'Nouvelle partie',
+                          ),
                           icon: FaIcon(FontAwesomeIcons.plusCircle, size: 15))
                     ],
                   ),

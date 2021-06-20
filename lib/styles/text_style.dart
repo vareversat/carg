@@ -19,10 +19,8 @@ class CustomTextStyle {
   }
 
   static TextStyle screenHeadLine1(BuildContext context) {
-    return Theme.of(context)
-        .textTheme
-        .headline1!
-        .copyWith(fontSize: 35, color: Colors.white, fontWeight: FontWeight.bold);
+    return Theme.of(context).textTheme.headline1!.copyWith(
+        fontSize: 35, color: Colors.white, fontWeight: FontWeight.bold);
   }
 
   static TextStyle screenHeadLine2(BuildContext context) {

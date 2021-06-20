@@ -7,11 +7,11 @@ class AlgoliaHelper {
   static const String flavor =
       String.fromEnvironment('FLAVOR', defaultValue: 'dev');
 
-  static String? _apiKey;
-  static String? _appID;
+  static String _apiKey = '';
+  static String _appID = '';
 
-  Map<String, String?> get _header {
-    return <String, String?>{
+  Map<String, String> get _header {
+    return <String, String>{
       'X-Algolia-Application-Id': _appID,
       'X-Algolia-API-Key': _apiKey,
       'Content-Type': 'application/json',
@@ -37,8 +37,7 @@ class AlgoliaHelper {
     final uri = Uri.https(
         '$_appID-dsn.algolia.net', '/1/indexes/player_$flavor', params);
 
-    final response =
-        await http.get(uri, headers: _header as Map<String, String>?);
+    final response = await http.get(uri, headers: _header);
     var body = json.decode(response.body);
     return body['hits'];
   }

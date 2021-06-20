@@ -244,8 +244,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           ListTile(
                               subtitle: Text(
                                   Provider.of<AuthService>(context,
-                                          listen: false)
-                                      .getConnectedUserEmail() ?? 'no_email',
+                                              listen: false)
+                                          .getConnectedUserEmail() ??
+                                      'no_email',
                                   style: TextStyle(fontSize: 15)),
                               selected: true,
                               leading: Icon(
@@ -256,7 +257,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               title: Text('Changer mon adresse mail',
                                   style: TextStyle(fontSize: 20))),
                           ListTile(
-                            subtitle: Text('•••••••'),
+                              subtitle: Text('•••••••'),
                               selected: true,
                               leading: Icon(
                                 Icons.lock,

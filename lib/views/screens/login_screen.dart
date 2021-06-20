@@ -100,13 +100,12 @@ class _LoginScreenState extends State<LoginScreen>
       });
       await showDialog(
           context: context,
-          builder: (BuildContext context) =>
-              WarningDialog(
-                  message: e.toString(),
-                  title: 'Erreur',
-                  onConfirm: () => {},
-                  onConfirmButtonMessage: 'Fermer',
-                  showCancelButton: false));
+          builder: (BuildContext context) => WarningDialog(
+              message: e.toString(),
+              title: 'Erreur',
+              onConfirm: () => {},
+              onConfirmButtonMessage: 'Fermer',
+              showCancelButton: false));
     }
     if (mounted) {
       setState(() {
@@ -120,8 +119,7 @@ class _LoginScreenState extends State<LoginScreen>
       _isLoginLoading = true;
     });
     try {
-      await Provider.of<AuthService>(context, listen: false)
-          .googleLogIn();
+      await Provider.of<AuthService>(context, listen: false).googleLogIn();
       await Navigator.pushReplacementNamed(context, HomeScreen.routeName,
           arguments: 0);
     } on CustomException catch (e) {
@@ -130,13 +128,12 @@ class _LoginScreenState extends State<LoginScreen>
       });
       await showDialog(
           context: context,
-          builder: (BuildContext context) =>
-              WarningDialog(
-                  message: e.toString(),
-                  title: 'Erreur',
-                  onConfirm: () => {},
-                  onConfirmButtonMessage: 'Fermer',
-                  showCancelButton: false));
+          builder: (BuildContext context) => WarningDialog(
+              message: e.toString(),
+              title: 'Erreur',
+              onConfirm: () => {},
+              onConfirmButtonMessage: 'Fermer',
+              showCancelButton: false));
     }
     if (mounted) {
       setState(() {
@@ -331,25 +328,17 @@ class _LoginScreenState extends State<LoginScreen>
                                 child: ElevatedButton.icon(
                                   style: ButtonStyle(
                                       backgroundColor:
-                                      MaterialStateProperty.all<Color>(
-                                          Colors.white),
+                                          MaterialStateProperty.all<Color>(
+                                              Colors.white),
                                       foregroundColor:
-                                      MaterialStateProperty.all<Color?>(
-                                          Theme
-                                              .of(context)
-                                              .primaryColor),
-                                      shape: MaterialStateProperty.all<
-                                          OutlinedBorder>(
-                                          RoundedRectangleBorder(
-                                              borderRadius: BorderRadius
-                                                  .circular(
-                                                  CustomProperties
-                                                      .borderRadius))),
+                                          MaterialStateProperty.all<Color?>(
+                                              Theme.of(context).primaryColor),
+                                      shape: MaterialStateProperty.all<OutlinedBorder>(RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                              CustomProperties.borderRadius))),
                                       padding:
-                                      MaterialStateProperty.all<
-                                          EdgeInsetsGeometry>(
-                                          EdgeInsets.symmetric(horizontal: 20.0,
-                                              vertical: 6.0))),
+                                          MaterialStateProperty.all<EdgeInsetsGeometry>(
+                                              EdgeInsets.symmetric(horizontal: 20.0, vertical: 6.0))),
                                   icon: FaIcon(FontAwesomeIcons.signInAlt,
                                       size: 30),
                                   label: Text(
@@ -360,118 +349,97 @@ class _LoginScreenState extends State<LoginScreen>
                                 ),
                               ),
                             ),
-                              SizedBox(
-                                height: 10,
+                          SizedBox(
+                            height: 10,
+                          ),
+                          TextButton(
+                              style: ButtonStyle(
+                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                               ),
-                              TextButton(
-                                  style: ButtonStyle(
-                                    tapTargetSize: MaterialTapTargetSize
-                                        .shrinkWrap,
+                              onPressed: _resetPassword,
+                              child: Text('Mot de passe oublié',
+                                  style: TextStyle(
+                                      decoration: TextDecoration.underline,
+                                      color: Colors.white))),
+                          SizedBox(
+                            width: double.infinity,
+                            height: 50,
+                            child: ElevatedButton(
+                              style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Colors.white),
+                                  foregroundColor:
+                                      MaterialStateProperty.all<Color?>(
+                                          Theme.of(context).primaryColor),
+                                  shape: MaterialStateProperty.all<OutlinedBorder>(
+                                      RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                              CustomProperties.borderRadius))),
+                                  padding:
+                                      MaterialStateProperty.all<EdgeInsetsGeometry>(
+                                          EdgeInsets.symmetric(horizontal: 20.0, vertical: 6.0))),
+                              onPressed: _googleLogin,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  Container(
+                                      height: 30,
+                                      child: SvgPicture.asset(
+                                          'assets/images/google_logo.svg')),
+                                  Text(
+                                    'Se connecter avec Google',
+                                    style: TextStyle(fontSize: 20),
                                   ),
-                                  onPressed: _resetPassword,
-                                  child: Text('Mot de passe oublié',
-                                      style: TextStyle(
-                                          decoration: TextDecoration.underline,
-                                          color: Colors.white))),
-                              SizedBox(
+                                ],
+                              ),
+                            ),
+                          ),
+                          Divider(
+                            height: 30,
+                            thickness: 2,
+                            color: Colors.white,
+                          ),
+                          if (_isLocalLoginLoading)
+                            SpinKitThreeBounce(
+                                size: 20,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return DecoratedBox(
+                                      decoration: BoxDecoration(
+                                    color: Theme.of(context).accentColor,
+                                  ));
+                                })
+                          else
+                            Directionality(
+                              textDirection: TextDirection.rtl,
+                              child: SizedBox(
                                 width: double.infinity,
                                 height: 50,
                                 child: ElevatedButton(
                                   style: ButtonStyle(
                                       backgroundColor:
-                                      MaterialStateProperty.all<Color>(
-                                          Colors.white),
-                                      foregroundColor:
-                                      MaterialStateProperty.all<Color?>(
-                                          Theme
-                                              .of(context)
-                                              .primaryColor),
-                                      shape: MaterialStateProperty.all<
-                                          OutlinedBorder>(
-                                          RoundedRectangleBorder(
-                                              borderRadius: BorderRadius
-                                                  .circular(
-                                                  CustomProperties
-                                                      .borderRadius))),
-                                      padding:
-                                      MaterialStateProperty.all<
-                                          EdgeInsetsGeometry>(
-                                          EdgeInsets.symmetric(horizontal: 20.0,
-                                              vertical: 6.0))),
-                                  onPressed: _googleLogin,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment
-                                        .spaceAround,
-                                    children: [
-                                      Container(
-                                          height: 30,
-                                          child: SvgPicture.asset(
-                                              'assets/images/google_logo.svg')),
-                                      Text(
-                                        'Se connecter avec Google',
-                                        style: TextStyle(fontSize: 20),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Divider(
-                                height: 30,
-                                thickness: 2,
-                                color: Colors.white,
-                              ),
-                              if (_isLocalLoginLoading)
-                                SpinKitThreeBounce(
-                                    size: 20,
-                                    itemBuilder: (BuildContext context,
-                                        int index) {
-                                      return DecoratedBox(
-                                          decoration: BoxDecoration(
-                                            color: Theme
-                                                .of(context)
-                                                .accentColor,
-                                          ));
-                                    })
-                              else
-                                Directionality(
-                                  textDirection: TextDirection.rtl,
-                                  child: SizedBox(
-                                    width: double.infinity,
-                                    height: 50,
-                                    child: ElevatedButton(
-                                      style: ButtonStyle(
-                                          backgroundColor:
                                           MaterialStateProperty.all<Color>(
                                               Colors.white),
-                                          foregroundColor:
+                                      foregroundColor:
                                           MaterialStateProperty.all<Color?>(
-                                              Theme
-                                                  .of(context)
-                                                  .primaryColor),
-                                          tapTargetSize:
+                                              Theme.of(context).primaryColor),
+                                      tapTargetSize:
                                           MaterialTapTargetSize.shrinkWrap,
-                                          shape: MaterialStateProperty.all<
-                                              OutlinedBorder>(
-                                              RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius
-                                                      .circular(
-                                                      CustomProperties
-                                                          .borderRadius))),
-                                          padding: MaterialStateProperty.all<
-                                              EdgeInsetsGeometry>(
-                                              EdgeInsets.symmetric(
-                                                  horizontal: 20.0,
-                                                  vertical: 6))),
-                                      onPressed: () =>
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      SigningOptionsScreen())),
-                                      child: Text(
-                                        'Utiliser un compte local',
-                                        style: TextStyle(fontSize: 25),
-                                      ),
+                                      shape: MaterialStateProperty.all<OutlinedBorder>(RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                              CustomProperties.borderRadius))),
+                                      padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                                          EdgeInsets.symmetric(horizontal: 20.0, vertical: 6))),
+                                  onPressed: () => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              SigningOptionsScreen())),
+                                  child: Text(
+                                    'Utiliser un compte local',
+                                    style: TextStyle(fontSize: 25),
+                                  ),
                                 ),
                               ),
                             ),

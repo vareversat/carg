@@ -18,28 +18,26 @@ class SigningOptionsScreen extends StatelessWidget {
                     child: ElevatedButton.icon(
                       style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all<Color>(
-                              Theme
-                                  .of(context)
-                                  .primaryColor),
+                              Theme.of(context).primaryColor),
                           foregroundColor:
-                          MaterialStateProperty.all<Color?>(Colors.white),
+                              MaterialStateProperty.all<Color?>(Colors.white),
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                           shape: MaterialStateProperty.all<OutlinedBorder>(
                               RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(
                                       CustomProperties.borderRadius))),
                           padding:
-                          MaterialStateProperty.all<EdgeInsetsGeometry>(
-                              EdgeInsets.symmetric(
-                                  horizontal: 20.0, vertical: 6))),
+                              MaterialStateProperty.all<EdgeInsetsGeometry>(
+                                  EdgeInsets.symmetric(
+                                      horizontal: 20.0, vertical: 6))),
                       icon: Icon(FontAwesomeIcons.google),
                       label: Text(
                         'Compte Google',
                         style: TextStyle(fontSize: 25),
                       ),
                       onPressed: () async =>
-                      await Provider.of<AuthService>(context, listen: false)
-                          .googleLogIn(),
+                          await Provider.of<AuthService>(context, listen: false)
+                              .googleLogIn(),
                     )),
                 SizedBox(
                     width: double.infinity,
@@ -47,46 +45,43 @@ class SigningOptionsScreen extends StatelessWidget {
                     child: ElevatedButton.icon(
                       style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all<Color>(
-                              Theme
-                                  .of(context)
-                                  .primaryColor),
+                              Theme.of(context).primaryColor),
                           foregroundColor:
-                          MaterialStateProperty.all<Color?>(Colors.white),
+                              MaterialStateProperty.all<Color?>(Colors.white),
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                           shape: MaterialStateProperty.all<OutlinedBorder>(
                               RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(
                                       CustomProperties.borderRadius))),
                           padding:
-                          MaterialStateProperty.all<EdgeInsetsGeometry>(
-                              EdgeInsets.symmetric(
-                                  horizontal: 20.0, vertical: 6))),
+                              MaterialStateProperty.all<EdgeInsetsGeometry>(
+                                  EdgeInsets.symmetric(
+                                      horizontal: 20.0, vertical: 6))),
                       icon: FaIcon(FontAwesomeIcons.apple),
                       label: Text(
                         'Apple ID',
                         style: TextStyle(fontSize: 25),
                       ),
                       onPressed: () => {},
-                    )), SizedBox(
+                    )),
+                SizedBox(
                     width: double.infinity,
                     height: 50,
                     child: ElevatedButton.icon(
                       style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all<Color>(
-                              Theme
-                                  .of(context)
-                                  .primaryColor),
+                              Theme.of(context).primaryColor),
                           foregroundColor:
-                          MaterialStateProperty.all<Color?>(Colors.white),
+                              MaterialStateProperty.all<Color?>(Colors.white),
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                           shape: MaterialStateProperty.all<OutlinedBorder>(
                               RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(
                                       CustomProperties.borderRadius))),
                           padding:
-                          MaterialStateProperty.all<EdgeInsetsGeometry>(
-                              EdgeInsets.symmetric(
-                                  horizontal: 20.0, vertical: 6))),
+                              MaterialStateProperty.all<EdgeInsetsGeometry>(
+                                  EdgeInsets.symmetric(
+                                      horizontal: 20.0, vertical: 6))),
                       icon: Icon(Icons.mail),
                       label: Text(
                         'Adresse mail',

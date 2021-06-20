@@ -153,14 +153,13 @@ class CargAboutDialog extends StatelessWidget {
                       );
                     },
                     label: Text(
-                      MaterialLocalizations.of(context)
-                              .viewLicensesButtonLabel[0] +
-                          MaterialLocalizations.of(context)
-                              .viewLicensesButtonLabel
-                              .substring(1)
-                              .toLowerCase(),
-                        style: TextStyle(fontSize: 18)
-                    ),
+                        MaterialLocalizations.of(context)
+                                .viewLicensesButtonLabel[0] +
+                            MaterialLocalizations.of(context)
+                                .viewLicensesButtonLabel
+                                .substring(1)
+                                .toLowerCase(),
+                        style: TextStyle(fontSize: 18)),
                     icon: Icon(
                       FontAwesomeIcons.fileAlt,
                       size: 20,

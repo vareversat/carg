@@ -49,7 +49,8 @@ class FrenchBeloteService extends BeloteService<FrenchBelote> {
       }
       lastFetchGameDocument = querySnapshot.docs.last;
       for (var doc in querySnapshot.docs) {
-        beloteGames.add(FrenchBelote.fromJSON(doc.data(), doc.id));
+        beloteGames.add(
+            FrenchBelote.fromJSON(doc.data() as Map<String, String>, doc.id));
       }
       return beloteGames;
     } on PlatformException catch (e) {

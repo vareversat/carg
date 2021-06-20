@@ -18,9 +18,8 @@ class TeamService {
           .where('players', isEqualTo: playerIds)
           .get();
       if (querySnapshot.docs.isNotEmpty) {
-        await querySnapshot.docs[0].reference.update({
-          'played_games': querySnapshot.docs[0].data()!['played_games'] + 1
-        });
+        await querySnapshot.docs[0].reference.update(
+            {'played_games': querySnapshot.docs[0].data()['played_games'] + 1});
         return Team.fromJSON(
             querySnapshot.docs.first.data(), querySnapshot.docs.first.id);
       } else {

@@ -46,8 +46,7 @@ class CustomRouteLeftAndRight<T> extends MaterialPageRoute<T> {
 }
 
 class CustomRouteFade<T> extends MaterialPageRoute<T> {
-  CustomRouteFade(
-      {required WidgetBuilder builder, RouteSettings? settings})
+  CustomRouteFade({required WidgetBuilder builder, RouteSettings? settings})
       : super(builder: builder, settings: settings);
 
   @override
