@@ -24,23 +24,30 @@ class PlayerOrderScreen extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return _PlayerOrderScreenState(
-        playerList: playerList, game: game, title: title);
+        playerListForOrder: playerList, game: game, title: title);
   }
 }
 
 class _PlayerOrderScreenState extends State<PlayerOrderScreen> {
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
-  final String? title;
-  final List<Player>? playerList;
-  final Game? game;
+  final String title;
+  final List<Player> playerListForOrder;
+  late final List<Player> playerListForTeam;
+  final Game game;
   Game? _newGame;
 
-  _PlayerOrderScreenState({this.playerList, this.game, this.title});
+  _PlayerOrderScreenState(
+      {required this.playerListForOrder,
+      required this.game,
+      required this.title}) {
+    playerListForTeam = List<Player>.from(playerListForOrder);
+  }
 
   Future _createGame() async {
     Dialogs.showLoadingDialog(context, _keyLoader, 'Démarrage de la partie');
-    var gameTmp = (await game!.gameService
-        .createGameWithPlayerList(playerList!.map((e) => e.id).toList()));
+    var gameTmp = (await game.gameService.createGameWithPlayerList(
+        playerListForOrder.map((e) => e.id).toList(),
+        playerListForTeam.map((e) => e.id).toList()));
     setState(() {
       _newGame = gameTmp;
     });
@@ -52,9 +59,9 @@ class _PlayerOrderScreenState extends State<PlayerOrderScreen> {
       if (newIndex > oldIndex) {
         newIndex -= 1;
       }
-      var player = playerList![oldIndex];
-      playerList!.removeAt(oldIndex);
-      playerList!.insert(newIndex, player);
+      var player = playerListForOrder[oldIndex];
+      playerListForOrder.removeAt(oldIndex);
+      playerListForOrder.insert(newIndex, player);
     });
   }
 
@@ -64,8 +71,7 @@ class _PlayerOrderScreenState extends State<PlayerOrderScreen> {
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(60),
           child: AppBar(
-            title:
-                Text(title!, style: CustomTextStyle.screenHeadLine1(context)),
+            title: Text(title, style: CustomTextStyle.screenHeadLine1(context)),
           ),
         ),
         body: Padding(
@@ -81,7 +87,7 @@ class _PlayerOrderScreenState extends State<PlayerOrderScreen> {
                 Flexible(
                     child: ReorderableListView(
                         onReorder: _onReorder,
-                        children: playerList!
+                        children: playerListForOrder
                             .asMap()
                             .map((i, player) => MapEntry(
                                 i,
@@ -95,7 +101,7 @@ class _PlayerOrderScreenState extends State<PlayerOrderScreen> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                      'Info : Ce jeu de carte se joue dans le ${game!.gameType.direction}',
+                      'Info : Ce jeu de carte se joue dans le ${game.gameType.direction}',
                       textAlign: TextAlign.center,
                       style:
                           TextStyle(fontSize: 20, fontStyle: FontStyle.italic)),

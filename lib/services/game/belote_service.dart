@@ -5,5 +5,6 @@ import 'package:carg/services/game/game_service.dart';
 abstract class BeloteService<T extends Belote>
     extends GameService<T, BelotePlayers> {
   @override
-  Future<T> createGameWithPlayerList(List<String?> playerList);
+  Future<T> createGameWithPlayerList(
+      List<String?> playerListForOrder, List<String?> playerListForTeam);
 }

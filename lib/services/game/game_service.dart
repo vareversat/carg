@@ -13,7 +13,8 @@ abstract class GameService<T extends Game, P extends Players> {
 
   Future endAGame(T game);
 
-  Future<T> createGameWithPlayerList(List<String?> playerList);
+  Future<T> createGameWithPlayerList(
+      List<String?> playerListForOrder, List<String?> playerListForTeam);
 
   Future updateGame(T game);
 }

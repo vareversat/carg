@@ -81,18 +81,21 @@ class TarotService extends GameService<Tarot, TarotPlayers> {
   }
 
   @override
-  Future<Tarot> createGameWithPlayerList(List<String?> playerList) async {
+  Future<Tarot> createGameWithPlayerList(
+      List<String?> playerListForOrder, List<String?> playerListForTeam) async {
     try {
       var tarotGame = Tarot(
           isEnded: false,
           startingDate: DateTime.now(),
-          players: TarotPlayers(playerList: playerList));
+          players: TarotPlayers(playerList: playerListForTeam));
       var documentReference = await FirebaseFirestore.instance
           .collection('tarot-game-' + flavor)
           .add(tarotGame.toJSON());
       tarotGame.id = documentReference.id;
       var tarotScore = TarotScore(
-          game: tarotGame.id, rounds: <TarotRound>[], players: playerList);
+          game: tarotGame.id,
+          rounds: <TarotRound>[],
+          players: playerListForTeam);
       await _tarotScoreService.saveScore(tarotScore);
       return tarotGame;
     } on PlatformException catch (e) {

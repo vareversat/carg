@@ -86,15 +86,17 @@ class FrenchBeloteService extends BeloteService<FrenchBelote> {
 
   @override
   Future<FrenchBelote> createGameWithPlayerList(
-      List<String?> playerList) async {
+      List<String?> playerListForOrder, List<String?> playerListForTeam) async {
     try {
-      var usTeam = await _teamService
-          .getTeamByPlayers(playerList.sublist(0, 2).map((e) => e).toList());
-      var themTeam = await _teamService
-          .getTeamByPlayers(playerList.sublist(2, 4).map((e) => e).toList());
+      var usTeam = await _teamService.getTeamByPlayers(
+          playerListForTeam.sublist(0, 2).map((e) => e).toList());
+      var themTeam = await _teamService.getTeamByPlayers(
+          playerListForTeam.sublist(2, 4).map((e) => e).toList());
       var beloteGame = FrenchBelote(
           players: BelotePlayers(
-              us: usTeam.id, them: themTeam.id, playerList: playerList));
+              us: usTeam.id,
+              them: themTeam.id,
+              playerList: playerListForOrder));
       var documentReference = await FirebaseFirestore.instance
           .collection('belote-game-' + flavor)
           .add(beloteGame.toJSON());
