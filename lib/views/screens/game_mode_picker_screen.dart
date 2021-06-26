@@ -1,5 +1,6 @@
 import 'package:carg/helpers/custom_route.dart';
 import 'package:carg/models/game/coinche_belote.dart';
+import 'package:carg/models/game/contree_belote.dart';
 import 'package:carg/models/game/french_belote.dart';
 import 'package:carg/models/game/game.dart';
 import 'package:carg/models/game/game_type.dart';
@@ -43,6 +44,7 @@ class GameModePickerScreen extends StatelessWidget {
                       game: CoincheBelote(),
                     ),
                     _GameModeButton(game: FrenchBelote()),
+                    _GameModeButton(game: ContreeBelote()),
                     _GameModeButton(
                       game: Tarot(),
                     )

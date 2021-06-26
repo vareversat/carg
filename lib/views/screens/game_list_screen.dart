@@ -1,6 +1,7 @@
 import 'package:carg/helpers/custom_route.dart';
 import 'package:carg/models/game/game_type.dart';
 import 'package:carg/services/game/coinche_belote_service.dart';
+import 'package:carg/services/game/contree_belote_service.dart';
 import 'package:carg/services/game/french_belote_service.dart';
 import 'package:carg/services/game/tarot_service.dart';
 import 'package:carg/styles/properties.dart';
@@ -14,7 +15,7 @@ class GameListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-        length: 3,
+        length: 4,
         child: Scaffold(
             appBar: PreferredSize(
               preferredSize: Size.fromHeight(120),
@@ -61,6 +62,9 @@ class GameListScreen extends StatelessWidget {
                         child: Text(GameType.BELOTE.name,
                             style: TextStyle(fontSize: 15))),
                     Tab(
+                        child: Text(GameType.CONTREE.name,
+                            style: TextStyle(fontSize: 15))),
+                    Tab(
                         child: Text(GameType.TAROT.name,
                             style: TextStyle(fontSize: 15)))
                   ],
@@ -71,6 +75,7 @@ class GameListScreen extends StatelessWidget {
               children: [
                 GameListWidget(gameService: CoincheBeloteService()),
                 GameListWidget(gameService: FrenchBeloteService()),
+                GameListWidget(gameService: ContreeBeloteService()),
                 GameListWidget(gameService: TarotService())
               ],
             )));

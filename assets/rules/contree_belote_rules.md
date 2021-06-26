@@ -1,10 +1,10 @@
 # **1. Préambule**
 
-Ce document a pour fonction d’établir les règles officielles de la belote, dans sa variante la plus pratiquée,
-c’est-à-dire la belote à 4 joueurs répartis en 2 équipes de 2 joueurs, seules règles reconnues par la Fédération
+Ce document a pour fonction d’établir les règles officielles de la belote contrée, dans sa variante la plus pratiquée,
+c’est-à-dire la belote contrée à 4 joueurs répartis en 2 équipes de 2 joueurs, seules règles reconnues par la Fédération
 Française de Belote.
 
-Source : [Règles officielles de la Belote Coinchée](http://www.ffbelote.org/wp-content/uploads/2015/11/REGLES-DE-LA-BELOTE-COINCHEE.pdf)
+Source : [Règles officielles de la Belote Contrée](http://www.ffbelote.org/wp-content/uploads/2015/11/REGLES-DE-LA-BELOTE-CONTREE.pdf)
 
 ***
 
@@ -75,29 +75,29 @@ L’enchère doit être de **80 au minimum, doit être un multiple de 10 et doit
 
 En lieu et place d’un nombre de points, il est possible **à tout moment** de demander un capot, engageant alors l’équipe
 à remporter les huit plis. Il n’existe pas d’enchère supérieure au capot ; dès lors l’équipe adverse ne peut plus que
-passer ou coincher.
+passer ou contrer.
 
 La manière d’annoncer son contrat doit toujours être la même. On annonce d’abord la valeur du contrat (80, 90,100…),
 puis la couleur (pique, cœur…), par exemple « 90 cœur ».
 > Les locutions du type « 20 de mieux », « 10 de plus », etc... sont interdites.
 
-Il est impossible de surenchérir sur soi-même : le tour de d’enchère s’achève lorsqu'après une enchère ou une coinche,
-les trois joueurs suivants passent.
+Il est impossible de surenchérir sur soi-même : le tour de d’enchère s’achève lorsqu'après une enchère ou un contre, les
+trois joueurs suivants passent.
 
-## *Coincher*
+## *Contrer*
 
-Un joueur peut coincher une enchère adverse, mettant ainsi en doute la capacité de son adversaire à réaliser son
-contrat, en disant « Coinché ».
+Un joueur peut contrer une enchère adverse, mettant ainsi en doute la capacité de son adversaire à réaliser son contrat,
+en disant « Je contre ».
 
-> On ne peut coincher que lorsque c’est à son tour de parler (on ne coinche pas « à la volée »).
+> On ne peut contrer que lorsque c’est à son tour de parler (on ne contre pas « à la volée »).
 
-Le fait de coincher fige le contrat, empêchant ainsi toute possibilité de surenchère.
+Le fait de contrer fige le contrat, empêchant ainsi toute possibilité de surenchère.
 
 **Le score de la donne sera multiplié par 2.**
 
-## *Surcoincher*
+## *Surcontrer*
 
-Lorsqu'une équipe a coinché, l’équipe adverse a la possibilité de surcoincher en disant « Surcoinché ». Le tour
+Lorsqu'une équipe a contré, l’équipe adverse a la possibilité de surcontrer en disant « je surcontre ». Le tour
 d’enchères s’arrête alors immédiatement.
 
 **Le score de la donne sera multiplié par 4.**
@@ -198,76 +198,7 @@ indifféremment la Dame ou le Roi), puis obligatoirement « rebelote » lorsqu'i
 
 # **8. Les annonces**
 
-La coinche se joue toujours avec les annonces.
-
-Les annonces sont des combinaisons de cartes rapportant des points. Elles sont listées ci-dessous de la plus forte à la
-plus faible.
-
-> Important : une carte ne peut compter que pour une seule annonce à la fois
-
-## *Le carré*
-
-*4 cartes de la même hauteur. La valeur d'un carré dépend de la hauteur*
-
-| Carte | Valeur |
-| ----- | --------- |
-| *4 As*    | 100 points |
-| *4 Dix*   | 100 points |
-| *4 Roi*   | 100 points  |
-| *4 Dame*  | 100 points  |
-| *4 Valet* | **200 points** |
-| *4 Neuf*  | **150 points** |
-
-Remarquue : les carrés de 7 et 8 ne comptent pas. Un carré de 100 points est plus fort qu'un cent.
-
-# *Le cent*
-
-5 cartes qui se suivent dans la même couleur en respectant l'ordre suivant :
-> 7 8 9 10 Valet Dame Roi As.
-
-**Valeur : 100 points.**
-
-## *Le Cinquante*
-
-4 cartes qui se suivent dans la même couleur.
-
-**Valeur : 50 points.**
-
-## *La tierce*
-
-3 cartes qui se suivent de la même couleur.
-
-**Valeur : 20 points.**
-
-## 8.2. Déclaration des annonces
-
-Lors du premier pli, chacun des joueurs annonce simplement la nature de son ou ses annonce(s) au moment où il joue sa
-carte.
-
-## 8.3. Résolution des annonces
-
-Lorsque la première carte du second pli vient d’être jouée, on procède à **la résolution des annonces**. En effet, les
-annonces d'un seul camp peuvent être prises en compte : celui qui montre l'annonce la plus haute. En cas d'égalité (
-Exemple : tierce contre tierce) c'est l'annonce qui possède la carte la plus élevée qui l'emporte :
-Une tierce à l'as bat une tierce à la dame.
-
-En cas de nouvelle égalité, une annonce dans la couleur de l'atout est supérieure. Si on ne peut toujours pas départager
-les deux camps sur leur meilleure annonce, il y a "égalité" et aucune annonce ne compte, et ce, même si un camp
-bénéficie d’autres annonces inférieures. S’il y a un vainqueur, son camp voit toutes ses annonces validées, y compris
-celles qui étaient inférieures à la meilleure annonce adverse : les joueurs gagnants montrent alors immédiatement les
-cartes constituant leurs annonces.
-
-Processus à respecter en cas d’annonces équivalentes entre les deux équipes :
-> Si au premier pli deux joueurs adverses déclarent la même annonce, lors du second pli le premier déclarant
-> précise la hauteur de son annonce (la hauteur symbolisant la plus forte carte de l’annonce, 9-10-Valet,
-> s’annonce Tierce hauteur Valet). Le joueur adverse réplique en disant « pas mieux » ou bien déclare sa
-> hauteur si celle-ci est supérieure ou égale.
-
-## 8.4. Renonce
-
-Si un joueur se révèle incapable de montrer les combinaisons qu'il a annoncées, il y a renonce: le camp adverse marquera
-les points que le camp fautif avait annoncés.
-
+La belote contrée se joue toujours sans annonces.
 
 ***
 
@@ -294,7 +225,6 @@ Lorsque les 8 plis ont été joués, on procède au calcul du score. Chaque camp
 + Le nombre de points contenus dans les plis réalisés par son équipe,
 + Le dix de der,
 + La belote/rebelote.
-+ Ses annonces évantuelles
 
 ### *10.1.1. Contrat réussi*
 
@@ -310,7 +240,7 @@ Le contrat est réussi si les deux conditions suivantes sont réunies :
 Cas particulier : si un capot est réalisé par les preneurs, les annonces des défenseurs changent de main et sont marqués
 par les preneurs, et ce, que le capot ait été demandé lors des enchères ou non.
 
-+ Si le contrat a été coinché (resp.surcoinché) :
++ Si le contrat a été contré (resp.surcontré) :
     + **Les preneurs marquent** : (*160 points (ou 250 points si capot réalisé, même non demandé)* + *Leurs annonces* +
       *Leur belote* + *Les annonces des défenseurs qui changent de main* + *Le montant du contrat demandé (250 points
       pour un capot demandé)*) × 2 (resp.4)
@@ -326,7 +256,7 @@ atteint leur contrat.**
 + **Les défenseurs** marquent *160 points de chute* + *Leurs annonces* + *Leur belote* + *Les annonces des preneurs qui
   changent de main* + *Le montant du contrat demandé (250 points pour un capot demandé)*.
 
-**Si le contrat a été coinché (resp. surcoinché), les défenseurs doublent (resp. quadruplent) leurs points.**
+**Si le contrat a été contré (resp. surcontré), les défenseurs doublent (resp. quadruplent) leurs points.**
 
 ### *10.1.3. Règle du litige*
 

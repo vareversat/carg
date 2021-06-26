@@ -1,25 +1,25 @@
-import 'package:carg/models/score/coinche_belote_score.dart';
+import 'package:carg/models/score/contree_belote_score.dart';
 import 'package:carg/models/score/misc/belote_team_enum.dart';
-import 'package:carg/models/score/round/coinche_belote_round.dart';
+import 'package:carg/models/score/round/contree_belote_round.dart';
 import 'package:carg/services/custom_exception.dart';
 import 'package:carg/services/score/belote_score_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 
-class CoincheScoreService
-    extends BeloteScoreService<CoincheBeloteScore?, CoincheBeloteRound> {
+class ContreeScoreService
+    extends BeloteScoreService<ContreeBeloteScore?, ContreeBeloteRound> {
   static const String flavor =
       String.fromEnvironment('FLAVOR', defaultValue: 'dev');
 
   @override
-  Future<CoincheBeloteScore?> getScoreByGame(String? gameId) async {
+  Future<ContreeBeloteScore?> getScoreByGame(String? gameId) async {
     try {
       var querySnapshot = await FirebaseFirestore.instance
-          .collection('coinche-score-' + flavor)
+          .collection('contree-score-' + flavor)
           .where('game', isEqualTo: gameId)
           .get();
       if (querySnapshot.docs.isNotEmpty) {
-        return CoincheBeloteScore.fromJSON(
+        return ContreeBeloteScore.fromJSON(
             querySnapshot.docs.first.data(), querySnapshot.docs.first.id);
       }
       return null;
@@ -29,15 +29,15 @@ class CoincheScoreService
   }
 
   @override
-  Stream<CoincheBeloteScore> getScoreByGameStream(String? gameId) {
+  Stream<ContreeBeloteScore> getScoreByGameStream(String? gameId) {
     try {
       return FirebaseFirestore.instance
-          .collection('coinche-score-' + flavor)
+          .collection('contree-score-' + flavor)
           .where('game', isEqualTo: gameId)
           .snapshots()
           .map((event) {
         final Map<dynamic, dynamic>? value = event.docs[0].data();
-        return CoincheBeloteScore.fromJSON(
+        return ContreeBeloteScore.fromJSON(
             value as Map<String, dynamic>?, event.docs[0].id);
       });
     } on PlatformException catch (e) {
@@ -46,20 +46,20 @@ class CoincheScoreService
   }
 
   @override
-  Future addRoundToGame(String? gameId, CoincheBeloteRound coincheRound) async {
+  Future addRoundToGame(String? gameId, ContreeBeloteRound contreeRound) async {
     try {
-      var coincheScore = await getScoreByGame(gameId);
-      if (coincheScore != null) {
-        coincheScore.usTotalPoints +=
-            getPointsOfRound(BeloteTeamEnum.US, coincheRound)!;
-        coincheScore.themTotalPoints +=
-            getPointsOfRound(BeloteTeamEnum.THEM, coincheRound)!;
-        coincheRound.index = coincheScore.rounds!.length;
-        coincheScore.rounds!.add(coincheRound);
+      var contreeScore = await getScoreByGame(gameId);
+      if (contreeScore != null) {
+        contreeScore.usTotalPoints +=
+            getPointsOfRound(BeloteTeamEnum.US, contreeRound)!;
+        contreeScore.themTotalPoints +=
+            getPointsOfRound(BeloteTeamEnum.THEM, contreeRound)!;
+        contreeRound.index = contreeScore.rounds!.length;
+        contreeScore.rounds!.add(contreeRound);
         await FirebaseFirestore.instance
-            .collection('coinche-score-' + flavor)
-            .doc(coincheScore.id)
-            .update(coincheScore.toJSON());
+            .collection('contree-score-' + flavor)
+            .doc(contreeScore.id)
+            .update(contreeScore.toJSON());
       }
     } on PlatformException catch (e) {
       throw Exception('[' + e.code + '] Firebase error ' + e.message!);
@@ -70,7 +70,7 @@ class CoincheScoreService
   Future deleteScoreByGame(String? gameId) async {
     try {
       await FirebaseFirestore.instance
-          .collection('coinche-score-' + flavor)
+          .collection('contree-score-' + flavor)
           .where('game', isEqualTo: gameId)
           .get()
           .then((snapshot) {
@@ -84,11 +84,11 @@ class CoincheScoreService
   }
 
   @override
-  Future<String> saveScore(CoincheBeloteScore? coincheScore) async {
+  Future<String> saveScore(ContreeBeloteScore? contreeScore) async {
     try {
       var documentReference = await FirebaseFirestore.instance
-          .collection('coinche-score-' + flavor)
-          .add(coincheScore!.toJSON());
+          .collection('contree-score-' + flavor)
+          .add(contreeScore!.toJSON());
       return documentReference.id;
     } on PlatformException catch (e) {
       throw Exception('[' + e.code + '] Firebase error ' + e.message!);
@@ -96,17 +96,17 @@ class CoincheScoreService
   }
 
   @override
-  Future editLastRoundOfGame(String? gameId, CoincheBeloteRound round) async {
-    var coincheScore = await getScoreByGame(gameId);
-    coincheScore?.replaceLastRound(round);
-    await updateScore(coincheScore);
+  Future editLastRoundOfGame(String? gameId, ContreeBeloteRound round) async {
+    var contreeScore = await getScoreByGame(gameId);
+    contreeScore?.replaceLastRound(round);
+    await updateScore(contreeScore);
   }
 
   @override
-  Future updateScore(CoincheBeloteScore? score) async {
+  Future updateScore(ContreeBeloteScore? score) async {
     try {
       await FirebaseFirestore.instance
-          .collection('coinche-score-' + flavor)
+          .collection('contree-score-' + flavor)
           .doc(score!.id)
           .update(score.toJSON());
     } on PlatformException catch (e) {
@@ -116,13 +116,13 @@ class CoincheScoreService
 
   @override
   Future deleteLastRoundOfGame(String? gameId) async {
-    var coincheScore = await getScoreByGame(gameId);
-    coincheScore?.deleteLastRound();
-    await updateScore(coincheScore);
+    var contreeScore = await getScoreByGame(gameId);
+    contreeScore?.deleteLastRound();
+    await updateScore(contreeScore);
   }
 
   @override
-  CoincheBeloteRound getNewRound() {
-    return CoincheBeloteRound();
+  ContreeBeloteRound getNewRound() {
+    return ContreeBeloteRound();
   }
 }

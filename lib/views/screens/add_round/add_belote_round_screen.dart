@@ -1,12 +1,14 @@
 import 'package:carg/models/game/belote_game.dart';
 import 'package:carg/models/score/round/belote_round.dart';
 import 'package:carg/models/score/round/coinche_belote_round.dart';
+import 'package:carg/models/score/round/contree_belote_round.dart';
 import 'package:carg/models/score/round/french_belote_round.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/views/screens/add_round/widget/real_time_display_widget.dart';
 import 'package:carg/views/screens/add_round/widget/screen_title_widget.dart';
 import 'package:carg/views/screens/add_round/widget/team_game/contract_belote_widget.dart';
 import 'package:carg/views/screens/add_round/widget/team_game/contract_coinche_widget.dart';
+import 'package:carg/views/screens/add_round/widget/team_game/contract_contree_widget.dart';
 import 'package:carg/views/screens/add_round/widget/team_game/taker_team_widget.dart';
 import 'package:carg/views/screens/add_round/widget/team_game/trick_points_belote_widget.dart';
 import 'package:flutter/material.dart';
@@ -48,11 +50,15 @@ class AddBeloteRoundScreen extends StatelessWidget {
                 Divider(),
                 TrickPointsBeloteWidget(round: beloteRound!),
                 Divider(),
-                beloteRound! is CoincheBeloteRound
-                    ? ContractCoincheWidget(
-                        coincheRound: beloteRound! as CoincheBeloteRound)
-                    : ContractBeloteWidget(
-                        frenchBeloteRound: beloteRound! as FrenchBeloteRound),
+                if (beloteRound! is CoincheBeloteRound)
+                  ContractCoincheWidget(
+                      coincheRound: beloteRound! as CoincheBeloteRound)
+                else if (beloteRound! is FrenchBeloteRound)
+                  ContractBeloteWidget(
+                      frenchBeloteRound: beloteRound! as FrenchBeloteRound)
+                else if (beloteRound! is ContreeBeloteRound)
+                  ContractContreeWidget(
+                      contreeRound: beloteRound! as ContreeBeloteRound),
                 SizedBox(height: 20),
                 RealTimeDisplayWidget(round: beloteRound!),
                 SizedBox(height: 20),
