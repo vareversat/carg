@@ -10,7 +10,7 @@ dependencies:
   cloud_firestore: ^2.2.0
   firebase_crashlytics: ^2.0.2
   firebase_core: ^1.0.0
-  firebase_auth: ^1.0.0
+  firebase_auth: ^2.0.0
   firebase_auth_web: ^1.0.0
   google_sign_in: ^5.0.1
   cupertino_icons: ^1.0.2
