@@ -79,18 +79,18 @@ class _PlayerListScreenState extends State<PlayerListScreen> {
         body: Column(
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+              padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 15),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    width: deviceSize.width * 0.6,
+                    width: deviceSize.width * 0.5,
                     child: TextFormField(
                         onFieldSubmitted: (term) => _searchPlayer(),
                         controller: _searchTextController,
                         textInputAction: TextInputAction.search,
-                        style: TextStyle(
-                            fontSize: 25, fontWeight: FontWeight.bold),
+                        style:
+                            TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                         decoration: InputDecoration(
                           enabledBorder: InputBorder.none,
                           labelText: 'Rechercher...',
@@ -101,19 +101,18 @@ class _PlayerListScreenState extends State<PlayerListScreen> {
                       onPressed: () => _resetSearch(),
                       color: Theme.of(context).primaryColor,
                       textColor: Colors.white,
-                      padding: EdgeInsets.all(8),
+                      padding: EdgeInsets.zero,
                       shape: CircleBorder(),
                       child: Icon(Icons.close),
                     ),
                   ),
+                  Container(
+                    width: 35,
+                    child: SvgPicture.asset(
+                        'assets/images/search_by_algolia.svg'),
+                  ),
                 ],
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: Container(
-                  child:
-                      SvgPicture.asset('assets/images/search_by_algolia.svg')),
             ),
             Flexible(
               child: FutureBuilder<List<Player>>(
