@@ -14,6 +14,7 @@ class APIMiniPlayerWidget extends StatelessWidget {
   final Color? selectedColor;
   final String additionalText;
   final PlayerService _playerService = PlayerService();
+  final String _errorMessage = 'player missing';
 
   APIMiniPlayerWidget(
       {required this.playerId,
@@ -90,7 +91,7 @@ class APIMiniPlayerWidget extends StatelessWidget {
                       color: Theme.of(context).errorColor,
                       shape: BoxShape.circle,
                     )),
-                    label: Text('errorMessage'))),
+                    label: Text(_errorMessage))),
           );
         }
         return AnimatedSwitcher(
