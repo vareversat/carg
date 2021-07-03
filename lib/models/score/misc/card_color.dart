@@ -31,9 +31,9 @@ extension CardColorExtension on CardColor? {
       case CardColor.SPADE:
         return '♠';
       case CardColor.ALL_TRUMP:
-        return '🃋';
+        return '🃏';
       case CardColor.NO_TRUMP:
-        return '🃁';
+        return '🚫';
       default:
         return '';
     }
