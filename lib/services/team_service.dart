@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 
 class TeamService {
+  static const String dataBase = 'team';
   static const String flavor =
       String.fromEnvironment('FLAVOR', defaultValue: 'dev');
   final PlayerService _playerService = PlayerService();
@@ -14,7 +15,7 @@ class TeamService {
     try {
       playerIds.sort();
       var querySnapshot = await FirebaseFirestore.instance
-          .collection('team-' + flavor)
+          .collection(dataBase + '-' + flavor)
           .where('players', isEqualTo: playerIds)
           .get();
       if (querySnapshot.docs.isNotEmpty) {
@@ -25,7 +26,7 @@ class TeamService {
       } else {
         var team = Team(players: playerIds);
         var documentReference = await FirebaseFirestore.instance
-            .collection('team-' + flavor)
+            .collection(dataBase + '-' + flavor)
             .add(team.toJSON());
         team.id = documentReference.id;
         return team;
@@ -38,7 +39,7 @@ class TeamService {
   Future<Team> getTeam(String? id) async {
     try {
       var querySnapshot = await FirebaseFirestore.instance
-          .collection('team-' + flavor)
+          .collection(dataBase + '-' + flavor)
           .doc(id)
           .get();
       if (querySnapshot.data() != null) {
@@ -55,7 +56,7 @@ class TeamService {
     try {
       var team = await getTeam(id);
       await FirebaseFirestore.instance
-          .collection('team-' + flavor)
+          .collection(dataBase + '-' + flavor)
           .doc(id)
           .update({'won_games': team.wonGames + 1});
       for (var player in team.players!) {
@@ -71,7 +72,7 @@ class TeamService {
     try {
       var team = await getTeam(id);
       await FirebaseFirestore.instance
-          .collection('team-' + flavor)
+          .collection(dataBase + '-' + flavor)
           .doc(id)
           .update({'won_games': team.wonGames + 1});
       for (var player in team.players!) {

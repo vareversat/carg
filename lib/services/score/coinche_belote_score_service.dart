@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 
 class CoincheScoreService
     extends BeloteScoreService<CoincheBeloteScore?, CoincheBeloteRound> {
+  static const String dataBase = 'coinche-score';
   static const String flavor =
       String.fromEnvironment('FLAVOR', defaultValue: 'dev');
 
@@ -15,7 +16,7 @@ class CoincheScoreService
   Future<CoincheBeloteScore?> getScoreByGame(String? gameId) async {
     try {
       var querySnapshot = await FirebaseFirestore.instance
-          .collection('coinche-score-' + flavor)
+          .collection(dataBase + '-' + flavor)
           .where('game', isEqualTo: gameId)
           .get();
       if (querySnapshot.docs.isNotEmpty) {
@@ -32,7 +33,7 @@ class CoincheScoreService
   Stream<CoincheBeloteScore> getScoreByGameStream(String? gameId) {
     try {
       return FirebaseFirestore.instance
-          .collection('coinche-score-' + flavor)
+          .collection(dataBase + '-' + flavor)
           .where('game', isEqualTo: gameId)
           .snapshots()
           .map((event) {
@@ -57,7 +58,7 @@ class CoincheScoreService
         coincheRound.index = coincheScore.rounds!.length;
         coincheScore.rounds!.add(coincheRound);
         await FirebaseFirestore.instance
-            .collection('coinche-score-' + flavor)
+            .collection(dataBase + '-' + flavor)
             .doc(coincheScore.id)
             .update(coincheScore.toJSON());
       }
@@ -70,7 +71,7 @@ class CoincheScoreService
   Future deleteScoreByGame(String? gameId) async {
     try {
       await FirebaseFirestore.instance
-          .collection('coinche-score-' + flavor)
+          .collection(dataBase + '-' + flavor)
           .where('game', isEqualTo: gameId)
           .get()
           .then((snapshot) {
@@ -87,7 +88,7 @@ class CoincheScoreService
   Future<String> saveScore(CoincheBeloteScore? coincheScore) async {
     try {
       var documentReference = await FirebaseFirestore.instance
-          .collection('coinche-score-' + flavor)
+          .collection(dataBase + '-' + flavor)
           .add(coincheScore!.toJSON());
       return documentReference.id;
     } on PlatformException catch (e) {
@@ -106,7 +107,7 @@ class CoincheScoreService
   Future updateScore(CoincheBeloteScore? score) async {
     try {
       await FirebaseFirestore.instance
-          .collection('coinche-score-' + flavor)
+          .collection(dataBase + '-' + flavor)
           .doc(score!.id)
           .update(score.toJSON());
     } on PlatformException catch (e) {

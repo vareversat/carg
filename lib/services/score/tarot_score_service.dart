@@ -7,6 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 
 class TarotScoreService extends ScoreService<TarotScore?, TarotRound> {
+  static const String dataBase = 'tarot-score';
   static const String flavor =
       String.fromEnvironment('FLAVOR', defaultValue: 'dev');
 
@@ -14,7 +15,7 @@ class TarotScoreService extends ScoreService<TarotScore?, TarotRound> {
   Future<TarotScore?> getScoreByGame(String? gameId) async {
     try {
       var querySnapshot = await FirebaseFirestore.instance
-          .collection('tarot-score-' + flavor)
+          .collection(dataBase + '-' + flavor)
           .where('game', isEqualTo: gameId)
           .get();
       if (querySnapshot.docs.isNotEmpty) {
@@ -31,7 +32,7 @@ class TarotScoreService extends ScoreService<TarotScore?, TarotRound> {
   Stream<TarotScore> getScoreByGameStream(String? gameId) {
     try {
       return FirebaseFirestore.instance
-          .collection('tarot-score-' + flavor)
+          .collection(dataBase + '-' + flavor)
           .where('game', isEqualTo: gameId)
           .snapshots()
           .map((event) {
@@ -52,7 +53,7 @@ class TarotScoreService extends ScoreService<TarotScore?, TarotRound> {
         tarotRound = _computePlayerPoints(tarotRound, tarotScore);
         tarotScore.addRound(tarotRound);
         await FirebaseFirestore.instance
-            .collection('tarot-score-' + flavor)
+            .collection(dataBase + '-' + flavor)
             .doc(tarotScore.id)
             .update(tarotScore.toJSON());
       }
@@ -65,7 +66,7 @@ class TarotScoreService extends ScoreService<TarotScore?, TarotRound> {
   Future deleteScoreByGame(String? gameId) async {
     try {
       await FirebaseFirestore.instance
-          .collection('tarot-score-' + flavor)
+          .collection(dataBase + '-' + flavor)
           .where('game', isEqualTo: gameId)
           .get()
           .then((snapshot) {
@@ -82,7 +83,7 @@ class TarotScoreService extends ScoreService<TarotScore?, TarotRound> {
   Future<String> saveScore(TarotScore? beloteScore) async {
     try {
       var documentReference = await FirebaseFirestore.instance
-          .collection('tarot-score-' + flavor)
+          .collection(dataBase + '-' + flavor)
           .add(beloteScore!.toJSON());
       return documentReference.id;
     } on PlatformException catch (e) {
@@ -102,7 +103,7 @@ class TarotScoreService extends ScoreService<TarotScore?, TarotRound> {
   Future updateScore(TarotScore? score) async {
     try {
       await FirebaseFirestore.instance
-          .collection('tarot-score-' + flavor)
+          .collection(dataBase + '-' + flavor)
           .doc(score!.id)
           .update(score.toJSON());
     } on PlatformException catch (e) {

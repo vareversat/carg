@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 
 class PlayerService {
+  static const String dataBase = 'player';
   static const String flavor =
       String.fromEnvironment('FLAVOR', defaultValue: 'dev');
 
@@ -46,7 +47,7 @@ class PlayerService {
   Future<Player> getPlayer(String? id) async {
     try {
       var querySnapshot = await FirebaseFirestore.instance
-          .collection('player-' + flavor)
+          .collection(dataBase + '-' + flavor)
           .doc(id)
           .get();
       if (querySnapshot.data() != null) {
@@ -62,7 +63,7 @@ class PlayerService {
   Future<Player?> getPlayerOfUser(String? userId) async {
     try {
       var querySnapshot = await FirebaseFirestore.instance
-          .collection('player-' + flavor)
+          .collection(dataBase + '-' + flavor)
           .where('linked_user_id', isEqualTo: userId)
           .get();
       if (querySnapshot.docs.isNotEmpty) {
@@ -78,7 +79,7 @@ class PlayerService {
   Future updatePlayer(Player player) async {
     try {
       await FirebaseFirestore.instance
-          .collection('player-' + flavor)
+          .collection(dataBase + '-' + flavor)
           .doc(player.id)
           .update(player.toJSON());
     } on PlatformException catch (e) {
@@ -89,7 +90,7 @@ class PlayerService {
   Future<String> addPlayer(Player player) async {
     try {
       var documentReference = await FirebaseFirestore.instance
-          .collection('player-' + flavor)
+          .collection(dataBase + '-' + flavor)
           .add(player.toJSON());
       return documentReference.id;
     } on PlatformException catch (e) {
@@ -100,7 +101,7 @@ class PlayerService {
   Future deletePlayer(Player player) async {
     try {
       await FirebaseFirestore.instance
-          .collection('player-' + flavor)
+          .collection(dataBase + '-' + flavor)
           .doc(player.id)
           .delete();
     } on PlatformException catch (e) {

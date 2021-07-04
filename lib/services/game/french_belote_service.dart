@@ -16,6 +16,7 @@ class FrenchBeloteService extends BeloteService<FrenchBelote> {
   final TeamService _teamService = TeamService();
   final PlayerService _playerService = PlayerService();
   final BeloteScoreService _beloteScoreService = FrenchBeloteScoreService();
+  static const String dataBase = 'belote-game';
   static const String flavor =
       String.fromEnvironment('FLAVOR', defaultValue: 'dev');
 
@@ -30,7 +31,7 @@ class FrenchBeloteService extends BeloteService<FrenchBelote> {
       var querySnapshot;
       if (lastFetchGameDocument != null) {
         querySnapshot = await FirebaseFirestore.instance
-            .collection('belote-game-' + flavor)
+            .collection(dataBase + '-' + flavor)
             .where('players.player_list', arrayContains: playerId)
             .orderBy('starting_date', descending: true)
             .startAfterDocument(lastFetchGameDocument!)
@@ -38,7 +39,7 @@ class FrenchBeloteService extends BeloteService<FrenchBelote> {
             .get();
       } else {
         querySnapshot = await FirebaseFirestore.instance
-            .collection('belote-game-' + flavor)
+            .collection(dataBase + '-' + flavor)
             .where('players.player_list', arrayContains: playerId)
             .orderBy('starting_date', descending: true)
             .limit(pageSize)
@@ -62,7 +63,7 @@ class FrenchBeloteService extends BeloteService<FrenchBelote> {
   Future<FrenchBelote> getGame(String id) async {
     try {
       var querySnapshot = await FirebaseFirestore.instance
-          .collection('belote-game-' + flavor)
+          .collection(dataBase + '-' + flavor)
           .doc(id)
           .get();
       return FrenchBelote.fromJSON(querySnapshot.data(), querySnapshot.id);
@@ -75,7 +76,7 @@ class FrenchBeloteService extends BeloteService<FrenchBelote> {
   Future deleteGame(String? id) async {
     try {
       await FirebaseFirestore.instance
-          .collection('belote-game-' + flavor)
+          .collection(dataBase + '-' + flavor)
           .doc(id)
           .delete();
       await _beloteScoreService.deleteScoreByGame(id);
@@ -98,7 +99,7 @@ class FrenchBeloteService extends BeloteService<FrenchBelote> {
               them: themTeam.id,
               playerList: playerListForOrder));
       var documentReference = await FirebaseFirestore.instance
-          .collection('belote-game-' + flavor)
+          .collection(dataBase + '-' + flavor)
           .add(beloteGame.toJSON());
       beloteGame.id = documentReference.id;
       var beloteScore = FrenchBeloteScore(
@@ -128,7 +129,7 @@ class FrenchBeloteService extends BeloteService<FrenchBelote> {
             await _teamService.incrementWonGamesByOne(game.players!.us, game);
       }
       await FirebaseFirestore.instance
-          .collection('belote-game-' + flavor)
+          .collection(dataBase + '-' + flavor)
           .doc(game.id)
           .update({
         'is_ended': true,
@@ -144,7 +145,7 @@ class FrenchBeloteService extends BeloteService<FrenchBelote> {
   Future updateGame(FrenchBelote game) async {
     try {
       await FirebaseFirestore.instance
-          .collection('belote-game-' + flavor)
+          .collection(dataBase + '-' + flavor)
           .doc(game.id)
           .update(game.toJSON());
     } on PlatformException catch (e) {

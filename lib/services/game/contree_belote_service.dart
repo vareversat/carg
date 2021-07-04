@@ -17,7 +17,7 @@ class ContreeBeloteService extends BeloteService<ContreeBelote> {
   final ContreeScoreService _contreeScoreService = ContreeScoreService();
   static const String flavor =
       String.fromEnvironment('FLAVOR', defaultValue: 'dev');
-  static const String tableName = 'contree-game';
+  static const String dataBase = 'contree-game';
 
   @override
   Future<List<ContreeBelote>> getAllGamesOfPlayerPaginated(
@@ -30,7 +30,7 @@ class ContreeBeloteService extends BeloteService<ContreeBelote> {
       var querySnapshot;
       if (lastFetchGameDocument != null) {
         querySnapshot = await FirebaseFirestore.instance
-            .collection(tableName + '-' + flavor)
+            .collection(dataBase + '-' + flavor)
             .where('players.player_list', arrayContains: playerId)
             .orderBy('starting_date', descending: true)
             .startAfterDocument(lastFetchGameDocument!)
@@ -38,7 +38,7 @@ class ContreeBeloteService extends BeloteService<ContreeBelote> {
             .get();
       } else {
         querySnapshot = await FirebaseFirestore.instance
-            .collection(tableName + '-' + flavor)
+            .collection(dataBase + '-' + flavor)
             .where('players.player_list', arrayContains: playerId)
             .orderBy('starting_date', descending: true)
             .limit(pageSize)
@@ -61,7 +61,7 @@ class ContreeBeloteService extends BeloteService<ContreeBelote> {
   Future<ContreeBelote> getGame(String id) async {
     try {
       var querySnapshot = await FirebaseFirestore.instance
-          .collection(tableName + '-' + flavor)
+          .collection(dataBase + '-' + flavor)
           .doc(id)
           .get();
       return ContreeBelote.fromJSON(querySnapshot.data(), querySnapshot.id);
@@ -74,7 +74,7 @@ class ContreeBeloteService extends BeloteService<ContreeBelote> {
   Future deleteGame(String? id) async {
     try {
       await FirebaseFirestore.instance
-          .collection(tableName + '-' + flavor)
+          .collection(dataBase + '-' + flavor)
           .doc(id)
           .delete();
       await _contreeScoreService.deleteScoreByGame(id);
@@ -97,7 +97,7 @@ class ContreeBeloteService extends BeloteService<ContreeBelote> {
               them: themTeam.id,
               playerList: playerListForOrder));
       var documentReference = await FirebaseFirestore.instance
-          .collection(tableName + '-' + flavor)
+          .collection(dataBase + '-' + flavor)
           .add(contreeGame.toJSON());
       contreeGame.id = documentReference.id;
       var contreeScore = ContreeBeloteScore(
@@ -127,7 +127,7 @@ class ContreeBeloteService extends BeloteService<ContreeBelote> {
             await _teamService.incrementWonGamesByOne(game.players!.us, game);
       }
       await FirebaseFirestore.instance
-          .collection(tableName + '-' + flavor)
+          .collection(dataBase + '-' + flavor)
           .doc(game.id)
           .update({
         'is_ended': true,
@@ -143,7 +143,7 @@ class ContreeBeloteService extends BeloteService<ContreeBelote> {
   Future updateGame(ContreeBelote game) async {
     try {
       await FirebaseFirestore.instance
-          .collection(tableName + '-' + flavor)
+          .collection(dataBase + '-' + flavor)
           .doc(game.id)
           .update(game.toJSON());
     } on PlatformException catch (e) {

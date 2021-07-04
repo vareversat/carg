@@ -13,6 +13,7 @@ import 'package:flutter/services.dart';
 class TarotService extends GameService<Tarot, TarotPlayers> {
   final TarotScoreService _tarotScoreService = TarotScoreService();
   final PlayerService _playerService = PlayerService();
+  static const String dataBase = 'tarot-game';
   static const String flavor =
       String.fromEnvironment('FLAVOR', defaultValue: 'dev');
 
@@ -27,7 +28,7 @@ class TarotService extends GameService<Tarot, TarotPlayers> {
       var querySnapshot;
       if (lastFetchGameDocument != null) {
         querySnapshot = await FirebaseFirestore.instance
-            .collection('tarot-game-' + flavor)
+            .collection(dataBase + '-' + flavor)
             .where('players.player_list', arrayContains: playerId)
             .orderBy('starting_date', descending: true)
             .startAfterDocument(lastFetchGameDocument!)
@@ -35,7 +36,7 @@ class TarotService extends GameService<Tarot, TarotPlayers> {
             .get();
       } else {
         querySnapshot = await FirebaseFirestore.instance
-            .collection('tarot-game-' + flavor)
+            .collection(dataBase + '-' + flavor)
             .where('players.player_list', arrayContains: playerId)
             .orderBy('starting_date', descending: true)
             .limit(pageSize)
@@ -58,7 +59,7 @@ class TarotService extends GameService<Tarot, TarotPlayers> {
   Future<Tarot> getGame(String id) async {
     try {
       var querySnapshot = await FirebaseFirestore.instance
-          .collection('tarot-game-' + flavor)
+          .collection(dataBase + '-' + flavor)
           .doc(id)
           .get();
       return Tarot.fromJSON(querySnapshot.data(), querySnapshot.id);
@@ -71,7 +72,7 @@ class TarotService extends GameService<Tarot, TarotPlayers> {
   Future deleteGame(String? id) async {
     try {
       await FirebaseFirestore.instance
-          .collection('tarot-game-' + flavor)
+          .collection(dataBase + '-' + flavor)
           .doc(id)
           .delete();
       await _tarotScoreService.deleteScoreByGame(id);
@@ -89,7 +90,7 @@ class TarotService extends GameService<Tarot, TarotPlayers> {
           startingDate: DateTime.now(),
           players: TarotPlayers(playerList: playerListForTeam));
       var documentReference = await FirebaseFirestore.instance
-          .collection('tarot-game-' + flavor)
+          .collection(dataBase + '-' + flavor)
           .add(tarotGame.toJSON());
       tarotGame.id = documentReference.id;
       var tarotScore = TarotScore(
@@ -117,7 +118,7 @@ class TarotService extends GameService<Tarot, TarotPlayers> {
         await _playerService.incrementWonGamesByOne(winner.player, game);
       }
       await FirebaseFirestore.instance
-          .collection('tarot-game-' + flavor)
+          .collection(dataBase + '-' + flavor)
           .doc(game.id)
           .update({
         'is_ended': true,
@@ -133,7 +134,7 @@ class TarotService extends GameService<Tarot, TarotPlayers> {
   Future updateGame(Tarot game) async {
     try {
       await FirebaseFirestore.instance
-          .collection('tarot-game-' + flavor)
+          .collection(dataBase + '-' + flavor)
           .doc(game.id)
           .update(game.toJSON());
     } on PlatformException catch (e) {

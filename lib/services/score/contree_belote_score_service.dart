@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 
 class ContreeScoreService
     extends BeloteScoreService<ContreeBeloteScore?, ContreeBeloteRound> {
+  static const String dataBase = 'contree-score';
   static const String flavor =
       String.fromEnvironment('FLAVOR', defaultValue: 'dev');
 
@@ -15,7 +16,7 @@ class ContreeScoreService
   Future<ContreeBeloteScore?> getScoreByGame(String? gameId) async {
     try {
       var querySnapshot = await FirebaseFirestore.instance
-          .collection('contree-score-' + flavor)
+          .collection(dataBase + '-' + flavor)
           .where('game', isEqualTo: gameId)
           .get();
       if (querySnapshot.docs.isNotEmpty) {
@@ -32,7 +33,7 @@ class ContreeScoreService
   Stream<ContreeBeloteScore> getScoreByGameStream(String? gameId) {
     try {
       return FirebaseFirestore.instance
-          .collection('contree-score-' + flavor)
+          .collection(dataBase + '-' + flavor)
           .where('game', isEqualTo: gameId)
           .snapshots()
           .map((event) {
@@ -57,7 +58,7 @@ class ContreeScoreService
         contreeRound.index = contreeScore.rounds!.length;
         contreeScore.rounds!.add(contreeRound);
         await FirebaseFirestore.instance
-            .collection('contree-score-' + flavor)
+            .collection(dataBase + '-' + flavor)
             .doc(contreeScore.id)
             .update(contreeScore.toJSON());
       }
@@ -70,7 +71,7 @@ class ContreeScoreService
   Future deleteScoreByGame(String? gameId) async {
     try {
       await FirebaseFirestore.instance
-          .collection('contree-score-' + flavor)
+          .collection(dataBase + '-' + flavor)
           .where('game', isEqualTo: gameId)
           .get()
           .then((snapshot) {
@@ -87,7 +88,7 @@ class ContreeScoreService
   Future<String> saveScore(ContreeBeloteScore? contreeScore) async {
     try {
       var documentReference = await FirebaseFirestore.instance
-          .collection('contree-score-' + flavor)
+          .collection(dataBase + '-' + flavor)
           .add(contreeScore!.toJSON());
       return documentReference.id;
     } on PlatformException catch (e) {
@@ -106,7 +107,7 @@ class ContreeScoreService
   Future updateScore(ContreeBeloteScore? score) async {
     try {
       await FirebaseFirestore.instance
-          .collection('contree-score-' + flavor)
+          .collection(dataBase + '-' + flavor)
           .doc(score!.id)
           .update(score.toJSON());
     } on PlatformException catch (e) {

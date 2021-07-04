@@ -15,6 +15,7 @@ class CoincheBeloteService extends BeloteService<CoincheBelote> {
   final TeamService _teamService = TeamService();
   final PlayerService _playerService = PlayerService();
   final CoincheScoreService _coincheScoreService = CoincheScoreService();
+  static const String dataBase = 'coinche-game';
   static const String flavor =
       String.fromEnvironment('FLAVOR', defaultValue: 'dev');
 
@@ -29,7 +30,7 @@ class CoincheBeloteService extends BeloteService<CoincheBelote> {
       var querySnapshot;
       if (lastFetchGameDocument != null) {
         querySnapshot = await FirebaseFirestore.instance
-            .collection('coinche-game-' + flavor)
+            .collection(dataBase + '-' + flavor)
             .where('players.player_list', arrayContains: playerId)
             .orderBy('starting_date', descending: true)
             .startAfterDocument(lastFetchGameDocument!)
@@ -37,7 +38,7 @@ class CoincheBeloteService extends BeloteService<CoincheBelote> {
             .get();
       } else {
         querySnapshot = await FirebaseFirestore.instance
-            .collection('coinche-game-' + flavor)
+            .collection(dataBase + '-' + flavor)
             .where('players.player_list', arrayContains: playerId)
             .orderBy('starting_date', descending: true)
             .limit(pageSize)
@@ -60,7 +61,7 @@ class CoincheBeloteService extends BeloteService<CoincheBelote> {
   Future<CoincheBelote> getGame(String id) async {
     try {
       var querySnapshot = await FirebaseFirestore.instance
-          .collection('coinche-game-' + flavor)
+          .collection(dataBase + '-' + flavor)
           .doc(id)
           .get();
       return CoincheBelote.fromJSON(querySnapshot.data(), querySnapshot.id);
@@ -73,7 +74,7 @@ class CoincheBeloteService extends BeloteService<CoincheBelote> {
   Future deleteGame(String? id) async {
     try {
       await FirebaseFirestore.instance
-          .collection('coinche-game-' + flavor)
+          .collection(dataBase + '-' + flavor)
           .doc(id)
           .delete();
       await _coincheScoreService.deleteScoreByGame(id);
@@ -96,7 +97,7 @@ class CoincheBeloteService extends BeloteService<CoincheBelote> {
               them: themTeam.id,
               playerList: playerListForOrder));
       var documentReference = await FirebaseFirestore.instance
-          .collection('coinche-game-' + flavor)
+          .collection(dataBase + '-' + flavor)
           .add(coincheGame.toJSON());
       coincheGame.id = documentReference.id;
       var coincheScore = CoincheBeloteScore(
@@ -126,7 +127,7 @@ class CoincheBeloteService extends BeloteService<CoincheBelote> {
             await _teamService.incrementWonGamesByOne(game.players!.us, game);
       }
       await FirebaseFirestore.instance
-          .collection('coinche-game-' + flavor)
+          .collection(dataBase + '-' + flavor)
           .doc(game.id)
           .update({
         'is_ended': true,
@@ -142,7 +143,7 @@ class CoincheBeloteService extends BeloteService<CoincheBelote> {
   Future updateGame(CoincheBelote game) async {
     try {
       await FirebaseFirestore.instance
-          .collection('coinche-game-' + flavor)
+          .collection(dataBase + '-' + flavor)
           .doc(game.id)
           .update(game.toJSON());
     } on PlatformException catch (e) {

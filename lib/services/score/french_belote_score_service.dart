@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 
 class FrenchBeloteScoreService
     extends BeloteScoreService<FrenchBeloteScore?, FrenchBeloteRound> {
+  static const String dataBase = 'belote-score';
   static const String flavor =
       String.fromEnvironment('FLAVOR', defaultValue: 'dev');
 
@@ -15,7 +16,7 @@ class FrenchBeloteScoreService
   Future<FrenchBeloteScore?> getScoreByGame(String? gameId) async {
     try {
       var querySnapshot = await FirebaseFirestore.instance
-          .collection('belote-score-' + flavor)
+          .collection(dataBase + '-' + flavor)
           .where('game', isEqualTo: gameId)
           .get();
       if (querySnapshot.docs.isNotEmpty) {
@@ -32,7 +33,7 @@ class FrenchBeloteScoreService
   Stream<FrenchBeloteScore> getScoreByGameStream(String? gameId) {
     try {
       return FirebaseFirestore.instance
-          .collection('belote-score-' + flavor)
+          .collection(dataBase + '-' + flavor)
           .where('game', isEqualTo: gameId)
           .snapshots()
           .map((event) {
@@ -57,7 +58,7 @@ class FrenchBeloteScoreService
         beloteRound.index = beloteScore.rounds!.length;
         beloteScore.rounds!.add(beloteRound);
         await FirebaseFirestore.instance
-            .collection('belote-score-' + flavor)
+            .collection(dataBase + '-' + flavor)
             .doc(beloteScore.id)
             .update(beloteScore.toJSON());
       }
@@ -70,7 +71,7 @@ class FrenchBeloteScoreService
   Future deleteScoreByGame(String? gameId) async {
     try {
       await FirebaseFirestore.instance
-          .collection('belote-score-' + flavor)
+          .collection(dataBase + '-' + flavor)
           .where('game', isEqualTo: gameId)
           .get()
           .then((snapshot) {
@@ -87,7 +88,7 @@ class FrenchBeloteScoreService
   Future<String> saveScore(FrenchBeloteScore? beloteScore) async {
     try {
       var documentReference = await FirebaseFirestore.instance
-          .collection('belote-score-' + flavor)
+          .collection(dataBase + '-' + flavor)
           .add(beloteScore!.toJSON());
       return documentReference.id;
     } on PlatformException catch (e) {
@@ -106,7 +107,7 @@ class FrenchBeloteScoreService
   Future updateScore(FrenchBeloteScore? score) async {
     try {
       await FirebaseFirestore.instance
-          .collection('belote-score-' + flavor)
+          .collection(dataBase + '-' + flavor)
           .doc(score!.id)
           .update(score.toJSON());
     } on PlatformException catch (e) {
