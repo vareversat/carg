@@ -276,7 +276,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             size: 30,
                           ),
                           onTap: () async => await _showCreateCredentials(),
-                          title: Text('Utliser une adresse mail',
+                          title: Text('Créer un comptes',
                               style: TextStyle(fontSize: 20)));
                     }
                   }),
