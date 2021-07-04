@@ -1,3 +1,16 @@
+# **v0.14.0** :
+
+- *Fixed stuff* :
+- *New stuff* :
+  - **NEW GAME** : The Contrée is now available
+  - Change the Algolia Logo into the player search bar
+  - UI : New emoji for card color (🃋 => 🃏 & 🃁 => 🚫)
+- *Dev stuff* :
+  - Android :
+    - kotlin : 1.4.31 => 1.5.20
+
+***
+
 # **v0.13.2+1** :
 
 - *Fixed stuff* :

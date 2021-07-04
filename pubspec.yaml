@@ -1,7 +1,7 @@
 name: carg
 description: Get coinched ! Mobile app to save your card games
 
-version: 0.13.2+1
+version: 0.14.0
 
 environment:
   sdk: '>=2.12.0 <3.0.0'
