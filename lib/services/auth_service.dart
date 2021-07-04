@@ -28,7 +28,7 @@ class AuthService with ChangeNotifier {
       _expiryDate = (await _connectedUser!.getIdTokenResult()).expirationTime;
       await _connectedUser!.getIdTokenResult(true);
       var player =
-          Player(userName: 'joueur', linkedUserId: _connectedUser!.uid);
+          Player(userName: 'Nouveau joueur', linkedUserId: _connectedUser!.uid);
       var playerId = await _playerService.addPlayer(player);
       player.id = playerId;
       _player = player;
@@ -90,7 +90,7 @@ class AuthService with ChangeNotifier {
 
   Future<bool> isLocalLogin() async {
     var user = FirebaseAuth.instance.currentUser;
-    return user?.isAnonymous ?? false;
+    return (user?.isAnonymous ?? false) || user?.email == null;
   }
 
   Future<bool> isAlreadyLogin() async {
