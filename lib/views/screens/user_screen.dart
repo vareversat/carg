@@ -9,6 +9,7 @@ import 'package:carg/services/player_service.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/dialogs/warning_dialog.dart';
+import 'package:carg/views/screens/register/register_screen.dart';
 import 'package:carg/views/screens/settings_screen.dart';
 import 'package:carg/views/widgets/error_message_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,9 +17,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-// ignore: import_of_legacy_library_into_null_safe
 import 'package:syncfusion_flutter_charts/charts.dart';
-// ignore: import_of_legacy_library_into_null_safe
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class UserScreen extends StatefulWidget {
@@ -51,27 +50,10 @@ class _UserScreenState extends State<UserScreen>
 
   Future<void> _signOut() async {
     try {
-      if (await Provider.of<AuthService>(context, listen: false)
-          .isLocalLogin()) {
-        await showDialog(
-            context: context,
-            builder: (BuildContext context) => WarningDialog(
-                message:
-                    'Vous utilisez actuellement un compte local. Si vous vous '
-                    'déconnecter, vous ne pourrez pas récupérer l\'utilisateur actuel',
-                title: 'Attention',
-                onConfirm: () async => {
-                      await Provider.of<AuthService>(context, listen: false)
-                          .signOut(),
-                      await Navigator.of(context).pushReplacementNamed('/login')
-                    },
-                color: Theme.of(context).errorColor,
-                onConfirmButtonMessage:
-                    MaterialLocalizations.of(context).okButtonLabel));
-      } else {
-        await Provider.of<AuthService>(context, listen: false).signOut();
-        await Navigator.of(context).pushReplacementNamed('/login');
-      }
+      await Provider.of<AuthService>(context, listen: false).signOut();
+      await Navigator.push(context, CustomRouteFade(
+        builder: (context) => RegisterScreen(),
+      ));
     } catch (e) {
       _errorMessage = e.toString();
     }

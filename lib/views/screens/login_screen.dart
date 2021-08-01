@@ -3,6 +3,7 @@ import 'package:carg/services/custom_exception.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/views/dialogs/warning_dialog.dart';
 import 'package:carg/views/screens/home_screen.dart';
+import 'package:carg/views/screens/register/register_options_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -58,24 +59,6 @@ class _LoginScreenState extends State<LoginScreen>
     }
   }
 
-  Future<void> _resetPassword() async {
-    if (!_formKey.currentState!.validate()) {
-      return;
-    }
-    _formKey.currentState!.save();
-    await showDialog(
-        context: context,
-        builder: (BuildContext context) => WarningDialog(
-            message:
-                'Un email vous permettant de réinitialiser votre mot de passe va vous être envoyé',
-            title: 'Information',
-            onConfirm: () async =>
-                await Provider.of<AuthService>(context, listen: false)
-                    .resetPassword(_authData['email']),
-            color: Theme.of(context).primaryColor,
-            onConfirmButtonMessage: 'Confirmer'));
-  }
-
   Future<void> _mailLogin() async {
     var currentFocus = FocusScope.of(context);
     if (!currentFocus.hasPrimaryFocus) {
@@ -90,7 +73,7 @@ class _LoginScreenState extends State<LoginScreen>
     });
     try {
       await Provider.of<AuthService>(context, listen: false)
-          .mailLogIn(_authData['email']!, _authData['password']!);
+          .mailAndPasswordLogIn(_authData['email']!, _authData['password']!);
       await Navigator.pushReplacementNamed(context, HomeScreen.routeName,
           arguments: 0);
     } on CustomException catch (e) {
@@ -351,15 +334,6 @@ class _LoginScreenState extends State<LoginScreen>
                           SizedBox(
                             height: 10,
                           ),
-                          TextButton(
-                              style: ButtonStyle(
-                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                              ),
-                              onPressed: _resetPassword,
-                              child: Text('Mot de passe oublié',
-                                  style: TextStyle(
-                                      decoration: TextDecoration.underline,
-                                      color: Colors.white))),
                           Divider(
                             height: 30,
                             thickness: 2,
@@ -395,9 +369,13 @@ class _LoginScreenState extends State<LoginScreen>
                                               CustomProperties.borderRadius))),
                                       padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
                                           EdgeInsets.symmetric(horizontal: 20.0, vertical: 6))),
-                                  onPressed: () => _localLogin(),
+                                  onPressed: () => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              RegisterOptionsScreen())),
                                   child: Text(
-                                    'Utiliser un compte local',
+                                    'Créer un compte',
                                     style: TextStyle(fontSize: 25),
                                   ),
                                 ),

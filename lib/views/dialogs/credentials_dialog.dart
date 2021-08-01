@@ -2,6 +2,8 @@ import 'package:carg/services/auth_service.dart';
 import 'package:carg/services/custom_exception.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/styles/text_style.dart';
+import 'package:carg/views/screens/register/pin_code_verification_screen.dart';
+import 'package:carg/views/widgets/register/register_phone_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
@@ -41,9 +43,9 @@ class _CredentialsDialogState extends State<CredentialsDialog> {
       });
 
       try {
-        await Provider.of<AuthService>(context, listen: false)
-            .linkAnonymousToCredentials(
-                _emailTextController.text, _passwordTextController.text);
+        // await Provider.of<AuthService>(context, listen: false)
+        //     .linkAnonymousToCredentials(
+        //         _emailTextController.text, _passwordTextController.text);
       } on CustomException catch (e) {
         setState(() {
           _errorMessage = e.message;
@@ -68,8 +70,8 @@ class _CredentialsDialogState extends State<CredentialsDialog> {
         _isLoading = true;
       });
       try {
-        await Provider.of<AuthService>(context, listen: false).changeEmail(
-            _emailTextController.text, _passwordTextController.text);
+        //await Provider.of<AuthService>(context, listen: false).changeEmail(
+         //   _emailTextController.text, _passwordTextController.text);
       } on CustomException catch (e) {
         setState(() {
           _errorMessage = e.message;
@@ -129,68 +131,7 @@ class _CredentialsDialogState extends State<CredentialsDialog> {
           style: CustomTextStyle.dialogHeaderStyle(context),
         ),
       ),
-      content: Form(
-        key: _formKey,
-        child: ListBody(children: [
-          TextFormField(
-              controller: _emailTextController,
-              autofillHints: [AutofillHints.email],
-              style: TextStyle(fontSize: 20),
-              decoration: InputDecoration(
-                  focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                          color: Theme.of(context).accentColor, width: 2)),
-                  enabledBorder: InputBorder.none,
-                  labelStyle: TextStyle(
-                      fontSize: 20, color: Theme.of(context).accentColor),
-                  labelText: 'Nouvelle adresse mail'),
-              validator: (value) {
-                if (value ==
-                    Provider.of<AuthService>(context, listen: false)
-                        .getConnectedUserEmail()) {
-                  return 'Adresse mail inchangée';
-                } else if (!_emailRegex.hasMatch(value!)) {
-                  return 'Adresse email invalide';
-                }
-                return null;
-              }),
-          TextFormField(
-              obscureText: true,
-              keyboardType: TextInputType.visiblePassword,
-              autofillHints: [AutofillHints.password],
-              controller: _passwordTextController,
-              style: TextStyle(fontSize: 20),
-              decoration: InputDecoration(
-                  focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(
-                          color: Theme.of(context).accentColor, width: 2)),
-                  enabledBorder: InputBorder.none,
-                  labelStyle: TextStyle(
-                      fontSize: 20, color: Theme.of(context).accentColor),
-                  labelText: 'Mot de passe'),
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Mot de passe non renseigné';
-                }
-                return null;
-              }),
-          Padding(
-            padding: const EdgeInsets.only(top: 8.0),
-            child: Text('Info : ' + _infoMessage,
-                style: TextStyle(fontStyle: FontStyle.italic, fontSize: 18)),
-          ),
-          _errorMessage!.isNotEmpty
-              ? Padding(
-                  padding: const EdgeInsets.only(top: 12.0),
-                  child: Text(_errorMessage!,
-                      style: TextStyle(
-                          fontStyle: FontStyle.italic,
-                          fontSize: 18,
-                          color: Colors.red)),
-                )
-              : Container()
-        ]),
-      ),
+      content: Container(),
       actions: <Widget>[
         if (_isLoading)
           CircularProgressIndicator()
