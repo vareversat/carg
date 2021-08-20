@@ -92,11 +92,13 @@ class _CargState extends State<Carg> {
                     return SplashScreen();
                   }
                   if (authResult.connectionState == ConnectionState.done) {
+                    print(authResult.data);
                     if (authResult.data == null || !authResult.data!) {
+                      // User is not logged
                       return RegisterScreen();
                     } else if (authResult.data != null && authResult.data!) {
-                      print(Provider.of<AuthService>(context, listen: false).getPlayer());
-                      if (Provider.of<AuthService>(context, listen: false).getPlayer() != null) {
+                      var player = Provider.of<AuthService>(context, listen: false).getPlayer();
+                      if (player != null) {
                         return HomeScreen(requestedIndex: 0);
                       } else {
                         return WelcomeScreen();
