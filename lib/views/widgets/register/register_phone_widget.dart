@@ -2,7 +2,6 @@ import 'package:carg/services/auth_service.dart';
 import 'package:carg/services/custom_exception.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/views/helpers/info_snackbar.dart';
-import 'package:carg/views/screens/register/pin_code_verification_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -102,7 +101,8 @@ class _RegisterPhoneWidgetState extends State<RegisterPhoneWidget>
     try {
       var phoneNumber = await phoneRegistrationData.formatPhoneNumberToE164();
       await Provider.of<AuthService>(context, listen: false)
-          .sendPhoneVerificationCode(phoneNumber, context, widget.credentialVerificationType);
+          .sendPhoneVerificationCode(
+              phoneNumber, context, widget.credentialVerificationType);
     } on CustomException catch (e) {
       InfoSnackBar.showSnackBar(context, e.message);
     }
@@ -122,36 +122,43 @@ class _RegisterPhoneWidgetState extends State<RegisterPhoneWidget>
                         Row(
                           children: [
                             ElevatedButton(
-                                style: ButtonStyle(
-                                    backgroundColor: MaterialStateProperty.all<Color>(
-                                        Theme.of(context).cardColor),
-                                    foregroundColor:
-                                        MaterialStateProperty.all<Color>(
-                                            Theme.of(context).primaryColor),
-                                    shape: MaterialStateProperty.all<OutlinedBorder>(
-                                        RoundedRectangleBorder(
-                                            side: BorderSide(
-                                                width: 2,
-                                                color: Theme.of(context)
-                                                    .primaryColor),
-                                            borderRadius: BorderRadius.circular(
-                                                CustomProperties.borderRadius)))),
-                                onPressed: () async {
-                                  phoneRegistrationData.country =
-                                      await showCountriesDialog(snapshot.data!);
-                                },
-                                child: AnimatedSize(
-                                  curve: Curves.linear,
-                                  vsync: this,
-                                  duration: Duration(milliseconds: 300),
-                                  child: phoneRegistrationData.country != null
-                                      ? Text(
-                                          phoneRegistrationData
-                                              .getCompactFormattedCountryName(),
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold))
-                                      : Text('Pays'),
-                                )),
+                              style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Theme.of(context).cardColor),
+                                  foregroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Theme.of(context).primaryColor),
+                                  shape: MaterialStateProperty.all<OutlinedBorder>(
+                                      RoundedRectangleBorder(
+                                          side: BorderSide(
+                                              width: 2,
+                                              color: Theme.of(context)
+                                                  .primaryColor),
+                                          borderRadius: BorderRadius.circular(
+                                              CustomProperties.borderRadius)))),
+                              onPressed: snapshot.connectionState ==
+                                      ConnectionState.done
+                                  ? () async {
+                                      phoneRegistrationData.country =
+                                          await showCountriesDialog(
+                                              snapshot.data!);
+                                    }
+                                  : null,
+                              child: AnimatedSize(
+                                curve: Curves.linear,
+                                vsync: this,
+                                duration: Duration(milliseconds: 300),
+                                child: Text(
+                                        phoneRegistrationData.country != null
+                                            ? phoneRegistrationData
+                                                .getCompactFormattedCountryName()
+                                            : 'Pays',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      )
+                              ),
+                            ),
                             SizedBox(width: 15),
                             Flexible(
                               child: TextField(
@@ -285,7 +292,6 @@ class PhoneRegistrationData with ChangeNotifier {
   CountryWithPhoneCode? get country => _country;
 
   set country(CountryWithPhoneCode? value) {
-    print(value);
     _country = value;
     notifyListeners();
   }

@@ -40,13 +40,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Future<void> _signOut() async {
     try {
-      await Provider.of<AuthService>(context, listen: false).signOut();
-      await Navigator.pushReplacement(
-        context,
-        CustomRouteFade(
-          builder: (context) => RegisterScreen(),
-        ),
-      );
+      await Provider.of<AuthService>(context, listen: false).signOut(context);
       // ignore: empty_catches
     } catch (e) {}
   }
@@ -68,7 +62,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Future<void> _showUpdateCredentials() async {
 
-    await Navigator.push(context, CustomRouteLeftAndRight(
+    await Navigator.push(context, CustomRouteLeftToRight(
         builder: (context) => EditPhoneNumberScreen()));
 
 
@@ -217,7 +211,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         Icons.mail_outline,
                         size: 30,
                       ),
-                      onTap: () => Navigator.push(context, CustomRouteLeftAndRight(
+                      onTap: () => Navigator.push(context, CustomRouteLeftToRight(
                           builder: (context) => EditEmailScreen())),
                       title: Text('Changer mon adresse e-mail',
                           style: TextStyle(fontSize: 20))),
@@ -233,7 +227,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         Icons.phone,
                         size: 30,
                       ),
-                      onTap: () => Navigator.push(context, CustomRouteLeftAndRight(
+                      onTap: () => Navigator.push(context, CustomRouteLeftToRight(
                           builder: (context) => EditPhoneNumberScreen())),
                       title: Text('Changer mon numéro de téléphone',
                           style: TextStyle(fontSize: 20))),

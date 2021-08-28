@@ -133,7 +133,7 @@ class _PlayerPickerScreenState extends State<PlayerPickerScreen> {
                                           game!.players!.reset(),
                                           Navigator.push(
                                               context,
-                                              CustomRouteLeftAndRight(
+                                              CustomRouteLeftToRight(
                                                 builder: (context) =>
                                                     PlayerOrderScreen(
                                                         playerList: newPlayers!,

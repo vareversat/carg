@@ -5,7 +5,10 @@ import 'package:carg/models/player.dart';
 import 'package:carg/services/custom_exception.dart';
 import 'package:carg/services/player_service.dart';
 import 'package:carg/styles/text_style.dart';
+import 'package:carg/views/screens/home_screen.dart';
 import 'package:carg/views/screens/register/pin_code_verification_screen.dart';
+import 'package:carg/views/screens/register/register_screen.dart';
+import 'package:carg/views/screens/register/welcome_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -20,23 +23,6 @@ class AuthService with ChangeNotifier {
 
   bool get isAuth {
     return _connectedUser != null && _expiryDate!.isAfter(DateTime.now());
-  }
-
-  Future<String> localLogIn() async {
-    try {
-      var result = await FirebaseAuth.instance.signInAnonymously();
-      _connectedUser = result.user;
-      _expiryDate = (await _connectedUser!.getIdTokenResult()).expirationTime;
-      await _connectedUser!.getIdTokenResult(true);
-      var player =
-          Player(userName: 'Nouveau joueur', linkedUserId: _connectedUser!.uid);
-      var playerId = await _playerService.addPlayer(player);
-      player.id = playerId;
-      _player = player;
-      return _connectedUser!.uid;
-    } on FirebaseAuthException catch (e) {
-      throw CustomException(e.code);
-    }
   }
 
   Future<String> googleLogIn() async {
@@ -54,23 +40,6 @@ class AuthService with ChangeNotifier {
       await _connectedUser!.getIdTokenResult(true);
       return _connectedUser!.uid;
     } on PlatformException catch (e) {
-      throw CustomException(e.code);
-    }
-  }
-
-  Future<String> mailAndPasswordLogIn(String email, String password) async {
-    try {
-      var result = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
-      _connectedUser = result.user;
-      _player = await _playerService.getPlayerOfUser(_connectedUser!.uid);
-      _expiryDate = (await _connectedUser!.getIdTokenResult()).expirationTime;
-      if (!await _isEmailVerified()) {
-        throw CustomException('ERROR_EMAIL_NOT_VALIDATED');
-      }
-      await _connectedUser!.getIdTokenResult(true);
-      return _connectedUser!.uid;
-    } on FirebaseAuthException catch (e) {
       throw CustomException(e.code);
     }
   }
@@ -122,8 +91,7 @@ class AuthService with ChangeNotifier {
     }
   }
 
-  Future changePhoneNumber(
-      String smsCode, String verificationId) async {
+  Future changePhoneNumber(String smsCode, String verificationId) async {
     try {
       var _credential = PhoneAuthProvider.credential(
           verificationId: verificationId, smsCode: smsCode);
@@ -157,15 +125,19 @@ class AuthService with ChangeNotifier {
   }
 
   Future<dynamic> sendPhoneVerificationCode(
-      String phoneNumber, BuildContext context, CredentialVerificationType credentialVerificationType) async {
+      String phoneNumber,
+      BuildContext context,
+      CredentialVerificationType credentialVerificationType) async {
     await _verifyPhoneNumber(
         phoneNumber,
         context,
         (verificationId, forceResendingToken) => Navigator.push(
             context,
-            CustomRouteLeftAndRight(
+            CustomRouteLeftToRight(
                 builder: (context) => PinCodeVerificationScreen(
-                    phoneNumber: phoneNumber, verificationId: verificationId, credentialVerificationType: credentialVerificationType))),
+                    phoneNumber: phoneNumber,
+                    verificationId: verificationId,
+                    credentialVerificationType: credentialVerificationType))),
         (credentials) => SnackBar(
               margin: EdgeInsets.all(20),
               duration: Duration(seconds: 4),
@@ -192,10 +164,14 @@ class AuthService with ChangeNotifier {
     await Firebase.initializeApp();
     final firebaseUser = FirebaseAuth.instance.currentUser;
     if (firebaseUser == null) {
+      // Make sure the user is disconnected
+      await FirebaseAuth.instance.signOut();
       return false;
     }
     final expiryDate = (await firebaseUser.getIdTokenResult()).expirationTime!;
     if (expiryDate.isBefore(DateTime.now())) {
+      // Make sure the user is disconnected
+      await FirebaseAuth.instance.signOut();
       return false;
     }
     await firebaseUser.getIdTokenResult(true);
@@ -205,11 +181,13 @@ class AuthService with ChangeNotifier {
     return true;
   }
 
-  Future<void> signOut() async {
+  Future<void> signOut(BuildContext context) async {
     _connectedUser = null;
     _expiryDate = null;
     notifyListeners();
-    return FirebaseAuth.instance.signOut();
+    await FirebaseAuth.instance.signOut();
+    await Navigator.pushReplacement(
+        context, CustomRouteFade(builder: (context) => RegisterScreen()));
   }
 
   Future<void> changeEmail(String newEmail) async {
@@ -218,6 +196,14 @@ class AuthService with ChangeNotifier {
       _connectedUser = FirebaseAuth.instance.currentUser;
     } on FirebaseAuthException catch (e) {
       throw CustomException(e.code);
+    }
+  }
+
+  Widget getCorrectLandingScreen() {
+    if (_player == null) {
+      return WelcomeScreen();
+    } else {
+      return HomeScreen(requestedIndex: 0);
     }
   }
 
@@ -252,4 +238,4 @@ class AuthService with ChangeNotifier {
   }
 }
 
-enum CredentialVerificationType {EDIT, CREATE}
+enum CredentialVerificationType { EDIT, CREATE }

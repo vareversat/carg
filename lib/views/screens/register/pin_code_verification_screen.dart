@@ -1,13 +1,10 @@
 import 'dart:async';
 
+import 'package:carg/helpers/custom_route.dart';
 import 'package:carg/services/auth_service.dart';
 import 'package:carg/services/custom_exception.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/dialogs/dialogs.dart';
-import 'package:carg/views/screens/home_screen.dart';
-import 'package:carg/views/screens/register/register_screen.dart';
-import 'package:carg/views/screens/register/welcome_screen.dart';
-import 'package:carg/views/screens/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -35,6 +32,16 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
   final GlobalKey<State> _formKey = GlobalKey<FormState>();
   StreamController<ErrorAnimationType>? _errorController;
 
+  final _imagePath = 'assets/images/card_game.svg';
+  final _resending = 'Renvoie...';
+  final _resend = 'RENVOYER';
+  final _validating = 'Validation...';
+  final _deleteAll = 'Tout supprimer';
+  final _didYouReceiveTheCode = 'Vous n\'avez pas reçu le code ? ';
+  final _verificationCode = 'Code de vérification';
+  final _pleaseEnterTheCode = 'Veuillez entrer le code envoyé au ';
+  final _validationSuccess = 'Nouveau numéro validé avec succès !';
+
   @override
   void initState() {
     _errorController = StreamController<ErrorAnimationType>();
@@ -48,7 +55,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
   }
 
   void _resendCode() async {
-    Dialogs.showLoadingDialog(context, _keyLoaderLoading, 'Renvoie...');
+    Dialogs.showLoadingDialog(context, _keyLoaderLoading, _resending);
     try {
       await Provider.of<AuthService>(context, listen: false)
           .resendPhoneVerificationCode(widget.phoneNumber, context);
@@ -59,41 +66,50 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
   }
 
   void _verifyCode() async {
-    Dialogs.showLoadingDialog(context, _keyLoaderLoading, 'Validation...');
+    Dialogs.showLoadingDialog(context, _keyLoaderLoading, _validating);
+    print(CredentialVerificationType.CREATE);
     try {
-      if (widget.credentialVerificationType == CredentialVerificationType.CREATE) {
+      if (widget.credentialVerificationType ==
+          CredentialVerificationType.CREATE) {
         await Provider.of<AuthService>(context, listen: false)
             .validatePhoneNumber(
                 _pinTextController.text, widget.verificationId);
-        Navigator.of(_keyLoaderLoading.currentContext!, rootNavigator: true).pop();
-        await Navigator.push(
+        Navigator.of(_keyLoaderLoading.currentContext!, rootNavigator: true)
+            .pop();
+        await Navigator.pushReplacement(
           context,
-          MaterialPageRoute(
-            builder: (context) => HomeScreen(requestedIndex: 0),
+          CustomRouteFade(
+            builder: (context) =>
+                Provider.of<AuthService>(context, listen: false)
+                    .getCorrectLandingScreen(),
           ),
         );
       } else {
         await Provider.of<AuthService>(context, listen: false)
-            .changePhoneNumber(
-            _pinTextController.text, widget.verificationId);
-        Navigator.of(_keyLoaderLoading.currentContext!, rootNavigator: true).pop();
-        Dialogs.showMessageDialog(context, _keyLoaderSuccess, 'Nouveau numéro validé avec succès !');
+            .changePhoneNumber(_pinTextController.text, widget.verificationId);
+        Navigator.of(_keyLoaderLoading.currentContext!, rootNavigator: true)
+            .pop();
+        Dialogs.showMessageDialog(
+            context, _keyLoaderSuccess, _validationSuccess);
         await Future.delayed(Duration(seconds: 2));
-        Navigator.of(_keyLoaderSuccess.currentContext!, rootNavigator: true).pop();
-        if (Provider.of<AuthService>(context, listen: false).getPlayer() != null) {
-          await Navigator.pushNamedAndRemoveUntil(context, HomeScreen.routeName, (Route<dynamic> route) => false, arguments: 0);
-        } else {
-          await Navigator.pushNamedAndRemoveUntil(context, WelcomeScreen.routeName, (Route<dynamic> route) => false, arguments: 0);
-        }
-
+        Navigator.of(_keyLoaderSuccess.currentContext!, rootNavigator: true)
+            .pop();
+        await Navigator.pushReplacement(
+          context,
+          CustomRouteFade(
+            builder: (context) =>
+                Provider.of<AuthService>(context, listen: false)
+                    .getCorrectLandingScreen(),
+          ),
+        );
       }
     } on CustomException catch (e) {
-      Navigator.of(_keyLoaderLoading.currentContext!, rootNavigator: true).pop();
+      Navigator.of(_keyLoaderLoading.currentContext!, rootNavigator: true)
+          .pop();
       _errorController!.add(ErrorAnimationType.shake);
       _pinTextController.clear();
       _snackBar(e.message);
     }
-
   }
 
   ScaffoldFeatureController _snackBar(String message) {
@@ -117,14 +133,14 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
         Container(
           height: 150,
           child: SvgPicture.asset(
-            'assets/images/card_game.svg',
+            _imagePath,
           ),
         ),
         SizedBox(height: 50),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
-            'Code de vérification',
+            _verificationCode,
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
             textAlign: TextAlign.center,
           ),
@@ -133,7 +149,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
           child: RichText(
             text: TextSpan(
-                text: 'Veuillez entrer le code envoyé au ',
+                text: _pleaseEnterTheCode,
                 children: [
                   TextSpan(
                       text: '${widget.phoneNumber}',
@@ -191,19 +207,19 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
           onPressed: () {
             _pinTextController.clear();
           },
-          child: Text('Tout supprimer'),
+          child: Text(_deleteAll),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              "Vous n'avez pas reçu le code ? ",
+              _didYouReceiveTheCode,
               style: TextStyle(color: Colors.black54, fontSize: 15),
             ),
             TextButton(
                 onPressed: () => _resendCode(),
                 child: Text(
-                  'RENVOYER',
+                  _resend,
                   style: TextStyle(
                       color: Theme.of(context).primaryColor,
                       fontWeight: FontWeight.bold,

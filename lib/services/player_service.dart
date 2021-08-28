@@ -89,6 +89,9 @@ class PlayerService {
 
   Future<String> addPlayer(Player player) async {
     try {
+      if (player.userName == '' || player.userName == null) {
+        throw CustomException('Veuillez renseigner un nom d\'utilisateur');
+      }
       var documentReference = await FirebaseFirestore.instance
           .collection(dataBase + '-' + flavor)
           .add(player.toJSON());

@@ -1,6 +1,6 @@
+import 'package:carg/helpers/custom_route.dart';
 import 'package:carg/services/auth_service.dart';
 import 'package:carg/styles/properties.dart';
-import 'package:carg/views/screens/register/pin_code_verification_screen.dart';
 import 'package:carg/views/widgets/register/register_email_widget.dart';
 import 'package:carg/views/widgets/register/register_phone_widget.dart';
 import 'package:flutter/material.dart';
@@ -230,9 +230,19 @@ class _RegisterScreenState extends State<RegisterScreen>
                                                   .circular(
                                                   CustomProperties
                                                       .borderRadius)))),
-                                  onPressed: () {
+                                  onPressed: () async {
                                     registerData.selectedRegisterMethod =
                                         GoogleRegisterMethod();
+                                    await Provider.of<AuthService>(context, listen: false)
+                                        .googleLogIn();
+                                    await Navigator.pushReplacement(
+                                      context,
+                                      CustomRouteFade(
+                                        builder: (context) =>
+                                            Provider.of<AuthService>(context, listen: false)
+                                                .getCorrectLandingScreen(),
+                                      ),
+                                    );
                                   },
                                   label: Padding(
                                     padding: const EdgeInsets.all(8.0),

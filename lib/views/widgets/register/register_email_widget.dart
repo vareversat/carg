@@ -1,11 +1,12 @@
+import 'dart:developer' as developer;
+
+import 'package:carg/helpers/custom_route.dart';
 import 'package:carg/services/auth_service.dart';
 import 'package:carg/services/custom_exception.dart';
 import 'package:carg/services/storage_service.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/views/dialogs/dialogs.dart';
 import 'package:carg/views/helpers/info_snackbar.dart';
-import 'package:carg/views/screens/home_screen.dart';
-import 'package:carg/views/screens/register/register_screen.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -40,9 +41,7 @@ class _RegisterEmailWidgetState extends State<RegisterEmailWidget>
             'Lien de validation envoyé. Vous allez être déconnecté');
         await Future.delayed(Duration(seconds: 2));
         Navigator.of(_keyLoader.currentContext!, rootNavigator: true).pop();
-        await Provider.of<AuthService>(context, listen: false).signOut();
-        await Navigator.pushNamedAndRemoveUntil(
-            context, RegisterScreen.routeName, (Route<dynamic> route) => false);
+        await Provider.of<AuthService>(context, listen: false).signOut(context);
       }
     } on CustomException catch (e) {
       InfoSnackBar.showSnackBar(context, e.message);
@@ -56,30 +55,31 @@ class _RegisterEmailWidgetState extends State<RegisterEmailWidget>
         await Provider.of<AuthService>(context, listen: false).isAlreadyLogin();
     if (deepLink != null && !isLogged) {
       var link = deepLink.toString();
-      print('Link $link');
       var email = await _store.getEmail();
-      print('Email $email');
-      Dialogs.showLoadingDialog(context, _keyLoader, 'Connexion');
       try {
-        var uuid = await Provider.of<AuthService>(context, listen: false)
+        await Provider.of<AuthService>(context, listen: false)
             .signInWithEmailLink(email!, link);
-        await Navigator.push(
+        Dialogs.showLoadingDialog(context, _keyLoader, 'Connexion');
+        await Navigator.pushReplacement(
           context,
-          MaterialPageRoute(
-            builder: (context) => HomeScreen(requestedIndex: 0),
+          CustomRouteFade(
+            builder: (context) =>
+                Provider.of<AuthService>(context, listen: false)
+                    .getCorrectLandingScreen(),
           ),
         );
       } on CustomException catch (e) {
-        InfoSnackBar.showSnackBar(context, e.message);
+        developer.log(e.message, name: 'carg.dynamic-link');
       } finally {
-        Navigator.of(_keyLoader.currentContext!, rootNavigator: true).pop();
+        if (_keyLoader.currentContext != null) {
+          Navigator.of(_keyLoader.currentContext!, rootNavigator: true).pop();
+        }
       }
     }
   }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    super.didChangeAppLifecycleState(state);
     _retrieveDynamicLink();
   }
 
@@ -98,8 +98,8 @@ class _RegisterEmailWidgetState extends State<RegisterEmailWidget>
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
-        value: EmailRegistrationData(),
-        child: Consumer<EmailRegistrationData>(
+        value: _EmailRegistrationData(),
+        child: Consumer<_EmailRegistrationData>(
             builder: (context, emailRegistrationData, _) => Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Column(children: [
@@ -186,7 +186,7 @@ class _RegisterEmailWidgetState extends State<RegisterEmailWidget>
   }
 }
 
-class EmailRegistrationData with ChangeNotifier {
+class _EmailRegistrationData with ChangeNotifier {
   String? _emailAddress;
 
   String? get emailAddress => _emailAddress;

@@ -50,10 +50,7 @@ class _UserScreenState extends State<UserScreen>
 
   Future<void> _signOut() async {
     try {
-      await Provider.of<AuthService>(context, listen: false).signOut();
-      await Navigator.push(context, CustomRouteFade(
-        builder: (context) => RegisterScreen(),
-      ));
+      await Provider.of<AuthService>(context, listen: false).signOut(context);
     } catch (e) {
       _errorMessage = e.toString();
     }
