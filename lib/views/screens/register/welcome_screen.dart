@@ -3,8 +3,8 @@ import 'package:carg/services/auth_service.dart';
 import 'package:carg/services/custom_exception.dart';
 import 'package:carg/services/player_service.dart';
 import 'package:carg/styles/properties.dart';
-import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/dialogs/dialogs.dart';
+import 'package:carg/views/helpers/info_snackbar.dart';
 import 'package:carg/views/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -165,7 +165,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                                           onPressed: () {
                                             registerData
                                                 .selectedCreationMethod =
-                                                _LinkPlayerMethod();
+                                                _LinkPlayerMethod(context);
                                           },
                                           label: Flexible(
                                             child: Text(
@@ -294,7 +294,7 @@ class _CreatePlayerMethod extends _AccountCreationMethod {
 }
 
 class _LinkPlayerMethod extends _AccountCreationMethod {
-  _LinkPlayerMethod() : super(_LinkPlayerWidget());
+  _LinkPlayerMethod(BuildContext context) : super(_LinkPlayerWidget(context));
 }
 
 class _AccountCreationData with ChangeNotifier {
@@ -318,20 +318,9 @@ class _EnterUsernameWidget extends StatelessWidget {
 
   final _playerIsCreating = 'Création du joueur...';
   final _enterUserName = 'Saisissez votre nom d\'utilisateur';
+  final _validate = 'Valider';
 
   _EnterUsernameWidget(this.context);
-
-  ScaffoldFeatureController _snackBar(String message) {
-    return ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        margin: EdgeInsets.all(20),
-        duration: Duration(seconds: 4),
-        behavior: SnackBarBehavior.floating,
-        content:
-        Text(message, style: CustomTextStyle.snackBarTextStyle(context)),
-      ),
-    );
-  }
 
   Future<void> _createPlayer() async {
     Dialogs.showLoadingDialog(context, _keyLoader, _playerIsCreating);
@@ -349,9 +338,8 @@ class _EnterUsernameWidget extends StatelessWidget {
         ),
       );
     } on CustomException catch (e) {
-      print(e);
       _usernameTextController.clear();
-      _snackBar(e.message);
+      InfoSnackBar.showSnackBar(context, e.message);
     }
     Navigator.of(context, rootNavigator: true)
         .pop();
@@ -366,9 +354,6 @@ class _EnterUsernameWidget extends StatelessWidget {
           flex: 2,
           child: TextField(
             controller: _usernameTextController,
-            onChanged: (value) {
-              print(value);
-            },
             keyboardType: TextInputType.name,
             decoration: InputDecoration(
               labelStyle: TextStyle(
@@ -437,7 +422,7 @@ class _EnterUsernameWidget extends StatelessWidget {
             },
             label: Flexible(
               child: Text(
-                'Valider',
+                _validate,
                 textAlign: TextAlign.center,
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
@@ -448,10 +433,40 @@ class _EnterUsernameWidget extends StatelessWidget {
 }
 
 class _LinkPlayerWidget extends StatelessWidget {
+  final BuildContext context;
+  final PlayerService _playerService = PlayerService();
+  final TextEditingController _idTextController = TextEditingController();
 
   final _enterUniqueId = 'Saisissez l\'identifiant unique';
   final _enterUniqueIdDescription = 'L\'identifiant unique peut être retrouvé sur la liste des joueurs du Carg où vous avez déjà enregistré votre joueur';
   final _validate = 'Valider';
+
+  _LinkPlayerWidget(this.context);
+
+  Future<void> _linkPlayer() async {
+    try {
+      var userId = Provider.of<AuthService>(context, listen: false)
+          .getConnectedUserId();
+      var player = await _playerService.getPlayer(_idTextController.text);
+      print(player);
+      if (player.ownedBy == '' || player.linkedUserId != '') {
+        throw CustomException('Impossible d\'associer cet utilisateur');
+      }
+      player.linkedUserId = userId;
+      player.ownedBy = '';
+      await _playerService.updatePlayer(player);
+      Provider.of<AuthService>(context, listen: false)
+          .setCurrentPlayer(player);
+      await Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => HomeScreen(requestedIndex: 0),
+        ),
+      );
+    } on CustomException catch (e) {
+      InfoSnackBar.showSnackBar(context, e.message);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -463,9 +478,7 @@ class _LinkPlayerWidget extends StatelessWidget {
             Flexible(
               flex: 2,
               child: TextField(
-                onChanged: (value) {
-                  print(value);
-                },
+                controller: _idTextController,
                 keyboardType: TextInputType.name,
                 decoration: InputDecoration(
                   labelStyle: TextStyle(
@@ -529,7 +542,9 @@ class _LinkPlayerWidget extends StatelessWidget {
                                 .primaryColor),
                             borderRadius: BorderRadius.circular(
                                 CustomProperties.borderRadius)))),
-                onPressed: () async {},
+                onPressed: () async {
+                  await _linkPlayer();
+                },
                 label: Flexible(
                   child: Text(
                     _validate,

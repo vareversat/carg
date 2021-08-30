@@ -1,11 +1,15 @@
 import 'package:carg/models/game/game_type.dart';
 import 'package:carg/models/player.dart';
+import 'package:carg/services/auth_service.dart';
 import 'package:carg/services/player_service.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/styles/text_style.dart';
+import 'package:carg/views/helpers/info_snackbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class PlayerInfoDialog extends StatefulWidget {
   final Player? player;
@@ -57,7 +61,9 @@ class _PlayerInfoDialogState extends State<PlayerInfoDialog> {
     if (_isCreating) {
       _player = Player(
           userName: _usernameTextController.text,
-          profilePicture: _profilePictureUrl);
+          profilePicture: _profilePictureUrl,
+          ownedBy: Provider.of<AuthService>(context, listen: false)
+              .getPlayerIdOfUser());
       await _playerService.addPlayer(_player!);
     } else {
       _player!.userName = _usernameTextController.text;
@@ -75,6 +81,12 @@ class _PlayerInfoDialogState extends State<PlayerInfoDialog> {
       _usernameTextController.text = _player!.userName ?? '';
       _profilePictureTextController.text = _player!.profilePicture;
     }
+  }
+
+  void _copyId() {
+    Clipboard.setData(ClipboardData(text: _player!.id)).then((_) {
+      InfoSnackBar.showSnackBar(context, 'ID copié dans le presse papier !');
+    });
   }
 
   @override
@@ -104,11 +116,35 @@ class _PlayerInfoDialogState extends State<PlayerInfoDialog> {
             borderRadius: BorderRadius.only(
                 topLeft: const Radius.circular(15.0),
                 topRight: const Radius.circular(15.0))),
-        padding: const EdgeInsets.fromLTRB(20, 20, 0, 15),
-        child: Text(
-          _title,
-          overflow: TextOverflow.ellipsis,
-          style: CustomTextStyle.dialogHeaderStyle(context),
+        padding: const EdgeInsets.fromLTRB(20, 20, 20, 15),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: Text(
+                _title,
+                overflow: TextOverflow.ellipsis,
+                style: CustomTextStyle.dialogHeaderStyle(context),
+              ),
+            ),
+            if (_player != null && !_isCreating)
+              Flexible(
+                child: ElevatedButton.icon(
+                  style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.white),
+                      foregroundColor: MaterialStateProperty.all<Color>(
+                          Theme.of(context).primaryColor),
+                      shape: MaterialStateProperty.all<OutlinedBorder>(
+                          RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  CustomProperties.borderRadius)))),
+                  onPressed: () => {_copyId()},
+                  icon: Icon(Icons.copy),
+                  label: Text('Copier l\'ID'),
+                ),
+              )
+          ],
         ),
       ),
       content: ListBody(children: [

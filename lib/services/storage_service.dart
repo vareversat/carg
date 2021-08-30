@@ -1,5 +1,4 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:meta/meta.dart';
 
 class StorageService {
   StorageService({required this.flutterSecureStorage});

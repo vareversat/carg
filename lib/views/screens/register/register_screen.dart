@@ -233,13 +233,15 @@ class _RegisterScreenState extends State<RegisterScreen>
                                   onPressed: () async {
                                     registerData.selectedRegisterMethod =
                                         GoogleRegisterMethod();
-                                    await Provider.of<AuthService>(context, listen: false)
+                                    await Provider.of<AuthService>(
+                                        context, listen: false)
                                         .googleLogIn();
                                     await Navigator.pushReplacement(
                                       context,
                                       CustomRouteFade(
                                         builder: (context) =>
-                                            Provider.of<AuthService>(context, listen: false)
+                                            Provider.of<AuthService>(
+                                                context, listen: false)
                                                 .getCorrectLandingScreen(),
                                       ),
                                     );
@@ -274,11 +276,13 @@ abstract class RegisterMethod {
 }
 
 class PhoneRegisterMethod extends RegisterMethod {
-  PhoneRegisterMethod() : super(RegisterPhoneWidget(credentialVerificationType: CredentialVerificationType.CREATE));
+  PhoneRegisterMethod() : super(RegisterPhoneWidget(
+      credentialVerificationType: CredentialVerificationType.CREATE));
 }
 
 class EmailRegisterMethod extends RegisterMethod {
-  EmailRegisterMethod() : super(RegisterEmailWidget(credentialVerificationType: CredentialVerificationType.CREATE));
+  EmailRegisterMethod() : super(RegisterEmailWidget(
+      credentialVerificationType: CredentialVerificationType.CREATE));
 }
 
 class GoogleRegisterMethod extends RegisterMethod {

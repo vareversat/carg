@@ -30,7 +30,10 @@ class CustomException implements Exception {
     } else if (rawMessage == 'invalid-phone-number') {
       code = 'ERROR_INVALID_PHONE_NUMBER';
       message = 'Erreur : Le numéro de téléphone est invalide';
-    }else if (rawMessage == 'weak-password') {
+    } else if (rawMessage == 'credential-already-in-use') {
+      code = 'ERROR_USED_CREDENTIAL';
+      message = 'Erreur : Le justificatif d\'identité est déjà utilisé';
+    } else if (rawMessage == 'weak-password') {
       code = 'ERROR_WEAK_PASSWORD';
       message = 'Erreur : Le mot de passe doit au moins contenir 6 charactères';
     } else if (rawMessage == 'invalid-action-code') {
@@ -41,8 +44,9 @@ class CustomException implements Exception {
       message = 'Erreur : Le code de vérification est invalide';
     } else if (rawMessage == 'requires-recent-login') {
       code = 'ERROR_REQUIRES_RECENT_LOGIN';
-      message = 'Erreur : Veuillez vous déconnecter et vous reconnecter à l\'application avant de procéder au changement d\'adresse mail';
-    }else {
+      message =
+          'Erreur : Veuillez vous déconnecter et vous reconnecter à l\'application avant de procéder au changement d\'adresse mail';
+    } else {
       code = 'UNKWNOW';
       message = rawMessage;
     }

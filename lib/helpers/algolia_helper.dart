@@ -36,8 +36,25 @@ class AlgoliaHelper {
     };
     final uri = Uri.https(
         '$_appID-dsn.algolia.net', '/1/indexes/player_$flavor', params);
+    print(uri.toString());
 
     final response = await http.get(uri, headers: _header);
+    var body = json.decode(response.body);
+    return body['hits'];
+  }
+
+  Future<List<dynamic>> filter(
+      {required String field, String? value}) async {
+    final params = {
+      'filters': '$field:$value',
+    };
+    print(params);
+    final uri = Uri.https(
+        '$_appID-dsn.algolia.net', '/1/indexes/player_$flavor/browse', params);
+    print(uri.toString());
+
+    final response = await http.get(uri, headers: _header);
+    print(response.body);
     var body = json.decode(response.body);
     return body['hits'];
   }

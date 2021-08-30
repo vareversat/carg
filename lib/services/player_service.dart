@@ -10,13 +10,33 @@ class PlayerService {
   static const String flavor =
       String.fromEnvironment('FLAVOR', defaultValue: 'dev');
 
-  Future<List<Player>> getAllPlayers({String query = ''}) async {
+  Future<List<Player>> searchPlayers(
+      {String query = '', String? playerId}) async {
+    if (query == '') {
+      return getMyPlayers(playerId);
+    }
     var algoliaHelper = await AlgoliaHelper.create();
     try {
       var players = <Player>[];
       var snapshot = await algoliaHelper.search(query);
       for (var doc in snapshot) {
         players.add(Player.fromJSON(doc, doc['objectID']));
+      }
+      return players;
+    } on PlatformException catch (e) {
+      throw CustomException(e.message!);
+    }
+  }
+
+  Future<List<Player>> getMyPlayers(String? playerId) async {
+    try {
+      var players = <Player>[];
+      var querySnapshot = await FirebaseFirestore.instance
+          .collection(dataBase + '-' + flavor)
+          .where('owned_by', whereIn: [playerId, '']).get();
+      for (var doc in querySnapshot.docs) {
+        print(doc);
+        players.add(Player.fromJSON(doc.data(), doc.id));
       }
       return players;
     } on PlatformException catch (e) {
@@ -53,7 +73,7 @@ class PlayerService {
       if (querySnapshot.data() != null) {
         return Player.fromJSON(querySnapshot.data(), querySnapshot.id);
       } else {
-        throw CustomException('unknown_user');
+        throw CustomException('Erreur : Aucun joueur trouvé');
       }
     } on PlatformException catch (e) {
       throw CustomException(e.message!);

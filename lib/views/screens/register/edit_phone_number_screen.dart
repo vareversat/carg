@@ -1,5 +1,4 @@
 import 'package:carg/services/auth_service.dart';
-import 'package:carg/views/screens/register/pin_code_verification_screen.dart';
 import 'package:carg/views/widgets/register/register_phone_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -9,7 +8,8 @@ class EditPhoneNumberScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Center(
-      child: SingleChildScrollView(child: Column(children: <Widget>[
+            child: SingleChildScrollView(
+      child: Column(children: <Widget>[
         SizedBox(height: 30),
         Container(
           height: 150,

@@ -1,5 +1,6 @@
 import 'package:carg/models/game/game_type.dart';
 import 'package:carg/styles/text_style.dart';
+import 'package:carg/views/helpers/info_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
@@ -29,13 +30,7 @@ class RulesScreen extends StatelessWidget {
                   onTapLink: (text, url, title) {
                     Future.delayed(Duration(seconds: 1))
                         .then((value) => launch(url!));
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      margin: EdgeInsets.all(20),
-                      duration: Duration(seconds: 2),
-                      behavior: SnackBarBehavior.floating,
-                      content: Text('Overture de $text...',
-                          style: CustomTextStyle.snackBarTextStyle(context)),
-                    ));
+                    InfoSnackBar.showSnackBar(context, 'Overture de $text...');
                   },
                   data: snapshot.data!,
                   selectable: true,

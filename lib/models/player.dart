@@ -11,6 +11,7 @@ class Player extends CargObject with ChangeNotifier {
   String? firstName;
   String? lastName;
   String? _userName;
+  String? ownedBy;
   late String _gravatarProfilePicture;
   late String _profilePicture;
   late bool _selected;
@@ -67,9 +68,10 @@ class Player extends CargObject with ChangeNotifier {
       gameStatsList,
       this.firstName,
       this.lastName,
+      this.ownedBy,
       userName,
       profilePicture =
-          'https://firebasestorage.googleapis.com/v0/b/carg-d3732.appspot.com/o/blank-profile-picture-png.png?alt=media&token=15801776-b75f-4ad5-bec1-2fe834a99f9a',
+          'https://firebasestorage.googleapis.com/v0/b/carg-d3732.appspot.com/o/carg_logo.png?alt=media&token=861511da-db26-4216-8ee6-29b20c0a6852',
       this.linkedUserId,
       useGravatarProfilePicture,
       gravatarProfilePicture})
@@ -103,7 +105,7 @@ class Player extends CargObject with ChangeNotifier {
     return total;
   }
 
-  factory Player.fromJSON(Map<String?, dynamic>? json, String? id) {
+  factory Player.fromJSON(Map<String?, dynamic>? json, String id) {
     return Player(
       id: id,
       gameStatsList: GameStats.fromJSONList(json?['game_stats']),
@@ -112,6 +114,7 @@ class Player extends CargObject with ChangeNotifier {
       userName: json?['user_name'] ?? '',
       linkedUserId: json?['linked_user_id'] ?? '',
       profilePicture: json?['profile_picture'] ?? '',
+      ownedBy: json?['owned_by'] ?? '',
       useGravatarProfilePicture: json?['use_gravatar_profile_picture'] ?? false,
       gravatarProfilePicture: json?['gravatar_profile_picture'] ?? '',
     );
@@ -127,7 +130,8 @@ class Player extends CargObject with ChangeNotifier {
       'profile_picture': _profilePicture,
       'gravatar_profile_picture': gravatarProfilePicture,
       'use_gravatar_profile_picture': useGravatarProfilePicture,
-      'linked_user_id': linkedUserId
+      'linked_user_id': linkedUserId,
+      'owned_by': ownedBy,
     };
   }
 
@@ -137,6 +141,6 @@ class Player extends CargObject with ChangeNotifier {
 
   @override
   String toString() {
-    return 'Player{gameStatsList: $gameStatsList, linkedUserId: $linkedUserId, firstName: $firstName, lastName: $lastName, _userName: $_userName, _profilePicture: $_profilePicture, _selected: $_selected}';
+    return 'Player{gameStatsList: $gameStatsList, linkedUserId: $linkedUserId, firstName: $firstName, lastName: $lastName, _userName: $_userName, _profilePicture: $_profilePicture, _selected: $_selected, ownedBy: $ownedBy}';
   }
 }

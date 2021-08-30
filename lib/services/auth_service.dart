@@ -227,14 +227,8 @@ class AuthService with ChangeNotifier {
     return _player;
   }
 
-  Future<void> _sendEmailVerification() async {
-    var user = FirebaseAuth.instance.currentUser!;
-    await user.sendEmailVerification();
-  }
-
-  Future<bool> _isEmailVerified() async {
-    var user = FirebaseAuth.instance.currentUser!;
-    return user.emailVerified;
+  void setCurrentPlayer(Player player) {
+    _player = player;
   }
 }
 

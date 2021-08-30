@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:carg/helpers/custom_route.dart';
 import 'package:carg/services/auth_service.dart';
 import 'package:carg/services/custom_exception.dart';
-import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/dialogs/dialogs.dart';
+import 'package:carg/views/helpers/info_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -60,7 +60,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
       await Provider.of<AuthService>(context, listen: false)
           .resendPhoneVerificationCode(widget.phoneNumber, context);
     } on CustomException catch (e) {
-      _snackBar(e.message);
+      InfoSnackBar.showSnackBar(context, e.message);
     }
     Navigator.of(_keyLoaderLoading.currentContext!, rootNavigator: true).pop();
   }
@@ -108,20 +108,8 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
           .pop();
       _errorController!.add(ErrorAnimationType.shake);
       _pinTextController.clear();
-      _snackBar(e.message);
+      InfoSnackBar.showSnackBar(context, e.message);
     }
-  }
-
-  ScaffoldFeatureController _snackBar(String message) {
-    return ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        margin: EdgeInsets.all(20),
-        duration: Duration(seconds: 4),
-        behavior: SnackBarBehavior.floating,
-        content:
-            Text(message, style: CustomTextStyle.snackBarTextStyle(context)),
-      ),
-    );
   }
 
   @override
