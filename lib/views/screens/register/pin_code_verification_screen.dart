@@ -67,7 +67,6 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
 
   void _verifyCode() async {
     Dialogs.showLoadingDialog(context, _keyLoaderLoading, _validating);
-    print(CredentialVerificationType.CREATE);
     try {
       if (widget.credentialVerificationType ==
           CredentialVerificationType.CREATE) {

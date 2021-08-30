@@ -35,7 +35,6 @@ class PlayerService {
           .collection(dataBase + '-' + flavor)
           .where('owned_by', whereIn: [playerId, '']).get();
       for (var doc in querySnapshot.docs) {
-        print(doc);
         players.add(Player.fromJSON(doc.data(), doc.id));
       }
       return players;

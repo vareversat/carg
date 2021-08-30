@@ -448,7 +448,6 @@ class _LinkPlayerWidget extends StatelessWidget {
       var userId = Provider.of<AuthService>(context, listen: false)
           .getConnectedUserId();
       var player = await _playerService.getPlayer(_idTextController.text);
-      print(player);
       if (player.ownedBy == '' || player.linkedUserId != '') {
         throw CustomException('Impossible d\'associer cet utilisateur');
       }
