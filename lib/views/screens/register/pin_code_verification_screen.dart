@@ -1,0 +1,220 @@
+import 'dart:async';
+
+import 'package:carg/helpers/custom_route.dart';
+import 'package:carg/services/auth_service.dart';
+import 'package:carg/services/custom_exception.dart';
+import 'package:carg/views/dialogs/dialogs.dart';
+import 'package:carg/views/helpers/info_snackbar.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:provider/provider.dart';
+
+class PinCodeVerificationScreen extends StatefulWidget {
+  final String phoneNumber;
+  final String verificationId;
+  final CredentialVerificationType credentialVerificationType;
+
+  PinCodeVerificationScreen(
+      {required this.phoneNumber,
+      required this.verificationId,
+      required this.credentialVerificationType});
+
+  @override
+  _PinCodeVerificationScreenState createState() =>
+      _PinCodeVerificationScreenState();
+}
+
+class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
+  final TextEditingController _pinTextController = TextEditingController();
+  final GlobalKey<State> _keyLoaderLoading = GlobalKey<State>();
+  final GlobalKey<State> _keyLoaderSuccess = GlobalKey<State>();
+  final GlobalKey<State> _formKey = GlobalKey<FormState>();
+  StreamController<ErrorAnimationType>? _errorController;
+
+  final _imagePath = 'assets/images/card_game.svg';
+  final _resending = 'Renvoie...';
+  final _resend = 'RENVOYER';
+  final _validating = 'Validation...';
+  final _deleteAll = 'Tout supprimer';
+  final _didYouReceiveTheCode = 'Vous n\'avez pas reçu le code ? ';
+  final _verificationCode = 'Code de vérification';
+  final _pleaseEnterTheCode = 'Veuillez entrer le code envoyé au ';
+  final _validationSuccess = 'Nouveau numéro validé avec succès !';
+
+  @override
+  void initState() {
+    _errorController = StreamController<ErrorAnimationType>();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _errorController!.close();
+    super.dispose();
+  }
+
+  void _resendCode() async {
+    Dialogs.showLoadingDialog(context, _keyLoaderLoading, _resending);
+    try {
+      await Provider.of<AuthService>(context, listen: false)
+          .resendPhoneVerificationCode(widget.phoneNumber, context);
+    } on CustomException catch (e) {
+      InfoSnackBar.showSnackBar(context, e.message);
+    }
+    Navigator.of(_keyLoaderLoading.currentContext!, rootNavigator: true).pop();
+  }
+
+  void _verifyCode() async {
+    Dialogs.showLoadingDialog(context, _keyLoaderLoading, _validating);
+    try {
+      if (widget.credentialVerificationType ==
+          CredentialVerificationType.CREATE) {
+        await Provider.of<AuthService>(context, listen: false)
+            .validatePhoneNumber(
+                _pinTextController.text, widget.verificationId);
+        Navigator.of(_keyLoaderLoading.currentContext!, rootNavigator: true)
+            .pop();
+        await Navigator.pushReplacement(
+          context,
+          CustomRouteFade(
+            builder: (context) =>
+                Provider.of<AuthService>(context, listen: false)
+                    .getCorrectLandingScreen(),
+          ),
+        );
+      } else {
+        await Provider.of<AuthService>(context, listen: false)
+            .changePhoneNumber(_pinTextController.text, widget.verificationId);
+        Navigator.of(_keyLoaderLoading.currentContext!, rootNavigator: true)
+            .pop();
+        Dialogs.showMessageDialog(
+            context, _keyLoaderSuccess, _validationSuccess);
+        await Future.delayed(Duration(seconds: 2));
+        Navigator.of(_keyLoaderSuccess.currentContext!, rootNavigator: true)
+            .pop();
+        await Navigator.pushReplacement(
+          context,
+          CustomRouteFade(
+            builder: (context) =>
+                Provider.of<AuthService>(context, listen: false)
+                    .getCorrectLandingScreen(),
+          ),
+        );
+      }
+    } on CustomException catch (e) {
+      Navigator.of(_keyLoaderLoading.currentContext!, rootNavigator: true)
+          .pop();
+      _errorController!.add(ErrorAnimationType.shake);
+      _pinTextController.clear();
+      InfoSnackBar.showSnackBar(context, e.message);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        body: Center(
+      child: ListView(children: <Widget>[
+        SizedBox(height: 30),
+        Container(
+          height: 150,
+          child: SvgPicture.asset(
+            _imagePath,
+          ),
+        ),
+        SizedBox(height: 50),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            _verificationCode,
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+            textAlign: TextAlign.center,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
+          child: RichText(
+            text: TextSpan(
+                text: _pleaseEnterTheCode,
+                children: [
+                  TextSpan(
+                      text: '${widget.phoneNumber}',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15)),
+                ],
+                style: TextStyle(color: Colors.black54, fontSize: 15)),
+            textAlign: TextAlign.center,
+          ),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        Form(
+          key: _formKey,
+          child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 30),
+              child: PinCodeTextField(
+                appContext: context,
+                pastedTextStyle: TextStyle(
+                  color: Theme.of(context).primaryColor,
+                  fontWeight: FontWeight.bold,
+                ),
+                length: 6,
+                obscuringCharacter: '•',
+                blinkWhenObscuring: false,
+                animationType: AnimationType.none,
+                pinTheme: PinTheme(
+                    shape: PinCodeFieldShape.box,
+                    borderRadius: BorderRadius.circular(5),
+                    fieldHeight: 50,
+                    fieldWidth: 40,
+                    selectedColor: Theme.of(context).primaryColor,
+                    selectedFillColor: Theme.of(context).primaryColor,
+                    activeColor: Theme.of(context).primaryColor,
+                    inactiveColor: Theme.of(context).accentColor,
+                    inactiveFillColor: Theme.of(context).accentColor,
+                    activeFillColor: Colors.white),
+                cursorColor: Colors.white,
+                errorAnimationDuration: 25,
+                errorAnimationController: _errorController,
+                controller: _pinTextController,
+                keyboardType: TextInputType.number,
+                onCompleted: (value) {
+                  _verifyCode();
+                },
+                onChanged: (value) {},
+                beforeTextPaste: null,
+              )),
+        ),
+        TextButton(
+          onPressed: () {
+            _pinTextController.clear();
+          },
+          child: Text(_deleteAll),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              _didYouReceiveTheCode,
+              style: TextStyle(color: Colors.black54, fontSize: 15),
+            ),
+            TextButton(
+                onPressed: () => _resendCode(),
+                child: Text(
+                  _resend,
+                  style: TextStyle(
+                      color: Theme.of(context).primaryColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16),
+                ))
+          ],
+        )
+      ]),
+    ));
+  }
+}

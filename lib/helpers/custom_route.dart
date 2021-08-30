@@ -21,8 +21,8 @@ class CustomRouteOpenFromBottom<T> extends MaterialPageRoute<T> {
   }
 }
 
-class CustomRouteLeftAndRight<T> extends MaterialPageRoute<T> {
-  CustomRouteLeftAndRight(
+class CustomRouteLeftToRight<T> extends MaterialPageRoute<T> {
+  CustomRouteLeftToRight(
       {required WidgetBuilder builder, RouteSettings? settings})
       : super(builder: builder, settings: settings);
 

@@ -1,4 +1,5 @@
 import 'package:carg/models/player.dart';
+import 'package:carg/services/auth_service.dart';
 import 'package:carg/services/player_service.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/styles/text_style.dart';
@@ -79,7 +80,8 @@ class _PlayerListScreenState extends State<PlayerListScreen> {
         body: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 15),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 15),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -89,8 +91,8 @@ class _PlayerListScreenState extends State<PlayerListScreen> {
                         onFieldSubmitted: (term) => _searchPlayer(),
                         controller: _searchTextController,
                         textInputAction: TextInputAction.search,
-                        style:
-                            TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontSize: 25, fontWeight: FontWeight.bold),
                         decoration: InputDecoration(
                           enabledBorder: InputBorder.none,
                           labelText: 'Rechercher...',
@@ -108,8 +110,8 @@ class _PlayerListScreenState extends State<PlayerListScreen> {
                   ),
                   Container(
                     width: 35,
-                    child: SvgPicture.asset(
-                        'assets/images/search_by_algolia.svg'),
+                    child:
+                        SvgPicture.asset('assets/images/search_by_algolia.svg'),
                   ),
                 ],
               ),
@@ -147,8 +149,13 @@ class _PlayerListScreenState extends State<PlayerListScreen> {
                         );
                       });
                 },
-                future:
-                    _playerService.getAllPlayers(query: searchQuery).catchError(
+                future: _playerService
+                    .searchPlayers(
+                        query: searchQuery,
+                        playerId:
+                            Provider.of<AuthService>(context, listen: false)
+                                .getPlayerIdOfUser())
+                    .catchError(
                         // ignore: return_of_invalid_type_from_catch_error
                         (error) => {_errorMessage = error.toString()}),
               ),

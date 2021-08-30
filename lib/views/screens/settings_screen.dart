@@ -1,10 +1,12 @@
+import 'package:carg/helpers/custom_route.dart';
 import 'package:carg/models/player.dart';
 import 'package:carg/services/auth_service.dart';
 import 'package:carg/services/player_service.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/dialogs/carg_about_dialog.dart';
-import 'package:carg/views/dialogs/credentials_dialog.dart';
-import 'package:carg/views/dialogs/warning_dialog.dart';
+import 'package:carg/views/helpers/info_snackbar.dart';
+import 'package:carg/views/screens/register/edit_email_screen.dart';
+import 'package:carg/views/screens/register/edit_phone_number_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -21,88 +23,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
   final Player _player;
   final PlayerService _playerService = PlayerService();
 
+  _SettingsScreenState(this._player);
+
   Future _savePlayer() async {
     await _playerService.updatePlayer(_player);
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      margin: EdgeInsets.all(20),
-      duration: Duration(seconds: 2),
-      behavior: SnackBarBehavior.floating,
-      content: Text('Profil modifié avec succès',
-          style: CustomTextStyle.snackBarTextStyle(context)),
-    ));
+    InfoSnackBar.showSnackBar(context, 'Profil modifié avec succès');
   }
 
   Future<void> _signOut() async {
     try {
-      if (await Provider.of<AuthService>(context, listen: false)
-          .isLocalLogin()) {
-        await showDialog(
-            context: context,
-            builder: (BuildContext context) => WarningDialog(
-                message:
-                    'Vous utilisez actuellement un compte local. Si vous vous '
-                    'déconnecter, vous ne pourrez pas récupérer l\'utilisateur actuel',
-                title: 'Attention',
-                onConfirm: () async => {
-                      await Provider.of<AuthService>(context, listen: false)
-                          .signOut(),
-                      await Navigator.of(context).pushReplacementNamed('/login')
-                    },
-                color: Theme.of(context).errorColor,
-                onConfirmButtonMessage:
-                    MaterialLocalizations.of(context).okButtonLabel));
-      } else {
-        await Navigator.of(context).pushReplacementNamed('/login');
-        await Provider.of<AuthService>(context, listen: false).signOut();
-      }
+      await Provider.of<AuthService>(context, listen: false).signOut(context);
       // ignore: empty_catches
     } catch (e) {}
   }
-
-  Future<void> _showCreateCredentials() async {
-    var message = await showDialog(
-        context: context,
-        builder: (BuildContext context) =>
-            CredentialsDialog(credentialsStatus: CredentialsStatus.CREATING));
-    if (message != null) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        margin: EdgeInsets.all(20),
-        behavior: SnackBarBehavior.floating,
-        content:
-            Text(message, style: CustomTextStyle.snackBarTextStyle(context)),
-      ));
-    }
-  }
-
-  Future<void> _showUpdateCredentials() async {
-    var message = await showDialog(
-        context: context,
-        builder: (BuildContext context) =>
-            CredentialsDialog(credentialsStatus: CredentialsStatus.EDITING));
-    if (message != null) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        margin: EdgeInsets.all(20),
-        behavior: SnackBarBehavior.floating,
-        content:
-            Text(message, style: CustomTextStyle.snackBarTextStyle(context)),
-      ));
-    }
-  }
-
-  Future<void> _resetPassword() async {
-    await showDialog(
-        context: context,
-        builder: (BuildContext context) => WarningDialog(
-            message:
-                'Un email vous permettant de réinitialiser votre mot de passe va vous être envoyé',
-            title: 'Information',
-            onConfirm: () async =>
-                await Provider.of<AuthService>(context, listen: false)
-                    .resetPassword(null),
-            color: Theme.of(context).accentColor));
-  }
-
-  _SettingsScreenState(this._player);
 
   @override
   Widget build(BuildContext context) {
@@ -197,33 +130,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                     },
                                   ),
                                 ),
-                                FutureBuilder<bool>(
-                                    future: Provider.of<AuthService>(context,
-                                            listen: false)
-                                        .isLocalLogin(),
-                                    builder: (context, result) {
-                                      if (result.data == false) {
-                                        return SwitchListTile(
-                                          title: Text('Utiliser mon Gravatar',
-                                              style: TextStyle(fontSize: 20)),
-                                          onChanged: (bool value) async {
-                                            playerData.gravatarProfilePicture =
-                                                Provider.of<AuthService>(
-                                                        context,
-                                                        listen: false)
-                                                    .getConnectedUserEmail();
-                                            playerData
-                                                    .useGravatarProfilePicture =
-                                                value;
-                                            await _savePlayer();
-                                          },
-                                          value: playerData
-                                              .useGravatarProfilePicture,
-                                        );
-                                      } else {
-                                        return Container();
-                                      }
-                                    })
+                                SwitchListTile(
+                                  title: Text('Utiliser mon Gravatar',
+                                      style: TextStyle(fontSize: 20)),
+                                  onChanged: (bool value) async {
+                                    playerData.gravatarProfilePicture =
+                                        Provider.of<AuthService>(context,
+                                                listen: false)
+                                            .getConnectedUserEmail();
+                                    playerData.useGravatarProfilePicture =
+                                        value;
+                                    await _savePlayer();
+                                  },
+                                  value: playerData.useGravatarProfilePicture,
+                                )
                               ],
                             ),
                           ))),
@@ -234,52 +154,46 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           color: Theme.of(context).primaryColor,
                           fontWeight: FontWeight.bold,
                           fontSize: 30))),
-              FutureBuilder<bool>(
-                  future: Provider.of<AuthService>(context, listen: false)
-                      .isLocalLogin(),
-                  builder: (context, result) {
-                    if (result.data == false) {
-                      return Column(
-                        children: [
-                          ListTile(
-                              subtitle: Text(
-                                  Provider.of<AuthService>(context,
-                                              listen: false)
-                                          .getConnectedUserEmail() ??
-                                      'no_email',
-                                  style: TextStyle(fontSize: 15)),
-                              selected: true,
-                              leading: Icon(
-                                Icons.alternate_email_rounded,
-                                size: 30,
-                              ),
-                              onTap: () async => await _showUpdateCredentials(),
-                              title: Text('Changer mon adresse mail',
-                                  style: TextStyle(fontSize: 20))),
-                          ListTile(
-                              subtitle: Text('•••••••'),
-                              selected: true,
-                              leading: Icon(
-                                Icons.lock,
-                                size: 30,
-                              ),
-                              onTap: () async => await _resetPassword(),
-                              title: Text('Changer mon mot de passe',
-                                  style: TextStyle(fontSize: 20))),
-                        ],
-                      );
-                    } else {
-                      return ListTile(
-                          selected: true,
-                          leading: Icon(
-                            Icons.alternate_email_rounded,
-                            size: 30,
-                          ),
-                          onTap: () async => await _showCreateCredentials(),
-                          title: Text('Créer un comptes',
-                              style: TextStyle(fontSize: 20)));
-                    }
-                  }),
+              Column(
+                children: [
+                  ListTile(
+                      subtitle: Text(
+                          Provider.of<AuthService>(context, listen: false)
+                                  .getConnectedUserEmail() ??
+                              'Pas d\'email renseigné',
+                          style: TextStyle(
+                              fontSize: 15, fontStyle: FontStyle.italic)),
+                      selected: true,
+                      leading: Icon(
+                        Icons.mail_outline,
+                        size: 30,
+                      ),
+                      onTap: () => Navigator.push(
+                          context,
+                          CustomRouteLeftToRight(
+                              builder: (context) => EditEmailScreen())),
+                      title: Text('Changer mon adresse e-mail',
+                          style: TextStyle(fontSize: 20))),
+                  ListTile(
+                      subtitle: Text(
+                          Provider.of<AuthService>(context, listen: false)
+                                  .getConnectedUserPhoneNumber() ??
+                              'Pas de numéro renseigné',
+                          style: TextStyle(
+                              fontSize: 15, fontStyle: FontStyle.italic)),
+                      selected: true,
+                      leading: Icon(
+                        Icons.phone,
+                        size: 30,
+                      ),
+                      onTap: () => Navigator.push(
+                          context,
+                          CustomRouteLeftToRight(
+                              builder: (context) => EditPhoneNumberScreen())),
+                      title: Text('Changer mon numéro de téléphone',
+                          style: TextStyle(fontSize: 20))),
+                ],
+              ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Center(

@@ -10,8 +10,8 @@ import 'package:carg/views/screens/player_picker_screen.dart';
 import 'package:flutter/material.dart';
 
 class GameModePickerScreen extends StatelessWidget {
-  final String _appBarTitle = 'Nouvelle partie';
-  final String _title = 'Sélection du jeu';
+  final _appBarTitle = 'Nouvelle partie';
+  final _title = 'Sélection du jeu';
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +71,7 @@ class _GameModeButton extends StatelessWidget {
       onTap: () => {
         Navigator.push(
             context,
-            CustomRouteLeftAndRight(
+            CustomRouteLeftToRight(
                 builder: (context) =>
                     PlayerPickerScreen(game: game, title: game!.gameType.name)))
       },

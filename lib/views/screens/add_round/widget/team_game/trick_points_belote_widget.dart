@@ -136,7 +136,11 @@ class _BeloteRebeloteDixDeDerWidget extends StatelessWidget {
                 visualDensity: VisualDensity.compact,
                 value: round!.beloteRebelote == team,
                 onChanged: (bool? value) {
-                  round!.beloteRebelote = team;
+                  if (value!) {
+                    round!.beloteRebelote = team;
+                  } else {
+                    round!.beloteRebelote = null;
+                  }
                 })
           ]),
       Row(

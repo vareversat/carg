@@ -98,7 +98,7 @@ class _PlayerPickerScreenState extends State<PlayerPickerScreen> {
                                               .onSelectedPlayer(playerData))));
                         });
                   },
-                  future: _playerService.getAllPlayers(),
+                  future: _playerService.searchPlayers(),
                 ),
               ),
               Padding(
@@ -133,7 +133,7 @@ class _PlayerPickerScreenState extends State<PlayerPickerScreen> {
                                           game!.players!.reset(),
                                           Navigator.push(
                                               context,
-                                              CustomRouteLeftAndRight(
+                                              CustomRouteLeftToRight(
                                                 builder: (context) =>
                                                     PlayerOrderScreen(
                                                         playerList: newPlayers!,
