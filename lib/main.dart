@@ -1,6 +1,6 @@
 import 'package:carg/services/auth_service.dart';
 import 'package:carg/views/screens/home_screen.dart';
-import 'package:carg/views/screens/login_screen.dart';
+import 'package:carg/views/screens/register/register_screen.dart';
 import 'package:carg/views/screens/splash_screen.dart';
 import 'package:carg/views/screens/user_screen.dart';
 import 'package:flutter/material.dart';
@@ -65,8 +65,8 @@ class _CargState extends State<Carg> {
               const Locale('en', 'US')
             ],
             routes: {
-              LoginScreen.routeName: (context) => LoginScreen(),
               UserScreen.routeName: (context) => UserScreen(),
+              RegisterScreen.routeName: (context) => RegisterScreen(),
               HomeScreen.routeName: (context) => HomeScreen(
                   requestedIndex:
                       ModalRoute.of(context)!.settings.arguments as int? ?? 0)
@@ -88,10 +88,12 @@ class _CargState extends State<Carg> {
                     return SplashScreen();
                   }
                   if (authResult.connectionState == ConnectionState.done) {
-                    if (authResult.data!) {
-                      return HomeScreen(requestedIndex: 0);
-                    } else {
-                      return LoginScreen();
+                    if (authResult.data == null || !authResult.data!) {
+                      // User is not logged
+                      return RegisterScreen();
+                    } else if (authResult.data != null && authResult.data!) {
+                      // User is already logged
+                      return Provider.of<AuthService>(context, listen: false).getCorrectLandingScreen();
                     }
                   }
                   return Container();

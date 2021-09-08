@@ -10,11 +10,13 @@ class PlayerService {
   static const String flavor =
       String.fromEnvironment('FLAVOR', defaultValue: 'dev');
 
-  Future<List<Player>> getAllPlayers({String query = ''}) async {
+  Future<List<Player>> searchPlayers(
+      {String query = '', String? playerId}) async {
     var algoliaHelper = await AlgoliaHelper.create();
     try {
       var players = <Player>[];
-      var snapshot = await algoliaHelper.search(query);
+      var snapshot = await algoliaHelper.filter(
+          filters: 'owned_by:$playerId OR owned:false', query: query);
       for (var doc in snapshot) {
         players.add(Player.fromJSON(doc, doc['objectID']));
       }
@@ -53,7 +55,7 @@ class PlayerService {
       if (querySnapshot.data() != null) {
         return Player.fromJSON(querySnapshot.data(), querySnapshot.id);
       } else {
-        throw CustomException('unknown_user');
+        throw CustomException('Erreur : Aucun joueur trouvé');
       }
     } on PlatformException catch (e) {
       throw CustomException(e.message!);
@@ -89,6 +91,9 @@ class PlayerService {
 
   Future<String> addPlayer(Player player) async {
     try {
+      if (player.userName == '' || player.userName == null) {
+        throw CustomException('Veuillez renseigner un nom d\'utilisateur');
+      }
       var documentReference = await FirebaseFirestore.instance
           .collection(dataBase + '-' + flavor)
           .add(player.toJSON());
