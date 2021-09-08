@@ -12,30 +12,13 @@ class PlayerService {
 
   Future<List<Player>> searchPlayers(
       {String query = '', String? playerId}) async {
-    if (query == '') {
-      return getMyPlayers(playerId);
-    }
     var algoliaHelper = await AlgoliaHelper.create();
     try {
       var players = <Player>[];
-      var snapshot = await algoliaHelper.search(query);
+      var snapshot = await algoliaHelper.filter(
+          filters: 'owned_by:$playerId OR owned:false', query: query);
       for (var doc in snapshot) {
         players.add(Player.fromJSON(doc, doc['objectID']));
-      }
-      return players;
-    } on PlatformException catch (e) {
-      throw CustomException(e.message!);
-    }
-  }
-
-  Future<List<Player>> getMyPlayers(String? playerId) async {
-    try {
-      var players = <Player>[];
-      var querySnapshot = await FirebaseFirestore.instance
-          .collection(dataBase + '-' + flavor)
-          .where('owned_by', whereIn: [playerId, '']).get();
-      for (var doc in querySnapshot.docs) {
-        players.add(Player.fromJSON(doc.data(), doc.id));
       }
       return players;
     } on PlatformException catch (e) {

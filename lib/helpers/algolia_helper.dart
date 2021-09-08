@@ -35,7 +35,7 @@ class AlgoliaHelper {
       'query': query,
     };
     final uri = Uri.https(
-        '$_appID-dsn.algolia.net', '/1/indexes/player_$flavor', params);
+        '$_appID-dsn.algolia.net', '/1/indexes/player-$flavor', params);
 
     final response = await http.get(uri, headers: _header);
     var body = json.decode(response.body);
@@ -43,12 +43,13 @@ class AlgoliaHelper {
   }
 
   Future<List<dynamic>> filter(
-      {required String field, String? value}) async {
+      {required String filters, required String query}) async {
     final params = {
-      'filters': '$field:$value',
+      'query': '$query',
+      'filters': '$filters',
     };
     final uri = Uri.https(
-        '$_appID-dsn.algolia.net', '/1/indexes/player_$flavor/browse', params);
+        '$_appID-dsn.algolia.net', '/1/indexes/player-$flavor/browse', params);
 
     final response = await http.get(uri, headers: _header);
     var body = json.decode(response.body);

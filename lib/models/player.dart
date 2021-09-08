@@ -13,6 +13,7 @@ class Player extends CargObject with ChangeNotifier {
   String? _userName;
   String? ownedBy;
   String? _gravatarProfilePicture;
+  late bool owned;
   late String _profilePicture;
   late bool _selected;
   late bool _useGravatarProfilePicture;
@@ -75,7 +76,8 @@ class Player extends CargObject with ChangeNotifier {
       profilePicture,
       this.linkedUserId,
       useGravatarProfilePicture,
-      gravatarProfilePicture})
+      gravatarProfilePicture,
+      bool? owned})
       : super(id: id) {
     this.gameStatsList = gameStatsList ?? [];
     _profilePicture = profilePicture ?? _defaultProfilePicture;
@@ -83,6 +85,7 @@ class Player extends CargObject with ChangeNotifier {
     _selected = false;
     _useGravatarProfilePicture = useGravatarProfilePicture ?? false;
     _gravatarProfilePicture = gravatarProfilePicture ?? '';
+    this.owned = ownedBy == null ? false : true;
   }
 
   double totalWinPercentage() {
@@ -118,6 +121,7 @@ class Player extends CargObject with ChangeNotifier {
       ownedBy: json?['owned_by'] ?? '',
       useGravatarProfilePicture: json?['use_gravatar_profile_picture'] ?? false,
       gravatarProfilePicture: json?['gravatar_profile_picture'] ?? '',
+      owned: json?['owned'] ?? true,
     );
   }
 
@@ -133,6 +137,7 @@ class Player extends CargObject with ChangeNotifier {
       'use_gravatar_profile_picture': useGravatarProfilePicture,
       'linked_user_id': linkedUserId,
       'owned_by': ownedBy,
+      'owned': owned
     };
   }
 
