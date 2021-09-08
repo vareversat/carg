@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class CustomRouteOpenFromBottom<T> extends MaterialPageRoute<T> {
-  CustomRouteOpenFromBottom(
+class CustomRouteBottomToTop<T> extends MaterialPageRoute<T> {
+  CustomRouteBottomToTop(
       {required WidgetBuilder builder, RouteSettings? settings})
       : super(builder: builder, settings: settings);
 
