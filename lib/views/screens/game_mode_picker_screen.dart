@@ -5,6 +5,7 @@ import 'package:carg/models/game/french_belote.dart';
 import 'package:carg/models/game/game.dart';
 import 'package:carg/models/game/game_type.dart';
 import 'package:carg/models/game/tarot.dart';
+import 'package:carg/styles/properties.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/screens/player_picker_screen.dart';
 import 'package:flutter/material.dart';
@@ -71,28 +72,28 @@ class _GameModeButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => {
-        Navigator.push(
-            context,
-            CustomRouteLeftToRight(
-                builder: (context) =>
-                    PlayerPickerScreen(game: game, title: game!.gameType.name)))
-      },
-      child: Card(
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(18.0),
-            side: BorderSide(width: 2, color: Theme.of(context).primaryColor)),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-                padding: const EdgeInsets.all(8.0),
-                child:
-                    Text(game!.gameType.name, style: TextStyle(fontSize: 20))),
-          ],
-        ),
-      ),
-    );
+    return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: SizedBox(
+          width: double.infinity,
+          height: 55,
+          child: ElevatedButton(
+            style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(
+                    Theme.of(context).primaryColor),
+                foregroundColor: MaterialStateProperty.all<Color>(
+                    Theme.of(context).cardColor),
+                shape: MaterialStateProperty.all<OutlinedBorder>(
+                    RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                            CustomProperties.borderRadius)))),
+            onPressed: () => {
+              Navigator.of(context).push(CustomRouteLeftToRight(
+                  builder: (context) => PlayerPickerScreen(
+                      game: game, title: game!.gameType.name)))
+            },
+            child: Text(game!.gameType.name, style: TextStyle(fontSize: 25)),
+          ),
+        ));
   }
 }
