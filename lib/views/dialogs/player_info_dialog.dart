@@ -85,7 +85,7 @@ class _PlayerInfoDialogState extends State<PlayerInfoDialog> {
 
   void _copyId() {
     Clipboard.setData(ClipboardData(text: _player!.id)).then((_) {
-      InfoSnackBar.showSnackBar(context, 'ID copié dans le presse papier !');
+      InfoSnackBar.showSnackBar(context, 'ID copié dans le presse papier');
     });
   }
 
@@ -141,7 +141,7 @@ class _PlayerInfoDialogState extends State<PlayerInfoDialog> {
                                   CustomProperties.borderRadius)))),
                   onPressed: () => {_copyId()},
                   icon: Icon(Icons.copy),
-                  label: Text('Copier l\'ID'),
+                  label: Text("Copier l'ID"),
                 ),
               )
           ],
@@ -174,10 +174,12 @@ class _PlayerInfoDialogState extends State<PlayerInfoDialog> {
                     style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                     maxLines: null,
                     decoration: InputDecoration(
+                        disabledBorder: InputBorder.none,
+                        enabledBorder: InputBorder.none,
                         hintStyle: TextStyle(
                             fontSize: 25, color: Theme.of(context).hintColor),
                         labelText: _isCreating || _isEditing
-                            ? 'Nom d\'utilisateur'
+                            ? "Nom d'utilisateur"
                             : null)),
               ),
             ),
@@ -192,6 +194,7 @@ class _PlayerInfoDialogState extends State<PlayerInfoDialog> {
                 style: TextStyle(fontSize: 20),
                 maxLines: null,
                 decoration: InputDecoration(
+                    enabledBorder: InputBorder.none,
                     hintStyle: TextStyle(
                         fontSize: 15, color: Theme.of(context).hintColor),
                     labelText: 'Image de profile (url)')),
