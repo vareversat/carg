@@ -22,6 +22,8 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   final Player _player;
   final PlayerService _playerService = PlayerService();
+  final TextEditingController _profilePictureController =
+      TextEditingController();
 
   _SettingsScreenState(this._player);
 
@@ -38,9 +40,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   @override
+  void initState() {
+    _profilePictureController.text = _player.profilePicture;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+            icon: Icon(Icons.close),
+            onPressed: () => Navigator.of(context).pop()),
         title:
             Text('Paramètres', style: CustomTextStyle.screenHeadLine1(context)),
       ),
@@ -99,9 +111,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                                 playerData.profilePicture)),
                                       )),
                                   title: TextFormField(
+                                    controller: _profilePictureController,
                                     enabled:
                                         !playerData.useGravatarProfilePicture,
-                                    initialValue: playerData.profilePicture,
                                     autofillHints:
                                         !playerData.useGravatarProfilePicture
                                             ? [AutofillHints.url]
@@ -112,9 +124,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                         color: !playerData
                                                 .useGravatarProfilePicture
                                             ? Theme.of(context)
-                                                .textTheme
-                                                .bodyText2!
-                                                .color
+                                            .textTheme
+                                            .bodyText2!
+                                            .color
                                             : Colors.grey),
                                     onChanged: (value) {
                                       playerData.profilePicture = value;
@@ -140,6 +152,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                             .getConnectedUserEmail();
                                     playerData.useGravatarProfilePicture =
                                         value;
+                                    _profilePictureController.text =
+                                        playerData.profilePicture;
                                     await _savePlayer();
                                   },
                                   value: playerData.useGravatarProfilePicture,
