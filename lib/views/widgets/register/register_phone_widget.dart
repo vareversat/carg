@@ -284,7 +284,7 @@ class PhoneRegistrationData with ChangeNotifier {
   set phoneNumber(String? value) {
     _phoneNumber = FlutterLibphonenumber().formatNumberSync(value!,
         country: country!,
-        removeCountryCodeFromResult: true,
+        removeCountryCodeFromResult: false,
         phoneNumberFormat: PhoneNumberFormat.national);
     notifyListeners();
   }
