@@ -31,81 +31,81 @@ class PlayerWidget extends StatelessWidget {
                 : BorderSide(width: 0, color: Colors.white)),
         child: Container(
           height: 50,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                player.profilePicture != ''
-                    ? Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Container(
-                          width: 40,
-                          height: 40,
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                width: 2,
-                                color: Theme.of(context).primaryColor,
-                              ),
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                  fit: BoxFit.fill,
-                                  image: NetworkImage(player.profilePicture,
-                                      scale: 1)))),
-                    )
-                    : Container(),
-                Container(
-                  width: 220,
-                  child: Text(
-                    player.userName!,
-                    textAlign: TextAlign.left,
-                    overflow: TextOverflow.ellipsis,
-                    style:
-                        TextStyle(fontSize: 22),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Container(
-                    width: 60,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Row(
-                          children: <Widget>[
-                            Icon(FontAwesomeIcons.trophy, size: 12),
-                            Text(
-                              '  ' + player.totalWonGames().toString(),
-                              style: TextStyle(fontSize: 15),
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            player.profilePicture != ''
+                ? Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Container(
+                        width: 40,
+                        height: 40,
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                              width: 2,
+                              color: Theme.of(context).primaryColor,
                             ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Icon(FontAwesomeIcons.gamepad, size: 12),
-                            Text(
-                                '  ' + player.totalPlayedGames().toString(),
-                              style: TextStyle(fontSize: 15),
-                            ),
-                          ],
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                                fit: BoxFit.fill,
+                                image: NetworkImage(player.profilePicture,
+                                    scale: 1)))),
+                  )
+                : Container(),
+            Container(
+              width: 210,
+              child: Text(
+                player.userName!,
+                textAlign: TextAlign.left,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(fontSize: 22),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Container(
+                width: 60,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Row(
+                      children: <Widget>[
+                        Icon(FontAwesomeIcons.trophy, size: 12),
+                        Text(
+                          '  ' + player.totalWonGames().toString(),
+                          style: TextStyle(fontSize: 15),
                         ),
                       ],
                     ),
-                  ),
-                ),
-                Container(
-                  width: 10,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(10),
-                      bottomRight: Radius.circular(10),
+                    SizedBox(
+                      height: 5,
                     ),
-                    color: player.ownedBy == '' ? Theme.of(context).primaryColor: Theme.of(context).cardColor,
-                  ),
-                )
-              ]),
+                    Row(
+                      children: <Widget>[
+                        Icon(FontAwesomeIcons.gamepad, size: 12),
+                        Text(
+                          '  ' + player.totalPlayedGames().toString(),
+                          style: TextStyle(fontSize: 15),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Container(
+              width: 10,
+              height: 50,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(10),
+                  bottomRight: Radius.circular(10),
+                ),
+                color: player.ownedBy == ''
+                    ? Theme.of(context).primaryColor
+                    : Theme.of(context).cardColor,
+              ),
+            )
+          ]),
         ),
       ),
     );
