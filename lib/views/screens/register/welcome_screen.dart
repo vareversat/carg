@@ -453,6 +453,7 @@ class _LinkPlayerWidget extends StatelessWidget {
       }
       player.linkedUserId = userId;
       player.ownedBy = '';
+      player.owned = false;
       await _playerService.updatePlayer(player);
       Provider.of<AuthService>(context, listen: false)
           .setCurrentPlayer(player);
