@@ -12,12 +12,14 @@ class Player extends CargObject with ChangeNotifier {
   String? lastName;
   String? _userName;
   String? ownedBy;
-  late String _gravatarProfilePicture;
+  String? _gravatarProfilePicture;
   late String _profilePicture;
   late bool _selected;
   late bool _useGravatarProfilePicture;
+  final String _defaultProfilePicture =
+      'https://firebasestorage.googleapis.com/v0/b/carg-d3732.appspot.com/o/carg_logo.png?alt=media&token=861511da-db26-4216-8ee6-29b20c0a6852';
 
-  String get gravatarProfilePicture => _gravatarProfilePicture;
+  String? get gravatarProfilePicture => _gravatarProfilePicture;
 
   set gravatarProfilePicture(String? value) {
     var emailHash;
@@ -54,7 +56,7 @@ class Player extends CargObject with ChangeNotifier {
     if (!useGravatarProfilePicture) {
       return _profilePicture;
     } else {
-      return _gravatarProfilePicture;
+      return _gravatarProfilePicture!;
     }
   }
 
@@ -70,14 +72,13 @@ class Player extends CargObject with ChangeNotifier {
       this.lastName,
       this.ownedBy,
       userName,
-      profilePicture =
-          'https://firebasestorage.googleapis.com/v0/b/carg-d3732.appspot.com/o/carg_logo.png?alt=media&token=861511da-db26-4216-8ee6-29b20c0a6852',
+      profilePicture,
       this.linkedUserId,
       useGravatarProfilePicture,
       gravatarProfilePicture})
       : super(id: id) {
     this.gameStatsList = gameStatsList ?? [];
-    _profilePicture = profilePicture;
+    _profilePicture = profilePicture ?? _defaultProfilePicture;
     _userName = userName;
     _selected = false;
     _useGravatarProfilePicture = useGravatarProfilePicture ?? false;
