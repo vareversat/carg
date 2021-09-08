@@ -1,4 +1,5 @@
 import 'package:carg/models/player.dart';
+import 'package:carg/styles/properties.dart';
 import 'package:carg/views/dialogs/player_info_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -19,22 +20,35 @@ class PlayerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkResponse(
-      onTap: () => onTap == null ? _showEditPlayerDialog(context) : onTap!(),
-      child: Card(
-        elevation: player.selected ? 1 : 6,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
-            side: player.selected
-                ? BorderSide(width: 2, color: Theme.of(context).primaryColor)
-                : BorderSide(width: 0, color: Colors.white)),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: ElevatedButton(
+        onPressed: () =>
+            onTap == null ? _showEditPlayerDialog(context) : onTap!(),
+        style: ButtonStyle(
+            elevation: player.selected
+                ? MaterialStateProperty.all<double>(1)
+                : MaterialStateProperty.all<double>(5),
+            backgroundColor:
+                MaterialStateProperty.all<Color>(Theme.of(context).cardColor),
+            foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
+            shape: MaterialStateProperty.all<OutlinedBorder>(
+                RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.circular(CustomProperties.borderRadius),
+                    side: player.selected
+                        ? BorderSide(
+                            width: 2, color: Theme.of(context).primaryColor)
+                        : BorderSide.none)),
+            padding: MaterialStateProperty.all<EdgeInsetsGeometry?>(
+                EdgeInsets.only(right: 0, left: 15))),
         child: Container(
           height: 60,
           child:
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             player.profilePicture != ''
                 ? Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    padding: const EdgeInsets.only(right: 8.0),
                     child: Container(
                         width: 40,
                         height: 40,
@@ -51,7 +65,7 @@ class PlayerWidget extends StatelessWidget {
                   )
                 : Container(),
             Container(
-              width: 210,
+              width: 220,
               child: Text(
                 player.userName!,
                 textAlign: TextAlign.left,
@@ -60,7 +74,6 @@ class PlayerWidget extends StatelessWidget {
               ),
             ),
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 0.0),
               width: 60,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -73,25 +86,24 @@ class PlayerWidget extends StatelessWidget {
                         style: TextStyle(fontSize: 16),
                       ),
                     ],
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      children: <Widget>[
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Row(
+                    children: <Widget>[
                       Icon(FontAwesomeIcons.gamepad, size: 13),
                       Text(
                         '  ' + player.totalPlayedGames().toString(),
                         style: TextStyle(fontSize: 16),
                       ),
                     ],
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
+            ),
             Container(
               width: 10,
-              height: 60,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
                   topRight: Radius.circular(10),
