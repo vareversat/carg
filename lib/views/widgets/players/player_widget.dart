@@ -19,18 +19,17 @@ class PlayerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return InkResponse(
       onTap: () => onTap == null ? _showEditPlayerDialog(context) : onTap!(),
       child: Card(
-        margin: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-        elevation: 2,
+        elevation: player.selected ? 1 : 6,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.0),
             side: player.selected
                 ? BorderSide(width: 2, color: Theme.of(context).primaryColor)
                 : BorderSide(width: 0, color: Colors.white)),
         child: Container(
-          height: 50,
+          height: 60,
           child:
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             player.profilePicture != ''
@@ -60,41 +59,39 @@ class PlayerWidget extends StatelessWidget {
                 style: TextStyle(fontSize: 22),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Container(
-                width: 60,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Row(
-                      children: <Widget>[
-                        Icon(FontAwesomeIcons.trophy, size: 12),
-                        Text(
-                          '  ' + player.totalWonGames().toString(),
-                          style: TextStyle(fontSize: 15),
-                        ),
-                      ],
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 0.0),
+              width: 60,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    children: <Widget>[
+                      Icon(FontAwesomeIcons.trophy, size: 13),
+                      Text(
+                        '  ' + player.totalWonGames().toString(),
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    ],
                     ),
                     SizedBox(
                       height: 5,
                     ),
                     Row(
                       children: <Widget>[
-                        Icon(FontAwesomeIcons.gamepad, size: 12),
-                        Text(
-                          '  ' + player.totalPlayedGames().toString(),
-                          style: TextStyle(fontSize: 15),
-                        ),
-                      ],
+                      Icon(FontAwesomeIcons.gamepad, size: 13),
+                      Text(
+                        '  ' + player.totalPlayedGames().toString(),
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    ],
                     ),
                   ],
                 ),
               ),
-            ),
             Container(
               width: 10,
-              height: 50,
+              height: 60,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
                   topRight: Radius.circular(10),
