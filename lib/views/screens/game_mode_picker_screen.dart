@@ -19,6 +19,10 @@ class GameModePickerScreen extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60),
         child: AppBar(
+          leading: IconButton(
+            icon: Icon(Icons.close),
+            onPressed: () => Navigator.pop(context),
+          ),
           title: Hero(
             tag: 'game_screen_title',
             child: Text(_appBarTitle,
