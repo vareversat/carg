@@ -109,7 +109,7 @@ class PlayerWidget extends StatelessWidget {
                   topRight: Radius.circular(10),
                   bottomRight: Radius.circular(10),
                 ),
-                color: player.ownedBy == ''
+                color: !player.owned
                     ? Theme.of(context).primaryColor
                     : Theme.of(context).cardColor,
               ),

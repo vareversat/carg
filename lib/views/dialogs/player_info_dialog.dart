@@ -45,7 +45,7 @@ class _PlayerInfoDialogState extends State<PlayerInfoDialog> {
       _usernameTextController.text = player.userName!;
       _profilePictureTextController.text = player.profilePicture;
     }
-    _player = player ?? Player();
+    _player = player ?? Player(owned: true);
   }
 
   void _setProfilePictureUrl(String url) {
@@ -62,6 +62,7 @@ class _PlayerInfoDialogState extends State<PlayerInfoDialog> {
       _player = Player(
           userName: _usernameTextController.text,
           profilePicture: _profilePictureUrl,
+          owned: true,
           ownedBy: Provider.of<AuthService>(context, listen: false)
               .getPlayerIdOfUser());
       await _playerService.addPlayer(_player!);

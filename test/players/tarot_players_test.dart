@@ -51,7 +51,7 @@ void main() {
     test('true (not full)', () {
       final tarotPlayers = TarotPlayers(
           playerList: ['player_1', 'player_2', 'player_3', 'player_4']);
-      final player = Player(id: 'player_5');
+      final player = Player(id: 'player_5', owned: true);
       tarotPlayers.onSelectedPlayer(player);
       expect(tarotPlayers.playerList,
           ['player_1', 'player_2', 'player_3', 'player_4', 'player_5']);
@@ -66,7 +66,7 @@ void main() {
         'player_4',
         'player_5'
       ]);
-      final player = Player(id: 'player_6');
+      final player = Player(id: 'player_6', owned: true);
       tarotPlayers.onSelectedPlayer(player);
       expect(tarotPlayers.playerList,
           ['player_1', 'player_2', 'player_3', 'player_4', 'player_5']);

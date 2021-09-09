@@ -60,7 +60,7 @@ void main() {
           playerList: ['player_1', 'player_2', 'player_3', 'player_4'],
           us: 'team_1',
           them: 'team_2');
-      belotePlayers.onSelectedPlayer(Player(id: 'player_1'));
+      belotePlayers.onSelectedPlayer(Player(id: 'player_1', owned: true));
       expect(
           belotePlayers.playerList, [' ', 'player_2', 'player_3', 'player_4']);
     });
@@ -70,7 +70,7 @@ void main() {
           playerList: [' ', 'player_2', 'player_3', 'player_4'],
           us: 'team_1',
           them: 'team_2');
-      belotePlayers.onSelectedPlayer(Player(id: 'player_5'));
+      belotePlayers.onSelectedPlayer(Player(id: 'player_5', owned: true));
       expect(belotePlayers.playerList,
           ['player_5', 'player_2', 'player_3', 'player_4']);
     });

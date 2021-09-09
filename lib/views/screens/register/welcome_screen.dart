@@ -329,7 +329,9 @@ class _EnterUsernameWidget extends StatelessWidget {
       var userId = Provider.of<AuthService>(context, listen: false)
           .getConnectedUserId();
       var player = Player(
-          userName: _usernameTextController.text, linkedUserId: userId);
+          userName: _usernameTextController.text,
+          linkedUserId: userId,
+          owned: false);
       await _playerService.addPlayer(player);
       Navigator.of(_keyLoader.currentContext!, rootNavigator: true).pop();
       await Navigator.pushReplacement(

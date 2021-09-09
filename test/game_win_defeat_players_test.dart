@@ -27,8 +27,8 @@ void main() {
           GameStats(gameType: GameType.COINCHE, wonGames: 10, playedGames: 20);
       gameStat3 =
           GameStats(gameType: GameType.TAROT, wonGames: 3, playedGames: 5);
-      player1 = Player(gameStatsList: [gameStat1]);
-      player2 = Player(gameStatsList: [gameStat2, gameStat3]);
+      player1 = Player(gameStatsList: [gameStat1], owned: true);
+      player2 = Player(gameStatsList: [gameStat2, gameStat3], owned: true);
     });
 
     test('Player1 - Won Belote game', () {
