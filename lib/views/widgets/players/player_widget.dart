@@ -21,14 +21,11 @@ class PlayerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      padding: const EdgeInsets.symmetric(vertical: 5.0),
       child: ElevatedButton(
         onPressed: () =>
             onTap == null ? _showEditPlayerDialog(context) : onTap!(),
         style: ButtonStyle(
-            elevation: player.selected
-                ? MaterialStateProperty.all<double>(1)
-                : MaterialStateProperty.all<double>(5),
             backgroundColor:
                 MaterialStateProperty.all<Color>(Theme.of(context).cardColor),
             foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
@@ -111,7 +108,7 @@ class PlayerWidget extends StatelessWidget {
                 ),
                 color: !player.owned
                     ? Theme.of(context).primaryColor
-                    : Theme.of(context).cardColor,
+                    : Colors.transparent,
               ),
             )
           ]),
