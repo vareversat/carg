@@ -5,6 +5,7 @@ import 'package:carg/models/player.dart';
 import 'package:carg/services/custom_exception.dart';
 import 'package:carg/services/player_service.dart';
 import 'package:carg/styles/text_style.dart';
+import 'package:carg/views/helpers/info_snackbar.dart';
 import 'package:carg/views/screens/home_screen.dart';
 import 'package:carg/views/screens/register/pin_code_verification_screen.dart';
 import 'package:carg/views/screens/register/register_screen.dart';
@@ -108,20 +109,10 @@ class AuthService with ChangeNotifier {
     await _verifyPhoneNumber(
         phoneNumber,
         context,
-        (verificationId, forceResendingToken) => SnackBar(
-              margin: EdgeInsets.all(20),
-              duration: Duration(seconds: 15),
-              behavior: SnackBarBehavior.floating,
-              content: Text('Code renvoyé avec succès',
-                  style: CustomTextStyle.snackBarTextStyle(context)),
-            ),
-        (credentials) => SnackBar(
-              margin: EdgeInsets.all(20),
-              duration: Duration(seconds: 4),
-              behavior: SnackBarBehavior.floating,
-              content: Text('Erreur : Le numéro de téléphone est invalide',
-                  style: CustomTextStyle.snackBarTextStyle(context)),
-            ));
+        (verificationId, forceResendingToken) =>
+            InfoSnackBar.showSnackBar(context, 'Code renvoyé avec succès'),
+        (credentials) => InfoSnackBar.showSnackBar(
+            context, 'Erreur : Le numéro de téléphone est invalide'));
   }
 
   Future<dynamic> sendPhoneVerificationCode(
