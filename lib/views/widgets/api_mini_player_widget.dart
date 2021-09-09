@@ -48,7 +48,7 @@ class APIMiniPlayerWidget extends StatelessWidget {
                       itemBuilder: (BuildContext context, int index) {
                         return DecoratedBox(
                             decoration: BoxDecoration(
-                          color: Theme.of(context).accentColor,
+                          color: Theme.of(context).colorScheme.secondary,
                         ));
                       })
                   : SizedBox());
@@ -59,7 +59,8 @@ class APIMiniPlayerWidget extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 2),
               child: InputChip(
                   selected: isSelected,
-                  selectedColor: selectedColor ?? Theme.of(context).accentColor,
+                  selectedColor:
+                      selectedColor ?? Theme.of(context).colorScheme.secondary,
                   onPressed: onTap as void Function()? ??
                       () => {_showEditPlayerDialog(context, snapshot.data)},
                   avatar: (snapshot.data!.profilePicture != '' && displayImage)

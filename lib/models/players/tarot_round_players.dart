@@ -18,7 +18,7 @@ class TarotRoundPlayers extends Players {
       return Colors.yellow;
     }
     if (attackPlayer == playerId) {
-      return Theme.of(context).accentColor;
+      return Theme.of(context).colorScheme.secondary;
     }
     return null;
   }

@@ -47,7 +47,7 @@ class PlayScreenButtonBlock extends StatelessWidget {
           RawMaterialButton(
             onPressed: () async => {addNotes()},
             elevation: 2.0,
-            fillColor: Theme.of(context).accentColor,
+            fillColor: Theme.of(context).colorScheme.secondary,
             textStyle: TextStyle(color: Theme.of(context).cardColor),
             padding: EdgeInsets.all(15.0),
             shape: CircleBorder(),

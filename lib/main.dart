@@ -43,6 +43,15 @@ class _CargState extends State<Carg> {
   });
   static const int _mcgpalette0AccentValue = 0xFFFFA785;
 
+  final theme = ThemeData(
+      fontFamily: 'Josefin',
+      textTheme: TextTheme(
+        bodyText1: TextStyle(fontSize: 18, color: Colors.white),
+        bodyText2: TextStyle(fontSize: 18),
+      ),
+      brightness: Brightness.light,
+      primarySwatch: mcgpalette0);
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -72,15 +81,9 @@ class _CargState extends State<Carg> {
                       ModalRoute.of(context)!.settings.arguments as int? ?? 0)
             },
             title: 'Carg',
-            theme: ThemeData(
-                fontFamily: 'Josefin',
-                textTheme: TextTheme(
-                  bodyText1: TextStyle(fontSize: 18, color: Colors.white),
-                  bodyText2: TextStyle(fontSize: 18),
-                ),
-                brightness: Brightness.light,
-                primarySwatch: mcgpalette0,
-                accentColor: mcgpalette0Accent),
+            theme: theme.copyWith(
+                colorScheme:
+                    theme.colorScheme.copyWith(secondary: mcgpalette0Accent)),
             home: FutureBuilder<bool>(
                 future: auth.isAlreadyLogin(),
                 builder: (context, authResult) {

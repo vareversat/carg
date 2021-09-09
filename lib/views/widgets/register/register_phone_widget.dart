@@ -147,7 +147,6 @@ class _RegisterPhoneWidgetState extends State<RegisterPhoneWidget>
                                   : null,
                               child: AnimatedSize(
                                 curve: Curves.linear,
-                                vsync: this,
                                 duration: Duration(milliseconds: 300),
                                 child: Text(
                                         phoneRegistrationData.country != null

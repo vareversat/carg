@@ -34,7 +34,7 @@ class TarotGameWidget extends StatelessWidget {
                           itemBuilder: (BuildContext context, int index) {
                             return DecoratedBox(
                                 decoration: BoxDecoration(
-                              color: Theme.of(context).accentColor,
+                              color: Theme.of(context).colorScheme.secondary,
                             ));
                           }));
                 }

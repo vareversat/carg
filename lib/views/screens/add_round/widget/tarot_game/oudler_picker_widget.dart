@@ -21,7 +21,8 @@ class OudlerPickerWidget extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: TarotOudler.values
                           .map((tarotBoutCount) => InputChip(
-                              selectedColor: Theme.of(context).accentColor,
+                              selectedColor:
+                                  Theme.of(context).colorScheme.secondary,
                               selected: roundData.oudler == tarotBoutCount,
                               onPressed: () {
                                 roundData.oudler = tarotBoutCount;

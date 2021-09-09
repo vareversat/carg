@@ -70,7 +70,7 @@ class CardTitle extends StatelessWidget {
               child: Container(
                 color: game!.isEnded
                     ? Theme.of(context).primaryColor
-                    : Theme.of(context).accentColor,
+                    : Theme.of(context).colorScheme.secondary,
                 height: 30,
                 child: Center(
                     child: Text(game!.isEnded ? 'Terminée' : 'En cours',
@@ -117,7 +117,7 @@ class _ShowScoreWidgetState extends State<_ShowScoreWidget> {
                           itemBuilder: (BuildContext context, int index) {
                             return DecoratedBox(
                                 decoration: BoxDecoration(
-                              color: Theme.of(context).accentColor,
+                                  color: Theme.of(context).colorScheme.secondary,
                             ));
                           }));
                 }

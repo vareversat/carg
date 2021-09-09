@@ -66,7 +66,6 @@ class _RegisterScreenState extends State<RegisterScreen>
                             children: [
                               AnimatedSize(
                                   curve: Curves.ease,
-                                  vsync: this,
                                   duration: Duration(milliseconds: 500),
                                   child: registerData.selectedRegisterMethod
                                       .registrationWidget)

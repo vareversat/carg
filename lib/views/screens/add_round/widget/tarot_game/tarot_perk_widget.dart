@@ -70,7 +70,7 @@ class TarotPerkWidget extends StatelessWidget {
                                   .substring(0, 1)))
                           : null,
                       showCheckmark: false,
-                      selectedColor: Theme.of(context).accentColor,
+                      selectedColor: Theme.of(context).colorScheme.secondary,
                       selected: roundData.smallToTheEndTeam != null,
                       onPressed: () async {
                         await _showSmallToTheEndPicker().then((value) => {
@@ -94,7 +94,7 @@ class TarotPerkWidget extends StatelessWidget {
                                   .substring(0, 1)))
                           : null,
                       showCheckmark: false,
-                      selectedColor: Theme.of(context).accentColor,
+                      selectedColor: Theme.of(context).colorScheme.secondary,
                       selected: roundData.handful != null,
                       onPressed: () async {
                         await _showHandfulPicker().then((value) => {
@@ -121,7 +121,7 @@ class TarotPerkWidget extends StatelessWidget {
                                       .substring(0, 1)))
                           : null,
                       showCheckmark: false,
-                      selectedColor: Theme.of(context).accentColor,
+                      selectedColor: Theme.of(context).colorScheme.secondary,
                       selected: roundData.chelem != null,
                       onPressed: () async {
                         await _showChelemPicker().then((value) =>

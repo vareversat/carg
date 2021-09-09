@@ -75,7 +75,6 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                               children: [
                                 AnimatedSize(
                                   curve: Curves.ease,
-                                  vsync: this,
                                   duration: Duration(milliseconds: 500),
                                   child: registerData
                                       .selectedCreationMethod is _NoneMethod
@@ -239,7 +238,8 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                                             .all<Color>(
                                             Theme
                                                 .of(context)
-                                                .accentColor),
+                                                .colorScheme
+                                                .secondary),
                                         foregroundColor: MaterialStateProperty
                                             .all<Color>(
                                             Theme
@@ -251,7 +251,8 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                                                 side: BorderSide(
                                                     width: 2, color: Theme
                                                     .of(context)
-                                                    .accentColor),
+                                                    .colorScheme
+                                                    .secondary),
                                                 borderRadius: BorderRadius
                                                     .circular(
                                                     CustomProperties

@@ -267,7 +267,7 @@ class _StatGauge extends StatelessWidget {
                 GaugeRange(
                     startValue: gameStats!.winPercentage(),
                     endValue: 100,
-                    color: Theme.of(context).accentColor),
+                    color: Theme.of(context).colorScheme.secondary),
               ]),
         ],
         enableLoadingAnimation: true,

@@ -114,7 +114,7 @@ class CargAboutDialog extends StatelessWidget {
                 ElevatedButton.icon(
                     style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(
-                            Theme.of(context).accentColor),
+                            Theme.of(context).colorScheme.secondary),
                         foregroundColor: MaterialStateProperty.all<Color>(
                             Theme.of(context).cardColor),
                         shape: MaterialStateProperty.all<OutlinedBorder>(
