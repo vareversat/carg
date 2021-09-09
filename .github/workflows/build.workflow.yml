@@ -14,7 +14,7 @@ jobs:
       - name: 'Setup flutter action'
         uses: subosito/flutter-action@v1.5.3
         with:
-          channel: 'stable'
+          flutter-version: '2.5.0'
       - run: flutter analyze
   test:
     name: 'Test'
