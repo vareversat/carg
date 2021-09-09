@@ -138,19 +138,17 @@ class _PlayerListScreenState extends State<PlayerListScreen> {
                           ]),
                     );
                   }
-                  return Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: ListView.builder(
-                        itemCount: snapshot.data!.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return ChangeNotifierProvider.value(
-                            value: snapshot.data![index],
-                            child: Consumer<Player>(
-                                builder: (context, playerData, child) =>
-                                    PlayerWidget(player: playerData)),
-                          );
-                        }),
-                  );
+                  return ListView.builder(
+                      padding: const EdgeInsets.all(10),
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return ChangeNotifierProvider.value(
+                          value: snapshot.data![index],
+                          child: Consumer<Player>(
+                              builder: (context, playerData, child) =>
+                                  PlayerWidget(player: playerData)),
+                        );
+                      });
                 },
                 future: _playerService
                     .searchPlayers(

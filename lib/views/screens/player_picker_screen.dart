@@ -57,121 +57,119 @@ class _PlayerPickerScreenState extends State<PlayerPickerScreen> {
             Text(title!, style: CustomTextStyle.screenHeadLine1(context)),
           ),
         ),
-        body: Padding(
-          padding: EdgeInsets.all(10.0),
-          child: Column(
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text('Sélection des joueurs',
-                    style:
-                    TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-              ),
-              ChangeNotifierProvider.value(
+        body: Column(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Text('Sélection des joueurs',
+                  style:
+                  TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ChangeNotifierProvider.value(
                 value: game!.players!,
                 child: Consumer<Players>(
                   builder: (context, playersData, child) =>
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(playersData.getSelectedPlayersStatus()),
+                      Text(playersData.getSelectedPlayersStatus()),
+                ),
+              ),
+            ),
+            Flexible(
+              child: FutureBuilder<List<Player>>(
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                  if (snapshot.connectionState == ConnectionState.none) {
+                    return Container(
+                        alignment: Alignment.center,
+                        child: Icon(Icons.error));
+                  }
+                  if (snapshot.data != null) {
+                    return ListView.builder(
+                        padding: const EdgeInsets.all(10),
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return ChangeNotifierProvider.value(
+                              value: snapshot.data![index],
+                              child: Consumer<Player>(
+                                  builder: (context, playerData, child) =>
+                                      PlayerWidget(
+                                          player: playerData,
+                                          onTap: () =>
+                                              game!.players!
+                                                  .onSelectedPlayer(
+                                                  playerData))));
+                        });
+                  } else {
+                    return ErrorMessageWidget(
+                        message: "Vous n'avez accès à aucun joueurs");
+                  }
+                },
+                future: _playerService.searchPlayers(
+                    playerId: Provider.of<AuthService>(context, listen: false)
+                        .getPlayerIdOfUser()),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8),
+              child: ChangeNotifierProvider.value(
+                value: game!.players!,
+                child: Consumer<Players>(
+                    builder: (context, playersData, child) =>
+                    playersData
+                        .isFull()
+                        ? SizedBox(
+                      width: double.infinity,
+                      height: 50,
+                      child: Directionality(
+                        textDirection: TextDirection.rtl,
+                        child: ElevatedButton.icon(
+                            style: ButtonStyle(
+                                backgroundColor:
+                                MaterialStateProperty.all<Color>(
+                                    Theme
+                                        .of(context)
+                                        .primaryColor),
+                                foregroundColor:
+                                MaterialStateProperty.all<Color>(
+                                    Theme
+                                        .of(context)
+                                        .cardColor),
+                                shape:
+                                MaterialStateProperty.all<OutlinedBorder>(
+                                    RoundedRectangleBorder(
+                                        borderRadius:
+                                        BorderRadius.circular(
+                                            CustomProperties
+                                                .borderRadius)))),
+                            onPressed: () async =>
+                            {
+                              await _getPlayers(),
+                              game!.players!.reset(),
+                              Navigator.push(
+                                  context,
+                                  CustomRouteLeftToRight(
+                                    builder: (context) =>
+                                        PlayerOrderScreen(
+                                            playerList: newPlayers!,
+                                            title: title!,
+                                            game: game!),
+                                  ))
+                            },
+                            label: Text('Ordre des joueurs',
+                                style: TextStyle(fontSize: 23)),
+                            icon: Icon(
+                              Icons.arrow_right_alt,
+                              size: 30,
+                            )),
                       ),
-                ),
+                    )
+                        : Container()),
               ),
-              Flexible(
-                child: FutureBuilder<List<Player>>(
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(child: CircularProgressIndicator());
-                    }
-                    if (snapshot.connectionState == ConnectionState.none) {
-                      return Container(
-                          alignment: Alignment.center,
-                          child: Icon(Icons.error));
-                    }
-                    if (snapshot.data != null) {
-                      return ListView.builder(
-                          itemCount: snapshot.data!.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return ChangeNotifierProvider.value(
-                                value: snapshot.data![index],
-                                child: Consumer<Player>(
-                                    builder: (context, playerData, child) =>
-                                        PlayerWidget(
-                                            player: playerData,
-                                            onTap: () =>
-                                                game!.players!
-                                                    .onSelectedPlayer(
-                                                    playerData))));
-                          });
-                    } else {
-                      return ErrorMessageWidget(
-                          message: "Vous n'avez accès à aucun joueurs");
-                    }
-                  },
-                  future: _playerService.searchPlayers(
-                      playerId: Provider.of<AuthService>(context, listen: false)
-                          .getPlayerIdOfUser()),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 10),
-                child: ChangeNotifierProvider.value(
-                  value: game!.players!,
-                  child: Consumer<Players>(
-                      builder: (context, playersData, child) =>
-                      playersData
-                          .isFull()
-                          ? SizedBox(
-                        width: double.infinity,
-                        height: 50,
-                        child: Directionality(
-                          textDirection: TextDirection.rtl,
-                          child: ElevatedButton.icon(
-                              style: ButtonStyle(
-                                  backgroundColor:
-                                  MaterialStateProperty.all<Color>(
-                                      Theme
-                                          .of(context)
-                                          .primaryColor),
-                                  foregroundColor:
-                                  MaterialStateProperty.all<Color>(
-                                      Theme
-                                          .of(context)
-                                          .cardColor),
-                                  shape:
-                                  MaterialStateProperty.all<OutlinedBorder>(
-                                      RoundedRectangleBorder(
-                                          borderRadius:
-                                          BorderRadius.circular(
-                                              CustomProperties
-                                                  .borderRadius)))),
-                              onPressed: () async =>
-                              {
-                                await _getPlayers(),
-                                game!.players!.reset(),
-                                Navigator.push(
-                                    context,
-                                    CustomRouteLeftToRight(
-                                      builder: (context) =>
-                                          PlayerOrderScreen(
-                                              playerList: newPlayers!,
-                                              title: title!,
-                                              game: game!),
-                                    ))
-                              },
-                              label: Text('Ordre des joueurs',
-                                  style: TextStyle(fontSize: 23)),
-                              icon: Icon(
-                                Icons.arrow_right_alt,
-                                size: 30,
-                              )),
-                        ),
-                      )
-                          : Container()),
-                ),
-              )
-            ],
-          ),
+            )
+          ],
         ));
   }
 }
