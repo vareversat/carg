@@ -25,7 +25,7 @@ jobs:
       - name: 'Setup flutter action'
         uses: subosito/flutter-action@v1.5.3
         with:
-          channel: 'stable'
+          flutter-version: '2.5.0'
       - run: flutter test --coverage
       - name: 'Upload coverage report'
         uses: codecov/codecov-action@v2.0.3
@@ -47,10 +47,14 @@ jobs:
         run: ./.github/scripts/check_secrets_decryption.sh
         env:
           PASSPHRASE: ${{secrets.PASSPHRASE}}
+      - name: 'Set up JAVA'
+        uses: actions/setup-java@v1
+        with:
+          java-version: '11.x'
       - name: 'Setup flutter action'
         uses: subosito/flutter-action@v1.5.3
         with:
-          channel: 'stable'
+          flutter-version: '2.5.0'
       - run: flutter build apk --split-per-abi --dart-define=FLAVOR=dev
       - name: 'Save APK'
         uses: actions/upload-artifact@v2
@@ -76,5 +80,5 @@ jobs:
       - name: 'Setup flutter action'
         uses: subosito/flutter-action@v1.5.3
         with:
-          channel: 'stable'
+          flutter-version: '2.5.0'
       - run: flutter build ios --release --no-codesign --dart-define=FLAVOR=dev
