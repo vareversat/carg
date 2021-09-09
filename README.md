@@ -37,7 +37,7 @@ $ firebase deploy --only functions
 ```
 ### Algolia
 1) Create a project on [Algolia](https://www.algolia.com/users/sign_in) (it's an indexation service)
-2) Create an index named *player_dev*
+2) Create an index named *player-dev*
 3) Create a file named *algolia.json* in assets/config like this :
 ```json
 {

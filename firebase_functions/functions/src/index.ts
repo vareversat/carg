@@ -5,8 +5,8 @@ const ALGOLIA_APP_ID = 'A0M2ID7FCT';
 const ALGOLIA_ADMIN_KEY = 'f897240bd9ba1dbaf4cbda253903f47a';
 
 const client = algoliasearch(ALGOLIA_APP_ID, ALGOLIA_ADMIN_KEY);
-const indexDev = client.initIndex('player_dev');
-const indexProd = client.initIndex('player_prod');
+const indexDev = client.initIndex('player-dev');
+const indexProd = client.initIndex('player-prod');
 
 export const onPlayerCreatedDev = functions.firestore.document('player-dev/{playerId}').onCreate((snap, context) => {
     const player = snap.data();
