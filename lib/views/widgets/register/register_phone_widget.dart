@@ -146,17 +146,16 @@ class _RegisterPhoneWidgetState extends State<RegisterPhoneWidget>
                                     }
                                   : null,
                               child: AnimatedSize(
-                                curve: Curves.linear,
-                                duration: Duration(milliseconds: 300),
-                                child: Text(
-                                        phoneRegistrationData.country != null
-                                            ? phoneRegistrationData
-                                                .getCompactFormattedCountryName()
-                                            : 'Pays',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      )
-                              ),
+                                  curve: Curves.linear,
+                                  duration: Duration(milliseconds: 300),
+                                  child: Text(
+                                    phoneRegistrationData.country != null
+                                        ? phoneRegistrationData
+                                            .getCompactFormattedCountryName()
+                                        : 'Pays',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  )),
                             ),
                             SizedBox(width: 15),
                             Flexible(
@@ -262,14 +261,13 @@ class CountryList with ChangeNotifier {
   }
 
   void filter(String filter) {
+    countries = _initialCountries;
     if (filter.isNotEmpty) {
       var filteredCountries = countries!
           .where(
               (element) => element.countryName!.toLowerCase().contains(filter))
           .toList();
       countries = filteredCountries;
-    } else {
-      countries = _initialCountries;
     }
   }
 }
