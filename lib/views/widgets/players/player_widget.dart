@@ -1,6 +1,8 @@
 import 'package:carg/models/player.dart';
+import 'package:carg/services/player_service.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/views/dialogs/player_info_dialog.dart';
+import 'package:carg/views/helpers/info_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -12,10 +14,13 @@ class PlayerWidget extends StatelessWidget {
   PlayerWidget({required this.player, this.onTap});
 
   Future _showEditPlayerDialog(BuildContext context) async {
-    await showDialog(
+    var result = await showDialog(
         context: context,
         builder: (BuildContext context) =>
-            PlayerInfoDialog(player: player, isEditing: false));
+            PlayerInfoDialog(player: player, playerService: PlayerService(), isNewPlayer: false));
+    if (result != null) {
+      InfoSnackBar.showSnackBar(context, result);
+    }
   }
 
   @override

@@ -12,95 +12,50 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class PlayerInfoDialog extends StatefulWidget {
-  final Player? player;
-  final bool isEditing;
+  final Player player;
+  final PlayerService playerService;
+  final bool isNewPlayer;
 
-  PlayerInfoDialog({this.player, required this.isEditing});
+  PlayerInfoDialog(
+      {required this.player,
+      required this.playerService,
+      required this.isNewPlayer});
 
   @override
   State<StatefulWidget> createState() {
-    return _PlayerInfoDialogState(player, isEditing);
+    return _PlayerInfoDialogState();
   }
 }
 
 class _PlayerInfoDialogState extends State<PlayerInfoDialog> {
-  final _usernameTextController = TextEditingController();
-  final _profilePictureTextController = TextEditingController();
-  final _playerService = PlayerService();
-  var _title = 'Infos';
-  var _isCreating = false;
-  var _isEditing = false;
-  var _isLoading = false;
 
-  String _profilePictureUrl = '';
-  Player? _player;
-
-  _PlayerInfoDialogState(Player? player, bool isEditing) {
-    if (player == null && !isEditing) {
-      _isCreating = true;
-      _title = 'Nouveau joueur';
-    } else if (player != null && isEditing) {
-      _isEditing = true;
-      _title = 'Edition du profil';
-      _usernameTextController.text = player.userName!;
-      _profilePictureTextController.text = player.profilePicture;
-    }
-    _player = player ?? Player(owned: true);
-  }
-
-  void _setProfilePictureUrl(String url) {
-    setState(() {
-      _profilePictureUrl = url;
-    });
-  }
-
-  Future _commitPlayer() async {
-    setState(() {
-      _isLoading = true;
-    });
-    if (_isCreating) {
-      _player = Player(
-          userName: _usernameTextController.text,
-          profilePicture: _profilePictureUrl,
-          owned: true,
-          ownedBy: Provider.of<AuthService>(context, listen: false)
-              .getPlayerIdOfUser());
-      await _playerService.addPlayer(_player!);
+  String _getTitle() {
+    if (widget.isNewPlayer) {
+      return 'Nouveau joueur';
+    } else if (widget.player.owned) {
+      return 'Edition';
     } else {
-      _player!.userName = _usernameTextController.text;
-      _player!.profilePicture = _profilePictureTextController.text;
-      await _playerService.updatePlayer(_player!);
+      return 'Informations';
     }
-    setState(() {
-      _isLoading = false;
-    });
   }
 
-  void _getInitialValues() {
-    if (_player != null) {
-      _profilePictureUrl = _player!.profilePicture;
-      _usernameTextController.text = _player!.userName ?? '';
-      _profilePictureTextController.text = _player!.profilePicture;
+  Future<void> _savePlayer() async {
+    print(widget.player);
+    if (widget.isNewPlayer) {
+      widget.player.ownedBy =
+          Provider.of<AuthService>(context, listen: false).getPlayerIdOfUser();
+      await widget.playerService.addPlayer(widget.player);
+      Navigator.of(context).pop('Joueur créé avec succès');
+    } else {
+      await widget.playerService.updatePlayer(widget.player);
+      Navigator.of(context).pop('Joueur modifié avec succès');
     }
   }
 
   void _copyId() {
-    Clipboard.setData(ClipboardData(text: _player!.id)).then((_) {
+    Clipboard.setData(ClipboardData(text: widget.player.id)).then((_) {
       InfoSnackBar.showSnackBar(context, 'ID copié dans le presse papier');
     });
-  }
-
-  @override
-  void initState() {
-    _getInitialValues();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _usernameTextController.dispose();
-    _profilePictureTextController.dispose();
-    super.dispose();
   }
 
   @override
@@ -123,14 +78,16 @@ class _PlayerInfoDialogState extends State<PlayerInfoDialog> {
           children: [
             Flexible(
               child: Text(
-                _title,
+                _getTitle(),
+                key: ValueKey('titleText'),
                 overflow: TextOverflow.ellipsis,
                 style: CustomTextStyle.dialogHeaderStyle(context),
               ),
             ),
-            if (_player != null && !_isCreating)
+            if (widget.player.owned && !widget.isNewPlayer)
               Flexible(
                 child: ElevatedButton.icon(
+                  key: ValueKey('copyIDButton'),
                   style: ButtonStyle(
                       backgroundColor:
                           MaterialStateProperty.all<Color>(Colors.white),
@@ -148,107 +105,119 @@ class _PlayerInfoDialogState extends State<PlayerInfoDialog> {
           ],
         ),
       ),
-      content: ListBody(children: [
-        Row(
-          children: <Widget>[
-            if (!_isEditing)
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 15, 15, 15),
-                child: Container(
-                    width: 60,
-                    height: 60,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                            width: 2, color: Theme.of(context).primaryColor),
-                        image: DecorationImage(
-                            fit: BoxFit.fill,
-                            image: NetworkImage(_profilePictureUrl)))),
+      content: ChangeNotifierProvider.value(
+        value: widget.player,
+        child: ListBody(children: [
+          Row(
+            children: <Widget>[
+              Consumer<Player>(
+                builder: (context, playerData, _) => Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 15, 15, 15),
+                  child: Container(
+                      width: 60,
+                      height: 60,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                              width: 2, color: Theme.of(context).primaryColor),
+                          image: DecorationImage(
+                              fit: BoxFit.fill,
+                              image: NetworkImage(playerData.profilePicture)))),
+                ),
               ),
-            Flexible(
-              flex: 2,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
+              Flexible(
+                flex: 2,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: Consumer<Player>(
+                    builder: (context, playerData, _) => TextFormField(
+                        key: ValueKey('usernameTextField'),
+                        initialValue: playerData.userName,
+                        enabled: playerData.owned,
+                        style: TextStyle(
+                            fontSize: 25, fontWeight: FontWeight.bold),
+                        maxLines: null,
+                        onChanged: (value) => playerData.userName = value,
+                        decoration: InputDecoration(
+                            disabledBorder: InputBorder.none,
+                            enabledBorder: InputBorder.none,
+                            hintStyle: TextStyle(
+                                fontSize: 25,
+                                color: Theme.of(context).hintColor),
+                            labelText: playerData.owned && widget.isNewPlayer
+                                ? "Nom d'utilisateur"
+                                : null)),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          if (widget.isNewPlayer)
+            Consumer<Player>(
+              builder: (context, playerData, _) => Container(
                 child: TextFormField(
-                    enabled: _isCreating || _isEditing,
-                    controller: _usernameTextController,
-                    style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                    key: ValueKey('profilePictureTextField'),
+                    initialValue: playerData.profilePicture,
+                    enabled: playerData.owned,
+                    onChanged: (value) => playerData.profilePicture = value,
+                    style: TextStyle(fontSize: 20),
                     maxLines: null,
                     decoration: InputDecoration(
-                        disabledBorder: InputBorder.none,
                         enabledBorder: InputBorder.none,
                         hintStyle: TextStyle(
-                            fontSize: 25, color: Theme.of(context).hintColor),
-                        labelText: _isCreating || _isEditing
-                            ? "Nom d'utilisateur"
-                            : null)),
+                            fontSize: 15, color: Theme.of(context).hintColor),
+                        labelText: 'Image de profile (url)')),
               ),
             ),
-          ],
-        ),
-        if (_isCreating || _isEditing)
-          Container(
-            child: TextFormField(
-                enabled: _isCreating || _isEditing,
-                onChanged: (text) => _setProfilePictureUrl(text),
-                controller: _profilePictureTextController,
-                style: TextStyle(fontSize: 20),
-                maxLines: null,
-                decoration: InputDecoration(
-                    enabledBorder: InputBorder.none,
-                    hintStyle: TextStyle(
-                        fontSize: 15, color: Theme.of(context).hintColor),
-                    labelText: 'Image de profile (url)')),
-          )
-        else
-          Container(),
-        if (!_isEditing && !_isCreating)
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: Column(
-              children: _player!.gameStatsList!
-                  .map(
-                    (stat) => Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        SizedBox(
-                            width: 100,
-                            child: Text('${stat.gameType.name} : ',
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(fontSize: 22))),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                          child: Icon(FontAwesomeIcons.trophy, size: 15),
-                        ),
-                        Text(
-                          ' ' + stat.wonGames.toString(),
-                          style: TextStyle(fontSize: 20),
-                        ),
-                        Text(
-                          ' - ',
-                          style: TextStyle(fontSize: 20),
-                        ),
-                        Text(
-                          stat.playedGames.toString() + ' ',
-                          style: TextStyle(fontSize: 20),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                          child: Icon(FontAwesomeIcons.gamepad, size: 15),
-                        )
-                      ],
-                    ),
-                  )
-                  .toList()
-                  .cast<Widget>(),
+          if (widget.player.gameStatsList != null)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Column(
+                children: widget.player.gameStatsList!
+                    .map(
+                      (stat) => Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          SizedBox(
+                              width: 100,
+                              child: Text('${stat.gameType.name} : ',
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(fontSize: 22))),
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 5.0),
+                            child: Icon(FontAwesomeIcons.trophy, size: 15),
+                          ),
+                          Text(
+                            ' ' + stat.wonGames.toString(),
+                            style: TextStyle(fontSize: 20),
+                          ),
+                          Text(
+                            ' - ',
+                            style: TextStyle(fontSize: 20),
+                          ),
+                          Text(
+                            stat.playedGames.toString() + ' ',
+                            style: TextStyle(fontSize: 20),
+                          ),
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 5.0),
+                            child: Icon(FontAwesomeIcons.gamepad, size: 15),
+                          )
+                        ],
+                      ),
+                    )
+                    .toList()
+                    .cast<Widget>(),
+              ),
             ),
-          ),
-      ]),
+        ]),
+      ),
       actions: <Widget>[
-        if (_isLoading)
-          CircularProgressIndicator()
-        else
+        if (widget.player.owned)
           ElevatedButton.icon(
+            key: ValueKey('editButton'),
               style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all<Color>(
                       Theme.of(context).primaryColor),
@@ -258,18 +227,12 @@ class _PlayerInfoDialogState extends State<PlayerInfoDialog> {
                       RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(
                               CustomProperties.borderRadius)))),
-              onPressed: () async => _isCreating || _isEditing
-                  ? {
-                      await _commitPlayer(),
-                      Navigator.pop(context, 'Joueur mis à jour')
-                    }
-                  : Navigator.pop(context),
-              label: Text(_isCreating || _isEditing
-                  ? MaterialLocalizations.of(context).okButtonLabel
-                  : MaterialLocalizations.of(context).closeButtonLabel),
-              icon: Icon(_isCreating || _isEditing ? Icons.check : Icons.close)),
-        if (_isCreating || _isEditing)
+              onPressed: () async => await _savePlayer(),
+              label: Text(MaterialLocalizations.of(context).saveButtonLabel),
+              icon: Icon(Icons.check))
+        else
           ElevatedButton.icon(
+            key: ValueKey('closeButton'),
             style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
                 foregroundColor: MaterialStateProperty.all<Color>(
@@ -278,12 +241,10 @@ class _PlayerInfoDialogState extends State<PlayerInfoDialog> {
                     RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
                             CustomProperties.borderRadius)))),
-            onPressed: () => {Navigator.pop(context, null)},
+            onPressed: () => Navigator.pop(context),
             icon: Icon(Icons.close),
-            label: Text(MaterialLocalizations.of(context).cancelButtonLabel),
+            label: Text(MaterialLocalizations.of(context).closeButtonLabel),
           )
-        else
-          Container(),
       ],
       scrollable: true,
     );

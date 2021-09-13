@@ -4,6 +4,7 @@ import 'package:carg/services/player_service.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/dialogs/player_info_dialog.dart';
+import 'package:carg/views/helpers/info_snackbar.dart';
 import 'package:carg/views/widgets/error_message_widget.dart';
 import 'package:carg/views/widgets/players/player_widget.dart';
 import 'package:flutter/material.dart';
@@ -61,12 +62,15 @@ class _PlayerListScreenState extends State<PlayerListScreen> {
                               RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(
                                       CustomProperties.borderRadius)))),
-                      onPressed: () async => {
-                            await showDialog(
+                      onPressed: () async {
+                            var result = await showDialog(
                                 context: context,
                                 builder: (BuildContext context) =>
                                     PlayerInfoDialog(
-                                        player: null, isEditing: false))
+                                        player: Player(owned: true), playerService: _playerService, isNewPlayer: true));
+                            if (result != null) {
+                              InfoSnackBar.showSnackBar(context, result);
+                            }
                           },
                       label: Text('Nouveau joueur',
                           style: TextStyle(fontSize: 14)),
