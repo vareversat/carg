@@ -25,25 +25,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
   final TextEditingController _profilePictureController =
       TextEditingController();
 
-  Future<void> _savePlayer(Player player) async {
-    print(player);
-    print(widget.player);
-
+  Future<void> _savePlayer() async {
     try {
-      await widget.playerService.updatePlayer(player);
+      await widget.playerService.updatePlayer(widget.player);
       InfoSnackBar.showSnackBar(context, 'Profil modifié avec succès');
     } on CustomException catch (e) {
       InfoSnackBar.showSnackBar(context, e.message);
     }
   }
 
-  Future<void> _onSwitchTileChanged(Player player, bool value) async {
-    player.gravatarProfilePicture =
+  Future<void> _onSwitchTileChanged(bool value) async {
+    widget.player.gravatarProfilePicture =
         Provider.of<AuthService>(context, listen: false)
             .getConnectedUserEmail();
-    player.useGravatarProfilePicture = value;
-    _profilePictureController.text = player.profilePicture;
-    await _savePlayer(player);
+    widget.player.useGravatarProfilePicture = value;
+    _profilePictureController.text = widget.player.profilePicture;
+    await _savePlayer();
   }
 
   @override
@@ -98,7 +95,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                     ),
                                     onFieldSubmitted: (value) async {
                                       playerData.userName = value;
-                                      await _savePlayer(playerData);
+                                      await _savePlayer();
                                     },
                                   ),
                                 ),
@@ -147,7 +144,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                       labelText: 'Image de profil (URL)',
                                     ),
                                     onFieldSubmitted: (value) async {
-                                      await _savePlayer(playerData);
+                                      await _savePlayer();
                                     },
                                   ),
                                 ),
@@ -156,8 +153,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   title: Text('Utiliser mon Gravatar',
                                       style: TextStyle(fontSize: 20)),
                                   onChanged: (bool value) async =>
-                                      await _onSwitchTileChanged(
-                                          playerData, value),
+                                      await _onSwitchTileChanged(value),
                                   value: playerData.useGravatarProfilePicture,
                                 )
                               ],
