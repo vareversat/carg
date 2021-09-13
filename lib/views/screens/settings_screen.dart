@@ -1,6 +1,7 @@
 import 'package:carg/helpers/custom_route.dart';
 import 'package:carg/models/player.dart';
 import 'package:carg/services/auth_service.dart';
+import 'package:carg/services/custom_exception.dart';
 import 'package:carg/services/player_service.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/dialogs/carg_about_dialog.dart';
@@ -12,36 +13,42 @@ import 'package:provider/provider.dart';
 
 class SettingsScreen extends StatefulWidget {
   final Player player;
+  final PlayerService playerService;
 
-  const SettingsScreen({required this.player});
+  const SettingsScreen({required this.player, required this.playerService});
 
   @override
-  _SettingsScreenState createState() => _SettingsScreenState(player);
+  _SettingsScreenState createState() => _SettingsScreenState();
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  final Player _player;
-  final PlayerService _playerService = PlayerService();
   final TextEditingController _profilePictureController =
       TextEditingController();
 
-  _SettingsScreenState(this._player);
+  Future<void> _savePlayer(Player player) async {
+    print(player);
+    print(widget.player);
 
-  Future _savePlayer() async {
-    await _playerService.updatePlayer(_player);
-    InfoSnackBar.showSnackBar(context, 'Profil modifié avec succès');
+    try {
+      await widget.playerService.updatePlayer(player);
+      InfoSnackBar.showSnackBar(context, 'Profil modifié avec succès');
+    } on CustomException catch (e) {
+      InfoSnackBar.showSnackBar(context, e.message);
+    }
   }
 
-  Future<void> _signOut() async {
-    try {
-      await Provider.of<AuthService>(context, listen: false).signOut(context);
-      // ignore: empty_catches
-    } catch (e) {}
+  Future<void> _onSwitchTileChanged(Player player, bool value) async {
+    player.gravatarProfilePicture =
+        Provider.of<AuthService>(context, listen: false)
+            .getConnectedUserEmail();
+    player.useGravatarProfilePicture = value;
+    _profilePictureController.text = player.profilePicture;
+    await _savePlayer(player);
   }
 
   @override
   void initState() {
-    _profilePictureController.text = _player.profilePicture;
+    _profilePictureController.text = widget.player.profilePicture;
     super.initState();
   }
 
@@ -63,7 +70,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ChangeNotifierProvider.value(
-                  value: _player,
+                  value: widget.player,
                   child: Consumer<Player>(
                       builder: (context, playerData, _) => Container(
                             child: Column(
@@ -77,6 +84,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                             fontSize: 30))),
                                 ListTile(
                                   title: TextFormField(
+                                    key: ValueKey('usernameTextField'),
                                     initialValue: playerData.userName,
                                     autofillHints: [AutofillHints.username],
                                     style: TextStyle(
@@ -90,7 +98,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                     ),
                                     onFieldSubmitted: (value) async {
                                       playerData.userName = value;
-                                      await _savePlayer();
+                                      await _savePlayer(playerData);
                                     },
                                   ),
                                 ),
@@ -111,6 +119,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                                 playerData.profilePicture)),
                                       )),
                                   title: TextFormField(
+                                    key: ValueKey('imageURLTextField'),
                                     controller: _profilePictureController,
                                     enabled:
                                         !playerData.useGravatarProfilePicture,
@@ -124,9 +133,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                         color: !playerData
                                                 .useGravatarProfilePicture
                                             ? Theme.of(context)
-                                            .textTheme
-                                            .bodyText2!
-                                            .color
+                                                .textTheme
+                                                .bodyText2!
+                                                .color
                                             : Colors.grey),
                                     onChanged: (value) {
                                       playerData.profilePicture = value;
@@ -138,24 +147,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                       labelText: 'Image de profil (URL)',
                                     ),
                                     onFieldSubmitted: (value) async {
-                                      await _savePlayer();
+                                      await _savePlayer(playerData);
                                     },
                                   ),
                                 ),
                                 SwitchListTile(
+                                  key: ValueKey('gravatarSwitchTile'),
                                   title: Text('Utiliser mon Gravatar',
                                       style: TextStyle(fontSize: 20)),
-                                  onChanged: (bool value) async {
-                                    playerData.gravatarProfilePicture =
-                                        Provider.of<AuthService>(context,
-                                                listen: false)
-                                            .getConnectedUserEmail();
-                                    playerData.useGravatarProfilePicture =
-                                        value;
-                                    _profilePictureController.text =
-                                        playerData.profilePicture;
-                                    await _savePlayer();
-                                  },
+                                  onChanged: (bool value) async =>
+                                      await _onSwitchTileChanged(
+                                          playerData, value),
                                   value: playerData.useGravatarProfilePicture,
                                 )
                               ],
@@ -174,7 +176,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       subtitle: Text(
                           Provider.of<AuthService>(context, listen: false)
                                   .getConnectedUserEmail() ??
-                              'Pas d\'email renseigné',
+                              "Pas d'email renseigné'",
+                          key: ValueKey('emailText'),
                           style: TextStyle(
                               fontSize: 15, fontStyle: FontStyle.italic)),
                       selected: true,
@@ -193,6 +196,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           Provider.of<AuthService>(context, listen: false)
                                   .getConnectedUserPhoneNumber() ??
                               'Pas de numéro renseigné',
+                          key: ValueKey('phoneText'),
                           style: TextStyle(
                               fontSize: 15, fontStyle: FontStyle.italic)),
                       selected: true,
@@ -212,7 +216,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 padding: const EdgeInsets.all(8.0),
                 child: Center(
                   child: TextButton(
-                    onPressed: () => _signOut(),
+                    onPressed: () async =>
+                        await Provider.of<AuthService>(context, listen: false)
+                            .signOut(context),
                     child: Text('Déconnexion',
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
@@ -222,6 +228,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
               ),
               ListTile(
+                  key: ValueKey('aboutButton'),
                   subtitle: Text('Informations concernant l\'application',
                       style: TextStyle(fontSize: 15)),
                   selected: true,

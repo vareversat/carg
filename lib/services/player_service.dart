@@ -78,7 +78,7 @@ class PlayerService {
     }
   }
 
-  Future updatePlayer(Player player) async {
+  Future<void> updatePlayer(Player player) async {
     try {
       await FirebaseFirestore.instance
           .collection(dataBase + '-' + flavor)
