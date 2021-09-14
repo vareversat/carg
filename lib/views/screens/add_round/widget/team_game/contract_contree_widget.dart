@@ -1,4 +1,4 @@
-import 'package:carg/models/score/misc/coinche_belote_contract_name.dart';
+import 'package:carg/models/score/misc/contree_belote_contract_name.dart';
 import 'package:carg/models/score/round/belote_round.dart';
 import 'package:carg/models/score/round/contree_belote_round.dart';
 import 'package:carg/views/screens/add_round/widget/section_title_widget.dart';
@@ -27,19 +27,19 @@ class ContractContreeWidget extends StatelessWidget {
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        DropdownButton<CoincheBeloteContractName>(
+                        DropdownButton<ContreeBeloteContractName>(
                           value: roundData.contractName,
-                          items: CoincheBeloteContractName.values
-                              .map((CoincheBeloteContractName value) {
-                            return DropdownMenuItem<CoincheBeloteContractName>(
+                          items: ContreeBeloteContractName.values
+                              .map((ContreeBeloteContractName value) {
+                            return DropdownMenuItem<ContreeBeloteContractName>(
                                 value: value, child: Text(value.name));
                           }).toList(),
-                          onChanged: (CoincheBeloteContractName? val) {
+                          onChanged: (ContreeBeloteContractName? val) {
                             roundData.contractName = val!;
                             if (roundData.contractName ==
-                                    CoincheBeloteContractName.CAPOT ||
+                                    ContreeBeloteContractName.CAPOT ||
                                 roundData.contractName ==
-                                    CoincheBeloteContractName.GENERALE) {
+                                    ContreeBeloteContractName.GENERALE) {
                               roundData.contract = BeloteRound.totalTrickScore +
                                   BeloteRound.dixDeDerBonus;
                             }
@@ -83,8 +83,8 @@ class _ContractTextFieldWidgetState extends State<_ContractTextFieldWidget> {
         controller: _contractTextController,
         style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
         enabled: !(_coincheRound!.contractName ==
-                CoincheBeloteContractName.CAPOT ||
-            _coincheRound!.contractName == CoincheBeloteContractName.GENERALE),
+                ContreeBeloteContractName.CAPOT ||
+            _coincheRound!.contractName == ContreeBeloteContractName.GENERALE),
         textAlign: TextAlign.center,
         keyboardType: TextInputType.number,
         inputFormatters: <TextInputFormatter>[],

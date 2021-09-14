@@ -1,12 +1,12 @@
 import 'package:carg/models/score/misc/belote_team_enum.dart';
 import 'package:carg/models/score/misc/card_color.dart';
-import 'package:carg/models/score/misc/coinche_belote_contract_name.dart';
+import 'package:carg/models/score/misc/contree_belote_contract_name.dart';
 import 'package:carg/models/score/round/belote_round.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 
 class ContreeBeloteRound extends BeloteRound {
   late int _contract;
-  late CoincheBeloteContractName _contractName;
+  late ContreeBeloteContractName _contractName;
 
   ContreeBeloteRound(
       {index,
@@ -35,7 +35,7 @@ class ContreeBeloteRound extends BeloteRound {
             themTrickScore: themTrickScore,
             defender: defender) {
     _contract = contract ?? 0;
-    _contractName = contractName ?? CoincheBeloteContractName.NORMAL;
+    _contractName = contractName ?? ContreeBeloteContractName.NORMAL;
   }
 
   @override
@@ -51,9 +51,9 @@ class ContreeBeloteRound extends BeloteRound {
               getDixDeDerOfTeam(defender, 0) +
               getBeloteRebeloteOfTeam(defender));
 
-  CoincheBeloteContractName get contractName => _contractName;
+  ContreeBeloteContractName get contractName => _contractName;
 
-  set contractName(CoincheBeloteContractName value) {
+  set contractName(ContreeBeloteContractName value) {
     _contractName = value;
     computeRound();
   }
@@ -131,7 +131,7 @@ class ContreeBeloteRound extends BeloteRound {
         usTrickScore: json['us_trick_score'],
         themTrickScore: json['them_trick_score'],
         contractName: EnumToString.fromString(
-            CoincheBeloteContractName.values, json['contract_name']));
+            ContreeBeloteContractName.values, json['contract_name']));
   }
 
   static List<ContreeBeloteRound> fromJSONList(List<dynamic> jsonList) {
