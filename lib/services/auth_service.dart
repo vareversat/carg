@@ -50,8 +50,8 @@ class AuthService with ChangeNotifier {
       var acs = ActionCodeSettings(
           url: 'https://carg.page.link/',
           handleCodeInApp: true,
-          iOSBundleId: 'fr.devosud.carg',
-          androidPackageName: 'fr.devosud.carg',
+          iOSBundleId: 'fr.vareversat.carg',
+          androidPackageName: 'fr.vareversat.carg',
           androidInstallApp: true,
           androidMinimumVersion: '18');
       await FirebaseAuth.instance

@@ -42,7 +42,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "fr.devosud.carg"
+        applicationId "fr.vareversat.carg"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()

@@ -1,3 +1,10 @@
+# **v1.1.0** :
+
+- *Dev stuff* :
+  - Change package name
+
+***
+
 # **v1.0.0** :
 
 ## First release ! 
