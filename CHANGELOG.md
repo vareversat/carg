@@ -1,3 +1,15 @@
+# **v1.0.0** :
+
+## First release ! 
+
+- *Fixed stuff* :
+  - Fix Contrée contracts
+  - Open GitHub link is now working
+- *Dev stuff* :
+  - New widgets tests
+
+***
+
 # **v0.15.0+1** :
 
 - *Fixed stuff* :
