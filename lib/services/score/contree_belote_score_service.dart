@@ -52,9 +52,9 @@ class ContreeScoreService
       var contreeScore = await getScoreByGame(gameId);
       if (contreeScore != null) {
         contreeScore.usTotalPoints +=
-            getPointsOfRound(BeloteTeamEnum.US, contreeRound)!;
+            getPointsOfRound(BeloteTeamEnum.US, contreeRound);
         contreeScore.themTotalPoints +=
-            getPointsOfRound(BeloteTeamEnum.THEM, contreeRound)!;
+            getPointsOfRound(BeloteTeamEnum.THEM, contreeRound);
         contreeRound.index = contreeScore.rounds!.length;
         contreeScore.rounds!.add(contreeRound);
         await FirebaseFirestore.instance

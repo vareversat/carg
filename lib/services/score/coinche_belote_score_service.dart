@@ -52,9 +52,9 @@ class CoincheScoreService
       var coincheScore = await getScoreByGame(gameId);
       if (coincheScore != null) {
         coincheScore.usTotalPoints +=
-            getPointsOfRound(BeloteTeamEnum.US, coincheRound)!;
+            getPointsOfRound(BeloteTeamEnum.US, coincheRound);
         coincheScore.themTotalPoints +=
-            getPointsOfRound(BeloteTeamEnum.THEM, coincheRound)!;
+            getPointsOfRound(BeloteTeamEnum.THEM, coincheRound);
         coincheRound.index = coincheScore.rounds!.length;
         coincheScore.rounds!.add(coincheRound);
         await FirebaseFirestore.instance

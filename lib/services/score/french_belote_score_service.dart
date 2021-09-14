@@ -52,9 +52,9 @@ class FrenchBeloteScoreService
       var beloteScore = await getScoreByGame(gameId);
       if (beloteScore != null) {
         beloteScore.usTotalPoints +=
-            getPointsOfRound(BeloteTeamEnum.US, beloteRound)!;
+            getPointsOfRound(BeloteTeamEnum.US, beloteRound);
         beloteScore.themTotalPoints +=
-            getPointsOfRound(BeloteTeamEnum.THEM, beloteRound)!;
+            getPointsOfRound(BeloteTeamEnum.THEM, beloteRound);
         beloteRound.index = beloteScore.rounds!.length;
         beloteScore.rounds!.add(beloteRound);
         await FirebaseFirestore.instance
