@@ -9,7 +9,10 @@
         "digest",
         "rollback"
       ],
-      "automerge": true
+      "automerge": true,
+      "assignees": [
+        "vareversat"
+      ]
     },
     {
       "description": "Causes the bot to create a PR (and thus, an email notification), whenever there is a new major Renovate version",
