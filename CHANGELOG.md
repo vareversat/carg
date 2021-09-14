@@ -1,3 +1,10 @@
+# **v1.1.1** :
+
+- *Dev stuff* :
+  - Fix google-service.json file issue
+
+***
+
 # **v1.1.0** :
 
 - *Dev stuff* :
