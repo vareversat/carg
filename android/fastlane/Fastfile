@@ -1,5 +1,3 @@
-update_fastlane
-
 default_platform(:android)
 
 def root_path
@@ -10,11 +8,8 @@ before_all do |lane|
     skip_docs
 end
 
-default_platform(:android)
-
 desc "Submit to FirebaseAppDistribution"
 lane :firebase do |app_id, options|
-    #sh("flutter build apk --split-per-abi --dart-define=FLAVOR=prod")
     firebase_app_distribution(
         firebase_cli_token: ENV['FIREBASE_TOKEN'],
         app: ENV['APP_ID'],
