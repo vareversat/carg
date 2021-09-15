@@ -1,9 +1,8 @@
-name: Flutter build
+name: Flutter deploy Firebase
 on:
   push:
-    branches-ignore:
+    branches:
       - dev
-      - master
 
 jobs:
   analyze:
@@ -52,14 +51,33 @@ jobs:
         uses: actions/setup-java@v2
         with:
           distribution: 'zulu'
-          java-version: '11.x'
+          java-version: '11'
       - name: 'Setup flutter action'
         uses: subosito/flutter-action@v1.5.3
         with:
           flutter-version: '2.5.0'
-      - run: flutter build apk --split-per-abi
+      - run: flutter build apk --split-per-abi --dart-define=FLAVOR=prod
       - name: 'Save APK'
         uses: actions/upload-artifact@v2
         with:
           name: 'apk-build'
           path: build/app/outputs/apk/release/app-arm64-v8a-release.apk
+  deploy_android:
+    needs: build_android
+    name: 'Deploy Android on Firebase'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout source code'
+        uses: actions/checkout@v2.3.4
+      - name: 'Download Artifact'
+        uses: actions/download-artifact@v2
+        with:
+          name: 'apk-build'
+      - name: 'Fastlane Action'
+        uses: maierj/fastlane-action@v2.0.1
+        with:
+          lane: 'firebase'
+          subdirectory: 'android'
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          APP_ID: ${{ secrets.APP_ID }}

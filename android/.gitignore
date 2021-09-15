@@ -7,3 +7,6 @@ gradle-wrapper.jar
 /key.properties
 GeneratedPluginRegistrant.java
 /app/keystore.jks
+
+# Fastlane
+/fastlane/report.xml
