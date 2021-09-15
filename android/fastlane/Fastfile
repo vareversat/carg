@@ -20,7 +20,7 @@ lane :firebase do |app_id, options|
         app: ENV['APP_ID'],
         release_notes_file: "#{root_path}/CHANGELOG.md",
         android_artifact_type: "APK",
-        android_artifact_path: "#{root_path}/build/app/outputs/flutter-apk/app-arm64-v8a-release.apk",
+        android_artifact_path: "#{root_path}/app-arm64-v8a-release.apk",
         groups_file: "#{root_path}/groups_file.txt",
     )
 end
