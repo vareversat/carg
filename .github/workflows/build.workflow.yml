@@ -1,7 +1,8 @@
-name: Flutter - CI (build)
+name: Flutter build
 on:
   push:
-    branches:
+    branches-ignore:
+      - dev
       - master
 
 jobs:
@@ -56,7 +57,7 @@ jobs:
         uses: subosito/flutter-action@v1.5.3
         with:
           flutter-version: '2.5.0'
-      - run: flutter build apk --split-per-abi --dart-define=FLAVOR=dev
+      - run: flutter build apk --split-per-abi
       - name: 'Save APK'
         uses: actions/upload-artifact@v2
         with:
