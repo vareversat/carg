@@ -133,6 +133,7 @@ class _RegisterScreenState extends State<RegisterScreen>
                             Column(
                               children: [
                                 AnimatedSize(
+                                    key: ValueKey('placeholderContainer'),
                                     curve: Curves.ease,
                                     duration: Duration(milliseconds: 500),
                                     child: registerData.selectedRegisterMethod
@@ -148,6 +149,7 @@ class _RegisterScreenState extends State<RegisterScreen>
                                   height: 45,
                                   width: double.infinity,
                                   child: ElevatedButton.icon(
+                                    key: ValueKey('emailButton'),
                                     icon: Icon(Icons.mail_outline),
                                     style: ButtonStyle(
                                         backgroundColor: MaterialStateProperty
@@ -191,7 +193,7 @@ class _RegisterScreenState extends State<RegisterScreen>
                                     label: Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Text(
-                                        'Continuer avec une adresse e-mail',
+                                        'Continuer avec une adresse email',
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 18),
@@ -204,6 +206,7 @@ class _RegisterScreenState extends State<RegisterScreen>
                                   height: 45,
                                   width: double.infinity,
                                   child: ElevatedButton.icon(
+                                    key: ValueKey('phoneButton'),
                                     icon: Icon(Icons.phone),
                                     style: ButtonStyle(
                                         backgroundColor: MaterialStateProperty
@@ -260,6 +263,7 @@ class _RegisterScreenState extends State<RegisterScreen>
                                   height: 45,
                                   width: double.infinity,
                                   child: ElevatedButton.icon(
+                                    key: ValueKey('googleButton'),
                                     icon: FaIcon(
                                         FontAwesomeIcons.google, size: 22),
                                     style: ButtonStyle(
