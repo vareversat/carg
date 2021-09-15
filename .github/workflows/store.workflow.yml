@@ -1,0 +1,75 @@
+name: Flutter deploy Play Store & App Store
+on:
+  push:
+    tags:
+      - v*
+
+jobs:
+  analyze:
+    name: 'Analyze'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout source code'
+        uses: actions/checkout@v2
+      - name: 'Setup flutter action'
+        uses: subosito/flutter-action@v1.5.3
+        with:
+          flutter-version: '2.5.0'
+      - run: flutter analyze
+  test:
+    name: 'Test'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout source code'
+        uses: actions/checkout@v2
+      - name: 'Setup flutter action'
+        uses: subosito/flutter-action@v1.5.3
+        with:
+          flutter-version: '2.5.0'
+      - run: flutter test --coverage
+      - name: 'Upload coverage report'
+        uses: codecov/codecov-action@v2.0.3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          directory: ./coverage/
+  build_android:
+    needs: [ analyze, test ]
+    name: 'Build Android'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout source code'
+        uses: actions/checkout@v2
+      - name: 'Decrypt secret configuration'
+        run: ./.github/scripts/decrypt_secret.sh
+        env:
+          PASSPHRASE: ${{secrets.PASSPHRASE}}
+      - name: 'Check secret configuration'
+        run: ./.github/scripts/check_secrets_decryption.sh
+        env:
+          PASSPHRASE: ${{secrets.PASSPHRASE}}
+      - name: 'Set up JAVA'
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'zulu'
+          java-version: '11'
+      - name: 'Setup flutter action'
+        uses: subosito/flutter-action@v1.5.3
+        with:
+          flutter-version: '2.5.0'
+      - run: flutter build apk --split-per-abi --dart-define=FLAVOR=prod
+      - name: 'Save APK'
+        uses: actions/upload-artifact@v2
+        with:
+          name: 'apk-build'
+          path: build/app/outputs/apk/release/app-arm64-v8a-release.apk
+  deploy_android:
+    needs: build_android
+    name: 'Deploy Android on Firebase App distribution'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout source code'
+        uses: actions/checkout@v2.3.4
+      - name: 'Download Artifact'
+        uses: actions/download-artifact@v2
+        with:
+          name: 'apk-build'
