@@ -127,8 +127,8 @@ class _RegisterScreenState extends State<RegisterScreen>
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: ChangeNotifierProvider.value(
-                    value: RegisterData(EmailRegisterMethod()),
-                    child: Consumer<RegisterData>(
+                    value: _RegisterData(_EmailRegisterMethod()),
+                    child: Consumer<_RegisterData>(
                         builder: (context, registerData, _) =>
                             Column(
                               children: [
@@ -154,7 +154,7 @@ class _RegisterScreenState extends State<RegisterScreen>
                                             .all<
                                             Color>(
                                             registerData
-                                                .selectedRegisterMethod is EmailRegisterMethod
+                                                .selectedRegisterMethod is _EmailRegisterMethod
                                                 ? Theme
                                                 .of(context)
                                                 .primaryColor
@@ -165,7 +165,7 @@ class _RegisterScreenState extends State<RegisterScreen>
                                             .all<
                                             Color>(
                                             registerData
-                                                .selectedRegisterMethod is EmailRegisterMethod
+                                                .selectedRegisterMethod is _EmailRegisterMethod
                                                 ? Theme
                                                 .of(context)
                                                 .cardColor
@@ -186,7 +186,7 @@ class _RegisterScreenState extends State<RegisterScreen>
                                                         .borderRadius)))),
                                     onPressed: () {
                                       registerData.selectedRegisterMethod =
-                                          EmailRegisterMethod();
+                                          _EmailRegisterMethod();
                                     },
                                     label: Padding(
                                       padding: const EdgeInsets.all(8.0),
@@ -210,7 +210,7 @@ class _RegisterScreenState extends State<RegisterScreen>
                                             .all<
                                             Color>(
                                             registerData
-                                                .selectedRegisterMethod is PhoneRegisterMethod
+                                                .selectedRegisterMethod is _PhoneRegisterMethod
                                                 ? Theme
                                                 .of(context)
                                                 .primaryColor
@@ -221,7 +221,7 @@ class _RegisterScreenState extends State<RegisterScreen>
                                             .all<
                                             Color>(
                                             registerData
-                                                .selectedRegisterMethod is PhoneRegisterMethod
+                                                .selectedRegisterMethod is _PhoneRegisterMethod
                                                 ? Theme
                                                 .of(context)
                                                 .cardColor
@@ -242,7 +242,7 @@ class _RegisterScreenState extends State<RegisterScreen>
                                                         .borderRadius)))),
                                     onPressed: () {
                                       registerData.selectedRegisterMethod =
-                                          PhoneRegisterMethod();
+                                          _PhoneRegisterMethod();
                                     },
                                     label: Padding(
                                       padding: const EdgeInsets.all(8.0),
@@ -267,7 +267,7 @@ class _RegisterScreenState extends State<RegisterScreen>
                                             .all<
                                             Color>(
                                             registerData
-                                                .selectedRegisterMethod is GoogleRegisterMethod
+                                                .selectedRegisterMethod is _GoogleRegisterMethod
                                                 ? Theme
                                                 .of(context)
                                                 .primaryColor
@@ -278,7 +278,7 @@ class _RegisterScreenState extends State<RegisterScreen>
                                             .all<
                                             Color>(
                                             registerData
-                                                .selectedRegisterMethod is GoogleRegisterMethod
+                                                .selectedRegisterMethod is _GoogleRegisterMethod
                                                 ? Theme
                                                 .of(context)
                                                 .cardColor
@@ -299,7 +299,7 @@ class _RegisterScreenState extends State<RegisterScreen>
                                                         .borderRadius)))),
                                     onPressed: () async {
                                       registerData.selectedRegisterMethod =
-                                          GoogleRegisterMethod();
+                                          _GoogleRegisterMethod();
                                       await Provider.of<AuthService>(
                                           context, listen: false)
                                           .googleLogIn();
@@ -343,18 +343,18 @@ abstract class RegisterMethod {
   RegisterMethod(this.registrationWidget);
 }
 
-class PhoneRegisterMethod extends RegisterMethod {
-  PhoneRegisterMethod() : super(RegisterPhoneWidget(
+class _PhoneRegisterMethod extends RegisterMethod {
+  _PhoneRegisterMethod() : super(RegisterPhoneWidget(
       credentialVerificationType: CredentialVerificationType.CREATE));
 }
 
-class EmailRegisterMethod extends RegisterMethod {
-  EmailRegisterMethod() : super(RegisterEmailWidget(
+class _EmailRegisterMethod extends RegisterMethod {
+  _EmailRegisterMethod() : super(RegisterEmailWidget(
       credentialVerificationType: CredentialVerificationType.CREATE));
 }
 
-class GoogleRegisterMethod extends RegisterMethod {
-  GoogleRegisterMethod() : super(Row(
+class _GoogleRegisterMethod extends RegisterMethod {
+  _GoogleRegisterMethod() : super(Row(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
       Text('Connexion à votre compte Google...',
@@ -370,11 +370,11 @@ class GoogleRegisterMethod extends RegisterMethod {
 }
 
 
-class RegisterData with ChangeNotifier {
+class _RegisterData with ChangeNotifier {
 
   RegisterMethod _selectedRegisterMethod;
 
-  RegisterData(this._selectedRegisterMethod);
+  _RegisterData(this._selectedRegisterMethod);
 
   RegisterMethod get selectedRegisterMethod => _selectedRegisterMethod;
 
