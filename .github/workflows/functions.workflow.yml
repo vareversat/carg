@@ -1,0 +1,36 @@
+name: Firebase functions
+on:
+  push:
+    branches:
+      - functions/naw_and_ci
+
+jobs:
+  build_deploy:
+    name: 'Build and deploy'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout source code'
+        uses: actions/checkout@v2
+      - name: 'Decrypt secret configuration'
+        run: ./.github/scripts/decrypt_secret.sh
+        env:
+          PASSPHRASE: ${{secrets.PASSPHRASE}}
+      - name: 'Check secret configuration'
+        run: ./.github/scripts/check_secrets_decryption.sh
+        env:
+          PASSPHRASE: ${{secrets.PASSPHRASE}}
+      - name: 'Setup Node / NPM'
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14.x'
+      - run: npm install -g firebase-tools
+      - name: 'Install npm packages'
+        run: |
+          cd firebase_functions/functions
+          npm install
+      - name: 'Deploy functions'
+        run: |
+          cd ./firebase_functions
+          firebase deploy --only functions
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}

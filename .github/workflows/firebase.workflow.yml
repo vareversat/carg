@@ -1,8 +1,8 @@
 name: Flutter deploy Firebase
 on:
   push:
-    branches:
-      - dev
+    tags:
+      - v*
 
 jobs:
   analyze:
