@@ -2,7 +2,8 @@ name: Firebase functions
 on:
   push:
     branches:
-      - functions/naw_and_ci
+      - dev
+      - master
 
 jobs:
   build_deploy:
