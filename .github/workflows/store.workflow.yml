@@ -1,8 +1,8 @@
 name: Flutter deploy Play Store & App Store
 on:
   push:
-    tags:
-      - v*
+    branches:
+      - master
 
 jobs:
   analyze:
