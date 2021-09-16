@@ -23,14 +23,14 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '12.x'
+      - run: npm install -g firebase-tools
       - name: 'Install npm packages'
         run: |
           cd firebase_functions/functions
           npm install
-      - name: 'Deploy'
-        uses: w9jds/firebase-action@master
-        with:
-          args: deploy --only functions
+      - name: 'Deploy functions'
+        run: |
+          cd ./firebase_functions
+          firebase deploy --only functions
         env:
-          PROJECT_PATH: ./firebase_functions
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
