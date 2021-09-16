@@ -11,6 +11,14 @@ jobs:
     steps:
       - name: 'Checkout source code'
         uses: actions/checkout@v2
+      - name: 'Decrypt secret configuration'
+        run: ./.github/scripts/decrypt_secret.sh
+        env:
+          PASSPHRASE: ${{secrets.PASSPHRASE}}
+      - name: 'Check secret configuration'
+        run: ./.github/scripts/check_secrets_decryption.sh
+        env:
+          PASSPHRASE: ${{secrets.PASSPHRASE}}
       - name: 'Setup Node / NPM'
         uses: actions/setup-node@v2
         with:
