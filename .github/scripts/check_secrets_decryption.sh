@@ -28,6 +28,20 @@ else
   exit 1
 fi
 
+if [ -s "$GITHUB_WORKSPACE"/firebase_functions/functions/src/algolia-key.json ]; then
+  echo "algolia-key.json ✅"
+else
+  echo "algolia-key.json is empty ❌"
+  exit 1
+fi
+
+if [ -s "$GITHUB_WORKSPACE"/firebase_functions/functions/src/backup-service-key.json ]; then
+  echo "backup-service-key.json ✅"
+else
+  echo "backup-service-key.json is empty ❌"
+  exit 1
+fi
+
 if [ -s "$GITHUB_WORKSPACE"/migration_scripts/key.json ]; then
   echo "key.json ✅"
 else

@@ -6,3 +6,6 @@
 typings/
 
 node_modules/
+
+# Secrets files
+*-key.json

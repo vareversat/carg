@@ -1,0 +1,28 @@
+name: Firebase functions
+on:
+  push:
+    branches:
+      - functions/new_and_ci
+
+jobs:
+  build_deploy:
+    name: 'Build and deploy'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout source code'
+        uses: actions/checkout@v2
+      - name: 'Setup Node / NPM'
+        uses: actions/setup-node@v2
+        with:
+          node-version: '12.x'
+      - name: 'Install npm packages'
+        run: |
+          cd firebase_functions/functions
+          npm install
+      - name: 'Deploy'
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only functions
+        env:
+          PROJECT_PATH: ./firebase_functions
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
