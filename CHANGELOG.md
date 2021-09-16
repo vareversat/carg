@@ -1,3 +1,11 @@
+# **v1.1.2** :
+
+- *Dev stuff* :
+  - Backup functions (daily backup at 00:00)
+  - Workflow for firebase functions
+
+***
+
 # **v1.1.1** :
 
 - *Dev stuff* :
