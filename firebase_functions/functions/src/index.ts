@@ -64,7 +64,7 @@ export const onPlayerDeletedProd = functions.firestore.document('player-prod/{pl
 
 // Backup functions
 
-export const backupFirestore = functions.pubsub.schedule('every day 00:00').onRun(async (context) => {
+export const backupFirestore = functions.pubsub.schedule('every day 00:00').timeZone('Europe/Paris').onRun(async (context) => {
     const projectId = process.env.GCP_PROJECT || process.env.GCLOUD_PROJECT || '';
     const bucketName = `${projectId}-firestore-backup`;
     const databaseName = firestoreClient.databasePath(projectId,'(default)');
