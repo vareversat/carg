@@ -1,8 +1,15 @@
 #!/bin/bash
 
 BUILD_NUMBER=$(git rev-list --all --count)
-CHANGELOG_PATH="$GITHUB_WORKSPACE"/android/fastlane/metada/android/fr-FR/changelogs/"$BUILD_NUMBER".txt
+CHANGELOG_PATH="$GITHUB_WORKSPACE"/android/fastlane/metadata/android/fr-FR/changelogs/"$BUILD_NUMBER".txt
 CHANGELOG=$(sed '/\*\*\*/q' "$GITHUB_WORKSPACE"/CHANGELOG.md | sed 's/\*//g' | sed 's/#//g' | sed '$d')
-echo "$CHANGELOG" > "$CHANGELOG_PATH"
-echo "New changelog (path : $CHANGELOG_PATH)"
-echo "$CHANGELOG"
+
+if [ -s "$CHANGELOG_PATHCHANGELOG_PATH" ]; then
+  echo "Changelog generated ✅"
+  echo "New changelog (path : $CHANGELOG_PATH)"
+  cat "$CHANGELOG_PATH"
+  exit 0
+else
+  echo "Changelog is missing ❌"
+  exit 1
+fi
