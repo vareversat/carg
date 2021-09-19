@@ -56,13 +56,16 @@ jobs:
           java-version: '11'
       - name: 'Generate build number'
         run: |
-          echo "BUILD_NUMBER=$(git rev-list --all --count)" >> $GITHUB_ENV
-          echo "The build is tagged as ${{ env.BUILD_NUMBER }} on $GITHUB_REF"
+          BUILD_NUMBER=$(git rev-list --all --count)
+          echo "$BUILD_NUMBER" >> $GITHUB_ENV
+          echo "This build is tagged as $BUILD_NUMBER on $GITHUB_REF"
       - name: 'Build Android App Bundle'
         uses: subosito/flutter-action@v1.5.3
         with:
           flutter-version: '2.5.0'
-      - run: flutter build appbundle --dart-define=FLAVOR=prod --build-number=${{ env.BUILD_NUMBER }}
+        run: flutter build appbundle --dart-define=FLAVOR=prod --build-number="$BUILD_NUMBER"
+        env:
+          BUILD_NUMBER: ${{env.BUILD_NUMBER}}
       - name: 'Save AAB'
         uses: actions/upload-artifact@v2
         with:
