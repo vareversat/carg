@@ -59,10 +59,11 @@ jobs:
           BUILD_NUMBER=$(git rev-list --all --count)
           echo "$BUILD_NUMBER" >> $GITHUB_ENV
           echo "This build is tagged as $BUILD_NUMBER on $GITHUB_REF"
-      - name: 'Build Android App Bundle'
+      - name: 'Setup Flutter action'
         uses: subosito/flutter-action@v1.5.3
         with:
           flutter-version: '2.5.0'
+      - name: 'Build Android App Bundle'
         run: flutter build appbundle --dart-define=FLAVOR=prod --build-number="$BUILD_NUMBER"
         env:
           BUILD_NUMBER: ${{env.BUILD_NUMBER}}
