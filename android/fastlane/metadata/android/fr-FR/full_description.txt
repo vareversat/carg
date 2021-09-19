@@ -1,0 +1,1 @@
+Carg vous permet d'enregistrer vos parties de cartes aussi bien de Belote (française, coinchée ou contrée) que de Tarot. Elle permet d'enregistrer les statistiques détaillées de vos parties et de vous confronter à vos amis !

@@ -1,10 +1,8 @@
-name: Flutter - CI (firebase app distribution)
+name: Flutter deploy PRODUCTION
 on:
   push:
-    tags:
-      - v*
-  release:
-    types: [published]
+    branches:
+      - main
 
 jobs:
   analyze:
@@ -17,7 +15,8 @@ jobs:
         uses: subosito/flutter-action@v1.5.3
         with:
           flutter-version: '2.5.0'
-      - run: flutter analyze
+      - name: 'Flutter analyze'
+        run: flutter analyze
   test:
     name: 'Test'
     runs-on: ubuntu-latest
@@ -28,9 +27,10 @@ jobs:
         uses: subosito/flutter-action@v1.5.3
         with:
           flutter-version: '2.5.0'
-      - run: flutter test --coverage
+      - name: 'Flutter test (with coverage)'
+        run: flutter test --coverage
       - name: 'Upload coverage report'
-        uses: codecov/codecov-action@v2.0.3
+        uses: codecov/codecov-action@v2.1.0
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           directory: ./coverage/
@@ -41,47 +41,60 @@ jobs:
     steps:
       - name: 'Checkout source code'
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - name: 'Decrypt secret configuration'
         run: ./.github/scripts/decrypt_secret.sh
         env:
           PASSPHRASE: ${{secrets.PASSPHRASE}}
       - name: 'Check secret configuration'
         run: ./.github/scripts/check_secrets_decryption.sh
-        env:
-          PASSPHRASE: ${{secrets.PASSPHRASE}}
       - name: 'Set up JAVA'
         uses: actions/setup-java@v2
         with:
           distribution: 'zulu'
           java-version: '11'
-      - name: 'Setup flutter action'
+      - name: 'Generate build number'
+        run: |
+          BUILD_NUMBER=$(git rev-list --all --count)
+          echo "BUILD_NUMBER=$BUILD_NUMBER" >> $GITHUB_ENV
+          echo "This build is tagged as $BUILD_NUMBER on $GITHUB_REF"
+      - name: 'Setup Flutter action'
         uses: subosito/flutter-action@v1.5.3
         with:
           flutter-version: '2.5.0'
-      - run: flutter build apk --split-per-abi --dart-define=FLAVOR=prod
-      - name: 'Save APK'
+      - name: 'Build Android App Bundle'
+        run: flutter build appbundle --dart-define=FLAVOR=prod --build-number="$BUILD_NUMBER"
+        env:
+          BUILD_NUMBER: ${{env.BUILD_NUMBER}}
+      - name: 'Save AAB'
         uses: actions/upload-artifact@v2
         with:
-          name: 'apk-build'
-          path: build/app/outputs/apk/release/app-arm64-v8a-release.apk
-  deploy_android:
+          name: 'aab-build'
+          path: build/app/outputs/bundle/release/app-release.aab
+  play_store:
     needs: build_android
-    name: 'Upload APK on Firebase'
+    name: 'Deploy on Play Store - Production'
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout source code'
         uses: actions/checkout@v2.3.4
+        with:
+          fetch-depth: 0
+      - name: 'Decrypt secret configuration'
+        run: ./.github/scripts/decrypt_secret.sh
+        env:
+          PASSPHRASE: ${{secrets.PASSPHRASE}}
+      - name: 'Check secret configuration'
+        run: ./.github/scripts/check_secrets_decryption.sh
       - name: 'Download Artifact'
         uses: actions/download-artifact@v2
         with:
-          name: 'apk-build'
-      - name: 'Setup Node / NPM'
-        uses: actions/setup-node@v2
+          name: 'aab-build'
+      - name: 'Generate changelog'
+        run: ./.github/scripts/generate_changelog.sh
+      - name: 'Fastlane deploy PRODUCTION'
+        uses: maierj/fastlane-action@v2.0.1
         with:
-          node-version: '12.x'
-      - run: npm install -g firebase-tools
-      - name: 'Deploy to Firebase'
-        run: firebase appdistribution:distribute --token "$FIREBASE_TOKEN" app-arm64-v8a-release.apk --app "$APP_ID" --release-notes-file CHANGELOG.md --groups-file groups_file.txt
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-          APP_ID: ${{ secrets.APP_ID }}
+          lane: 'production'
+          subdirectory: 'android'

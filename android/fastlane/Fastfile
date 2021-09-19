@@ -1,0 +1,44 @@
+default_platform(:android)
+
+def root_path
+  Dir.pwd.sub(/.*\Kfastlane/, '').sub(/.*\Kandroid/, '').sub(/.*\Kios/, '').sub(/.*\K\/\//, '')
+end
+
+desc "Submit to FirebaseAppDistribution"
+lane :firebase do
+    firebase_app_distribution(
+        firebase_cli_token: ENV['FIREBASE_TOKEN'],
+        app: ENV['APP_ID'],
+        release_notes_file: "#{root_path}/CHANGELOG.md",
+        android_artifact_type: "APK",
+        android_artifact_path: "#{root_path}/app-arm64-v8a-release.apk",
+        groups_file: "#{root_path}/groups_file.txt",
+    )
+end
+
+platform :android do
+    desc "Upload to Play Store : Alpha track"
+    lane :alpha do
+        upload_to_play_store(
+            track: 'alpha',
+            track_promote_to: 'beta',
+            aab: "#{root_path}/app-release.aab"
+        )
+    end
+
+    desc "Upload to Play Store : Beta track"
+    lane :beta do
+        upload_to_play_store(
+            track: 'beta',
+            aab: "#{root_path}/app-release.aab"
+        )
+    end
+
+    desc "Upload to Play Store : Production track"
+    lane :production do
+        upload_to_play_store(
+            track: 'production',
+            aab: "#{root_path}/app-release.aab"
+        )
+    end
+end

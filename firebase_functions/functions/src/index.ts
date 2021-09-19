@@ -1,13 +1,19 @@
 import * as functions from 'firebase-functions';
 import algoliasearch from 'algoliasearch';
+import * as firestore from "@google-cloud/firestore";
 
-const ALGOLIA_APP_ID = 'A0M2ID7FCT';
-const ALGOLIA_ADMIN_KEY = 'f897240bd9ba1dbaf4cbda253903f47a';
+import * as algolia_key from "./algolia-key.json";
+import * as google_key from "./backup-service-key.json";
 
-const client = algoliasearch(ALGOLIA_APP_ID, ALGOLIA_ADMIN_KEY);
-const indexDev = client.initIndex('player-dev');
-const indexProd = client.initIndex('player-prod');
+const algoliaClient = algoliasearch(algolia_key.app_id, algolia_key.api_key);
+const firestoreClient = new firestore.v1.FirestoreAdminClient({credentials:
+    {client_email: google_key.client_email, private_key: google_key.private_key }
+});
+const indexDev = algoliaClient.initIndex('player-dev');
+const indexProd = algoliaClient.initIndex('player-prod');
 
+
+// App functions
 export const onPlayerCreatedDev = functions.firestore.document('player-dev/{playerId}').onCreate((snap, context) => {
     const player = snap.data();
     if (player !== undefined) {
@@ -54,4 +60,23 @@ export const onPlayerUpdatedProd = functions.firestore.document('player-prod/{pl
 
 export const onPlayerDeletedProd = functions.firestore.document('player-prod/{playerId}').onDelete((snap, context,) => {
     return indexProd.deleteObject(context.params.playerId);
+});
+
+// Backup functions
+
+export const backupFirestore = functions.pubsub.schedule('every day 00:00').timeZone('Europe/Paris').onRun(async (context) => {
+    const projectId = process.env.GCP_PROJECT || process.env.GCLOUD_PROJECT || '';
+    const bucketName = `${projectId}-firestore-backup`;
+    const databaseName = firestoreClient.databasePath(projectId,'(default)');
+    const timestamp = new Date().toISOString();
+
+    console.log(`Local starting time is ${timestamp}`);
+    console.log(`Start to backup project ${projectId}`);
+
+    return firestoreClient.exportDocuments({
+        name: databaseName,
+        outputUriPrefix: `gs://${bucketName}/backups/${timestamp}`,
+        collectionIds: []
+    });
+
 });
