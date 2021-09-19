@@ -1,4 +1,4 @@
-name: Firebase functions
+name: Firebase deploy functions
 on:
   push:
     branches:

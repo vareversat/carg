@@ -15,7 +15,8 @@ jobs:
         uses: subosito/flutter-action@v1.5.3
         with:
           flutter-version: '2.5.0'
-      - run: flutter analyze
+      - name: 'Flutter analyze'
+        run: flutter analyze
   test:
     name: 'Test'
     runs-on: ubuntu-latest
@@ -26,7 +27,8 @@ jobs:
         uses: subosito/flutter-action@v1.5.3
         with:
           flutter-version: '2.5.0'
-      - run: flutter test --coverage
+      - name: 'Flutter test (with coverage)'
+        run: flutter test --coverage
       - name: 'Upload coverage report'
         uses: codecov/codecov-action@v2.1.0
         with:
@@ -56,7 +58,8 @@ jobs:
         uses: subosito/flutter-action@v1.5.3
         with:
           flutter-version: '2.5.0'
-      - run: flutter build apk --split-per-abi
+      - name: 'Build Adoid APK'
+        run: flutter build apk --split-per-abi
       - name: 'Save APK'
         uses: actions/upload-artifact@v2
         with:
