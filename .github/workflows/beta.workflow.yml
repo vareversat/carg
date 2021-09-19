@@ -1,8 +1,10 @@
-name: Flutter deploy Firebase
+name: Flutter deploy BETA
 on:
   push:
     tags:
       - v*
+    branches:
+      - dev
 
 jobs:
   analyze:
@@ -55,12 +57,12 @@ jobs:
       - name: 'Generate build number'
         run: |
           echo "BUILD_NUMBER=$(git rev-list --all --count)" >> $GITHUB_ENV
-          echo "The build is tagged as $BUILD_NUMBER on $GITHUB_REF"
+          echo "The build is tagged as ${{ env.BUILD_NUMBER }} on $GITHUB_REF"
       - name: 'Build Android App Bundle'
         uses: subosito/flutter-action@v1.5.3
         with:
           flutter-version: '2.5.0'
-      - run: flutter build appbundle --dart-define=FLAVOR=prod --build-number=$BUILD_NUMBER
+      - run: flutter build appbundle --dart-define=FLAVOR=prod --build-number=${{ env.BUILD_NUMBER }}
       - name: 'Save AAB'
         uses: actions/upload-artifact@v2
         with:
@@ -68,7 +70,7 @@ jobs:
           path: build/app/outputs/bundle/release/app-release.aab
   play_store:
     needs: build_android
-    name: 'Deploy on Play Store'
+    name: 'Deploy on Play Store - Beta'
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout source code'
