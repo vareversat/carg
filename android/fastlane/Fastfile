@@ -9,7 +9,7 @@ before_all do |lane|
 end
 
 desc "Submit to FirebaseAppDistribution"
-lane :firebase do |app_id, options|
+lane :firebase do
     firebase_app_distribution(
         firebase_cli_token: ENV['FIREBASE_TOKEN'],
         app: ENV['APP_ID'],
@@ -19,3 +19,29 @@ lane :firebase do |app_id, options|
         groups_file: "#{root_path}/groups_file.txt",
     )
 end
+
+desc "Upload to Play Store : Alpha track"
+lane :alpha do
+    upload_to_play_store(
+        track: 'alpha',
+        track_promote_to: 'beta',
+        aab: '../build/app/outputs/bundle/release/app-release.aab'
+    )
+end
+
+desc "Upload to Play Store : Beta track"
+lane :beta do
+    upload_to_play_store(
+        track: 'beta',
+        aab: '../build/app/outputs/bundle/release/app-release.aab'
+    )
+end
+
+desc "Upload to Play Store : Production track"
+lane :production do
+    upload_to_play_store(
+        track: 'production',
+        aab: '../build/app/outputs/bundle/release/app-release.aab'
+    )
+end
+
