@@ -57,7 +57,7 @@ jobs:
       - name: 'Generate build number'
         run: |
           BUILD_NUMBER=$(git rev-list --all --count)
-          echo "$BUILD_NUMBER" >> $GITHUB_ENV
+          echo "BUILD_NUMBER=$BUILD_NUMBER" >> $GITHUB_ENV
           echo "This build is tagged as $BUILD_NUMBER on $GITHUB_REF"
       - name: 'Setup Flutter action'
         uses: subosito/flutter-action@v1.5.3
