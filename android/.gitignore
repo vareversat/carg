@@ -10,3 +10,5 @@ GeneratedPluginRegistrant.java
 
 # Fastlane
 /fastlane/report.xml
+/fastlane/README.md
+/fastlane/fastlane-key.json
