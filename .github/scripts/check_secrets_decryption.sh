@@ -42,6 +42,13 @@ else
   exit 1
 fi
 
+if [ -s "$GITHUB_WORKSPACE"/android/fastlane/fastlane-key.json ]; then
+  echo "fastlane-key.json ✅"
+else
+  echo "fastlane-key.json is empty ❌"
+  exit 1
+fi
+
 if [ -s "$GITHUB_WORKSPACE"/migration_scripts/key.json ]; then
   echo "key.json ✅"
 else
