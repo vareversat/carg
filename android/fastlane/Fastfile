@@ -22,7 +22,7 @@ platform :android do
         upload_to_play_store(
             track: 'alpha',
             track_promote_to: 'beta',
-            aab: '#{root_path}/app-release.aab'
+            aab: "#{root_path}/app-release.aab"
         )
     end
 
@@ -30,7 +30,7 @@ platform :android do
     lane :beta do
         upload_to_play_store(
             track: 'beta',
-            aab: '#{root_path}/app-release.aab'
+            aab: "#{root_path}/app-release.aab"
         )
     end
 
@@ -38,7 +38,7 @@ platform :android do
     lane :production do
         upload_to_play_store(
             track: 'production',
-            aab: '#{root_path}/app-release.aab'
+            aab: "#{root_path}/app-release.aab"
         )
     end
 end
