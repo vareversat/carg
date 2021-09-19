@@ -4,7 +4,7 @@ BUILD_NUMBER=$(git rev-list --all --count)
 CHANGELOG_PATH="$GITHUB_WORKSPACE"/android/fastlane/metadata/android/fr-FR/changelogs/"$BUILD_NUMBER".txt
 CHANGELOG=$(sed '/\*\*\*/q' "$GITHUB_WORKSPACE"/CHANGELOG.md | sed 's/\*//g' | sed 's/#//g' | sed '$d')
 
-if [ -s "$CHANGELOG_PATHCHANGELOG_PATH" ]; then
+if [ -s "$CHANGELOG_PATH" ]; then
   echo "Changelog generated ✅"
   echo "New changelog (path : $CHANGELOG_PATH)"
   cat "$CHANGELOG_PATH"
