@@ -41,6 +41,8 @@ jobs:
     steps:
       - name: 'Checkout source code'
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - name: 'Decrypt secret configuration'
         run: ./.github/scripts/decrypt_secret.sh
         env:
