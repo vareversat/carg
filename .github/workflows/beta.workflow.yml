@@ -52,19 +52,23 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: '11'
-      - name: 'Setup flutter action'
+      - name: 'Generate build number'
+        run: |
+          echo "BUILD_NUMBER=$(git rev-list --all --count)" >> $GITHUB_ENV
+          echo "The build is tagged as $BUILD_NUMBER on $GITHUB_REF"
+      - name: 'Build Android App Bundle'
         uses: subosito/flutter-action@v1.5.3
         with:
           flutter-version: '2.5.0'
-      - run: flutter build apk --split-per-abi --dart-define=FLAVOR=prod
-      - name: 'Save APK'
+      - run: flutter build appbundle --dart-define=FLAVOR=prod --build-number=$BUILD_NUMBER
+      - name: 'Save AAB'
         uses: actions/upload-artifact@v2
         with:
-          name: 'apk-build'
-          path: build/app/outputs/apk/release/app-arm64-v8a-release.apk
-  deploy_android:
+          name: 'aab-build'
+          path: build/app/outputs/bundle/release/app-release.aab
+  play_store:
     needs: build_android
-    name: 'Deploy Android on Firebase'
+    name: 'Deploy on Play Store'
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout source code'
@@ -72,12 +76,11 @@ jobs:
       - name: 'Download Artifact'
         uses: actions/download-artifact@v2
         with:
-          name: 'apk-build'
-      - name: 'Fastlane Action'
+          name: 'aab-build'
+      - name: 'Generate changelog'
+        run: ./.github/scripts/generate_changelog.sh
+      - name: 'Fastlane deploy BETA'
         uses: maierj/fastlane-action@v2.0.1
         with:
-          lane: 'firebase'
+          lane: 'beta'
           subdirectory: 'android'
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-          APP_ID: ${{ secrets.APP_ID }}
