@@ -1,4 +1,4 @@
-name: Flutter deploy Play Store & App Store
+name: Flutter deploy PRODUCTION
 on:
   push:
     branches:
@@ -30,7 +30,7 @@ jobs:
       - name: 'Upload coverage report'
         uses: codecov/codecov-action@v2.0.3
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
+          token: ${{secrets.CODECOV_TOKEN}}
           directory: ./coverage/
   build_android:
     needs: [ analyze, test ]
@@ -39,6 +39,8 @@ jobs:
     steps:
       - name: 'Checkout source code'
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - name: 'Decrypt secret configuration'
         run: ./.github/scripts/decrypt_secret.sh
         env:
@@ -54,13 +56,17 @@ jobs:
           java-version: '11'
       - name: 'Generate build number'
         run: |
-          echo "BUILD_NUMBER=$(git rev-list --all --count)" >> $GITHUB_ENV
-          echo "The build is tagged as $BUILD_NUMBER on $GITHUB_REF"
-      - name: 'Build Android App Bundle'
+          BUILD_NUMBER=$(git rev-list --all --count)
+          echo "BUILD_NUMBER=$BUILD_NUMBER" >> $GITHUB_ENV
+          echo "This build is tagged as $BUILD_NUMBER on $GITHUB_REF"
+      - name: 'Setup Flutter action'
         uses: subosito/flutter-action@v1.5.3
         with:
           flutter-version: '2.5.0'
-      - run: flutter build appbundle --dart-define=FLAVOR=prod --build-number=$BUILD_NUMBER
+      - name: 'Build Android App Bundle'
+        run: flutter build appbundle --dart-define=FLAVOR=prod --build-number="$BUILD_NUMBER"
+        env:
+          BUILD_NUMBER: ${{env.BUILD_NUMBER}}
       - name: 'Save AAB'
         uses: actions/upload-artifact@v2
         with:
@@ -68,15 +74,19 @@ jobs:
           path: build/app/outputs/bundle/release/app-release.aab
   play_store:
     needs: build_android
-    name: 'Deploy on Play Store'
+    name: 'Deploy on Play Store - Production'
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout source code'
         uses: actions/checkout@v2.3.4
+        with:
+          fetch-depth: 0
       - name: 'Download Artifact'
         uses: actions/download-artifact@v2
         with:
           name: 'aab-build'
+      - name: 'Generate changelog'
+        run: ./.github/scripts/generate_changelog.sh
       - name: 'Fastlane deploy PRODUCTION'
         uses: maierj/fastlane-action@v2.0.1
         with:
