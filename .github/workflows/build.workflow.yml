@@ -47,8 +47,6 @@ jobs:
           PASSPHRASE: ${{secrets.PASSPHRASE}}
       - name: 'Check secret configuration'
         run: ./.github/scripts/check_secrets_decryption.sh
-        env:
-          PASSPHRASE: ${{secrets.PASSPHRASE}}
       - name: 'Set up JAVA'
         uses: actions/setup-java@v2
         with:
