@@ -81,6 +81,8 @@ jobs:
     steps:
       - name: 'Checkout source code'
         uses: actions/checkout@v2.3.4
+        with:
+          fetch-depth: 0
       - name: 'Download Artifact'
         uses: actions/download-artifact@v2
         with:
