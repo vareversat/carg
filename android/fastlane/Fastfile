@@ -4,10 +4,6 @@ def root_path
   Dir.pwd.sub(/.*\Kfastlane/, '').sub(/.*\Kandroid/, '').sub(/.*\Kios/, '').sub(/.*\K\/\//, '')
 end
 
-before_all do |lane|
-    skip_docs
-end
-
 desc "Submit to FirebaseAppDistribution"
 lane :firebase do
     firebase_app_distribution(
@@ -20,28 +16,29 @@ lane :firebase do
     )
 end
 
-desc "Upload to Play Store : Alpha track"
-lane :alpha do
-    upload_to_play_store(
-        track: 'alpha',
-        track_promote_to: 'beta',
-        aab: '../build/app/outputs/bundle/release/app-release.aab'
-    )
-end
+platform :android do
+    desc "Upload to Play Store : Alpha track"
+    lane :alpha do
+        upload_to_play_store(
+            track: 'alpha',
+            track_promote_to: 'beta',
+            aab: '#{root_path}/app-release.aab'
+        )
+    end
 
-desc "Upload to Play Store : Beta track"
-lane :beta do
-    upload_to_play_store(
-        track: 'beta',
-        aab: '../build/app/outputs/bundle/release/app-release.aab'
-    )
-end
+    desc "Upload to Play Store : Beta track"
+    lane :beta do
+        upload_to_play_store(
+            track: 'beta',
+            aab: '../build/app/outputs/bundle/release/app-release.aab'
+        )
+    end
 
-desc "Upload to Play Store : Production track"
-lane :production do
-    upload_to_play_store(
-        track: 'production',
-        aab: '../build/app/outputs/bundle/release/app-release.aab'
-    )
+    desc "Upload to Play Store : Production track"
+    lane :production do
+        upload_to_play_store(
+            track: 'production',
+            aab: '../build/app/outputs/bundle/release/app-release.aab'
+        )
+    end
 end
-
