@@ -22,7 +22,7 @@
       "matchUpdateTypes": [
         "major"
       ],
-      "schedule": ["after 10pm every week"],
+      "schedule": ["after 10pm every day"],
       "automerge": false,
       "assigneesFromCodeOwners": true
     }
