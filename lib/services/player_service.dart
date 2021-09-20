@@ -10,8 +10,12 @@ class PlayerService {
   static const String flavor =
       String.fromEnvironment('FLAVOR', defaultValue: 'dev');
 
+  static const platform = MethodChannel('fr.vareversat.carg/version');
+
   Future<List<Player>> searchPlayers(
       {String query = '', String? playerId}) async {
+    final String result = await platform.invokeMethod('getFlavor');
+    print('AAAAAAAAAAAAAAAAA $result');
     var algoliaHelper = await AlgoliaHelper.create();
     try {
       var players = <Player>[];

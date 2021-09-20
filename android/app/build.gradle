@@ -51,6 +51,20 @@ android {
         multiDexEnabled true
     }
 
+    flavorDimensions "version"
+    productFlavors {
+
+        dev {
+            dimension "version"
+            applicationId "fr.vareversat.carg"
+        }
+
+        prod {
+            dimension "version"
+            applicationId "fr.vareversat.carg"
+        }
+    }
+
     signingConfigs {
         release {
             keyAlias keystoreProperties['keyAlias']
