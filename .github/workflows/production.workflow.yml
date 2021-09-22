@@ -94,7 +94,7 @@ jobs:
       - name: 'Generate changelog'
         run: ./.github/scripts/generate_changelog.sh
       - name: 'Fastlane deploy PRODUCTION'
-        uses: maierj/fastlane-action@v2.0.1
+        uses: maierj/fastlane-action@v2.1.0
         with:
           lane: 'production'
           subdirectory: 'android'
