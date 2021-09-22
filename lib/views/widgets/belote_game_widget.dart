@@ -2,6 +2,7 @@ import 'package:carg/helpers/custom_route.dart';
 import 'package:carg/models/game/belote_game.dart';
 import 'package:carg/models/game/game.dart';
 import 'package:carg/models/score/belote_score.dart';
+import 'package:carg/services/team_service.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/views/dialogs/warning_dialog.dart';
 import 'package:carg/views/screens/play/play_belote_screen.dart';
@@ -32,9 +33,14 @@ class BeloteWidget extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      TeamWidget(teamId: beloteGame.players!.us, title: 'Nous'),
                       TeamWidget(
-                          teamId: beloteGame.players!.them, title: 'Eux'),
+                          teamId: beloteGame.players!.us,
+                          title: 'Nous',
+                          teamService: TeamService()),
+                      TeamWidget(
+                          teamId: beloteGame.players!.them,
+                          title: 'Eux',
+                          teamService: TeamService()),
                     ],
                   ),
                   _ShowScoreWidget(beloteGame: beloteGame),

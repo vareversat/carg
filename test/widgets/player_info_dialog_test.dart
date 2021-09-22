@@ -7,7 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 
-import 'carg_mocks.dart';
+import 'player_info_dialog_test.mocks.dart';
 
 Widget testableWidget(bool mockIsNewPlayer, PlayerService playerService,
         Player mockPlayer) =>

@@ -17,21 +17,25 @@ class APIMiniPlayerWidget extends StatelessWidget {
   final String _errorMessage = 'player missing';
 
   APIMiniPlayerWidget(
-      {required this.playerId,
+      {Key? key,
+      required this.playerId,
       required this.displayImage,
       this.showLoading = true,
       this.size = 15,
       this.isSelected = false,
       this.onTap,
       this.selectedColor,
-      this.additionalText = ''});
+      this.additionalText = ''})
+      : super(key: key);
 
   Future _showEditPlayerDialog(BuildContext context, Player? player) async {
     if (player != null) {
       await showDialog(
           context: context,
-          builder: (BuildContext context) =>
-              PlayerInfoDialog(player: player, playerService: _playerService, isNewPlayer: false));
+          builder: (BuildContext context) => PlayerInfoDialog(
+              player: player,
+              playerService: _playerService,
+              isNewPlayer: false));
     }
   }
 
