@@ -115,14 +115,18 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
           Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(children: <Widget>[
-                TeamWidget(
-                    teamId: _beloteGame.players!.us,
-                    title: 'Nous',
-                    teamService: TeamService()),
-                TeamWidget(
-                    teamId: _beloteGame.players!.them,
-                    title: 'Eux',
-                    teamService: TeamService())
+                Flexible(
+                  child: TeamWidget(
+                      teamId: _beloteGame.players!.us,
+                      title: 'Nous',
+                      teamService: TeamService()),
+                ),
+                Flexible(
+                  child: TeamWidget(
+                      teamId: _beloteGame.players!.them,
+                      title: 'Eux',
+                      teamService: TeamService()),
+                )
               ])),
           Flexible(
               child: Container(

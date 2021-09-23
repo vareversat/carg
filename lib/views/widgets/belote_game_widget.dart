@@ -33,14 +33,18 @@ class BeloteWidget extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      TeamWidget(
-                          teamId: beloteGame.players!.us,
-                          title: 'Nous',
-                          teamService: TeamService()),
-                      TeamWidget(
-                          teamId: beloteGame.players!.them,
-                          title: 'Eux',
-                          teamService: TeamService()),
+                      Flexible(
+                        child: TeamWidget(
+                            teamId: beloteGame.players!.us,
+                            title: 'Nous',
+                            teamService: TeamService()),
+                      ),
+                      Flexible(
+                        child: TeamWidget(
+                            teamId: beloteGame.players!.them,
+                            title: 'Eux',
+                            teamService: TeamService()),
+                      ),
                     ],
                   ),
                   _ShowScoreWidget(beloteGame: beloteGame),
