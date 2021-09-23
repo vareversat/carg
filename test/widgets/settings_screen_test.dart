@@ -10,9 +10,7 @@ import 'package:mockito/mockito.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 import 'package:provider/provider.dart';
 
-import 'carg_mocks.dart';
-
-
+import 'settings_screen_test.mocks.dart';
 
 Widget testableWidget(AuthService mockAuthService, PlayerService playerService,
         Player mockPlayer) =>
