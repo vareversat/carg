@@ -5,15 +5,15 @@ import 'package:carg/styles/properties.dart';
 import 'package:carg/views/dialogs/warning_dialog.dart';
 import 'package:carg/views/screens/play/play_tarot_game_screen.dart';
 import 'package:carg/views/widgets/api_mini_player_widget.dart';
-import 'package:carg/views/widgets/belote_game_widget.dart';
+import 'package:carg/views/widgets/register/game_title_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-class TarotGameWidget extends StatelessWidget {
+class TarotWidget extends StatelessWidget {
   final Tarot tarotGame;
 
-  const TarotGameWidget({required this.tarotGame});
+  const TarotWidget({required this.tarotGame});
 
   @override
   Widget build(BuildContext context) {
@@ -23,45 +23,51 @@ class TarotGameWidget extends StatelessWidget {
         margin: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
         elevation: 2,
         color: Colors.white,
-        child:
-            ExpansionTile(title: CardTitle(game: tarotGame), children: <Widget>[
-          FutureBuilder<TarotScore?>(
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
-                      child: SpinKitThreeBounce(
-                          size: 30,
-                          itemBuilder: (BuildContext context, int index) {
-                            return DecoratedBox(
-                                decoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.secondary,
-                            ));
-                          }));
-                }
-                if (snapshot.hasData &&
-                    snapshot.connectionState == ConnectionState.done) {
-                  return Wrap(
-                    alignment: WrapAlignment.center,
-                    spacing: 2,
-                    children: tarotGame.players!.playerList!
-                        .map((playerId) => APIMiniPlayerWidget(
-                              playerId: playerId,
-                              displayImage: true,
-                              size: 20,
-                              additionalText:
-                                  ' | ${snapshot.data!.getScoreOf(playerId).score.round().toString()}',
-                            ))
-                        .toList()
-                        .cast<Widget>(),
-                  );
-                }
-                return Center(child: Text('error'));
-              },
-              future: tarotGame.scoreService.getScoreByGame(tarotGame.id)
-                  as Future<TarotScore?>?),
-          Divider(height: 10, thickness: 2),
-          _ButtonRowWidget(tarotGame: tarotGame),
-        ]));
+        child: ExpansionTile(
+            title: GameTitleWidget(
+                key: ValueKey('expansionTileTitle'), game: tarotGame),
+            children: <Widget>[
+              FutureBuilder<TarotScore?>(
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(
+                          child: SpinKitThreeBounce(
+                              size: 30,
+                              itemBuilder: (BuildContext context, int index) {
+                                return DecoratedBox(
+                                    decoration: BoxDecoration(
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
+                                ));
+                              }));
+                    }
+                    if (snapshot.hasData &&
+                        snapshot.connectionState == ConnectionState.done) {
+                      return Wrap(
+                        key: ValueKey('apiminiplayerwidget'),
+                        alignment: WrapAlignment.center,
+                        spacing: 2,
+                        children: tarotGame.players!.playerList!
+                            .map((playerId) => APIMiniPlayerWidget(
+                                  key:
+                                      ValueKey('apiminiplayerwidget-$playerId'),
+                                  playerId: playerId,
+                                  displayImage: true,
+                                  size: 20,
+                                  additionalText:
+                                      ' | ${snapshot.data!.getScoreOf(playerId).score.round().toString()}',
+                                ))
+                            .toList()
+                            .cast<Widget>(),
+                      );
+                    }
+                    return Center(child: Text('error'));
+                  },
+                  future: tarotGame.scoreService.getScoreByGame(tarotGame.id)
+                      as Future<TarotScore?>?),
+              Divider(height: 10, thickness: 2),
+              _ButtonRowWidget(tarotGame: tarotGame),
+            ]));
   }
 }
 

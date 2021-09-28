@@ -6,7 +6,7 @@ import 'package:carg/services/score/belote_score_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 
-class CoincheScoreService
+class CoincheBeloteScoreService
     extends BeloteScoreService<CoincheBeloteScore?, CoincheBeloteRound> {
   static const String dataBase = 'coinche-score';
   static const String flavor =

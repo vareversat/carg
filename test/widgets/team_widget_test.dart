@@ -37,7 +37,6 @@ void main() {
     await tester.pump(Duration(milliseconds: 100));
 
     expect(find.byKey(ValueKey('apiminiplayerwidget-P1')), findsOneWidget);
-
     expect(find.byKey(ValueKey('apiminiplayerwidget-P2')), findsOneWidget);
   });
 }

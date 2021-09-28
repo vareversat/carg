@@ -5,8 +5,8 @@ import 'package:carg/models/game/tarot.dart';
 import 'package:carg/services/auth_service.dart';
 import 'package:carg/services/game/game_service.dart';
 import 'package:carg/styles/properties.dart';
-import 'package:carg/views/widgets/belote_game_widget.dart';
-import 'package:carg/views/widgets/tarot_game_widget.dart';
+import 'package:carg/views/widgets/belote_widget.dart';
+import 'package:carg/views/widgets/tarot_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
@@ -116,7 +116,7 @@ class _GameListWidgetState extends State<GameListWidget> {
                   beloteGame: game as Belote,
                 );
               } else {
-                return TarotGameWidget(tarotGame: game as Tarot);
+                return TarotWidget(tarotGame: game as Tarot);
               }
             },
           )),

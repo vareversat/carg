@@ -46,7 +46,6 @@ class APIMiniPlayerWidget extends StatelessWidget {
         Widget? child;
         if (snapshot.connectionState == ConnectionState.waiting) {
           child = Padding(
-              key: ValueKey(0),
               padding: const EdgeInsets.symmetric(horizontal: 5),
               child: showLoading
                   ? SpinKitThreeBounce(
@@ -61,7 +60,6 @@ class APIMiniPlayerWidget extends StatelessWidget {
         }
         if (snapshot.hasData) {
           child = Padding(
-              key: ValueKey(2),
               padding: const EdgeInsets.symmetric(horizontal: 2),
               child: InputChip(
                   selected: isSelected,
@@ -89,7 +87,6 @@ class APIMiniPlayerWidget extends StatelessWidget {
         if (!snapshot.hasData &&
             snapshot.connectionState == ConnectionState.done) {
           child = Center(
-            key: ValueKey(3),
             child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 2),
                 child: InputChip(

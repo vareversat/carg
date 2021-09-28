@@ -3,7 +3,7 @@ import 'package:carg/models/game/game_type.dart';
 import 'package:carg/services/game/coinche_belote_service.dart';
 import 'package:carg/services/game/contree_belote_service.dart';
 import 'package:carg/services/game/french_belote_service.dart';
-import 'package:carg/services/game/tarot_service.dart';
+import 'package:carg/services/game/tarot_game_service.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/screens/game_mode_picker_screen.dart';
@@ -76,7 +76,7 @@ class GameListScreen extends StatelessWidget {
                 GameListWidget(gameService: CoincheBeloteService()),
                 GameListWidget(gameService: FrenchBeloteService()),
                 GameListWidget(gameService: ContreeBeloteService()),
-                GameListWidget(gameService: TarotService())
+                GameListWidget(gameService: TarotGameService())
               ],
             )));
   }

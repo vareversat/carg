@@ -36,48 +36,40 @@ class MockPlayerService extends _i1.Mock implements _i3.PlayerService {
                   #searchPlayers, [], {#query: query, #playerId: playerId}),
               returnValue: Future<List<_i2.Player>>.value(<_i2.Player>[]))
           as _i4.Future<List<_i2.Player>>);
-
   @override
   _i4.Future<dynamic> incrementPlayedGamesByOne(
           String? id, _i5.Game<_i6.Players>? game) =>
       (super.noSuchMethod(
           Invocation.method(#incrementPlayedGamesByOne, [id, game]),
           returnValue: Future<dynamic>.value()) as _i4.Future<dynamic>);
-
   @override
   _i4.Future<dynamic> incrementWonGamesByOne(
           String? id, _i5.Game<_i6.Players>? game) =>
       (super.noSuchMethod(
           Invocation.method(#incrementWonGamesByOne, [id, game]),
           returnValue: Future<dynamic>.value()) as _i4.Future<dynamic>);
-
   @override
   _i4.Future<_i2.Player> getPlayer(String? id) =>
       (super.noSuchMethod(Invocation.method(#getPlayer, [id]),
               returnValue: Future<_i2.Player>.value(_FakePlayer_0()))
           as _i4.Future<_i2.Player>);
-
   @override
   _i4.Future<_i2.Player?> getPlayerOfUser(String? userId) =>
       (super.noSuchMethod(Invocation.method(#getPlayerOfUser, [userId]),
           returnValue: Future<_i2.Player?>.value()) as _i4.Future<_i2.Player?>);
-
   @override
   _i4.Future<void> updatePlayer(_i2.Player? player) =>
       (super.noSuchMethod(Invocation.method(#updatePlayer, [player]),
           returnValue: Future<void>.value(),
           returnValueForMissingStub: Future<void>.value()) as _i4.Future<void>);
-
   @override
   _i4.Future<String> addPlayer(_i2.Player? player) =>
       (super.noSuchMethod(Invocation.method(#addPlayer, [player]),
           returnValue: Future<String>.value('')) as _i4.Future<String>);
-
   @override
   _i4.Future<dynamic> deletePlayer(_i2.Player? player) =>
       (super.noSuchMethod(Invocation.method(#deletePlayer, [player]),
           returnValue: Future<dynamic>.value()) as _i4.Future<dynamic>);
-
   @override
   String toString() => super.toString();
 }

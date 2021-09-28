@@ -5,6 +5,7 @@ import 'package:carg/models/game/game_type.dart';
 import 'package:carg/models/game/tarot.dart';
 import 'package:carg/models/game_stats.dart';
 import 'package:carg/models/player.dart';
+import 'package:carg/models/players/tarot_players.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -20,7 +21,7 @@ void main() {
     setUp(() {
       game1 = CoincheBelote();
       game2 = FrenchBelote();
-      game3 = Tarot();
+      game3 = Tarot(players: TarotPlayers(playerList: ['player1', 'player2', 'player3']));
       gameStat1 =
           GameStats(gameType: GameType.BELOTE, wonGames: 0, playedGames: 2);
       gameStat2 =

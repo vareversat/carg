@@ -33,13 +33,11 @@ class MockTeamService extends _i1.Mock implements _i3.TeamService {
       (super.noSuchMethod(Invocation.method(#getTeamByPlayers, [playerIds]),
               returnValue: Future<_i2.Team>.value(_FakeTeam_0()))
           as _i4.Future<_i2.Team>);
-
   @override
   _i4.Future<_i2.Team> getTeam(String? id) =>
       (super.noSuchMethod(Invocation.method(#getTeam, [id]),
               returnValue: Future<_i2.Team>.value(_FakeTeam_0()))
           as _i4.Future<_i2.Team>);
-
   @override
   _i4.Future<_i2.Team> incrementPlayedGamesByOne(
           String? id, _i5.Game<_i6.Players>? game) =>
@@ -47,7 +45,6 @@ class MockTeamService extends _i1.Mock implements _i3.TeamService {
               Invocation.method(#incrementPlayedGamesByOne, [id, game]),
               returnValue: Future<_i2.Team>.value(_FakeTeam_0()))
           as _i4.Future<_i2.Team>);
-
   @override
   _i4.Future<_i2.Team> incrementWonGamesByOne(
           String? id, _i5.Game<_i6.Players>? game) =>
@@ -55,7 +52,6 @@ class MockTeamService extends _i1.Mock implements _i3.TeamService {
               Invocation.method(#incrementWonGamesByOne, [id, game]),
               returnValue: Future<_i2.Team>.value(_FakeTeam_0()))
           as _i4.Future<_i2.Team>);
-
   @override
   String toString() => super.toString();
 }
