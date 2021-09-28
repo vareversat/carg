@@ -14,7 +14,8 @@ import 'package:flutter/services.dart';
 class CoincheBeloteService extends BeloteService<CoincheBelote> {
   final TeamService _teamService = TeamService();
   final PlayerService _playerService = PlayerService();
-  final CoincheScoreService _coincheScoreService = CoincheScoreService();
+  final CoincheBeloteScoreService _coincheScoreService =
+      CoincheBeloteScoreService();
   static const String dataBase = 'coinche-game';
   static const String flavor =
       String.fromEnvironment('FLAVOR', defaultValue: 'dev');
