@@ -18,7 +18,7 @@ dependencies:
   enum_to_string: ^2.0.1
   flutter_markdown: ^0.6.0
   flutter_spinkit: ^5.0.0
-  flutter_svg: ^0.22.0
+  flutter_svg: ^0.23.0
   flutter_secure_storage: ^4.2.0
   flutter_libphonenumber: ^1.1.0
   font_awesome_flutter: ^9.1.0
