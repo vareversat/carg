@@ -35,16 +35,15 @@ class FrenchBeloteRound extends BeloteRound {
     var defenderTrickPoints = getTrickPointsOfTeam(defender);
     if (contractFulfilled) {
       takerScore = roundScore(takerTrickPoints +
-          getDixDeDerOfTeam(taker, takerTrickPoints) +
+          getDixDeDerOfTeam(taker) +
           getBeloteRebeloteOfTeam(taker));
       defenderScore = roundScore(defenderTrickPoints +
-          getDixDeDerOfTeam(defender, defenderTrickPoints) +
+          getDixDeDerOfTeam(defender) +
           getBeloteRebeloteOfTeam(defender));
     } else {
       takerScore = roundScore(getBeloteRebeloteOfTeam(taker));
-      defenderScore = roundScore(BeloteRound.totalTrickScore +
-          BeloteRound.dixDeDerBonus +
-          getBeloteRebeloteOfTeam(defender));
+      defenderScore = roundScore(
+          BeloteRound.totalScore + getBeloteRebeloteOfTeam(defender));
     }
     notifyListeners();
   }
@@ -52,10 +51,10 @@ class FrenchBeloteRound extends BeloteRound {
   @override
   bool get contractFulfilled {
     return getTrickPointsOfTeam(taker) +
-            getDixDeDerOfTeam(taker, 0) +
+            getDixDeDerOfTeam(taker) +
             getBeloteRebeloteOfTeam(taker) >
         getTrickPointsOfTeam(defender) +
-            getDixDeDerOfTeam(defender, 0) +
+            getDixDeDerOfTeam(defender) +
             getBeloteRebeloteOfTeam(defender);
   }
 

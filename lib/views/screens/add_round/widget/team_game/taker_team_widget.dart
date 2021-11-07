@@ -12,7 +12,7 @@ class TakerTeamWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
-      value: beloteRound..computeRound(),
+      value: beloteRound,
       child: Consumer<BeloteRound>(
         builder: (context, roundData, child) => Column(
             mainAxisAlignment: MainAxisAlignment.center,

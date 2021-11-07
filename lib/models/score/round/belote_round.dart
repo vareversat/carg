@@ -7,6 +7,8 @@ abstract class BeloteRound extends Round {
   static const int beloteRebeloteBonus = 20;
   static const int dixDeDerBonus = 10;
   static const int totalTrickScore = 152;
+  static const int totalScore =
+      BeloteRound.totalTrickScore + BeloteRound.dixDeDerBonus;
 
   late CardColor _cardColor;
   late bool contractFulfilled;

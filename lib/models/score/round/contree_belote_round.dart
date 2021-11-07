@@ -41,14 +41,14 @@ class ContreeBeloteRound extends BeloteRound {
   @override
   bool get contractFulfilled =>
       getTrickPointsOfTeam(taker) +
-              getDixDeDerOfTeam(taker, 0) +
+              getDixDeDerOfTeam(taker) +
               getBeloteRebeloteOfTeam(taker) >=
           contract &&
       (getTrickPointsOfTeam(taker) +
-              getDixDeDerOfTeam(taker, 0) +
+              getDixDeDerOfTeam(taker) +
               getBeloteRebeloteOfTeam(taker) >
           getTrickPointsOfTeam(defender) +
-              getDixDeDerOfTeam(defender, 0) +
+              getDixDeDerOfTeam(defender) +
               getBeloteRebeloteOfTeam(defender));
 
   ContreeBeloteContractName get contractName => _contractName;
@@ -71,19 +71,18 @@ class ContreeBeloteRound extends BeloteRound {
     var defenderTrickPoints = getTrickPointsOfTeam(defender);
     if (contractFulfilled) {
       var takerScoreTmp = takerTrickPoints +
-          getDixDeDerOfTeam(taker, takerTrickPoints) +
+          getDixDeDerOfTeam(taker) +
           getBeloteRebeloteOfTeam(taker);
       takerScore = roundScore(contractName.bonus(contract + takerScoreTmp));
       defenderScore = roundScore(defenderTrickPoints +
-          getDixDeDerOfTeam(defender, defenderTrickPoints) +
+          getDixDeDerOfTeam(defender) +
           getBeloteRebeloteOfTeam(defender));
     } else {
-      var defenderScoreTmp = BeloteRound.totalTrickScore +
-          BeloteRound.dixDeDerBonus +
+      var defenderScoreTmp = BeloteRound.totalScore +
           getBeloteRebeloteOfTeam(defender) +
-          getDixDeDerOfTeam(defender, defenderTrickPoints);
-      takerScore = roundScore(getBeloteRebeloteOfTeam(taker) +
-          getDixDeDerOfTeam(taker, takerTrickPoints));
+          getDixDeDerOfTeam(defender);
+      takerScore =
+          roundScore(getBeloteRebeloteOfTeam(taker) + getDixDeDerOfTeam(taker));
       defenderScore =
           roundScore(contractName.bonus(contract + defenderScoreTmp));
     }
