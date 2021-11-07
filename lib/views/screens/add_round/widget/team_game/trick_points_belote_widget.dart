@@ -14,30 +14,26 @@ class TrickPointsBeloteWidget extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _TrickPointsBeloteWidgetState(round);
+    return _TrickPointsBeloteWidgetState();
   }
 }
 
 class _TrickPointsBeloteWidgetState extends State<TrickPointsBeloteWidget> {
-  TextEditingController? _usPointsTextController;
-  TextEditingController? _themPointsTextController;
-  final BeloteRound _round;
-
-  _TrickPointsBeloteWidgetState(this._round);
+  final TextEditingController _usPointsTextController = TextEditingController();
+  final TextEditingController _themPointsTextController =
+      TextEditingController();
 
   @override
   void initState() {
-    _usPointsTextController = TextEditingController();
-    _themPointsTextController = TextEditingController();
-    _usPointsTextController!.text = _round.usTrickScore.toString();
-    _themPointsTextController!.text = _round.themTrickScore.toString();
+    _usPointsTextController.text = widget.round.usTrickScore.toString();
+    _themPointsTextController.text = widget.round.themTrickScore.toString();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
-      value: _round,
+      value: widget.round,
       child: Consumer<BeloteRound>(
           builder: (context, roundData, child) => Column(children: [
                 SectionTitleWidget(title: 'Points des plis'),
@@ -67,7 +63,7 @@ class _TrickPointsBeloteWidgetState extends State<TrickPointsBeloteWidget> {
                                       roundData.themTrickScore =
                                           (BeloteRound.totalTrickScore -
                                               int.parse(value)),
-                                      _themPointsTextController!.text =
+                                      _themPointsTextController.text =
                                           (BeloteRound.totalTrickScore -
                                                   int.parse(value))
                                               .toString(),
@@ -92,7 +88,7 @@ class _TrickPointsBeloteWidgetState extends State<TrickPointsBeloteWidget> {
                                       roundData.usTrickScore =
                                           (BeloteRound.totalTrickScore -
                                               int.parse(value)),
-                                      _usPointsTextController!.text =
+                                      _usPointsTextController.text =
                                           (BeloteRound.totalTrickScore -
                                                   int.parse(value))
                                               .toString(),
