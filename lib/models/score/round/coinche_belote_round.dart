@@ -1,4 +1,4 @@
-import 'package:carg/models/score/misc/coinche_belote_contract_type.dart';
+import 'package:carg/models/score/misc/belote_contract_type.dart';
 import 'package:carg/models/score/misc/belote_team_enum.dart';
 import 'package:carg/models/score/misc/card_color.dart';
 import 'package:carg/models/score/misc/coinche_belote_contract_name.dart';
@@ -8,7 +8,7 @@ import 'package:enum_to_string/enum_to_string.dart';
 class CoincheBeloteRound extends BeloteRound {
   late int _contract;
   late CoincheBeloteContractName _contractName;
-  late CoincheBeloteContractType _contractType;
+  late BeloteContractType _contractType;
 
   CoincheBeloteRound(
       {index,
@@ -39,7 +39,7 @@ class CoincheBeloteRound extends BeloteRound {
             defender: defender) {
     _contract = contract ?? 0;
     _contractName = contractName ?? CoincheBeloteContractName.NORMAL;
-    _contractType = contractType ?? CoincheBeloteContractType.NORMAL;
+    _contractType = contractType ?? BeloteContractType.NORMAL;
   }
 
   @override
@@ -50,7 +50,7 @@ class CoincheBeloteRound extends BeloteRound {
     var totalDefenderScore = getTrickPointsOfTeam(defender) +
         getDixDeDerOfTeam(defender) +
         getBeloteRebeloteOfTeam(defender);
-    if (contractType != CoincheBeloteContractType.FAILED_GENERALE) {
+    if (contractType != BeloteContractType.FAILED_GENERALE) {
       return totalTackerScore >= contract &&
           totalTackerScore > totalDefenderScore;
     } else {
@@ -58,11 +58,11 @@ class CoincheBeloteRound extends BeloteRound {
     }
   }
 
-  CoincheBeloteContractType get contractType => _contractType;
+  BeloteContractType get contractType => _contractType;
 
-  set contractType(CoincheBeloteContractType value) {
+  set contractType(BeloteContractType value) {
     _contractType = value;
-    if (value != CoincheBeloteContractType.NORMAL) {
+    if (value != BeloteContractType.NORMAL) {
       contract = BeloteRound.totalScore;
     }
     computeRound();
@@ -152,7 +152,7 @@ class CoincheBeloteRound extends BeloteRound {
         contractName: EnumToString.fromString(
             CoincheBeloteContractName.values, json['contract_name']),
         contractType: EnumToString.fromString(
-            CoincheBeloteContractType.values, json['contract_type'] ?? ''));
+            BeloteContractType.values, json['contract_type'] ?? ''));
   }
 
   static List<CoincheBeloteRound> fromJSONList(List<dynamic> jsonList) {

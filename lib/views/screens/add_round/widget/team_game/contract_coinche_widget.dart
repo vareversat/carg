@@ -1,4 +1,4 @@
-import 'package:carg/models/score/misc/coinche_belote_contract_type.dart';
+import 'package:carg/models/score/misc/belote_contract_type.dart';
 import 'package:carg/models/score/misc/coinche_belote_contract_name.dart';
 import 'package:carg/models/score/round/coinche_belote_round.dart';
 import 'package:carg/styles/properties.dart';
@@ -80,10 +80,9 @@ class _ContractValueTextFieldWidget extends StatelessWidget {
                         BorderRadius.circular(CustomProperties.borderRadius),
                   )),
               controller: _contractTextController,
-              enabled: !(coincheRound.contractType ==
-                      CoincheBeloteContractType.CAPOT ||
-                  coincheRound.contractType ==
-                      CoincheBeloteContractType.GENERALE),
+              enabled:
+                  !(coincheRound.contractType == BeloteContractType.CAPOT ||
+                      coincheRound.contractType == BeloteContractType.GENERALE),
               keyboardType: TextInputType.number,
               inputFormatters: <TextInputFormatter>[],
               onSubmitted: (String value) =>
@@ -103,14 +102,13 @@ class _ContractTypeWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
       Text('Type :'),
-      DropdownButton<CoincheBeloteContractType>(
+      DropdownButton<BeloteContractType>(
           value: roundData.contractType,
-          items: CoincheBeloteContractType.values
-              .map((CoincheBeloteContractType value) {
-            return DropdownMenuItem<CoincheBeloteContractType>(
+          items: BeloteContractType.values.map((BeloteContractType value) {
+            return DropdownMenuItem<BeloteContractType>(
                 value: value, child: Text(value.name));
           }).toList(),
-          onChanged: (CoincheBeloteContractType? val) {
+          onChanged: (BeloteContractType? val) {
             roundData.contractType = val!;
           })
     ]);
