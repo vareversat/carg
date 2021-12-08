@@ -3,6 +3,7 @@ import 'package:carg/models/score/belote_score.dart';
 import 'package:carg/models/score/misc/belote_team_enum.dart';
 import 'package:carg/models/score/misc/card_color.dart';
 import 'package:carg/models/score/round/belote_round.dart';
+import 'package:carg/services/team_service.dart';
 import 'package:carg/views/dialogs/notes_dialog.dart';
 import 'package:carg/views/dialogs/warning_dialog.dart';
 import 'package:carg/views/screens/add_round/add_belote_round_screen.dart';
@@ -114,8 +115,18 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
           Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(children: <Widget>[
-                TeamWidget(teamId: _beloteGame.players!.us, title: 'Nous'),
-                TeamWidget(teamId: _beloteGame.players!.them, title: 'Eux')
+                Flexible(
+                  child: TeamWidget(
+                      teamId: _beloteGame.players!.us,
+                      title: 'Nous',
+                      teamService: TeamService()),
+                ),
+                Flexible(
+                  child: TeamWidget(
+                      teamId: _beloteGame.players!.them,
+                      title: 'Eux',
+                      teamService: TeamService()),
+                )
               ])),
           Flexible(
               child: Container(

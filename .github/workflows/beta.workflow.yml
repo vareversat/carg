@@ -78,7 +78,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout source code'
-        uses: actions/checkout@v2.3.4
+        uses: actions/checkout@v2.4.0
         with:
           fetch-depth: 0
       - name: 'Decrypt secret configuration'
@@ -94,7 +94,7 @@ jobs:
       - name: 'Generate changelog'
         run: ./.github/scripts/generate_changelog.sh
       - name: 'Fastlane deploy BETA'
-        uses: maierj/fastlane-action@v2.0.1
+        uses: maierj/fastlane-action@v2.1.0
         with:
           lane: 'beta'
           subdirectory: 'android'
