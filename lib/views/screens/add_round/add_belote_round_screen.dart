@@ -58,35 +58,39 @@ class AddBeloteRoundScreen extends StatelessWidget {
                 else if (beloteRound! is ContreeBeloteRound)
                   ContractContreeWidget(
                       contreeRound: beloteRound! as ContreeBeloteRound),
-                SizedBox(height: 20),
-                RealTimeDisplayWidget(round: beloteRound!),
-                SizedBox(height: 20),
               ]),
             ),
-            Center(
-                child: SizedBox(
-              width: double.infinity,
-              height: 50,
-              child: Directionality(
-                textDirection: TextDirection.rtl,
-                child: ElevatedButton.icon(
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            Theme.of(context).primaryColor),
-                        foregroundColor: MaterialStateProperty.all<Color>(
-                            Theme.of(context).cardColor),
-                        shape: MaterialStateProperty.all<OutlinedBorder>(
-                            RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                    CustomProperties.borderRadius)))),
-                    onPressed: () => {_setupRound(), Navigator.pop(context)},
-                    label: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text('Valider', style: TextStyle(fontSize: 23)),
-                    ),
-                    icon: Icon(Icons.check, size: 30)),
-              ),
-            ))
+            Column(
+              children: [
+                RealTimeDisplayWidget(round: beloteRound!),
+                Center(
+                    child: SizedBox(
+                  width: double.infinity,
+                  height: 50,
+                  child: Directionality(
+                    textDirection: TextDirection.rtl,
+                    child: ElevatedButton.icon(
+                        style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                Theme.of(context).primaryColor),
+                            foregroundColor: MaterialStateProperty.all<Color>(
+                                Theme.of(context).cardColor),
+                            shape: MaterialStateProperty.all<OutlinedBorder>(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(
+                                        CustomProperties.borderRadius)))),
+                        onPressed: () =>
+                            {_setupRound(), Navigator.pop(context)},
+                        label: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child:
+                              Text('Valider', style: TextStyle(fontSize: 23)),
+                        ),
+                        icon: Icon(Icons.check, size: 30)),
+                  ),
+                )),
+              ],
+            )
           ],
         ),
       ),

@@ -14,24 +14,20 @@ extension ContreeBeloteContractNameExtension on ContreeBeloteContractName? {
       case ContreeBeloteContractName.GENERALE:
         return 'Générale';
       default:
-        return '';
+        throw Exception('ContreeBeloteContractName missing');
     }
   }
 
-  int bonus(int currentScore) {
+  int get multiplier {
     switch (this) {
       case ContreeBeloteContractName.NORMAL:
-        return currentScore;
+        return 1;
       case ContreeBeloteContractName.CONTRE:
-        return currentScore * 2;
+        return 2;
       case ContreeBeloteContractName.SURCONTRE:
-        return currentScore * 4;
-      case ContreeBeloteContractName.CAPOT:
-        return 500;
-      case ContreeBeloteContractName.GENERALE:
-        return 1000;
+        return 4;
       default:
-        return currentScore;
+        throw Exception('ContreeBeloteContractName missing');
     }
   }
 }

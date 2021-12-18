@@ -17,7 +17,15 @@ class ContractBeloteWidget extends StatelessWidget {
           builder: (context, roundData, child) =>
               Column(mainAxisAlignment: MainAxisAlignment.center, children: [
                 SectionTitleWidget(title: 'Contrat'),
-                CardColorPickerWidget(teamGameRound: roundData)
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Couleur :'),
+                        CardColorPickerWidget(teamGameRound: frenchBeloteRound)
+                      ]),
+                )
               ])),
     );
   }

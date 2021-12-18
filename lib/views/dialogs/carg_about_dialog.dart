@@ -68,7 +68,7 @@ class CargAboutDialog extends StatelessWidget {
                                         fontWeight: FontWeight.bold,
                                         fontSize: 30)),
                             Text(
-                                ' | v${snapshot.data!.version}+${snapshot.data!.buildNumber}',
+                                ' | v${snapshot.data!.version} (${snapshot.data!.buildNumber})',
                                 style: Theme.of(context).textTheme.bodyText2),
                           ],
                         ),
