@@ -43,17 +43,20 @@ class ContreeBeloteRound extends BeloteRound {
   }
 
   @override
-  bool get contractFulfilled =>
-      getTrickPointsOfTeam(taker) +
-              getDixDeDerOfTeam(taker) +
-              getBeloteRebeloteOfTeam(taker) >=
-          contract &&
-      (getTrickPointsOfTeam(taker) +
-              getDixDeDerOfTeam(taker) +
-              getBeloteRebeloteOfTeam(taker) >
-          getTrickPointsOfTeam(defender) +
-              getDixDeDerOfTeam(defender) +
-              getBeloteRebeloteOfTeam(defender));
+  bool get contractFulfilled {
+    var totalTackerScore = getTrickPointsOfTeam(taker) +
+        getDixDeDerOfTeam(taker) +
+        getBeloteRebeloteOfTeam(taker);
+    var totalDefenderScore = getTrickPointsOfTeam(defender) +
+        getDixDeDerOfTeam(defender) +
+        getBeloteRebeloteOfTeam(defender);
+    if (contractType != BeloteContractType.FAILED_GENERALE) {
+      return totalTackerScore >= contract &&
+          totalTackerScore > totalDefenderScore;
+    } else {
+      return false;
+    }
+  }
 
   BeloteContractType get contractType => _contractType;
 
