@@ -39,7 +39,6 @@ class _PlayerInfoDialogState extends State<PlayerInfoDialog> {
   }
 
   Future<void> _savePlayer() async {
-    print(widget.player);
     if (widget.isNewPlayer) {
       widget.player.ownedBy =
           Provider.of<AuthService>(context, listen: false).getPlayerIdOfUser();
