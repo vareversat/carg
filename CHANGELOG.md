@@ -1,3 +1,15 @@
+# **v1.2.0** :
+
+- *Fixed stuff* :
+    - Various bugs and improvements
+- *Dev stuff* :
+    - Various library updates
+    - Add more test (increase coverage)
+- *Features* :
+    - Add new parameters for Contrée and Coinche games (contract type and name)
+
+***
+
 # **v1.1.3** :
 
 - *Dev stuff* :
