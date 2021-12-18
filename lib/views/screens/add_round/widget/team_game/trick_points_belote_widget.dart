@@ -4,7 +4,6 @@ import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/screens/add_round/widget/section_title_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 class TrickPointsBeloteWidget extends StatefulWidget {

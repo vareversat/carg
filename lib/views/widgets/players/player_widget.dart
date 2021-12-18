@@ -4,7 +4,6 @@ import 'package:carg/styles/properties.dart';
 import 'package:carg/views/dialogs/player_info_dialog.dart';
 import 'package:carg/views/helpers/info_snackbar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class PlayerWidget extends StatelessWidget {

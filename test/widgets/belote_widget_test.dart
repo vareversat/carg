@@ -6,7 +6,6 @@ import 'package:carg/models/score/french_belote_score.dart';
 import 'package:carg/services/score/french_belote_score_service.dart';
 import 'package:carg/views/widgets/belote_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';

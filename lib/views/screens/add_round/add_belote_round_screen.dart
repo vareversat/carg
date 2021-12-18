@@ -12,7 +12,6 @@ import 'package:carg/views/screens/add_round/widget/team_game/contract_contree_w
 import 'package:carg/views/screens/add_round/widget/team_game/taker_team_widget.dart';
 import 'package:carg/views/screens/add_round/widget/team_game/trick_points_belote_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 
 class AddBeloteRoundScreen extends StatelessWidget {
   final Belote? teamGame;

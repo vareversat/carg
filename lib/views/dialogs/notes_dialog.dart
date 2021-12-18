@@ -1,7 +1,6 @@
 import 'package:carg/models/game/game.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/styles/text_style.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class NotesDialog extends StatefulWidget {

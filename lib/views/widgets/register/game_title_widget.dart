@@ -1,6 +1,5 @@
 import 'package:carg/models/game/game.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
 class GameTitleWidget extends StatelessWidget {
