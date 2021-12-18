@@ -138,7 +138,6 @@ class _PlayerInfoDialogState extends State<PlayerInfoDialog> {
                         onChanged: (value) => playerData.userName = value,
                         decoration: InputDecoration(
                             disabledBorder: InputBorder.none,
-                            enabledBorder: InputBorder.none,
                             hintStyle: TextStyle(
                                 fontSize: 25,
                                 color: Theme.of(context).hintColor),
@@ -169,12 +168,12 @@ class _PlayerInfoDialogState extends State<PlayerInfoDialog> {
             ),
           if (widget.player.gameStatsList != null)
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
               child: Column(
                 children: widget.player.gameStatsList!
                     .map(
                       (stat) => Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
                           SizedBox(
                               width: 100,
