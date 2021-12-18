@@ -14,7 +14,7 @@ jobs:
       - name: 'Setup flutter action'
         uses: subosito/flutter-action@v1.5.3
         with:
-          flutter-version: '2.5.0'
+          flutter-version: '2.8.1'
       - name: 'Flutter analyze'
         run: flutter analyze
   test:
@@ -26,7 +26,7 @@ jobs:
       - name: 'Setup flutter action'
         uses: subosito/flutter-action@v1.5.3
         with:
-          flutter-version: '2.5.0'
+          flutter-version: '2.8.1'
       - name: 'Flutter test (with coverage)'
         run: flutter test --coverage
       - name: 'Upload coverage report'
@@ -62,7 +62,7 @@ jobs:
       - name: 'Setup Flutter action'
         uses: subosito/flutter-action@v1.5.3
         with:
-          flutter-version: '2.5.0'
+          flutter-version: '2.8.1'
       - name: 'Build Android App Bundle'
         run: flutter build appbundle --dart-define=FLAVOR=prod --build-number="$BUILD_NUMBER"
         env:
