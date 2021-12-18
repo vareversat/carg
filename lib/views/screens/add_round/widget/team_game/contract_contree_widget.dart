@@ -1,6 +1,5 @@
 import 'package:carg/models/score/misc/belote_contract_type.dart';
 import 'package:carg/models/score/misc/contree_belote_contract_name.dart';
-import 'package:carg/models/score/round/belote_round.dart';
 import 'package:carg/models/score/round/contree_belote_round.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/views/screens/add_round/widget/section_title_widget.dart';
