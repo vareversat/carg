@@ -16,14 +16,14 @@
   "dependencies": {
     "@google-cloud/firestore": "^4.15.1",
     "algoliasearch": "4.11.0",
-    "firebase-admin": "10.0.0",
+    "firebase-admin": "10.0.1",
     "firebase-functions": "3.16.0"
   },
   "devDependencies": {
     "firebase-functions-test": "0.3.3",
     "node-forge": "0.10.0",
     "tslint": "5.20.1",
-    "typescript": "4.5.2",
+    "typescript": "4.5.4",
     "date-and-time": "2.0.1",
     "path-parse": "1.0.7"
   },
