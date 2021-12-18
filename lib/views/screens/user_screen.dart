@@ -1,4 +1,3 @@
-import 'dart:ui';
 
 import 'package:carg/helpers/custom_route.dart';
 import 'package:carg/models/game/game_type.dart';
@@ -10,9 +9,7 @@ import 'package:carg/styles/properties.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/screens/settings_screen.dart';
 import 'package:carg/views/widgets/error_message_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';

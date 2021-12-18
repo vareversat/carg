@@ -5,7 +5,6 @@ import 'package:carg/models/game/game.dart';
 import 'package:carg/models/game/tarot.dart';
 import 'package:carg/views/widgets/register/game_title_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 Widget testableWidget(Game game) =>
