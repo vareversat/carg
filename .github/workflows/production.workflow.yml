@@ -98,3 +98,10 @@ jobs:
         with:
           lane: 'production'
           subdirectory: 'android'
+      - name: 'Generate Github release'
+        uses: softprops/action-gh-release@v1
+        with:
+          files: $CHANGELOG_PATH
+        env:
+          BUILD_NUMBER: ${{env.CHANGELOG_PATH}}
+
