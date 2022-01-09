@@ -30,21 +30,21 @@ jobs:
       - name: 'Generate changelog'
         run: ./.github/scripts/generate_changelog.sh
       - name: 'Fastlane deploy BETA'
-        if: startsWith(github.ref, 'refs/tags/')
+        if: ${{ startsWith(github.ref, 'refs/tags/') }}
         # Run only on new tag
         uses: maierj/fastlane-action@v2.1.0
         with:
           lane: 'beta'
           subdirectory: 'android'
       - name: 'Fastlane deploy PRODUCTION'
-        if: github.ref == 'refs/heads/main'
+        if: ${{ github.ref == 'refs/heads/main' }}
         # Run only on main merge
         uses: maierj/fastlane-action@v2.1.0
         with:
           lane: 'production'
           subdirectory: 'android'
       - name: 'Generate Github release'
-        if: github.ref == 'refs/heads/main'
+        if: ${{ github.ref == 'refs/heads/main' }}
         # Run only on main merge
         uses: softprops/action-gh-release@v1
         with:
