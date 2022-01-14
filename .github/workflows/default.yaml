@@ -16,4 +16,4 @@ jobs:
     uses: vareversat/carg/.github/workflows/flutter.build.action.yaml@workflow/clean_up
     with:
       flutter_version: '2.8.1'
-      kind: 'apk'
+      android_output: 'apk'
