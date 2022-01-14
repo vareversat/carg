@@ -7,19 +7,19 @@ on:
 
 jobs:
   flutter-test-analyze:
-    uses: vareversat/carg/.github/workflows/flutter.analyze-test.action.yaml@main
+    uses: vareversat/carg/.github/workflows/flutter.analyze-test.action.yaml@workflox/clean_up
     with:
       flutter_version: '2.8.1'
   functions:
-    uses: vareversat/carg/.github/workflows/functions.action.yaml@main
+    uses: vareversat/carg/.github/workflows/functions.action.yaml@workflox/clean_up
   flutter-build:
     needs: [flutter-test-analyze]
-    uses: vareversat/carg/.github/workflows/flutter.build.action.yaml@main
+    uses: vareversat/carg/.github/workflows/flutter.build.action.yaml@workflox/clean_up
     with:
       flutter_version: '2.8.1'
       kind: 'abb'
   fastlane:
     needs: [flutter-build]
-    uses: vareversat/carg/.github/workflows/fastlane.action.yaml@main
+    uses: vareversat/carg/.github/workflows/fastlane.action.yaml@workflox/clean_up
     with:
       lane: 'beta'
