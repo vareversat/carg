@@ -1,0 +1,19 @@
+name: Default workflow
+
+on:
+  push:
+    branches-ignore:
+      - main
+      - dev
+
+jobs:
+  flutter-test-analyze:
+    uses: vareversat/carg/.github/actions/flutter.analyze-test.action.yaml@main
+    with:
+      flutter_version: '2.8.1'
+  flutter-build:
+    needs: [flutter-test-analyze]
+    uses: vareversat/carg/.github/actions/flutter.build.action.yaml@main
+    with:
+      flutter_version: '2.8.1'
+      kind: 'apk'

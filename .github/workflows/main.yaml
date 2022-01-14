@@ -1,0 +1,25 @@
+name: Main workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  flutter-test-analyze:
+    uses: vareversat/carg/.github/actions/flutter.analyze-test.action.yaml@main
+    with:
+      flutter_version: '2.8.1'
+  functions:
+    uses: vareversat/carg/.github/actions/functions.action.yaml@main
+  flutter-build:
+    needs: [flutter-test-analyze]
+    uses: vareversat/carg/.github/actions/flutter.build.action.yaml@main
+    with:
+      flutter_version: '2.8.1'
+      kind: 'abb'
+  fastlane:
+    needs: [flutter-build]
+    uses: vareversat/carg/.github/actions/fastlane.action.yaml@main
+    with:
+      lane: 'production'
