@@ -8,12 +8,12 @@ on:
 
 jobs:
   flutter-test-analyze:
-    uses: vareversat/carg/.github/workflows/flutter.analyze-test.action.yaml@workflow/clean_up
+    uses: vareversat/carg/.github/workflows/flutter.analyze-test.action.yaml@${{ env.GITHUB_SHA_SHORT }}
     with:
       flutter_version: '2.8.1'
   flutter-build:
     needs: [flutter-test-analyze]
-    uses: vareversat/carg/.github/workflows/flutter.build.action.yaml@workflow/clean_up
+    uses: vareversat/carg/.github/workflows/flutter.build.action.yaml@${{ env.GITHUB_SHA_SHORT }}
     with:
       flutter_version: '2.8.1'
       android_output: 'apk'
