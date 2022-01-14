@@ -17,3 +17,4 @@ jobs:
     with:
       flutter_version: '2.8.1'
       android_output: 'apk'
+      passphrase: ${{ secrets.passphrase }}

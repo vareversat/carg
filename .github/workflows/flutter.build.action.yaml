@@ -11,6 +11,12 @@ on:
         description: 'Android build file type output (apk or abb)'
         required: true
         type: string
+    secrets:
+      passphrase:
+        description: 'The passphrase to decrypt the config'
+        required: true
+        type: string
+
 
 jobs:
   build_android:
@@ -22,7 +28,7 @@ jobs:
       - name: 'Decrypt secret configuration'
         run: ./.github/scripts/decrypt_secret.sh
         env:
-          PASSPHRASE: ${{secrets.PASSPHRASE}}
+          PASSPHRASE: ${{ secrets.passphrase }}
       - name: 'Check secret configuration'
         run: ./.github/scripts/check_secrets_decryption.sh
       - name: 'Set up JAVA'
