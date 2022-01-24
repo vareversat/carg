@@ -23,7 +23,7 @@
     "firebase-functions-test": "0.3.3",
     "node-forge": "0.10.0",
     "tslint": "5.20.1",
-    "typescript": "4.5.4",
+    "typescript": "4.5.5",
     "date-and-time": "2.1.0",
     "path-parse": "1.0.7"
   },
