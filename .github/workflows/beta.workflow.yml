@@ -12,7 +12,7 @@ jobs:
       - name: 'Checkout source code'
         uses: actions/checkout@v2
       - name: 'Setup flutter action'
-        uses: subosito/flutter-action@v1.5.3
+        uses: subosito/flutter-action@v2.2.1
         with:
           flutter-version: '2.8.1'
       - name: 'Flutter analyze'
@@ -24,7 +24,7 @@ jobs:
       - name: 'Checkout source code'
         uses: actions/checkout@v2
       - name: 'Setup flutter action'
-        uses: subosito/flutter-action@v1.5.3
+        uses: subosito/flutter-action@v2.2.1
         with:
           flutter-version: '2.8.1'
       - name: 'Flutter test (with coverage)'
@@ -60,7 +60,7 @@ jobs:
           echo "BUILD_NUMBER=$BUILD_NUMBER" >> $GITHUB_ENV
           echo "This build is tagged as $BUILD_NUMBER on $GITHUB_REF"
       - name: 'Setup Flutter action'
-        uses: subosito/flutter-action@v1.5.3
+        uses: subosito/flutter-action@v2.2.1
         with:
           flutter-version: '2.8.1'
       - name: 'Build Android App Bundle'
