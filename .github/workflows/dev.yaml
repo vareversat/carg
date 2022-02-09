@@ -1,27 +1,49 @@
 name: Dev workflow
 
 on:
-  push:
+  workflow_dispatch:
     branches:
       - dev
+    inputs:
+      flutter_version:
+        description: 'The Flutter version used used (ex: 2.5.1)'
+        required: true
+        type: string
+        default: '2.8.1'
+      android_output:
+        description: 'Android build file type output (apk or abb)'
+        required: true
+        type: choice
+        default: 'apk'
+        options:
+          - 'apk'
+          - 'abb'
+      fastlane_lane:
+        description: 'Lane to deploy'
+        required: true
+        type: choice
+        default: 'beta'
+        options:
+          - 'beta'
+          - 'production'
 
 jobs:
   flutter-test-analyze:
     uses: ./.github/workflows/flutter.analyze-test.action.yaml
     with:
-      flutter_version: '2.8.1'
+      flutter_version: ${{ inputs.flutter_version }}
   functions:
     uses: ./.github/workflows/functions.action.yaml
   flutter-build:
     needs: [flutter-test-analyze]
     uses: ./.github/workflows/flutter.build.action.yaml
     with:
-      flutter_version: '2.8.1'
-      android_output: 'abb'
+      flutter_version: ${{ inputs.flutter_version }}
+      android_output: ${{ inputs.android_output }}
     secrets:
       passphrase: ${{ secrets.PASSPHRASE }}
   fastlane:
     needs: [flutter-build]
     uses: ./.github/workflows/fastlane.action.yaml
     with:
-      lane: 'beta'
+      lane: ${{ inputs.fastlane_lane }}
