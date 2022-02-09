@@ -16,7 +16,7 @@ jobs:
       - name: 'Check secret configuration'
         run: ./.github/scripts/check_secrets_decryption.sh
         env:
-          PASSPHRASE: ${{secrets.PASSPHRASE}}
+          PASSPHRASE: ${{ secrets.PASSPHRASE }}
       - name: 'Setup Node / NPM'
         uses: actions/setup-node@v2
         with:
