@@ -1,9 +1,6 @@
 name: Firebase deploy functions
-on:
-  push:
-    branches:
-      - dev
-      - main
+
+on: workflow_call
 
 jobs:
   build_deploy:
@@ -15,11 +12,11 @@ jobs:
       - name: 'Decrypt secret configuration'
         run: ./.github/scripts/decrypt_secret.sh
         env:
-          PASSPHRASE: ${{secrets.PASSPHRASE}}
+          PASSPHRASE: ${{ secrets.PASSPHRASE }}
       - name: 'Check secret configuration'
         run: ./.github/scripts/check_secrets_decryption.sh
         env:
-          PASSPHRASE: ${{secrets.PASSPHRASE}}
+          PASSPHRASE: ${{ secrets.PASSPHRASE }}
       - name: 'Setup Node / NPM'
         uses: actions/setup-node@v2
         with:

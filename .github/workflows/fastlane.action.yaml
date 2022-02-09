@@ -1,0 +1,43 @@
+name: Fastlane
+
+on:
+  workflow_call:
+    inputs:
+      lane:
+        description: 'Lane version (alpha, beta, or production)'
+        required: true
+        type: string
+
+jobs:
+  play_store:
+    name: 'Play Store'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout source code'
+        uses: actions/checkout@v2.4.0
+        with:
+          fetch-depth: 0
+      - name: 'Decrypt secret configuration'
+        run: ./.github/scripts/decrypt_secret.sh
+        env:
+          PASSPHRASE: ${{ secrets.PASSPHRASE }}
+      - name: 'Check secret configuration'
+        run: ./.github/scripts/check_secrets_decryption.sh
+      - name: 'Download Artifact'
+        uses: actions/download-artifact@v2
+        with:
+          name: 'aab-build'
+      - name: 'Generate changelog'
+        run: ./.github/scripts/generate_changelog.sh
+      - name: 'Fastlane deploy ${{ inputs.lane }} lane'
+        uses: maierj/fastlane-action@v2.1.0
+        with:
+          lane: ${{ inputs.lane }}
+          subdirectory: 'android'
+      - name: 'Generate Github release'
+        if: ${{ inputs.lane == 'production' }}
+        uses: softprops/action-gh-release@v1
+        with:
+          files: $CHANGELOG_PATH
+        env:
+          BUILD_NUMBER: ${{ env.CHANGELOG_PATH }}
