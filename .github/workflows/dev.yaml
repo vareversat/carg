@@ -6,7 +6,7 @@ on:
       - dev
     inputs:
       flutter_version:
-        description: 'The Flutter version used used (ex: 2.5.1)'
+        description: 'The Flutter version used (ex: 2.5.1)'
         required: true
         type: string
         default: '2.8.1'
