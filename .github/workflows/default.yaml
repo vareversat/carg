@@ -1,21 +1,7 @@
 name: Default workflow
 
 on:
-  workflow_dispatch:
-    inputs:
-      flutter_version:
-        description: 'The Flutter version used used (ex: 2.5.1)'
-        required: true
-        type: string
-        default: '2.8.1'
-      android_output:
-        description: 'Android build file type output (apk or abb)'
-        required: true
-        type: choice
-        default: 'apk'
-        options:
-          - 'apk'
-          - 'abb'
+  push:
     branches-ignore:
       - main
       - dev
@@ -24,12 +10,12 @@ jobs:
   flutter-test-analyze:
     uses: ./.github/workflows/flutter.analyze-test.action.yaml
     with:
-      flutter_version: ${{ inputs.flutter_version }}
+      flutter_version: '2.8.1'
   flutter-build:
     needs: [flutter-test-analyze]
     uses: ./.github/workflows/flutter.build.action.yaml
     with:
-      flutter_version: ${{ inputs.flutter_version }}
-      android_output: ${{ inputs.android_output }}
+      flutter_version: '2.8.1'
+      android_output: 'apk'
     secrets:
       passphrase: ${{ secrets.PASSPHRASE }}
