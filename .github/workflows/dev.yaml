@@ -28,3 +28,5 @@ jobs:
     uses: ./.github/workflows/fastlane.action.yaml
     with:
       lane: 'beta'
+    secrets:
+      passphrase: ${{ secrets.PASSPHRASE }}

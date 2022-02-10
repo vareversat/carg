@@ -7,6 +7,10 @@ on:
         description: 'Lane version (alpha, beta, or production)'
         required: true
         type: string
+    secrets:
+      passphrase:
+        description: 'The passphrase to decrypt the configuration'
+        required: true
 
 jobs:
   play_store:
@@ -20,7 +24,7 @@ jobs:
       - name: 'Decrypt secret configuration'
         run: ./.github/scripts/decrypt_secret.sh
         env:
-          PASSPHRASE: ${{ secrets.PASSPHRASE }}
+          PASSPHRASE: ${{ secrets.passphrase }}
       - name: 'Check secret configuration'
         run: ./.github/scripts/check_secrets_decryption.sh
       - name: 'Download Artifact'
