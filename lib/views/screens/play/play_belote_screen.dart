@@ -19,16 +19,16 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class PlayBeloteScreen extends StatefulWidget {
   final Belote beloteGame;
 
-  const PlayBeloteScreen({required this.beloteGame});
+  const PlayBeloteScreen({Key? key, required this.beloteGame})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _PlayBeloteScreenState(beloteGame);
+    return _PlayBeloteScreenState();
   }
 }
 
 class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
-  final Belote _beloteGame;
   String? _errorMessage;
 
   void _addNewRound() {
@@ -36,9 +36,9 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
       context,
       MaterialPageRoute(
           builder: (context) => AddBeloteRoundScreen(
-              teamGame: _beloteGame,
-              beloteRound:
-                  _beloteGame.scoreService.getNewRound() as BeloteRound?)),
+              teamGame: widget.beloteGame,
+              beloteRound: widget.beloteGame.scoreService.getNewRound()
+                  as BeloteRound?)),
     );
   }
 
@@ -46,9 +46,10 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
     await showDialog(
       context: context,
       builder: (BuildContext context) => WarningDialog(
-          onConfirm: () async => {
-                await _beloteGame.scoreService
-                    .deleteLastRoundOfGame(_beloteGame.id),
+          onConfirm: () async =>
+          {
+                await widget.beloteGame.scoreService
+                    .deleteLastRoundOfGame(widget.beloteGame.id),
               },
           message:
               'Tu es sur le point de supprimer la dernière manche de la partie. Cette action est irréversible',
@@ -61,8 +62,9 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
     await showDialog(
         context: context,
         builder: (BuildContext context) => WarningDialog(
-              onConfirm: () async => {
-                await _beloteGame.gameService.endAGame(_beloteGame),
+              onConfirm: () async =>
+              {
+                await widget.beloteGame.gameService.endAGame(widget.beloteGame),
                 await Navigator.of(context)
                     .pushReplacementNamed(HomeScreen.routeName, arguments: 1)
               },
@@ -74,17 +76,17 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
   }
 
   void _editLastRound() async {
-    var lastRound;
+    BeloteRound? lastRound;
     try {
-      lastRound =
-          (await _beloteGame.scoreService.getScoreByGame(_beloteGame.id))!
-              .getLastRound();
+      lastRound = (await widget.beloteGame.scoreService
+              .getScoreByGame(widget.beloteGame.id))!
+          .getLastRound() as BeloteRound?;
       await Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => AddBeloteRoundScreen(
-                  teamGame: _beloteGame,
-                  beloteRound: lastRound,
+                  teamGame: widget.beloteGame,
+                  beloteRound: lastRound as BeloteRound,
                   isEditing: true)));
     } on StateError {
       await showDialog(
@@ -102,28 +104,29 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
   void _addNotes() async {
     await showDialog(
         context: context,
-        builder: (BuildContext context) => NotesDialog(game: _beloteGame));
+        builder: (BuildContext context) =>
+            NotesDialog(game: widget.beloteGame));
   }
 
-  _PlayBeloteScreenState(this._beloteGame);
+  _PlayBeloteScreenState();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: PlayScreenAppBar(game: _beloteGame),
+        appBar: PlayScreenAppBar(game: widget.beloteGame),
         body: Column(children: <Widget>[
           Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(children: <Widget>[
                 Flexible(
                   child: TeamWidget(
-                      teamId: _beloteGame.players!.us,
+                      teamId: widget.beloteGame.players!.us,
                       title: 'Nous',
                       teamService: TeamService()),
                 ),
                 Flexible(
                   child: TeamWidget(
-                      teamId: _beloteGame.players!.them,
+                      teamId: widget.beloteGame.players!.them,
                       title: 'Eux',
                       teamService: TeamService()),
                 )
@@ -131,12 +134,12 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
           Flexible(
               child: Container(
             padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                 border: Border(top: BorderSide(color: Colors.black, width: 1))),
             child: StreamBuilder<BeloteScore?>(
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator());
                   }
                   if (snapshot.hasData) {
                     return Column(
@@ -180,7 +183,7 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
                                                         .rounds![index]
                                                         .cardColor
                                                         .symbol,
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                         fontSize: 15))),
                                             Flexible(
                                                 flex: 3,
@@ -191,45 +194,47 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
                                           ]);
                                     }),
                               )),
-                          if (!_beloteGame.isEnded)
+                          if (!widget.beloteGame.isEnded)
                             NextPlayerWidget(
-                                playerId: _beloteGame.players!.playerList![
-                                    snapshot.data!.rounds!.length % 4]),
+                                playerId:
+                                    widget.beloteGame.players!.playerList![
+                                        snapshot.data!.rounds!.length % 4]),
                         ]);
                   } else {
                     return ErrorMessageWidget(message: _errorMessage);
                   }
                 },
-                stream: _beloteGame.scoreService
-                        .getScoreByGameStream(_beloteGame.id)
+                stream: widget.beloteGame.scoreService
+                        .getScoreByGameStream(widget.beloteGame.id)
                         .handleError(
                             (error) => {_errorMessage = error.toString()})
                     as Stream<BeloteScore<BeloteRound>?>?),
           )),
-          if (!_beloteGame.isEnded)
+          if (!widget.beloteGame.isEnded)
             PlayScreenButtonBlock(
                 deleteLastRound: _deleteLastRound,
                 editLastRound: _editLastRound,
                 endGame: _endGame,
                 addNewRound: _addNewRound,
                 addNotes: _addNotes)
-          else if (_beloteGame.notes != null)
+          else if (widget.beloteGame.notes != null)
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Card(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0)),
-                  margin: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                   elevation: 2,
                   color: Colors.white,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
                       children: [
-                        Text('Notes de partie : ',
+                        const Text('Notes de partie : ',
                             style: TextStyle(fontWeight: FontWeight.bold)),
-                        Divider(color: Colors.transparent),
-                        Text(_beloteGame.notes!),
+                        const Divider(color: Colors.transparent),
+                        Text(widget.beloteGame.notes!),
                       ],
                     ),
                   )),
@@ -262,30 +267,31 @@ class _RoundDisplay extends StatelessWidget {
           Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5),
               child: Text(_getScore(round!, team).toString(),
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold))),
+                  style: const TextStyle(
+                      fontSize: 22, fontWeight: FontWeight.bold))),
           if (round!.taker == team)
             if (round!.contractFulfilled)
-              Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 5),
+              const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 5),
                   child: FaIcon(FontAwesomeIcons.solidCheckCircle,
                       size: 10, color: Colors.green))
             else
-              Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 5),
+              const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 5),
                   child: FaIcon(FontAwesomeIcons.solidTimesCircle,
                       size: 10, color: Colors.red))
           else
             Container(),
           if (round!.dixDeDer == team)
-            Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 5),
+            const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 5),
                 child: Text('+10', style: TextStyle(fontSize: 15)))
           else
             Container(),
           if (round!.beloteRebelote == team)
             Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 5),
-                child: Row(children: [
+                child: Row(children: const [
                   FaIcon(FontAwesomeIcons.crown, size: 10),
                   Text('|'),
                   FaIcon(FontAwesomeIcons.chessQueen, size: 10)
@@ -304,6 +310,6 @@ class _TotalPointsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(totalPoints.toString(),
-        style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold));
+        style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold));
   }
 }

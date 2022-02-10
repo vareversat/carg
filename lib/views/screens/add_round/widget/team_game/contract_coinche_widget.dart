@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 class ContractCoincheWidget extends StatelessWidget {
   final CoincheBeloteRound? coincheRound;
 
-  ContractCoincheWidget({this.coincheRound});
+  const ContractCoincheWidget({Key? key, this.coincheRound}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,11 +19,11 @@ class ContractCoincheWidget extends StatelessWidget {
       value: coincheRound,
       child: Consumer<CoincheBeloteRound>(
           builder: (context, roundData, child) => Column(children: [
-                SectionTitleWidget(title: 'Contrat'),
+                const SectionTitleWidget(title: 'Contrat'),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: Column(children: <Widget>[
-                    SizedBox(height: 15),
+                    const SizedBox(height: 15),
                     Column(children: [
                       _ContractValueTextFieldWidget(coincheRound: roundData),
                       _ContractTypeWidget(roundData: roundData),
@@ -31,7 +31,7 @@ class ContractCoincheWidget extends StatelessWidget {
                       Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('Couleur :'),
+                            const Text('Couleur :'),
                             CardColorPickerWidget(teamGameRound: coincheRound)
                           ])
                     ])
@@ -54,12 +54,12 @@ class _ContractValueTextFieldWidget extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text('Valeur :'),
+        const Text('Valeur :'),
         SizedBox(
           width: 100,
           child: TextField(
               textAlign: TextAlign.center,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               decoration: InputDecoration(
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(
@@ -74,7 +74,7 @@ class _ContractValueTextFieldWidget extends StatelessWidget {
                     borderRadius: BorderRadius.circular(15),
                   ),
                   disabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(width: 3, color: Colors.grey),
+                    borderSide: const BorderSide(width: 3, color: Colors.grey),
                     borderRadius:
                         BorderRadius.circular(CustomProperties.borderRadius),
                   )),
@@ -83,7 +83,7 @@ class _ContractValueTextFieldWidget extends StatelessWidget {
                   !(coincheRound.contractType == BeloteContractType.CAPOT ||
                       coincheRound.contractType == BeloteContractType.GENERALE),
               keyboardType: TextInputType.number,
-              inputFormatters: <TextInputFormatter>[],
+              inputFormatters: const <TextInputFormatter>[],
               onSubmitted: (String value) =>
                   {coincheRound.contract = int.parse(value)}),
         ),
@@ -100,7 +100,7 @@ class _ContractTypeWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-      Text('Type :'),
+      const Text('Type :'),
       DropdownButton<BeloteContractType>(
           value: roundData.contractType,
           items: BeloteContractType.values.map((BeloteContractType value) {
@@ -122,7 +122,7 @@ class _ContractNameWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-      Text('Mise :'),
+      const Text('Mise :'),
       DropdownButton<CoincheBeloteContractName>(
           value: roundData.contractName,
           items: CoincheBeloteContractName.values

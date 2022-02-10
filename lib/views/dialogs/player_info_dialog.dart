@@ -15,10 +15,12 @@ class PlayerInfoDialog extends StatefulWidget {
   final PlayerService playerService;
   final bool isNewPlayer;
 
-  PlayerInfoDialog(
-      {required this.player,
+  const PlayerInfoDialog(
+      {Key? key,
+      required this.player,
       required this.playerService,
-      required this.isNewPlayer});
+      required this.isNewPlayer})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -27,7 +29,6 @@ class PlayerInfoDialog extends StatefulWidget {
 }
 
 class _PlayerInfoDialogState extends State<PlayerInfoDialog> {
-
   String _getTitle() {
     if (widget.isNewPlayer) {
       return 'Nouveau joueur';
@@ -67,9 +68,9 @@ class _PlayerInfoDialogState extends State<PlayerInfoDialog> {
       title: Container(
         decoration: BoxDecoration(
             color: Theme.of(context).primaryColor,
-            borderRadius: BorderRadius.only(
-                topLeft: const Radius.circular(15.0),
-                topRight: const Radius.circular(15.0))),
+            borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(15.0),
+                topRight: Radius.circular(15.0))),
         padding: const EdgeInsets.fromLTRB(20, 20, 20, 15),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -77,7 +78,7 @@ class _PlayerInfoDialogState extends State<PlayerInfoDialog> {
             Flexible(
               child: Text(
                 _getTitle(),
-                key: ValueKey('titleText'),
+                key: const ValueKey('titleText'),
                 overflow: TextOverflow.ellipsis,
                 style: CustomTextStyle.dialogHeaderStyle(context),
               ),
@@ -85,7 +86,7 @@ class _PlayerInfoDialogState extends State<PlayerInfoDialog> {
             if (widget.player.owned && !widget.isNewPlayer)
               Flexible(
                 child: ElevatedButton.icon(
-                  key: ValueKey('copyIDButton'),
+                  key: const ValueKey('copyIDButton'),
                   style: ButtonStyle(
                       backgroundColor:
                           MaterialStateProperty.all<Color>(Colors.white),
@@ -96,8 +97,8 @@ class _PlayerInfoDialogState extends State<PlayerInfoDialog> {
                               borderRadius: BorderRadius.circular(
                                   CustomProperties.borderRadius)))),
                   onPressed: () => {_copyId()},
-                  icon: Icon(Icons.copy),
-                  label: Text("Copier l'ID"),
+                  icon: const Icon(Icons.copy),
+                  label: const Text("Copier l'ID"),
                 ),
               )
           ],
@@ -129,10 +130,10 @@ class _PlayerInfoDialogState extends State<PlayerInfoDialog> {
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: Consumer<Player>(
                     builder: (context, playerData, _) => TextFormField(
-                        key: ValueKey('usernameTextField'),
+                        key: const ValueKey('usernameTextField'),
                         initialValue: playerData.userName,
                         enabled: playerData.owned,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 25, fontWeight: FontWeight.bold),
                         maxLines: null,
                         onChanged: (value) => playerData.userName = value,
@@ -151,24 +152,23 @@ class _PlayerInfoDialogState extends State<PlayerInfoDialog> {
           ),
           if (widget.isNewPlayer)
             Consumer<Player>(
-              builder: (context, playerData, _) => Container(
-                child: TextFormField(
-                    key: ValueKey('profilePictureTextField'),
-                    initialValue: playerData.profilePicture,
-                    enabled: playerData.owned,
-                    onChanged: (value) => playerData.profilePicture = value,
-                    style: TextStyle(fontSize: 20),
-                    maxLines: null,
-                    decoration: InputDecoration(
-                        enabledBorder: InputBorder.none,
-                        hintStyle: TextStyle(
-                            fontSize: 15, color: Theme.of(context).hintColor),
-                        labelText: 'Image de profile (url)')),
-              ),
+              builder: (context, playerData, _) => TextFormField(
+                  key: const ValueKey('profilePictureTextField'),
+                  initialValue: playerData.profilePicture,
+                  enabled: playerData.owned,
+                  onChanged: (value) => playerData.profilePicture = value,
+                  style: const TextStyle(fontSize: 20),
+                  maxLines: null,
+                  decoration: InputDecoration(
+                      enabledBorder: InputBorder.none,
+                      hintStyle: TextStyle(
+                          fontSize: 15, color: Theme.of(context).hintColor),
+                      labelText: 'Image de profile (url)')),
             ),
           if (widget.player.gameStatsList != null)
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
               child: Column(
                 children: widget.player.gameStatsList!
                     .map(
@@ -179,27 +179,25 @@ class _PlayerInfoDialogState extends State<PlayerInfoDialog> {
                               width: 100,
                               child: Text('${stat.gameType.name} : ',
                                   overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(fontSize: 22))),
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 5.0),
+                                  style: const TextStyle(fontSize: 22))),
+                          const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 5.0),
                             child: Icon(FontAwesomeIcons.trophy, size: 15),
                           ),
                           Text(
                             ' ' + stat.wonGames.toString(),
-                            style: TextStyle(fontSize: 20),
+                            style: const TextStyle(fontSize: 20),
                           ),
-                          Text(
+                          const Text(
                             ' - ',
                             style: TextStyle(fontSize: 20),
                           ),
                           Text(
                             stat.playedGames.toString() + ' ',
-                            style: TextStyle(fontSize: 20),
+                            style: const TextStyle(fontSize: 20),
                           ),
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 5.0),
+                          const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 5.0),
                             child: Icon(FontAwesomeIcons.gamepad, size: 15),
                           )
                         ],
@@ -214,7 +212,7 @@ class _PlayerInfoDialogState extends State<PlayerInfoDialog> {
       actions: <Widget>[
         if (widget.player.owned)
           ElevatedButton.icon(
-            key: ValueKey('editButton'),
+              key: const ValueKey('editButton'),
               style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all<Color>(
                       Theme.of(context).primaryColor),
@@ -226,10 +224,10 @@ class _PlayerInfoDialogState extends State<PlayerInfoDialog> {
                               CustomProperties.borderRadius)))),
               onPressed: () async => await _savePlayer(),
               label: Text(MaterialLocalizations.of(context).saveButtonLabel),
-              icon: Icon(Icons.check))
+              icon: const Icon(Icons.check))
         else
           ElevatedButton.icon(
-            key: ValueKey('closeButton'),
+            key: const ValueKey('closeButton'),
             style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
                 foregroundColor: MaterialStateProperty.all<Color>(
@@ -239,7 +237,7 @@ class _PlayerInfoDialogState extends State<PlayerInfoDialog> {
                         borderRadius: BorderRadius.circular(
                             CustomProperties.borderRadius)))),
             onPressed: () => Navigator.pop(context),
-            icon: Icon(Icons.close),
+            icon: const Icon(Icons.close),
             label: Text(MaterialLocalizations.of(context).closeButtonLabel),
           )
       ],

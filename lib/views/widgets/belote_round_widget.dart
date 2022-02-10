@@ -5,37 +5,37 @@ import 'package:flutter/material.dart';
 class BeloteRoundWidget extends StatefulWidget {
   final String beloteGameId;
 
-  BeloteRoundWidget({
+  const BeloteRoundWidget({
+    Key? key,
     required this.beloteGameId,
-  });
+  }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _BeloteRoundWidgetState(beloteGameId);
+    return _BeloteRoundWidgetState();
   }
 }
 
 class _BeloteRoundWidgetState extends State<BeloteRoundWidget> {
   final _roundService = FrenchBeloteScoreService();
-  final String _beloteGameId;
 
-  _BeloteRoundWidgetState(this._beloteGameId);
+  _BeloteRoundWidgetState();
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<FrenchBeloteScore?>(
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         }
         if (snapshot.connectionState == ConnectionState.none) {
           return Container(
-              alignment: Alignment.center, child: Icon(Icons.error));
+              alignment: Alignment.center, child: const Icon(Icons.error));
         }
         if (snapshot.data != null) {
           return Column(
             children: <Widget>[
-              Flexible(
+              const Flexible(
                 flex: 1,
                 child: Text('Score'),
               ),
@@ -98,9 +98,9 @@ class _BeloteRoundWidgetState extends State<BeloteRoundWidget> {
             ],
           );
         }
-        return Text('Pas de score pour le moment');
+        return const Text('Pas de score pour le moment');
       },
-      future: _roundService.getScoreByGame(_beloteGameId),
+      future: _roundService.getScoreByGame(widget.beloteGameId),
     );
   }
 }

@@ -1,4 +1,3 @@
-
 import 'package:carg/services/auth_service.dart';
 import 'package:carg/services/custom_exception.dart';
 import 'package:carg/services/storage_service.dart';
@@ -12,7 +11,9 @@ import 'package:provider/provider.dart';
 class RegisterEmailWidget extends StatefulWidget {
   final CredentialVerificationType credentialVerificationType;
 
-  const RegisterEmailWidget({required this.credentialVerificationType});
+  const RegisterEmailWidget(
+      {Key? key, required this.credentialVerificationType})
+      : super(key: key);
 
   @override
   _RegisterEmailWidgetState createState() => _RegisterEmailWidgetState();
@@ -20,7 +21,8 @@ class RegisterEmailWidget extends StatefulWidget {
 
 class _RegisterEmailWidgetState extends State<RegisterEmailWidget>
     with WidgetsBindingObserver {
-  final _store = StorageService(flutterSecureStorage: FlutterSecureStorage());
+  final _store =
+      StorageService(flutterSecureStorage: const FlutterSecureStorage());
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
 
   Future<dynamic> _signInWithEmailAndLink(String email) async {
@@ -36,7 +38,7 @@ class _RegisterEmailWidgetState extends State<RegisterEmailWidget>
             .changeEmail(email);
         Dialogs.showMessageDialog(context, _keyLoader,
             'Lien de validation envoyé. Vous allez être déconnecté');
-        await Future.delayed(Duration(seconds: 2));
+        await Future.delayed(const Duration(seconds: 2));
         Navigator.of(_keyLoader.currentContext!, rootNavigator: true).pop();
         await Provider.of<AuthService>(context, listen: false).signOut(context);
       }
@@ -66,7 +68,7 @@ class _RegisterEmailWidgetState extends State<RegisterEmailWidget>
                   padding: const EdgeInsets.all(8.0),
                   child: Column(children: [
                     TextField(
-                      autofillHints: [AutofillHints.email],
+                      autofillHints: const [AutofillHints.email],
                       onChanged: (value) {
                         emailRegistrationData.emailAddress = value;
                       },
@@ -81,7 +83,7 @@ class _RegisterEmailWidgetState extends State<RegisterEmailWidget>
                         disabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(
                               CustomProperties.borderRadius),
-                          borderSide: BorderSide(
+                          borderSide: const BorderSide(
                             color: Colors.grey,
                             width: 2.0,
                           ),
@@ -104,17 +106,17 @@ class _RegisterEmailWidgetState extends State<RegisterEmailWidget>
                         ),
                       ),
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     widget.credentialVerificationType ==
                             CredentialVerificationType.CREATE
-                        ? Text(
+                        ? const Text(
                             'Un e-mail contenant un lien de connexion va vous être envoyé',
                             style: TextStyle(
                                 fontStyle: FontStyle.italic, fontSize: 13),
                           )
-                        : SizedBox(height: 10),
+                        : const SizedBox(height: 10),
                     ElevatedButton.icon(
-                        icon: Icon(Icons.check),
+                        icon: const Icon(Icons.check),
                         style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all<Color>(
                                 !emailRegistrationData.isEmailEmpty()
@@ -139,7 +141,7 @@ class _RegisterEmailWidgetState extends State<RegisterEmailWidget>
                                     emailRegistrationData.emailAddress!);
                               }
                             : null,
-                        label: Text(
+                        label: const Text(
                           'Continuer',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ))

@@ -19,7 +19,11 @@ class AddBeloteRoundScreen extends StatelessWidget {
   final bool isEditing;
 
   const AddBeloteRoundScreen(
-      {this.teamGame, required this.beloteRound, this.isEditing = false});
+      {Key? key,
+      this.teamGame,
+      required this.beloteRound,
+      this.isEditing = false})
+      : super(key: key);
 
   void _setupRound() async {
     if (isEditing) {
@@ -35,10 +39,10 @@ class AddBeloteRoundScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
           leading: IconButton(
-            icon: Icon(Icons.cancel),
+            icon: const Icon(Icons.cancel),
             onPressed: () => Navigator.pop(context),
           ),
-          title: ScreenTitleWidget()),
+          title: const ScreenTitleWidget()),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
@@ -46,9 +50,9 @@ class AddBeloteRoundScreen extends StatelessWidget {
             Flexible(
               child: ListView(children: [
                 TakerTeamWidget(beloteRound: beloteRound!),
-                Divider(),
+                const Divider(),
                 TrickPointsBeloteWidget(round: beloteRound!),
-                Divider(),
+                const Divider(),
                 if (beloteRound! is CoincheBeloteRound)
                   ContractCoincheWidget(
                       coincheRound: beloteRound! as CoincheBeloteRound)
@@ -81,12 +85,12 @@ class AddBeloteRoundScreen extends StatelessWidget {
                                         CustomProperties.borderRadius)))),
                         onPressed: () =>
                             {_setupRound(), Navigator.pop(context)},
-                        label: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                        label: const Padding(
+                          padding: EdgeInsets.all(8.0),
                           child:
                               Text('Valider', style: TextStyle(fontSize: 23)),
                         ),
-                        icon: Icon(Icons.check, size: 30)),
+                        icon: const Icon(Icons.check, size: 30)),
                   ),
                 )),
               ],

@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 enum ContreeBeloteContractName { NORMAL, CONTRE, SURCONTRE, CAPOT, GENERALE }
 
 extension ContreeBeloteContractNameExtension on ContreeBeloteContractName? {

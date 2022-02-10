@@ -9,11 +9,13 @@ class PlayScreenButtonBlock extends StatelessWidget {
   final Function addNotes;
 
   const PlayScreenButtonBlock(
-      {required this.deleteLastRound,
+      {Key? key,
+      required this.deleteLastRound,
       required this.editLastRound,
       required this.endGame,
       required this.addNewRound,
-      required this.addNotes});
+      required this.addNotes})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +29,9 @@ class PlayScreenButtonBlock extends StatelessWidget {
               elevation: 2.0,
               fillColor: Theme.of(context).errorColor,
               textStyle: TextStyle(color: Theme.of(context).cardColor),
-              padding: EdgeInsets.all(15.0),
-              shape: CircleBorder(),
-              child: Icon(
+              padding: const EdgeInsets.all(15.0),
+              shape: const CircleBorder(),
+              child: const Icon(
                 Icons.delete_rounded,
                 size: 22,
               )),
@@ -38,9 +40,9 @@ class PlayScreenButtonBlock extends StatelessWidget {
               elevation: 2.0,
               fillColor: Colors.black,
               textStyle: TextStyle(color: Theme.of(context).cardColor),
-              padding: EdgeInsets.all(15.0),
-              shape: CircleBorder(),
-              child: Icon(
+              padding: const EdgeInsets.all(15.0),
+              shape: const CircleBorder(),
+              child: const Icon(
                 Icons.edit,
                 size: 22,
               )),
@@ -49,9 +51,9 @@ class PlayScreenButtonBlock extends StatelessWidget {
             elevation: 2.0,
             fillColor: Theme.of(context).colorScheme.secondary,
             textStyle: TextStyle(color: Theme.of(context).cardColor),
-            padding: EdgeInsets.all(15.0),
-            shape: CircleBorder(),
-            child: Icon(
+            padding: const EdgeInsets.all(15.0),
+            shape: const CircleBorder(),
+            child: const Icon(
               Icons.notes,
               size: 22,
             ),
@@ -61,9 +63,9 @@ class PlayScreenButtonBlock extends StatelessWidget {
             elevation: 2.0,
             fillColor: Theme.of(context).errorColor,
             textStyle: TextStyle(color: Theme.of(context).cardColor),
-            padding: EdgeInsets.all(15.0),
-            shape: CircleBorder(),
-            child: Icon(
+            padding: const EdgeInsets.all(15.0),
+            shape: const CircleBorder(),
+            child: const Icon(
               Icons.stop,
               size: 22,
             ),
@@ -86,8 +88,8 @@ class PlayScreenButtonBlock extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(
                                     CustomProperties.borderRadius)))),
                     onPressed: () => {addNewRound()},
-                    icon: Icon(Icons.plus_one, size: 30),
-                    label: Text('Nouvelle manche',
+                    icon: const Icon(Icons.plus_one, size: 30),
+                    label: const Text('Nouvelle manche',
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 23))),
               ),

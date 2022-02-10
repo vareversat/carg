@@ -13,7 +13,8 @@ class TarotPerkWidget extends StatelessWidget {
   final TarotRound tarotRound;
   final Tarot? tarotGame;
 
-  const TarotPerkWidget({required this.tarotRound, this.tarotGame});
+  const TarotPerkWidget({Key? key, required this.tarotRound, this.tarotGame})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +57,7 @@ class TarotPerkWidget extends StatelessWidget {
       child: Consumer<TarotRound>(
           builder: (context, roundData, _) => Column(
                 children: [
-                  SectionTitleWidget(title: 'Bonus'),
+                  const SectionTitleWidget(title: 'Bonus'),
                   Wrap(spacing: 10, alignment: WrapAlignment.center, children: [
                     InputChip(
                       onDeleted: roundData.smallToTheEndTeam != null
@@ -77,7 +78,7 @@ class TarotPerkWidget extends StatelessWidget {
                                 roundData.smallToTheEndTeam = value
                             });
                       },
-                      label: Text('${TarotBonus.SMALL_TO_THE_END.name}' +
+                      label: Text(TarotBonus.SMALL_TO_THE_END.name +
                           (roundData.smallToTheEndTeam != null
                               ? ' |  ${TarotRound.smallToTheEndBonus.round()} pts'
                               : '')),
@@ -104,7 +105,7 @@ class TarotPerkWidget extends StatelessWidget {
                                 }
                             });
                       },
-                      label: Text('${TarotBonus.HANDFUL.name}' +
+                      label: Text(TarotBonus.HANDFUL.name +
                           (roundData.handful != null
                               ? ' ${roundData.handful.name}'
                               : '')),
@@ -126,7 +127,7 @@ class TarotPerkWidget extends StatelessWidget {
                         await _showChelemPicker().then((value) =>
                             {if (value != null) roundData.chelem = value});
                       },
-                      label: Text('${TarotBonus.CHELEM.name}' +
+                      label: Text(TarotBonus.CHELEM.name +
                           (roundData.chelem != null
                               ? ' |  ${roundData.chelem.bonus} pts'
                               : '')),
@@ -162,7 +163,7 @@ class _HandfulPicker extends StatelessWidget {
                     children: [
                       Text(
                           '${poingnee.name} (${poingnee.perkCount} atouts = ${poingnee.bonus} points)',
-                          style: TextStyle(fontWeight: FontWeight.bold)),
+                          style: const TextStyle(fontWeight: FontWeight.bold)),
                       Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [

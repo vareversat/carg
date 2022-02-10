@@ -45,8 +45,8 @@ class AlgoliaHelper {
   Future<List<dynamic>> filter(
       {required String filters, required String query}) async {
     final params = {
-      'query': '$query',
-      'filters': '$filters',
+      'query': query,
+      'filters': filters,
     };
     final uri = Uri.https(
         '$_appID-dsn.algolia.net', '/1/indexes/player-$flavor/browse', params);

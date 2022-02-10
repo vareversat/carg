@@ -19,6 +19,8 @@ import 'package:provider/provider.dart';
 class RegisterScreen extends StatefulWidget {
   static String routeName = '/register';
 
+  const RegisterScreen({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return _RegisterScreenState();
@@ -29,7 +31,8 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen>
     with TickerProviderStateMixin, WidgetsBindingObserver {
 
-  final _store = StorageService(flutterSecureStorage: FlutterSecureStorage());
+  final _store = StorageService(
+      flutterSecureStorage: const FlutterSecureStorage());
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
 
   Future<void> _retrieveDynamicLink() async {
@@ -102,19 +105,19 @@ class _RegisterScreenState extends State<RegisterScreen>
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
+                      SizedBox(
                           height: 110,
                           child: SvgPicture.asset(
                               'assets/images/card_game.svg')),
-                      SizedBox(height: 15),
-                      Text(
+                      const SizedBox(height: 15),
+                      const Text(
                         'Carg',
                         textAlign: TextAlign.center,
                         style:
                         TextStyle(fontSize: 45, fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(height: 8),
-                      Text(
+                      const SizedBox(height: 8),
+                      const Text(
                         'Connexion & Inscription',
                         textAlign: TextAlign.center,
                         style:
@@ -132,14 +135,14 @@ class _RegisterScreenState extends State<RegisterScreen>
                             Column(
                               children: [
                                 AnimatedSize(
-                                    key: ValueKey('placeholderContainer'),
+                                    key: const ValueKey('placeholderContainer'),
                                     curve: Curves.ease,
-                                    duration: Duration(milliseconds: 500),
+                                    duration: const Duration(milliseconds: 500),
                                     child: registerData.selectedRegisterMethod
                                         .registrationWidget)
                                 ,
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
+                                const Padding(
+                                  padding: EdgeInsets.symmetric(
                                       vertical: 8.0),
                                   child: Text('ou', style: TextStyle(
                                       fontWeight: FontWeight.bold)),
@@ -148,8 +151,8 @@ class _RegisterScreenState extends State<RegisterScreen>
                                   height: 45,
                                   width: double.infinity,
                                   child: ElevatedButton.icon(
-                                    key: ValueKey('emailButton'),
-                                    icon: Icon(Icons.mail_outline),
+                                    key: const ValueKey('emailButton'),
+                                    icon: const Icon(Icons.mail_outline),
                                     style: ButtonStyle(
                                         backgroundColor: MaterialStateProperty
                                             .all<
@@ -189,8 +192,8 @@ class _RegisterScreenState extends State<RegisterScreen>
                                       registerData.selectedRegisterMethod =
                                           _EmailRegisterMethod();
                                     },
-                                    label: Padding(
-                                      padding: const EdgeInsets.all(8.0),
+                                    label: const Padding(
+                                      padding: EdgeInsets.all(8.0),
                                       child: Text(
                                         'Continuer avec une adresse email',
                                         style: TextStyle(
@@ -200,13 +203,13 @@ class _RegisterScreenState extends State<RegisterScreen>
                                     ),
                                   ),
                                 ),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 10),
                                 SizedBox(
                                   height: 45,
                                   width: double.infinity,
                                   child: ElevatedButton.icon(
-                                    key: ValueKey('phoneButton'),
-                                    icon: Icon(Icons.phone),
+                                    key: const ValueKey('phoneButton'),
+                                    icon: const Icon(Icons.phone),
                                     style: ButtonStyle(
                                         backgroundColor: MaterialStateProperty
                                             .all<
@@ -246,8 +249,8 @@ class _RegisterScreenState extends State<RegisterScreen>
                                       registerData.selectedRegisterMethod =
                                           _PhoneRegisterMethod();
                                     },
-                                    label: Padding(
-                                      padding: const EdgeInsets.all(8.0),
+                                    label: const Padding(
+                                      padding: EdgeInsets.all(8.0),
                                       child: Text(
                                         'Continuer avec un numéro de téléphone',
                                         style: TextStyle(
@@ -257,13 +260,13 @@ class _RegisterScreenState extends State<RegisterScreen>
                                     ),
                                   ),
                                 ),
-                                SizedBox(height: 10),
+                                const SizedBox(height: 10),
                                 SizedBox(
                                   height: 45,
                                   width: double.infinity,
                                   child: ElevatedButton.icon(
-                                    key: ValueKey('googleButton'),
-                                    icon: FaIcon(
+                                    key: const ValueKey('googleButton'),
+                                    icon: const FaIcon(
                                         FontAwesomeIcons.google, size: 22),
                                     style: ButtonStyle(
                                         backgroundColor: MaterialStateProperty
@@ -316,8 +319,8 @@ class _RegisterScreenState extends State<RegisterScreen>
                                         ),
                                       );
                                     },
-                                    label: Padding(
-                                      padding: const EdgeInsets.all(8.0),
+                                    label: const Padding(
+                                      padding: EdgeInsets.all(8.0),
                                       child: Text(
                                         'Continuer avec Google',
                                         style: TextStyle(
@@ -347,23 +350,23 @@ abstract class RegisterMethod {
 }
 
 class _PhoneRegisterMethod extends RegisterMethod {
-  _PhoneRegisterMethod() : super(RegisterPhoneWidget(
+  _PhoneRegisterMethod() : super(const RegisterPhoneWidget(
       credentialVerificationType: CredentialVerificationType.CREATE));
 }
 
 class _EmailRegisterMethod extends RegisterMethod {
-  _EmailRegisterMethod() : super(RegisterEmailWidget(
+  _EmailRegisterMethod() : super(const RegisterEmailWidget(
       credentialVerificationType: CredentialVerificationType.CREATE));
 }
 
 class _GoogleRegisterMethod extends RegisterMethod {
   _GoogleRegisterMethod() : super(Row(
     mainAxisAlignment: MainAxisAlignment.center,
-    children: [
+    children: const [
       Text('Connexion à votre compte Google...',
           style: TextStyle(fontStyle: FontStyle.italic)),
       Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: EdgeInsets.all(8.0),
         child: SizedBox(width: 12,
             height: 12,
             child: CircularProgressIndicator(strokeWidth: 3)),

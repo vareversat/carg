@@ -11,30 +11,30 @@ import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
 
-class GameListWidget extends StatefulWidget {
+class GameListTabWidget extends StatefulWidget {
   final GameService gameService;
 
-  GameListWidget({required this.gameService});
+  const GameListTabWidget({Key? key, required this.gameService})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _GameListWidgetState(gameService);
+    return _GameListTabWidgetState();
   }
 }
 
-class _GameListWidgetState extends State<GameListWidget> {
-  final GameService _gameService;
+class _GameListTabWidgetState extends State<GameListTabWidget> {
   late final String? _playerId;
   final _pagingController = PagingController<int, Game>(
     firstPageKey: 1,
   );
 
-  _GameListWidgetState(this._gameService);
+  _GameListTabWidgetState();
 
   Future<void> _fetchGames(int pageKey) async {
     try {
-      final newGames = await _gameService.getAllGamesOfPlayerPaginated(
-          _playerId, CustomProperties.pageSize);
+      final newGames = await widget.gameService
+          .getAllGamesOfPlayerPaginated(_playerId, CustomProperties.pageSize);
       final isLastPage = newGames.length < CustomProperties.pageSize;
 
       if (isLastPage) {
@@ -50,7 +50,7 @@ class _GameListWidgetState extends State<GameListWidget> {
 
   @override
   void initState() {
-    _gameService.lastFetchGameDocument = null;
+    widget.gameService.lastFetchGameDocument = null;
     _playerId =
         Provider.of<AuthService>(context, listen: false).getPlayerIdOfUser();
     _pagingController.addPageRequestListener((pageKey) {
@@ -69,8 +69,9 @@ class _GameListWidgetState extends State<GameListWidget> {
   Widget build(BuildContext context) {
     return RefreshIndicator(
       onRefresh: () => Future.sync(
-        () => {
-          _gameService.lastFetchGameDocument = null,
+        () =>
+        {
+          widget.gameService.lastFetchGameDocument = null,
           _pagingController.refresh()
         },
       ),
@@ -83,32 +84,32 @@ class _GameListWidgetState extends State<GameListWidget> {
           builderDelegate: PagedChildBuilderDelegate<Game>(
             firstPageErrorIndicatorBuilder: (_) =>
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Center(
+                  const Center(
                   child: Text(
                 'Erreur rencontrée lors du chargement de la page.',
                 textAlign: TextAlign.center,
               )),
               ElevatedButton.icon(
                   onPressed: () => {
-                        _gameService.lastFetchGameDocument = null,
+                        widget.gameService.lastFetchGameDocument = null,
                         _pagingController.refresh()
                       },
-                  icon: Icon(Icons.refresh),
-                  label: Text('Rafraîchir'))
+                  icon: const Icon(Icons.refresh),
+                  label: const Text('Rafraîchir'))
             ]),
             noItemsFoundIndicatorBuilder: (_) =>
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Center(child: Text('Pas encore de parties')),
+              const Center(child: Text('Pas encore de parties')),
               ElevatedButton.icon(
                   onPressed: () => {
-                        _gameService.lastFetchGameDocument = null,
+                        widget.gameService.lastFetchGameDocument = null,
                         _pagingController.refresh()
                       },
-                  icon: Icon(Icons.refresh),
-                  label: Text('Rafraîchir'))
+                  icon: const Icon(Icons.refresh),
+                  label: const Text('Rafraîchir'))
             ]),
-            noMoreItemsIndicatorBuilder: (_) => Padding(
-                padding: const EdgeInsets.all(8.0),
+            noMoreItemsIndicatorBuilder: (_) => const Padding(
+                padding: EdgeInsets.all(8.0),
                 child: Center(child: Text('♦ ️♣ ♥ ♠ '))),
             itemBuilder: (BuildContext context, Game game, int index) {
               if (game.gameType != GameType.TAROT) {

@@ -5,6 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 
 class EditEmailScreen extends StatelessWidget {
+  const EditEmailScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -13,25 +15,25 @@ class EditEmailScreen extends StatelessWidget {
           body: Center(
               child: SingleChildScrollView(
         child: Column(children: <Widget>[
-          SizedBox(height: 30),
-          Container(
+          const SizedBox(height: 30),
+          SizedBox(
             height: 150,
             child: SvgPicture.asset(
               'assets/images/card_game.svg',
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(35),
+          const Padding(
+            padding: EdgeInsets.all(35),
             child: Text(
               'Nouvelle adresse e-mail',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
               textAlign: TextAlign.center,
             ),
           ),
-          RegisterEmailWidget(
+          const RegisterEmailWidget(
               credentialVerificationType: CredentialVerificationType.EDIT)
         ]),
-      ))),
+              ))),
     );
   }
 }

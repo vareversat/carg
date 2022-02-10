@@ -1,4 +1,3 @@
-
 import 'package:carg/helpers/custom_route.dart';
 import 'package:carg/models/game/game_type.dart';
 import 'package:carg/models/game_stats.dart';
@@ -17,6 +16,8 @@ import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class UserScreen extends StatefulWidget {
   static const routeName = '/user';
+
+  const UserScreen({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -38,8 +39,8 @@ class _UserScreenState extends State<UserScreen>
           context,
           CustomRouteFade(
               builder: (context) => SettingsScreen(
-                    player: _player!,
-                playerService: PlayerService(),
+                player: _player!,
+                    playerService: PlayerService(),
                   )));
     }
   }
@@ -55,9 +56,9 @@ class _UserScreenState extends State<UserScreen>
   @override
   void initState() {
     _animationController = AnimationController(
-        vsync: this, duration: Duration(milliseconds: 1100));
+        vsync: this, duration: const Duration(milliseconds: 1100));
     _opacityAnimation = Tween<Offset>(
-            begin: const Offset(0.0, -1.0), end: Offset(0.0, 0.0))
+            begin: const Offset(0.0, -1.0), end: const Offset(0.0, 0.0))
         .animate(
             CurvedAnimation(parent: _animationController, curve: Curves.ease));
     _animationController.forward();
@@ -93,7 +94,7 @@ class _UserScreenState extends State<UserScreen>
                       title: _AppBarTitle(
                         onPressEdit: _showSettingsScreen,
                       ),
-                      flexibleSpace: FlexibleSpaceBar(
+                      flexibleSpace: const FlexibleSpaceBar(
                         centerTitle: true,
                         title: Text(''),
                       ),
@@ -118,9 +119,9 @@ class _UserScreenState extends State<UserScreen>
                                     borderRadius: BorderRadius.circular(
                                         CustomProperties.borderRadius)))),
                         onPressed: () async => _signOut(),
-                        label:
-                            Text('Connexion', style: TextStyle(fontSize: 14)),
-                        icon: Icon(Icons.arrow_back)),
+                        label: const Text('Connexion',
+                            style: TextStyle(fontSize: 14)),
+                        icon: const Icon(Icons.arrow_back)),
                   ],
                 );
               }
@@ -128,7 +129,7 @@ class _UserScreenState extends State<UserScreen>
                 return Center(
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
+                      children: const <Widget>[
                         Text('Pas encore de joueur',
                             style: TextStyle(fontSize: 18))
                       ]),
@@ -189,7 +190,7 @@ class _UserScreenState extends State<UserScreen>
                                                   .map(
                                                     (stat) => ConstrainedBox(
                                                         constraints:
-                                                            BoxConstraints(
+                                                            const BoxConstraints(
                                                                 maxWidth: 160,
                                                                 maxHeight: 160),
                                                         child: _StatGauge(
@@ -199,9 +200,9 @@ class _UserScreenState extends State<UserScreen>
                                                   .cast<Widget>()),
                                         )
                                       ])
-                                    : Center(
+                                    : const Center(
                                         child: Padding(
-                                        padding: const EdgeInsets.all(30),
+                                        padding: EdgeInsets.all(30),
                                         child: Text(
                                           'Pas encore de statistiques',
                                           style: TextStyle(
@@ -241,15 +242,15 @@ class _StatGauge extends StatelessWidget {
                     positionFactor: 0,
                     widget: Text(
                       '${gameStats!.winPercentage().toString()}%',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 22),
                     )),
                 GaugeAnnotation(
                     axisValue: 50,
                     positionFactor: 0.3,
                     widget: Text(
                       '${gameStats!.wonGames} | ${gameStats!.playedGames}',
-                      style: TextStyle(fontSize: 15),
+                      style: const TextStyle(fontSize: 15),
                     ))
               ],
               startAngle: 270,
@@ -341,7 +342,7 @@ class _PlayerUsernameAndProfilePictureWidget extends StatelessWidget {
       Center(
           child: Text(player!.userName!,
               overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontSize: 25),
+              style: const TextStyle(fontSize: 25),
               textAlign: TextAlign.center))
     ]);
   }
@@ -369,8 +370,8 @@ class _AppBarTitle extends StatelessWidget {
                         borderRadius: BorderRadius.circular(
                             CustomProperties.borderRadius)))),
             onPressed: () async => await onPressEdit(),
-            label: Text('Paramètres'),
-            icon: Icon(
+            label: const Text('Paramètres'),
+            icon: const Icon(
               FontAwesomeIcons.cogs,
               size: 13,
             ))
@@ -389,12 +390,13 @@ class _WonPlayedWidget extends StatelessWidget {
     return Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
       Flexible(
           child: Column(children: [
-        Icon(FontAwesomeIcons.trophy, size: 20),
+        const Icon(FontAwesomeIcons.trophy, size: 20),
         Padding(
             padding: const EdgeInsets.all(5.0),
             child: Text(player!.totalWonGames().toString(),
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold))),
-        Text('Victoires', style: TextStyle(fontSize: 20))
+                style: const TextStyle(
+                    fontSize: 20, fontWeight: FontWeight.bold))),
+        const Text('Victoires', style: TextStyle(fontSize: 20))
       ])),
       Container(
         decoration: BoxDecoration(
@@ -404,16 +406,17 @@ class _WonPlayedWidget extends StatelessWidget {
           width: 6,
         ))),
         child: Text('${player!.totalWinPercentage()} %',
-            style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold)),
+            style: const TextStyle(fontSize: 35, fontWeight: FontWeight.bold)),
       ),
       Flexible(
           child: Column(children: [
-        Icon(FontAwesomeIcons.gamepad, size: 20),
+        const Icon(FontAwesomeIcons.gamepad, size: 20),
         Padding(
             padding: const EdgeInsets.all(5.0),
             child: Text(player!.totalPlayedGames().toString(),
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold))),
-        Text('Parties', style: TextStyle(fontSize: 20))
+                style: const TextStyle(
+                    fontSize: 20, fontWeight: FontWeight.bold))),
+        const Text('Parties', style: TextStyle(fontSize: 20))
       ]))
     ]);
   }

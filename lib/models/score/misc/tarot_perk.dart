@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 enum TarotBonus { SMALL_TO_THE_END, HANDFUL, CHELEM }
 
 extension TarotBonusExtension on TarotBonus {

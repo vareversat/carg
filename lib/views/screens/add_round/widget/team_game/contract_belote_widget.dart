@@ -7,7 +7,8 @@ import 'package:provider/provider.dart';
 class ContractBeloteWidget extends StatelessWidget {
   final FrenchBeloteRound frenchBeloteRound;
 
-  const ContractBeloteWidget({required this.frenchBeloteRound});
+  const ContractBeloteWidget({Key? key, required this.frenchBeloteRound})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,13 +17,13 @@ class ContractBeloteWidget extends StatelessWidget {
       child: Consumer<FrenchBeloteRound>(
           builder: (context, roundData, child) =>
               Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                SectionTitleWidget(title: 'Contrat'),
+                const SectionTitleWidget(title: 'Contrat'),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Couleur :'),
+                        const Text('Couleur :'),
                         CardColorPickerWidget(teamGameRound: frenchBeloteRound)
                       ]),
                 )

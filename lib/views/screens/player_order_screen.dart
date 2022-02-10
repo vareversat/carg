@@ -18,36 +18,27 @@ class PlayerOrderScreen extends StatefulWidget {
   final List<Player> playerList;
   final String title;
 
-  PlayerOrderScreen(
-      {required this.playerList, required this.game, required this.title});
+  const PlayerOrderScreen({Key? key,
+    required this.playerList,
+    required this.game,
+    required this.title})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _PlayerOrderScreenState(
-        playerListForOrder: playerList, game: game, title: title);
+    return _PlayerOrderScreenState();
   }
 }
 
 class _PlayerOrderScreenState extends State<PlayerOrderScreen> {
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
-  final String title;
-  final List<Player> playerListForOrder;
-  late final List<Player> playerListForTeam;
-  final Game game;
   Game? _newGame;
-
-  _PlayerOrderScreenState(
-      {required this.playerListForOrder,
-      required this.game,
-      required this.title}) {
-    playerListForTeam = List<Player>.from(playerListForOrder);
-  }
 
   Future _createGame() async {
     Dialogs.showLoadingDialog(context, _keyLoader, 'Démarrage de la partie');
-    var gameTmp = (await game.gameService.createGameWithPlayerList(
-        playerListForOrder.map((e) => e.id).toList(),
-        playerListForTeam.map((e) => e.id).toList()));
+    var gameTmp = (await widget.game.gameService.createGameWithPlayerList(
+        widget.playerList.map((e) => e.id).toList(),
+        widget.playerList.map((e) => e.id).toList()));
     setState(() {
       _newGame = gameTmp;
     });
@@ -59,9 +50,9 @@ class _PlayerOrderScreenState extends State<PlayerOrderScreen> {
       if (newIndex > oldIndex) {
         newIndex -= 1;
       }
-      var player = playerListForOrder[oldIndex];
-      playerListForOrder.removeAt(oldIndex);
-      playerListForOrder.insert(newIndex, player);
+      var player = widget.playerList[oldIndex];
+      widget.playerList.removeAt(oldIndex);
+      widget.playerList.insert(newIndex, player);
     });
   }
 
@@ -69,17 +60,18 @@ class _PlayerOrderScreenState extends State<PlayerOrderScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(60),
+          preferredSize: const Size.fromHeight(60),
           child: AppBar(
-            title: Text(title, style: CustomTextStyle.screenHeadLine1(context)),
+            title: Text(widget.title,
+                style: CustomTextStyle.screenHeadLine1(context)),
           ),
         ),
         body: Padding(
-            padding: EdgeInsets.all(10.0),
+            padding: const EdgeInsets.all(10.0),
             child: Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
                   child: Text('Ordre de jeu',
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
@@ -87,7 +79,7 @@ class _PlayerOrderScreenState extends State<PlayerOrderScreen> {
                 Flexible(
                     child: ReorderableListView(
                         onReorder: _onReorder,
-                        children: playerListForOrder
+                        children: widget.playerList
                             .asMap()
                             .map((i, player) => MapEntry(
                                 i,
@@ -101,10 +93,10 @@ class _PlayerOrderScreenState extends State<PlayerOrderScreen> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                      'Info : Ce jeu de carte se joue dans le ${game.gameType.direction}',
+                      'Info : Ce jeu de carte se joue dans le ${widget.game.gameType.direction}',
                       textAlign: TextAlign.center,
-                      style:
-                          TextStyle(fontSize: 20, fontStyle: FontStyle.italic)),
+                      style: const TextStyle(
+                          fontSize: 20, fontStyle: FontStyle.italic)),
                 ),
                 SizedBox(
                     width: double.infinity,
@@ -128,20 +120,21 @@ class _PlayerOrderScreenState extends State<PlayerOrderScreen> {
                                   Navigator.pushAndRemoveUntil(
                                       context,
                                       CustomRouteFade(
-                                          builder: (context) => _newGame!
+                                          builder: (context) =>
+                                          _newGame!
                                                       .gameType !=
                                                   GameType.TAROT
                                               ? PlayBeloteScreen(
                                                   beloteGame: _newGame
                                                       as Belote<BelotePlayers>)
-                                              : PlayTarotGame(
+                                              : PlayTarotGameScreen(
                                                   tarotGame:
                                                       _newGame as Tarot)),
                                       ModalRoute.withName('/'))
                                 },
-                            label: Text('Démarrer la partie',
+                            label: const Text('Démarrer la partie',
                                 style: TextStyle(fontSize: 23)),
-                            icon: Icon(Icons.check, size: 30))))
+                            icon: const Icon(Icons.check, size: 30))))
               ],
             )));
   }

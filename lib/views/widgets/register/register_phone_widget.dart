@@ -10,7 +10,9 @@ import 'package:provider/provider.dart';
 class RegisterPhoneWidget extends StatefulWidget {
   final CredentialVerificationType credentialVerificationType;
 
-  const RegisterPhoneWidget({required this.credentialVerificationType});
+  const RegisterPhoneWidget(
+      {Key? key, required this.credentialVerificationType})
+      : super(key: key);
 
   @override
   _RegisterPhoneWidgetState createState() => _RegisterPhoneWidgetState();
@@ -34,16 +36,16 @@ class _RegisterPhoneWidgetState extends State<RegisterPhoneWidget>
                               borderRadius: BorderRadius.circular(15)),
                           children: <Widget>[
                             TextField(
-                                autofillHints: [
+                                autofillHints: const [
                                   AutofillHints.telephoneNumberNational
                                 ],
                                 onChanged: (value) {
                                   countryListData.filter(value);
                                 },
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     labelText: 'Rechercher un pays'),
                                 textInputAction: TextInputAction.search),
-                            Container(
+                            SizedBox(
                               height: 300,
                               width: 600,
                               child: ListView.builder(
@@ -89,7 +91,7 @@ class _RegisterPhoneWidgetState extends State<RegisterPhoneWidget>
                             Center(
                                 child: Text(
                                     '${countryListData.countries!.length} pays',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontSize: 15,
                                         fontStyle: FontStyle.italic)))
                           ])),
@@ -146,17 +148,17 @@ class _RegisterPhoneWidgetState extends State<RegisterPhoneWidget>
                                   : null,
                               child: AnimatedSize(
                                   curve: Curves.linear,
-                                  duration: Duration(milliseconds: 300),
+                                  duration: const Duration(milliseconds: 300),
                                   child: Text(
                                     phoneRegistrationData.country != null
                                         ? phoneRegistrationData
                                             .getCompactFormattedCountryName()
                                         : 'Pays',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold),
                                   )),
                             ),
-                            SizedBox(width: 15),
+                            const SizedBox(width: 15),
                             Flexible(
                               child: TextField(
                                 enabled: phoneRegistrationData.country != null,
@@ -177,7 +179,7 @@ class _RegisterPhoneWidgetState extends State<RegisterPhoneWidget>
                                   disabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(
                                         CustomProperties.borderRadius),
-                                    borderSide: BorderSide(
+                                    borderSide: const BorderSide(
                                       color: Colors.grey,
                                       width: 2.0,
                                     ),
@@ -203,8 +205,8 @@ class _RegisterPhoneWidgetState extends State<RegisterPhoneWidget>
                             ),
                           ],
                         ),
-                        SizedBox(height: 8),
-                        Text(
+                        const SizedBox(height: 8),
+                        const Text(
                           'Un SMS de confirmation contenant un code à 6 chiffres '
                           'va vous être envoyé. Des frais standards d\'envoi '
                           'de messages et d\'échange de données s\'appliquent',
@@ -212,7 +214,7 @@ class _RegisterPhoneWidgetState extends State<RegisterPhoneWidget>
                               fontStyle: FontStyle.italic, fontSize: 13),
                         ),
                         ElevatedButton.icon(
-                            icon: Icon(Icons.check),
+                            icon: const Icon(Icons.check),
                             style: ButtonStyle(
                                 backgroundColor: MaterialStateProperty.all<Color>(
                                     !phoneRegistrationData.isPhoneNumberEmpty()
@@ -235,7 +237,7 @@ class _RegisterPhoneWidgetState extends State<RegisterPhoneWidget>
                                     await _sendPinCode(phoneRegistrationData);
                                   }
                                 : null,
-                            label: Text(
+                            label: const Text(
                               'Continuer',
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ))

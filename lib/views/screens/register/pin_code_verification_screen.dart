@@ -15,10 +15,12 @@ class PinCodeVerificationScreen extends StatefulWidget {
   final String verificationId;
   final CredentialVerificationType credentialVerificationType;
 
-  PinCodeVerificationScreen(
-      {required this.phoneNumber,
+  const PinCodeVerificationScreen(
+      {Key? key,
+      required this.phoneNumber,
       required this.verificationId,
-      required this.credentialVerificationType});
+      required this.credentialVerificationType})
+      : super(key: key);
 
   @override
   _PinCodeVerificationScreenState createState() =>
@@ -90,7 +92,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
             .pop();
         Dialogs.showMessageDialog(
             context, _keyLoaderSuccess, _validationSuccess);
-        await Future.delayed(Duration(seconds: 2));
+        await Future.delayed(const Duration(seconds: 2));
         Navigator.of(_keyLoaderSuccess.currentContext!, rootNavigator: true)
             .pop();
         await Navigator.pushReplacement(
@@ -116,19 +118,19 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
     return Scaffold(
         body: Center(
       child: ListView(children: <Widget>[
-        SizedBox(height: 30),
-        Container(
+        const SizedBox(height: 30),
+        SizedBox(
           height: 150,
           child: SvgPicture.asset(
             _imagePath,
           ),
         ),
-        SizedBox(height: 50),
+        const SizedBox(height: 50),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
             _verificationCode,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
             textAlign: TextAlign.center,
           ),
         ),
@@ -139,17 +141,17 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                 text: _pleaseEnterTheCode,
                 children: [
                   TextSpan(
-                      text: '${widget.phoneNumber}',
-                      style: TextStyle(
+                      text: widget.phoneNumber,
+                      style: const TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
                           fontSize: 15)),
                 ],
-                style: TextStyle(color: Colors.black54, fontSize: 15)),
+                style: const TextStyle(color: Colors.black54, fontSize: 15)),
             textAlign: TextAlign.center,
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
         Form(
@@ -201,7 +203,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
           children: [
             Text(
               _didYouReceiveTheCode,
-              style: TextStyle(color: Colors.black54, fontSize: 15),
+              style: const TextStyle(color: Colors.black54, fontSize: 15),
             ),
             TextButton(
                 onPressed: () => _resendCode(),

@@ -70,10 +70,6 @@ class FrenchBeloteRound extends BeloteRound {
     }
   }
 
-  @override
-  Map<String, dynamic> toJSON() {
-    return super.toJSON();
-  }
 
   factory FrenchBeloteRound.fromJSON(Map<String, dynamic> json) {
     return FrenchBeloteRound(

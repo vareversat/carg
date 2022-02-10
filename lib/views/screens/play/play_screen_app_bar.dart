@@ -8,7 +8,7 @@ import 'package:intl/intl.dart';
 class PlayScreenAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Game game;
 
-  const PlayScreenAppBar({required this.game});
+  const PlayScreenAppBar({Key? key, required this.game}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class PlayScreenAppBar extends StatelessWidget implements PreferredSizeWidget {
         toolbarHeight: 80,
         actions: [
           IconButton(
-            icon: Icon(Icons.help),
+            icon: const Icon(Icons.help),
             onPressed: () => Navigator.push(
               context,
               MaterialPageRoute(
@@ -32,24 +32,24 @@ class PlayScreenAppBar extends StatelessWidget implements PreferredSizeWidget {
             Text(
               'Commencée le ${DateFormat.yMMMMEEEEd(Localizations.localeOf(context).languageCode).format(game.startingDate)} à '
               '${DateFormat.jm(Localizations.localeOf(context).languageCode).format(game.startingDate)}',
-              style: TextStyle(fontSize: 12),
+              style: const TextStyle(fontSize: 12),
               overflow: TextOverflow.clip,
             ),
-            Divider(color: Colors.transparent, height: 5),
+            const Divider(color: Colors.transparent, height: 5),
             if (game.isEnded)
               Text(
                   'Terminée le ${DateFormat.yMMMMEEEEd(Localizations.localeOf(context).languageCode).format(game.endingDate!)} à '
-                      '${DateFormat.jm(Localizations.localeOf(context).languageCode).format(game.endingDate!)}',
-                  style: TextStyle(fontSize: 12))
+                  '${DateFormat.jm(Localizations.localeOf(context).languageCode).format(game.endingDate!)}',
+                  style: const TextStyle(fontSize: 12))
           ],
         ),
         centerTitle: true,
         automaticallyImplyLeading: false,
         leading: IconButton(
             onPressed: () => Navigator.pop(context, 1),
-            icon: Icon(Icons.cancel)));
+            icon: const Icon(Icons.cancel)));
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(80.0);
+  Size get preferredSize => const Size.fromHeight(80.0);
 }

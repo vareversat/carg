@@ -17,7 +17,8 @@ class GameTitleWidget extends StatelessWidget {
           flex: 2,
           child: Text(
               DateFormat('dd/MM/yyyy, HH:mm').format(game!.startingDate),
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+              style:
+                  const TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
         ),
         Flexible(
           flex: 1,

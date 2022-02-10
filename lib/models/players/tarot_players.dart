@@ -32,11 +32,6 @@ class TarotPlayers extends Players {
     return 'TarotGamePlayers{player_list: $playerList}';
   }
 
-  @override
-  Map<String, dynamic> toJSON() {
-    return super.toJSON();
-  }
-
   factory TarotPlayers.fromJSON(Map<String, dynamic> json) {
     return TarotPlayers(
       playerList: json['player_list'],

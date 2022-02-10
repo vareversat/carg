@@ -5,7 +5,8 @@ import 'package:provider/provider.dart';
 class RealTimeDisplayWidget extends StatelessWidget {
   final Round round;
 
-  const RealTimeDisplayWidget({required this.round});
+  const RealTimeDisplayWidget({Key? key, required this.round})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,8 +18,8 @@ class RealTimeDisplayWidget extends StatelessWidget {
             builder: (context, roundData, child) => Center(
                 child: Text(roundData.realTimeDisplay(),
                     textAlign: TextAlign.center,
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 23)))),
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 23)))),
       ),
     );
   }

@@ -50,9 +50,9 @@ class BelotePlayers extends Players {
 
   int _size() {
     var size = 0;
-    playerList!.forEach((element) {
+    for (var element in playerList!) {
       element != ' ' ? size++ : size += 0;
-    });
+    }
     return size;
   }
 

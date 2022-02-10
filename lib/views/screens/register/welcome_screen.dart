@@ -13,6 +13,8 @@ import 'package:provider/provider.dart';
 class WelcomeScreen extends StatefulWidget {
   static const routeName = '/welcome';
 
+  const WelcomeScreen({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return _WelcomeScreenState();
@@ -42,7 +44,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
             child: Column(children: <Widget>[
               Padding(
                 padding: const EdgeInsets.all(35),
-                child: Container(
+                child: SizedBox(
                   height: 150,
                   child: SvgPicture.asset(
                     _imagePath,
@@ -51,19 +53,20 @@ class _WelcomeScreenState extends State<WelcomeScreen>
               ),
               Text(
                 _title,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                style: const TextStyle(
+                    fontWeight: FontWeight.bold, fontSize: 30),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0),
                 child: Text(
                   _description,
-                  style: TextStyle(fontSize: 15),
+                  style: const TextStyle(fontSize: 15),
                   textAlign: TextAlign.center,
                 ),
               ),
-              SizedBox(height: 40),
+              const SizedBox(height: 40),
               ChangeNotifierProvider.value(
                   value: _AccountCreationData(_NoneMethod()),
                   child: Padding(
@@ -74,69 +77,67 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                               children: [
                                 AnimatedSize(
                                   curve: Curves.ease,
-                                  duration: Duration(milliseconds: 500),
+                                  duration: const Duration(milliseconds: 500),
                                   child: registerData
                                       .selectedCreationMethod is _NoneMethod
                                       ? Column(children: [
-                                    Container(
-                                      child: ElevatedButton.icon(
-                                          icon: Icon(Icons.add),
-                                          style: ButtonStyle(
-                                              backgroundColor: MaterialStateProperty
-                                                  .all<Color>(
-                                                  Theme
-                                                      .of(context)
-                                                      .primaryColor),
-                                              foregroundColor:
-                                              MaterialStateProperty.all<Color>(
-                                                  Theme
-                                                      .of(context)
-                                                      .cardColor),
-                                              shape: MaterialStateProperty.all<
-                                                  OutlinedBorder>(
-                                                  RoundedRectangleBorder(
-                                                      side: BorderSide(
-                                                          width: 2,
-                                                          color: Theme
-                                                              .of(context)
-                                                              .primaryColor),
-                                                      borderRadius: BorderRadius
-                                                          .circular(
-                                                          CustomProperties
-                                                              .borderRadius)))),
-                                          onPressed: () {
-                                            registerData
-                                                .selectedCreationMethod =
-                                                _CreatePlayerMethod(context);
-                                          },
-                                          label: Text(
-                                            _createPlayerButton,
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold),
-                                          )),
-                                    ),
+                                    ElevatedButton.icon(
+                                        icon: const Icon(Icons.add),
+                                        style: ButtonStyle(
+                                            backgroundColor: MaterialStateProperty
+                                                .all<Color>(
+                                                Theme
+                                                    .of(context)
+                                                    .primaryColor),
+                                            foregroundColor:
+                                            MaterialStateProperty.all<Color>(
+                                                Theme
+                                                    .of(context)
+                                                    .cardColor),
+                                            shape: MaterialStateProperty.all<
+                                                OutlinedBorder>(
+                                                RoundedRectangleBorder(
+                                                    side: BorderSide(
+                                                        width: 2,
+                                                        color: Theme
+                                                            .of(context)
+                                                            .primaryColor),
+                                                    borderRadius: BorderRadius
+                                                        .circular(
+                                                        CustomProperties
+                                                            .borderRadius)))),
+                                        onPressed: () {
+                                          registerData
+                                              .selectedCreationMethod =
+                                              _CreatePlayerMethod(context);
+                                        },
+                                        label: Text(
+                                          _createPlayerButton,
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        )),
                                     Container(
                                       width: 300,
                                       height: 40,
                                       padding: const EdgeInsets.only(top: 8.0),
                                       child: Text(
                                         _createPlayerDescription,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             fontSize: 15,
                                             fontStyle: FontStyle.italic),
                                         textAlign: TextAlign.center,
                                       ),
                                     ),
-                                    SizedBox(height: 20),
-                                    Text('ou',
+                                    const SizedBox(height: 20),
+                                    const Text('ou',
                                         style:
                                         TextStyle(fontWeight: FontWeight.bold)),
-                                    SizedBox(height: 20),
-                                    Container(
+                                    const SizedBox(height: 20),
+                                    SizedBox(
                                       width: 250,
                                       height: 40,
                                       child: ElevatedButton.icon(
-                                          icon: Icon(Icons.link),
+                                          icon: const Icon(Icons.link),
                                           style: ButtonStyle(
                                               backgroundColor: MaterialStateProperty
                                                   .all<Color>(
@@ -169,7 +170,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                                             child: Text(
                                               _linkPlayerButton,
                                               textAlign: TextAlign.center,
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                   fontWeight: FontWeight.bold),
                                             ),
                                           )),
@@ -179,7 +180,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                                       width: 300,
                                       child: Text(
                                         _linkPlayerDescription,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             fontSize: 15,
                                             fontStyle: FontStyle.italic),
                                         textAlign: TextAlign.center,
@@ -190,12 +191,12 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                                       .selectedCreationMethod
                                       .accountCreationWidget,
                                 ),
-                                SizedBox(height: 30),
+                                const SizedBox(height: 30),
                                 registerData
                                     .selectedCreationMethod is _NoneMethod
                                     ?
                                 ElevatedButton.icon(
-                                    icon: Icon(Icons.close),
+                                    icon: const Icon(Icons.close),
                                     style: ButtonStyle(
                                         backgroundColor: MaterialStateProperty
                                             .all<Color>(
@@ -227,11 +228,11 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                                       child: Text(
                                         _quitButton,
                                         textAlign: TextAlign.center,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             fontWeight: FontWeight.bold),
                                       ),
                                     )) : ElevatedButton.icon(
-                                    icon: Icon(Icons.arrow_back),
+                                    icon: const Icon(Icons.arrow_back),
                                     style: ButtonStyle(
                                         backgroundColor: MaterialStateProperty
                                             .all<Color>(
@@ -265,7 +266,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                                       child: Text(
                                         _returnButton,
                                         textAlign: TextAlign.center,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             fontWeight: FontWeight.bold),
                                       ),
                                     )),
@@ -336,7 +337,7 @@ class _EnterUsernameWidget extends StatelessWidget {
       await Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => HomeScreen(requestedIndex: 0),
+          builder: (context) => const HomeScreen(requestedIndex: 0),
         ),
       );
     } on CustomException catch (e) {
@@ -371,7 +372,7 @@ class _EnterUsernameWidget extends StatelessWidget {
               disabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(
                     CustomProperties.borderRadius),
-                borderSide: BorderSide(
+                borderSide: const BorderSide(
                   color: Colors.grey,
                   width: 2.0,
                 ),
@@ -399,9 +400,9 @@ class _EnterUsernameWidget extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(width: 10, height: 5),
+        const SizedBox(width: 10, height: 5),
         Flexible(child: ElevatedButton.icon(
-            icon: Icon(Icons.check),
+            icon: const Icon(Icons.check),
             style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(
                     Theme
@@ -426,7 +427,7 @@ class _EnterUsernameWidget extends StatelessWidget {
               child: Text(
                 _validate,
                 textAlign: TextAlign.center,
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             )),)
       ],
@@ -462,7 +463,7 @@ class _LinkPlayerWidget extends StatelessWidget {
       await Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => HomeScreen(requestedIndex: 0),
+          builder: (context) => const HomeScreen(requestedIndex: 0),
         ),
       );
     } on CustomException catch (e) {
@@ -496,7 +497,7 @@ class _LinkPlayerWidget extends StatelessWidget {
                   disabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(
                         CustomProperties.borderRadius),
-                    borderSide: BorderSide(
+                    borderSide: const BorderSide(
                       color: Colors.grey,
                       width: 2.0,
                     ),
@@ -524,9 +525,9 @@ class _LinkPlayerWidget extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(width: 10, height: 5),
+            const SizedBox(width: 10, height: 5),
             Flexible(child: ElevatedButton.icon(
-                icon: Icon(Icons.check),
+                icon: const Icon(Icons.check),
                 style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(
                         Theme
@@ -551,15 +552,15 @@ class _LinkPlayerWidget extends StatelessWidget {
                   child: Text(
                     _validate,
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                 )),)
           ],
         ),
-        SizedBox(height: 8),
+        const SizedBox(height: 8),
         Text(
           _enterUniqueIdDescription,
-          style: TextStyle(
+          style: const TextStyle(
               fontStyle: FontStyle.italic, fontSize: 13),
         ),
       ],

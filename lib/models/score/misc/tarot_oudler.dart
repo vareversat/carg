@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 enum TarotOudler { ZERO, ONE, TWO, THREE }
 
 extension TarotOudlerExtension on TarotOudler? {
