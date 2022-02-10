@@ -10,39 +10,33 @@ class WarningDialog extends StatefulWidget {
   final bool showCancelButton;
   final String? onConfirmButtonMessage;
 
-  WarningDialog(
-      {required this.message,
+  const WarningDialog(
+      {Key? key,
+      required this.message,
       required this.title,
       required this.onConfirm,
       this.color,
       this.showCancelButton = true,
-      this.onConfirmButtonMessage});
+      this.onConfirmButtonMessage})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _WarningDialogState(message, title, onConfirm, color,
-        showCancelButton, onConfirmButtonMessage);
+    return _WarningDialogState();
   }
 }
 
 class _WarningDialogState extends State<WarningDialog> {
-  final String _message;
-  final String _title;
-  final Function _onConfirm;
-  final Color? _color;
-  final bool _showCancelButton;
-  final String? _onConfirmButtonMessage;
   bool _isLoading = false;
 
-  _WarningDialogState(this._message, this._title, this._onConfirm, this._color,
-      this._showCancelButton, this._onConfirmButtonMessage);
+  _WarningDialogState();
 
   Future<void> _exec() async {
     setState(() {
       _isLoading = true;
     });
     try {
-      await _onConfirm();
+      await widget.onConfirm();
     } catch (e) {
       _isLoading = false;
     }
@@ -62,30 +56,30 @@ class _WarningDialogState extends State<WarningDialog> {
       actionsPadding: const EdgeInsets.fromLTRB(0, 0, 20, 10),
       title: Container(
         decoration: BoxDecoration(
-            color: _color ?? Theme.of(context).errorColor,
-            borderRadius: BorderRadius.only(
-                topLeft: const Radius.circular(15.0),
-                topRight: const Radius.circular(15.0))),
+            color: widget.color ?? Theme.of(context).errorColor,
+            borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(15.0),
+                topRight: Radius.circular(15.0))),
         padding: const EdgeInsets.fromLTRB(20, 20, 0, 15),
         child: Text(
-          _title,
+          widget.title,
           overflow: TextOverflow.ellipsis,
           style: CustomTextStyle.dialogHeaderStyle(context),
         ),
       ),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       content: Text(
-        _message,
-        style: TextStyle(fontSize: 22),
+        widget.message,
+        style: const TextStyle(fontSize: 22),
       ),
       actions: <Widget>[
         if (_isLoading)
-          CircularProgressIndicator()
+          const CircularProgressIndicator()
         else
           ElevatedButton.icon(
               style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all<Color>(
-                      _color ?? Theme.of(context).errorColor),
+                      widget.color ?? Theme.of(context).errorColor),
                   foregroundColor: MaterialStateProperty.all<Color>(
                       Theme.of(context).cardColor),
                   shape: MaterialStateProperty.all<OutlinedBorder>(
@@ -94,23 +88,23 @@ class _WarningDialogState extends State<WarningDialog> {
                               CustomProperties.borderRadius)))),
               onPressed: () async => {await _exec(), Navigator.pop(context)},
               label: Text(
-                _onConfirmButtonMessage?.toUpperCase() ??
+                widget.onConfirmButtonMessage?.toUpperCase() ??
                     MaterialLocalizations.of(context).okButtonLabel,
               ),
-              icon: Icon(Icons.check)),
-        if (_showCancelButton)
+              icon: const Icon(Icons.check)),
+        if (widget.showCancelButton)
           ElevatedButton.icon(
             style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(
                     Theme.of(context).cardColor),
                 foregroundColor: MaterialStateProperty.all<Color>(
-                    _color ?? Theme.of(context).errorColor),
+                    widget.color ?? Theme.of(context).errorColor),
                 shape: MaterialStateProperty.all<OutlinedBorder>(
                     RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
                             CustomProperties.borderRadius)))),
             onPressed: () => {Navigator.pop(context)},
-            icon: Icon(Icons.close),
+            icon: const Icon(Icons.close),
             label: Text(
               MaterialLocalizations.of(context).cancelButtonLabel,
             ),

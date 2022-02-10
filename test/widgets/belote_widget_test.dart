@@ -41,51 +41,56 @@ void main() {
   testWidgets('French belote - Must find two Team widget',
       (WidgetTester tester) async {
     await tester.pumpWidget(testableWidget(frenchBelote));
-    await tester.tap(find.byKey(ValueKey('expansionTileTitle')));
-    await tester.pumpAndSettle(Duration(milliseconds: 1000));
+    await tester.tap(find.byKey(const ValueKey('expansionTileTitle')));
+    await tester.pumpAndSettle(const Duration(milliseconds: 1000));
 
-    expect(find.byKey(ValueKey('teamWidget-US')), findsOneWidget);
-    expect(find.byKey(ValueKey('teamWidget-THEM')), findsOneWidget);
+    expect(find.byKey(const ValueKey('teamWidget-US')), findsOneWidget);
+    expect(find.byKey(const ValueKey('teamWidget-THEM')), findsOneWidget);
   });
 
   testWidgets('Coinche belote - Must show three buttons : STOP, CONTINUE',
       (WidgetTester tester) async {
-    await tester.pumpWidget(testableWidget(coincheBelote));
-    await tester.tap(find.byKey(ValueKey('expansionTileTitle')));
-    await tester.pumpAndSettle(Duration(milliseconds: 1000));
+        await tester.pumpWidget(testableWidget(coincheBelote));
+    await tester.tap(find.byKey(const ValueKey('expansionTileTitle')));
+    await tester.pumpAndSettle(const Duration(milliseconds: 1000));
 
-    expect(find.byKey(ValueKey('stopButton')), findsOneWidget);
-    expect(find.byKey(ValueKey('continueButton')), findsOneWidget);
+    expect(find.byKey(const ValueKey('stopButton')), findsOneWidget);
+    expect(find.byKey(const ValueKey('continueButton')), findsOneWidget);
   });
 
   testWidgets('Contree belote - Must show three buttons : DELETE, SHOW_SCORE',
       (WidgetTester tester) async {
-    await tester.pumpWidget(testableWidget(contreeBelote));
-    await tester.tap(find.byKey(ValueKey('expansionTileTitle')));
-    await tester.pumpAndSettle(Duration(milliseconds: 1000));
+        await tester.pumpWidget(testableWidget(contreeBelote));
+    await tester.tap(find.byKey(const ValueKey('expansionTileTitle')));
+    await tester.pumpAndSettle(const Duration(milliseconds: 1000));
 
-    expect(find.byKey(ValueKey('deleteButton')), findsOneWidget);
-    expect(find.byKey(ValueKey('showScoreButton')), findsOneWidget);
+    expect(find.byKey(const ValueKey('deleteButton')), findsOneWidget);
+    expect(find.byKey(const ValueKey('showScoreButton')), findsOneWidget);
   });
 
   testWidgets('French belote - Must find total scores (US: 100 and THEM: 90)',
       (WidgetTester tester) async {
-    await tester.pumpWidget(testableWidget(frenchBelote));
-    await tester.tap(find.byKey(ValueKey('expansionTileTitle')));
-    await tester.pumpAndSettle(Duration(milliseconds: 1000));
+        await tester.pumpWidget(testableWidget(frenchBelote));
+    await tester.tap(find.byKey(const ValueKey('expansionTileTitle')));
+    await tester.pumpAndSettle(const Duration(milliseconds: 1000));
 
-    expect(tester.widget<Text>(find.byKey(ValueKey('usTotalPointsText'))).data,
+    expect(
+        tester
+            .widget<Text>(find.byKey(const ValueKey('usTotalPointsText')))
+            .data,
         '100');
     expect(
-        tester.widget<Text>(find.byKey(ValueKey('themTotalPointsText'))).data,
+        tester
+            .widget<Text>(find.byKey(const ValueKey('themTotalPointsText')))
+            .data,
         '90');
   });
 
   testWidgets("Contree belote - Must find 'Partie terminée'",
       (WidgetTester tester) async {
-    await tester.pumpWidget(testableWidget(frenchBelote));
-    await tester.tap(find.byKey(ValueKey('expansionTileTitle')));
-    await tester.pumpAndSettle(Duration(milliseconds: 1000));
+        await tester.pumpWidget(testableWidget(frenchBelote));
+    await tester.tap(find.byKey(const ValueKey('expansionTileTitle')));
+    await tester.pumpAndSettle(const Duration(milliseconds: 1000));
 
     expect(find.text('Partie terminée'), findsOneWidget);
   });

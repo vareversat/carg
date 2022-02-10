@@ -15,7 +15,9 @@ class SettingsScreen extends StatefulWidget {
   final Player player;
   final PlayerService playerService;
 
-  const SettingsScreen({required this.player, required this.playerService});
+  const SettingsScreen(
+      {Key? key, required this.player, required this.playerService})
+      : super(key: key);
 
   @override
   _SettingsScreenState createState() => _SettingsScreenState();
@@ -55,7 +57,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         leading: IconButton(
-            icon: Icon(Icons.close),
+            icon: const Icon(Icons.close),
             onPressed: () => Navigator.of(context).pop()),
         title:
             Text('Paramètres', style: CustomTextStyle.screenHeadLine1(context)),
@@ -69,97 +71,94 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ChangeNotifierProvider.value(
                   value: widget.player,
                   child: Consumer<Player>(
-                      builder: (context, playerData, _) => Container(
-                            child: Column(
-                              children: [
-                                ListTile(
-                                    title: Text('Mon profil',
-                                        style: TextStyle(
-                                            color:
-                                                Theme.of(context).primaryColor,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 30))),
-                                ListTile(
-                                  title: TextFormField(
-                                    key: ValueKey('usernameTextField'),
-                                    initialValue: playerData.userName,
-                                    autofillHints: [AutofillHints.username],
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20),
-                                    keyboardType: TextInputType.name,
-                                    decoration: InputDecoration(
-                                      labelStyle: TextStyle(
-                                          fontWeight: FontWeight.normal),
-                                      labelText: 'Nom d\'utilisateur',
-                                    ),
-                                    onFieldSubmitted: (value) async {
-                                      playerData.userName = value;
-                                      await _savePlayer();
-                                    },
+                      builder: (context, playerData, _) => Column(
+                            children: [
+                              ListTile(
+                                  title: Text('Mon profil',
+                                      style: TextStyle(
+                                          color: Theme.of(context).primaryColor,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 30))),
+                              ListTile(
+                                title: TextFormField(
+                                  key: const ValueKey('usernameTextField'),
+                                  initialValue: playerData.userName,
+                                  autofillHints: const [AutofillHints.username],
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                  keyboardType: TextInputType.name,
+                                  decoration: const InputDecoration(
+                                    labelStyle: TextStyle(
+                                        fontWeight: FontWeight.normal),
+                                    labelText: 'Nom d\'utilisateur',
                                   ),
+                                  onFieldSubmitted: (value) async {
+                                    playerData.userName = value;
+                                    await _savePlayer();
+                                  },
                                 ),
-                                ListTile(
-                                  selected: true,
-                                  leading: Container(
-                                      width: 60,
-                                      height: 60,
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        border: Border.all(
-                                            width: 2,
-                                            color:
-                                                Theme.of(context).primaryColor),
-                                        image: DecorationImage(
-                                            fit: BoxFit.fill,
-                                            image: NetworkImage(
-                                                playerData.profilePicture)),
-                                      )),
-                                  title: TextFormField(
-                                    key: ValueKey('imageURLTextField'),
-                                    controller: _profilePictureController,
-                                    enabled:
-                                        !playerData.useGravatarProfilePicture,
-                                    autofillHints:
-                                        !playerData.useGravatarProfilePicture
-                                            ? [AutofillHints.url]
-                                            : null,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20,
-                                        color: !playerData
-                                                .useGravatarProfilePicture
-                                            ? Theme.of(context)
-                                                .textTheme
-                                                .bodyText2!
-                                                .color
-                                            : Colors.grey),
-                                    onChanged: (value) {
-                                      playerData.profilePicture = value;
-                                    },
-                                    keyboardType: TextInputType.visiblePassword,
-                                    decoration: InputDecoration(
-                                      labelStyle: TextStyle(
-                                          fontWeight: FontWeight.normal),
-                                      labelText: 'Image de profil (URL)',
-                                    ),
-                                    onFieldSubmitted: (value) async {
-                                      await _savePlayer();
-                                    },
+                              ),
+                              ListTile(
+                                selected: true,
+                                leading: Container(
+                                    width: 60,
+                                    height: 60,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                          width: 2,
+                                          color:
+                                              Theme.of(context).primaryColor),
+                                      image: DecorationImage(
+                                          fit: BoxFit.fill,
+                                          image: NetworkImage(
+                                              playerData.profilePicture)),
+                                    )),
+                                title: TextFormField(
+                                  key: const ValueKey('imageURLTextField'),
+                                  controller: _profilePictureController,
+                                  enabled:
+                                      !playerData.useGravatarProfilePicture,
+                                  autofillHints:
+                                      !playerData.useGravatarProfilePicture
+                                          ? [AutofillHints.url]
+                                          : null,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20,
+                                      color:
+                                          !playerData.useGravatarProfilePicture
+                                              ? Theme.of(context)
+                                                  .textTheme
+                                                  .bodyText2!
+                                                  .color
+                                              : Colors.grey),
+                                  onChanged: (value) {
+                                    playerData.profilePicture = value;
+                                  },
+                                  keyboardType: TextInputType.visiblePassword,
+                                  decoration: const InputDecoration(
+                                    labelStyle: TextStyle(
+                                        fontWeight: FontWeight.normal),
+                                    labelText: 'Image de profil (URL)',
                                   ),
+                                  onFieldSubmitted: (value) async {
+                                    await _savePlayer();
+                                  },
                                 ),
-                                SwitchListTile(
-                                  key: ValueKey('gravatarSwitchTile'),
-                                  title: Text('Utiliser mon Gravatar',
-                                      style: TextStyle(fontSize: 20)),
-                                  onChanged: (bool value) async =>
-                                      await _onSwitchTileChanged(value),
-                                  value: playerData.useGravatarProfilePicture,
-                                )
-                              ],
-                            ),
+                              ),
+                              SwitchListTile(
+                                key: const ValueKey('gravatarSwitchTile'),
+                                title: const Text('Utiliser mon Gravatar',
+                                    style: TextStyle(fontSize: 20)),
+                                onChanged: (bool value) async =>
+                                    await _onSwitchTileChanged(value),
+                                value: playerData.useGravatarProfilePicture,
+                              )
+                            ],
                           ))),
-              SizedBox(height: 15),
+              const SizedBox(height: 15),
               ListTile(
                   title: Text('Mon compte',
                       style: TextStyle(
@@ -173,38 +172,39 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           Provider.of<AuthService>(context, listen: false)
                                   .getConnectedUserEmail() ??
                               "Pas d'email renseigné'",
-                          key: ValueKey('emailText'),
-                          style: TextStyle(
+                          key: const ValueKey('emailText'),
+                          style: const TextStyle(
                               fontSize: 15, fontStyle: FontStyle.italic)),
                       selected: true,
-                      leading: Icon(
+                      leading: const Icon(
                         Icons.mail_outline,
                         size: 30,
                       ),
                       onTap: () => Navigator.push(
                           context,
                           CustomRouteLeftToRight(
-                              builder: (context) => EditEmailScreen())),
-                      title: Text('Changer mon adresse e-mail',
+                              builder: (context) => const EditEmailScreen())),
+                      title: const Text('Changer mon adresse e-mail',
                           style: TextStyle(fontSize: 20))),
                   ListTile(
                       subtitle: Text(
                           Provider.of<AuthService>(context, listen: false)
                                   .getConnectedUserPhoneNumber() ??
                               'Pas de numéro renseigné',
-                          key: ValueKey('phoneText'),
-                          style: TextStyle(
+                          key: const ValueKey('phoneText'),
+                          style: const TextStyle(
                               fontSize: 15, fontStyle: FontStyle.italic)),
                       selected: true,
-                      leading: Icon(
+                      leading: const Icon(
                         Icons.phone,
                         size: 30,
                       ),
                       onTap: () => Navigator.push(
                           context,
                           CustomRouteLeftToRight(
-                              builder: (context) => EditPhoneNumberScreen())),
-                      title: Text('Changer mon numéro de téléphone',
+                              builder: (context) =>
+                                  const EditPhoneNumberScreen())),
+                      title: const Text('Changer mon numéro de téléphone',
                           style: TextStyle(fontSize: 20))),
                 ],
               ),
@@ -215,7 +215,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     onPressed: () async =>
                         await Provider.of<AuthService>(context, listen: false)
                             .signOut(context),
-                    child: Text('Déconnexion',
+                    child: const Text('Déconnexion',
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.red,
@@ -224,16 +224,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
               ),
               ListTile(
-                  key: ValueKey('aboutButton'),
-                  subtitle: Text('Informations concernant l\'application',
+                  key: const ValueKey('aboutButton'),
+                  subtitle: const Text('Informations concernant l\'application',
                       style: TextStyle(fontSize: 15)),
                   selected: true,
-                  leading: Icon(
+                  leading: const Icon(
                     Icons.info_outline,
                     size: 30,
                   ),
                   onTap: () async => await showGeneralDialog(
-                      transitionDuration: Duration(milliseconds: 300),
+                      transitionDuration: const Duration(milliseconds: 300),
                       context: context,
                       pageBuilder: (BuildContext context,
                           Animation<double> animation,

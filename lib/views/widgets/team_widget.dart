@@ -29,7 +29,7 @@ class _TeamWidgetState extends State<TeamWidget> {
   Widget build(BuildContext context) {
     return Column(children: <Widget>[
       Text(widget.title,
-          key: ValueKey('textTitleWidget'),
+          key: const ValueKey('textTitleWidget'),
           style: CustomTextStyle.boldAndItalic(context)),
       FutureBuilder<Team>(
           builder: (context, snapshot) {

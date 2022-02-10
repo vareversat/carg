@@ -28,7 +28,7 @@ class FrenchBeloteService extends BeloteService<FrenchBelote> {
       if (playerId == null) {
         return beloteGames;
       }
-      var querySnapshot;
+      QuerySnapshot<Map<String, dynamic>> querySnapshot;
       if (lastFetchGameDocument != null) {
         querySnapshot = await FirebaseFirestore.instance
             .collection(dataBase + '-' + flavor)
@@ -50,8 +50,7 @@ class FrenchBeloteService extends BeloteService<FrenchBelote> {
       }
       lastFetchGameDocument = querySnapshot.docs.last;
       for (var doc in querySnapshot.docs) {
-        beloteGames.add(
-            FrenchBelote.fromJSON(doc.data(), doc.id));
+        beloteGames.add(FrenchBelote.fromJSON(doc.data(), doc.id));
       }
       return beloteGames;
     } on PlatformException catch (e) {
@@ -118,8 +117,11 @@ class FrenchBeloteService extends BeloteService<FrenchBelote> {
   Future endAGame(FrenchBelote game) async {
     try {
       Team? winners;
-      game.players!.playerList!.forEach((player) async =>
-          {await _playerService.incrementPlayedGamesByOne(player, game)});
+      for (var player in game.players!.playerList!) {
+        {
+          await _playerService.incrementPlayedGamesByOne(player, game);
+        }
+      }
       var score = await _beloteScoreService.getScoreByGame(game.id);
       if (score!.themTotalPoints > score.usTotalPoints) {
         winners =

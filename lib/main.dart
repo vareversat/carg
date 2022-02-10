@@ -9,9 +9,11 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
-void main() => runApp(Carg());
+void main() => runApp(const Carg());
 
 class Carg extends StatefulWidget {
+  const Carg({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return _CargState();
@@ -45,7 +47,7 @@ class _CargState extends State<Carg> {
 
   final theme = ThemeData(
       fontFamily: 'Josefin',
-      textTheme: TextTheme(
+      textTheme: const TextTheme(
         bodyText1: TextStyle(fontSize: 18, color: Colors.white),
         bodyText2: TextStyle(fontSize: 18),
       ),
@@ -54,7 +56,7 @@ class _CargState extends State<Carg> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
         statusBarBrightness: Brightness.light,
         statusBarColor: Colors.transparent));
     return MultiProvider(
@@ -63,18 +65,18 @@ class _CargState extends State<Carg> {
       ],
       child: Consumer<AuthService>(
         builder: (context, auth, _) => MaterialApp(
-            localizationsDelegates: [
+            localizationsDelegates: const [
               GlobalMaterialLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
             ],
-            supportedLocales: [
-              const Locale('fr', 'FR'),
-              const Locale('en', 'US')
+            supportedLocales: const [
+              Locale('fr', 'FR'),
+              Locale('en', 'US')
             ],
             routes: {
-              UserScreen.routeName: (context) => UserScreen(),
-              RegisterScreen.routeName: (context) => RegisterScreen(),
+              UserScreen.routeName: (context) => const UserScreen(),
+              RegisterScreen.routeName: (context) => const RegisterScreen(),
               HomeScreen.routeName: (context) => HomeScreen(
                   requestedIndex:
                       ModalRoute.of(context)!.settings.arguments as int? ?? 0)
@@ -87,15 +89,16 @@ class _CargState extends State<Carg> {
                 future: auth.isAlreadyLogin(),
                 builder: (context, authResult) {
                   if (authResult.connectionState == ConnectionState.waiting) {
-                    return SplashScreen();
+                    return const SplashScreen();
                   }
                   if (authResult.connectionState == ConnectionState.done) {
                     if (authResult.data == null || !authResult.data!) {
                       // User is not logged
-                      return RegisterScreen();
+                      return const RegisterScreen();
                     } else if (authResult.data != null && authResult.data!) {
                       // User is already logged
-                      return Provider.of<AuthService>(context, listen: false).getCorrectLandingScreen();
+                      return Provider.of<AuthService>(context, listen: false)
+                          .getCorrectLandingScreen();
                     }
                   }
                   return Container();

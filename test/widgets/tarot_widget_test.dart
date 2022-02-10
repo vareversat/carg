@@ -41,11 +41,14 @@ void main() {
   testWidgets('Players - must display 3 players widget when tapped',
       (WidgetTester tester) async {
     await tester.pumpWidget(testableWidget(tarotGame));
-    await tester.tap(find.byKey(ValueKey('expansionTileTitle')));
-    await tester.pumpAndSettle(Duration(milliseconds: 1000));
+    await tester.tap(find.byKey(const ValueKey('expansionTileTitle')));
+    await tester.pumpAndSettle(const Duration(milliseconds: 1000));
 
-    expect(find.byKey(ValueKey('apiminiplayerwidget-player1')), findsOneWidget);
-    expect(find.byKey(ValueKey('apiminiplayerwidget-player2')), findsOneWidget);
-    expect(find.byKey(ValueKey('apiminiplayerwidget-player3')), findsOneWidget);
+    expect(find.byKey(const ValueKey('apiminiplayerwidget-player1')),
+        findsOneWidget);
+    expect(find.byKey(const ValueKey('apiminiplayerwidget-player2')),
+        findsOneWidget);
+    expect(find.byKey(const ValueKey('apiminiplayerwidget-player3')),
+        findsOneWidget);
   });
 }

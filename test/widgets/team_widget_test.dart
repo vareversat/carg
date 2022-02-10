@@ -25,17 +25,20 @@ void main() {
 
   testWidgets('Title', (WidgetTester tester) async {
     await tester.pumpWidget(testableWidget(mockTeamService));
-    await tester.pump(Duration(milliseconds: 100));
+    await tester.pump(const Duration(milliseconds: 100));
 
-    expect(tester.widget<Text>(find.byKey(ValueKey('textTitleWidget'))).data,
+    expect(
+        tester.widget<Text>(find.byKey(const ValueKey('textTitleWidget'))).data,
         'Nous');
   });
 
   testWidgets('Players', (WidgetTester tester) async {
     await tester.pumpWidget(testableWidget(mockTeamService));
-    await tester.pump(Duration(milliseconds: 100));
+    await tester.pump(const Duration(milliseconds: 100));
 
-    expect(find.byKey(ValueKey('apiminiplayerwidget-P1')), findsOneWidget);
-    expect(find.byKey(ValueKey('apiminiplayerwidget-P2')), findsOneWidget);
+    expect(
+        find.byKey(const ValueKey('apiminiplayerwidget-P1')), findsOneWidget);
+    expect(
+        find.byKey(const ValueKey('apiminiplayerwidget-P2')), findsOneWidget);
   });
 }

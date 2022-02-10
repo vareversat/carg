@@ -13,6 +13,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class PlayerListScreen extends StatefulWidget {
+  const PlayerListScreen({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return _PlayerListScreenState();
@@ -43,7 +45,7 @@ class _PlayerListScreenState extends State<PlayerListScreen> {
     var deviceSize = MediaQuery.of(context).size;
     return Scaffold(
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(60),
+          preferredSize: const Size.fromHeight(60),
           child: AppBar(
               automaticallyImplyLeading: false,
               title: Row(
@@ -62,18 +64,19 @@ class _PlayerListScreenState extends State<PlayerListScreen> {
                                   borderRadius: BorderRadius.circular(
                                       CustomProperties.borderRadius)))),
                       onPressed: () async {
-                            var result = await showDialog(
-                                context: context,
-                                builder: (BuildContext context) =>
-                                    PlayerInfoDialog(
-                                        player: Player(owned: true), playerService: _playerService, isNewPlayer: true));
-                            if (result != null) {
-                              InfoSnackBar.showSnackBar(context, result);
-                            }
-                          },
-                      label: Text('Nouveau joueur',
+                        var result = await showDialog(
+                            context: context,
+                            builder: (BuildContext context) => PlayerInfoDialog(
+                                player: Player(owned: true),
+                                playerService: _playerService,
+                                isNewPlayer: true));
+                        if (result != null) {
+                          InfoSnackBar.showSnackBar(context, result);
+                        }
+                      },
+                      label: const Text('Nouveau joueur',
                           style: TextStyle(fontSize: 14)),
-                      icon: FaIcon(
+                      icon: const FaIcon(
                         FontAwesomeIcons.plusCircle,
                         size: 15,
                       ))
@@ -88,30 +91,28 @@ class _PlayerListScreenState extends State<PlayerListScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
+                  SizedBox(
                     width: deviceSize.width * 0.5,
                     child: TextFormField(
                         onFieldSubmitted: (term) => _searchPlayer(),
                         controller: _searchTextController,
                         textInputAction: TextInputAction.search,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 25, fontWeight: FontWeight.bold),
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           enabledBorder: InputBorder.none,
                           labelText: 'Rechercher...',
                         )),
                   ),
-                  Container(
-                    child: MaterialButton(
-                      onPressed: () => _resetSearch(),
-                      color: Theme.of(context).primaryColor,
-                      textColor: Colors.white,
-                      padding: EdgeInsets.zero,
-                      shape: CircleBorder(),
-                      child: Icon(Icons.close),
-                    ),
+                  MaterialButton(
+                    onPressed: () => _resetSearch(),
+                    color: Theme.of(context).primaryColor,
+                    textColor: Colors.white,
+                    padding: EdgeInsets.zero,
+                    shape: const CircleBorder(),
+                    child: const Icon(Icons.close),
                   ),
-                  Container(
+                  SizedBox(
                     width: 35,
                     child:
                         SvgPicture.asset('assets/images/search_by_algolia.svg'),
@@ -123,7 +124,7 @@ class _PlayerListScreenState extends State<PlayerListScreen> {
               child: FutureBuilder<List<Player>>(
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator());
                   }
                   if (snapshot.connectionState == ConnectionState.none ||
                       snapshot.data == null) {
@@ -133,7 +134,7 @@ class _PlayerListScreenState extends State<PlayerListScreen> {
                     return Center(
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
+                          children: const <Widget>[
                             Text('Pas encore de joueurs ',
                                 style: TextStyle(fontSize: 18)),
                             Icon(Icons.person),

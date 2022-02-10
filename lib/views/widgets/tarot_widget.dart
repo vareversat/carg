@@ -12,19 +12,19 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 class TarotWidget extends StatelessWidget {
   final Tarot tarotGame;
 
-  const TarotWidget({required this.tarotGame});
+  const TarotWidget({Key? key, required this.tarotGame}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Card(
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-        margin: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
         elevation: 2,
         color: Colors.white,
         child: ExpansionTile(
             title: GameTitleWidget(
-                key: ValueKey('expansionTileTitle'), game: tarotGame),
+                key: const ValueKey('expansionTileTitle'), game: tarotGame),
             children: <Widget>[
               FutureBuilder<TarotScore?>(
                   builder: (context, snapshot) {
@@ -43,7 +43,7 @@ class TarotWidget extends StatelessWidget {
                     if (snapshot.hasData &&
                         snapshot.connectionState == ConnectionState.done) {
                       return Wrap(
-                        key: ValueKey('apiminiplayerwidget'),
+                        key: const ValueKey('apiminiplayerwidget'),
                         alignment: WrapAlignment.center,
                         spacing: 2,
                         children: tarotGame.players!.playerList!
@@ -54,17 +54,18 @@ class TarotWidget extends StatelessWidget {
                                   displayImage: true,
                                   size: 20,
                                   additionalText:
-                                      ' | ${snapshot.data!.getScoreOf(playerId).score.round().toString()}',
-                                ))
+                                      ' | ${snapshot.data!.getScoreOf(playerId).score
+                                  .round().toString()}',
+                            ))
                             .toList()
                             .cast<Widget>(),
                       );
                     }
-                    return Center(child: Text('error'));
+                    return const Center(child: Text('error'));
                   },
                   future: tarotGame.scoreService.getScoreByGame(tarotGame.id)
-                      as Future<TarotScore?>?),
-              Divider(height: 10, thickness: 2),
+                  as Future<TarotScore?>?),
+              const Divider(height: 10, thickness: 2),
               _ButtonRowWidget(tarotGame: tarotGame),
             ]));
   }
@@ -101,10 +102,10 @@ class _ButtonRowWidget extends StatelessWidget {
                           title: 'Attention',
                           color: Colors.black))
                 },
-            label: Text(
+            label: const Text(
               'Arrêter',
             ),
-            icon: Icon(Icons.stop))
+            icon: const Icon(Icons.stop))
       else
         Container(),
       ElevatedButton.icon(
@@ -127,7 +128,7 @@ class _ButtonRowWidget extends StatelessWidget {
                         title: 'Suppression'))
               },
           label: Text(MaterialLocalizations.of(context).deleteButtonTooltip),
-          icon: Icon(Icons.delete_forever)),
+          icon: const Icon(Icons.delete_forever)),
       if (!tarotGame.isEnded)
         ElevatedButton.icon(
             style: ButtonStyle(
@@ -143,7 +144,7 @@ class _ButtonRowWidget extends StatelessWidget {
                   Navigator.push(
                     context,
                     CustomRouteFade(
-                      builder: (context) => PlayTarotGame(
+                      builder: (context) => PlayTarotGameScreen(
                         tarotGame: tarotGame,
                       ),
                     ),
@@ -152,7 +153,7 @@ class _ButtonRowWidget extends StatelessWidget {
             label: Text(
               MaterialLocalizations.of(context).continueButtonLabel,
             ),
-            icon: Icon(Icons.play_arrow))
+            icon: const Icon(Icons.play_arrow))
       else
         ElevatedButton(
             style: ButtonStyle(
@@ -168,13 +169,13 @@ class _ButtonRowWidget extends StatelessWidget {
                   Navigator.push(
                     context,
                     CustomRouteFade(
-                      builder: (context) => PlayTarotGame(
+                      builder: (context) => PlayTarotGameScreen(
                         tarotGame: tarotGame,
                       ),
                     ),
                   )
                 },
-            child: Text('Consulter les scores')),
+            child: const Text('Consulter les scores')),
     ]);
   }
 }

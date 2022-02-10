@@ -26,8 +26,8 @@ void main() {
   late MockPlayerService mockPlayerService;
   late Player mockPlayer;
 
-  final emailAddress = 'test@test.com';
-  final telephoneNumber = '+100000000';
+  const emailAddress = 'test@test.com';
+  const telephoneNumber = '+100000000';
 
   setUp(() {
     authService = MockAuthService();
@@ -42,7 +42,8 @@ void main() {
         testableWidget(authService, mockPlayerService, mockPlayer)));
     expect(
         tester
-            .widget<TextFormField>(find.byKey(ValueKey('usernameTextField')))
+            .widget<TextFormField>(
+                find.byKey(const ValueKey('usernameTextField')))
             .initialValue,
         'toto');
   });
@@ -53,7 +54,8 @@ void main() {
         testableWidget(authService, mockPlayerService, mockPlayer)));
     expect(
         tester
-            .widget<TextFormField>(find.byKey(ValueKey('imageURLTextField')))
+            .widget<TextFormField>(
+                find.byKey(const ValueKey('imageURLTextField')))
             .initialValue,
         Player.defaultProfilePicture);
   });
@@ -64,7 +66,8 @@ void main() {
           testableWidget(authService, mockPlayerService, mockPlayer)));
       expect(
           tester
-              .widget<TextFormField>(find.byKey(ValueKey('imageURLTextField')))
+              .widget<TextFormField>(
+                  find.byKey(const ValueKey('imageURLTextField')))
               .enabled,
           true);
     });
@@ -73,14 +76,15 @@ void main() {
       await mockNetworkImagesFor(() => tester.pumpWidget(
           testableWidget(authService, mockPlayerService, mockPlayer)));
       when(mockPlayerService.updatePlayer(mockPlayer))
-          .thenAnswer((_) async => Future.value(''));
+          .thenAnswer((_) async => Future.value());
 
-      await tester.tap(find.byKey(ValueKey('gravatarSwitchTile')));
+      await tester.tap(find.byKey(const ValueKey('gravatarSwitchTile')));
       await tester.pump();
 
       expect(
           tester
-              .widget<TextFormField>(find.byKey(ValueKey('imageURLTextField')))
+              .widget<TextFormField>(
+                  find.byKey(const ValueKey('imageURLTextField')))
               .enabled,
           false);
     });
@@ -90,14 +94,14 @@ void main() {
     testWidgets('Must display the email address', (WidgetTester tester) async {
       await mockNetworkImagesFor(() => tester.pumpWidget(
           testableWidget(authService, mockPlayerService, mockPlayer)));
-      expect(tester.widget<Text>(find.byKey(ValueKey('emailText'))).data,
+      expect(tester.widget<Text>(find.byKey(const ValueKey('emailText'))).data,
           emailAddress);
     });
 
     testWidgets('Must display the phone number', (WidgetTester tester) async {
       await mockNetworkImagesFor(() => tester.pumpWidget(
           testableWidget(authService, mockPlayerService, mockPlayer)));
-      expect(tester.widget<Text>(find.byKey(ValueKey('phoneText'))).data,
+      expect(tester.widget<Text>(find.byKey(const ValueKey('phoneText'))).data,
           telephoneNumber);
     });
 
@@ -105,7 +109,7 @@ void main() {
       when(authService.getConnectedUserEmail()).thenReturn(null);
       await mockNetworkImagesFor(() => tester.pumpWidget(
           testableWidget(authService, mockPlayerService, mockPlayer)));
-      expect(tester.widget<Text>(find.byKey(ValueKey('emailText'))).data,
+      expect(tester.widget<Text>(find.byKey(const ValueKey('emailText'))).data,
           "Pas d'email renseigné'");
     });
 
@@ -113,7 +117,7 @@ void main() {
       when(authService.getConnectedUserPhoneNumber()).thenReturn(null);
       await mockNetworkImagesFor(() => tester.pumpWidget(
           testableWidget(authService, mockPlayerService, mockPlayer)));
-      expect(tester.widget<Text>(find.byKey(ValueKey('phoneText'))).data,
+      expect(tester.widget<Text>(find.byKey(const ValueKey('phoneText'))).data,
           'Pas de numéro renseigné');
     });
   });

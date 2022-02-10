@@ -7,7 +7,8 @@ import 'package:provider/provider.dart';
 class ContractTarotWidget extends StatelessWidget {
   final TarotRound tarotRound;
 
-  const ContractTarotWidget({required this.tarotRound});
+  const ContractTarotWidget({Key? key, required this.tarotRound})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,7 @@ class ContractTarotWidget extends StatelessWidget {
       child: Consumer<TarotRound>(
           builder: (context, roundData, _) => Column(
                 children: [
-                  SectionTitleWidget(title: 'Contrat'),
+                  const SectionTitleWidget(title: 'Contrat'),
                   DropdownButton<TarotContract>(
                       value: roundData.contract,
                       items: TarotContract.values.map((TarotContract value) {

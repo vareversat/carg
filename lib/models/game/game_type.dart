@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 enum GameType { COINCHE, BELOTE, TAROT, CONTREE, UNDEFINE }
 
 extension GameTypeExtension on GameType? {

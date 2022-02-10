@@ -27,17 +27,19 @@ class AddTarotRoundScreen extends StatelessWidget {
     }
   }
 
-  AddTarotRoundScreen({this.tarotGame, this.tarotRound, this.isEditing});
+  const AddTarotRoundScreen(
+      {Key? key, this.tarotGame, this.tarotRound, this.isEditing})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
             leading: IconButton(
-              icon: Icon(Icons.cancel),
+              icon: const Icon(Icons.cancel),
               onPressed: () => Navigator.pop(context),
             ),
-            title: ScreenTitleWidget()),
+            title: const ScreenTitleWidget()),
         body: Padding(
           padding: const EdgeInsets.all(10.0),
           child: Column(
@@ -73,18 +75,18 @@ class AddTarotRoundScreen extends StatelessWidget {
                                     .cast<Widget>())))
                   ]),
                   Column(children: [
-                    Divider(),
+                    const Divider(),
                     ContractTarotWidget(tarotRound: tarotRound!),
-                    Divider(),
+                    const Divider(),
                     OudlerPickerWidget(tarotRound: tarotRound!),
-                    Divider(),
+                    const Divider(),
                     TrickPointsTarotWidget(tarotRound: tarotRound!),
-                    Divider(),
+                    const Divider(),
                     TarotPerkWidget(
                         tarotRound: tarotRound!, tarotGame: tarotGame),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     RealTimeDisplayWidget(round: tarotRound!),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                   ]),
                 ]),
               ),
@@ -105,11 +107,11 @@ class AddTarotRoundScreen extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(
                                       CustomProperties.borderRadius)))),
                       onPressed: () => {_setupRound(), Navigator.pop(context)},
-                      label: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                      label: const Padding(
+                        padding: EdgeInsets.all(8.0),
                         child: Text('Valider', style: TextStyle(fontSize: 23)),
                       ),
-                      icon: Icon(Icons.check, size: 30)),
+                      icon: const Icon(Icons.check, size: 30)),
                 ),
               ))
             ],

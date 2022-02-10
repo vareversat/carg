@@ -140,21 +140,21 @@ packages:
       name: cloud_firestore
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.1.7"
+    version: "3.1.8"
   cloud_firestore_platform_interface:
     dependency: transitive
     description:
       name: cloud_firestore_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.4.12"
+    version: "5.4.13"
   cloud_firestore_web:
     dependency: transitive
     description:
       name: cloud_firestore_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.6.7"
+    version: "2.6.8"
   code_builder:
     dependency: transitive
     description:
@@ -224,7 +224,7 @@ packages:
       name: firebase_auth
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.3.6"
+    version: "3.3.7"
   firebase_auth_platform_interface:
     dependency: transitive
     description:
@@ -280,7 +280,7 @@ packages:
       name: firebase_dynamic_links
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.0.5"
+    version: "4.0.6"
   firebase_dynamic_links_platform_interface:
     dependency: transitive
     description:
@@ -314,6 +314,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.2"
+  flutter_lints:
+    dependency: "direct dev"
+    description:
+      name: flutter_lints
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.4"
   flutter_localizations:
     dependency: "direct main"
     description: flutter
@@ -504,6 +511,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.4.0"
+  lints:
+    dependency: transitive
+    description:
+      name: lints
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1"
   logging:
     dependency: transitive
     description:
@@ -525,6 +539,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.12.11"
+  material_color_utilities:
+    dependency: transitive
+    description:
+      name: material_color_utilities
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.3"
   meta:
     dependency: transitive
     description:
@@ -596,7 +617,7 @@ packages:
     source: hosted
     version: "1.0.0"
   pedantic:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: pedantic
       url: "https://pub.dartlang.org"
@@ -760,7 +781,7 @@ packages:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.3"
+    version: "0.4.8"
   timing:
     dependency: transitive
     description:
@@ -781,7 +802,7 @@ packages:
       name: url_launcher
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.0.18"
+    version: "6.0.19"
   url_launcher_android:
     dependency: transitive
     description:
@@ -823,7 +844,7 @@ packages:
       name: url_launcher_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.6"
+    version: "2.0.8"
   url_launcher_windows:
     dependency: transitive
     description:
@@ -868,4 +889,4 @@ packages:
     version: "3.1.0"
 sdks:
   dart: ">=2.14.0 <3.0.0"
-  flutter: ">=2.8.0"
+  flutter: ">=2.10.0"

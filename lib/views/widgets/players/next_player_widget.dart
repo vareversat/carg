@@ -7,7 +7,7 @@ class NextPlayerWidget extends StatelessWidget {
   final String? playerId;
   final PlayerService playerService = PlayerService();
 
-  NextPlayerWidget({this.playerId});
+  NextPlayerWidget({Key? key, this.playerId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class NextPlayerWidget extends StatelessWidget {
             snapshot.data == null) {
           return Text(
             'Error : player $playerId unknown',
-            style: TextStyle(fontStyle: FontStyle.italic),
+            style: const TextStyle(fontStyle: FontStyle.italic),
           );
         }
         return RichText(
@@ -37,8 +37,8 @@ class NextPlayerWidget extends StatelessWidget {
             children: <TextSpan>[
               TextSpan(
                   text: snapshot.data!.userName,
-                  style: TextStyle(fontWeight: FontWeight.bold)),
-              TextSpan(text: ' de donner les cartes !'),
+                  style: const TextStyle(fontWeight: FontWeight.bold)),
+              const TextSpan(text: ' de donner les cartes !'),
             ],
           ),
           textAlign: TextAlign.center,

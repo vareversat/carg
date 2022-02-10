@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 enum TarotHandful { SIMPLE, DOUBLE, TRIPLE }
 
 extension TarotHandfulExtension on TarotHandful? {

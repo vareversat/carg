@@ -6,7 +6,8 @@ import 'package:provider/provider.dart';
 class TrickPointsTarotWidget extends StatelessWidget {
   final TarotRound tarotRound;
 
-  const TrickPointsTarotWidget({required this.tarotRound});
+  const TrickPointsTarotWidget({Key? key, required this.tarotRound})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,7 @@ class TrickPointsTarotWidget extends StatelessWidget {
       child: Consumer<TarotRound>(
           builder: (context, roundData, _) => Column(
                 children: [
-                  SectionTitleWidget(title: 'Points des plis'),
+                  const SectionTitleWidget(title: 'Points des plis'),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -27,8 +28,8 @@ class TrickPointsTarotWidget extends StatelessWidget {
                             },
                             color: Theme.of(context).primaryColor,
                             textColor: Colors.white,
-                            shape: CircleBorder(),
-                            child: Icon(Icons.chevron_left_outlined)),
+                            shape: const CircleBorder(),
+                            child: const Icon(Icons.chevron_left_outlined)),
                       ),
                       Flexible(
                         flex: 5,
@@ -53,12 +54,12 @@ class TrickPointsTarotWidget extends StatelessWidget {
                             color: Theme.of(context).primaryColor,
                             textColor: Colors.white,
                             padding: EdgeInsets.zero,
-                            shape: CircleBorder(),
-                            child: Icon(Icons.chevron_right_outlined)),
+                            shape: const CircleBorder(),
+                            child: const Icon(Icons.chevron_right_outlined)),
                       ),
                     ],
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Text(
                       'Attaque : ${roundData.attackTrickPoints.round().toString()} '
                       '| Défense : ${roundData.defenseTrickPoints.round().toString()}')

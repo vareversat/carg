@@ -7,10 +7,10 @@ class ViewHelper {
 
   Image getImage(Player player) {
     var profilePicture = Image.network(player.profilePicture);
-    final ImageErrorListener onErrorListener =
-        (dynamic exception, StackTrace? stackTrace) {
+    void onErrorListener(dynamic exception, StackTrace? stackTrace) {
       profilePicture = Image.network(defaultUrl);
-    };
+    }
+
     final stream = profilePicture.image.resolve(ImageConfiguration.empty);
     stream.addListener(ImageStreamListener(
         (ImageInfo image, bool synchronousCall) {},

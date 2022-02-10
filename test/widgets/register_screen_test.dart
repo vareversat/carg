@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 
-Widget testableWidget() => MaterialApp(
+Widget testableWidget() => const MaterialApp(
       home: RegisterScreen(),
     );
 
@@ -18,23 +18,23 @@ void main() {
       await tester.pumpWidget(testableWidget());
 
       final BuildContext context =
-          tester.element(find.byKey(ValueKey('emailButton')));
-      await tester.tap(find.byKey(ValueKey('emailButton')));
+          tester.element(find.byKey(const ValueKey('emailButton')));
+      await tester.tap(find.byKey(const ValueKey('emailButton')));
       await tester.pump();
 
       expect(
           tester
               .widget<AnimatedSize>(
-                  find.byKey(ValueKey('placeholderContainer')))
+                  find.byKey(const ValueKey('placeholderContainer')))
               .child
               .toString(),
-          RegisterEmailWidget(
+          const RegisterEmailWidget(
                   credentialVerificationType: CredentialVerificationType.CREATE)
               .toString());
 
       expect(
           tester
-              .widget<ElevatedButton>(find.byKey(ValueKey('emailButton')))
+              .widget<ElevatedButton>(find.byKey(const ValueKey('emailButton')))
               .style!
               .backgroundColor
               .toString(),
@@ -43,7 +43,7 @@ void main() {
 
       expect(
           tester
-              .widget<ElevatedButton>(find.byKey(ValueKey('phoneButton')))
+              .widget<ElevatedButton>(find.byKey(const ValueKey('phoneButton')))
               .style!
               .backgroundColor
               .toString(),
@@ -52,7 +52,8 @@ void main() {
 
       expect(
           tester
-              .widget<ElevatedButton>(find.byKey(ValueKey('googleButton')))
+              .widget<ElevatedButton>(
+                  find.byKey(const ValueKey('googleButton')))
               .style!
               .backgroundColor
               .toString(),
@@ -64,23 +65,23 @@ void main() {
       await tester.pumpWidget(testableWidget());
 
       final BuildContext context =
-          tester.element(find.byKey(ValueKey('phoneButton')));
-      await tester.tap(find.byKey(ValueKey('phoneButton')));
+          tester.element(find.byKey(const ValueKey('phoneButton')));
+      await tester.tap(find.byKey(const ValueKey('phoneButton')));
       await tester.pump();
 
       expect(
           tester
               .widget<AnimatedSize>(
-                  find.byKey(ValueKey('placeholderContainer')))
+                  find.byKey(const ValueKey('placeholderContainer')))
               .child
               .toString(),
-          RegisterPhoneWidget(
+          const RegisterPhoneWidget(
                   credentialVerificationType: CredentialVerificationType.CREATE)
               .toString());
 
       expect(
           tester
-              .widget<ElevatedButton>(find.byKey(ValueKey('emailButton')))
+              .widget<ElevatedButton>(find.byKey(const ValueKey('emailButton')))
               .style!
               .backgroundColor
               .toString(),
@@ -89,7 +90,7 @@ void main() {
 
       expect(
           tester
-              .widget<ElevatedButton>(find.byKey(ValueKey('phoneButton')))
+              .widget<ElevatedButton>(find.byKey(const ValueKey('phoneButton')))
               .style!
               .backgroundColor
               .toString(),
@@ -98,7 +99,8 @@ void main() {
 
       expect(
           tester
-              .widget<ElevatedButton>(find.byKey(ValueKey('googleButton')))
+              .widget<ElevatedButton>(
+                  find.byKey(const ValueKey('googleButton')))
               .style!
               .backgroundColor
               .toString(),

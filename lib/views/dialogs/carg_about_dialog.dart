@@ -17,11 +17,13 @@ class CargAboutDialog extends StatelessWidget {
   final String _changeLog = 'Journal des modifications';
   final Widget _iconWidget = Padding(
       padding: const EdgeInsets.all(5),
-      child: Container(
+      child: SizedBox(
         height: 60,
         width: 60,
         child: SvgPicture.asset('assets/images/card_game.svg'),
       ));
+
+  CargAboutDialog({Key? key}) : super(key: key);
 
   void _launchURL() async {
     if (await canLaunch(_repoUrl)) {
@@ -36,7 +38,7 @@ class CargAboutDialog extends StatelessWidget {
     return FutureBuilder<PackageInfo>(
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
           if (snapshot.connectionState == ConnectionState.none &&
               snapshot.data == null) {
@@ -72,7 +74,7 @@ class CargAboutDialog extends StatelessWidget {
                                 style: Theme.of(context).textTheme.bodyText2),
                           ],
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         Text(_legalLease,
                             style: Theme.of(context)
                                 .textTheme
@@ -91,10 +93,10 @@ class CargAboutDialog extends StatelessWidget {
               children: <Widget>[
                 Text(
                   _appInfo,
-                  style: TextStyle(fontSize: 18),
+                  style: const TextStyle(fontSize: 18),
                 ),
                 ElevatedButton.icon(
-                    key: ValueKey('sourceCodeButton'),
+                    key: const ValueKey('sourceCodeButton'),
                     onPressed: () => _launchURL(),
                     style: ButtonStyle(
                         backgroundColor:
@@ -105,8 +107,9 @@ class CargAboutDialog extends StatelessWidget {
                             RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(
                                     CustomProperties.borderRadius)))),
-                    label: Text(_sourceCode, style: TextStyle(fontSize: 18)),
-                    icon: Icon(
+                    label:
+                        Text(_sourceCode, style: const TextStyle(fontSize: 18)),
+                    icon: const Icon(
                       FontAwesomeIcons.github,
                       size: 20,
                     )),
@@ -123,11 +126,12 @@ class CargAboutDialog extends StatelessWidget {
                     onPressed: () => Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => ChangeLogScreen(),
+                            builder: (context) => const ChangeLogScreen(),
                           ),
                         ),
-                    label: Text(_changeLog, style: TextStyle(fontSize: 18)),
-                    icon: Icon(
+                    label:
+                        Text(_changeLog, style: const TextStyle(fontSize: 18)),
+                    icon: const Icon(
                       FontAwesomeIcons.fileCode,
                       size: 20,
                     )),
@@ -158,8 +162,8 @@ class CargAboutDialog extends StatelessWidget {
                                 .viewLicensesButtonLabel
                                 .substring(1)
                                 .toLowerCase(),
-                        style: TextStyle(fontSize: 18)),
-                    icon: Icon(
+                        style: const TextStyle(fontSize: 18)),
+                    icon: const Icon(
                       FontAwesomeIcons.fileAlt,
                       size: 20,
                     ))
@@ -177,7 +181,7 @@ class CargAboutDialog extends StatelessWidget {
                             borderRadius: BorderRadius.circular(
                                 CustomProperties.borderRadius)))),
                 onPressed: () => {Navigator.pop(context)},
-                icon: Icon(Icons.close),
+                icon: const Icon(Icons.close),
                 label: Text(
                   MaterialLocalizations.of(context).closeButtonLabel,
                 ),

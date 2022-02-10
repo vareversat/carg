@@ -13,19 +13,19 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 class BeloteWidget extends StatelessWidget {
   final Belote beloteGame;
 
-  const BeloteWidget({required this.beloteGame});
+  const BeloteWidget({Key? key, required this.beloteGame}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Card(
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-        margin: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
         elevation: 2,
         color: Colors.white,
         child: ExpansionTile(
             title: GameTitleWidget(
-                key: ValueKey('expansionTileTitle'), game: beloteGame),
+                key: const ValueKey('expansionTileTitle'), game: beloteGame),
             children: <Widget>[
               Column(
                 children: [
@@ -34,14 +34,14 @@ class BeloteWidget extends StatelessWidget {
                     children: [
                       Flexible(
                         child: TeamWidget(
-                            key: ValueKey('teamWidget-US'),
+                            key: const ValueKey('teamWidget-US'),
                             teamId: beloteGame.players!.us,
                             title: 'Nous',
                             teamService: TeamService()),
                       ),
                       Flexible(
                         child: TeamWidget(
-                            key: ValueKey('teamWidget-THEM'),
+                            key: const ValueKey('teamWidget-THEM'),
                             teamId: beloteGame.players!.them,
                             title: 'Eux',
                             teamService: TeamService()),
@@ -49,7 +49,7 @@ class BeloteWidget extends StatelessWidget {
                     ],
                   ),
                   _ShowScoreWidget(beloteGame: beloteGame),
-                  Divider(height: 10, thickness: 2),
+                  const Divider(height: 10, thickness: 2),
                   _ButtonRowWidget(beloteGame: beloteGame),
                 ],
               )
@@ -97,12 +97,12 @@ class _ShowScoreWidgetState extends State<_ShowScoreWidget> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[
                         Text(snapshot.data!.usTotalPoints.toString(),
-                            key: ValueKey('usTotalPointsText'),
-                            style: TextStyle(
+                            key: const ValueKey('usTotalPointsText'),
+                            style: const TextStyle(
                                 fontSize: 25, fontWeight: FontWeight.bold)),
                         Text(snapshot.data!.themTotalPoints.toString(),
-                            key: ValueKey('themTotalPointsText'),
-                            style: TextStyle(
+                            key: const ValueKey('themTotalPointsText'),
+                            style: const TextStyle(
                                 fontSize: 25, fontWeight: FontWeight.bold))
                       ]);
                 }
@@ -114,8 +114,8 @@ class _ShowScoreWidgetState extends State<_ShowScoreWidget> {
                       .catchError((error) => {_errorMessage = error.toString()})
                   as Future<BeloteScore?>?)),
       if (widget.beloteGame.isEnded)
-        Padding(
-            padding: const EdgeInsets.all(8.0),
+        const Padding(
+            padding: EdgeInsets.all(8.0),
             child: Text('Partie terminée',
                 style: TextStyle(fontStyle: FontStyle.italic)))
       else
@@ -135,7 +135,7 @@ class _ButtonRowWidget extends StatelessWidget {
         Widget>[
       if (!beloteGame.isEnded)
         ElevatedButton.icon(
-            key: ValueKey('stopButton'),
+            key: const ValueKey('stopButton'),
             style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(Colors.black),
                 foregroundColor: MaterialStateProperty.all<Color>(
@@ -157,14 +157,14 @@ class _ButtonRowWidget extends StatelessWidget {
                           title: 'Attention',
                           color: Colors.black))
                 },
-            label: Text(
+            label: const Text(
               'Arrêter',
             ),
-            icon: Icon(Icons.stop))
+            icon: const Icon(Icons.stop))
       else
         Container(),
       ElevatedButton.icon(
-          key: ValueKey('deleteButton'),
+          key: const ValueKey('deleteButton'),
           style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all<Color>(
                   Theme.of(context).errorColor),
@@ -184,10 +184,10 @@ class _ButtonRowWidget extends StatelessWidget {
                         title: 'Suppression'))
               },
           label: Text(MaterialLocalizations.of(context).deleteButtonTooltip),
-          icon: Icon(Icons.delete_forever)),
+          icon: const Icon(Icons.delete_forever)),
       if (!beloteGame.isEnded)
         ElevatedButton.icon(
-            key: ValueKey('continueButton'),
+            key: const ValueKey('continueButton'),
             style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(
                     Theme.of(context).primaryColor),
@@ -210,10 +210,10 @@ class _ButtonRowWidget extends StatelessWidget {
             label: Text(
               MaterialLocalizations.of(context).continueButtonLabel,
             ),
-            icon: Icon(Icons.play_arrow))
+            icon: const Icon(Icons.play_arrow))
       else
         ElevatedButton(
-            key: ValueKey('showScoreButton'),
+            key: const ValueKey('showScoreButton'),
             style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(
                     Theme.of(context).primaryColor),
@@ -233,7 +233,7 @@ class _ButtonRowWidget extends StatelessWidget {
                     ),
                   )
                 },
-            child: Text('Consulter les scores')),
+            child: const Text('Consulter les scores')),
     ]);
   }
 }

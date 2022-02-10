@@ -14,12 +14,12 @@ class Dialogs {
                 children: <Widget>[
                   Center(
                       child: Column(children: [
-                    CircularProgressIndicator(),
-                    SizedBox(
+                    const CircularProgressIndicator(),
+                    const SizedBox(
                       height: 10,
                     ),
                     Text(message,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold))
                   ]))
                 ]));
@@ -38,9 +38,10 @@ class Dialogs {
                 children: <Widget>[
                   Center(
                       child: Text(
-                    message,
+                        message,
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold),
                   ))
                 ]));
   }

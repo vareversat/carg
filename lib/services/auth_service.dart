@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 import 'dart:async';
 
 import 'package:carg/helpers/custom_route.dart';
@@ -75,13 +77,12 @@ class AuthService with ChangeNotifier {
     }
   }
 
-  Future<String> validatePhoneNumber(
-      String smsCode, String verificationId) async {
+  Future<String> validatePhoneNumber(String smsCode, String verificationId) async {
     try {
       var _credential = PhoneAuthProvider.credential(
           verificationId: verificationId, smsCode: smsCode);
       var result =
-          await FirebaseAuth.instance.signInWithCredential(_credential);
+      await FirebaseAuth.instance.signInWithCredential(_credential);
       _connectedUser = result.user;
       _player = await _playerService.getPlayerOfUser(_connectedUser!.uid);
       _expiryDate = (await _connectedUser!.getIdTokenResult()).expirationTime;
@@ -104,42 +105,39 @@ class AuthService with ChangeNotifier {
     }
   }
 
-  Future<dynamic> resendPhoneVerificationCode(
-      String phoneNumber, BuildContext context) async {
+  Future<dynamic> resendPhoneVerificationCode(String phoneNumber, BuildContext context) async {
     await _verifyPhoneNumber(
         phoneNumber,
         context,
-        (verificationId, forceResendingToken) =>
+            (verificationId, forceResendingToken) =>
             InfoSnackBar.showSnackBar(context, 'Code renvoyé avec succès'),
-        (credentials) => InfoSnackBar.showSnackBar(
+            (credentials) => InfoSnackBar.showSnackBar(
             context, 'Erreur : Le numéro de téléphone est invalide'));
   }
 
-  Future<dynamic> sendPhoneVerificationCode(
-      String phoneNumber,
+  Future<dynamic> sendPhoneVerificationCode(String phoneNumber,
       BuildContext context,
       CredentialVerificationType credentialVerificationType) async {
     await _verifyPhoneNumber(
         phoneNumber,
         context,
-        (verificationId, forceResendingToken) => Navigator.push(
+            (verificationId, forceResendingToken) => Navigator.push(
             context,
             CustomRouteLeftToRight(
                 builder: (context) => PinCodeVerificationScreen(
                     phoneNumber: phoneNumber,
                     verificationId: verificationId,
                     credentialVerificationType: credentialVerificationType))),
-        (credentials) => SnackBar(
-              margin: EdgeInsets.all(20),
-              duration: Duration(seconds: 4),
+            (credentials) => SnackBar(
+              margin: const EdgeInsets.all(20),
+              duration: const Duration(seconds: 4),
               behavior: SnackBarBehavior.floating,
               content: Text('Erreur : Le numéro de téléphone est invalide',
                   style: CustomTextStyle.snackBarTextStyle(context)),
             ));
   }
 
-  Future<dynamic> _verifyPhoneNumber(
-      String phoneNumber,
+  Future<dynamic> _verifyPhoneNumber(String phoneNumber,
       BuildContext context,
       Function(String verificationId, int? forceResendingToken) onCodeSend,
       Function(FirebaseAuthException credentials) onVerificationFailed) async {
@@ -178,7 +176,7 @@ class AuthService with ChangeNotifier {
     notifyListeners();
     await FirebaseAuth.instance.signOut();
     await Navigator.pushReplacement(
-        context, CustomRouteFade(builder: (context) => RegisterScreen()));
+        context, CustomRouteFade(builder: (context) => const RegisterScreen()));
   }
 
   Future<void> changeEmail(String newEmail) async {
@@ -192,9 +190,9 @@ class AuthService with ChangeNotifier {
 
   Widget getCorrectLandingScreen() {
     if (_player == null) {
-      return WelcomeScreen();
+      return const WelcomeScreen();
     } else {
-      return HomeScreen(requestedIndex: 0);
+      return const HomeScreen(requestedIndex: 0);
     }
   }
 

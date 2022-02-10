@@ -5,8 +5,7 @@ import 'package:carg/services/score/score_service.dart';
 
 abstract class BeloteScoreService<T extends BeloteScore?, P extends BeloteRound>
     implements ScoreService<T, P> {
-  int getPointsOfRound(
-      BeloteTeamEnum teamGameEnum, BeloteRound teamGameRound) {
+  int getPointsOfRound(BeloteTeamEnum teamGameEnum, BeloteRound teamGameRound) {
     if (teamGameEnum == teamGameRound.taker) {
       return teamGameRound.takerScore;
     } else {

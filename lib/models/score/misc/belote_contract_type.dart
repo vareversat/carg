@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 enum BeloteContractType { NORMAL, CAPOT, GENERALE, FAILED_GENERALE }
 
 extension BeloteContractTypeExtension on BeloteContractType {
