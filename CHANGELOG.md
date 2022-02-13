@@ -1,3 +1,10 @@
+# **v1.2.6** :
+
+- *Dev stuff* :
+    - CI step to create on GitHub release on each new tag
+
+***
+
 # **v1.2.5** :
 
 - *Fixed stuff* :
