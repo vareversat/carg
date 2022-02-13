@@ -2,8 +2,8 @@ name: Dev workflow
 
 on:
   push:
-    branches:
-      - dev
+    tags:
+      - v*
 
 jobs:
   flutter-test-analyze:
