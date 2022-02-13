@@ -76,16 +76,19 @@ class _RegisterPhoneWidgetState extends State<RegisterPhoneWidget>
                                                       .style
                                                       .color),
                                           children: <TextSpan>[
-                                            TextSpan(
-                                                text:
-                                                    ' (+${countryListData.countries![index].phoneCode})',
-                                                style:
-                                                    DefaultTextStyle.of(context)
-                                                        .style),
-                                          ],
-                                        ),
-                                      ),
-                                    );
+                                              TextSpan(
+                                                  text:
+                                                      ' (${countryListData.countries![index].countryCode}',
+                                                  style: DefaultTextStyle.of(
+                                                          context)
+                                                      .style),
+                                              TextSpan(
+                                                  text:
+                                                      ' +${countryListData.countries![index].phoneCode})',
+                                                  style: DefaultTextStyle.of(
+                                                          context)
+                                                      .style)
+                                            ])));
                                   }),
                             ),
                             Center(
@@ -161,7 +164,14 @@ class _RegisterPhoneWidgetState extends State<RegisterPhoneWidget>
                             const SizedBox(width: 15),
                             Flexible(
                               child: TextField(
+                                textInputAction: TextInputAction.go,
                                 enabled: phoneRegistrationData.country != null,
+                                onSubmitted: (value) async {
+                                  if (!phoneRegistrationData
+                                      .isPhoneNumberEmpty()) {
+                                    await _sendPinCode(phoneRegistrationData);
+                                  }
+                                },
                                 onChanged: (value) {
                                   phoneRegistrationData.phoneNumber = value;
                                 },
@@ -212,35 +222,7 @@ class _RegisterPhoneWidgetState extends State<RegisterPhoneWidget>
                           'de messages et d\'échange de données s\'appliquent',
                           style: TextStyle(
                               fontStyle: FontStyle.italic, fontSize: 13),
-                        ),
-                        ElevatedButton.icon(
-                            icon: const Icon(Icons.check),
-                            style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all<Color>(
-                                    !phoneRegistrationData.isPhoneNumberEmpty()
-                                        ? Theme.of(context).primaryColor
-                                        : Theme.of(context).cardColor),
-                                foregroundColor: MaterialStateProperty.all<Color>(
-                                    !phoneRegistrationData.isPhoneNumberEmpty()
-                                        ? Theme.of(context).cardColor
-                                        : Colors.grey),
-                                shape: MaterialStateProperty.all<OutlinedBorder>(
-                                    RoundedRectangleBorder(
-                                        side: BorderSide(
-                                            width: 2,
-                                            color: !phoneRegistrationData.isPhoneNumberEmpty()
-                                                ? Theme.of(context).primaryColor
-                                                : Colors.grey),
-                                        borderRadius: BorderRadius.circular(CustomProperties.borderRadius)))),
-                            onPressed: !phoneRegistrationData.isPhoneNumberEmpty()
-                                ? () async {
-                                    await _sendPinCode(phoneRegistrationData);
-                                  }
-                                : null,
-                            label: const Text(
-                              'Continuer',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ))
+                        )
                       ]);
                     }))));
   }
