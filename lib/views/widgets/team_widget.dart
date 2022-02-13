@@ -6,51 +6,54 @@ import 'package:flutter/material.dart';
 
 class TeamWidget extends StatefulWidget {
   final String? teamId;
-  final String? title;
+  final String title;
+  final TeamService teamService;
 
-  const TeamWidget({required this.teamId, this.title});
+  const TeamWidget(
+      {Key? key,
+      required this.teamId,
+      required this.title,
+      required this.teamService})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _TeamWidgetState(teamId, title);
+    return _TeamWidgetState();
   }
 }
 
 class _TeamWidgetState extends State<TeamWidget> {
-  final _teamService = TeamService();
-  final String? _teamId;
-  final String? _title;
   String _errorMessage = '';
-
-  _TeamWidgetState(this._teamId, this._title);
 
   @override
   Widget build(BuildContext context) {
-    return Flexible(
-      child: Column(children: <Widget>[
-        Text(_title!, style: CustomTextStyle.boldAndItalic(context)),
-        FutureBuilder<Team>(
-            builder: (context, snapshot) {
-              if (snapshot.hasData &&
-                  snapshot.connectionState == ConnectionState.done) {
-                return ListView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: snapshot.data!.players!.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return APIMiniPlayerWidget(
-                          playerId: snapshot.data!.players![index],
-                          displayImage: true);
-                    });
-              }
-              return Center(child: Text(_errorMessage));
-            },
-            // ignore: return_of_invalid_type_from_catch_error
-            future: _teamService
-                .getTeam(_teamId)
-                // ignore: return_of_invalid_type_from_catch_error
-                .catchError((error) => {_errorMessage = error.toString()}))
-      ]),
-    );
+    return Column(children: <Widget>[
+      Text(widget.title,
+          key: const ValueKey('textTitleWidget'),
+          style: CustomTextStyle.boldAndItalic(context)),
+      FutureBuilder<Team>(
+          builder: (context, snapshot) {
+            if (snapshot.hasData &&
+                snapshot.connectionState == ConnectionState.done) {
+              return ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: snapshot.data!.players!.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return APIMiniPlayerWidget(
+                        key: ValueKey(
+                            'apiminiplayerwidget-${snapshot.data!.players![index]}'),
+                        playerId: snapshot.data!.players![index],
+                        displayImage: true);
+                  });
+            }
+            return Center(child: Text(_errorMessage));
+          },
+          // ignore: return_of_invalid_type_from_catch_error
+          future: widget.teamService
+              .getTeam(widget.teamId)
+              // ignore: return_of_invalid_type_from_catch_error
+              .catchError((error) => {_errorMessage = error.toString()}))
+    ]);
   }
 }

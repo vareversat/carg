@@ -27,7 +27,7 @@ class ContreeBeloteService extends BeloteService<ContreeBelote> {
       if (playerId == null) {
         return contreeGames;
       }
-      var querySnapshot;
+      QuerySnapshot<Map<String, dynamic>> querySnapshot;
       if (lastFetchGameDocument != null) {
         querySnapshot = await FirebaseFirestore.instance
             .collection(dataBase + '-' + flavor)
@@ -116,8 +116,11 @@ class ContreeBeloteService extends BeloteService<ContreeBelote> {
   Future endAGame(ContreeBelote game) async {
     try {
       Team? winners;
-      game.players!.playerList!.forEach((player) async =>
-          {await _playerService.incrementPlayedGamesByOne(player, game)});
+      for (var player in game.players!.playerList!) {
+        {
+          await _playerService.incrementPlayedGamesByOne(player, game);
+        }
+      }
       var score = await _contreeScoreService.getScoreByGame(game.id);
       if (score!.themTotalPoints > score.usTotalPoints) {
         winners =

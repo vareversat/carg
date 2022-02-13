@@ -10,7 +10,7 @@ import 'package:carg/services/score/tarot_score_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 
-class TarotService extends GameService<Tarot, TarotPlayers> {
+class TarotGameService extends GameService<Tarot, TarotPlayers> {
   final TarotScoreService _tarotScoreService = TarotScoreService();
   final PlayerService _playerService = PlayerService();
   static const String dataBase = 'tarot-game';
@@ -25,7 +25,7 @@ class TarotService extends GameService<Tarot, TarotPlayers> {
       if (playerId == null) {
         return tarotGames;
       }
-      var querySnapshot;
+      QuerySnapshot<Map<String, dynamic>> querySnapshot;
       if (lastFetchGameDocument != null) {
         querySnapshot = await FirebaseFirestore.instance
             .collection(dataBase + '-' + flavor)
@@ -108,8 +108,11 @@ class TarotService extends GameService<Tarot, TarotPlayers> {
   Future endAGame(Tarot game) async {
     try {
       TarotPlayerScore? winner;
-      game.players!.playerList!.forEach((player) async =>
-          {await _playerService.incrementPlayedGamesByOne(player, game)});
+      for (var player in game.players!.playerList!) {
+        {
+          await _playerService.incrementPlayedGamesByOne(player, game);
+        }
+      }
       var score = await _tarotScoreService.getScoreByGame(game.id);
       var totalPoints = score?.totalPoints;
       if (totalPoints != null && totalPoints.isNotEmpty) {

@@ -10,7 +10,7 @@ import 'package:url_launcher/url_launcher.dart';
 class RulesScreen extends StatelessWidget {
   final GameType gameType;
 
-  const RulesScreen({required this.gameType});
+  const RulesScreen({Key? key, required this.gameType}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class RulesScreen extends StatelessWidget {
               if (snapshot.hasData) {
                 return Markdown(
                   onTapLink: (text, url, title) {
-                    Future.delayed(Duration(seconds: 1))
+                    Future.delayed(const Duration(seconds: 1))
                         .then((value) => launch(url!));
                     InfoSnackBar.showSnackBar(context, 'Overture de $text...');
                   },
@@ -44,7 +44,7 @@ class RulesScreen extends StatelessWidget {
                   ),
                 );
               }
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(),
               );
             }));

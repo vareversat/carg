@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class NavBar extends StatelessWidget {
   final int selectedIndex;
@@ -25,7 +24,7 @@ class NavBar extends StatelessWidget {
     required this.items,
     required this.onItemSelected,
     this.curve = Curves.linear,
-  }) {
+  }) : super(key: key) {
     assert(items.length >= 2 && items.length <= 5);
   }
 
@@ -107,40 +106,38 @@ class _ItemWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(itemCornerRadius),
       ),
       child: Container(
-        child: Container(
-          width: isSelected ? 80 : 130,
-          padding: EdgeInsets.symmetric(horizontal: 5),
-          child: Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              IconTheme(
-                data: IconThemeData(
-                  size: iconSize,
-                  color: isSelected
-                      ? item.activeColor.withOpacity(1)
-                      : item.inactiveColor ?? item.activeColor,
-                ),
-                child: item.icon,
+        width: isSelected ? 80 : 130,
+        padding: const EdgeInsets.symmetric(horizontal: 5),
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            IconTheme(
+              data: IconThemeData(
+                size: iconSize,
+                color: isSelected
+                    ? item.activeColor.withOpacity(1)
+                    : item.inactiveColor ?? item.activeColor,
               ),
-              if (!isSelected)
-                Expanded(
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 4),
-                    child: DefaultTextStyle.merge(
-                      style: TextStyle(
-                        color: item.activeColor,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      maxLines: 1,
-                      textAlign: item.textAlign,
-                      child: item.title,
+              child: item.icon,
+            ),
+            if (!isSelected)
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
+                  child: DefaultTextStyle.merge(
+                    style: TextStyle(
+                      color: item.activeColor,
+                      fontWeight: FontWeight.bold,
                     ),
+                    maxLines: 1,
+                    textAlign: item.textAlign,
+                    child: item.title,
                   ),
                 ),
-            ],
-          ),
+              ),
+          ],
         ),
       ),
     );

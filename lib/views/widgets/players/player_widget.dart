@@ -4,20 +4,22 @@ import 'package:carg/styles/properties.dart';
 import 'package:carg/views/dialogs/player_info_dialog.dart';
 import 'package:carg/views/helpers/info_snackbar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class PlayerWidget extends StatelessWidget {
   final Player player;
   final Function? onTap;
 
-  PlayerWidget({required this.player, this.onTap});
+  const PlayerWidget({Key? key, required this.player, this.onTap})
+      : super(key: key);
 
   Future _showEditPlayerDialog(BuildContext context) async {
     var result = await showDialog(
         context: context,
-        builder: (BuildContext context) =>
-            PlayerInfoDialog(player: player, playerService: PlayerService(), isNewPlayer: false));
+        builder: (BuildContext context) => PlayerInfoDialog(
+            player: player,
+            playerService: PlayerService(),
+            isNewPlayer: false));
     if (result != null) {
       InfoSnackBar.showSnackBar(context, result);
     }
@@ -43,8 +45,8 @@ class PlayerWidget extends StatelessWidget {
                             width: 2, color: Theme.of(context).primaryColor)
                         : BorderSide.none)),
             padding: MaterialStateProperty.all<EdgeInsetsGeometry?>(
-                EdgeInsets.only(right: 0, left: 15))),
-        child: Container(
+                const EdgeInsets.only(right: 0, left: 15))),
+        child: SizedBox(
           height: 60,
           child:
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
@@ -66,38 +68,38 @@ class PlayerWidget extends StatelessWidget {
                                     scale: 1)))),
                   )
                 : Container(),
-            Container(
+            SizedBox(
               width: 220,
               child: Text(
                 player.userName!,
                 textAlign: TextAlign.left,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(fontSize: 22),
+                style: const TextStyle(fontSize: 22),
               ),
             ),
-            Container(
+            SizedBox(
               width: 60,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Row(
                     children: <Widget>[
-                      Icon(FontAwesomeIcons.trophy, size: 13),
+                      const Icon(FontAwesomeIcons.trophy, size: 13),
                       Text(
                         '  ' + player.totalWonGames().toString(),
-                        style: TextStyle(fontSize: 16),
+                        style: const TextStyle(fontSize: 16),
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Row(
                     children: <Widget>[
-                      Icon(FontAwesomeIcons.gamepad, size: 13),
+                      const Icon(FontAwesomeIcons.gamepad, size: 13),
                       Text(
                         '  ' + player.totalPlayedGames().toString(),
-                        style: TextStyle(fontSize: 16),
+                        style: const TextStyle(fontSize: 16),
                       ),
                     ],
                   ),
@@ -107,7 +109,7 @@ class PlayerWidget extends StatelessWidget {
             Container(
               width: 10,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                   topRight: Radius.circular(10),
                   bottomRight: Radius.circular(10),
                 ),

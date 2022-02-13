@@ -5,15 +5,25 @@ import 'package:carg/services/game/french_belote_service.dart';
 import 'package:carg/services/score/french_belote_score_service.dart';
 
 class FrenchBelote extends Belote {
-  FrenchBelote({id, startingDate, endingDate, winner, isEnded, players, notes})
+  FrenchBelote(
+      {String? id,
+      GameType? gameType,
+      FrenchBeloteService? gameService,
+      FrenchBeloteScoreService? scoreService,
+      DateTime? startingDate,
+      DateTime? endingDate,
+      String? winner,
+      bool? isEnded,
+      BelotePlayers? players,
+      String? notes})
       : super(
             id: id,
-            gameType: GameType.BELOTE,
-            gameService: FrenchBeloteService(),
-            scoreService: FrenchBeloteScoreService(),
+            gameType: gameType ?? GameType.BELOTE,
+            gameService: gameService ?? FrenchBeloteService(),
+            scoreService: scoreService ?? FrenchBeloteScoreService(),
             players: players ?? BelotePlayers(),
             endingDate: endingDate,
-            startingDate: startingDate,
+            startingDate: startingDate ?? DateTime.now(),
             isEnded: isEnded ?? false,
             winner: winner,
             notes: notes);

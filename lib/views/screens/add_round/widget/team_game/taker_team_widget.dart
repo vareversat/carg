@@ -7,17 +7,18 @@ import 'package:provider/provider.dart';
 class TakerTeamWidget extends StatelessWidget {
   final BeloteRound beloteRound;
 
-  const TakerTeamWidget({required this.beloteRound});
+  const TakerTeamWidget({Key? key, required this.beloteRound})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
-      value: beloteRound..computeRound(),
+      value: beloteRound,
       child: Consumer<BeloteRound>(
         builder: (context, roundData, child) => Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              SectionTitleWidget(title: 'Équipe preneuse'),
+              const SectionTitleWidget(title: 'Équipe preneuse'),
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 _RadioButtonRow(
                     team: BeloteTeamEnum.US, beloteRound: roundData),

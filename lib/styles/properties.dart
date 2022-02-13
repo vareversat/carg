@@ -1,4 +1,4 @@
 class CustomProperties {
-  static final double borderRadius = 14;
-  static final int pageSize = 10;
+  static const double borderRadius = 14;
+  static const int pageSize = 10;
 }

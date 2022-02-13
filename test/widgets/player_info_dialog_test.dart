@@ -2,12 +2,11 @@ import 'package:carg/models/player.dart';
 import 'package:carg/services/player_service.dart';
 import 'package:carg/views/dialogs/player_info_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 
-import 'carg_mocks.dart';
+import 'player_info_dialog_test.mocks.dart';
 
 Widget testableWidget(bool mockIsNewPlayer, PlayerService playerService,
         Player mockPlayer) =>
@@ -35,9 +34,7 @@ void main() {
               testableWidget(false, mockPlayerService, mockPlayer)));
 
       expect(
-          tester
-              .widget<Text>(find.byKey(ValueKey('titleText')))
-              .data,
+          tester.widget<Text>(find.byKey(const ValueKey('titleText'))).data,
           'Edition');
     });
 
@@ -47,9 +44,7 @@ void main() {
               testableWidget(true, mockPlayerService, mockPlayer)));
 
       expect(
-          tester
-              .widget<Text>(find.byKey(ValueKey('titleText')))
-              .data,
+          tester.widget<Text>(find.byKey(const ValueKey('titleText'))).data,
           'Nouveau joueur');
     });
 
@@ -60,9 +55,7 @@ void main() {
               testableWidget(false, mockPlayerService, mockPlayer)));
 
       expect(
-          tester
-              .widget<Text>(find.byKey(ValueKey('titleText')))
-              .data,
+          tester.widget<Text>(find.byKey(const ValueKey('titleText'))).data,
           'Informations');
     });
   });
@@ -70,28 +63,25 @@ void main() {
 
   group('Copy ID button', () {
     testWidgets('is displayed (editing)', (WidgetTester tester) async {
-      await mockNetworkImagesFor(() =>
-          tester.pumpWidget(
-              testableWidget(false, mockPlayerService, mockPlayer)));
+      await mockNetworkImagesFor(() => tester
+          .pumpWidget(testableWidget(false, mockPlayerService, mockPlayer)));
 
-      expect(find.byKey(ValueKey('copyIDButton')), findsOneWidget);
+      expect(find.byKey(const ValueKey('copyIDButton')), findsOneWidget);
     });
 
     testWidgets('is hidden (creating)', (WidgetTester tester) async {
-      await mockNetworkImagesFor(() =>
-          tester.pumpWidget(
-              testableWidget(true, mockPlayerService, mockPlayer)));
+      await mockNetworkImagesFor(() => tester
+          .pumpWidget(testableWidget(true, mockPlayerService, mockPlayer)));
 
-      expect(find.byKey(ValueKey('copyIDButton')), findsNothing);
+      expect(find.byKey(const ValueKey('copyIDButton')), findsNothing);
     });
 
     testWidgets('is hidden (information)', (WidgetTester tester) async {
       var mockPlayer = Player(owned: false, userName: 'toto');
-      await mockNetworkImagesFor(() =>
-          tester.pumpWidget(
-              testableWidget(true, mockPlayerService, mockPlayer)));
+      await mockNetworkImagesFor(() => tester
+          .pumpWidget(testableWidget(true, mockPlayerService, mockPlayer)));
 
-      expect(find.byKey(ValueKey('copyIDButton')), findsNothing);
+      expect(find.byKey(const ValueKey('copyIDButton')), findsNothing);
     });
 
   });
@@ -104,7 +94,8 @@ void main() {
 
       expect(
           tester
-              .widget<TextFormField>(find.byKey(ValueKey('usernameTextField')))
+              .widget<TextFormField>(
+                  find.byKey(const ValueKey('usernameTextField')))
               .enabled,
           true);
     });
@@ -116,7 +107,8 @@ void main() {
 
       expect(
           tester
-              .widget<TextFormField>(find.byKey(ValueKey('usernameTextField')))
+              .widget<TextFormField>(
+                  find.byKey(const ValueKey('usernameTextField')))
               .enabled,
           true);
     });
@@ -129,7 +121,8 @@ void main() {
 
       expect(
           tester
-              .widget<TextFormField>(find.byKey(ValueKey('usernameTextField')))
+              .widget<TextFormField>(
+                  find.byKey(const ValueKey('usernameTextField')))
               .enabled,
           false);
     });
@@ -143,38 +136,36 @@ void main() {
 
     expect(
         tester
-            .widget<TextFormField>(find.byKey(ValueKey('usernameTextField')))
+            .widget<TextFormField>(
+                find.byKey(const ValueKey('usernameTextField')))
             .initialValue,
         'toto');
   });
 
   group('Buttons', () {
     testWidgets('save (editing)', (WidgetTester tester) async {
-      await mockNetworkImagesFor(() =>
-          tester.pumpWidget(
-              testableWidget(false, mockPlayerService, mockPlayer)));
+      await mockNetworkImagesFor(() => tester
+          .pumpWidget(testableWidget(false, mockPlayerService, mockPlayer)));
 
-      expect(find.byKey(ValueKey('editButton')), findsOneWidget);
-      expect(find.byKey(ValueKey('closeButton')), findsNothing);
+      expect(find.byKey(const ValueKey('editButton')), findsOneWidget);
+      expect(find.byKey(const ValueKey('closeButton')), findsNothing);
     });
 
     testWidgets('save (creation)', (WidgetTester tester) async {
-      await mockNetworkImagesFor(() =>
-          tester.pumpWidget(
-              testableWidget(true, mockPlayerService, mockPlayer)));
+      await mockNetworkImagesFor(() => tester
+          .pumpWidget(testableWidget(true, mockPlayerService, mockPlayer)));
 
-      expect(find.byKey(ValueKey('editButton')), findsOneWidget);
-      expect(find.byKey(ValueKey('closeButton')), findsNothing);
+      expect(find.byKey(const ValueKey('editButton')), findsOneWidget);
+      expect(find.byKey(const ValueKey('closeButton')), findsNothing);
     });
 
     testWidgets('close (informations)', (WidgetTester tester) async {
       var mockPlayer = Player(owned: false, userName: 'toto');
-      await mockNetworkImagesFor(() =>
-          tester.pumpWidget(
-              testableWidget(true, mockPlayerService, mockPlayer)));
+      await mockNetworkImagesFor(() => tester
+          .pumpWidget(testableWidget(true, mockPlayerService, mockPlayer)));
 
-      expect(find.byKey(ValueKey('editButton')), findsNothing);
-      expect(find.byKey(ValueKey('closeButton')), findsOneWidget);
+      expect(find.byKey(const ValueKey('editButton')), findsNothing);
+      expect(find.byKey(const ValueKey('closeButton')), findsOneWidget);
     });
 
   });

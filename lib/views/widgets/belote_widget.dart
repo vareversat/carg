@@ -1,88 +1,59 @@
 import 'package:carg/helpers/custom_route.dart';
 import 'package:carg/models/game/belote_game.dart';
-import 'package:carg/models/game/game.dart';
 import 'package:carg/models/score/belote_score.dart';
+import 'package:carg/services/team_service.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/views/dialogs/warning_dialog.dart';
 import 'package:carg/views/screens/play/play_belote_screen.dart';
+import 'package:carg/views/widgets/register/game_title_widget.dart';
 import 'package:carg/views/widgets/team_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:intl/intl.dart';
 
 class BeloteWidget extends StatelessWidget {
   final Belote beloteGame;
 
-  const BeloteWidget({required this.beloteGame});
+  const BeloteWidget({Key? key, required this.beloteGame}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Card(
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-        margin: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
         elevation: 2,
         color: Colors.white,
         child: ExpansionTile(
-            title: CardTitle(game: beloteGame),
+            title: GameTitleWidget(
+                key: const ValueKey('expansionTileTitle'), game: beloteGame),
             children: <Widget>[
               Column(
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      TeamWidget(teamId: beloteGame.players!.us, title: 'Nous'),
-                      TeamWidget(
-                          teamId: beloteGame.players!.them, title: 'Eux'),
+                      Flexible(
+                        child: TeamWidget(
+                            key: const ValueKey('teamWidget-US'),
+                            teamId: beloteGame.players!.us,
+                            title: 'Nous',
+                            teamService: TeamService()),
+                      ),
+                      Flexible(
+                        child: TeamWidget(
+                            key: const ValueKey('teamWidget-THEM'),
+                            teamId: beloteGame.players!.them,
+                            title: 'Eux',
+                            teamService: TeamService()),
+                      ),
                     ],
                   ),
                   _ShowScoreWidget(beloteGame: beloteGame),
-                  Divider(height: 10, thickness: 2),
+                  const Divider(height: 10, thickness: 2),
                   _ButtonRowWidget(beloteGame: beloteGame),
                 ],
               )
             ]));
-  }
-}
-
-class CardTitle extends StatelessWidget {
-  final Game? game;
-
-  const CardTitle({this.game});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-        child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        Flexible(
-          flex: 2,
-          child: Text(
-              DateFormat('dd/MM/yyyy, HH:mm').format(game!.startingDate),
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-        ),
-        Flexible(
-          flex: 1,
-          child: ClipRRect(
-              borderRadius: BorderRadius.circular(80.0),
-              child: Container(
-                color: game!.isEnded
-                    ? Theme.of(context).primaryColor
-                    : Theme.of(context).colorScheme.secondary,
-                height: 30,
-                child: Center(
-                    child: Text(game!.isEnded ? 'Terminée' : 'En cours',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(context).cardColor,
-                            fontSize: 15),
-                        overflow: TextOverflow.ellipsis)),
-              )),
-        )
-      ],
-    ));
   }
 }
 
@@ -93,15 +64,14 @@ class _ShowScoreWidget extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _ShowScoreWidgetState(beloteGame);
+    return _ShowScoreWidgetState();
   }
 }
 
 class _ShowScoreWidgetState extends State<_ShowScoreWidget> {
-  final Belote _beloteGame;
   late String _errorMessage = '';
 
-  _ShowScoreWidgetState(this._beloteGame);
+  _ShowScoreWidgetState();
 
   @override
   Widget build(BuildContext context) {
@@ -117,7 +87,7 @@ class _ShowScoreWidgetState extends State<_ShowScoreWidget> {
                           itemBuilder: (BuildContext context, int index) {
                             return DecoratedBox(
                                 decoration: BoxDecoration(
-                                  color: Theme.of(context).colorScheme.secondary,
+                              color: Theme.of(context).colorScheme.secondary,
                             ));
                           }));
                 }
@@ -127,23 +97,25 @@ class _ShowScoreWidgetState extends State<_ShowScoreWidget> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[
                         Text(snapshot.data!.usTotalPoints.toString(),
-                            style: TextStyle(
+                            key: const ValueKey('usTotalPointsText'),
+                            style: const TextStyle(
                                 fontSize: 25, fontWeight: FontWeight.bold)),
                         Text(snapshot.data!.themTotalPoints.toString(),
-                            style: TextStyle(
+                            key: const ValueKey('themTotalPointsText'),
+                            style: const TextStyle(
                                 fontSize: 25, fontWeight: FontWeight.bold))
                       ]);
                 }
                 return Center(child: Text(_errorMessage));
               },
-              future: _beloteGame.scoreService
-                      .getScoreByGame(_beloteGame.id)
+              future: widget.beloteGame.scoreService
+                      .getScoreByGame(widget.beloteGame.id)
                       // ignore: return_of_invalid_type_from_catch_error
                       .catchError((error) => {_errorMessage = error.toString()})
                   as Future<BeloteScore?>?)),
-      if (_beloteGame.isEnded)
-        Padding(
-            padding: const EdgeInsets.all(8.0),
+      if (widget.beloteGame.isEnded)
+        const Padding(
+            padding: EdgeInsets.all(8.0),
             child: Text('Partie terminée',
                 style: TextStyle(fontStyle: FontStyle.italic)))
       else
@@ -163,6 +135,7 @@ class _ButtonRowWidget extends StatelessWidget {
         Widget>[
       if (!beloteGame.isEnded)
         ElevatedButton.icon(
+            key: const ValueKey('stopButton'),
             style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(Colors.black),
                 foregroundColor: MaterialStateProperty.all<Color>(
@@ -184,13 +157,14 @@ class _ButtonRowWidget extends StatelessWidget {
                           title: 'Attention',
                           color: Colors.black))
                 },
-            label: Text(
+            label: const Text(
               'Arrêter',
             ),
-            icon: Icon(Icons.stop))
+            icon: const Icon(Icons.stop))
       else
         Container(),
       ElevatedButton.icon(
+          key: const ValueKey('deleteButton'),
           style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all<Color>(
                   Theme.of(context).errorColor),
@@ -210,9 +184,10 @@ class _ButtonRowWidget extends StatelessWidget {
                         title: 'Suppression'))
               },
           label: Text(MaterialLocalizations.of(context).deleteButtonTooltip),
-          icon: Icon(Icons.delete_forever)),
+          icon: const Icon(Icons.delete_forever)),
       if (!beloteGame.isEnded)
         ElevatedButton.icon(
+            key: const ValueKey('continueButton'),
             style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(
                     Theme.of(context).primaryColor),
@@ -235,9 +210,10 @@ class _ButtonRowWidget extends StatelessWidget {
             label: Text(
               MaterialLocalizations.of(context).continueButtonLabel,
             ),
-            icon: Icon(Icons.play_arrow))
+            icon: const Icon(Icons.play_arrow))
       else
         ElevatedButton(
+            key: const ValueKey('showScoreButton'),
             style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(
                     Theme.of(context).primaryColor),
@@ -257,7 +233,7 @@ class _ButtonRowWidget extends StatelessWidget {
                     ),
                   )
                 },
-            child: Text('Consulter les scores')),
+            child: const Text('Consulter les scores')),
     ]);
   }
 }

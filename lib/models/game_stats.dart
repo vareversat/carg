@@ -47,4 +47,7 @@ class GameStats {
   String toString() {
     return 'GameStats{gameType: $gameType, wonGames: $wonGames, playedGames: $playedGames}';
   }
+
+  @override
+  int get hashCode => gameType.hashCode;
 }

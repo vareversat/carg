@@ -6,6 +6,8 @@ class ChangeLogScreen extends StatelessWidget {
   final _fileName = 'CHANGELOG.md';
   final _title = 'Journal des modifications';
 
+  const ChangeLogScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,7 +20,7 @@ class ChangeLogScreen extends StatelessWidget {
               if (snapshot.hasData) {
                 return Markdown(data: snapshot.data!);
               }
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(),
               );
             }));

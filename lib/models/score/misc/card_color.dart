@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 enum CardColor { HEART, DIAMOND, CLUB, SPADE, ALL_TRUMP, NO_TRUMP }
 
 extension CardColorExtension on CardColor? {

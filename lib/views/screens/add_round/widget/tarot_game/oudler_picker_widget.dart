@@ -7,7 +7,8 @@ import 'package:provider/provider.dart';
 class OudlerPickerWidget extends StatelessWidget {
   final TarotRound tarotRound;
 
-  const OudlerPickerWidget({required this.tarotRound});
+  const OudlerPickerWidget({Key? key, required this.tarotRound})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,7 @@ class OudlerPickerWidget extends StatelessWidget {
       child: Consumer<TarotRound>(
           builder: (context, roundData, _) => Column(
                 children: [
-                  SectionTitleWidget(title: 'Nombre de bout(s)'),
+                  const SectionTitleWidget(title: 'Nombre de bout(s)'),
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: TarotOudler.values

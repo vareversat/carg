@@ -46,12 +46,12 @@ class TarotScoreService extends ScoreService<TarotScore?, TarotRound> {
   }
 
   @override
-  Future addRoundToGame(String? gameId, TarotRound tarotRound) async {
+  Future addRoundToGame(String? gameId, TarotRound round) async {
     try {
       var tarotScore = await getScoreByGame(gameId);
       if (tarotScore != null) {
-        tarotRound = _computePlayerPoints(tarotRound, tarotScore);
-        tarotScore.addRound(tarotRound);
+        round = _computePlayerPoints(round, tarotScore);
+        tarotScore.addRound(round);
         await FirebaseFirestore.instance
             .collection(dataBase + '-' + flavor)
             .doc(tarotScore.id)
@@ -80,11 +80,11 @@ class TarotScoreService extends ScoreService<TarotScore?, TarotRound> {
   }
 
   @override
-  Future<String> saveScore(TarotScore? beloteScore) async {
+  Future<String> saveScore(TarotScore? score) async {
     try {
       var documentReference = await FirebaseFirestore.instance
           .collection(dataBase + '-' + flavor)
-          .add(beloteScore!.toJSON());
+          .add(score!.toJSON());
       return documentReference.id;
     } on PlatformException catch (e) {
       throw Exception('[' + e.code + '] Firebase error ' + e.message!);

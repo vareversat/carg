@@ -4,47 +4,43 @@ import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/screens/add_round/widget/section_title_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 class TrickPointsBeloteWidget extends StatefulWidget {
   final BeloteRound round;
 
-  TrickPointsBeloteWidget({required this.round});
+  const TrickPointsBeloteWidget({Key? key, required this.round})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _TrickPointsBeloteWidgetState(round);
+    return _TrickPointsBeloteWidgetState();
   }
 }
 
 class _TrickPointsBeloteWidgetState extends State<TrickPointsBeloteWidget> {
-  TextEditingController? _usPointsTextController;
-  TextEditingController? _themPointsTextController;
-  final BeloteRound _round;
-
-  _TrickPointsBeloteWidgetState(this._round);
+  final TextEditingController _usPointsTextController = TextEditingController();
+  final TextEditingController _themPointsTextController =
+      TextEditingController();
 
   @override
   void initState() {
-    _usPointsTextController = TextEditingController();
-    _themPointsTextController = TextEditingController();
-    _usPointsTextController!.text = _round.usTrickScore.toString();
-    _themPointsTextController!.text = _round.themTrickScore.toString();
+    _usPointsTextController.text = widget.round.usTrickScore.toString();
+    _themPointsTextController.text = widget.round.themTrickScore.toString();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
-      value: _round,
+      value: widget.round,
       child: Consumer<BeloteRound>(
           builder: (context, roundData, child) => Column(children: [
-                SectionTitleWidget(title: 'Points des plis'),
+                const SectionTitleWidget(title: 'Points des plis'),
                 Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: Column(children: <Widget>[
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: <Widget>[
@@ -57,17 +53,17 @@ class _TrickPointsBeloteWidgetState extends State<TrickPointsBeloteWidget> {
                         Flexible(
                             child: TextField(
                                 controller: _usPointsTextController,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 20, fontWeight: FontWeight.bold),
                                 textAlign: TextAlign.center,
                                 keyboardType: TextInputType.number,
-                                inputFormatters: <TextInputFormatter>[],
+                                inputFormatters: const <TextInputFormatter>[],
                                 onSubmitted: (String value) => {
                                       roundData.usTrickScore = int.parse(value),
                                       roundData.themTrickScore =
                                           (BeloteRound.totalTrickScore -
                                               int.parse(value)),
-                                      _themPointsTextController!.text =
+                                      _themPointsTextController.text =
                                           (BeloteRound.totalTrickScore -
                                                   int.parse(value))
                                               .toString(),
@@ -77,22 +73,22 @@ class _TrickPointsBeloteWidgetState extends State<TrickPointsBeloteWidget> {
                                         fontSize: 20,
                                         color: Theme.of(context).hintColor),
                                     labelText: 'Points'))),
-                        SizedBox(width: 20),
+                        const SizedBox(width: 20),
                         Flexible(
                             child: TextField(
                                 controller: _themPointsTextController,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 20, fontWeight: FontWeight.bold),
                                 textAlign: TextAlign.center,
                                 keyboardType: TextInputType.number,
-                                inputFormatters: <TextInputFormatter>[],
+                                inputFormatters: const <TextInputFormatter>[],
                                 onSubmitted: (String value) => {
                                       roundData.themTrickScore =
                                           int.parse(value),
                                       roundData.usTrickScore =
                                           (BeloteRound.totalTrickScore -
                                               int.parse(value)),
-                                      _usPointsTextController!.text =
+                                      _usPointsTextController.text =
                                           (BeloteRound.totalTrickScore -
                                                   int.parse(value))
                                               .toString(),
@@ -103,7 +99,7 @@ class _TrickPointsBeloteWidgetState extends State<TrickPointsBeloteWidget> {
                                         color: Theme.of(context).hintColor),
                                     labelText: 'Points')))
                       ]),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -131,7 +127,7 @@ class _BeloteRebeloteDixDeDerWidget extends StatelessWidget {
           textDirection:
               team == BeloteTeamEnum.US ? TextDirection.ltr : TextDirection.rtl,
           children: <Widget>[
-            Text('Belote-Rebelote'),
+            const Text('Belote-Rebelote'),
             Checkbox(
                 visualDensity: VisualDensity.compact,
                 value: round!.beloteRebelote == team,
@@ -147,7 +143,7 @@ class _BeloteRebeloteDixDeDerWidget extends StatelessWidget {
           textDirection:
               team == BeloteTeamEnum.US ? TextDirection.ltr : TextDirection.rtl,
           children: <Widget>[
-            Text('Dix de Der'),
+            const Text('Dix de Der'),
             Radio(
                 visualDensity: VisualDensity.compact,
                 value: team == BeloteTeamEnum.US,

@@ -1,37 +1,31 @@
-enum CoincheBeloteContractName { NORMAL, COINCHE, SURCOINCHE, CAPOT, GENERALE }
+// ignore_for_file: constant_identifier_names
+
+enum CoincheBeloteContractName { NORMAL, COINCHE, SURCOINCHE }
 
 extension CoincheBeloteContractNameExtension on CoincheBeloteContractName? {
   String get name {
     switch (this) {
       case CoincheBeloteContractName.NORMAL:
         return 'Normal';
-      case CoincheBeloteContractName.CAPOT:
-        return 'Capot';
       case CoincheBeloteContractName.COINCHE:
         return 'Coinche';
       case CoincheBeloteContractName.SURCOINCHE:
         return 'Surcoinche';
-      case CoincheBeloteContractName.GENERALE:
-        return 'Générale';
       default:
-        return '';
+        throw Exception('CoincheBeloteContractName missing');
     }
   }
 
-  int bonus(int currentScore) {
+  int get multiplier {
     switch (this) {
       case CoincheBeloteContractName.NORMAL:
-        return currentScore;
+        return 1;
       case CoincheBeloteContractName.COINCHE:
-        return currentScore * 2;
+        return 2;
       case CoincheBeloteContractName.SURCOINCHE:
-        return currentScore * 4;
-      case CoincheBeloteContractName.CAPOT:
-        return 500;
-      case CoincheBeloteContractName.GENERALE:
-        return 1000;
+        return 4;
       default:
-        return currentScore;
+        throw Exception('CoincheBeloteContractName missing');
     }
   }
 }

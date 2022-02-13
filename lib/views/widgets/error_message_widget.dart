@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class ErrorMessageWidget extends StatelessWidget {
   final String? message;
 
-  ErrorMessageWidget({this.message});
+  const ErrorMessageWidget({Key? key, this.message}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +13,7 @@ class ErrorMessageWidget extends StatelessWidget {
       children: <Widget>[
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
+          children: const <Widget>[
             Icon(Icons.smartphone),
             Text('-----'),
             Icon(Icons.close),
@@ -21,8 +21,8 @@ class ErrorMessageWidget extends StatelessWidget {
             Icon(Icons.cloud)
           ],
         ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
+        const Padding(
+          padding: EdgeInsets.all(8.0),
           child: Text(
             'Connexion au serveur impossible',
             textAlign: TextAlign.center,
@@ -34,7 +34,7 @@ class ErrorMessageWidget extends StatelessWidget {
           child: Text(
             message!,
             textAlign: TextAlign.center,
-            style: TextStyle(fontStyle: FontStyle.italic, fontSize: 13),
+            style: const TextStyle(fontStyle: FontStyle.italic, fontSize: 13),
           ),
         )
       ],

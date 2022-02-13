@@ -1,3 +1,4 @@
+import 'package:carg/models/score/misc/belote_contract_type.dart';
 import 'package:carg/models/score/misc/belote_team_enum.dart';
 import 'package:carg/models/score/misc/card_color.dart';
 import 'package:carg/models/score/misc/coinche_belote_contract_name.dart';
@@ -7,6 +8,7 @@ import 'package:enum_to_string/enum_to_string.dart';
 class CoincheBeloteRound extends BeloteRound {
   late int _contract;
   late CoincheBeloteContractName _contractName;
+  late BeloteContractType _contractType;
 
   CoincheBeloteRound(
       {index,
@@ -21,6 +23,7 @@ class CoincheBeloteRound extends BeloteRound {
       usTrickScore,
       themTrickScore,
       contractName,
+      contractType,
       defender})
       : super(
             index: index,
@@ -36,20 +39,34 @@ class CoincheBeloteRound extends BeloteRound {
             defender: defender) {
     _contract = contract ?? 0;
     _contractName = contractName ?? CoincheBeloteContractName.NORMAL;
+    _contractType = contractType ?? BeloteContractType.NORMAL;
   }
 
   @override
-  bool get contractFulfilled =>
-      getTrickPointsOfTeam(taker) +
-              getDixDeDerOfTeam(taker, 0) +
-              getBeloteRebeloteOfTeam(taker) >=
-          contract &&
-      (getTrickPointsOfTeam(taker) +
-              getDixDeDerOfTeam(taker, 0) +
-              getBeloteRebeloteOfTeam(taker) >
-          getTrickPointsOfTeam(defender) +
-              getDixDeDerOfTeam(defender, 0) +
-              getBeloteRebeloteOfTeam(defender));
+  bool get contractFulfilled {
+    var totalTackerScore = getTrickPointsOfTeam(taker) +
+        getDixDeDerOfTeam(taker) +
+        getBeloteRebeloteOfTeam(taker);
+    var totalDefenderScore = getTrickPointsOfTeam(defender) +
+        getDixDeDerOfTeam(defender) +
+        getBeloteRebeloteOfTeam(defender);
+    if (contractType != BeloteContractType.FAILED_GENERALE) {
+      return totalTackerScore >= contract &&
+          totalTackerScore > totalDefenderScore;
+    } else {
+      return false;
+    }
+  }
+
+  BeloteContractType get contractType => _contractType;
+
+  set contractType(BeloteContractType value) {
+    _contractType = value;
+    if (value != BeloteContractType.NORMAL) {
+      contract = BeloteRound.totalScore;
+    }
+    computeRound();
+  }
 
   CoincheBeloteContractName get contractName => _contractName;
 
@@ -71,21 +88,22 @@ class CoincheBeloteRound extends BeloteRound {
     var defenderTrickPoints = getTrickPointsOfTeam(defender);
     if (contractFulfilled) {
       var takerScoreTmp = takerTrickPoints +
-          getDixDeDerOfTeam(taker, takerTrickPoints) +
-          getBeloteRebeloteOfTeam(taker);
-      takerScore = roundScore(contractName.bonus(contract + takerScoreTmp));
+          getDixDeDerOfTeam(taker) +
+          getBeloteRebeloteOfTeam(taker) +
+          contract;
+      takerScore = roundScore(
+          contractType.bonus(takerScoreTmp) * contractName.multiplier);
       defenderScore = roundScore(defenderTrickPoints +
-          getDixDeDerOfTeam(defender, defenderTrickPoints) +
+          getDixDeDerOfTeam(defender) +
           getBeloteRebeloteOfTeam(defender));
     } else {
-      var defenderScoreTmp = BeloteRound.totalTrickScore +
-          BeloteRound.dixDeDerBonus +
+      var defenderScoreTmp = BeloteRound.totalScore +
+          contractType.bonus(contract) +
           getBeloteRebeloteOfTeam(defender) +
-          getDixDeDerOfTeam(defender, defenderTrickPoints);
-      takerScore = roundScore(getBeloteRebeloteOfTeam(taker) +
-          getDixDeDerOfTeam(taker, takerTrickPoints));
-      defenderScore =
-          roundScore(contractName.bonus(contract + defenderScoreTmp));
+          getDixDeDerOfTeam(defender);
+      takerScore =
+          roundScore(getBeloteRebeloteOfTeam(taker) + getDixDeDerOfTeam(taker));
+      defenderScore = roundScore(defenderScoreTmp * contractName.multiplier);
     }
     notifyListeners();
   }
@@ -107,7 +125,8 @@ class CoincheBeloteRound extends BeloteRound {
     var tmpJSON = super.toJSON();
     tmpJSON.addAll({
       'contract': contract,
-      'contract_name': EnumToString.convertToString(contractName)
+      'contract_name': EnumToString.convertToString(contractName),
+      'contract_type': EnumToString.convertToString(contractType),
     });
     return tmpJSON;
   }
@@ -131,7 +150,9 @@ class CoincheBeloteRound extends BeloteRound {
         usTrickScore: json['us_trick_score'],
         themTrickScore: json['them_trick_score'],
         contractName: EnumToString.fromString(
-            CoincheBeloteContractName.values, json['contract_name']));
+            CoincheBeloteContractName.values, json['contract_name']),
+        contractType: EnumToString.fromString(
+            BeloteContractType.values, json['contract_type'] ?? ''));
   }
 
   static List<CoincheBeloteRound> fromJSONList(List<dynamic> jsonList) {
@@ -141,18 +162,19 @@ class CoincheBeloteRound extends BeloteRound {
   @override
   String toString() {
     return 'CoincheRound{ '
-        'index: $index, '
-        'cardColor: $cardColor, '
-        'contract: $contract, '
-        'beloteRebelote : $beloteRebelote, '
-        'dixDeDer: $dixDeDer, '
-        'contractFulfilled: $contractFulfilled, '
-        'taker: $taker, '
-        'takerScore: $takerScore, '
-        'defenderScore: $defenderScore, '
-        'usTrickScore: $usTrickScore, '
-        'themTrickScore: $themTrickScore, '
-        'contractName: $contractName, '
-        'defender: $defender}';
+        'index: $index, \n'
+        'cardColor: $cardColor,  \n'
+        'contract: $contract,  \n'
+        'beloteRebelote : $beloteRebelote,  \n'
+        'dixDeDer: $dixDeDer,  \n'
+        'contractFulfilled: $contractFulfilled,  \n'
+        'taker: $taker,  \n'
+        'defender: $defender,  \n'
+        'takerScore: $takerScore,  \n'
+        'defenderScore: $defenderScore,  \n'
+        'usTrickScore: $usTrickScore,  \n'
+        'themTrickScore: $themTrickScore,  \n'
+        'contractName: $contractName,  \n'
+        'contractType: $contractType,  \n}';
   }
 }

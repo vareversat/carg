@@ -14,7 +14,8 @@ import 'package:flutter/services.dart';
 class CoincheBeloteService extends BeloteService<CoincheBelote> {
   final TeamService _teamService = TeamService();
   final PlayerService _playerService = PlayerService();
-  final CoincheScoreService _coincheScoreService = CoincheScoreService();
+  final CoincheBeloteScoreService _coincheScoreService =
+      CoincheBeloteScoreService();
   static const String dataBase = 'coinche-game';
   static const String flavor =
       String.fromEnvironment('FLAVOR', defaultValue: 'dev');
@@ -27,7 +28,7 @@ class CoincheBeloteService extends BeloteService<CoincheBelote> {
       if (playerId == null) {
         return coincheGames;
       }
-      var querySnapshot;
+      QuerySnapshot<Map<String, dynamic>> querySnapshot;
       if (lastFetchGameDocument != null) {
         querySnapshot = await FirebaseFirestore.instance
             .collection(dataBase + '-' + flavor)
@@ -116,8 +117,11 @@ class CoincheBeloteService extends BeloteService<CoincheBelote> {
   Future endAGame(CoincheBelote game) async {
     try {
       Team? winners;
-      game.players!.playerList!.forEach((player) async =>
-          {await _playerService.incrementPlayedGamesByOne(player, game)});
+      for (var player in game.players!.playerList!) {
+        {
+          await _playerService.incrementPlayedGamesByOne(player, game);
+        }
+      }
       var score = await _coincheScoreService.getScoreByGame(game.id);
       if (score!.themTotalPoints > score.usTotalPoints) {
         winners =

@@ -14,14 +14,16 @@ class GameModePickerScreen extends StatelessWidget {
   final _appBarTitle = 'Nouvelle partie';
   final _title = 'Sélection du jeu';
 
+  const GameModePickerScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(60),
+        preferredSize: const Size.fromHeight(60),
         child: AppBar(
           leading: IconButton(
-            icon: Icon(Icons.close),
+            icon: const Icon(Icons.close),
             onPressed: () => Navigator.pop(context),
           ),
           title: Hero(
@@ -32,13 +34,14 @@ class GameModePickerScreen extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(10.0),
         child: Column(
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(_title,
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                  style: const TextStyle(
+                      fontSize: 20, fontWeight: FontWeight.bold)),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 8.0),
@@ -92,7 +95,8 @@ class _GameModeButton extends StatelessWidget {
                   builder: (context) => PlayerPickerScreen(
                       game: game, title: game!.gameType.name)))
             },
-            child: Text(game!.gameType.name, style: TextStyle(fontSize: 25)),
+            child:
+                Text(game!.gameType.name, style: const TextStyle(fontSize: 25)),
           ),
         ));
   }

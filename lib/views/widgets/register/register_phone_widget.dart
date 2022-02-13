@@ -4,14 +4,15 @@ import 'package:carg/styles/properties.dart';
 import 'package:carg/views/helpers/info_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_libphonenumber/flutter_libphonenumber.dart';
 import 'package:provider/provider.dart';
 
 class RegisterPhoneWidget extends StatefulWidget {
   final CredentialVerificationType credentialVerificationType;
 
-  const RegisterPhoneWidget({required this.credentialVerificationType});
+  const RegisterPhoneWidget(
+      {Key? key, required this.credentialVerificationType})
+      : super(key: key);
 
   @override
   _RegisterPhoneWidgetState createState() => _RegisterPhoneWidgetState();
@@ -35,16 +36,16 @@ class _RegisterPhoneWidgetState extends State<RegisterPhoneWidget>
                               borderRadius: BorderRadius.circular(15)),
                           children: <Widget>[
                             TextField(
-                                autofillHints: [
+                                autofillHints: const [
                                   AutofillHints.telephoneNumberNational
                                 ],
                                 onChanged: (value) {
                                   countryListData.filter(value);
                                 },
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                     labelText: 'Rechercher un pays'),
                                 textInputAction: TextInputAction.search),
-                            Container(
+                            SizedBox(
                               height: 300,
                               width: 600,
                               child: ListView.builder(
@@ -75,22 +76,25 @@ class _RegisterPhoneWidgetState extends State<RegisterPhoneWidget>
                                                       .style
                                                       .color),
                                           children: <TextSpan>[
-                                            TextSpan(
-                                                text:
-                                                    ' (+${countryListData.countries![index].phoneCode})',
-                                                style:
-                                                    DefaultTextStyle.of(context)
-                                                        .style),
-                                          ],
-                                        ),
-                                      ),
-                                    );
+                                              TextSpan(
+                                                  text:
+                                                      ' (${countryListData.countries![index].countryCode}',
+                                                  style: DefaultTextStyle.of(
+                                                          context)
+                                                      .style),
+                                              TextSpan(
+                                                  text:
+                                                      ' +${countryListData.countries![index].phoneCode})',
+                                                  style: DefaultTextStyle.of(
+                                                          context)
+                                                      .style)
+                                            ])));
                                   }),
                             ),
                             Center(
                                 child: Text(
                                     '${countryListData.countries!.length} pays',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontSize: 15,
                                         fontStyle: FontStyle.italic)))
                           ])),
@@ -99,6 +103,7 @@ class _RegisterPhoneWidgetState extends State<RegisterPhoneWidget>
 
   Future _sendPinCode(PhoneRegistrationData phoneRegistrationData) async {
     try {
+      phoneRegistrationData.sendingSms = true;
       var phoneNumber = await phoneRegistrationData.formatPhoneNumberToE164();
       await Provider.of<AuthService>(context, listen: false)
           .sendPhoneVerificationCode(
@@ -121,46 +126,62 @@ class _RegisterPhoneWidgetState extends State<RegisterPhoneWidget>
                       return Column(children: [
                         Row(
                           children: [
-                            ElevatedButton(
-                              style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStateProperty.all<Color>(
-                                          Theme.of(context).cardColor),
-                                  foregroundColor:
-                                      MaterialStateProperty.all<Color>(
-                                          Theme.of(context).primaryColor),
-                                  shape: MaterialStateProperty.all<OutlinedBorder>(
-                                      RoundedRectangleBorder(
-                                          side: BorderSide(
-                                              width: 2,
-                                              color: Theme.of(context)
-                                                  .primaryColor),
-                                          borderRadius: BorderRadius.circular(
-                                              CustomProperties.borderRadius)))),
-                              onPressed: snapshot.connectionState ==
-                                      ConnectionState.done
-                                  ? () async {
-                                      phoneRegistrationData.country =
-                                          await showCountriesDialog(
-                                              snapshot.data!);
-                                    }
-                                  : null,
-                              child: AnimatedSize(
-                                  curve: Curves.linear,
-                                  duration: Duration(milliseconds: 300),
-                                  child: Text(
-                                    phoneRegistrationData.country != null
-                                        ? phoneRegistrationData
-                                            .getCompactFormattedCountryName()
-                                        : 'Pays',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  )),
+                            AnimatedSize(
+                              key: const ValueKey('placeholderPhoneContainer'),
+                              curve: Curves.ease,
+                              duration: const Duration(milliseconds: 500),
+                              child: phoneRegistrationData.sendingSms
+                                  ? const CircularProgressIndicator(
+                                      strokeWidth: 5)
+                                  : ElevatedButton(
+                                      style: ButtonStyle(
+                                          backgroundColor:
+                                              MaterialStateProperty.all<Color>(
+                                                  Theme.of(context).cardColor),
+                                          foregroundColor: MaterialStateProperty.all<Color>(
+                                              Theme.of(context).primaryColor),
+                                          shape: MaterialStateProperty.all<OutlinedBorder>(
+                                              RoundedRectangleBorder(
+                                                  side: BorderSide(
+                                                width: 2,
+                                                color: Theme.of(context)
+                                                    .primaryColor),
+                                            borderRadius: BorderRadius.circular(
+                                                CustomProperties.borderRadius)))),
+                                onPressed: snapshot.connectionState ==
+                                    ConnectionState.done
+                                    ? () async {
+                                  phoneRegistrationData.country =
+                                  await showCountriesDialog(
+                                      snapshot.data!);
+                                }
+                                    : null,
+                                child: AnimatedSize(
+                                          curve: Curves.linear,
+                                          duration:
+                                              const Duration(milliseconds: 300),
+                                          child: Text(
+                                            phoneRegistrationData.country !=
+                                                    null
+                                                ? phoneRegistrationData
+                                                    .getCompactFormattedCountryName()
+                                                : 'Pays',
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold),
+                                          )),
+                                    ),
                             ),
-                            SizedBox(width: 15),
+                            const SizedBox(width: 15),
                             Flexible(
                               child: TextField(
+                                textInputAction: TextInputAction.go,
                                 enabled: phoneRegistrationData.country != null,
+                                onSubmitted: (value) async {
+                                  if (!phoneRegistrationData
+                                      .isPhoneNumberEmpty()) {
+                                    await _sendPinCode(phoneRegistrationData);
+                                  }
+                                },
                                 onChanged: (value) {
                                   phoneRegistrationData.phoneNumber = value;
                                 },
@@ -178,7 +199,7 @@ class _RegisterPhoneWidgetState extends State<RegisterPhoneWidget>
                                   disabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(
                                         CustomProperties.borderRadius),
-                                    borderSide: BorderSide(
+                                    borderSide: const BorderSide(
                                       color: Colors.grey,
                                       width: 2.0,
                                     ),
@@ -204,42 +225,14 @@ class _RegisterPhoneWidgetState extends State<RegisterPhoneWidget>
                             ),
                           ],
                         ),
-                        SizedBox(height: 8),
-                        Text(
+                        const SizedBox(height: 8),
+                        const Text(
                           'Un SMS de confirmation contenant un code à 6 chiffres '
                           'va vous être envoyé. Des frais standards d\'envoi '
                           'de messages et d\'échange de données s\'appliquent',
                           style: TextStyle(
                               fontStyle: FontStyle.italic, fontSize: 13),
-                        ),
-                        ElevatedButton.icon(
-                            icon: Icon(Icons.check),
-                            style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all<Color>(
-                                    !phoneRegistrationData.isPhoneNumberEmpty()
-                                        ? Theme.of(context).primaryColor
-                                        : Theme.of(context).cardColor),
-                                foregroundColor: MaterialStateProperty.all<Color>(
-                                    !phoneRegistrationData.isPhoneNumberEmpty()
-                                        ? Theme.of(context).cardColor
-                                        : Colors.grey),
-                                shape: MaterialStateProperty.all<OutlinedBorder>(
-                                    RoundedRectangleBorder(
-                                        side: BorderSide(
-                                            width: 2,
-                                            color: !phoneRegistrationData.isPhoneNumberEmpty()
-                                                ? Theme.of(context).primaryColor
-                                                : Colors.grey),
-                                        borderRadius: BorderRadius.circular(CustomProperties.borderRadius)))),
-                            onPressed: !phoneRegistrationData.isPhoneNumberEmpty()
-                                ? () async {
-                                    await _sendPinCode(phoneRegistrationData);
-                                  }
-                                : null,
-                            label: Text(
-                              'Continuer',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ))
+                        )
                       ]);
                     }))));
   }
@@ -275,6 +268,7 @@ class CountryList with ChangeNotifier {
 class PhoneRegistrationData with ChangeNotifier {
   String? _phoneNumber;
   CountryWithPhoneCode? _country;
+  bool _sendingSms = false;
 
   String? get phoneNumber => _phoneNumber;
 
@@ -290,6 +284,13 @@ class PhoneRegistrationData with ChangeNotifier {
 
   set country(CountryWithPhoneCode? value) {
     _country = value;
+    notifyListeners();
+  }
+
+  bool get sendingSms => _sendingSms;
+
+  set sendingSms(bool value) {
+    _sendingSms = value;
     notifyListeners();
   }
 

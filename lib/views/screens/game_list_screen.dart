@@ -3,7 +3,7 @@ import 'package:carg/models/game/game_type.dart';
 import 'package:carg/services/game/coinche_belote_service.dart';
 import 'package:carg/services/game/contree_belote_service.dart';
 import 'package:carg/services/game/french_belote_service.dart';
-import 'package:carg/services/game/tarot_service.dart';
+import 'package:carg/services/game/tarot_game_service.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/screens/game_mode_picker_screen.dart';
@@ -12,13 +12,15 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class GameListScreen extends StatelessWidget {
+  const GameListScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
         length: 4,
         child: Scaffold(
             appBar: PreferredSize(
-              preferredSize: Size.fromHeight(120),
+              preferredSize: const Size.fromHeight(120),
               child: AppBar(
                 automaticallyImplyLeading: false,
                 title: Hero(
@@ -41,13 +43,15 @@ class GameListScreen extends StatelessWidget {
                           onPressed: () async => Navigator.push(
                                 context,
                                 CustomRouteFade(
-                                  builder: (context) => GameModePickerScreen(),
+                                  builder: (context) =>
+                                      const GameModePickerScreen(),
                                 ),
                               ),
-                          label: Text(
+                          label: const Text(
                             'Nouvelle partie',
                           ),
-                          icon: FaIcon(FontAwesomeIcons.plusCircle, size: 15))
+                          icon: const FaIcon(FontAwesomeIcons.plusCircle,
+                              size: 15))
                     ],
                   ),
                 ),
@@ -57,26 +61,26 @@ class GameListScreen extends StatelessWidget {
                   tabs: [
                     Tab(
                         child: Text(GameType.COINCHE.name,
-                            style: TextStyle(fontSize: 15))),
+                            style: const TextStyle(fontSize: 15))),
                     Tab(
                         child: Text(GameType.BELOTE.name,
-                            style: TextStyle(fontSize: 15))),
+                            style: const TextStyle(fontSize: 15))),
                     Tab(
                         child: Text(GameType.CONTREE.name,
-                            style: TextStyle(fontSize: 15))),
+                            style: const TextStyle(fontSize: 15))),
                     Tab(
                         child: Text(GameType.TAROT.name,
-                            style: TextStyle(fontSize: 15)))
+                            style: const TextStyle(fontSize: 15)))
                   ],
                 ),
               ),
             ),
             body: TabBarView(
               children: [
-                GameListWidget(gameService: CoincheBeloteService()),
-                GameListWidget(gameService: FrenchBeloteService()),
-                GameListWidget(gameService: ContreeBeloteService()),
-                GameListWidget(gameService: TarotService())
+                GameListTabWidget(gameService: CoincheBeloteService()),
+                GameListTabWidget(gameService: FrenchBeloteService()),
+                GameListTabWidget(gameService: ContreeBeloteService()),
+                GameListTabWidget(gameService: TarotGameService())
               ],
             )));
   }

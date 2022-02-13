@@ -15,10 +15,12 @@ class PinCodeVerificationScreen extends StatefulWidget {
   final String verificationId;
   final CredentialVerificationType credentialVerificationType;
 
-  PinCodeVerificationScreen(
-      {required this.phoneNumber,
+  const PinCodeVerificationScreen(
+      {Key? key,
+      required this.phoneNumber,
       required this.verificationId,
-      required this.credentialVerificationType});
+      required this.credentialVerificationType})
+      : super(key: key);
 
   @override
   _PinCodeVerificationScreenState createState() =>
@@ -32,13 +34,10 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
   final GlobalKey<State> _formKey = GlobalKey<FormState>();
   StreamController<ErrorAnimationType>? _errorController;
 
-  final _imagePath = 'assets/images/card_game.svg';
-  final _resending = 'Renvoie...';
   final _resend = 'RENVOYER';
   final _validating = 'Validation...';
   final _deleteAll = 'Tout supprimer';
   final _didYouReceiveTheCode = 'Vous n\'avez pas reçu le code ? ';
-  final _verificationCode = 'Code de vérification';
   final _pleaseEnterTheCode = 'Veuillez entrer le code envoyé au ';
   final _validationSuccess = 'Nouveau numéro validé avec succès !';
 
@@ -55,14 +54,12 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
   }
 
   void _resendCode() async {
-    Dialogs.showLoadingDialog(context, _keyLoaderLoading, _resending);
     try {
       await Provider.of<AuthService>(context, listen: false)
           .resendPhoneVerificationCode(widget.phoneNumber, context);
     } on CustomException catch (e) {
       InfoSnackBar.showSnackBar(context, e.message);
     }
-    Navigator.of(_keyLoaderLoading.currentContext!, rootNavigator: true).pop();
   }
 
   void _verifyCode() async {
@@ -90,7 +87,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
             .pop();
         Dialogs.showMessageDialog(
             context, _keyLoaderSuccess, _validationSuccess);
-        await Future.delayed(Duration(seconds: 2));
+        await Future.delayed(const Duration(seconds: 2));
         Navigator.of(_keyLoaderSuccess.currentContext!, rootNavigator: true)
             .pop();
         await Navigator.pushReplacement(
@@ -115,106 +112,114 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Center(
-      child: ListView(children: <Widget>[
-        SizedBox(height: 30),
-        Container(
-          height: 150,
-          child: SvgPicture.asset(
-            _imagePath,
+      child: SingleChildScrollView(
+        child: Column(children: <Widget>[
+          const SizedBox(height: 30),
+          Container(
+            padding: const EdgeInsets.symmetric(vertical: 30),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                    height: 110,
+                    child: SvgPicture.asset('assets/images/card_game.svg')),
+                const SizedBox(height: 15),
+                const Text(
+                  'Carg',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 45, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 8),
+                const Text(
+                  'Code de vérification',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
           ),
-        ),
-        SizedBox(height: 50),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            _verificationCode,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
-            textAlign: TextAlign.center,
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
-          child: RichText(
+          RichText(
             text: TextSpan(
                 text: _pleaseEnterTheCode,
                 children: [
                   TextSpan(
-                      text: '${widget.phoneNumber}',
-                      style: TextStyle(
+                      text: widget.phoneNumber,
+                      style: const TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
                           fontSize: 15)),
                 ],
-                style: TextStyle(color: Colors.black54, fontSize: 15)),
+                style: const TextStyle(color: Colors.black54, fontSize: 15)),
             textAlign: TextAlign.center,
           ),
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        Form(
-          key: _formKey,
-          child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 30),
-              child: PinCodeTextField(
-                appContext: context,
-                pastedTextStyle: TextStyle(
-                  color: Theme.of(context).primaryColor,
-                  fontWeight: FontWeight.bold,
-                ),
-                length: 6,
-                obscuringCharacter: '•',
-                blinkWhenObscuring: false,
-                animationType: AnimationType.none,
-                pinTheme: PinTheme(
-                    shape: PinCodeFieldShape.box,
-                    borderRadius: BorderRadius.circular(5),
-                    fieldHeight: 50,
-                    fieldWidth: 40,
-                    selectedColor: Theme.of(context).primaryColor,
-                    selectedFillColor: Theme.of(context).primaryColor,
-                    activeColor: Theme.of(context).primaryColor,
-                    inactiveColor: Theme.of(context).colorScheme.secondary,
-                    inactiveFillColor: Theme.of(context).colorScheme.secondary,
-                    activeFillColor: Colors.white),
-                cursorColor: Colors.white,
-                errorAnimationDuration: 25,
-                errorAnimationController: _errorController,
-                controller: _pinTextController,
-                keyboardType: TextInputType.number,
-                onCompleted: (value) {
-                  _verifyCode();
-                },
-                onChanged: (value) {},
-                beforeTextPaste: null,
-              )),
-        ),
-        TextButton(
-          onPressed: () {
-            _pinTextController.clear();
-          },
-          child: Text(_deleteAll),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              _didYouReceiveTheCode,
-              style: TextStyle(color: Colors.black54, fontSize: 15),
-            ),
-            TextButton(
-                onPressed: () => _resendCode(),
-                child: Text(
-                  _resend,
-                  style: TextStyle(
-                      color: Theme.of(context).primaryColor,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16),
-                ))
-          ],
-        )
-      ]),
+          const SizedBox(
+            height: 10,
+          ),
+          Form(
+            key: _formKey,
+            child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 1, horizontal: 30),
+                child: PinCodeTextField(
+                  appContext: context,
+                  pastedTextStyle: TextStyle(
+                    color: Theme.of(context).primaryColor,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  length: 6,
+                  obscuringCharacter: '•',
+                  blinkWhenObscuring: false,
+                  animationType: AnimationType.none,
+                  pinTheme: PinTheme(
+                      shape: PinCodeFieldShape.box,
+                      borderRadius: BorderRadius.circular(5),
+                      fieldHeight: 50,
+                      fieldWidth: 40,
+                      selectedColor: Theme.of(context).primaryColor,
+                      selectedFillColor: Theme.of(context).primaryColor,
+                      activeColor: Theme.of(context).primaryColor,
+                      inactiveColor: Theme.of(context).colorScheme.secondary,
+                      inactiveFillColor:
+                          Theme.of(context).colorScheme.secondary,
+                      activeFillColor: Colors.white),
+                  cursorColor: Colors.white,
+                  errorAnimationDuration: 25,
+                  errorAnimationController: _errorController,
+                  controller: _pinTextController,
+                  keyboardType: TextInputType.number,
+                  onCompleted: (value) {
+                    _verifyCode();
+                  },
+                  onChanged: (value) {},
+                  beforeTextPaste: null,
+                )),
+          ),
+          TextButton(
+            onPressed: () {
+              _pinTextController.clear();
+            },
+            child: Text(_deleteAll),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                _didYouReceiveTheCode,
+                style: const TextStyle(color: Colors.black54, fontSize: 15),
+              ),
+              TextButton(
+                  onPressed: () => _resendCode(),
+                  child: Text(
+                    _resend,
+                    style: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16),
+                  ))
+            ],
+          )
+        ]),
+      ),
     ));
   }
 }
