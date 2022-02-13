@@ -25,7 +25,7 @@ jobs:
       - name: 'Generate Github release'
         uses: softprops/action-gh-release@v1
         with:
-          body_path: $CHANGELOG_PATH
+          body_path: ${{ env.CHANGELOG_PATH }}
           tag_name: 'v1.2.5'
   flutter-test-analyze:
     uses: ./.github/workflows/flutter.analyze-test.action.yaml
