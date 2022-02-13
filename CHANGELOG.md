@@ -1,3 +1,14 @@
+# **v1.2.5** :
+
+- *Fixed stuff* :
+    - Email login now works properly
+    - Various improvements and gug fixes
+- *Dev stuff* :
+    - New CI
+    - Upgrade a lots of dependencies
+
+***
+
 # **v1.2.0** :
 
 - *Fixed stuff* :
