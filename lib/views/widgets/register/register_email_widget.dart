@@ -25,6 +25,8 @@ class RegisterEmailWidget extends StatefulWidget {
 
 class _RegisterEmailWidgetState extends State<RegisterEmailWidget>
     with WidgetsBindingObserver {
+  bool _emailSending = false;
+
   final _store =
       StorageService(flutterSecureStorage: const FlutterSecureStorage());
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
@@ -32,6 +34,9 @@ class _RegisterEmailWidgetState extends State<RegisterEmailWidget>
   Future<dynamic> _signInWithEmailAndLink(String email) async {
     await _store.setEmail(email);
     try {
+      setState(() {
+        _emailSending = true;
+      });
       if (widget.credentialVerificationType ==
           CredentialVerificationType.CREATE) {
         await Provider.of<AuthService>(context, listen: false)
@@ -48,6 +53,13 @@ class _RegisterEmailWidgetState extends State<RegisterEmailWidget>
       }
     } on CustomException catch (e) {
       InfoSnackBar.showSnackBar(context, e.message);
+      setState(() {
+        _emailSending = false;
+      });
+    } finally {
+      setState(() {
+        _emailSending = false;
+      });
     }
   }
 
@@ -113,48 +125,64 @@ class _RegisterEmailWidgetState extends State<RegisterEmailWidget>
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(children: [
-        TextField(
-          textInputAction: TextInputAction.go,
-          autofillHints: const [AutofillHints.email],
-          onSubmitted: (value) async {
-            if (value.isNotEmpty) {
-              await _signInWithEmailAndLink(value);
-            }
-          },
-          keyboardType: TextInputType.emailAddress,
-          decoration: InputDecoration(
-            labelText: 'Email',
-            labelStyle: TextStyle(
-              color: Theme.of(context).primaryColor,
-              fontWeight: FontWeight.normal,
-            ),
-            fillColor: Theme.of(context).primaryColor,
-            disabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(
-                  CustomProperties.borderRadius),
-              borderSide: const BorderSide(
-                color: Colors.grey,
-                width: 2.0,
-              ),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(
-                  CustomProperties.borderRadius),
-              borderSide: BorderSide(
-                color: Theme.of(context).primaryColor,
-                width: 2.0,
-              ),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(
-                  CustomProperties.borderRadius),
-              borderSide: BorderSide(
-                color: Theme.of(context).primaryColor,
-                width: 2.0,
-              ),
-            ),
-          ),
+        Row(
+          children: [
+            AnimatedSize(
+                key: const ValueKey('placeholderPhoneContainer'),
+                curve: Curves.ease,
+                duration: const Duration(milliseconds: 200),
+                child: _emailSending
+                    ? const Padding(
+                        padding: EdgeInsets.only(right: 15),
+                        child: CircularProgressIndicator(strokeWidth: 5),
+                      )
+                    : const SizedBox(width: 0)),
+            Flexible(
+              child: TextField(
+                textInputAction: TextInputAction.go,
+                autofillHints: const [AutofillHints.email],
+                onSubmitted: (value) async {
+                  if (value.isNotEmpty) {
+                    await _signInWithEmailAndLink(value);
+                  }
+                },
+                keyboardType: TextInputType.emailAddress,
+                decoration: InputDecoration(
+                  labelText: 'Email',
+                  labelStyle: TextStyle(
+                    color: Theme.of(context).primaryColor,
+                    fontWeight: FontWeight.normal,
+                  ),
+                  fillColor: Theme.of(context).primaryColor,
+                  disabledBorder: OutlineInputBorder(
+                    borderRadius:
+                        BorderRadius.circular(CustomProperties.borderRadius),
+                    borderSide: const BorderSide(
+                      color: Colors.grey,
+                      width: 2.0,
                     ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius:
+                        BorderRadius.circular(CustomProperties.borderRadius),
+                    borderSide: BorderSide(
+                      color: Theme.of(context).primaryColor,
+                      width: 2.0,
+                    ),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius:
+                        BorderRadius.circular(CustomProperties.borderRadius),
+                    borderSide: BorderSide(
+                      color: Theme.of(context).primaryColor,
+                      width: 2.0,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
         const SizedBox(height: 8),
         widget.credentialVerificationType == CredentialVerificationType.CREATE
             ? const Text(

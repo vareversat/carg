@@ -103,6 +103,7 @@ class _RegisterPhoneWidgetState extends State<RegisterPhoneWidget>
 
   Future _sendPinCode(PhoneRegistrationData phoneRegistrationData) async {
     try {
+      phoneRegistrationData.sendingSms = true;
       var phoneNumber = await phoneRegistrationData.formatPhoneNumberToE164();
       await Provider.of<AuthService>(context, listen: false)
           .sendPhoneVerificationCode(
@@ -125,41 +126,50 @@ class _RegisterPhoneWidgetState extends State<RegisterPhoneWidget>
                       return Column(children: [
                         Row(
                           children: [
-                            ElevatedButton(
-                              style: ButtonStyle(
-                                  backgroundColor:
-                                      MaterialStateProperty.all<Color>(
-                                          Theme.of(context).cardColor),
-                                  foregroundColor:
-                                      MaterialStateProperty.all<Color>(
-                                          Theme.of(context).primaryColor),
-                                  shape: MaterialStateProperty.all<OutlinedBorder>(
-                                      RoundedRectangleBorder(
-                                          side: BorderSide(
-                                              width: 2,
-                                              color: Theme.of(context)
-                                                  .primaryColor),
-                                          borderRadius: BorderRadius.circular(
-                                              CustomProperties.borderRadius)))),
-                              onPressed: snapshot.connectionState ==
-                                      ConnectionState.done
-                                  ? () async {
-                                      phoneRegistrationData.country =
-                                          await showCountriesDialog(
-                                              snapshot.data!);
-                                    }
-                                  : null,
-                              child: AnimatedSize(
-                                  curve: Curves.linear,
-                                  duration: const Duration(milliseconds: 300),
-                                  child: Text(
-                                    phoneRegistrationData.country != null
-                                        ? phoneRegistrationData
-                                            .getCompactFormattedCountryName()
-                                        : 'Pays',
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold),
-                                  )),
+                            AnimatedSize(
+                              key: const ValueKey('placeholderPhoneContainer'),
+                              curve: Curves.ease,
+                              duration: const Duration(milliseconds: 500),
+                              child: phoneRegistrationData.sendingSms
+                                  ? const CircularProgressIndicator(
+                                      strokeWidth: 5)
+                                  : ElevatedButton(
+                                      style: ButtonStyle(
+                                          backgroundColor:
+                                              MaterialStateProperty.all<Color>(
+                                                  Theme.of(context).cardColor),
+                                          foregroundColor: MaterialStateProperty.all<Color>(
+                                              Theme.of(context).primaryColor),
+                                          shape: MaterialStateProperty.all<OutlinedBorder>(
+                                              RoundedRectangleBorder(
+                                                  side: BorderSide(
+                                                width: 2,
+                                                color: Theme.of(context)
+                                                    .primaryColor),
+                                            borderRadius: BorderRadius.circular(
+                                                CustomProperties.borderRadius)))),
+                                onPressed: snapshot.connectionState ==
+                                    ConnectionState.done
+                                    ? () async {
+                                  phoneRegistrationData.country =
+                                  await showCountriesDialog(
+                                      snapshot.data!);
+                                }
+                                    : null,
+                                child: AnimatedSize(
+                                          curve: Curves.linear,
+                                          duration:
+                                              const Duration(milliseconds: 300),
+                                          child: Text(
+                                            phoneRegistrationData.country !=
+                                                    null
+                                                ? phoneRegistrationData
+                                                    .getCompactFormattedCountryName()
+                                                : 'Pays',
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.bold),
+                                          )),
+                                    ),
                             ),
                             const SizedBox(width: 15),
                             Flexible(
@@ -258,6 +268,7 @@ class CountryList with ChangeNotifier {
 class PhoneRegistrationData with ChangeNotifier {
   String? _phoneNumber;
   CountryWithPhoneCode? _country;
+  bool _sendingSms = false;
 
   String? get phoneNumber => _phoneNumber;
 
@@ -273,6 +284,13 @@ class PhoneRegistrationData with ChangeNotifier {
 
   set country(CountryWithPhoneCode? value) {
     _country = value;
+    notifyListeners();
+  }
+
+  bool get sendingSms => _sendingSms;
+
+  set sendingSms(bool value) {
+    _sendingSms = value;
     notifyListeners();
   }
 
