@@ -17,7 +17,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class RegisterScreen extends StatefulWidget {
-  static String routeName = '/register';
+  static const String routeName = '/register';
 
   const RegisterScreen({Key? key}) : super(key: key);
 
@@ -40,10 +40,10 @@ class _RegisterScreenState extends State<RegisterScreen>
     final deepLink = data?.link;
     var isLogged =
     await Provider.of<AuthService>(context, listen: false).isAlreadyLogin();
+    developer.log('Logged : $isLogged', name: 'carg.dynamic-link');
     if (deepLink != null && !isLogged) {
       var link = deepLink.toString();
       var email = await _store.getEmail();
-      developer.log('Logged : $isLogged', name: 'carg.dynamic-link');
       developer.log('Link : $link', name: 'carg.dynamic-link');
       developer.log('Email : $email', name: 'carg.dynamic-link');
       try {
@@ -72,6 +72,7 @@ class _RegisterScreenState extends State<RegisterScreen>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
+      developer.log('Call from didChangeAppLifecycleState', name: 'carg.dynamic-link');
       _retrieveDynamicLink();
     }
   }
@@ -79,7 +80,9 @@ class _RegisterScreenState extends State<RegisterScreen>
   @override
   void initState() {
     super.initState();
+    developer.log('Call from initState', name: 'carg.dynamic-link');
     WidgetsBinding.instance!.addObserver(this);
+    _retrieveDynamicLink();
   }
 
   @override
