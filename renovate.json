@@ -11,7 +11,7 @@
         "digest",
         "rollback"
       ],
-      "schedule": ["after 9pm on sunday"],
+      "schedule": ["after 2pm on sunday"],
       "automerge": true,
       "assigneesFromCodeOwners": true
     },
@@ -21,7 +21,7 @@
       "matchUpdateTypes": [
         "major"
       ],
-      "schedule": ["after 9pm on sunday"],
+      "schedule": ["after 2pm on sunday"],
       "automerge": false,
       "assigneesFromCodeOwners": true
     }
