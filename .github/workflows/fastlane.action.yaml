@@ -39,9 +39,8 @@ jobs:
           lane: ${{ inputs.lane }}
           subdirectory: 'android'
       - name: 'Generate Github release'
-        if: ${{ inputs.lane == 'production' }}
+        # Only run on new tag
+        if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v1
         with:
-          files: $CHANGELOG_PATH
-        env:
-          BUILD_NUMBER: ${{ env.CHANGELOG_PATH }}
+          body_path: ${{ env.CHANGELOG_PATH }}

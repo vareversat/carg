@@ -6,27 +6,6 @@ on:
       - main
 
 jobs:
-  test:
-    name: 'TEST'
-    runs-on: ubuntu-latest
-    steps:
-      - name: 'Checkout source code'
-        uses: actions/checkout@v2.4.0
-        with:
-          fetch-depth: 0
-      - name: 'Decrypt secret configuration'
-        run: ./.github/scripts/decrypt_secret.sh
-        env:
-          PASSPHRASE: ${{ secrets.passphrase }}
-      - name: 'Check secret configuration'
-        run: ./.github/scripts/check_secrets_decryption.sh
-      - name: 'Generate changelog'
-        run: ./.github/scripts/generate_changelog.sh
-      - name: 'Generate Github release'
-        uses: softprops/action-gh-release@v1
-        with:
-          body_path: ${{ env.CHANGELOG_PATH }}
-          tag_name: 'v1.2.5'
   flutter-test-analyze:
     uses: ./.github/workflows/flutter.analyze-test.action.yaml
     with:
