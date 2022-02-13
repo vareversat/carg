@@ -1,17 +1,10 @@
-import 'dart:developer' as developer;
-
 import 'package:carg/helpers/custom_route.dart';
 import 'package:carg/services/auth_service.dart';
-import 'package:carg/services/custom_exception.dart';
-import 'package:carg/services/storage_service.dart';
 import 'package:carg/styles/properties.dart';
-import 'package:carg/views/dialogs/dialogs.dart';
 import 'package:carg/views/widgets/register/register_email_widget.dart';
 import 'package:carg/views/widgets/register/register_phone_widget.dart';
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -30,66 +23,6 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen>
     with TickerProviderStateMixin, WidgetsBindingObserver {
-
-  final _store = StorageService(
-      flutterSecureStorage: const FlutterSecureStorage());
-  final GlobalKey<State> _keyLoader = GlobalKey<State>();
-
-  Future<void> _retrieveDynamicLink() async {
-    final data = await FirebaseDynamicLinks.instance.getInitialLink();
-    final deepLink = data?.link;
-    var isLogged =
-    await Provider.of<AuthService>(context, listen: false).isAlreadyLogin();
-    developer.log('Logged : $isLogged', name: 'carg.dynamic-link');
-    if (deepLink != null && !isLogged) {
-      var link = deepLink.toString();
-      var email = await _store.getEmail();
-      developer.log('Link : $link', name: 'carg.dynamic-link');
-      developer.log('Email : $email', name: 'carg.dynamic-link');
-      try {
-        await Provider.of<AuthService>(context, listen: false)
-            .signInWithEmailLink(email!, link);
-        developer.log('Sing in : OK', name: 'carg.dynamic-link');
-        Dialogs.showLoadingDialog(context, _keyLoader, 'Connexion');
-        await Navigator.pushReplacement(
-          context,
-          CustomRouteFade(
-            builder: (context) =>
-                Provider.of<AuthService>(context, listen: false)
-                    .getCorrectLandingScreen(),
-          ),
-        );
-      } on CustomException catch (e) {
-        developer.log(e.message, name: 'carg.dynamic-link');
-      } finally {
-        if (_keyLoader.currentContext != null) {
-          Navigator.of(_keyLoader.currentContext!, rootNavigator: true).pop();
-        }
-      }
-    }
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) {
-      developer.log('Call from didChangeAppLifecycleState', name: 'carg.dynamic-link');
-      _retrieveDynamicLink();
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    developer.log('Call from initState', name: 'carg.dynamic-link');
-    WidgetsBinding.instance!.addObserver(this);
-    _retrieveDynamicLink();
-  }
-
-  @override
-  void dispose() {
-    WidgetsBinding.instance!.removeObserver(this);
-    super.dispose();
-  }
 
 
   @override

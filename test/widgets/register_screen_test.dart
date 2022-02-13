@@ -1,18 +1,24 @@
 import 'package:carg/services/auth_service.dart';
-import 'package:carg/services/player_service.dart';
 import 'package:carg/views/screens/register/register_screen.dart';
 import 'package:carg/views/widgets/register/register_email_widget.dart';
 import 'package:carg/views/widgets/register/register_phone_widget.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
+
+import 'firebase_mock.dart';
 
 Widget testableWidget() => const MaterialApp(
       home: RegisterScreen(),
     );
 
-@GenerateMocks([PlayerService])
 void main() {
+  setupFirebaseAuthMocks();
+
+  setUpAll(() async {
+    await Firebase.initializeApp();
+  });
+
   group('Press button', () {
     testWidgets('Email', (WidgetTester tester) async {
       await tester.pumpWidget(testableWidget());
