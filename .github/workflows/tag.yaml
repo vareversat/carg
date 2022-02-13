@@ -1,4 +1,4 @@
-name: Dev workflow
+name: Tag workflow
 
 on:
   push:
