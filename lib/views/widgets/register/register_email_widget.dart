@@ -110,106 +110,59 @@ class _RegisterEmailWidgetState extends State<RegisterEmailWidget>
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider.value(
-        value: _EmailRegistrationData(),
-        child: Consumer<_EmailRegistrationData>(
-            builder: (context, emailRegistrationData, _) => Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(children: [
-                    TextField(
-                      autofillHints: const [AutofillHints.email],
-                      onChanged: (value) {
-                        emailRegistrationData.emailAddress = value;
-                      },
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: InputDecoration(
-                        labelText: 'Email',
-                        labelStyle: TextStyle(
-                          color: Theme.of(context).primaryColor,
-                          fontWeight: FontWeight.normal,
-                        ),
-                        fillColor: Theme.of(context).primaryColor,
-                        disabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                              CustomProperties.borderRadius),
-                          borderSide: const BorderSide(
-                            color: Colors.grey,
-                            width: 2.0,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                              CustomProperties.borderRadius),
-                          borderSide: BorderSide(
-                            color: Theme.of(context).primaryColor,
-                            width: 2.0,
-                          ),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(
-                              CustomProperties.borderRadius),
-                          borderSide: BorderSide(
-                            color: Theme.of(context).primaryColor,
-                            width: 2.0,
-                          ),
-                        ),
-                      ),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(children: [
+        TextField(
+          textInputAction: TextInputAction.go,
+          autofillHints: const [AutofillHints.email],
+          onSubmitted: (value) async {
+            if (value.isNotEmpty) {
+              await _signInWithEmailAndLink(value);
+            }
+          },
+          keyboardType: TextInputType.emailAddress,
+          decoration: InputDecoration(
+            labelText: 'Email',
+            labelStyle: TextStyle(
+              color: Theme.of(context).primaryColor,
+              fontWeight: FontWeight.normal,
+            ),
+            fillColor: Theme.of(context).primaryColor,
+            disabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(
+                  CustomProperties.borderRadius),
+              borderSide: const BorderSide(
+                color: Colors.grey,
+                width: 2.0,
+              ),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(
+                  CustomProperties.borderRadius),
+              borderSide: BorderSide(
+                color: Theme.of(context).primaryColor,
+                width: 2.0,
+              ),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(
+                  CustomProperties.borderRadius),
+              borderSide: BorderSide(
+                color: Theme.of(context).primaryColor,
+                width: 2.0,
+              ),
+            ),
+          ),
                     ),
-                    const SizedBox(height: 8),
-                    widget.credentialVerificationType ==
-                            CredentialVerificationType.CREATE
-                        ? const Text(
-                            'Un e-mail contenant un lien de connexion va vous être envoyé',
-                            style: TextStyle(
-                                fontStyle: FontStyle.italic, fontSize: 13),
-                          )
-                        : const SizedBox(height: 10),
-                    ElevatedButton.icon(
-                        icon: const Icon(Icons.check),
-                        style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(
-                                !emailRegistrationData.isEmailEmpty()
-                                    ? Theme.of(context).primaryColor
-                                    : Theme.of(context).cardColor),
-                            foregroundColor: MaterialStateProperty.all<Color>(
-                                !emailRegistrationData.isEmailEmpty()
-                                    ? Theme.of(context).cardColor
-                                    : Colors.grey),
-                            shape: MaterialStateProperty.all<OutlinedBorder>(
-                                RoundedRectangleBorder(
-                                    side: BorderSide(
-                                        width: 2,
-                                        color:
-                                            !emailRegistrationData.isEmailEmpty()
-                                                ? Theme.of(context).primaryColor
-                                                : Colors.grey),
-                                    borderRadius: BorderRadius.circular(CustomProperties.borderRadius)))),
-                        onPressed: !emailRegistrationData.isEmailEmpty()
-                            ? () async {
-                                await _signInWithEmailAndLink(
-                                    emailRegistrationData.emailAddress!);
-                              }
-                            : null,
-                        label: const Text(
-                          'Continuer',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ))
-                  ]),
-                )));
-  }
-}
-
-class _EmailRegistrationData with ChangeNotifier {
-  String? _emailAddress;
-
-  String? get emailAddress => _emailAddress;
-
-  set emailAddress(String? value) {
-    _emailAddress = value;
-    notifyListeners();
-  }
-
-  bool isEmailEmpty() {
-    return _emailAddress == null || _emailAddress == '';
+        const SizedBox(height: 8),
+        widget.credentialVerificationType == CredentialVerificationType.CREATE
+            ? const Text(
+                'Un e-mail contenant un lien de connexion va vous être envoyé',
+                style: TextStyle(fontStyle: FontStyle.italic, fontSize: 13),
+              )
+            : const SizedBox(height: 10)
+      ]),
+    );
   }
 }
