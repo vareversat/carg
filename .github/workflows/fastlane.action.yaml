@@ -28,7 +28,7 @@ jobs:
       - name: 'Check secret configuration'
         run: ./.github/scripts/check_secrets_decryption.sh
       - name: 'Download Artifact'
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: 'aab-build'
       - name: 'Generate changelog'
