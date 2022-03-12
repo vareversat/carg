@@ -1,18 +1,28 @@
+import 'package:carg/bloc_test/test_1/app_bloc.dart';
+import 'package:carg/bloc_test/test_1/app_state.dart';
 import 'package:carg/services/auth_service.dart';
+import 'package:carg/simple_bloc_observer.dart';
 import 'package:carg/views/screens/home_screen.dart';
 import 'package:carg/views/screens/register/register_screen.dart';
 import 'package:carg/views/screens/splash_screen.dart';
 import 'package:carg/views/screens/user_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:provider/single_child_widget.dart';
 
-void main() => runApp(const Carg());
+void main() => BlocOverrides.runZoned(() async {
+      WidgetsFlutterBinding.ensureInitialized();
+      await Firebase.initializeApp();
+      runApp(Carg(authService: AuthService()));
+    }, blocObserver: SimpleBlocObserver());
 
 class Carg extends StatefulWidget {
-  const Carg({Key? key}) : super(key: key);
+  final AuthService authService;
+
+  const Carg({Key? key, required this.authService}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -22,7 +32,7 @@ class Carg extends StatefulWidget {
 
 class _CargState extends State<Carg> {
   static const MaterialColor mcgpalette0 =
-      MaterialColor(_mcgpalette0PrimaryValue, <int, Color>{
+  MaterialColor(_mcgpalette0PrimaryValue, <int, Color>{
     50: Color(0xFFE7EFE4),
     100: Color(0xFFC3D6BB),
     200: Color(0xFF9CBB8E),
@@ -37,7 +47,7 @@ class _CargState extends State<Carg> {
   static const int _mcgpalette0PrimaryValue = 0xFF38761D;
 
   static const MaterialColor mcgpalette0Accent =
-      MaterialColor(_mcgpalette0AccentValue, <int, Color>{
+  MaterialColor(_mcgpalette0AccentValue, <int, Color>{
     100: Color(0xFFFFCCB8),
     200: Color(_mcgpalette0AccentValue),
     400: Color(0xFFFF8252),
@@ -59,12 +69,13 @@ class _CargState extends State<Carg> {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
         statusBarBrightness: Brightness.light,
         statusBarColor: Colors.transparent));
-    return MultiProvider(
-      providers: <SingleChildWidget>[
-        ChangeNotifierProvider.value(value: AuthService())
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => AppBloc(authService: widget.authService))
       ],
-      child: Consumer<AuthService>(
-        builder: (context, auth, _) => MaterialApp(
+      child: BlocBuilder<AppBloc, AppState>(
+        bloc: AppBloc(authService: AuthService()),
+        builder: (context, state) => MaterialApp(
             localizationsDelegates: const [
               GlobalMaterialLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate,
@@ -85,24 +96,7 @@ class _CargState extends State<Carg> {
             theme: theme.copyWith(
                 colorScheme:
                     theme.colorScheme.copyWith(secondary: mcgpalette0Accent)),
-            home: FutureBuilder<bool>(
-                future: auth.isAlreadyLogin(),
-                builder: (context, authResult) {
-                  if (authResult.connectionState == ConnectionState.waiting) {
-                    return const SplashScreen();
-                  }
-                  if (authResult.connectionState == ConnectionState.done) {
-                    if (authResult.data == null || !authResult.data!) {
-                      // User is not logged
-                      return const RegisterScreen();
-                    } else if (authResult.data != null && authResult.data!) {
-                      // User is already logged
-                      return Provider.of<AuthService>(context, listen: false)
-                          .getCorrectLandingScreen();
-                    }
-                  }
-                  return Container();
-                })),
+            home: state.status == AppStatus.unauthenticated ? const RegisterScreen() : const HomeScreen(requestedIndex: 0)),
       ),
     );
   }
