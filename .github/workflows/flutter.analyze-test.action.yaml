@@ -11,7 +11,7 @@ on:
 
 jobs:
   analyze:
-    name: 'Flutter - Analyze'
+    name: 'Analyze'
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout source code'
@@ -23,7 +23,7 @@ jobs:
       - name: 'Flutter analyze'
         run: flutter analyze
   test:
-    name: 'Flutter - Test'
+    name: 'Test'
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout source code'

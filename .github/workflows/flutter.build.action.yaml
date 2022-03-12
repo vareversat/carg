@@ -19,7 +19,7 @@ on:
 
 jobs:
   build_android:
-    name: 'Build Android'
+    name: 'Android'
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout source code'
@@ -70,7 +70,7 @@ jobs:
           name: 'aab-build'
           path: build/app/outputs/bundle/release/app-release.aab
   build_ios:
-    name: 'Build iOS'
+    name: 'iOS'
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout source code'
@@ -84,7 +84,7 @@ jobs:
       - name: '🥺'
         run: echo 'WIP'
   build_web:
-    name: 'Build WEB'
+    name: 'WEB'
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout source code'
