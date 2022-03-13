@@ -10,10 +10,10 @@ class Player extends CargObject with ChangeNotifier {
   String? linkedUserId;
   String? firstName;
   String? lastName;
-  String? _userName;
   String? ownedBy;
   String? _gravatarProfilePicture;
   bool owned;
+  late String _userName;
   late bool testing;
   late bool admin;
   late String _profilePicture;
@@ -48,9 +48,9 @@ class Player extends CargObject with ChangeNotifier {
     notifyListeners();
   }
 
-  String? get userName => _userName;
+  String get userName => _userName;
 
-  set userName(String? value) {
+  set userName(String value) {
     _userName = value;
     notifyListeners();
   }
@@ -165,6 +165,6 @@ class Player extends CargObject with ChangeNotifier {
 
   @override
   String toString() {
-    return 'Player{gameStatsList: $gameStatsList, linkedUserId: $linkedUserId, firstName: $firstName, lastName: $lastName, _userName: $_userName, ownedBy: $ownedBy, _gravatarProfilePicture: $_gravatarProfilePicture, owned: $owned, testing: $testing, _profilePicture: $_profilePicture, _selected: $_selected, _useGravatarProfilePicture: $_useGravatarProfilePicture}';
+    return 'Player{gameStatsList: $gameStatsList, linkedUserId: $linkedUserId, firstName: $firstName, lastName: $lastName, ownedBy: $ownedBy, _gravatarProfilePicture: $_gravatarProfilePicture, owned: $owned, _userName: $_userName, testing: $testing, admin: $admin, _profilePicture: $_profilePicture, _selected: $_selected, _useGravatarProfilePicture: $_useGravatarProfilePicture}';
   }
 }

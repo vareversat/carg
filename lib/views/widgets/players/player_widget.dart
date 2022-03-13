@@ -75,7 +75,7 @@ class PlayerWidget extends StatelessWidget {
                           children: [
                             Flexible(
                               child: Text(
-                                player.userName!,
+                                player.userName,
                                 textAlign: TextAlign.left,
                                 overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(fontSize: 22),

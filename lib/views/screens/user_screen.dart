@@ -348,7 +348,7 @@ class _PlayerUsernameAndProfilePictureWidget extends StatelessWidget {
         ),
       ),
       Center(
-          child: Text(player!.userName!,
+          child: Text(player!.userName,
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(fontSize: 25),
               textAlign: TextAlign.center))

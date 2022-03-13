@@ -31,7 +31,7 @@ class DraggablePlayerWidget extends StatelessWidget {
           Flexible(
             flex: 5,
             child: Text(
-              player.userName!,
+              player.userName,
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
             ),

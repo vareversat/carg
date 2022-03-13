@@ -99,7 +99,7 @@ class PlayerService {
 
   Future<String> addPlayer(Player player) async {
     try {
-      if (player.userName == '' || player.userName == null) {
+      if (player.userName == '') {
         throw CustomException('Veuillez renseigner un nom d\'utilisateur');
       }
       var documentReference = await FirebaseFirestore.instance
