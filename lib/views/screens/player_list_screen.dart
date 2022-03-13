@@ -1,15 +1,14 @@
 import 'package:carg/models/player.dart';
 import 'package:carg/services/auth_service.dart';
 import 'package:carg/services/player_service.dart';
-import 'package:carg/styles/properties.dart';
 import 'package:carg/styles/text_style.dart';
+import 'package:carg/views/dialogs/player_color_explanation_dialog.dart';
 import 'package:carg/views/dialogs/player_info_dialog.dart';
 import 'package:carg/views/helpers/info_snackbar.dart';
 import 'package:carg/views/widgets/error_message_widget.dart';
 import 'package:carg/views/widgets/players/player_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class PlayerListScreen extends StatefulWidget {
@@ -47,41 +46,46 @@ class _PlayerListScreenState extends State<PlayerListScreen> {
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(60),
           child: AppBar(
+              actions: [
+                PopupMenuButton<String>(
+                    itemBuilder: (context) => [
+                          PopupMenuItem(
+                            child: const Text('Nouveau joueur',
+                                style: TextStyle(fontSize: 14)),
+                            onTap: () async {
+                              Future.delayed(const Duration(seconds: 0),
+                                  () async {
+                                var result = await showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) =>
+                                        PlayerInfoDialog(
+                                            player: Player(owned: true),
+                                            playerService: _playerService,
+                                            isNewPlayer: true));
+                                if (result != null) {
+                                  InfoSnackBar.showSnackBar(context, result);
+                                }
+                              });
+                            },
+                          ),
+                          PopupMenuItem(
+                            child: const Text('Informations',
+                                style: TextStyle(fontSize: 14)),
+                            onTap: () async {
+                              Future.delayed(const Duration(seconds: 0),
+                                  () async {
+                                await showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) =>
+                                        const PlayerColorExplanationDialog());
+                              });
+                            }
+                          )
+                        ])
+              ],
               automaticallyImplyLeading: false,
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Joueurs',
-                      style: CustomTextStyle.screenHeadLine1(context)),
-                  ElevatedButton.icon(
-                      style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                              Theme.of(context).cardColor),
-                          foregroundColor: MaterialStateProperty.all<Color>(
-                              Theme.of(context).primaryColor),
-                          shape: MaterialStateProperty.all<OutlinedBorder>(
-                              RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(
-                                      CustomProperties.borderRadius)))),
-                      onPressed: () async {
-                        var result = await showDialog(
-                            context: context,
-                            builder: (BuildContext context) => PlayerInfoDialog(
-                                player: Player(owned: true),
-                                playerService: _playerService,
-                                isNewPlayer: true));
-                        if (result != null) {
-                          InfoSnackBar.showSnackBar(context, result);
-                        }
-                      },
-                      label: const Text('Nouveau joueur',
-                          style: TextStyle(fontSize: 14)),
-                      icon: const FaIcon(
-                        FontAwesomeIcons.plusCircle,
-                        size: 15,
-                      ))
-                ],
-              )),
+              title: Text('Joueurs',
+                  style: CustomTextStyle.screenHeadLine1(context))),
         ),
         body: Column(
           children: [
@@ -159,7 +163,9 @@ class _PlayerListScreenState extends State<PlayerListScreen> {
                         query: searchQuery,
                         playerId:
                             Provider.of<AuthService>(context, listen: false)
-                                .getPlayerIdOfUser())
+                                .getPlayerIdOfUser(),
+                        admin: Provider.of<AuthService>(context, listen: false)
+                            .getAdmin())
                     .catchError(
                         // ignore: return_of_invalid_type_from_catch_error
                         (error) => {_errorMessage = error.toString()}),

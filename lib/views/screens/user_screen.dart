@@ -315,6 +315,14 @@ class _PlayerUsernameAndProfilePictureWidget extends StatelessWidget {
   final Player? player;
   final Animation<Offset> animation;
 
+  Color _getBackgroundColor(BuildContext context) {
+    if (player != null && player!.admin) {
+      return Theme.of(context).colorScheme.secondary;
+    } else {
+      return Theme.of(context).primaryColor;
+    }
+  }
+
   const _PlayerUsernameAndProfilePictureWidget(
       {this.player, required this.animation});
 
@@ -332,7 +340,7 @@ class _PlayerUsernameAndProfilePictureWidget extends StatelessWidget {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     border: Border.all(
-                        width: 2, color: Theme.of(context).cardColor),
+                        width: 2, color: _getBackgroundColor(context)),
                     image: DecorationImage(
                         fit: BoxFit.fill,
                         image: NetworkImage(player!.profilePicture)),

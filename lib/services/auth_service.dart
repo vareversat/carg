@@ -212,6 +212,10 @@ class AuthService with ChangeNotifier {
     return _player?.id;
   }
 
+  bool? getAdmin() {
+    return _player?.admin;
+  }
+
   Player? getPlayer() {
     return _player;
   }
