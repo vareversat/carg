@@ -1,14 +1,14 @@
 import 'package:carg/models/player.dart';
-import 'package:carg/services/auth_service.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/widgets/players/player_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 
 class PlayerColorExplanationDialog extends StatelessWidget {
-  const PlayerColorExplanationDialog({Key? key}) : super(key: key);
+  final bool isAdmin;
+
+  const PlayerColorExplanationDialog({Key? key, required this.isAdmin}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -34,28 +34,34 @@ class PlayerColorExplanationDialog extends StatelessWidget {
       ),
       content: ListBody(children: [
         PlayerWidget(
-            player: Player(userName: 'Joueur 1', owned: false),
+          key: const ValueKey('playerWidgetRealPlayer'),
+            player: Player(userName: 'Joueur', owned: false),
             onTap: () => {}),
         const Padding(
+            key: ValueKey("realPlayerDescription"),
           padding: EdgeInsets.symmetric(horizontal: 4.0, vertical: 6.0),
           child: Text(
-              '"Vrai joueur" : Cette couleur indique que ce joueur dispose de l\'application "Carg"'),
+              '"Vrai joueur" : Cette couleur indique que ce joueur dispose de l\'application "Carg"')
         ),
         PlayerWidget(
-            player: Player(userName: 'Joueur 1', owned: true), onTap: () => {}),
+            key: const ValueKey('playerWidgetOwnedPlayer'),
+            player: Player(userName: 'Joueur', owned: true), onTap: () => {}),
         const Padding(
+          key: ValueKey('ownedPlayerDescription'),
           padding: EdgeInsets.symmetric(horizontal: 4.0, vertical: 6.0),
           child: Text(
               '"Vos joueur" : Cette couleur indique que ce joueur a été créé par vous. Il n\'est accessible que pour les parties que vous créé sur votre application'),
         ),
-        if (Provider.of<AuthService>(context, listen: false).getAdmin()!)
+        if (isAdmin)
           Column(children: [PlayerWidget(
-              player: Player(userName: 'Joueur 1', owned: false, testing: true),
+              key: const ValueKey('playerWidgetTestingPlayer'),
+              player: Player(userName: 'Joueur', owned: false, testing: true),
               onTap: () => {}),
             const Padding(
+              key: ValueKey('testingPlayerDescription'),
               padding: EdgeInsets.symmetric(horizontal: 4.0, vertical: 6.0),
               child: Text(
-                  '"Jouers de test" : Cette couleur indique que ce joueur est utilisé pour les tests d\'intégrations. Si vous le voyez cela indique que vous être administrateur de l\'application'),
+                  '"Jouers de test" : Cette couleur indique que ce joueur est utilisé pour les tests d\'intégrations. Si vous voyez ce type de joueurs, cela indique que vous être administrateur de l\'application'),
             )]),
 
         const Padding(
@@ -68,6 +74,7 @@ class PlayerColorExplanationDialog extends StatelessWidget {
         Row(children: [
           const Icon(FontAwesomeIcons.trophy, color: Colors.black, size: 15),
           Flexible(
+            key: const ValueKey('wonGamesDescription'),
             child: Text('   Nombre total de parties remportées',
                 style:
                     CustomTextStyle.boldAndItalic(context).copyWith(fontSize: 15)),
@@ -76,6 +83,7 @@ class PlayerColorExplanationDialog extends StatelessWidget {
         Row(children: [
           const Icon(FontAwesomeIcons.gamepad, color: Colors.black, size: 15),
           Flexible(
+            key: const ValueKey('playedGamesDescription'),
             child: Text('   Nombre total de parties jouées',
                 overflow: TextOverflow.clip,
                 style:

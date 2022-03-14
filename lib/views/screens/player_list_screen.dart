@@ -12,7 +12,14 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 class PlayerListScreen extends StatefulWidget {
-  const PlayerListScreen({Key? key}) : super(key: key);
+  final PlayerService playerService;
+  final TextEditingController textEditingController;
+
+  const PlayerListScreen(
+      {Key? key,
+      required this.playerService,
+      required this.textEditingController})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -21,23 +28,29 @@ class PlayerListScreen extends StatefulWidget {
 }
 
 class _PlayerListScreenState extends State<PlayerListScreen> {
-  final PlayerService _playerService = PlayerService();
-  final _searchTextController = TextEditingController();
   String? _errorMessage;
   String searchQuery = '';
+  late bool isAdmin;
 
   void _resetSearch() {
     setState(() {
-      _searchTextController.text = '';
+      widget.textEditingController.text = '';
       searchQuery = '';
     });
   }
 
   void _searchPlayer() {
     setState(() {
-      searchQuery = _searchTextController.text;
+      searchQuery = widget.textEditingController.text;
     });
   }
+
+  @override
+  void initState() {
+    isAdmin = Provider.of<AuthService>(context, listen: false).getAdmin()!;
+    super.initState();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -48,39 +61,48 @@ class _PlayerListScreenState extends State<PlayerListScreen> {
           child: AppBar(
               actions: [
                 PopupMenuButton<String>(
+                    key: const ValueKey('playerListPopupMenuButton'),
                     itemBuilder: (context) => [
                           PopupMenuItem(
-                            child: const Text('Nouveau joueur',
-                                style: TextStyle(fontSize: 14)),
-                            onTap: () async {
-                              Future.delayed(const Duration(seconds: 0),
-                                  () async {
-                                var result = await showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) =>
-                                        PlayerInfoDialog(
-                                            player: Player(owned: true),
-                                            playerService: _playerService,
-                                            isNewPlayer: true));
-                                if (result != null) {
-                                  InfoSnackBar.showSnackBar(context, result);
-                                }
-                              });
-                            },
-                          ),
+                              key: const ValueKey('addPlayerPopupMenuItem'),
+                              child: const Text('Nouveau joueur',
+                                  style: TextStyle(fontSize: 14)),
+                              onTap: () async {
+                                Future.delayed(const Duration(seconds: 0),
+                                    () async {
+                                  var result = await showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) =>
+                                          PlayerInfoDialog(
+                                              key: const ValueKey(
+                                                  'addPlayerDialog'),
+                                              player: Player(owned: true),
+                                              playerService:
+                                                  widget.playerService,
+                                              isNewPlayer: true));
+                                  if (result != null) {
+                                    InfoSnackBar.showSnackBar(context, result);
+                                  }
+                                });
+                              }),
                           PopupMenuItem(
-                            child: const Text('Informations',
-                                style: TextStyle(fontSize: 14)),
-                            onTap: () async {
-                              Future.delayed(const Duration(seconds: 0),
-                                  () async {
-                                await showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) =>
-                                        const PlayerColorExplanationDialog());
-                              });
-                            }
-                          )
+                              key: const ValueKey(
+                                  'showInformationPopupMenuItem'),
+                              child: const Text('Informations',
+                                  style: TextStyle(fontSize: 14)),
+                              onTap: () async {
+                                Future.delayed(const Duration(seconds: 0),
+                                    () async {
+                                  await showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) =>
+                                          PlayerColorExplanationDialog(
+                                            key: const ValueKey(
+                                                'playerColorExplanationDialog'),
+                                            isAdmin: isAdmin,
+                                          ));
+                                });
+                              })
                         ])
               ],
               automaticallyImplyLeading: false,
@@ -99,7 +121,7 @@ class _PlayerListScreenState extends State<PlayerListScreen> {
                     width: deviceSize.width * 0.5,
                     child: TextFormField(
                         onFieldSubmitted: (term) => _searchPlayer(),
-                        controller: _searchTextController,
+                        controller: widget.textEditingController,
                         textInputAction: TextInputAction.search,
                         style: const TextStyle(
                             fontSize: 25, fontWeight: FontWeight.bold),
@@ -154,11 +176,13 @@ class _PlayerListScreenState extends State<PlayerListScreen> {
                           value: snapshot.data![index],
                           child: Consumer<Player>(
                               builder: (context, playerData, child) =>
-                                  PlayerWidget(player: playerData)),
+                                  PlayerWidget(
+                                      player: playerData,
+                                      key: ValueKey("playerWidget-$index"))),
                         );
                       });
                 },
-                future: _playerService
+                future: widget.playerService
                     .searchPlayers(
                         query: searchQuery,
                         playerId:

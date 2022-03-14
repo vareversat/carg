@@ -85,6 +85,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                           fontSize: 30)),
                                   playerData.admin
                                       ? ClipRRect(
+                                      key: const ValueKey('adminLabel'),
                                           borderRadius:
                                               BorderRadius.circular(5.0),
                                           child: Container(
