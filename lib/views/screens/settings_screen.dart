@@ -74,11 +74,44 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       builder: (context, playerData, _) => Column(
                             children: [
                               ListTile(
-                                  title: Text('Mon profil',
+                                  title: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text('Mon profil',
                                       style: TextStyle(
                                           color: Theme.of(context).primaryColor,
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 30))),
+                                          fontSize: 30)),
+                                  playerData.admin
+                                      ? ClipRRect(
+                                      key: const ValueKey('adminLabel'),
+                                          borderRadius:
+                                              BorderRadius.circular(5.0),
+                                          child: Container(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .secondary,
+                                            height: 30,
+                                            child: Center(
+                                                child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 8.0),
+                                              child: Text('Admin',
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Theme.of(context)
+                                                          .cardColor,
+                                                      fontSize: 15),
+                                                  overflow:
+                                                      TextOverflow.ellipsis),
+                                            )),
+                                          ))
+                                      : const SizedBox(),
+                                ],
+                              )),
                               ListTile(
                                 title: TextFormField(
                                   key: const ValueKey('usernameTextField'),

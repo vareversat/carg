@@ -32,7 +32,7 @@ void main() {
   setUp(() {
     authService = MockAuthService();
     mockPlayerService = MockPlayerService();
-    mockPlayer = Player(owned: false, userName: 'toto');
+    mockPlayer = Player(owned: false, userName: 'toto', admin: true);
     when(authService.getConnectedUserEmail()).thenReturn(emailAddress);
     when(authService.getConnectedUserPhoneNumber()).thenReturn(telephoneNumber);
   });
@@ -119,6 +119,22 @@ void main() {
           testableWidget(authService, mockPlayerService, mockPlayer)));
       expect(tester.widget<Text>(find.byKey(const ValueKey('phoneText'))).data,
           'Pas de numéro renseigné');
+    });
+
+    testWidgets('Must display the "Admin" label', (WidgetTester tester) async {
+      when(authService.getConnectedUserPhoneNumber()).thenReturn(null);
+      await mockNetworkImagesFor(() => tester.pumpWidget(
+          testableWidget(authService, mockPlayerService, mockPlayer)));
+      expect(find.byKey(const ValueKey('adminLabel')), findsOneWidget);
+    });
+
+    testWidgets('Must not display the "Admin" label',
+        (WidgetTester tester) async {
+      mockPlayer = Player(owned: false, userName: 'toto', admin: false);
+      when(authService.getConnectedUserPhoneNumber()).thenReturn(null);
+      await mockNetworkImagesFor(() => tester.pumpWidget(
+          testableWidget(authService, mockPlayerService, mockPlayer)));
+      expect(find.byKey(const ValueKey('adminLabel')), findsNothing);
     });
   });
 }
