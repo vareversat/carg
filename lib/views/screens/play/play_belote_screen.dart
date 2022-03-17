@@ -198,7 +198,7 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
                             NextPlayerWidget(
                                 playerId:
                                     widget.beloteGame.players!.playerList![
-                                        snapshot.data!.rounds!.length % 4]),
+                                        snapshot.data!.rounds!.length % 4]!),
                         ]);
                   } else {
                     return ErrorMessageWidget(message: _errorMessage);

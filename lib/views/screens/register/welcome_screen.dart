@@ -1,7 +1,9 @@
 import 'package:carg/models/player.dart';
+import 'package:carg/repositories/i_player_repository.dart';
+import 'package:carg/repositories/impl/player_repository.dart';
 import 'package:carg/services/auth_service.dart';
 import 'package:carg/services/custom_exception.dart';
-import 'package:carg/services/player_service.dart';
+import 'package:carg/services/impl/player_service.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/views/dialogs/dialogs.dart';
 import 'package:carg/views/helpers/info_snackbar.dart';
@@ -314,7 +316,7 @@ class _AccountCreationData with ChangeNotifier {
 class _EnterUsernameWidget extends StatelessWidget {
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   final TextEditingController _usernameTextController = TextEditingController();
-  final PlayerService _playerService = PlayerService();
+  final IPlayerRepository _playerRepository = PlayerRepository();
   final BuildContext context;
 
   final _playerIsCreating = 'Création du joueur...';
@@ -332,7 +334,7 @@ class _EnterUsernameWidget extends StatelessWidget {
           userName: _usernameTextController.text,
           linkedUserId: userId,
           owned: false);
-      await _playerService.addPlayer(player);
+      await _playerRepository.createPlayer(player);
       Navigator.of(_keyLoader.currentContext!, rootNavigator: true).pop();
       await Navigator.pushReplacement(
         context,
@@ -437,7 +439,7 @@ class _EnterUsernameWidget extends StatelessWidget {
 
 class _LinkPlayerWidget extends StatelessWidget {
   final BuildContext context;
-  final PlayerService _playerService = PlayerService();
+  final IPlayerRepository _playerRepository = PlayerRepository();
   final TextEditingController _idTextController = TextEditingController();
 
   final _enterUniqueId = 'Saisissez l\'identifiant unique';
@@ -450,14 +452,14 @@ class _LinkPlayerWidget extends StatelessWidget {
     try {
       var userId = Provider.of<AuthService>(context, listen: false)
           .getConnectedUserId();
-      var player = await _playerService.getPlayer(_idTextController.text);
+      var player = await _playerRepository.get(_idTextController.text);
       if (player.ownedBy == '' || player.linkedUserId != '') {
         throw CustomException('Impossible d\'associer cet utilisateur');
       }
       player.linkedUserId = userId;
       player.ownedBy = '';
       player.owned = false;
-      await _playerService.updatePlayer(player);
+      await _playerRepository.update(player);
       Provider.of<AuthService>(context, listen: false)
           .setCurrentPlayer(player);
       await Navigator.pushReplacement(

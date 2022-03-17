@@ -1,6 +1,6 @@
 import 'package:carg/models/player.dart';
 import 'package:carg/services/auth_service.dart';
-import 'package:carg/services/player_service.dart';
+import 'package:carg/services/impl/player_service.dart';
 import 'package:carg/views/screens/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -17,7 +17,7 @@ Widget testableWidget(AuthService mockAuthService, PlayerService playerService,
       home: ChangeNotifierProvider<AuthService>.value(
           value: mockAuthService,
           child:
-              SettingsScreen(player: mockPlayer, playerService: playerService)),
+              SettingsScreen(player: mockPlayer, playerRepository: playerService)),
     );
 
 @GenerateMocks([PlayerService, AuthService])
@@ -32,7 +32,7 @@ void main() {
   setUp(() {
     authService = MockAuthService();
     mockPlayerService = MockPlayerService();
-    mockPlayer = Player(owned: false, userName: 'toto');
+    mockPlayer = Player(owned: false, userName: 'toto', admin: true);
     when(authService.getConnectedUserEmail()).thenReturn(emailAddress);
     when(authService.getConnectedUserPhoneNumber()).thenReturn(telephoneNumber);
   });
@@ -119,6 +119,22 @@ void main() {
           testableWidget(authService, mockPlayerService, mockPlayer)));
       expect(tester.widget<Text>(find.byKey(const ValueKey('phoneText'))).data,
           'Pas de numéro renseigné');
+    });
+
+    testWidgets('Must display the "Admin" label', (WidgetTester tester) async {
+      when(authService.getConnectedUserPhoneNumber()).thenReturn(null);
+      await mockNetworkImagesFor(() => tester.pumpWidget(
+          testableWidget(authService, mockPlayerService, mockPlayer)));
+      expect(find.byKey(const ValueKey('adminLabel')), findsOneWidget);
+    });
+
+    testWidgets('Must not display the "Admin" label',
+        (WidgetTester tester) async {
+      mockPlayer = Player(owned: false, userName: 'toto', admin: false);
+      when(authService.getConnectedUserPhoneNumber()).thenReturn(null);
+      await mockNetworkImagesFor(() => tester.pumpWidget(
+          testableWidget(authService, mockPlayerService, mockPlayer)));
+      expect(find.byKey(const ValueKey('adminLabel')), findsNothing);
     });
   });
 }
