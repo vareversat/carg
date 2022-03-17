@@ -228,7 +228,7 @@ class _PlayTarotGameScreenState extends State<PlayTarotGameScreen> {
                                         widget.tarotGame.players!.playerList![
                                             snapshot.data!.rounds!.length %
                                                 widget.tarotGame.players!
-                                                    .playerList!.length]),
+                                                    .playerList!.length]!),
                             ],
                           );
                         },

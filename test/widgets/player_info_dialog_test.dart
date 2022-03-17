@@ -1,5 +1,5 @@
 import 'package:carg/models/player.dart';
-import 'package:carg/services/player_service.dart';
+import 'package:carg/services/impl/player_service.dart';
 import 'package:carg/views/dialogs/player_info_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -13,7 +13,7 @@ Widget testableWidget(bool mockIsNewPlayer, PlayerService playerService,
     MaterialApp(
       home: PlayerInfoDialog(
           player: mockPlayer,
-          playerService: playerService,
+          playerRepository: playerService,
           isNewPlayer: mockIsNewPlayer),
     );
 

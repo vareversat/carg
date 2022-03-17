@@ -20,6 +20,14 @@ class AlgoliaHelper {
 
   AlgoliaHelper._create();
 
+  String _getAlgoliaFilter(bool? admin, String? playerId) {
+    if (admin != null && admin) {
+      return 'owned_by:$playerId OR owned:false OR testing:true';
+    } else {
+      return '(owned_by:$playerId OR owned:false) AND NOT testing:true';
+    }
+  }
+
   static Future<AlgoliaHelper> create() async {
     var component = AlgoliaHelper._create();
     final algoliaConfig = jsonDecode(await rootBundle.loadString(
@@ -43,7 +51,8 @@ class AlgoliaHelper {
   }
 
   Future<List<dynamic>> filter(
-      {required String filters, required String query}) async {
+      {required String query, required String playerId, required bool? admin}) async {
+    var filters = _getAlgoliaFilter(admin, playerId);
     final params = {
       'query': query,
       'filters': filters,

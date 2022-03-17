@@ -1,6 +1,6 @@
 import 'package:carg/models/player.dart';
 import 'package:carg/services/auth_service.dart';
-import 'package:carg/services/player_service.dart';
+import 'package:carg/services/impl/player_service.dart';
 import 'package:carg/views/screens/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -17,7 +17,7 @@ Widget testableWidget(AuthService mockAuthService, PlayerService playerService,
       home: ChangeNotifierProvider<AuthService>.value(
           value: mockAuthService,
           child:
-              SettingsScreen(player: mockPlayer, playerService: playerService)),
+              SettingsScreen(player: mockPlayer, playerRepository: playerService)),
     );
 
 @GenerateMocks([PlayerService, AuthService])
