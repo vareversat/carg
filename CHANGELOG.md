@@ -1,3 +1,19 @@
+# **v1.3.0** :
+
+- *Features* :
+    - Add some admin capabilities
+- *Dev stuff* :
+    - Upgrade dependencies
+    - Upgrade Flutter version
+
+***
+# **v1.2.6** :
+
+- *Dev stuff* :
+    - CI step to create on GitHub release on each new tag
+
+***
+
 # **v1.2.5** :
 
 - *Fixed stuff* :

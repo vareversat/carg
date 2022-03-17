@@ -10,13 +10,21 @@ class PlayerService {
   static const String flavor =
       String.fromEnvironment('FLAVOR', defaultValue: 'dev');
 
+  String _getAlgoliaFilter(bool? admin, String? playerId) {
+    if (admin != null && admin) {
+      return 'owned_by:$playerId OR owned:false OR testing:true';
+    } else {
+      return '(owned_by:$playerId OR owned:false) AND NOT testing:true';
+    }
+  }
+
   Future<List<Player>> searchPlayers(
-      {String query = '', String? playerId}) async {
+      {String query = '', String? playerId, bool? admin}) async {
     var algoliaHelper = await AlgoliaHelper.create();
     try {
       var players = <Player>[];
       var snapshot = await algoliaHelper.filter(
-          filters: 'owned_by:$playerId OR owned:false', query: query);
+          filters: _getAlgoliaFilter(admin, playerId), query: query);
       for (var doc in snapshot) {
         players.add(Player.fromJSON(doc, doc['objectID']));
       }
@@ -91,7 +99,7 @@ class PlayerService {
 
   Future<String> addPlayer(Player player) async {
     try {
-      if (player.userName == '' || player.userName == null) {
+      if (player.userName == '') {
         throw CustomException('Veuillez renseigner un nom d\'utilisateur');
       }
       var documentReference = await FirebaseFirestore.instance

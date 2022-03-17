@@ -108,7 +108,9 @@ class _PlayerPickerScreenState extends State<PlayerPickerScreen> {
                 },
                 future: _playerService.searchPlayers(
                     playerId: Provider.of<AuthService>(context, listen: false)
-                        .getPlayerIdOfUser()),
+                        .getPlayerIdOfUser(),
+                    admin: Provider.of<AuthService>(context, listen: false)
+                        .getAdmin()),
               ),
             ),
             Padding(

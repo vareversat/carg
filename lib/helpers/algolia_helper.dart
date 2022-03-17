@@ -53,6 +53,9 @@ class AlgoliaHelper {
 
     final response = await http.get(uri, headers: _header);
     var body = json.decode(response.body);
+    if (response.statusCode != 200) {
+      throw Exception(body);
+    }
     return body['hits'];
   }
 }

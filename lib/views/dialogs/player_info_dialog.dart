@@ -10,7 +10,7 @@ import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
-class PlayerInfoDialog extends StatefulWidget {
+class PlayerInfoDialog extends StatelessWidget {
   final Player player;
   final PlayerService playerService;
   final bool isNewPlayer;
@@ -22,37 +22,30 @@ class PlayerInfoDialog extends StatefulWidget {
       required this.isNewPlayer})
       : super(key: key);
 
-  @override
-  State<StatefulWidget> createState() {
-    return _PlayerInfoDialogState();
-  }
-}
-
-class _PlayerInfoDialogState extends State<PlayerInfoDialog> {
   String _getTitle() {
-    if (widget.isNewPlayer) {
+    if (isNewPlayer) {
       return 'Nouveau joueur';
-    } else if (widget.player.owned) {
+    } else if (player.owned) {
       return 'Edition';
     } else {
       return 'Informations';
     }
   }
 
-  Future<void> _savePlayer() async {
-    if (widget.isNewPlayer) {
-      widget.player.ownedBy =
+  Future<void> _savePlayer(BuildContext context) async {
+    if (isNewPlayer) {
+      player.ownedBy =
           Provider.of<AuthService>(context, listen: false).getPlayerIdOfUser();
-      await widget.playerService.addPlayer(widget.player);
+      await playerService.addPlayer(player);
       Navigator.of(context).pop('Joueur créé avec succès');
     } else {
-      await widget.playerService.updatePlayer(widget.player);
+      await playerService.updatePlayer(player);
       Navigator.of(context).pop('Joueur modifié avec succès');
     }
   }
 
-  void _copyId() {
-    Clipboard.setData(ClipboardData(text: widget.player.id)).then((_) {
+  void _copyId(BuildContext context) {
+    Clipboard.setData(ClipboardData(text: player.id)).then((_) {
       InfoSnackBar.showSnackBar(context, 'ID copié dans le presse papier');
     });
   }
@@ -67,7 +60,7 @@ class _PlayerInfoDialogState extends State<PlayerInfoDialog> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       title: Container(
         decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor,
+            color: player.getSideColor(context),
             borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(15.0),
                 topRight: Radius.circular(15.0))),
@@ -83,7 +76,7 @@ class _PlayerInfoDialogState extends State<PlayerInfoDialog> {
                 style: CustomTextStyle.dialogHeaderStyle(context),
               ),
             ),
-            if (widget.player.owned && !widget.isNewPlayer)
+            if (player.owned && !isNewPlayer)
               Flexible(
                 child: ElevatedButton.icon(
                   key: const ValueKey('copyIDButton'),
@@ -91,12 +84,12 @@ class _PlayerInfoDialogState extends State<PlayerInfoDialog> {
                       backgroundColor:
                           MaterialStateProperty.all<Color>(Colors.white),
                       foregroundColor: MaterialStateProperty.all<Color>(
-                          Theme.of(context).primaryColor),
+                          player.getSideColor(context)),
                       shape: MaterialStateProperty.all<OutlinedBorder>(
                           RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(
                                   CustomProperties.borderRadius)))),
-                  onPressed: () => {_copyId()},
+                  onPressed: () => {_copyId(context)},
                   icon: const Icon(Icons.copy),
                   label: const Text("Copier l'ID"),
                 ),
@@ -105,7 +98,7 @@ class _PlayerInfoDialogState extends State<PlayerInfoDialog> {
         ),
       ),
       content: ChangeNotifierProvider.value(
-        value: widget.player,
+        value: player,
         child: ListBody(children: [
           Row(
             children: <Widget>[
@@ -118,7 +111,7 @@ class _PlayerInfoDialogState extends State<PlayerInfoDialog> {
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           border: Border.all(
-                              width: 2, color: Theme.of(context).primaryColor),
+                              width: 2, color: player.getSideColor(context)),
                           image: DecorationImage(
                               fit: BoxFit.fill,
                               image: NetworkImage(playerData.profilePicture)))),
@@ -138,11 +131,21 @@ class _PlayerInfoDialogState extends State<PlayerInfoDialog> {
                         maxLines: null,
                         onChanged: (value) => playerData.userName = value,
                         decoration: InputDecoration(
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: player.getSideColor(context), width: 2),
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: player.getSideColor(context), width: 2),
+                            ),
                             disabledBorder: InputBorder.none,
+                            labelStyle:
+                                TextStyle(color: player.getSideColor(context)),
                             hintStyle: TextStyle(
                                 fontSize: 25,
                                 color: Theme.of(context).hintColor),
-                            labelText: playerData.owned && widget.isNewPlayer
+                            labelText: playerData.owned && isNewPlayer
                                 ? "Nom d'utilisateur"
                                 : null)),
                   ),
@@ -150,7 +153,7 @@ class _PlayerInfoDialogState extends State<PlayerInfoDialog> {
               ),
             ],
           ),
-          if (widget.isNewPlayer)
+          if (isNewPlayer)
             Consumer<Player>(
               builder: (context, playerData, _) => TextFormField(
                   key: const ValueKey('profilePictureTextField'),
@@ -160,17 +163,25 @@ class _PlayerInfoDialogState extends State<PlayerInfoDialog> {
                   style: const TextStyle(fontSize: 20),
                   maxLines: null,
                   decoration: InputDecoration(
-                      enabledBorder: InputBorder.none,
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide:
+                            BorderSide(color: player.getSideColor(context), width: 2),
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide:
+                            BorderSide(color: player.getSideColor(context), width: 2),
+                      ),
+                      labelStyle: TextStyle(color: player.getSideColor(context)),
                       hintStyle: TextStyle(
                           fontSize: 15, color: Theme.of(context).hintColor),
                       labelText: 'Image de profile (url)')),
             ),
-          if (widget.player.gameStatsList != null)
+          if (player.gameStatsList != null)
             Padding(
               padding:
                   const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
               child: Column(
-                children: widget.player.gameStatsList!
+                children: player.gameStatsList!
                     .map(
                       (stat) => Row(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -210,19 +221,19 @@ class _PlayerInfoDialogState extends State<PlayerInfoDialog> {
         ]),
       ),
       actions: <Widget>[
-        if (widget.player.owned)
+        if (player.owned)
           ElevatedButton.icon(
               key: const ValueKey('editButton'),
               style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(
-                      Theme.of(context).primaryColor),
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(player.getSideColor(context)),
                   foregroundColor: MaterialStateProperty.all<Color>(
                       Theme.of(context).cardColor),
                   shape: MaterialStateProperty.all<OutlinedBorder>(
                       RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(
                               CustomProperties.borderRadius)))),
-              onPressed: () async => await _savePlayer(),
+              onPressed: () async => await _savePlayer(context),
               label: Text(MaterialLocalizations.of(context).saveButtonLabel),
               icon: const Icon(Icons.check))
         else
@@ -230,8 +241,8 @@ class _PlayerInfoDialogState extends State<PlayerInfoDialog> {
             key: const ValueKey('closeButton'),
             style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
-                foregroundColor: MaterialStateProperty.all<Color>(
-                    Theme.of(context).primaryColor),
+                foregroundColor:
+                    MaterialStateProperty.all<Color>(player.getSideColor(context)),
                 shape: MaterialStateProperty.all<OutlinedBorder>(
                     RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(

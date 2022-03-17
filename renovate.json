@@ -3,7 +3,7 @@
   "packageRules": [
     {
       "description": "Disables the creation of branches/PRs for any minor/patch updates etc. of Renovate bot",
-      "labels": ["[MINOR UPDATE]"],
+      "labels": ["[MINOR UPDATE]", "dependencies"],
       "matchUpdateTypes": [
         "minor",
         "patch",
@@ -13,11 +13,11 @@
       ],
       "schedule": ["after 2pm on sunday"],
       "automerge": true,
-      "assigneesFromCodeOwners": true
+      "assigneesFromCodeOwners": false
     },
     {
       "description": "Causes the bot to create a PR (and thus, an email notification), whenever there is a new major Renovate version",
-      "labels": ["[MAJOR UPDATE]"],
+      "labels": ["[MAJOR UPDATE]", "dependencies"],
       "matchUpdateTypes": [
         "major"
       ],

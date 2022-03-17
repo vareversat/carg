@@ -10,10 +10,12 @@ class Player extends CargObject with ChangeNotifier {
   String? linkedUserId;
   String? firstName;
   String? lastName;
-  String? _userName;
   String? ownedBy;
   String? _gravatarProfilePicture;
   bool owned;
+  late String _userName;
+  late bool testing;
+  late bool admin;
   late String _profilePicture;
   late bool _selected;
   late bool _useGravatarProfilePicture;
@@ -46,9 +48,9 @@ class Player extends CargObject with ChangeNotifier {
     notifyListeners();
   }
 
-  String? get userName => _userName;
+  String get userName => _userName;
 
-  set userName(String? value) {
+  set userName(String value) {
     _userName = value;
     notifyListeners();
   }
@@ -66,22 +68,25 @@ class Player extends CargObject with ChangeNotifier {
     notifyListeners();
   }
 
-  Player(
-      {String? id,
-      gameStatsList,
-      this.firstName,
-      this.lastName,
-      this.ownedBy,
-      userName,
-      profilePicture,
-      this.linkedUserId,
-      useGravatarProfilePicture,
-      gravatarProfilePicture,
-      required this.owned})
+  Player({String? id,
+    gameStatsList,
+    this.firstName,
+    this.lastName,
+    this.ownedBy,
+    userName,
+    profilePicture,
+    this.linkedUserId,
+    useGravatarProfilePicture,
+    gravatarProfilePicture,
+    testing,
+    admin,
+    required this.owned})
       : super(id: id) {
+    this.testing = testing ?? false;
+    this.admin = admin ?? false;
     this.gameStatsList = gameStatsList ?? [];
     _profilePicture = profilePicture ?? defaultProfilePicture;
-    _userName = userName;
+    _userName = userName ?? '';
     _selected = false;
     _useGravatarProfilePicture = useGravatarProfilePicture ?? false;
     _gravatarProfilePicture = gravatarProfilePicture ?? '';
@@ -108,6 +113,16 @@ class Player extends CargObject with ChangeNotifier {
     return total;
   }
 
+  Color getSideColor(BuildContext context) {
+    if (testing) {
+      return Colors.purple;
+    } else if (!owned) {
+      return Theme.of(context).primaryColor;
+    } else {
+      return Theme.of(context).colorScheme.secondary;
+    }
+  }
+
   factory Player.fromJSON(Map<String?, dynamic>? json, String id) {
     return Player(
       id: id,
@@ -121,6 +136,8 @@ class Player extends CargObject with ChangeNotifier {
       useGravatarProfilePicture: json?['use_gravatar_profile_picture'] ?? false,
       gravatarProfilePicture: json?['gravatar_profile_picture'] ?? '',
       owned: json?['owned'] ?? true,
+      testing: json?['testing'] ?? false,
+      admin: json?['admin'] ?? false
     );
   }
 
@@ -136,7 +153,9 @@ class Player extends CargObject with ChangeNotifier {
       'use_gravatar_profile_picture': useGravatarProfilePicture,
       'linked_user_id': linkedUserId,
       'owned_by': ownedBy,
-      'owned': owned
+      'owned': owned,
+      'testing': testing,
+      'admin': admin
     };
   }
 
@@ -146,6 +165,6 @@ class Player extends CargObject with ChangeNotifier {
 
   @override
   String toString() {
-    return 'Player{gameStatsList: $gameStatsList, linkedUserId: $linkedUserId, firstName: $firstName, lastName: $lastName, _userName: $_userName, _profilePicture: $_profilePicture, _selected: $_selected, ownedBy: $ownedBy}';
+    return 'Player{gameStatsList: $gameStatsList, linkedUserId: $linkedUserId, firstName: $firstName, lastName: $lastName, ownedBy: $ownedBy, _gravatarProfilePicture: $_gravatarProfilePicture, owned: $owned, _userName: $_userName, testing: $testing, admin: $admin, _profilePicture: $_profilePicture, _selected: $_selected, _useGravatarProfilePicture: $_useGravatarProfilePicture}';
   }
 }

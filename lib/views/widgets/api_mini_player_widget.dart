@@ -83,7 +83,7 @@ class APIMiniPlayerWidget extends StatelessWidget {
                                       snapshot.data!.profilePicture))),
                         )
                       : null,
-                  label: Text(snapshot.data!.userName! + additionalText,
+                  label: Text(snapshot.data!.userName + additionalText,
                       style: TextStyle(fontSize: size),
                       overflow: TextOverflow.ellipsis)));
         }

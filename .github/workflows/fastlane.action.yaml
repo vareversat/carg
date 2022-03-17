@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout source code'
-        uses: actions/checkout@v2.4.0
+        uses: actions/checkout@v3.0.0
         with:
           fetch-depth: 0
       - name: 'Decrypt secret configuration'
@@ -28,20 +28,19 @@ jobs:
       - name: 'Check secret configuration'
         run: ./.github/scripts/check_secrets_decryption.sh
       - name: 'Download Artifact'
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: 'aab-build'
       - name: 'Generate changelog'
         run: ./.github/scripts/generate_changelog.sh
       - name: 'Fastlane deploy ${{ inputs.lane }} lane'
-        uses: maierj/fastlane-action@v2.1.0
+        uses: maierj/fastlane-action@v2.2.0
         with:
           lane: ${{ inputs.lane }}
           subdirectory: 'android'
       - name: 'Generate Github release'
-        if: ${{ inputs.lane == 'production' }}
+        # Only run on new tag
+        if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v1
         with:
-          files: $CHANGELOG_PATH
-        env:
-          BUILD_NUMBER: ${{ env.CHANGELOG_PATH }}
+          body_path: ${{ env.CHANGELOG_PATH }}

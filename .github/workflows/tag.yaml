@@ -1,4 +1,4 @@
-name: Dev workflow
+name: Tag workflow
 
 on:
   push:
@@ -9,7 +9,7 @@ jobs:
   flutter-test-analyze:
     uses: ./.github/workflows/flutter.analyze-test.action.yaml
     with:
-      flutter_version: '2.10.1'
+      flutter_version: '2.10.3'
   functions:
     uses: ./.github/workflows/functions.action.yaml
     secrets:
@@ -19,7 +19,7 @@ jobs:
     needs: [flutter-test-analyze]
     uses: ./.github/workflows/flutter.build.action.yaml
     with:
-      flutter_version: '2.10.1'
+      flutter_version: '2.10.3'
       android_output: 'aab'
     secrets:
       passphrase: ${{ secrets.PASSPHRASE }}
