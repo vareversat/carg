@@ -1,3 +1,12 @@
+# **v1.3.0** :
+
+- *Features* :
+    - Add some admin capabilities
+- *Dev stuff* :
+    - Upgrade dependencies
+    - Upgrade Flutter version
+
+***
 # **v1.2.6** :
 
 - *Dev stuff* :
