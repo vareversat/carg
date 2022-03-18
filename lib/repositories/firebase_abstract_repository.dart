@@ -14,16 +14,12 @@ abstract class FirebaseAbstractRepository<T extends CargObject> {
 
   /// Get a [T] object from the database
   /// Take an [id] and return a [T]
-  Future<T> get(String id);
+  Future<T?> get(String id);
 
   /// Delete a [T] object from the database
   /// Take an [id] and return nothing
   Future<void> delete(String id) async {
-    try {
       await provider.collection(database + '-' + environment).doc(id).delete();
-    } on FirebaseException catch (e) {
-      throw RepositoryException(e.message!);
-    }
   }
 
   /// Update a [T] object in the database
