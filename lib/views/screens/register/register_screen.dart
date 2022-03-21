@@ -1,3 +1,6 @@
+import 'package:carg/bloc_test/test_2/login_bloc.dart';
+import 'package:carg/bloc_test/test_2/login_event.dart';
+import 'package:carg/bloc_test/test_2/login_state.dart';
 import 'package:carg/helpers/custom_route.dart';
 import 'package:carg/services/auth_service.dart';
 import 'package:carg/styles/properties.dart';
@@ -5,6 +8,7 @@ import 'package:carg/views/widgets/register/register_email_widget.dart';
 import 'package:carg/views/widgets/register/register_phone_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -64,210 +68,89 @@ class _RegisterScreenState extends State<RegisterScreen>
                 ),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: ChangeNotifierProvider.value(
-                    value: _RegisterData(_EmailRegisterMethod()),
-                    child: Consumer<_RegisterData>(
-                        builder: (context, registerData, _) =>
-                            Column(
-                              children: [
-                                AnimatedSize(
-                                    key: const ValueKey('placeholderContainer'),
-                                    curve: Curves.ease,
-                                    duration: const Duration(milliseconds: 500),
-                                    child: registerData.selectedRegisterMethod
-                                        .registrationWidget)
-                                ,
-                                const Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 8.0),
-                                  child: Text('ou', style: TextStyle(
-                                      fontWeight: FontWeight.bold)),
-                                ),
-                                SizedBox(
-                                  height: 45,
-                                  width: double.infinity,
-                                  child: ElevatedButton.icon(
-                                    key: const ValueKey('emailButton'),
-                                    icon: const Icon(Icons.mail_outline),
-                                    style: ButtonStyle(
-                                        backgroundColor: MaterialStateProperty
-                                            .all<
-                                            Color>(
-                                            registerData
-                                                .selectedRegisterMethod is _EmailRegisterMethod
-                                                ? Theme
-                                                .of(context)
-                                                .primaryColor
-                                                : Theme
-                                                .of(context)
-                                                .cardColor),
-                                        foregroundColor: MaterialStateProperty
-                                            .all<
-                                            Color>(
-                                            registerData
-                                                .selectedRegisterMethod is _EmailRegisterMethod
-                                                ? Theme
-                                                .of(context)
-                                                .cardColor
-                                                : Theme
-                                                .of(context)
-                                                .primaryColor),
-                                        shape: MaterialStateProperty.all<
-                                            OutlinedBorder>(
-                                            RoundedRectangleBorder(
-                                                side: BorderSide(
-                                                    width: 2,
-                                                    color: Theme
-                                                        .of(context)
-                                                        .primaryColor),
-                                                borderRadius: BorderRadius
-                                                    .circular(
-                                                    CustomProperties
-                                                        .borderRadius)))),
-                                    onPressed: () {
-                                      registerData.selectedRegisterMethod =
-                                          _EmailRegisterMethod();
-                                    },
-                                    label: const Padding(
-                                      padding: EdgeInsets.all(8.0),
-                                      child: Text(
-                                        'Continuer avec une adresse email',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 18),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 10),
-                                SizedBox(
-                                  height: 45,
-                                  width: double.infinity,
-                                  child: ElevatedButton.icon(
-                                    key: const ValueKey('phoneButton'),
-                                    icon: const Icon(Icons.phone),
-                                    style: ButtonStyle(
-                                        backgroundColor: MaterialStateProperty
-                                            .all<
-                                            Color>(
-                                            registerData
-                                                .selectedRegisterMethod is _PhoneRegisterMethod
-                                                ? Theme
-                                                .of(context)
-                                                .primaryColor
-                                                : Theme
-                                                .of(context)
-                                                .cardColor),
-                                        foregroundColor: MaterialStateProperty
-                                            .all<
-                                            Color>(
-                                            registerData
-                                                .selectedRegisterMethod is _PhoneRegisterMethod
-                                                ? Theme
-                                                .of(context)
-                                                .cardColor
-                                                : Theme
-                                                .of(context)
-                                                .primaryColor),
-                                        shape: MaterialStateProperty.all<
-                                            OutlinedBorder>(
-                                            RoundedRectangleBorder(
-                                                side: BorderSide(
-                                                    width: 2,
-                                                    color: Theme
-                                                        .of(context)
-                                                        .primaryColor),
-                                                borderRadius: BorderRadius
-                                                    .circular(
-                                                    CustomProperties
-                                                        .borderRadius)))),
-                                    onPressed: () {
-                                      registerData.selectedRegisterMethod =
-                                          _PhoneRegisterMethod();
-                                    },
-                                    label: const Padding(
-                                      padding: EdgeInsets.all(8.0),
-                                      child: Text(
-                                        'Continuer avec un numéro de téléphone',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 15),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 10),
-                                SizedBox(
-                                  height: 45,
-                                  width: double.infinity,
-                                  child: ElevatedButton.icon(
-                                    key: const ValueKey('googleButton'),
-                                    icon: const FaIcon(
-                                        FontAwesomeIcons.google, size: 22),
-                                    style: ButtonStyle(
-                                        backgroundColor: MaterialStateProperty
-                                            .all<
-                                            Color>(
-                                            registerData
-                                                .selectedRegisterMethod is _GoogleRegisterMethod
-                                                ? Theme
-                                                .of(context)
-                                                .primaryColor
-                                                : Theme
-                                                .of(context)
-                                                .cardColor),
-                                        foregroundColor: MaterialStateProperty
-                                            .all<
-                                            Color>(
-                                            registerData
-                                                .selectedRegisterMethod is _GoogleRegisterMethod
-                                                ? Theme
-                                                .of(context)
-                                                .cardColor
-                                                : Theme
-                                                .of(context)
-                                                .primaryColor),
-                                        shape: MaterialStateProperty.all<
-                                            OutlinedBorder>(
-                                            RoundedRectangleBorder(
-                                                side: BorderSide(
-                                                    width: 2,
-                                                    color: Theme
-                                                        .of(context)
-                                                        .primaryColor),
-                                                borderRadius: BorderRadius
-                                                    .circular(
-                                                    CustomProperties
-                                                        .borderRadius)))),
-                                    onPressed: () async {
-                                      registerData.selectedRegisterMethod =
-                                          _GoogleRegisterMethod();
-                                      await Provider.of<AuthService>(
-                                          context, listen: false)
-                                          .googleLogIn();
-                                      await Navigator.pushReplacement(
-                                        context,
-                                        CustomRouteFade(
-                                          builder: (context) =>
-                                              Provider.of<AuthService>(
-                                                  context, listen: false)
-                                                  .getCorrectLandingScreen(),
-                                        ),
-                                      );
-                                    },
-                                    label: const Padding(
-                                      padding: EdgeInsets.all(8.0),
-                                      child: Text(
-                                        'Continuer avec Google',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 18),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            )),
+                  child: Column(
+                    children: [
+                      BlocProvider(
+                          create: (BuildContext context) => LoginBloc(),
+                          child: BlocBuilder<LoginBloc, LoginState>(
+                            builder: (context, state) {
+                              return Text(state.loginMethod.toString());
+                            },
+                          )
+                      ),
+                      AnimatedSize(
+                          key: const ValueKey('placeholderContainer'),
+                          curve: Curves.ease,
+                          duration: const Duration(milliseconds: 500),
+                          child: Text('old widget')),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(
+                            vertical: 8.0),
+                        child: Text('ou', style: TextStyle(
+                            fontWeight: FontWeight.bold)),
+                      ),
+                      SizedBox(
+                        height: 45,
+                        width: double.infinity,
+                        child: ElevatedButton.icon(
+                          key: const ValueKey('emailButton'),
+                          icon: const Icon(Icons.mail_outline),
+                          onPressed: () {
+                          },
+                          label: const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text(
+                              'Continuer avec une adresse email',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      SizedBox(
+                        height: 45,
+                        width: double.infinity,
+                        child: ElevatedButton.icon(
+                          key: const ValueKey('phoneButton'),
+                          icon: const Icon(Icons.phone),
+                          onPressed: () {
+                            context.read<LoginBloc>().add(const PhoneLoginMethod());
+                          },
+                          label: const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text(
+                              'Continuer avec un numéro de téléphone',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      SizedBox(
+                        height: 45,
+                        width: double.infinity,
+                        child: ElevatedButton.icon(
+                          key: const ValueKey('googleButton'),
+                          icon: const FaIcon(
+                              FontAwesomeIcons.google, size: 22),
+                          onPressed: () async {
+                          },
+                          label: const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text(
+                              'Continuer avec Google',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],

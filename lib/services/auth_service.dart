@@ -19,14 +19,24 @@ import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService with ChangeNotifier {
-  User? _connectedUser;
+  User? connectedUser;
   Player? _player;
-  DateTime? _expiryDate;
-  final _playerService = PlayerService();
+  final PlayerService _playerService = PlayerService();
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
-  bool get isAuth {
-    return _connectedUser != null && _expiryDate!.isAfter(DateTime.now());
+  AuthService();
+
+  /// Stream of [User] which will emit the current user when
+  /// the authentication state changes.
+  ///
+  /// Emits [User.empty] if the user is not authenticated.
+  Stream<User?> get user {
+    return _firebaseAuth.authStateChanges().map((firebaseUser) {
+      return firebaseUser;
+    });
   }
+
+
 
   Future<String> googleLogIn() async {
     try {
@@ -36,12 +46,11 @@ class AuthService with ChangeNotifier {
       final googleAuth = await googleUser.authentication;
       final AuthCredential credential = GoogleAuthProvider.credential(
           accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
-      _connectedUser =
-          (await FirebaseAuth.instance.signInWithCredential(credential)).user;
-      _player = await _playerService.getPlayerOfUser(_connectedUser!.uid);
-      _expiryDate = (await _connectedUser!.getIdTokenResult()).expirationTime;
-      await _connectedUser!.getIdTokenResult(true);
-      return _connectedUser!.uid;
+      connectedUser =
+          (await _firebaseAuth.signInWithCredential(credential)).user;
+      _player = await _playerService.getPlayerOfUser(connectedUser!.uid);
+      await connectedUser!.getIdTokenResult(true);
+      return connectedUser!.uid;
     } on PlatformException catch (e) {
       throw CustomException(e.code);
     }
@@ -56,7 +65,7 @@ class AuthService with ChangeNotifier {
           androidPackageName: 'fr.vareversat.carg',
           androidInstallApp: true,
           androidMinimumVersion: '18');
-      await FirebaseAuth.instance
+      await _firebaseAuth
           .sendSignInLinkToEmail(email: email, actionCodeSettings: acs);
     } on FirebaseAuthException catch (e) {
       throw CustomException(e.code);
@@ -65,13 +74,12 @@ class AuthService with ChangeNotifier {
 
   Future<String> signInWithEmailLink(String email, String link) async {
     try {
-      var result = await FirebaseAuth.instance
+      var result = await _firebaseAuth
           .signInWithEmailLink(emailLink: link, email: email);
-      _connectedUser = result.user;
-      _player = await _playerService.getPlayerOfUser(_connectedUser!.uid);
-      _expiryDate = (await _connectedUser!.getIdTokenResult()).expirationTime;
-      await _connectedUser!.getIdTokenResult(true);
-      return _connectedUser!.uid;
+      connectedUser = result.user;
+      _player = await _playerService.getPlayerOfUser(connectedUser!.uid);
+      await connectedUser!.getIdTokenResult(true);
+      return connectedUser!.uid;
     } on FirebaseAuthException catch (e) {
       throw CustomException(e.code);
     }
@@ -82,12 +90,11 @@ class AuthService with ChangeNotifier {
       var _credential = PhoneAuthProvider.credential(
           verificationId: verificationId, smsCode: smsCode);
       var result =
-      await FirebaseAuth.instance.signInWithCredential(_credential);
-      _connectedUser = result.user;
-      _player = await _playerService.getPlayerOfUser(_connectedUser!.uid);
-      _expiryDate = (await _connectedUser!.getIdTokenResult()).expirationTime;
-      await _connectedUser!.getIdTokenResult(true);
-      return _connectedUser!.uid;
+      await _firebaseAuth.signInWithCredential(_credential);
+      connectedUser = result.user;
+      _player = await _playerService.getPlayerOfUser(connectedUser!.uid);
+      await connectedUser!.getIdTokenResult(true);
+      return connectedUser!.uid;
     } on FirebaseAuthException catch (e) {
       throw CustomException(e.code);
     }
@@ -97,9 +104,9 @@ class AuthService with ChangeNotifier {
     try {
       var _credential = PhoneAuthProvider.credential(
           verificationId: verificationId, smsCode: smsCode);
-      await _connectedUser!.updatePhoneNumber(_credential);
-      await _connectedUser!.getIdTokenResult(true);
-      _connectedUser = FirebaseAuth.instance.currentUser;
+      await connectedUser!.updatePhoneNumber(_credential);
+      await connectedUser!.getIdTokenResult(true);
+      connectedUser = _firebaseAuth.currentUser;
     } on FirebaseAuthException catch (e) {
       throw CustomException(e.code);
     }
@@ -141,7 +148,7 @@ class AuthService with ChangeNotifier {
       BuildContext context,
       Function(String verificationId, int? forceResendingToken) onCodeSend,
       Function(FirebaseAuthException credentials) onVerificationFailed) async {
-    await FirebaseAuth.instance.verifyPhoneNumber(
+    await _firebaseAuth.verifyPhoneNumber(
         phoneNumber: phoneNumber,
         verificationCompleted: (PhoneAuthCredential credentials) {},
         verificationFailed: onVerificationFailed,
@@ -150,39 +157,37 @@ class AuthService with ChangeNotifier {
   }
 
   Future<bool> isAlreadyLogin() async {
-    await Firebase.initializeApp();
-    final firebaseUser = FirebaseAuth.instance.currentUser;
+    await Firebase.initializeApp(name: 'yoo');
+    final firebaseUser = _firebaseAuth.currentUser;
     if (firebaseUser == null) {
       // Make sure the user is disconnected
-      await FirebaseAuth.instance.signOut();
+      await _firebaseAuth.signOut();
       return false;
     }
     final expiryDate = (await firebaseUser.getIdTokenResult()).expirationTime!;
     if (expiryDate.isBefore(DateTime.now())) {
       // Make sure the user is disconnected
-      await FirebaseAuth.instance.signOut();
+      await _firebaseAuth.signOut();
       return false;
     }
     await firebaseUser.getIdTokenResult(true);
-    _connectedUser = firebaseUser;
-    _player = await _playerService.getPlayerOfUser(_connectedUser!.uid);
-    _expiryDate = expiryDate;
+    connectedUser = firebaseUser;
+    _player = await _playerService.getPlayerOfUser(connectedUser!.uid);
     return true;
   }
 
   Future<void> signOut(BuildContext context) async {
-    _connectedUser = null;
-    _expiryDate = null;
+    connectedUser = null;
     notifyListeners();
-    await FirebaseAuth.instance.signOut();
+    await _firebaseAuth.signOut();
     await Navigator.pushReplacement(
         context, CustomRouteFade(builder: (context) => const RegisterScreen()));
   }
 
   Future<void> changeEmail(String newEmail) async {
     try {
-      await _connectedUser!.verifyBeforeUpdateEmail(newEmail);
-      _connectedUser = FirebaseAuth.instance.currentUser;
+      await connectedUser!.verifyBeforeUpdateEmail(newEmail);
+      connectedUser = _firebaseAuth.currentUser;
     } on FirebaseAuthException catch (e) {
       throw CustomException(e.code);
     }
@@ -197,15 +202,15 @@ class AuthService with ChangeNotifier {
   }
 
   String? getConnectedUserId() {
-    return _connectedUser?.uid;
+    return connectedUser?.uid;
   }
 
   String? getConnectedUserEmail() {
-    return _connectedUser?.email;
+    return connectedUser?.email;
   }
 
   String? getConnectedUserPhoneNumber() {
-    return _connectedUser?.phoneNumber;
+    return connectedUser?.phoneNumber;
   }
 
   String? getPlayerIdOfUser() {
