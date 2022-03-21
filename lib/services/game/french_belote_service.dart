@@ -5,7 +5,7 @@ import 'package:carg/models/score/round/french_belote_round.dart';
 import 'package:carg/models/team.dart';
 import 'package:carg/services/custom_exception.dart';
 import 'package:carg/services/game/belote_service.dart';
-import 'package:carg/services/player_service.dart';
+import 'package:carg/services/impl/player_service.dart';
 import 'package:carg/services/score/belote_score_service.dart';
 import 'package:carg/services/score/french_belote_score_service.dart';
 import 'package:carg/services/team_service.dart';
@@ -14,7 +14,7 @@ import 'package:flutter/services.dart';
 
 class FrenchBeloteService extends BeloteService<FrenchBelote> {
   final TeamService _teamService = TeamService();
-  final PlayerService _playerService = PlayerService();
+  final _playerService = PlayerService();
   final BeloteScoreService _beloteScoreService = FrenchBeloteScoreService();
   static const String dataBase = 'belote-game';
   static const String flavor =
@@ -119,7 +119,7 @@ class FrenchBeloteService extends BeloteService<FrenchBelote> {
       Team? winners;
       for (var player in game.players!.playerList!) {
         {
-          await _playerService.incrementPlayedGamesByOne(player, game);
+          await _playerService.incrementPlayedGamesByOne(player!, game);
         }
       }
       var score = await _beloteScoreService.getScoreByGame(game.id);

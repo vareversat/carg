@@ -13,7 +13,7 @@ Widget testableWidget(bool mockIsNewPlayer, PlayerService playerService,
     MaterialApp(
       home: PlayerInfoDialog(
           player: mockPlayer,
-          playerRepository: playerService,
+          playerService: playerService,
           isNewPlayer: mockIsNewPlayer),
     );
 

@@ -17,7 +17,7 @@ Widget testableWidget(AuthService mockAuthService, PlayerService playerService,
       home: ChangeNotifierProvider<AuthService>.value(
           value: mockAuthService,
           child:
-              SettingsScreen(player: mockPlayer, playerRepository: playerService)),
+              SettingsScreen(player: mockPlayer, playerService: playerService)),
     );
 
 @GenerateMocks([PlayerService, AuthService])
@@ -75,7 +75,7 @@ void main() {
     testWidgets('is disabled', (WidgetTester tester) async {
       await mockNetworkImagesFor(() => tester.pumpWidget(
           testableWidget(authService, mockPlayerService, mockPlayer)));
-      when(mockPlayerService.updatePlayer(mockPlayer))
+      when(mockPlayerService.update(mockPlayer))
           .thenAnswer((_) async => Future.value());
 
       await tester.tap(find.byKey(const ValueKey('gravatarSwitchTile')));

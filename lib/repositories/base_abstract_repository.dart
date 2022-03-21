@@ -2,12 +2,12 @@ import 'package:carg/exceptions/repository_exception.dart';
 import 'package:carg/models/carg_object.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-abstract class FirebaseAbstractRepository<T extends CargObject> {
+abstract class BaseAbstractRepository<T extends CargObject> {
   final String database;
   final String environment;
   final FirebaseFirestore provider;
 
-  FirebaseAbstractRepository(
+  BaseAbstractRepository(
       {required this.database,
       required this.environment,
       required this.provider});

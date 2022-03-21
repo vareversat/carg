@@ -5,7 +5,7 @@ import 'dart:async';
 import 'package:carg/helpers/custom_route.dart';
 import 'package:carg/models/player.dart';
 import 'package:carg/services/custom_exception.dart';
-import 'package:carg/services/player_service.dart';
+import 'package:carg/services/impl/player_service.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/helpers/info_snackbar.dart';
 import 'package:carg/views/screens/home_screen.dart';

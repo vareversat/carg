@@ -1,7 +1,7 @@
 import 'package:carg/models/game/game_type.dart';
 import 'package:carg/models/player.dart';
 import 'package:carg/services/auth_service.dart';
-import 'package:carg/services/player_service.dart';
+import 'package:carg/services/impl/player_service.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/helpers/info_snackbar.dart';
@@ -36,10 +36,10 @@ class PlayerInfoDialog extends StatelessWidget {
     if (isNewPlayer) {
       player.ownedBy =
           Provider.of<AuthService>(context, listen: false).getPlayerIdOfUser();
-      await playerService.addPlayer(player);
+      await playerService.create(player);
       Navigator.of(context).pop('Joueur créé avec succès');
     } else {
-      await playerService.updatePlayer(player);
+      await playerService.create(player);
       Navigator.of(context).pop('Joueur modifié avec succès');
     }
   }

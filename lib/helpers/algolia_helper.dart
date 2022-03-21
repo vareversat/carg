@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:carg/models/player.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
@@ -51,8 +52,8 @@ class AlgoliaHelper {
   }
 
   Future<List<dynamic>> filter(
-      {required String query, required String playerId, required bool? admin}) async {
-    var filters = _getAlgoliaFilter(admin, playerId);
+      {required String query, required Player currentPlayer}) async {
+    var filters = _getAlgoliaFilter(currentPlayer.admin, currentPlayer.id);
     final params = {
       'query': query,
       'filters': filters,

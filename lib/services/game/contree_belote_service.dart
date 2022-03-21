@@ -5,7 +5,7 @@ import 'package:carg/models/score/round/contree_belote_round.dart';
 import 'package:carg/models/team.dart';
 import 'package:carg/services/custom_exception.dart';
 import 'package:carg/services/game/belote_service.dart';
-import 'package:carg/services/player_service.dart';
+import 'package:carg/services/impl/player_service.dart';
 import 'package:carg/services/score/contree_belote_score_service.dart';
 import 'package:carg/services/team_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -13,7 +13,7 @@ import 'package:flutter/services.dart';
 
 class ContreeBeloteService extends BeloteService<ContreeBelote> {
   final TeamService _teamService = TeamService();
-  final PlayerService _playerService = PlayerService();
+  final _playerService = PlayerService();
   final ContreeScoreService _contreeScoreService = ContreeScoreService();
   static const String flavor =
       String.fromEnvironment('FLAVOR', defaultValue: 'dev');
@@ -118,7 +118,7 @@ class ContreeBeloteService extends BeloteService<ContreeBelote> {
       Team? winners;
       for (var player in game.players!.playerList!) {
         {
-          await _playerService.incrementPlayedGamesByOne(player, game);
+          await _playerService.incrementPlayedGamesByOne(player!, game);
         }
       }
       var score = await _contreeScoreService.getScoreByGame(game.id);

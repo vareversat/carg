@@ -3,7 +3,7 @@ import 'package:carg/models/game/game_type.dart';
 import 'package:carg/models/game_stats.dart';
 import 'package:carg/models/player.dart';
 import 'package:carg/services/auth_service.dart';
-import 'package:carg/services/player_service.dart';
+import 'package:carg/services/impl/player_service.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/screens/settings_screen.dart';

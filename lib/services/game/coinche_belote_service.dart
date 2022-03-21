@@ -3,8 +3,6 @@ import 'package:carg/models/players/belote_players.dart';
 import 'package:carg/models/score/coinche_belote_score.dart';
 import 'package:carg/models/score/round/coinche_belote_round.dart';
 import 'package:carg/models/team.dart';
-import 'package:carg/repositories/i_player_repository.dart';
-import 'package:carg/repositories/impl/player_repository.dart';
 import 'package:carg/services/custom_exception.dart';
 import 'package:carg/services/game/belote_service.dart';
 import 'package:carg/services/impl/player_service.dart';
@@ -15,7 +13,7 @@ import 'package:flutter/services.dart';
 
 class CoincheBeloteService extends BeloteService<CoincheBelote> {
   final TeamService _teamService = TeamService();
-  final IPlayerRepository _playerRepository = PlayerRepository();
+  final _playerService = PlayerService();
   final CoincheBeloteScoreService _coincheScoreService =
       CoincheBeloteScoreService();
   static const String dataBase = 'coinche-game';
@@ -121,7 +119,7 @@ class CoincheBeloteService extends BeloteService<CoincheBelote> {
       Team? winners;
       for (var player in game.players!.playerList!) {
         {
-          await _playerRepository.incrementPlayedGamesByOne(player!, game);
+          await _playerService.incrementPlayedGamesByOne(player!, game);
         }
       }
       var score = await _coincheScoreService.getScoreByGame(game.id);

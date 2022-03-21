@@ -3,7 +3,7 @@ import 'package:carg/models/game/game.dart';
 import 'package:carg/models/player.dart';
 import 'package:carg/models/players/players.dart';
 import 'package:carg/services/auth_service.dart';
-import 'package:carg/services/player_service.dart';
+import 'package:carg/services/impl/player_service.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/dialogs/dialogs.dart';
@@ -28,7 +28,7 @@ class PlayerPickerScreen extends StatefulWidget {
 
 class _PlayerPickerScreenState extends State<PlayerPickerScreen> {
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
-  final PlayerService _playerService = PlayerService();
+  final _playerService = PlayerService();
   List<Player>? newPlayers;
 
   _PlayerPickerScreenState();
@@ -37,7 +37,10 @@ class _PlayerPickerScreenState extends State<PlayerPickerScreen> {
     Dialogs.showLoadingDialog(context, _keyLoader, 'Chargement...');
     var playerListTmp = <Player>[];
     for (var playerId in widget.game!.players!.playerList!) {
-      playerListTmp.add(await _playerService.getPlayer(playerId));
+      var player = await _playerService.get(playerId);
+      if (player != null) {
+        playerListTmp.add(player);
+      }
     }
     setState(() {
       newPlayers = playerListTmp;
@@ -96,22 +99,19 @@ class _PlayerPickerScreenState extends State<PlayerPickerScreen> {
                                   builder: (context, playerData, child) =>
                                       PlayerWidget(
                                           player: playerData,
-                                          onTap: () =>
-                                              widget.game!.players!
-                                                  .onSelectedPlayer(
-                                                  playerData))));
-                        });
-                  } else {
-                    return const ErrorMessageWidget(
-                        message: "Vous n'avez accès à aucun joueurs");
-                  }
-                },
-                future: _playerService.searchPlayers(
-                    playerId: Provider.of<AuthService>(context, listen: false)
-                        .getPlayerIdOfUser(),
-                    admin: Provider.of<AuthService>(context, listen: false)
-                        .getAdmin()),
-              ),
+                                          onTap: () => widget.game!.players!
+                                                .onSelectedPlayer(
+                                                    playerData))));
+                          });
+                    } else {
+                      return const ErrorMessageWidget(
+                          message: "Vous n'avez accès à aucun joueurs");
+                    }
+                  },
+                  future: _playerService.searchPlayers(
+                      currentPlayer:
+                          Provider.of<AuthService>(context, listen: false)
+                              .getPlayer())),
             ),
             Padding(
               padding: const EdgeInsets.all(8),

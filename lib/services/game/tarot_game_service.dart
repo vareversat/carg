@@ -5,14 +5,14 @@ import 'package:carg/models/score/round/tarot_round.dart';
 import 'package:carg/models/score/tarot_score.dart';
 import 'package:carg/services/custom_exception.dart';
 import 'package:carg/services/game/game_service.dart';
-import 'package:carg/services/player_service.dart';
+import 'package:carg/services/impl/player_service.dart';
 import 'package:carg/services/score/tarot_score_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 
 class TarotGameService extends GameService<Tarot, TarotPlayers> {
   final TarotScoreService _tarotScoreService = TarotScoreService();
-  final PlayerService _playerService = PlayerService();
+  final _playerService = PlayerService();
   static const String dataBase = 'tarot-game';
   static const String flavor =
       String.fromEnvironment('FLAVOR', defaultValue: 'dev');
@@ -110,7 +110,7 @@ class TarotGameService extends GameService<Tarot, TarotPlayers> {
       TarotPlayerScore? winner;
       for (var player in game.players!.playerList!) {
         {
-          await _playerService.incrementPlayedGamesByOne(player, game);
+          await _playerService.incrementPlayedGamesByOne(player!, game);
         }
       }
       var score = await _tarotScoreService.getScoreByGame(game.id);
@@ -118,7 +118,7 @@ class TarotGameService extends GameService<Tarot, TarotPlayers> {
       if (totalPoints != null && totalPoints.isNotEmpty) {
         totalPoints.sort((a, b) => a.score.compareTo(b.score));
         winner = totalPoints.last;
-        await _playerService.incrementWonGamesByOne(winner.player, game);
+        await _playerService.incrementWonGamesByOne(winner.player!, game);
       }
       await FirebaseFirestore.instance
           .collection(dataBase + '-' + flavor)

@@ -1,6 +1,6 @@
 import 'package:carg/models/player.dart';
 import 'package:carg/services/auth_service.dart';
-import 'package:carg/services/player_service.dart';
+import 'package:carg/services/impl/player_service.dart';
 import 'package:carg/views/screens/player_list_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -35,7 +35,7 @@ void main() {
       Player(userName: 'Player3', owned: false)
     ];
     when(mockPlayerService.searchPlayers(
-            query: '', playerId: 'player-id', admin: false))
+            query: '', currentPlayer: Player(userName: 'not-admin', owned: false)))
         .thenAnswer((_) => Future<List<Player>>(() => (mockPlayerList)));
     when(authService.getPlayerIdOfUser()).thenReturn('player-id');
     when(authService.getAdmin()).thenReturn(false);

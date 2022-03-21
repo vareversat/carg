@@ -1,5 +1,5 @@
 import 'package:carg/models/player.dart';
-import 'package:carg/services/player_service.dart';
+import 'package:carg/services/impl/player_service.dart';
 import 'package:carg/views/dialogs/player_info_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -13,7 +13,7 @@ class APIMiniPlayerWidget extends StatelessWidget {
   final Function? onTap;
   final Color? selectedColor;
   final String additionalText;
-  final PlayerService _playerService = PlayerService();
+  final _playerService = PlayerService();
   final String _errorMessage = 'player missing';
 
   APIMiniPlayerWidget(
@@ -41,7 +41,7 @@ class APIMiniPlayerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<Player>(
+    return FutureBuilder<Player?>(
       builder: (context, snapshot) {
         Widget? child;
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -104,7 +104,7 @@ class APIMiniPlayerWidget extends StatelessWidget {
         return AnimatedSwitcher(
             duration: const Duration(milliseconds: 500), child: child);
       },
-      future: _playerService.getPlayer(playerId),
+      future: _playerService.get(playerId),
     );
   }
 }

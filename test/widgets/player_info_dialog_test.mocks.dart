@@ -2,12 +2,15 @@
 // in carg/test/widgets/player_info_dialog_test.dart.
 // Do not manually edit this file.
 
-import 'dart:async' as _i4;
+import 'dart:async' as _i7;
 
-import 'package:carg/models/game/game.dart' as _i5;
-import 'package:carg/models/player.dart' as _i2;
-import 'package:carg/models/players/players.dart' as _i6;
-import 'package:carg/services/player_service.dart' as _i3;
+import 'package:carg/models/carg_object.dart' as _i3;
+import 'package:carg/models/game/game.dart' as _i8;
+import 'package:carg/models/player.dart' as _i6;
+import 'package:carg/models/players/players.dart' as _i9;
+import 'package:carg/repositories/abstract_player_repository.dart' as _i2;
+import 'package:carg/repositories/base_abstract_repository.dart' as _i4;
+import 'package:carg/services/impl/player_service.dart' as _i5;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -20,56 +23,76 @@ import 'package:mockito/mockito.dart' as _i1;
 // ignore_for_file: unnecessary_parenthesis
 // ignore_for_file: camel_case_types
 
-class _FakePlayer_0 extends _i1.Fake implements _i2.Player {}
+class _FakeAbstractPlayerRepository_0 extends _i1.Fake
+    implements _i2.AbstractPlayerRepository {}
+
+class _FakeBaseAbstractRepository_1<T extends _i3.CargObject> extends _i1.Fake
+    implements _i4.BaseAbstractRepository<T> {}
 
 /// A class which mocks [PlayerService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockPlayerService extends _i1.Mock implements _i3.PlayerService {
+class MockPlayerService extends _i1.Mock implements _i5.PlayerService {
   MockPlayerService() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i4.Future<List<_i2.Player>> searchPlayers(
-          {String? query = r'', String? playerId, bool? admin}) =>
+  _i2.AbstractPlayerRepository get playerRepository =>
+      (super.noSuchMethod(Invocation.getter(#playerRepository),
+              returnValue: _FakeAbstractPlayerRepository_0())
+          as _i2.AbstractPlayerRepository);
+  @override
+  _i4.BaseAbstractRepository<_i6.Player> get repository =>
+      (super.noSuchMethod(Invocation.getter(#repository),
+              returnValue: _FakeBaseAbstractRepository_1<_i6.Player>())
+          as _i4.BaseAbstractRepository<_i6.Player>);
+  @override
+  _i7.Future<String> create(_i6.Player? t) =>
+      (super.noSuchMethod(Invocation.method(#create, [t]),
+          returnValue: Future<String>.value('')) as _i7.Future<String>);
+  @override
+  _i7.Future<String> createPlayer(_i6.Player? player) =>
+      (super.noSuchMethod(Invocation.method(#createPlayer, [player]),
+          returnValue: Future<String>.value('')) as _i7.Future<String>);
+  @override
+  _i7.Future<void> incrementPlayedGamesByOne(
+          String? playerId, _i8.Game<_i9.Players>? game) =>
+      (super.noSuchMethod(
+          Invocation.method(#incrementPlayedGamesByOne, [playerId, game]),
+          returnValue: Future<void>.value(),
+          returnValueForMissingStub: Future<void>.value()) as _i7.Future<void>);
+  @override
+  _i7.Future<void> incrementWonGamesByOne(
+          String? playerId, _i8.Game<_i9.Players>? game) =>
+      (super.noSuchMethod(
+          Invocation.method(#incrementWonGamesByOne, [playerId, game]),
+          returnValue: Future<void>.value(),
+          returnValueForMissingStub: Future<void>.value()) as _i7.Future<void>);
+  @override
+  _i7.Future<_i6.Player?> getPlayerOfUser(String? userId) =>
+      (super.noSuchMethod(Invocation.method(#getPlayerOfUser, [userId]),
+          returnValue: Future<_i6.Player?>.value()) as _i7.Future<_i6.Player?>);
+  @override
+  _i7.Future<List<_i6.Player>> searchPlayers(
+          {String? query = r'', _i6.Player? currentPlayer}) =>
       (super.noSuchMethod(
               Invocation.method(#searchPlayers, [],
-                  {#query: query, #playerId: playerId, #admin: admin}),
-              returnValue: Future<List<_i2.Player>>.value(<_i2.Player>[]))
-          as _i4.Future<List<_i2.Player>>);
+                  {#query: query, #currentPlayer: currentPlayer}),
+              returnValue: Future<List<_i6.Player>>.value(<_i6.Player>[]))
+          as _i7.Future<List<_i6.Player>>);
   @override
-  _i4.Future<dynamic> incrementPlayedGamesByOne(
-          String? id, _i5.Game<_i6.Players>? game) =>
-      (super.noSuchMethod(
-          Invocation.method(#incrementPlayedGamesByOne, [id, game]),
-          returnValue: Future<dynamic>.value()) as _i4.Future<dynamic>);
+  _i7.Future<_i6.Player?> get(String? id) =>
+      (super.noSuchMethod(Invocation.method(#get, [id]),
+          returnValue: Future<_i6.Player?>.value()) as _i7.Future<_i6.Player?>);
   @override
-  _i4.Future<dynamic> incrementWonGamesByOne(
-          String? id, _i5.Game<_i6.Players>? game) =>
-      (super.noSuchMethod(
-          Invocation.method(#incrementWonGamesByOne, [id, game]),
-          returnValue: Future<dynamic>.value()) as _i4.Future<dynamic>);
-  @override
-  _i4.Future<_i2.Player> getPlayer(String? id) =>
-      (super.noSuchMethod(Invocation.method(#getPlayer, [id]),
-              returnValue: Future<_i2.Player>.value(_FakePlayer_0()))
-          as _i4.Future<_i2.Player>);
-  @override
-  _i4.Future<_i2.Player?> getPlayerOfUser(String? userId) =>
-      (super.noSuchMethod(Invocation.method(#getPlayerOfUser, [userId]),
-          returnValue: Future<_i2.Player?>.value()) as _i4.Future<_i2.Player?>);
-  @override
-  _i4.Future<void> updatePlayer(_i2.Player? player) =>
-      (super.noSuchMethod(Invocation.method(#updatePlayer, [player]),
+  _i7.Future<void> delete(String? id) =>
+      (super.noSuchMethod(Invocation.method(#delete, [id]),
           returnValue: Future<void>.value(),
-          returnValueForMissingStub: Future<void>.value()) as _i4.Future<void>);
+          returnValueForMissingStub: Future<void>.value()) as _i7.Future<void>);
   @override
-  _i4.Future<String> addPlayer(_i2.Player? player) =>
-      (super.noSuchMethod(Invocation.method(#addPlayer, [player]),
-          returnValue: Future<String>.value('')) as _i4.Future<String>);
-  @override
-  _i4.Future<dynamic> deletePlayer(_i2.Player? player) =>
-      (super.noSuchMethod(Invocation.method(#deletePlayer, [player]),
-          returnValue: Future<dynamic>.value()) as _i4.Future<dynamic>);
+  _i7.Future<void> update(_i6.Player? t) =>
+      (super.noSuchMethod(Invocation.method(#update, [t]),
+          returnValue: Future<void>.value(),
+          returnValueForMissingStub: Future<void>.value()) as _i7.Future<void>);
 }

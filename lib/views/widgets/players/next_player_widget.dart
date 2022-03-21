@@ -1,18 +1,17 @@
 import 'package:carg/models/player.dart';
-import 'package:carg/repositories/i_player_repository.dart';
-import 'package:carg/repositories/impl/player_repository.dart';
+import 'package:carg/services/impl/player_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class NextPlayerWidget extends StatelessWidget {
   final String playerId;
-  final IPlayerRepository playerRepository = PlayerRepository();
+  final playerService = PlayerService();
 
   NextPlayerWidget({Key? key, required this.playerId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<Player>(
+    return FutureBuilder<Player?>(
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return SpinKitThreeBounce(
@@ -45,7 +44,7 @@ class NextPlayerWidget extends StatelessWidget {
           textAlign: TextAlign.center,
         );
       },
-      future: playerRepository.get(playerId),
+      future: playerService.get(playerId),
     );
   }
 }

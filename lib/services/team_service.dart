@@ -1,7 +1,7 @@
 import 'package:carg/models/game/game.dart';
 import 'package:carg/models/team.dart';
 import 'package:carg/services/custom_exception.dart';
-import 'package:carg/services/player_service.dart';
+import 'package:carg/services/impl/player_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 
@@ -9,7 +9,7 @@ class TeamService {
   static const String dataBase = 'team';
   static const String flavor =
       String.fromEnvironment('FLAVOR', defaultValue: 'dev');
-  final PlayerService _playerService = PlayerService();
+  final _playerService = PlayerService();
 
   Future<Team> getTeamByPlayers(List<String?> playerIds) async {
     try {

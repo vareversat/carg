@@ -1,6 +1,4 @@
 import 'package:carg/models/player.dart';
-import 'package:carg/repositories/i_player_repository.dart';
-import 'package:carg/repositories/impl/player_repository.dart';
 import 'package:carg/services/auth_service.dart';
 import 'package:carg/services/custom_exception.dart';
 import 'package:carg/services/impl/player_service.dart';
@@ -316,7 +314,7 @@ class _AccountCreationData with ChangeNotifier {
 class _EnterUsernameWidget extends StatelessWidget {
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   final TextEditingController _usernameTextController = TextEditingController();
-  final IPlayerRepository _playerRepository = PlayerRepository();
+  final _playerRepository = PlayerService();
   final BuildContext context;
 
   final _playerIsCreating = 'Création du joueur...';
@@ -439,7 +437,7 @@ class _EnterUsernameWidget extends StatelessWidget {
 
 class _LinkPlayerWidget extends StatelessWidget {
   final BuildContext context;
-  final IPlayerRepository _playerRepository = PlayerRepository();
+  final _playerRepository = PlayerService();
   final TextEditingController _idTextController = TextEditingController();
 
   final _enterUniqueId = 'Saisissez l\'identifiant unique';
@@ -453,21 +451,23 @@ class _LinkPlayerWidget extends StatelessWidget {
       var userId = Provider.of<AuthService>(context, listen: false)
           .getConnectedUserId();
       var player = await _playerRepository.get(_idTextController.text);
-      if (player.ownedBy == '' || player.linkedUserId != '') {
-        throw CustomException('Impossible d\'associer cet utilisateur');
+      if (player != null) {
+        if (player.ownedBy == '' || player.linkedUserId != '') {
+          throw CustomException('Impossible d\'associer cet utilisateur');
+        }
+        player.linkedUserId = userId;
+        player.ownedBy = '';
+        player.owned = false;
+        await _playerRepository.update(player);
+        Provider.of<AuthService>(context, listen: false)
+            .setCurrentPlayer(player);
+        await Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const HomeScreen(requestedIndex: 0),
+          ),
+        );
       }
-      player.linkedUserId = userId;
-      player.ownedBy = '';
-      player.owned = false;
-      await _playerRepository.update(player);
-      Provider.of<AuthService>(context, listen: false)
-          .setCurrentPlayer(player);
-      await Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const HomeScreen(requestedIndex: 0),
-        ),
-      );
     } on CustomException catch (e) {
       InfoSnackBar.showSnackBar(context, e.message);
     }
