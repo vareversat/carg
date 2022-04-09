@@ -1,54 +1,58 @@
+import 'package:carg/exceptions/repository_exception.dart';
 import 'package:carg/exceptions/service_exception.dart';
 import 'package:carg/helpers/algolia_helper.dart';
 import 'package:carg/models/game/game.dart';
 import 'package:carg/models/player.dart';
 import 'package:carg/repositories/impl/player_repository.dart';
-import 'package:carg/services/abstract_player_service.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:carg/repositories/player/abstract_player_repository.dart';
+import 'package:carg/services/player/abstract_player_service.dart';
 
 class PlayerService extends AbstractPlayerService {
-  PlayerService() : super(playerRepository: PlayerRepository());
+  PlayerService({AbstractPlayerRepository? playerRepository})
+      : super(playerRepository: playerRepository ?? PlayerRepository());
 
   @override
-  Future<String> create(Player? t) {
-    throw UnimplementedError('Please use "createPlayer" instead');
-  }
-
-  @override
-  Future<String> createPlayer(Player player) async {
-    if (player.userName == '') {
+  Future<String> create(Player? t) async {
+    if (t == null || t.userName == '') {
       throw ServiceException('Please set a non empty username');
     }
-    return playerRepository.create(player);
+    var id = await playerRepository.create(t);
+    return id;
   }
 
   @override
-  Future<void> incrementPlayedGamesByOne(String playerId, Game game) async {
+  Future<void> incrementPlayedGamesByOne(String? playerId, Game? game) async {
+    if (playerId == null || game == null) {
+      throw ServiceException('Please use a non null team id and game object');
+    }
     try {
       var player = await playerRepository.get(playerId);
       if (player == null) {
         throw ServiceException(
             'The player you are trying to modify does not exist');
       }
-      game.incrementPlayerPlayedGamesByOne(player);
+      player.incrementPlayedGamesByOne(game);
       await playerRepository.update(player);
-    } on FirebaseException catch (e) {
+    } on RepositoryException catch (e) {
       throw throw ServiceException(
           'Impossible to modify the player $playerId : ${e.message}');
     }
   }
 
   @override
-  Future<void> incrementWonGamesByOne(String playerId, Game game) async {
+  Future<void> incrementWonGamesByOne(String? playerId, Game? game) async {
+    if (playerId == null || game == null) {
+      throw ServiceException('Please use a non null team id and game object');
+    }
     try {
       var player = await playerRepository.get(playerId);
       if (player == null) {
         throw ServiceException(
             'The player you are trying to modify does not exist');
       }
-      game.incrementPlayerWonGamesByOne(player);
+      player.incrementWonGamesByOne(game);
       await playerRepository.update(player);
-    } on FirebaseException catch (e) {
+    } on RepositoryException catch (e) {
       throw ServiceException(
           'Impossible to modify the player $playerId : ${e.message}');
     }
@@ -62,7 +66,7 @@ class PlayerService extends AbstractPlayerService {
     }
     try {
       return playerRepository.getPlayerOfUser(userId);
-    } on FirebaseException catch (e) {
+    } on RepositoryException catch (e) {
       throw ServiceException(
           'Impossible to get the player of the user $userId : ${e.message}');
     }
