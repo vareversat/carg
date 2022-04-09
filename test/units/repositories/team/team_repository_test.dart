@@ -1,3 +1,4 @@
+import 'package:carg/exceptions/repository_exception.dart';
 import 'package:carg/models/team.dart';
 import 'package:carg/repositories/impl/team_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -6,7 +7,6 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
 import 'team_repository_test.mocks.dart';
-
 
 const uid = '123';
 var playerIds = ['p1', 'p2'];
@@ -113,6 +113,45 @@ void main() {
         final teamRepository =
             TeamRepository(provider: instance, environment: 'prod');
         final team = await teamRepository.getTeamByPlayers(['p2', 'p1']);
+        expect(team, expectedTeam);
+      });
+    });
+
+    group('Create with players', () {
+      test('Team exists', () async {
+        var collection = 'team-dev';
+        when(instance.collection(collection))
+            .thenReturn(mockCollectionReference);
+        when(mockCollectionReference.where('players', isEqualTo: playerIds))
+            .thenReturn(mockQuery);
+        when(mockQuery.get()).thenAnswer((_) async => mockQuerySnapshot);
+        when(mockQuerySnapshot.docs).thenReturn([mockQueryDocumentSnapshot]);
+        when(mockQueryDocumentSnapshot.data()).thenReturn(jsonTeam);
+        when(mockQueryDocumentSnapshot.id).thenReturn(uid);
+        final teamRepository = TeamRepository(provider: instance);
+        expect(teamRepository.createTeamWithPlayers(['p2', 'p1']),
+            throwsA(isA<RepositoryException>()));
+      });
+      test('Team does not exist', () async {
+        var collection = 'team-prod';
+        when(instance.collection(collection))
+            .thenReturn(mockCollectionReference);
+        when(mockCollectionReference.where('players', isEqualTo: playerIds))
+            .thenReturn(mockQuery);
+        when(mockQuery.get()).thenAnswer((_) async => mockQuerySnapshot);
+        when(mockQuerySnapshot.docs).thenReturn([]);
+        when(mockCollectionReference.add({
+          'name': null,
+          'games': null,
+          'won_games': 0,
+          'played_games': 1,
+          'players': ['p1', 'p2']
+        })).thenAnswer((_) async => mockDocumentReference);
+        when(mockDocumentReference.id).thenReturn(uid);
+
+        final teamRepository =
+            TeamRepository(provider: instance, environment: 'prod');
+        final team = await teamRepository.createTeamWithPlayers(['p2', 'p1']);
         expect(team, expectedTeam);
       });
     });
