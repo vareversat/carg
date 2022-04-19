@@ -16,12 +16,16 @@ class PlayerRepository extends AbstractPlayerRepository {
 
   @override
   Future<Player?> get(String id) async {
-    var querySnapshot =
-        await provider.collection(connectionString).doc(id).get();
-    if (querySnapshot.data() != null) {
-      return Player.fromJSON(querySnapshot.data(), querySnapshot.id);
-    } else {
-      return null;
+    try {
+      var querySnapshot =
+          await provider.collection(connectionString).doc(id).get();
+      if (querySnapshot.data() != null) {
+        return Player.fromJSON(querySnapshot.data(), querySnapshot.id);
+      } else {
+        return null;
+      }
+    } on FirebaseException catch (e) {
+      throw RepositoryException(e.message!);
     }
   }
 
