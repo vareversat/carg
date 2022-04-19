@@ -1,19 +1,19 @@
 import 'package:carg/exceptions/repository_exception.dart';
-import 'package:carg/models/game/french_belote.dart';
+import 'package:carg/models/game/contree_belote.dart';
 import 'package:carg/models/players/belote_players.dart';
-import 'package:carg/repositories/impl/game/french_belote_game_repository.dart';
+import 'package:carg/repositories/impl/game/contree_belote_game_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
-import 'french_belote_game_repository_test.mocks.dart';
+import 'contree_belote_game_repository_test.mocks.dart';
 
 const uid = '123';
 const userId = '123_user';
 const playerId = '123_player';
 const pageSize = 10;
-const jsonFrenchBelote = {
+const jsonContreeBelote = {
   'starting_date': '2022-04-10 00:00:00.000',
   'players': {
     "player_list": ['p1', 'p2']
@@ -44,7 +44,7 @@ void main() {
   final mockCollectionReference =
       MockCollectionReference<Map<String, dynamic>>();
 
-  final game = FrenchBelote(
+  final game = ContreeBelote(
       id: uid,
       startingDate: DateTime.parse('2022-04-10 00:00:00.000'),
       players: BelotePlayers(playerList: ['p1', 'p2']));
@@ -59,53 +59,53 @@ void main() {
     reset(mockCollectionReference);
   });
 
-  group('FrenchBeloteGameRepository', () {
-    group('Get French belote Game', () {
+  group('ContreeBeloteGameRepository', () {
+    group('Get Contree Game', () {
       test('DEV', () async {
-        const collection = 'belote-game-dev';
+        const collection = 'contree-game-dev';
         when(instance.collection(collection))
             .thenReturn(mockCollectionReference);
         when(mockCollectionReference.doc(uid))
             .thenReturn(mockDocumentReference);
         when(mockDocumentReference.get())
             .thenAnswer((_) async => mockDocumentSnapshot);
-        when(mockDocumentSnapshot.data()).thenReturn(jsonFrenchBelote);
+        when(mockDocumentSnapshot.data()).thenReturn(jsonContreeBelote);
         when(mockDocumentSnapshot.id).thenReturn(uid);
-        final frenchBeloteGameRepository =
-            FrenchBeloteGameRepository(provider: instance);
-        final frenchBelote = await frenchBeloteGameRepository.get(uid);
-        expect(frenchBelote, game);
+        final contreeBeloteGameRepository =
+            ContreeBeloteGameRepository(provider: instance);
+        final contreeBelote = await contreeBeloteGameRepository.get(uid);
+        expect(contreeBelote, game);
       });
       test('PROD', () async {
-        const collection = 'belote-game-prod';
+        const collection = 'contree-game-prod';
         when(instance.collection(collection))
             .thenReturn(mockCollectionReference);
         when(mockCollectionReference.doc(uid))
             .thenReturn(mockDocumentReference);
         when(mockDocumentReference.get())
             .thenAnswer((_) async => mockDocumentSnapshot);
-        when(mockDocumentSnapshot.data()).thenReturn(jsonFrenchBelote);
+        when(mockDocumentSnapshot.data()).thenReturn(jsonContreeBelote);
         when(mockDocumentSnapshot.id).thenReturn(uid);
-        final frenchBeloteGameRepository =
-            FrenchBeloteGameRepository(provider: instance, environment: 'prod');
-        final frenchBelote = await frenchBeloteGameRepository.get(uid);
-        expect(frenchBelote, game);
+        final contreeBeloteGameRepository = ContreeBeloteGameRepository(
+            provider: instance, environment: 'prod');
+        final contreeBelote = await contreeBeloteGameRepository.get(uid);
+        expect(contreeBelote, game);
       });
 
       test('Throw exception', () async {
-        const collection = 'belote-game-prod';
+        const collection = 'contree-game-prod';
         when(instance.collection(collection))
             .thenThrow(FirebaseException(plugin: 'test', message: 'test'));
-        final frenchBeloteGameRepository =
-            FrenchBeloteGameRepository(provider: instance, environment: 'prod');
-        expect(frenchBeloteGameRepository.get(uid),
+        final contreeBeloteGameRepository = ContreeBeloteGameRepository(
+            provider: instance, environment: 'prod');
+        expect(contreeBeloteGameRepository.get(uid),
             throwsA(isA<RepositoryException>()));
       });
     });
 
     group('Get all game of user', () {
       test('DEV', () async {
-        const collection = 'belote-game-dev';
+        const collection = 'contree-game-dev';
         final mockQueryFromOrderBy = MockQuery<Map<String, dynamic>>();
         final mockQueryFromStartAfterDocument =
             MockQuery<Map<String, dynamic>>();
@@ -124,15 +124,15 @@ void main() {
         when(mockQueryFromLimit.get())
             .thenAnswer((_) async => mockQuerySnapshot);
         when(mockQuerySnapshot.docs).thenReturn([]);
-        final frenchBeloteGameRepository = FrenchBeloteGameRepository(
+        final contreeBeloteGameRepository = ContreeBeloteGameRepository(
             provider: instance, lastFetchGameDocument: mockDocumentSnapshot);
         expect(
-            await frenchBeloteGameRepository.getAllGamesOfPlayer(
+            await contreeBeloteGameRepository.getAllGamesOfPlayer(
                 playerId, pageSize),
-            <FrenchBelote>[]);
+            <ContreeBelote>[]);
       });
       test('PRD', () async {
-        const collection = 'belote-game-prod';
+        const collection = 'contree-game-prod';
         final mockQueryFromOrderBy = MockQuery<Map<String, dynamic>>();
         final mockQueryFromStartAfterDocument =
             MockQuery<Map<String, dynamic>>();
@@ -151,18 +151,18 @@ void main() {
         when(mockQueryFromLimit.get())
             .thenAnswer((_) async => mockQuerySnapshot);
         when(mockQuerySnapshot.docs).thenReturn([]);
-        final frenchBeloteGameRepository = FrenchBeloteGameRepository(
+        final contreeBeloteGameRepository = ContreeBeloteGameRepository(
             provider: instance,
             lastFetchGameDocument: mockDocumentSnapshot,
             environment: 'prod');
         expect(
-            await frenchBeloteGameRepository.getAllGamesOfPlayer(
+            await contreeBeloteGameRepository.getAllGamesOfPlayer(
                 playerId, pageSize),
-            <FrenchBelote>[]);
+            <ContreeBelote>[]);
       });
 
       test('Last fetched document not null', () async {
-        const collection = 'belote-game-prod';
+        const collection = 'contree-game-prod';
         final mockQueryFromOrderBy = MockQuery<Map<String, dynamic>>();
         final mockQueryFromLimit = MockQuery<Map<String, dynamic>>();
         when(instance.collection(collection))
@@ -177,16 +177,16 @@ void main() {
         when(mockQueryFromLimit.get())
             .thenAnswer((_) async => mockQuerySnapshot);
         when(mockQuerySnapshot.docs).thenReturn([]);
-        final frenchBeloteGameRepository =
-            FrenchBeloteGameRepository(provider: instance, environment: 'prod');
+        final contreeBeloteGameRepository = ContreeBeloteGameRepository(
+            provider: instance, environment: 'prod');
         expect(
-            await frenchBeloteGameRepository.getAllGamesOfPlayer(
+            await contreeBeloteGameRepository.getAllGamesOfPlayer(
                 playerId, pageSize),
-            <FrenchBelote>[]);
+            <ContreeBelote>[]);
       });
 
       test('Last fetched document not null and return data', () async {
-        const collection = 'belote-game-prod';
+        const collection = 'contree-game-prod';
         final mockQueryFromOrderBy = MockQuery<Map<String, dynamic>>();
         final mockQueryFromLimit = MockQuery<Map<String, dynamic>>();
         when(instance.collection(collection))
@@ -201,14 +201,14 @@ void main() {
         when(mockQueryFromLimit.get())
             .thenAnswer((_) async => mockQuerySnapshot);
         when(mockQuerySnapshot.docs).thenReturn([mockQueryDocumentSnapshot]);
-        when(mockQueryDocumentSnapshot.data()).thenReturn(jsonFrenchBelote);
+        when(mockQueryDocumentSnapshot.data()).thenReturn(jsonContreeBelote);
         when(mockQueryDocumentSnapshot.id).thenReturn(uid);
-        final frenchBeloteGameRepository =
-            FrenchBeloteGameRepository(provider: instance, environment: 'prod');
+        final contreeBeloteGameRepository = ContreeBeloteGameRepository(
+            provider: instance, environment: 'prod');
         expect(
-            await frenchBeloteGameRepository.getAllGamesOfPlayer(
+            await contreeBeloteGameRepository.getAllGamesOfPlayer(
                 playerId, pageSize),
-            <FrenchBelote>[game]);
+            <ContreeBelote>[game]);
       });
     });
   });
