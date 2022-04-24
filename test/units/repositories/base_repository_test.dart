@@ -100,6 +100,19 @@ void main() {
       await fakeRepository.update(cargObject);
     });
 
+    test('Partial update', () async {
+      var collection = 'fake-collection-dev';
+      var cargObject = FakeCargObject(id: 'myId');
+      when(instance.collection(collection)).thenReturn(mockCollectionReference);
+      when(mockCollectionReference.doc('myId'))
+          .thenReturn(mockDocumentReference);
+      when(mockDocumentReference.update({'myField': 'myValue', 'mySecondField': 0}))
+          .thenAnswer((_) async => {});
+      final fakeRepository = FakeBaseRepository(
+          provider: instance, database: 'fake-collection', environment: 'dev');
+      await fakeRepository.partialUpdate(cargObject, {'myField': 'myValue', 'mySecondField': 0});
+    });
+
     test('Create', () async {
       var collection = 'fake-collection-dev';
       var cargObject = FakeCargObject(id: 'myId');

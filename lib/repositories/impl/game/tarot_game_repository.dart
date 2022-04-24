@@ -1,7 +1,6 @@
 import 'package:carg/const.dart';
 import 'package:carg/exceptions/repository_exception.dart';
 import 'package:carg/models/game/tarot.dart';
-import 'package:carg/models/score/misc/tarot_player_score.dart';
 import 'package:carg/repositories/game/abstract_tarot_game_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -29,20 +28,6 @@ class TarotGameRepository extends AbstractTarotGameRepository {
       } else {
         return null;
       }
-    } on FirebaseException catch (e) {
-      throw RepositoryException(e.message!);
-    }
-  }
-
-  @override
-  Future<void> endAGame(
-      Tarot game, TarotPlayerScore winners, DateTime now) async {
-    try {
-      await provider.collection(connectionString).doc(game.id).update({
-        'is_ended': true,
-        'ending_date': now.toString(),
-        'winners': winners.player
-      });
     } on FirebaseException catch (e) {
       throw RepositoryException(e.message!);
     }

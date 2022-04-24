@@ -50,7 +50,7 @@ void main() {
     reset(mockCollectionReference);
   });
 
-  group('PlayerRepository', () {
+  group('TarotScoreRepository', () {
     group('Get Player', () {
       test('DEV', () async {
         var collection = 'tarot-score-dev';

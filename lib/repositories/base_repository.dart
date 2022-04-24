@@ -42,6 +42,19 @@ abstract class BaseRepository<T extends CargObject> {
     }
   }
 
+  /// Update a [T] object in the database with a specific [partToUpdate]
+  /// Take a [T] and a [partToUpdate]. Return nothing
+  Future<void> partialUpdate(T t, Map<String, dynamic> partToUpdate) async {
+    try {
+      await provider
+          .collection(connectionString)
+          .doc(t.id)
+          .update(partToUpdate);
+    } on FirebaseException catch (e) {
+      throw RepositoryException(e.message!);
+    }
+  }
+
   /// Update a [T] object in the database
   /// Take a [T] and return nothing
   Future<void> update(T t) async {

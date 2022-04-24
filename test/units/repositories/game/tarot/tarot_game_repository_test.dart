@@ -1,7 +1,6 @@
 import 'package:carg/exceptions/repository_exception.dart';
 import 'package:carg/models/game/tarot.dart';
 import 'package:carg/models/players/tarot_players.dart';
-import 'package:carg/models/score/misc/tarot_player_score.dart';
 import 'package:carg/repositories/impl/game/tarot_game_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -99,53 +98,6 @@ void main() {
         final tarotRepository =
             TarotGameRepository(provider: instance, environment: 'prod');
         expect(tarotRepository.get(uid), throwsA(isA<RepositoryException>()));
-      });
-    });
-
-    group('End a game', () {
-      test('DEV', () async {
-        final winners = TarotPlayerScore(score: 10, player: 'player_id');
-        const collection = 'tarot-game-dev';
-        final now = DateTime.now();
-        when(instance.collection(collection))
-            .thenReturn(mockCollectionReference);
-        when(mockCollectionReference.doc(uid))
-            .thenReturn(mockDocumentReference);
-        final tarotRepository = TarotGameRepository(provider: instance);
-        await tarotRepository.endAGame(game, winners, now);
-        verify(mockDocumentReference.update({
-          'is_ended': true,
-          'ending_date': now.toString(),
-          'winners': winners.player
-        })).called(1);
-      });
-      test('PRD', () async {
-        final winners = TarotPlayerScore(score: 10, player: 'player_id');
-        const collection = 'tarot-game-prod';
-        final now = DateTime.now();
-        when(instance.collection(collection))
-            .thenReturn(mockCollectionReference);
-        when(mockCollectionReference.doc(uid))
-            .thenReturn(mockDocumentReference);
-        final tarotRepository =
-            TarotGameRepository(provider: instance, environment: 'prod');
-        await tarotRepository.endAGame(game, winners, now);
-        verify(mockDocumentReference.update({
-          'is_ended': true,
-          'ending_date': now.toString(),
-          'winners': winners.player
-        })).called(1);
-      });
-      test('Throw exception', () async {
-        final winners = TarotPlayerScore(score: 10, player: 'player_id');
-        const collection = 'tarot-game-prod';
-        final now = DateTime.now();
-        when(instance.collection(collection))
-            .thenThrow(FirebaseException(plugin: 'test', message: 'test'));
-        final tarotRepository =
-            TarotGameRepository(provider: instance, environment: 'prod');
-        expect(tarotRepository.endAGame(game, winners, now),
-            throwsA(isA<RepositoryException>()));
       });
     });
 
