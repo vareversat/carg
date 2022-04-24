@@ -76,8 +76,7 @@ class FakeBeloteGameService extends AbstractBeloteGameService {
   TeamService
 ])
 void main() {
-  final mockBeloteScoreService =
-      MockAbstractBeloteScoreService<FakeBeloteScore>();
+  final mockBeloteScoreService = MockAbstractBeloteScoreService();
   final mockBeloteGameRepository = MockAbstractBeloteGameRepository();
   final mockPlayerService = MockPlayerService();
   final mockTeamService = MockTeamService();
@@ -97,7 +96,7 @@ void main() {
   final game = FakeBeloteGame(uid, date, players);
   final gameNoId = FakeBeloteGame(null, date, players);
 
-  group('FrenchBeloteGameService', () {
+  group('AbstractBeloteGameService', () {
     group('End a game', () {
       test('OK', () async {
         when(mockBeloteScoreService.getScoreByGame(uid))
@@ -163,47 +162,6 @@ void main() {
         final finalGame = await beloteGameService.createGameWithPlayerList(
             playerIdsOrder, playerIdsTeam, date);
         expect(finalGame, game);
-      });
-    });
-
-    group('Get All Games Of Player Paginated', () {
-      test('OK', () async {
-        const userID = 'user_123';
-        const pageSize = 10;
-        when(mockBeloteGameRepository.getAllGamesOfPlayer(userID, pageSize))
-            .thenAnswer((_) => Future(() => [game]));
-        final beloteGameService = FakeBeloteGameService(
-            beloteScoreService: mockBeloteScoreService,
-            beloteGameRepository: mockBeloteGameRepository,
-            playerService: mockPlayerService,
-            teamService: mockTeamService);
-        final finalGames = await beloteGameService.getAllGamesOfPlayerPaginated(
-            userID, pageSize);
-        expect(finalGames, [game]);
-      });
-    });
-
-    group('Get All Games Of Player Paginated', () {
-      test('NOK - No userID', () async {
-        const pageSize = 10;
-        final beloteGameService = FakeBeloteGameService(
-            beloteScoreService: mockBeloteScoreService,
-            beloteGameRepository: mockBeloteGameRepository,
-            playerService: mockPlayerService,
-            teamService: mockTeamService);
-        expect(beloteGameService.getAllGamesOfPlayerPaginated(null, pageSize),
-            throwsA(isA<ServiceException>()));
-      });
-
-      test('NOK - No page size', () async {
-        const userID = 'user_123';
-        final beloteGameService = FakeBeloteGameService(
-            beloteScoreService: mockBeloteScoreService,
-            beloteGameRepository: mockBeloteGameRepository,
-            playerService: mockPlayerService,
-            teamService: mockTeamService);
-        expect(beloteGameService.getAllGamesOfPlayerPaginated(userID, null),
-            throwsA(isA<ServiceException>()));
       });
     });
   });

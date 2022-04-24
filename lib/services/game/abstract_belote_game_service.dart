@@ -91,22 +91,6 @@ abstract class AbstractBeloteGameService<T extends Belote,
     }
   }
 
-  @override
-  Future<List<T>> getAllGamesOfPlayerPaginated(
-      String? playerId, int? pageSize) async {
-    if (playerId == null || pageSize == null) {
-      throw ServiceException('Please use a non null player id and page size');
-    }
-    try {
-      var beloteGames =
-          await beloteGameRepository.getAllGamesOfPlayer(playerId, pageSize);
-      return beloteGames;
-    } on Exception catch (e) {
-      throw ServiceException(
-          'Error during the game fetching : ${e.toString()}');
-    }
-  }
-
   /// Create a new Belote object with the correct type
   Future<T> generateNewGame(Team us, Team them,
       List<String?>? playerListForOrder, DateTime? startingDate);
