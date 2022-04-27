@@ -1,12 +1,11 @@
-import 'package:carg/exceptions/service_exception.dart';
-import 'package:carg/models/carg_object.dart';
-import 'package:carg/repositories/base_abstract_repository.dart';
-
 import 'dart:developer' as developer;
 
-abstract class BaseAbstractService<T extends CargObject> {
+import 'package:carg/exceptions/service_exception.dart';
+import 'package:carg/models/carg_object.dart';
+import 'package:carg/repositories/base_repository.dart';
 
-  final BaseAbstractRepository<T> repository;
+abstract class BaseAbstractService<T extends CargObject> {
+  final BaseRepository<T> repository;
 
   BaseAbstractService({required this.repository});
 
@@ -16,14 +15,14 @@ abstract class BaseAbstractService<T extends CargObject> {
     if (id == null) {
       throw ServiceException('Please provide an ID');
     }
-    developer.log('Get document $id');
+    developer.log('[$T] Get document $id');
     return await repository.get(id);
   }
 
   /// Delete a [T] object from the database
   /// Take an [id] and return nothing
   Future<void> delete(String id) async {
-    developer.log('Delete document $id');
+    developer.log('[$T] Delete document $id');
     await repository.delete(id);
   }
 
@@ -31,9 +30,10 @@ abstract class BaseAbstractService<T extends CargObject> {
   /// Take a [T] and return nothing
   Future<void> update(T? t) async {
     if (t == null || t.id == null) {
-      throw ServiceException('Please provide an object with an ID for the update');
+      throw ServiceException(
+          'Please provide an object with an ID for the update');
     }
-    developer.log('Document ${t.id} updated');
+    developer.log('[$T] Document ${t.id} updated');
     return await repository.update(t);
   }
 
@@ -43,8 +43,8 @@ abstract class BaseAbstractService<T extends CargObject> {
     if (t == null) {
       throw ServiceException('Please provide an object to create');
     }
-    var id =  await repository.create(t);
-    developer.log('Document $id created');
+    var id = await repository.create(t);
+    developer.log('[$T] Document $id created');
     return id;
   }
 }
