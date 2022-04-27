@@ -79,7 +79,7 @@ void main() {
         scoreService.getScoreByGameStream(uid);
       });
 
-      test('NOK - Exception', () {
+      test('NOK - Exception', () async* {
         final scoreService =
             FakeScoreService(scoreRepository: mockAbstractScoreRepository);
         expect(scoreService.getScoreByGameStream(null),
