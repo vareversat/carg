@@ -2,40 +2,10 @@
 // in carg/test/units/services/player/player_service_test.dart.
 // Do not manually edit this file.
 
-import 'dart:async' as _i25;
+import 'dart:async' as _i4;
 
-import 'package:carg/models/carg_object.dart' as _i17;
-import 'package:carg/models/game/belote_game.dart' as _i3;
-import 'package:carg/models/game/french_belote.dart' as _i19;
-import 'package:carg/models/game/game.dart' as _i9;
-import 'package:carg/models/player.dart' as _i26;
-import 'package:carg/models/players/belote_players.dart' as _i4;
-import 'package:carg/models/players/players.dart' as _i10;
-import 'package:carg/models/score/belote_score.dart' as _i6;
-import 'package:carg/models/score/french_belote_score.dart' as _i22;
-import 'package:carg/models/score/round/belote_round.dart' as _i7;
-import 'package:carg/models/score/round/french_belote_round.dart' as _i23;
-import 'package:carg/models/score/round/round.dart' as _i13;
-import 'package:carg/models/score/score.dart' as _i12;
-import 'package:carg/models/team.dart' as _i28;
-import 'package:carg/repositories/base_repository.dart' as _i18;
-import 'package:carg/repositories/game/abstract_belote_game_repository.dart'
-    as _i5;
-import 'package:carg/repositories/game/abstract_game_repository.dart' as _i11;
-import 'package:carg/repositories/impl/player_repository.dart' as _i24;
-import 'package:carg/repositories/score/abstract_belote_score_repository.dart'
-    as _i20;
-import 'package:carg/repositories/score/abstract_score_repository.dart' as _i21;
-import 'package:carg/services/impl/game/french_belote_game_service.dart'
-    as _i27;
-import 'package:carg/services/impl/round/french_belote_round_service.dart'
-    as _i30;
-import 'package:carg/services/impl/score/french_belote_score_service.dart'
-    as _i29;
-import 'package:carg/services/player/abstract_player_service.dart' as _i15;
-import 'package:carg/services/score/abstract_belote_score_service.dart' as _i8;
-import 'package:carg/services/score/abstract_score_service.dart' as _i14;
-import 'package:carg/services/team/abstract_team_service.dart' as _i16;
+import 'package:carg/models/player.dart' as _i5;
+import 'package:carg/repositories/impl/player_repository.dart' as _i3;
 import 'package:cloud_firestore/cloud_firestore.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 
@@ -52,48 +22,10 @@ import 'package:mockito/mockito.dart' as _i1;
 class _FakeFirebaseFirestore_0 extends _i1.Fake
     implements _i2.FirebaseFirestore {}
 
-class _FakeAbstractBeloteGameRepository_1<
-        T extends _i3.Belote<_i4.BelotePlayers>> extends _i1.Fake
-    implements _i5.AbstractBeloteGameRepository<T> {}
-
-class _FakeAbstractBeloteScoreService_2<
-        T extends _i6.BeloteScore<_i7.BeloteRound>> extends _i1.Fake
-    implements _i8.AbstractBeloteScoreService<T> {}
-
-class _FakeAbstractGameRepository_3<T extends _i9.Game<_i10.Players>>
-    extends _i1.Fake implements _i11.AbstractGameRepository<T> {}
-
-class _FakeAbstractScoreService_4<T extends _i12.Score<_i13.Round>>
-    extends _i1.Fake implements _i14.AbstractScoreService<T> {}
-
-class _FakeAbstractPlayerService_5 extends _i1.Fake
-    implements _i15.AbstractPlayerService {}
-
-class _FakeAbstractTeamService_6 extends _i1.Fake
-    implements _i16.AbstractTeamService {}
-
-class _FakeBaseRepository_7<T extends _i17.CargObject> extends _i1.Fake
-    implements _i18.BaseRepository<T> {}
-
-class _FakeFrenchBelote_8 extends _i1.Fake implements _i19.FrenchBelote {}
-
-class _FakeAbstractBeloteScoreRepository_9<
-        T extends _i6.BeloteScore<_i7.BeloteRound>> extends _i1.Fake
-    implements _i20.AbstractBeloteScoreRepository<T> {}
-
-class _FakeAbstractScoreRepository_10<T extends _i12.Score<_i13.Round>>
-    extends _i1.Fake implements _i21.AbstractScoreRepository<T> {}
-
-class _FakeFrenchBeloteScore_11 extends _i1.Fake
-    implements _i22.FrenchBeloteScore {}
-
-class _FakeFrenchBeloteRound_12 extends _i1.Fake
-    implements _i23.FrenchBeloteRound {}
-
 /// A class which mocks [PlayerRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockPlayerRepository extends _i1.Mock implements _i24.PlayerRepository {
+class MockPlayerRepository extends _i1.Mock implements _i3.PlayerRepository {
   MockPlayerRepository() {
     _i1.throwOnMissingStub(this);
   }
@@ -102,6 +34,7 @@ class MockPlayerRepository extends _i1.Mock implements _i24.PlayerRepository {
   String get database =>
       (super.noSuchMethod(Invocation.getter(#database), returnValue: '')
           as String);
+
   @override
   String get environment =>
       (super.noSuchMethod(Invocation.getter(#environment), returnValue: '')
@@ -118,270 +51,45 @@ class MockPlayerRepository extends _i1.Mock implements _i24.PlayerRepository {
   set connectionString(String? _connectionString) => super.noSuchMethod(
       Invocation.setter(#connectionString, _connectionString),
       returnValueForMissingStub: null);
+
   @override
-  _i25.Future<_i26.Player?> get(String? id) => (super.noSuchMethod(
-      Invocation.method(#get, [id]),
-      returnValue: Future<_i26.Player?>.value()) as _i25.Future<_i26.Player?>);
+  _i4.Future<_i5.Player?> get(String? id) =>
+      (super.noSuchMethod(Invocation.method(#get, [id]),
+          returnValue: Future<_i5.Player?>.value()) as _i4.Future<_i5.Player?>);
+
   @override
-  _i25.Future<_i26.Player?> getPlayerOfUser(String? userId) =>
+  _i4.Future<_i5.Player?> getPlayerOfUser(String? userId) =>
       (super.noSuchMethod(Invocation.method(#getPlayerOfUser, [userId]),
-              returnValue: Future<_i26.Player?>.value())
-          as _i25.Future<_i26.Player?>);
+          returnValue: Future<_i5.Player?>.value()) as _i4.Future<_i5.Player?>);
+
   @override
-  _i25.Future<void> delete(String? id) => (super.noSuchMethod(
-      Invocation.method(#delete, [id]),
-      returnValue: Future<void>.value(),
-      returnValueForMissingStub: Future<void>.value()) as _i25.Future<void>);
+  _i4.Future<void> delete(String? id) =>
+      (super.noSuchMethod(Invocation.method(#delete, [id]),
+          returnValue: Future<void>.value(),
+          returnValueForMissingStub: Future<void>.value()) as _i4.Future<void>);
+
   @override
-  _i25.Future<void> updateField(String? id, String? fieldName, dynamic value) =>
+  _i4.Future<void> updateField(String? id, String? fieldName, dynamic value) =>
       (super.noSuchMethod(
-              Invocation.method(#updateField, [id, fieldName, value]),
-              returnValue: Future<void>.value(),
-              returnValueForMissingStub: Future<void>.value())
-          as _i25.Future<void>);
+          Invocation.method(#updateField, [id, fieldName, value]),
+          returnValue: Future<void>.value(),
+          returnValueForMissingStub: Future<void>.value()) as _i4.Future<void>);
+
   @override
-  _i25.Future<void> update(_i26.Player? t) => (super.noSuchMethod(
-      Invocation.method(#update, [t]),
-      returnValue: Future<void>.value(),
-      returnValueForMissingStub: Future<void>.value()) as _i25.Future<void>);
+  _i4.Future<void> partialUpdate(
+          _i5.Player? t, Map<String, dynamic>? partToUpdate) =>
+      (super.noSuchMethod(Invocation.method(#partialUpdate, [t, partToUpdate]),
+          returnValue: Future<void>.value(),
+          returnValueForMissingStub: Future<void>.value()) as _i4.Future<void>);
+
   @override
-  _i25.Future<String> create(_i26.Player? t) =>
+  _i4.Future<void> update(_i5.Player? t) =>
+      (super.noSuchMethod(Invocation.method(#update, [t]),
+          returnValue: Future<void>.value(),
+          returnValueForMissingStub: Future<void>.value()) as _i4.Future<void>);
+
+  @override
+  _i4.Future<String> create(_i5.Player? t) =>
       (super.noSuchMethod(Invocation.method(#create, [t]),
-          returnValue: Future<String>.value('')) as _i25.Future<String>);
-}
-
-/// A class which mocks [FrenchBeloteGameService].
-///
-/// See the documentation for Mockito's code generation for more information.
-class MockFrenchBeloteGameService extends _i1.Mock
-    implements _i27.FrenchBeloteGameService {
-  MockFrenchBeloteGameService() {
-    _i1.throwOnMissingStub(this);
-  }
-
-  @override
-  _i5.AbstractBeloteGameRepository<_i19.FrenchBelote>
-      get beloteGameRepository =>
-          (super.noSuchMethod(Invocation.getter(#beloteGameRepository),
-                  returnValue:
-                      _FakeAbstractBeloteGameRepository_1<_i19.FrenchBelote>())
-              as _i5.AbstractBeloteGameRepository<_i19.FrenchBelote>);
-  @override
-  _i8.AbstractBeloteScoreService<_i22.FrenchBeloteScore>
-      get beloteScoreService => (super.noSuchMethod(
-              Invocation.getter(#beloteScoreService),
-              returnValue:
-                  _FakeAbstractBeloteScoreService_2<_i22.FrenchBeloteScore>())
-          as _i8.AbstractBeloteScoreService<_i22.FrenchBeloteScore>);
-  @override
-  _i11.AbstractGameRepository<_i19.FrenchBelote> get gameRepository =>
-      (super.noSuchMethod(Invocation.getter(#gameRepository),
-              returnValue: _FakeAbstractGameRepository_3<_i19.FrenchBelote>())
-          as _i11.AbstractGameRepository<_i19.FrenchBelote>);
-  @override
-  _i14.AbstractScoreService<_i22.FrenchBeloteScore> get scoreService =>
-      (super.noSuchMethod(Invocation.getter(#scoreService),
-              returnValue:
-                  _FakeAbstractScoreService_4<_i22.FrenchBeloteScore>())
-          as _i14.AbstractScoreService<_i22.FrenchBeloteScore>);
-  @override
-  _i15.AbstractPlayerService get playerService =>
-      (super.noSuchMethod(Invocation.getter(#playerService),
-              returnValue: _FakeAbstractPlayerService_5())
-          as _i15.AbstractPlayerService);
-  @override
-  _i16.AbstractTeamService get teamService => (super.noSuchMethod(
-      Invocation.getter(#teamService),
-      returnValue: _FakeAbstractTeamService_6()) as _i16.AbstractTeamService);
-  @override
-  _i18.BaseRepository<_i19.FrenchBelote> get repository =>
-      (super.noSuchMethod(Invocation.getter(#repository),
-              returnValue: _FakeBaseRepository_7<_i19.FrenchBelote>())
-          as _i18.BaseRepository<_i19.FrenchBelote>);
-  @override
-  _i25.Future<_i19.FrenchBelote> generateNewGame(
-          _i28.Team? us,
-          _i28.Team? them,
-          List<String?>? playerListForOrder,
-          List<String?>? playerListForTeam) =>
-      (super.noSuchMethod(
-              Invocation.method(#generateNewGame,
-                  [us, them, playerListForOrder, playerListForTeam]),
-              returnValue:
-                  Future<_i19.FrenchBelote>.value(_FakeFrenchBelote_8()))
-          as _i25.Future<_i19.FrenchBelote>);
-  @override
-  _i25.Future<dynamic> endAGame(_i19.FrenchBelote? game) =>
-      (super.noSuchMethod(Invocation.method(#endAGame, [game]),
-          returnValue: Future<dynamic>.value()) as _i25.Future<dynamic>);
-  @override
-  _i25.Future<_i19.FrenchBelote> createGameWithPlayerList(
-          List<String?>? playerListForOrder,
-          List<String?>? playerListForTeam) =>
-      (super.noSuchMethod(
-              Invocation.method(#createGameWithPlayerList,
-                  [playerListForOrder, playerListForTeam]),
-              returnValue:
-                  Future<_i19.FrenchBelote>.value(_FakeFrenchBelote_8()))
-          as _i25.Future<_i19.FrenchBelote>);
-  @override
-  _i25.Future<List<_i19.FrenchBelote>> getAllGamesOfPlayerPaginated(
-          String? playerId, int? pageSize) =>
-      (super.noSuchMethod(
-              Invocation.method(
-                  #getAllGamesOfPlayerPaginated, [playerId, pageSize]),
-              returnValue:
-                  Future<List<_i19.FrenchBelote>>.value(<_i19.FrenchBelote>[]))
-          as _i25.Future<List<_i19.FrenchBelote>>);
-  @override
-  void resetLastPointedGame() =>
-      super.noSuchMethod(Invocation.method(#resetLastPointedGame, []),
-          returnValueForMissingStub: null);
-  @override
-  _i25.Future<_i19.FrenchBelote?> getGame(String? gameId) =>
-      (super.noSuchMethod(Invocation.method(#getGame, [gameId]),
-              returnValue: Future<_i19.FrenchBelote?>.value())
-          as _i25.Future<_i19.FrenchBelote?>);
-  @override
-  _i25.Future<void> deleteGame(String? gameId) => (super.noSuchMethod(
-      Invocation.method(#deleteGame, [gameId]),
-      returnValue: Future<void>.value(),
-      returnValueForMissingStub: Future<void>.value()) as _i25.Future<void>);
-  @override
-  _i25.Future<String> create(_i19.FrenchBelote? t) =>
-      (super.noSuchMethod(Invocation.method(#create, [t]),
-          returnValue: Future<String>.value('')) as _i25.Future<String>);
-  @override
-  _i25.Future<void> delete(String? id) => (super.noSuchMethod(
-      Invocation.method(#delete, [id]),
-      returnValue: Future<void>.value(),
-      returnValueForMissingStub: Future<void>.value()) as _i25.Future<void>);
-  @override
-  _i25.Future<_i19.FrenchBelote?> get(String? id) =>
-      (super.noSuchMethod(Invocation.method(#get, [id]),
-              returnValue: Future<_i19.FrenchBelote?>.value())
-          as _i25.Future<_i19.FrenchBelote?>);
-  @override
-  _i25.Future<void> update(_i19.FrenchBelote? t) => (super.noSuchMethod(
-      Invocation.method(#update, [t]),
-      returnValue: Future<void>.value(),
-      returnValueForMissingStub: Future<void>.value()) as _i25.Future<void>);
-}
-
-/// A class which mocks [FrenchBeloteScoreService].
-///
-/// See the documentation for Mockito's code generation for more information.
-class MockFrenchBeloteScoreService extends _i1.Mock
-    implements _i29.FrenchBeloteScoreService {
-  MockFrenchBeloteScoreService() {
-    _i1.throwOnMissingStub(this);
-  }
-
-  @override
-  _i20.AbstractBeloteScoreRepository<_i22.FrenchBeloteScore>
-      get beloteScoreRepository =>
-          (super.noSuchMethod(Invocation.getter(#beloteScoreRepository),
-                  returnValue: _FakeAbstractBeloteScoreRepository_9<
-                      _i22.FrenchBeloteScore>())
-              as _i20.AbstractBeloteScoreRepository<_i22.FrenchBeloteScore>);
-  @override
-  _i21.AbstractScoreRepository<_i22.FrenchBeloteScore> get scoreRepository =>
-      (super.noSuchMethod(Invocation.getter(#scoreRepository),
-              returnValue:
-                  _FakeAbstractScoreRepository_10<_i22.FrenchBeloteScore>())
-          as _i21.AbstractScoreRepository<_i22.FrenchBeloteScore>);
-  @override
-  _i18.BaseRepository<_i12.Score<_i13.Round>> get repository =>
-      (super.noSuchMethod(Invocation.getter(#repository),
-              returnValue: _FakeBaseRepository_7<_i12.Score<_i13.Round>>())
-          as _i18.BaseRepository<_i12.Score<_i13.Round>>);
-  @override
-  _i25.Future<_i22.FrenchBeloteScore> generateNewScore(String? gameId) =>
-      (super.noSuchMethod(Invocation.method(#generateNewScore, [gameId]),
-              returnValue: Future<_i22.FrenchBeloteScore>.value(
-                  _FakeFrenchBeloteScore_11()))
-          as _i25.Future<_i22.FrenchBeloteScore>);
-  @override
-  _i25.Future<_i22.FrenchBeloteScore?> getScoreByGame(String? gameId) =>
-      (super.noSuchMethod(Invocation.method(#getScoreByGame, [gameId]),
-              returnValue: Future<_i22.FrenchBeloteScore?>.value())
-          as _i25.Future<_i22.FrenchBeloteScore?>);
-  @override
-  _i25.Stream<_i22.FrenchBeloteScore?> getScoreByGameStream(String? gameId) =>
-      (super.noSuchMethod(Invocation.method(#getScoreByGameStream, [gameId]),
-              returnValue: Stream<_i22.FrenchBeloteScore?>.empty())
-          as _i25.Stream<_i22.FrenchBeloteScore?>);
-  @override
-  _i25.Future<void> deleteScoreByGame(String? gameId) => (super.noSuchMethod(
-      Invocation.method(#deleteScoreByGame, [gameId]),
-      returnValue: Future<void>.value(),
-      returnValueForMissingStub: Future<void>.value()) as _i25.Future<void>);
-  @override
-  _i25.Future<_i12.Score<_i13.Round>?> get(String? id) =>
-      (super.noSuchMethod(Invocation.method(#get, [id]),
-              returnValue: Future<_i12.Score<_i13.Round>?>.value())
-          as _i25.Future<_i12.Score<_i13.Round>?>);
-  @override
-  _i25.Future<void> delete(String? id) => (super.noSuchMethod(
-      Invocation.method(#delete, [id]),
-      returnValue: Future<void>.value(),
-      returnValueForMissingStub: Future<void>.value()) as _i25.Future<void>);
-  @override
-  _i25.Future<void> update(_i12.Score<_i13.Round>? t) => (super.noSuchMethod(
-      Invocation.method(#update, [t]),
-      returnValue: Future<void>.value(),
-      returnValueForMissingStub: Future<void>.value()) as _i25.Future<void>);
-  @override
-  _i25.Future<String> create(_i12.Score<_i13.Round>? t) =>
-      (super.noSuchMethod(Invocation.method(#create, [t]),
-          returnValue: Future<String>.value('')) as _i25.Future<String>);
-}
-
-/// A class which mocks [FrenchBeloteRoundService].
-///
-/// See the documentation for Mockito's code generation for more information.
-class MockFrenchBeloteRoundService extends _i1.Mock
-    implements _i30.FrenchBeloteRoundService {
-  MockFrenchBeloteRoundService() {
-    _i1.throwOnMissingStub(this);
-  }
-
-  @override
-  _i14.AbstractScoreService<_i22.FrenchBeloteScore> get scoreService =>
-      (super.noSuchMethod(Invocation.getter(#scoreService),
-              returnValue:
-                  _FakeAbstractScoreService_4<_i22.FrenchBeloteScore>())
-          as _i14.AbstractScoreService<_i22.FrenchBeloteScore>);
-  @override
-  _i14.AbstractScoreService<_i22.FrenchBeloteScore> get abstractScoreService =>
-      (super.noSuchMethod(Invocation.getter(#abstractScoreService),
-              returnValue:
-                  _FakeAbstractScoreService_4<_i22.FrenchBeloteScore>())
-          as _i14.AbstractScoreService<_i22.FrenchBeloteScore>);
-  @override
-  _i23.FrenchBeloteRound getNewRound() =>
-      (super.noSuchMethod(Invocation.method(#getNewRound, []),
-          returnValue: _FakeFrenchBeloteRound_12()) as _i23.FrenchBeloteRound);
-  @override
-  _i25.Future<void> addRoundToGame(
-          String? gameId, _i23.FrenchBeloteRound? round) =>
-      (super.noSuchMethod(Invocation.method(#addRoundToGame, [gameId, round]),
-              returnValue: Future<void>.value(),
-              returnValueForMissingStub: Future<void>.value())
-          as _i25.Future<void>);
-  @override
-  _i25.Future<void> editLastRoundOfScoreByGameId(
-          String? gameId, _i23.FrenchBeloteRound? round) =>
-      (super.noSuchMethod(
-              Invocation.method(#editLastRoundOfScoreByGameId, [gameId, round]),
-              returnValue: Future<void>.value(),
-              returnValueForMissingStub: Future<void>.value())
-          as _i25.Future<void>);
-  @override
-  _i25.Future<void> deleteLastRoundOfScoreByGameId(String? gameId) =>
-      (super.noSuchMethod(
-              Invocation.method(#deleteLastRoundOfScoreByGameId, [gameId]),
-              returnValue: Future<void>.value(),
-              returnValueForMissingStub: Future<void>.value())
-          as _i25.Future<void>);
+          returnValue: Future<String>.value('')) as _i4.Future<String>);
 }

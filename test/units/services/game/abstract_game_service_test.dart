@@ -42,30 +42,6 @@ class FakeGame extends Game {
       : super(players: players, id: id, startingDate: startingDate);
 }
 
-class FakeScore extends Score {
-  FakeScore(String? id) : super(id: id);
-
-  @override
-  Score<Round> deleteLastRound() {
-    throw UnimplementedError();
-  }
-
-  @override
-  Round getLastRound() {
-    throw UnimplementedError();
-  }
-
-  @override
-  Score<Round> replaceLastRound(Round round) {
-    throw UnimplementedError();
-  }
-
-  @override
-  Map<String, dynamic> toJSON() {
-    throw UnimplementedError();
-  }
-}
-
 class FakeGameService extends AbstractGameService {
   FakeGameService(
       {required AbstractScoreService<Score<Round>> scoreService,

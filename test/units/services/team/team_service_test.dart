@@ -3,10 +3,7 @@ import 'package:carg/exceptions/service_exception.dart';
 import 'package:carg/models/game/french_belote.dart';
 import 'package:carg/models/team.dart';
 import 'package:carg/repositories/impl/team_repository.dart';
-import 'package:carg/services/impl/game/french_belote_game_service.dart';
 import 'package:carg/services/impl/player_service.dart';
-import 'package:carg/services/impl/round/french_belote_round_service.dart';
-import 'package:carg/services/impl/score/french_belote_score_service.dart';
 import 'package:carg/services/impl/team_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -20,20 +17,11 @@ var playerIds = ['p1', 'p2'];
 @GenerateMocks([
   TeamRepository,
   PlayerService,
-  FrenchBeloteGameService,
-  FrenchBeloteScoreService,
-  FrenchBeloteRoundService
 ])
 void main() {
   final mockTeamRepository = MockTeamRepository();
   final mockPlayerService = MockPlayerService();
-  final mockFrenchBeloteGameService = MockFrenchBeloteGameService();
-  final mockFrenchBeloteScoreService = MockFrenchBeloteScoreService();
-  final mockFrenchBeloteRoundService = MockFrenchBeloteRoundService();
-  final game = FrenchBelote(
-      gameService: mockFrenchBeloteGameService,
-      scoreService: mockFrenchBeloteScoreService,
-      roundService: mockFrenchBeloteRoundService);
+  final game = FrenchBelote();
   setUp(() {
     reset(mockTeamRepository);
     reset(mockPlayerService);

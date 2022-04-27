@@ -32,7 +32,7 @@ void main() {
 
   final score = TarotScore(
       game: uid,
-      scores: [tarotPlayerScore, tarotPlayerScore2],
+      totalPoints: [tarotPlayerScore, tarotPlayerScore2],
       rounds: [TarotRound(attackScore: 100.0, defenseScore: 12.0)],
       players: players);
 
