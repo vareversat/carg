@@ -23,7 +23,7 @@ abstract class BaseRepository<T extends CargObject> {
   /// Take an [id] and return nothing
   Future<void> delete(String id) async {
     try {
-    await provider.collection(connectionString).doc(id).delete();
+      await provider.collection(connectionString).doc(id).delete();
     } on FirebaseException catch (e) {
       throw RepositoryException(e.message!);
     }
@@ -59,10 +59,7 @@ abstract class BaseRepository<T extends CargObject> {
   /// Take a [T] and return nothing
   Future<void> update(T t) async {
     try {
-      await provider
-          .collection(connectionString)
-          .doc(t.id)
-          .update(t.toJSON());
+      await provider.collection(connectionString).doc(t.id).update(t.toJSON());
     } on FirebaseException catch (e) {
       throw RepositoryException(e.message!);
     }
@@ -72,9 +69,8 @@ abstract class BaseRepository<T extends CargObject> {
   /// Take a [T] and return the ID of the new document
   Future<String> create(T t) async {
     try {
-      var documentReference = await provider
-          .collection(connectionString)
-          .add(t.toJSON());
+      var documentReference =
+          await provider.collection(connectionString).add(t.toJSON());
       return documentReference.id;
     } on FirebaseException catch (e) {
       throw RepositoryException(e.message!);

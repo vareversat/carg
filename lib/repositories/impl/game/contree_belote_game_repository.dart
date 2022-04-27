@@ -22,7 +22,7 @@ class ContreeBeloteGameRepository extends AbstractContreeBeloteGameRepository {
   Future<ContreeBelote?> get(String id) async {
     try {
       var querySnapshot =
-      await provider.collection(connectionString).doc(id).get();
+          await provider.collection(connectionString).doc(id).get();
       if (querySnapshot.data() != null) {
         return ContreeBelote.fromJSON(querySnapshot.data(), querySnapshot.id);
       } else {

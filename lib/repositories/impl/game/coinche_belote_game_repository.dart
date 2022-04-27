@@ -22,7 +22,7 @@ class CoincheBeloteGameRepository extends AbstractCoincheBeloteGameRepository {
   Future<CoincheBelote?> get(String id) async {
     try {
       var querySnapshot =
-      await provider.collection(connectionString).doc(id).get();
+          await provider.collection(connectionString).doc(id).get();
       if (querySnapshot.data() != null) {
         return CoincheBelote.fromJSON(querySnapshot.data(), querySnapshot.id);
       } else {

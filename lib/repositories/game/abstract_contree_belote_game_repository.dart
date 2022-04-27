@@ -6,8 +6,12 @@ abstract class AbstractContreeBeloteGameRepository
     extends AbstractBeloteGameRepository<ContreeBelote> {
   AbstractContreeBeloteGameRepository(
       {required String database,
-        required String environment,
-        required FirebaseFirestore provider,
-        DocumentSnapshot? lastFetchGameDocument})
-      : super(database: database, environment: environment, provider: provider, lastFetchGameDocument: lastFetchGameDocument);
+      required String environment,
+      required FirebaseFirestore provider,
+      DocumentSnapshot? lastFetchGameDocument})
+      : super(
+            database: database,
+            environment: environment,
+            provider: provider,
+            lastFetchGameDocument: lastFetchGameDocument);
 }

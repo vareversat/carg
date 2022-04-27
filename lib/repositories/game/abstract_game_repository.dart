@@ -11,10 +11,7 @@ abstract class AbstractGameRepository<T extends Game>
       required String environment,
       required FirebaseFirestore provider,
       this.lastFetchGameDocument})
-      : super(
-            database: database,
-            environment: environment,
-            provider: provider);
+      : super(database: database, environment: environment, provider: provider);
 
   /// Get all the games [T] from the index
   /// Return a list [T] of game

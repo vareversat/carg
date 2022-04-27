@@ -8,6 +8,10 @@ abstract class AbstractTarotGameRepository
       {required String database,
       required String environment,
       required FirebaseFirestore provider,
-        DocumentSnapshot? lastFetchGameDocument})
-      : super(database: database, environment: environment, provider: provider, lastFetchGameDocument: lastFetchGameDocument);
+      DocumentSnapshot? lastFetchGameDocument})
+      : super(
+            database: database,
+            environment: environment,
+            provider: provider,
+            lastFetchGameDocument: lastFetchGameDocument);
 }

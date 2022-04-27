@@ -7,22 +7,22 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class FrenchBeloteGameRepository extends AbstractFrenchBeloteGameRepository {
   FrenchBeloteGameRepository(
       {String? database,
-        String? environment,
-        FirebaseFirestore? provider,
-        DocumentSnapshot? lastFetchGameDocument})
+      String? environment,
+      FirebaseFirestore? provider,
+      DocumentSnapshot? lastFetchGameDocument})
       : super(
-      database: database ?? Const.frenchBeloteGameDB,
-      environment: environment ??
-          const String.fromEnvironment(Const.dartVarEnv,
-              defaultValue: Const.defaultEnv),
-      provider: provider ?? FirebaseFirestore.instance,
-      lastFetchGameDocument: lastFetchGameDocument);
+            database: database ?? Const.frenchBeloteGameDB,
+            environment: environment ??
+                const String.fromEnvironment(Const.dartVarEnv,
+                    defaultValue: Const.defaultEnv),
+            provider: provider ?? FirebaseFirestore.instance,
+            lastFetchGameDocument: lastFetchGameDocument);
 
   @override
   Future<FrenchBelote?> get(String id) async {
     try {
       var querySnapshot =
-      await provider.collection(connectionString).doc(id).get();
+          await provider.collection(connectionString).doc(id).get();
       if (querySnapshot.data() != null) {
         return FrenchBelote.fromJSON(querySnapshot.data(), querySnapshot.id);
       } else {
