@@ -6,7 +6,8 @@ import 'package:carg/services/base_abstract_service.dart';
 abstract class AbstractPlayerService extends BaseAbstractService<Player> {
   final AbstractPlayerRepository playerRepository;
 
-  AbstractPlayerService({required this.playerRepository}): super(repository: playerRepository);
+  AbstractPlayerService({required this.playerRepository})
+      : super(repository: playerRepository);
 
   /// Increment the number of played games by 1
   /// Take the [playerId] and the [game]

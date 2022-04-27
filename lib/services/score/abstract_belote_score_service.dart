@@ -4,11 +4,9 @@ import 'package:carg/services/score/abstract_score_service.dart';
 
 abstract class AbstractBeloteScoreService<T extends BeloteScore>
     extends AbstractScoreService<T> {
-
   final AbstractBeloteScoreRepository<T> beloteScoreRepository;
 
-  AbstractBeloteScoreService(
-      {required this.beloteScoreRepository})
+  AbstractBeloteScoreService({required this.beloteScoreRepository})
       : super(scoreRepository: beloteScoreRepository);
 
   Future<T?> generateNewScore(String gameId);

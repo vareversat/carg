@@ -2,10 +2,10 @@ import 'package:carg/exceptions/service_exception.dart';
 import 'package:carg/models/game/game.dart';
 import 'package:carg/models/score/score.dart';
 import 'package:carg/repositories/game/abstract_game_repository.dart';
-import 'package:carg/services/player/abstract_player_service.dart';
-import 'package:carg/services/team/abstract_team_service.dart';
 import 'package:carg/services/base_abstract_service.dart';
+import 'package:carg/services/player/abstract_player_service.dart';
 import 'package:carg/services/score/abstract_score_service.dart';
+import 'package:carg/services/team/abstract_team_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 abstract class AbstractGameService<T extends Game, Q extends Score>

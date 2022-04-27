@@ -61,8 +61,7 @@ class PlayerService extends AbstractPlayerService {
   @override
   Future<Player?> getPlayerOfUser(String? userId) async {
     if (userId == null) {
-      throw ServiceException(
-          'Please provide an user ID');
+      throw ServiceException('Please provide an user ID');
     }
     try {
       return playerRepository.getPlayerOfUser(userId);

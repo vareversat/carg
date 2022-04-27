@@ -4,10 +4,8 @@ import 'package:carg/services/score/abstract_score_service.dart';
 
 abstract class AbstractTarotScoreService
     extends AbstractScoreService<TarotScore> {
-
   final AbstractTarotScoreRepository tarotScoreRepository;
 
-  AbstractTarotScoreService(
-      {required this.tarotScoreRepository})
+  AbstractTarotScoreService({required this.tarotScoreRepository})
       : super(scoreRepository: tarotScoreRepository);
 }
