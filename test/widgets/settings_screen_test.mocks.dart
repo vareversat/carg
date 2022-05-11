@@ -9,9 +9,10 @@ import 'package:carg/models/carg_object.dart' as _i3;
 import 'package:carg/models/game/game.dart' as _i9;
 import 'package:carg/models/player.dart' as _i7;
 import 'package:carg/models/players/players.dart' as _i10;
-import 'package:carg/repositories/abstract_player_repository.dart' as _i2;
-import 'package:carg/repositories/base_abstract_repository.dart' as _i4;
-import 'package:carg/services/auth_service.dart' as _i11;
+import 'package:carg/repositories/base_repository.dart' as _i4;
+import 'package:carg/repositories/player/abstract_player_repository.dart'
+    as _i2;
+import 'package:carg/services/auth/auth_service.dart' as _i11;
 import 'package:carg/services/impl/player_service.dart' as _i6;
 import 'package:flutter/material.dart' as _i5;
 import 'package:mockito/mockito.dart' as _i1;
@@ -29,8 +30,8 @@ import 'package:mockito/mockito.dart' as _i1;
 class _FakeAbstractPlayerRepository_0 extends _i1.Fake
     implements _i2.AbstractPlayerRepository {}
 
-class _FakeBaseAbstractRepository_1<T extends _i3.CargObject> extends _i1.Fake
-    implements _i4.BaseAbstractRepository<T> {}
+class _FakeBaseRepository_1<T extends _i3.CargObject> extends _i1.Fake
+    implements _i4.BaseRepository<T> {}
 
 class _FakeWidget_2 extends _i1.Fake implements _i5.Widget {
   @override
@@ -51,18 +52,15 @@ class MockPlayerService extends _i1.Mock implements _i6.PlayerService {
       (super.noSuchMethod(Invocation.getter(#playerRepository),
               returnValue: _FakeAbstractPlayerRepository_0())
           as _i2.AbstractPlayerRepository);
+
   @override
-  _i4.BaseAbstractRepository<_i7.Player> get repository =>
+  _i4.BaseRepository<_i7.Player> get repository =>
       (super.noSuchMethod(Invocation.getter(#repository),
-              returnValue: _FakeBaseAbstractRepository_1<_i7.Player>())
-          as _i4.BaseAbstractRepository<_i7.Player>);
+              returnValue: _FakeBaseRepository_1<_i7.Player>())
+          as _i4.BaseRepository<_i7.Player>);
   @override
   _i8.Future<String> create(_i7.Player? t) =>
       (super.noSuchMethod(Invocation.method(#create, [t]),
-          returnValue: Future<String>.value('')) as _i8.Future<String>);
-  @override
-  _i8.Future<String> createPlayer(_i7.Player? player) =>
-      (super.noSuchMethod(Invocation.method(#createPlayer, [player]),
           returnValue: Future<String>.value('')) as _i8.Future<String>);
   @override
   _i8.Future<void> incrementPlayedGamesByOne(

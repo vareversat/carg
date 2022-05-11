@@ -1,4 +1,4 @@
-import 'package:carg/services/auth_service.dart';
+import 'package:carg/services/auth/auth_service.dart';
 import 'package:carg/services/impl/player_service.dart';
 import 'package:carg/views/dialogs/player_color_explanation_dialog.dart';
 import 'package:flutter/material.dart';
