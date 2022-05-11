@@ -22,7 +22,8 @@ jobs:
           flutter-version: ${{ inputs.flutter_version }}
       - name: 'Flutter analyze'
         run: flutter analyze
-  format: 'Format'
+  format:
+    name: 'Format'
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout source code'
@@ -32,7 +33,7 @@ jobs:
         with:
           flutter-version: ${{ inputs.flutter_version }}
       - name: 'Flutter format'
-        run: flutter format --set-exit-if-changed
+        run: flutter format lib --set-exit-if-changed
   test:
     name: 'Test'
     runs-on: ubuntu-latest
