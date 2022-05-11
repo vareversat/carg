@@ -99,9 +99,8 @@ class _PlayerPickerScreenState extends State<PlayerPickerScreen> {
                                     builder: (context, playerData, child) =>
                                         PlayerWidget(
                                             player: playerData,
-                                            onTap: () =>
-                                                widget.game!.players!
-                                                    .onSelectedPlayer(
+                                            onTap: () => widget.game!.players!
+                                                .onSelectedPlayer(
                                                     playerData))));
                           });
                     } else {
@@ -111,8 +110,8 @@ class _PlayerPickerScreenState extends State<PlayerPickerScreen> {
                   },
                   future: _playerService.searchPlayers(
                       currentPlayer:
-                      Provider.of<AuthService>(context, listen: false)
-                          .getPlayer())),
+                          Provider.of<AuthService>(context, listen: false)
+                              .getPlayer())),
             ),
             Padding(
               padding: const EdgeInsets.all(8),

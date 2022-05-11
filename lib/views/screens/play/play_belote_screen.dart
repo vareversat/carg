@@ -107,12 +107,12 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
       await showDialog(
           context: context,
           builder: (BuildContext context) => WarningDialog(
-            onConfirm: () => {},
-            showCancelButton: false,
-            message: 'Aucune manche n\'est enregistrée pour cette partie',
-            title: 'Erreur',
-            color: Theme.of(context).errorColor,
-          ));
+                onConfirm: () => {},
+                showCancelButton: false,
+                message: 'Aucune manche n\'est enregistrée pour cette partie',
+                title: 'Erreur',
+                color: Theme.of(context).errorColor,
+              ));
     }
   }
 
@@ -150,7 +150,7 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
               ])),
           Flexible(
               child: Container(
-                padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
             decoration: const BoxDecoration(
                 border: Border(top: BorderSide(color: Colors.black, width: 1))),
             child: StreamBuilder<BeloteScore?>(
@@ -174,13 +174,13 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
                                       totalPoints:
                                           snapshot.data!.themTotalPoints)
                                 ]),
-                              ),
-                              Flexible(
-                                  flex: 10,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(bottom: 8.0),
-                                    child: ListView.builder(
-                                        itemCount: snapshot.data!.rounds.length,
+                          ),
+                          Flexible(
+                              flex: 10,
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 8.0),
+                                child: ListView.builder(
+                                    itemCount: snapshot.data!.rounds.length,
                                     itemBuilder:
                                         (BuildContext context, int index) {
                                       return Row(
@@ -193,15 +193,15 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
                                                     round: snapshot
                                                         .data!.rounds[index],
                                                     team: BeloteTeamEnum.US)),
-                                                Flexible(
-                                                    child: Text(
+                                            Flexible(
+                                                child: Text(
                                                     snapshot.data!.rounds[index]
                                                         .cardColor.symbol,
                                                     style: const TextStyle(
                                                         fontSize: 15))),
-                                                Flexible(
-                                                    flex: 3,
-                                                    child: _RoundDisplay(
+                                            Flexible(
+                                                flex: 3,
+                                                child: _RoundDisplay(
                                                     round: snapshot
                                                         .data!.rounds[index],
                                                     team: BeloteTeamEnum.THEM))
@@ -214,16 +214,16 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
                                     widget.beloteGame.players!.playerList![
                                         snapshot.data!.rounds.length % 4]!),
                         ]);
-                      } else {
-                        return ErrorMessageWidget(message: _errorMessage);
-                      }
-                    },
-                    stream: widget.scoreService
+                  } else {
+                    return ErrorMessageWidget(message: _errorMessage);
+                  }
+                },
+                stream: widget.scoreService
                         .getScoreByGameStream(widget.beloteGame.id)
                         .handleError(
                             (error) => {_errorMessage = error.toString()})
                     as Stream<BeloteScore<BeloteRound>?>?),
-              )),
+          )),
           if (!widget.beloteGame.isEnded)
             PlayScreenButtonBlock(
                 deleteLastRound: _deleteLastRound,
@@ -238,7 +238,7 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0)),
                   margin:
-                  const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                   elevation: 2,
                   color: Colors.white,
                   child: Padding(
@@ -276,7 +276,7 @@ class _RoundDisplay extends StatelessWidget {
     return Row(
         mainAxisAlignment: MainAxisAlignment.start,
         textDirection:
-        team == BeloteTeamEnum.US ? TextDirection.ltr : TextDirection.rtl,
+            team == BeloteTeamEnum.US ? TextDirection.ltr : TextDirection.rtl,
         children: [
           Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5),

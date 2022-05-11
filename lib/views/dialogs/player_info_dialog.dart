@@ -133,11 +133,13 @@ class PlayerInfoDialog extends StatelessWidget {
                         decoration: InputDecoration(
                             enabledBorder: UnderlineInputBorder(
                               borderSide: BorderSide(
-                                  color: player.getSideColor(context), width: 2),
+                                  color: player.getSideColor(context),
+                                  width: 2),
                             ),
                             focusedBorder: UnderlineInputBorder(
                               borderSide: BorderSide(
-                                  color: player.getSideColor(context), width: 2),
+                                  color: player.getSideColor(context),
+                                  width: 2),
                             ),
                             disabledBorder: InputBorder.none,
                             labelStyle:
@@ -164,14 +166,15 @@ class PlayerInfoDialog extends StatelessWidget {
                   maxLines: null,
                   decoration: InputDecoration(
                       enabledBorder: UnderlineInputBorder(
-                        borderSide:
-                            BorderSide(color: player.getSideColor(context), width: 2),
+                        borderSide: BorderSide(
+                            color: player.getSideColor(context), width: 2),
                       ),
                       focusedBorder: UnderlineInputBorder(
-                        borderSide:
-                            BorderSide(color: player.getSideColor(context), width: 2),
+                        borderSide: BorderSide(
+                            color: player.getSideColor(context), width: 2),
                       ),
-                      labelStyle: TextStyle(color: player.getSideColor(context)),
+                      labelStyle:
+                          TextStyle(color: player.getSideColor(context)),
                       hintStyle: TextStyle(
                           fontSize: 15, color: Theme.of(context).hintColor),
                       labelText: 'Image de profile (url)')),
@@ -225,8 +228,8 @@ class PlayerInfoDialog extends StatelessWidget {
           ElevatedButton.icon(
               key: const ValueKey('editButton'),
               style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all<Color>(player.getSideColor(context)),
+                  backgroundColor: MaterialStateProperty.all<Color>(
+                      player.getSideColor(context)),
                   foregroundColor: MaterialStateProperty.all<Color>(
                       Theme.of(context).cardColor),
                   shape: MaterialStateProperty.all<OutlinedBorder>(
@@ -241,8 +244,8 @@ class PlayerInfoDialog extends StatelessWidget {
             key: const ValueKey('closeButton'),
             style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
-                foregroundColor:
-                    MaterialStateProperty.all<Color>(player.getSideColor(context)),
+                foregroundColor: MaterialStateProperty.all<Color>(
+                    player.getSideColor(context)),
                 shape: MaterialStateProperty.all<OutlinedBorder>(
                     RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(

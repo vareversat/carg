@@ -82,7 +82,7 @@ class _PlayerOrderScreenState extends State<PlayerOrderScreen> {
                   padding: EdgeInsets.all(8.0),
                   child: Text('Ordre de jeu',
                       style:
-                      TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                 ),
                 Flexible(
                     child: ReorderableListView(
@@ -114,21 +114,21 @@ class _PlayerOrderScreenState extends State<PlayerOrderScreen> {
                         child: ElevatedButton.icon(
                             style: ButtonStyle(
                                 backgroundColor:
-                                MaterialStateProperty.all<Color>(
-                                    Theme.of(context).primaryColor),
+                                    MaterialStateProperty.all<Color>(
+                                        Theme.of(context).primaryColor),
                                 foregroundColor:
-                                MaterialStateProperty.all<Color>(
-                                    Theme.of(context).cardColor),
+                                    MaterialStateProperty.all<Color>(
+                                        Theme.of(context).cardColor),
                                 shape: MaterialStateProperty
                                     .all<OutlinedBorder>(RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(
-                                        CustomProperties.borderRadius)))),
+                                        borderRadius: BorderRadius.circular(
+                                            CustomProperties.borderRadius)))),
                             onPressed: () async => {
-                              await _createGame(),
-                              Navigator.pushAndRemoveUntil(
-                                  context,
-                                  CustomRouteFade(
-                                      builder: (context) => _newGame!
+                                  await _createGame(),
+                                  Navigator.pushAndRemoveUntil(
+                                      context,
+                                      CustomRouteFade(
+                                          builder: (context) => _newGame!
                                                       .gameType !=
                                                   GameType.TAROT
                                               ? PlayBeloteScreen(
@@ -143,10 +143,10 @@ class _PlayerOrderScreenState extends State<PlayerOrderScreen> {
                                                   beloteGame: _newGame
                                                       as Belote<BelotePlayers>)
                                               : PlayTarotGameScreen(
-                                          tarotGame:
-                                          _newGame as Tarot)),
-                                  ModalRoute.withName('/'))
-                            },
+                                                  tarotGame:
+                                                      _newGame as Tarot)),
+                                      ModalRoute.withName('/'))
+                                },
                             label: const Text('Démarrer la partie',
                                 style: TextStyle(fontSize: 23)),
                             icon: const Icon(Icons.check, size: 30))))

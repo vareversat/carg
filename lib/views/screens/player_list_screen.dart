@@ -51,7 +51,6 @@ class _PlayerListScreenState extends State<PlayerListScreen> {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     var deviceSize = MediaQuery.of(context).size;

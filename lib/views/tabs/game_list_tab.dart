@@ -70,8 +70,7 @@ class _GameListTabWidgetState extends State<GameListTabWidget> {
   Widget build(BuildContext context) {
     return RefreshIndicator(
       onRefresh: () => Future.sync(
-        () =>
-        {
+        () => {
           widget.gameService.resetLastPointedGame(),
           _pagingController.refresh()
         },
@@ -85,14 +84,13 @@ class _GameListTabWidgetState extends State<GameListTabWidget> {
           builderDelegate: PagedChildBuilderDelegate<Game>(
             firstPageErrorIndicatorBuilder: (_) =>
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  const Center(
+              const Center(
                   child: Text(
                 'Erreur rencontrée lors du chargement de la page.',
                 textAlign: TextAlign.center,
               )),
               ElevatedButton.icon(
-                  onPressed: () =>
-                  {
+                  onPressed: () => {
                         widget.gameService.resetLastPointedGame(),
                         _pagingController.refresh()
                       },
@@ -103,8 +101,7 @@ class _GameListTabWidgetState extends State<GameListTabWidget> {
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               const Center(child: Text('Pas encore de parties')),
               ElevatedButton.icon(
-                  onPressed: () =>
-                  {
+                  onPressed: () => {
                         widget.gameService.resetLastPointedGame(),
                         _pagingController.refresh()
                       },

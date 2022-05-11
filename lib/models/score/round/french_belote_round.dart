@@ -70,7 +70,6 @@ class FrenchBeloteRound extends BeloteRound {
     }
   }
 
-
   factory FrenchBeloteRound.fromJSON(Map<String, dynamic> json) {
     return FrenchBeloteRound(
         index: json['index'],

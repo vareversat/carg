@@ -67,7 +67,7 @@ class _RegisterEmailWidgetState extends State<RegisterEmailWidget>
     final data = await FirebaseDynamicLinks.instance.getInitialLink();
     final deepLink = data?.link;
     var isLogged =
-    await Provider.of<AuthService>(context, listen: false).isAlreadyLogin();
+        await Provider.of<AuthService>(context, listen: false).isAlreadyLogin();
     developer.log('Logged : $isLogged', name: 'carg.dynamic-link');
     if (deepLink != null && !isLogged) {
       var link = deepLink.toString();
@@ -101,7 +101,8 @@ class _RegisterEmailWidgetState extends State<RegisterEmailWidget>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
-      developer.log('Call from didChangeAppLifecycleState', name: 'carg.dynamic-link');
+      developer.log('Call from didChangeAppLifecycleState',
+          name: 'carg.dynamic-link');
       _retrieveDynamicLink();
     }
   }

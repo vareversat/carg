@@ -33,7 +33,7 @@ class EditPhoneNumberScreen extends StatelessWidget {
           const RegisterPhoneWidget(
               credentialVerificationType: CredentialVerificationType.EDIT)
         ]),
-              ))),
+      ))),
     );
   }
 }

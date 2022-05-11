@@ -20,21 +20,21 @@ class ContractContreeWidget extends StatelessWidget {
       value: contreeRound,
       child: Consumer<ContreeBeloteRound>(
           builder: (context, roundData, child) => Column(children: [
-            const SectionTitleWidget(title: 'Contrat'),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Column(children: <Widget>[
-                const SizedBox(height: 15),
-                Column(children: [
-                  _ContractValueTextFieldWidget(contreeRound: roundData),
-                  _ContractTypeWidget(roundData: roundData),
-                  _ContractNameWidget(roundData: roundData),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text('Couleur :'),
-                        CardColorPickerWidget(teamGameRound: contreeRound)
-                      ])
+                const SectionTitleWidget(title: 'Contrat'),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Column(children: <Widget>[
+                    const SizedBox(height: 15),
+                    Column(children: [
+                      _ContractValueTextFieldWidget(contreeRound: roundData),
+                      _ContractTypeWidget(roundData: roundData),
+                      _ContractNameWidget(roundData: roundData),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text('Couleur :'),
+                            CardColorPickerWidget(teamGameRound: contreeRound)
+                          ])
                     ])
                   ]),
                 )
@@ -64,12 +64,9 @@ class _ContractValueTextFieldWidget extends StatelessWidget {
               decoration: InputDecoration(
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                        width: 3, color: Theme
-                        .of(context)
-                        .colorScheme
-                        .primary),
+                        width: 3, color: Theme.of(context).colorScheme.primary),
                     borderRadius:
-                    BorderRadius.circular(CustomProperties.borderRadius),
+                        BorderRadius.circular(CustomProperties.borderRadius),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(
@@ -80,16 +77,16 @@ class _ContractValueTextFieldWidget extends StatelessWidget {
                   disabledBorder: OutlineInputBorder(
                     borderSide: const BorderSide(width: 3, color: Colors.grey),
                     borderRadius:
-                    BorderRadius.circular(CustomProperties.borderRadius),
+                        BorderRadius.circular(CustomProperties.borderRadius),
                   )),
               controller: _contractTextController,
               enabled:
-              !(contreeRound.contractType == BeloteContractType.CAPOT ||
-                  contreeRound.contractType == BeloteContractType.GENERALE),
+                  !(contreeRound.contractType == BeloteContractType.CAPOT ||
+                      contreeRound.contractType == BeloteContractType.GENERALE),
               keyboardType: TextInputType.number,
               inputFormatters: const <TextInputFormatter>[],
               onSubmitted: (String value) =>
-              {contreeRound.contract = int.parse(value)}),
+                  {contreeRound.contract = int.parse(value)}),
         ),
       ],
     );

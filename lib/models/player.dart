@@ -70,17 +70,18 @@ class Player extends CargObject with ChangeNotifier {
     notifyListeners();
   }
 
-  Player({String? id,
-    gameStatsList,
-    this.firstName,
-    this.lastName,
-    this.ownedBy,
-    userName,
-    profilePicture,
-    this.linkedUserId,
-    useGravatarProfilePicture,
-    gravatarProfilePicture,
-    testing,
+  Player(
+      {String? id,
+      gameStatsList,
+      this.firstName,
+      this.lastName,
+      this.ownedBy,
+      userName,
+      profilePicture,
+      this.linkedUserId,
+      useGravatarProfilePicture,
+      gravatarProfilePicture,
+      testing,
       admin,
       required this.owned})
       : super(id: id) {

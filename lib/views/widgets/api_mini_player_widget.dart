@@ -50,16 +50,13 @@ class APIMiniPlayerWidget extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 5),
               child: showLoading
                   ? SpinKitThreeBounce(
-                  size: 20,
-                  itemBuilder: (BuildContext context, int index) {
-                    return DecoratedBox(
-                        decoration: BoxDecoration(
-                          color: Theme
-                              .of(context)
-                              .colorScheme
-                              .secondary,
+                      size: 20,
+                      itemBuilder: (BuildContext context, int index) {
+                        return DecoratedBox(
+                            decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.secondary,
                         ));
-                  })
+                      })
                   : const SizedBox());
         }
         if (snapshot.hasData) {

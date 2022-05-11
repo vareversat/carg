@@ -39,7 +39,7 @@ class _UserScreenState extends State<UserScreen>
           context,
           CustomRouteFade(
               builder: (context) => SettingsScreen(
-                player: _player!,
+                    player: _player!,
                     playerService: PlayerService(),
                   )));
     }

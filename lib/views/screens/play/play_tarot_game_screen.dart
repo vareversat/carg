@@ -101,12 +101,12 @@ class _PlayTarotGameScreenState extends State<PlayTarotGameScreen> {
       await showDialog(
           context: context,
           builder: (BuildContext context) => WarningDialog(
-            onConfirm: () => {},
-            showCancelButton: false,
-            message: 'Aucune manche n\'est enregistrée pour cette partie',
-            title: 'Erreur',
-            color: Theme.of(context).errorColor,
-          ));
+                onConfirm: () => {},
+                showCancelButton: false,
+                message: 'Aucune manche n\'est enregistrée pour cette partie',
+                title: 'Erreur',
+                color: Theme.of(context).errorColor,
+              ));
     }
   }
 
@@ -148,11 +148,11 @@ class _PlayTarotGameScreenState extends State<PlayTarotGameScreen> {
                       padding: const EdgeInsets.all(10),
                       decoration: const BoxDecoration(
                           border: Border(
-                            top: BorderSide(
-                              color: Colors.black,
-                              width: 1,
-                            ),
-                          )),
+                        top: BorderSide(
+                          color: Colors.black,
+                          width: 1,
+                        ),
+                      )),
                       child: StreamBuilder<TarotScore?>(
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
@@ -176,15 +176,15 @@ class _PlayTarotGameScreenState extends State<PlayTarotGameScreen> {
                                         (BuildContext context, int index) {
                                       return SizedBox(
                                         width:
-                                        MediaQuery.of(context).size.width /
-                                            widget.tarotGame.players!
-                                                .playerList!.length,
+                                            MediaQuery.of(context).size.width /
+                                                widget.tarotGame.players!
+                                                    .playerList!.length,
                                         child: _TotalPointsWidget(
                                             totalPoints: snapshot.data!
                                                 .getScoreOf(widget
-                                                .tarotGame
-                                                .players!
-                                                .playerList![index])
+                                                    .tarotGame
+                                                    .players!
+                                                    .playerList![index])
                                                 .score),
                                       );
                                     }),
@@ -208,17 +208,17 @@ class _PlayTarotGameScreenState extends State<PlayTarotGameScreen> {
                                                   .length,
                                               itemBuilder:
                                                   (BuildContext context,
-                                                  int playerIndex) {
+                                                      int playerIndex) {
                                                 return SizedBox(
                                                     width:
-                                                    MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                        widget
-                                                            .tarotGame
-                                                            .players!
-                                                            .playerList!
-                                                            .length,
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width /
+                                                            widget
+                                                                .tarotGame
+                                                                .players!
+                                                                .playerList!
+                                                                .length,
                                                     child: _RoundDisplay(
                                                         round: snapshot.data!
                                                             .rounds[index],
@@ -233,8 +233,8 @@ class _PlayTarotGameScreenState extends State<PlayTarotGameScreen> {
                               if (!widget.tarotGame.isEnded)
                                 NextPlayerWidget(
                                     playerId:
-                                    widget.tarotGame.players!.playerList![
-                                    snapshot.data!.rounds.length %
+                                        widget.tarotGame.players!.playerList![
+                                            snapshot.data!.rounds.length %
                                                 widget.tarotGame.players!
                                                     .playerList!.length]!),
                             ],

@@ -27,7 +27,6 @@ class Carg extends StatefulWidget {
 }
 
 class _CargState extends State<Carg> {
-
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(

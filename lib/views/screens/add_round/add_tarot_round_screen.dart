@@ -63,7 +63,7 @@ class AddTarotRoundScreen extends StatelessWidget {
                                 spacing: 10,
                                 children: playerData.playerList!
                                     .map((player) => APIMiniPlayerWidget(
-                                    isSelected:
+                                        isSelected:
                                             playerData.isPlayerSelected(player),
                                         playerId: player,
                                         displayImage: !playerData

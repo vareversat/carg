@@ -132,8 +132,8 @@ class _ShowScoreWidgetState extends State<_ShowScoreWidget> {
                           itemBuilder: (BuildContext context, int index) {
                             return DecoratedBox(
                                 decoration: BoxDecoration(
-                                  color: Theme.of(context).colorScheme.secondary,
-                                ));
+                              color: Theme.of(context).colorScheme.secondary,
+                            ));
                           }));
                 }
                 if (snapshot.hasData &&
@@ -197,19 +197,18 @@ class _ButtonRowWidget extends StatelessWidget {
                         borderRadius: BorderRadius.circular(
                             CustomProperties.borderRadius)))),
             onPressed: () async => {
-              await showDialog(
-                  context: context,
-                  builder: (BuildContext context) => WarningDialog(
-                      onConfirm: () async =>
-                      {
+                  await showDialog(
+                      context: context,
+                      builder: (BuildContext context) => WarningDialog(
+                          onConfirm: () async => {
                                 await gameService.endAGame(
                                     beloteGame, DateTime.now()),
                               },
-                      message:
-                      'Tu es sur le point de terminer cette partie. Les gagnants ainsi que les perdants (honteux) vont être désignés',
-                      title: 'Attention',
-                      color: Colors.black))
-            },
+                          message:
+                              'Tu es sur le point de terminer cette partie. Les gagnants ainsi que les perdants (honteux) vont être désignés',
+                          title: 'Attention',
+                          color: Colors.black))
+                },
             label: const Text(
               'Arrêter',
             ),
@@ -222,20 +221,20 @@ class _ButtonRowWidget extends StatelessWidget {
               backgroundColor: MaterialStateProperty.all<Color>(
                   Theme.of(context).errorColor),
               foregroundColor:
-              MaterialStateProperty.all<Color>(Theme.of(context).cardColor),
+                  MaterialStateProperty.all<Color>(Theme.of(context).cardColor),
               shape: MaterialStateProperty.all<OutlinedBorder>(
                   RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(
                           CustomProperties.borderRadius)))),
           onPressed: () async => {
-            await showDialog(
-                context: context,
-                builder: (BuildContext context) => WarningDialog(
-                    onConfirm: () =>
+                await showDialog(
+                    context: context,
+                    builder: (BuildContext context) => WarningDialog(
+                        onConfirm: () =>
                             {gameService.deleteGame(beloteGame.id)},
                         message: 'Tu es sur le point de supprimer une partie.',
                         title: 'Suppression'))
-          },
+              },
           label: Text(MaterialLocalizations.of(context).deleteButtonTooltip),
           icon: const Icon(Icons.delete_forever)),
       if (!beloteGame.isEnded)
@@ -251,18 +250,18 @@ class _ButtonRowWidget extends StatelessWidget {
                         borderRadius: BorderRadius.circular(
                             CustomProperties.borderRadius)))),
             onPressed: () async => {
-              Navigator.push(
-                context,
-                CustomRouteFade(
-                  builder: (context) => PlayBeloteScreen(
-                    beloteGame: beloteGame,
+                  Navigator.push(
+                    context,
+                    CustomRouteFade(
+                      builder: (context) => PlayBeloteScreen(
+                        beloteGame: beloteGame,
                         gameService: gameService,
                         scoreService: scoreService,
                         roundService: roundService,
                       ),
-                ),
-              )
-            },
+                    ),
+                  )
+                },
             label: Text(
               MaterialLocalizations.of(context).continueButtonLabel,
             ),
@@ -280,18 +279,18 @@ class _ButtonRowWidget extends StatelessWidget {
                         borderRadius: BorderRadius.circular(
                             CustomProperties.borderRadius)))),
             onPressed: () async => {
-              Navigator.push(
-                context,
-                CustomRouteFade(
-                  builder: (context) => PlayBeloteScreen(
-                    beloteGame: beloteGame,
+                  Navigator.push(
+                    context,
+                    CustomRouteFade(
+                      builder: (context) => PlayBeloteScreen(
+                        beloteGame: beloteGame,
                         gameService: gameService,
                         scoreService: scoreService,
                         roundService: roundService,
                       ),
-                ),
-              )
-            },
+                    ),
+                  )
+                },
             child: const Text('Consulter les scores')),
     ]);
   }

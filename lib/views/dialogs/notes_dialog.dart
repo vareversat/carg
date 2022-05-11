@@ -65,8 +65,7 @@ class _NotesDialogState extends State<NotesDialog> {
                     RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
                             CustomProperties.borderRadius)))),
-            onPressed: () async =>
-            {
+            onPressed: () async => {
                   await widget.gameService.update(widget.game),
                   Navigator.pop(context)
                 },

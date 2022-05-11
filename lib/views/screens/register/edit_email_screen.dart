@@ -33,7 +33,7 @@ class EditEmailScreen extends StatelessWidget {
           const RegisterEmailWidget(
               credentialVerificationType: CredentialVerificationType.EDIT)
         ]),
-              ))),
+      ))),
     );
   }
 }

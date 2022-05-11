@@ -13,7 +13,7 @@ class ContreeBelote extends Belote {
       BelotePlayers? players,
       String? notes})
       : super(
-      id: id,
+            id: id,
             gameType: GameType.CONTREE,
             players: players ?? BelotePlayers(),
             endingDate: endingDate,

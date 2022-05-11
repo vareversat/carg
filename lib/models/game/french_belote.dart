@@ -13,7 +13,7 @@ class FrenchBelote extends Belote {
       BelotePlayers? players,
       String? notes})
       : super(
-      id: id,
+            id: id,
             gameType: gameType ?? GameType.BELOTE,
             players: players ?? BelotePlayers(),
             endingDate: endingDate,

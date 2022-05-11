@@ -24,7 +24,9 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Widget> _children = [
     const UserScreen(),
     const GameListScreen(),
-    PlayerListScreen(playerService: PlayerService(), textEditingController: TextEditingController()),
+    PlayerListScreen(
+        playerService: PlayerService(),
+        textEditingController: TextEditingController()),
   ];
 
   _HomeScreenState(this._currentIndex);

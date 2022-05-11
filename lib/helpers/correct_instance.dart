@@ -28,8 +28,8 @@ class CorrectInstance {
       case Tarot:
         return TarotGameService();
       default:
-        throw Exception('${game.runtimeType
-            .toString()} does not have any registered game service');
+        throw Exception(
+            '${game.runtimeType.toString()} does not have any registered game service');
     }
   }
 
@@ -44,8 +44,8 @@ class CorrectInstance {
       case Tarot:
         return TarotRoundService();
       default:
-        throw Exception('${game.runtimeType
-            .toString()} does not have any registered round service');
+        throw Exception(
+            '${game.runtimeType.toString()} does not have any registered round service');
     }
   }
 
@@ -60,8 +60,8 @@ class CorrectInstance {
       case Tarot:
         return TarotScoreService();
       default:
-        throw Exception('${game.runtimeType
-            .toString()} does not have any registered score service');
+        throw Exception(
+            '${game.runtimeType.toString()} does not have any registered score service');
     }
   }
 }

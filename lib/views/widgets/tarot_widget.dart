@@ -109,8 +109,7 @@ class _ButtonRowWidget extends StatelessWidget {
                     RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
                             CustomProperties.borderRadius)))),
-            onPressed: () async =>
-            {
+            onPressed: () async => {
                   await showDialog(
                       context: context,
                       builder: (BuildContext context) => WarningDialog(
