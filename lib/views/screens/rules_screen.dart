@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:markdown/markdown.dart' as md;
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class RulesScreen extends StatelessWidget {
   final GameType gameType;
@@ -29,7 +29,7 @@ class RulesScreen extends StatelessWidget {
                 return Markdown(
                   onTapLink: (text, url, title) {
                     Future.delayed(const Duration(seconds: 1))
-                        .then((value) => launch(url!));
+                        .then((value) => launchUrlString(url!));
                     InfoSnackBar.showSnackBar(context, 'Overture de $text...');
                   },
                   data: snapshot.data!,

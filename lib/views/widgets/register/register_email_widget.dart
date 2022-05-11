@@ -1,8 +1,8 @@
 import 'dart:developer' as developer;
 
+import 'package:carg/exceptions/custom_exception.dart';
 import 'package:carg/helpers/custom_route.dart';
-import 'package:carg/services/auth_service.dart';
-import 'package:carg/services/custom_exception.dart';
+import 'package:carg/services/auth/auth_service.dart';
 import 'package:carg/services/storage_service.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/views/dialogs/dialogs.dart';

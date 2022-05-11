@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class NextPlayerWidget extends StatelessWidget {
-  final String playerId;
-  final playerService = PlayerService();
+  final String? playerId;
+  final PlayerService playerService = PlayerService();
 
   NextPlayerWidget({Key? key, required this.playerId}) : super(key: key);
 

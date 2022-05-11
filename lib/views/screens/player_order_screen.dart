@@ -1,3 +1,4 @@
+import 'package:carg/helpers/correct_instance.dart';
 import 'package:carg/helpers/custom_route.dart';
 import 'package:carg/models/game/belote_game.dart';
 import 'package:carg/models/game/game.dart';
@@ -5,6 +6,7 @@ import 'package:carg/models/game/game_type.dart';
 import 'package:carg/models/game/tarot.dart';
 import 'package:carg/models/player.dart';
 import 'package:carg/models/players/belote_players.dart';
+import 'package:carg/services/game/abstract_game_service.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/dialogs/dialogs.dart';
@@ -17,11 +19,14 @@ class PlayerOrderScreen extends StatefulWidget {
   final Game game;
   final List<Player> playerList;
   final String title;
+  final AbstractGameService gameService;
 
-  const PlayerOrderScreen({Key? key,
-    required this.playerList,
-    required this.game,
-    required this.title})
+  const PlayerOrderScreen(
+      {Key? key,
+      required this.playerList,
+      required this.game,
+      required this.title,
+      required this.gameService})
       : super(key: key);
 
   @override
@@ -32,13 +37,16 @@ class PlayerOrderScreen extends StatefulWidget {
 
 class _PlayerOrderScreenState extends State<PlayerOrderScreen> {
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
+  late final List<Player> playerListForTeam = List.from(widget.playerList);
+  late final List<Player> playerListForOrder = List.from(widget.playerList);
   Game? _newGame;
 
   Future _createGame() async {
     Dialogs.showLoadingDialog(context, _keyLoader, 'Démarrage de la partie');
-    var gameTmp = (await widget.game.gameService.createGameWithPlayerList(
-        widget.playerList.map((e) => e.id).toList(),
-        widget.playerList.map((e) => e.id).toList()));
+    var gameTmp = (await widget.gameService.createGameWithPlayerList(
+        playerListForOrder.map((e) => e.id).toList(),
+        playerListForTeam.map((e) => e.id).toList(),
+        DateTime.now()));
     setState(() {
       _newGame = gameTmp;
     });
@@ -50,9 +58,9 @@ class _PlayerOrderScreenState extends State<PlayerOrderScreen> {
       if (newIndex > oldIndex) {
         newIndex -= 1;
       }
-      var player = widget.playerList[oldIndex];
-      widget.playerList.removeAt(oldIndex);
-      widget.playerList.insert(newIndex, player);
+      var player = playerListForOrder[oldIndex];
+      playerListForOrder.removeAt(oldIndex);
+      playerListForOrder.insert(newIndex, player);
     });
   }
 
@@ -74,12 +82,12 @@ class _PlayerOrderScreenState extends State<PlayerOrderScreen> {
                   padding: EdgeInsets.all(8.0),
                   child: Text('Ordre de jeu',
                       style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                      TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                 ),
                 Flexible(
                     child: ReorderableListView(
                         onReorder: _onReorder,
-                        children: widget.playerList
+                        children: playerListForOrder
                             .asMap()
                             .map((i, player) => MapEntry(
                                 i,
@@ -106,32 +114,39 @@ class _PlayerOrderScreenState extends State<PlayerOrderScreen> {
                         child: ElevatedButton.icon(
                             style: ButtonStyle(
                                 backgroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                        Theme.of(context).primaryColor),
+                                MaterialStateProperty.all<Color>(
+                                    Theme.of(context).primaryColor),
                                 foregroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                        Theme.of(context).cardColor),
+                                MaterialStateProperty.all<Color>(
+                                    Theme.of(context).cardColor),
                                 shape: MaterialStateProperty
                                     .all<OutlinedBorder>(RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(
-                                            CustomProperties.borderRadius)))),
+                                    borderRadius: BorderRadius.circular(
+                                        CustomProperties.borderRadius)))),
                             onPressed: () async => {
-                                  await _createGame(),
-                                  Navigator.pushAndRemoveUntil(
-                                      context,
-                                      CustomRouteFade(
-                                          builder: (context) =>
-                                          _newGame!
+                              await _createGame(),
+                              Navigator.pushAndRemoveUntil(
+                                  context,
+                                  CustomRouteFade(
+                                      builder: (context) => _newGame!
                                                       .gameType !=
                                                   GameType.TAROT
                                               ? PlayBeloteScreen(
+                                                  gameService:
+                                                      widget.gameService,
+                                                  scoreService: CorrectInstance
+                                                      .ofScoreService(
+                                                          _newGame!),
+                                                  roundService: CorrectInstance
+                                                      .ofRoundService(
+                                                          _newGame!),
                                                   beloteGame: _newGame
                                                       as Belote<BelotePlayers>)
                                               : PlayTarotGameScreen(
-                                                  tarotGame:
-                                                      _newGame as Tarot)),
-                                      ModalRoute.withName('/'))
-                                },
+                                          tarotGame:
+                                          _newGame as Tarot)),
+                                  ModalRoute.withName('/'))
+                            },
                             label: const Text('Démarrer la partie',
                                 style: TextStyle(fontSize: 23)),
                             icon: const Icon(Icons.check, size: 30))))

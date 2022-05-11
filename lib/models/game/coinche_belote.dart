@@ -1,15 +1,11 @@
 import 'package:carg/models/game/belote_game.dart';
 import 'package:carg/models/game/game_type.dart';
 import 'package:carg/models/players/belote_players.dart';
-import 'package:carg/services/game/coinche_belote_service.dart';
-import 'package:carg/services/score/coinche_belote_score_service.dart';
 
 class CoincheBelote extends Belote {
   CoincheBelote(
       {String? id,
       GameType? gameType,
-      CoincheBeloteService? gameService,
-      CoincheBeloteScoreService? scoreService,
       DateTime? startingDate,
       DateTime? endingDate,
       String? winner,
@@ -19,8 +15,6 @@ class CoincheBelote extends Belote {
       : super(
             id: id,
             gameType: GameType.COINCHE,
-            gameService: CoincheBeloteService(),
-            scoreService: CoincheBeloteScoreService(),
             players: players ?? BelotePlayers(),
             startingDate: startingDate,
             endingDate: endingDate,

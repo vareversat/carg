@@ -1,6 +1,8 @@
 import 'package:carg/models/game/tarot.dart';
 import 'package:carg/models/players/tarot_round_players.dart';
 import 'package:carg/models/score/round/tarot_round.dart';
+import 'package:carg/services/impl/player_service.dart';
+import 'package:carg/services/impl/round/tarot_round_service.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/views/screens/add_round/widget/real_time_display_widget.dart';
 import 'package:carg/views/screens/add_round/widget/screen_title_widget.dart';
@@ -17,17 +19,18 @@ class AddTarotRoundScreen extends StatelessWidget {
   final Tarot? tarotGame;
   final TarotRound? tarotRound;
   final bool? isEditing;
+  final tarotRoundService = TarotRoundService();
 
   void _setupRound() async {
     if (isEditing!) {
-      await tarotGame!.scoreService
-          .editLastRoundOfGame(tarotGame!.id, tarotRound);
+      await tarotRoundService.editLastRoundOfScoreByGameId(
+          tarotGame!.id, tarotRound);
     } else {
-      await tarotGame!.scoreService.addRoundToGame(tarotGame!.id, tarotRound);
+      await tarotRoundService.addRoundToGame(tarotGame!.id, tarotRound);
     }
   }
 
-  const AddTarotRoundScreen(
+  AddTarotRoundScreen(
       {Key? key, this.tarotGame, this.tarotRound, this.isEditing})
       : super(key: key);
 
@@ -60,7 +63,7 @@ class AddTarotRoundScreen extends StatelessWidget {
                                 spacing: 10,
                                 children: playerData.playerList!
                                     .map((player) => APIMiniPlayerWidget(
-                                        isSelected:
+                                    isSelected:
                                             playerData.isPlayerSelected(player),
                                         playerId: player,
                                         displayImage: !playerData
@@ -69,6 +72,7 @@ class AddTarotRoundScreen extends StatelessWidget {
                                         selectedColor: playerData
                                             .getSelectedColor(player, context),
                                         size: 20,
+                                        playerService: PlayerService(),
                                         onTap: () => playerData
                                             .onSelectedPlayer2(player)))
                                     .toList()

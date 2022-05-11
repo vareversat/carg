@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:carg/models/carg_object.dart';
+import 'package:carg/models/game/game.dart';
 import 'package:carg/models/game_stats.dart';
+import 'package:collection/collection.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 
@@ -79,8 +81,8 @@ class Player extends CargObject with ChangeNotifier {
     useGravatarProfilePicture,
     gravatarProfilePicture,
     testing,
-    admin,
-    required this.owned})
+      admin,
+      required this.owned})
       : super(id: id) {
     this.testing = testing ?? false;
     this.admin = admin ?? false;
@@ -89,7 +91,37 @@ class Player extends CargObject with ChangeNotifier {
     _userName = userName ?? '';
     _selected = false;
     _useGravatarProfilePicture = useGravatarProfilePicture ?? false;
-    _gravatarProfilePicture = gravatarProfilePicture ?? '';
+    _gravatarProfilePicture = gravatarProfilePicture;
+  }
+
+  void incrementPlayedGamesByOne(Game game) {
+    GameStats stat;
+    var index = gameStatsList!
+        .indexWhere((element) => element.gameType.name == game.gameType.name);
+    if (index == -1) {
+      stat = GameStats(gameType: game.gameType, wonGames: 0, playedGames: 1);
+      gameStatsList!.add(stat);
+    } else {
+      stat = gameStatsList![index];
+      stat.playedGames += 1;
+      gameStatsList!.removeAt(index);
+      gameStatsList!.add(stat);
+    }
+  }
+
+  void incrementWonGamesByOne(Game game) {
+    GameStats stat;
+    var index = gameStatsList!
+        .indexWhere((element) => element.gameType.name == game.gameType.name);
+    if (index == -1) {
+      stat = GameStats(gameType: game.gameType, wonGames: 1, playedGames: 1);
+      gameStatsList!.add(stat);
+    } else {
+      stat = gameStatsList![index];
+      stat.wonGames += 1;
+      gameStatsList!.removeAt(index);
+      gameStatsList!.add(stat);
+    }
   }
 
   double totalWinPercentage() {
@@ -125,20 +157,20 @@ class Player extends CargObject with ChangeNotifier {
 
   factory Player.fromJSON(Map<String?, dynamic>? json, String id) {
     return Player(
-      id: id,
-      gameStatsList: GameStats.fromJSONList(json?['game_stats']),
-      firstName: json?['first_name'] ?? '',
-      lastName: json?['last_name'] ?? '',
-      userName: json?['user_name'] ?? '',
-      linkedUserId: json?['linked_user_id'] ?? '',
-      profilePicture: json?['profile_picture'] ?? '',
-      ownedBy: json?['owned_by'] ?? '',
-      useGravatarProfilePicture: json?['use_gravatar_profile_picture'] ?? false,
-      gravatarProfilePicture: json?['gravatar_profile_picture'] ?? '',
-      owned: json?['owned'] ?? true,
-      testing: json?['testing'] ?? false,
-      admin: json?['admin'] ?? false
-    );
+        id: id,
+        gameStatsList: GameStats.fromJSONList(json?['game_stats']),
+        firstName: json?['first_name'],
+        lastName: json?['last_name'],
+        userName: json?['user_name'],
+        linkedUserId: json?['linked_user_id'],
+        profilePicture: json?['profile_picture'],
+        ownedBy: json?['owned_by'],
+        useGravatarProfilePicture:
+            json?['use_gravatar_profile_picture'] ?? false,
+        gravatarProfilePicture: json?['gravatar_profile_picture'],
+        owned: json?['owned'] ?? true,
+        testing: json?['testing'] ?? false,
+        admin: json?['admin'] ?? false);
   }
 
   @override
@@ -164,7 +196,57 @@ class Player extends CargObject with ChangeNotifier {
   }
 
   @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      super == other &&
+          other is Player &&
+          runtimeType == other.runtimeType &&
+          const ListEquality().equals(gameStatsList, other.gameStatsList) &&
+          linkedUserId == other.linkedUserId &&
+          firstName == other.firstName &&
+          lastName == other.lastName &&
+          ownedBy == other.ownedBy &&
+          _gravatarProfilePicture == other._gravatarProfilePicture &&
+          owned == other.owned &&
+          _userName == other._userName &&
+          testing == other.testing &&
+          admin == other.admin &&
+          _profilePicture == other._profilePicture &&
+          _selected == other._selected &&
+          _useGravatarProfilePicture == other._useGravatarProfilePicture;
+
+  @override
+  int get hashCode =>
+      super.hashCode ^
+      gameStatsList.hashCode ^
+      linkedUserId.hashCode ^
+      firstName.hashCode ^
+      lastName.hashCode ^
+      ownedBy.hashCode ^
+      _gravatarProfilePicture.hashCode ^
+      owned.hashCode ^
+      _userName.hashCode ^
+      testing.hashCode ^
+      admin.hashCode ^
+      _profilePicture.hashCode ^
+      _selected.hashCode ^
+      _useGravatarProfilePicture.hashCode;
+
+  @override
   String toString() {
-    return 'Player{gameStatsList: $gameStatsList, linkedUserId: $linkedUserId, firstName: $firstName, lastName: $lastName, ownedBy: $ownedBy, _gravatarProfilePicture: $_gravatarProfilePicture, owned: $owned, _userName: $_userName, testing: $testing, admin: $admin, _profilePicture: $_profilePicture, _selected: $_selected, _useGravatarProfilePicture: $_useGravatarProfilePicture}';
+    return 'Player{id: $id, \n'
+        'gameStatsList: $gameStatsList, \n'
+        'linkedUserId: $linkedUserId, \n'
+        'firstName: $firstName, \n'
+        'lastName: $lastName, \n'
+        'ownedBy: $ownedBy, \n'
+        '_gravatarProfilePicture: $_gravatarProfilePicture, \n'
+        'owned: $owned, \n'
+        '_userName: $_userName, \n'
+        'testing: $testing, \n'
+        'admin: $admin, \n'
+        '_profilePicture: $_profilePicture, \n'
+        '_selected: $_selected, \n'
+        '_useGravatarProfilePicture: $_useGravatarProfilePicture}';
   }
 }

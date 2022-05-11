@@ -1,12 +1,15 @@
 import 'package:carg/models/game/game.dart';
+import 'package:carg/services/game/abstract_game_service.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:flutter/material.dart';
 
 class NotesDialog extends StatefulWidget {
   final Game game;
+  final AbstractGameService gameService;
 
-  const NotesDialog({Key? key, required this.game}) : super(key: key);
+  const NotesDialog({Key? key, required this.game, required this.gameService})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -62,8 +65,9 @@ class _NotesDialogState extends State<NotesDialog> {
                     RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
                             CustomProperties.borderRadius)))),
-            onPressed: () async => {
-                  await widget.game.gameService.updateGame(widget.game),
+            onPressed: () async =>
+            {
+                  await widget.gameService.update(widget.game),
                   Navigator.pop(context)
                 },
             label: Text(

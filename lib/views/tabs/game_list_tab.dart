@@ -2,8 +2,7 @@ import 'package:carg/models/game/belote_game.dart';
 import 'package:carg/models/game/game.dart';
 import 'package:carg/models/game/game_type.dart';
 import 'package:carg/models/game/tarot.dart';
-import 'package:carg/services/auth_service.dart';
-import 'package:carg/services/game/game_service.dart';
+import 'package:carg/services/auth/auth_service.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/views/widgets/belote_widget.dart';
 import 'package:carg/views/widgets/tarot_widget.dart';
@@ -11,8 +10,10 @@ import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
 
+import '../../services/game/abstract_game_service.dart';
+
 class GameListTabWidget extends StatefulWidget {
-  final GameService gameService;
+  final AbstractGameService gameService;
 
   const GameListTabWidget({Key? key, required this.gameService})
       : super(key: key);
@@ -50,7 +51,7 @@ class _GameListTabWidgetState extends State<GameListTabWidget> {
 
   @override
   void initState() {
-    widget.gameService.lastFetchGameDocument = null;
+    widget.gameService.resetLastPointedGame();
     _playerId =
         Provider.of<AuthService>(context, listen: false).getPlayerIdOfUser();
     _pagingController.addPageRequestListener((pageKey) {
@@ -71,7 +72,7 @@ class _GameListTabWidgetState extends State<GameListTabWidget> {
       onRefresh: () => Future.sync(
         () =>
         {
-          widget.gameService.lastFetchGameDocument = null,
+          widget.gameService.resetLastPointedGame(),
           _pagingController.refresh()
         },
       ),
@@ -90,8 +91,9 @@ class _GameListTabWidgetState extends State<GameListTabWidget> {
                 textAlign: TextAlign.center,
               )),
               ElevatedButton.icon(
-                  onPressed: () => {
-                        widget.gameService.lastFetchGameDocument = null,
+                  onPressed: () =>
+                  {
+                        widget.gameService.resetLastPointedGame(),
                         _pagingController.refresh()
                       },
                   icon: const Icon(Icons.refresh),
@@ -101,8 +103,9 @@ class _GameListTabWidgetState extends State<GameListTabWidget> {
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               const Center(child: Text('Pas encore de parties')),
               ElevatedButton.icon(
-                  onPressed: () => {
-                        widget.gameService.lastFetchGameDocument = null,
+                  onPressed: () =>
+                  {
+                        widget.gameService.resetLastPointedGame(),
                         _pagingController.refresh()
                       },
                   icon: const Icon(Icons.refresh),

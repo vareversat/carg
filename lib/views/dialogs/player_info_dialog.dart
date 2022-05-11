@@ -1,7 +1,7 @@
 import 'package:carg/models/game/game_type.dart';
 import 'package:carg/models/player.dart';
-import 'package:carg/services/auth_service.dart';
-import 'package:carg/services/impl/player_service.dart';
+import 'package:carg/services/auth/auth_service.dart';
+import 'package:carg/services/player/abstract_player_service.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/helpers/info_snackbar.dart';
@@ -12,7 +12,7 @@ import 'package:provider/provider.dart';
 
 class PlayerInfoDialog extends StatelessWidget {
   final Player player;
-  final PlayerService playerService;
+  final AbstractPlayerService playerService;
   final bool isNewPlayer;
 
   const PlayerInfoDialog(

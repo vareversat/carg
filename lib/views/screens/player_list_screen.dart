@@ -1,6 +1,6 @@
 import 'package:carg/models/player.dart';
-import 'package:carg/services/auth_service.dart';
-import 'package:carg/services/impl/player_service.dart';
+import 'package:carg/services/auth/auth_service.dart';
+import 'package:carg/services/player/abstract_player_service.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/dialogs/player_color_explanation_dialog.dart';
 import 'package:carg/views/dialogs/player_info_dialog.dart';
@@ -12,7 +12,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 class PlayerListScreen extends StatefulWidget {
-  final PlayerService playerService;
+  final AbstractPlayerService playerService;
   final TextEditingController textEditingController;
 
   const PlayerListScreen(

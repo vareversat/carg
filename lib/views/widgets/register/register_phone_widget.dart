@@ -1,5 +1,5 @@
-import 'package:carg/services/auth_service.dart';
-import 'package:carg/services/custom_exception.dart';
+import 'package:carg/exceptions/custom_exception.dart';
+import 'package:carg/services/auth/auth_service.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/views/helpers/info_snackbar.dart';
 import 'package:flutter/material.dart';

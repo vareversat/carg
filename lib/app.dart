@@ -4,30 +4,22 @@ import 'package:carg/views/screens/home_screen.dart';
 import 'package:carg/views/screens/register/register_screen.dart';
 import 'package:carg/views/screens/splash_screen.dart';
 import 'package:carg/views/screens/user_screen.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(const Carg());
-}
-
-class Carg extends StatefulWidget {
-  const Carg({Key? key}) : super(key: key);
+class App extends StatefulWidget {
+  const App({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _CargState();
+    return _AppState();
   }
 }
 
-class _CargState extends State<Carg> {
-
+class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(

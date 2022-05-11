@@ -1,6 +1,6 @@
+import 'package:carg/exceptions/service_exception.dart';
 import 'package:carg/models/player.dart';
-import 'package:carg/services/auth_service.dart';
-import 'package:carg/services/custom_exception.dart';
+import 'package:carg/services/auth/auth_service.dart';
 import 'package:carg/services/impl/player_service.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/views/dialogs/dialogs.dart';
@@ -314,7 +314,7 @@ class _AccountCreationData with ChangeNotifier {
 class _EnterUsernameWidget extends StatelessWidget {
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
   final TextEditingController _usernameTextController = TextEditingController();
-  final _playerRepository = PlayerService();
+  final PlayerService _playerService = PlayerService();
   final BuildContext context;
 
   final _playerIsCreating = 'Création du joueur...';
@@ -332,7 +332,7 @@ class _EnterUsernameWidget extends StatelessWidget {
           userName: _usernameTextController.text,
           linkedUserId: userId,
           owned: false);
-      await _playerRepository.createPlayer(player);
+      await _playerService.create(player);
       Navigator.of(_keyLoader.currentContext!, rootNavigator: true).pop();
       await Navigator.pushReplacement(
         context,
@@ -340,7 +340,7 @@ class _EnterUsernameWidget extends StatelessWidget {
           builder: (context) => const HomeScreen(requestedIndex: 0),
         ),
       );
-    } on CustomException catch (e) {
+    } on ServiceException catch (e) {
       _usernameTextController.clear();
       InfoSnackBar.showSnackBar(context, e.message);
     }
@@ -437,7 +437,7 @@ class _EnterUsernameWidget extends StatelessWidget {
 
 class _LinkPlayerWidget extends StatelessWidget {
   final BuildContext context;
-  final _playerRepository = PlayerService();
+  final PlayerService _playerService = PlayerService();
   final TextEditingController _idTextController = TextEditingController();
 
   final _enterUniqueId = 'Saisissez l\'identifiant unique';
@@ -450,15 +450,15 @@ class _LinkPlayerWidget extends StatelessWidget {
     try {
       var userId = Provider.of<AuthService>(context, listen: false)
           .getConnectedUserId();
-      var player = await _playerRepository.get(_idTextController.text);
+      var player = await _playerService.get(_idTextController.text);
       if (player != null) {
         if (player.ownedBy == '' || player.linkedUserId != '') {
-          throw CustomException('Impossible d\'associer cet utilisateur');
+          throw Exception('Impossible d\'associer cet utilisateur');
         }
         player.linkedUserId = userId;
         player.ownedBy = '';
         player.owned = false;
-        await _playerRepository.update(player);
+        await _playerService.update(player);
         Provider.of<AuthService>(context, listen: false)
             .setCurrentPlayer(player);
         await Navigator.pushReplacement(
@@ -468,7 +468,7 @@ class _LinkPlayerWidget extends StatelessWidget {
           ),
         );
       }
-    } on CustomException catch (e) {
+    } on ServiceException catch (e) {
       InfoSnackBar.showSnackBar(context, e.message);
     }
   }

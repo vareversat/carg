@@ -63,8 +63,8 @@ class ContreeBeloteGameRepository extends AbstractContreeBeloteGameRepository {
         games.add(ContreeBelote.fromJSON(doc.data(), doc.id));
       }
       return games;
-    } on FirebaseException catch (e) {
-      throw RepositoryException(e.message!);
+    } on Exception catch (e) {
+      throw RepositoryException(e.toString());
     }
   }
 }

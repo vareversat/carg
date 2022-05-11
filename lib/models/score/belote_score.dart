@@ -2,40 +2,44 @@ import 'package:carg/models/score/misc/belote_team_enum.dart';
 import 'package:carg/models/score/round/belote_round.dart';
 import 'package:carg/models/score/score.dart';
 
-abstract class BeloteScore<T extends BeloteRound> extends Score {
-  List<T>? rounds;
+abstract class BeloteScore<T extends BeloteRound> extends Score<T> {
+  late List<T> rounds;
   int usTotalPoints;
   int themTotalPoints;
   String? game;
 
   BeloteScore(
       {id,
-      this.rounds,
+      rounds,
       required this.usTotalPoints,
       required this.themTotalPoints,
       this.game})
-      : super(id: id);
+      : super(id: id) {
+    this.rounds = rounds ?? <T>[];
+  }
 
+  @override
   BeloteScore replaceLastRound(T round) {
-    usTotalPoints -= getPointsOfRound(BeloteTeamEnum.US, getLastRound())!;
-    themTotalPoints -= getPointsOfRound(BeloteTeamEnum.THEM, getLastRound())!;
+    usTotalPoints -= getPointsOfRound(BeloteTeamEnum.US, getLastRound());
+    themTotalPoints -= getPointsOfRound(BeloteTeamEnum.THEM, getLastRound());
     _setLastRound(round);
     return this;
   }
 
+  @override
   BeloteScore deleteLastRound() {
-    usTotalPoints -= getPointsOfRound(BeloteTeamEnum.US, getLastRound())!;
-    themTotalPoints -= getPointsOfRound(BeloteTeamEnum.THEM, getLastRound())!;
-    rounds!.removeLast();
+    usTotalPoints -= getPointsOfRound(BeloteTeamEnum.US, getLastRound());
+    themTotalPoints -= getPointsOfRound(BeloteTeamEnum.THEM, getLastRound());
+    rounds.removeLast();
     return this;
   }
 
   @override
   T getLastRound() {
-    return rounds!.last;
+    return rounds.last;
   }
 
-  int? getPointsOfRound(BeloteTeamEnum teamGameEnum, T teamGameRound) {
+  int getPointsOfRound(BeloteTeamEnum teamGameEnum, T teamGameRound) {
     if (teamGameEnum == teamGameRound.taker) {
       return teamGameRound.takerScore;
     } else {
@@ -43,16 +47,23 @@ abstract class BeloteScore<T extends BeloteRound> extends Score {
     }
   }
 
+  void addRound(T round) async {
+    usTotalPoints += getPointsOfRound(BeloteTeamEnum.US, round);
+    themTotalPoints += getPointsOfRound(BeloteTeamEnum.THEM, round);
+    round.index = rounds.length;
+    rounds.add(round);
+  }
+
   void _setLastRound(T round) {
-    usTotalPoints += getPointsOfRound(BeloteTeamEnum.US, round)!;
-    themTotalPoints += getPointsOfRound(BeloteTeamEnum.THEM, round)!;
-    rounds?.last = round;
+    usTotalPoints += getPointsOfRound(BeloteTeamEnum.US, round);
+    themTotalPoints += getPointsOfRound(BeloteTeamEnum.THEM, round);
+    rounds.last = round;
   }
 
   @override
   Map<String, dynamic> toJSON() {
     return {
-      'rounds': rounds!.map((round) => round.toJSON()).toList(),
+      'rounds': rounds.map((round) => round.toJSON()).toList(),
       'us_total_points': usTotalPoints,
       'them_total_points': themTotalPoints,
       'game': game
