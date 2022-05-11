@@ -50,7 +50,6 @@ class MockTeamRepository extends _i1.Mock implements _i7.TeamRepository {
   String get database =>
       (super.noSuchMethod(Invocation.getter(#database), returnValue: '')
           as String);
-
   @override
   String get environment =>
       (super.noSuchMethod(Invocation.getter(#environment), returnValue: '')
@@ -67,49 +66,41 @@ class MockTeamRepository extends _i1.Mock implements _i7.TeamRepository {
   set connectionString(String? _connectionString) => super.noSuchMethod(
       Invocation.setter(#connectionString, _connectionString),
       returnValueForMissingStub: null);
-
   @override
   _i8.Future<_i3.Team?> get(String? id) =>
       (super.noSuchMethod(Invocation.method(#get, [id]),
           returnValue: Future<_i3.Team?>.value()) as _i8.Future<_i3.Team?>);
-
   @override
   _i8.Future<_i3.Team?> getTeamByPlayers(List<String?>? playerIds) =>
       (super.noSuchMethod(Invocation.method(#getTeamByPlayers, [playerIds]),
           returnValue: Future<_i3.Team?>.value()) as _i8.Future<_i3.Team?>);
-
   @override
   _i8.Future<_i3.Team> createTeamWithPlayers(List<String?>? playerIds) => (super
           .noSuchMethod(Invocation.method(#createTeamWithPlayers, [playerIds]),
               returnValue: Future<_i3.Team>.value(_FakeTeam_1()))
       as _i8.Future<_i3.Team>);
-
   @override
   _i8.Future<void> delete(String? id) =>
       (super.noSuchMethod(Invocation.method(#delete, [id]),
           returnValue: Future<void>.value(),
           returnValueForMissingStub: Future<void>.value()) as _i8.Future<void>);
-
   @override
   _i8.Future<void> updateField(String? id, String? fieldName, dynamic value) =>
       (super.noSuchMethod(
           Invocation.method(#updateField, [id, fieldName, value]),
           returnValue: Future<void>.value(),
           returnValueForMissingStub: Future<void>.value()) as _i8.Future<void>);
-
   @override
   _i8.Future<void> partialUpdate(
           _i3.Team? t, Map<String, dynamic>? partToUpdate) =>
       (super.noSuchMethod(Invocation.method(#partialUpdate, [t, partToUpdate]),
           returnValue: Future<void>.value(),
           returnValueForMissingStub: Future<void>.value()) as _i8.Future<void>);
-
   @override
   _i8.Future<void> update(_i3.Team? t) =>
       (super.noSuchMethod(Invocation.method(#update, [t]),
           returnValue: Future<void>.value(),
           returnValueForMissingStub: Future<void>.value()) as _i8.Future<void>);
-
   @override
   _i8.Future<String> create(_i3.Team? t) =>
       (super.noSuchMethod(Invocation.method(#create, [t]),
@@ -129,18 +120,15 @@ class MockPlayerService extends _i1.Mock implements _i9.PlayerService {
       (super.noSuchMethod(Invocation.getter(#playerRepository),
               returnValue: _FakeAbstractPlayerRepository_2())
           as _i4.AbstractPlayerRepository);
-
   @override
   _i6.BaseRepository<_i10.Player> get repository =>
       (super.noSuchMethod(Invocation.getter(#repository),
               returnValue: _FakeBaseRepository_3<_i10.Player>())
           as _i6.BaseRepository<_i10.Player>);
-
   @override
   _i8.Future<String> create(_i10.Player? t) =>
       (super.noSuchMethod(Invocation.method(#create, [t]),
           returnValue: Future<String>.value('')) as _i8.Future<String>);
-
   @override
   _i8.Future<void> incrementPlayedGamesByOne(
           String? playerId, _i11.Game<_i12.Players>? game) =>
@@ -148,7 +136,6 @@ class MockPlayerService extends _i1.Mock implements _i9.PlayerService {
           Invocation.method(#incrementPlayedGamesByOne, [playerId, game]),
           returnValue: Future<void>.value(),
           returnValueForMissingStub: Future<void>.value()) as _i8.Future<void>);
-
   @override
   _i8.Future<void> incrementWonGamesByOne(
           String? playerId, _i11.Game<_i12.Players>? game) =>
@@ -156,13 +143,11 @@ class MockPlayerService extends _i1.Mock implements _i9.PlayerService {
           Invocation.method(#incrementWonGamesByOne, [playerId, game]),
           returnValue: Future<void>.value(),
           returnValueForMissingStub: Future<void>.value()) as _i8.Future<void>);
-
   @override
   _i8.Future<_i10.Player?> getPlayerOfUser(String? userId) =>
       (super.noSuchMethod(Invocation.method(#getPlayerOfUser, [userId]),
               returnValue: Future<_i10.Player?>.value())
           as _i8.Future<_i10.Player?>);
-
   @override
   _i8.Future<List<_i10.Player>> searchPlayers(
           {String? query = r'', _i10.Player? currentPlayer}) =>
@@ -171,18 +156,15 @@ class MockPlayerService extends _i1.Mock implements _i9.PlayerService {
                   {#query: query, #currentPlayer: currentPlayer}),
               returnValue: Future<List<_i10.Player>>.value(<_i10.Player>[]))
           as _i8.Future<List<_i10.Player>>);
-
   @override
   _i8.Future<_i10.Player?> get(String? id) => (super.noSuchMethod(
       Invocation.method(#get, [id]),
       returnValue: Future<_i10.Player?>.value()) as _i8.Future<_i10.Player?>);
-
   @override
   _i8.Future<void> delete(String? id) =>
       (super.noSuchMethod(Invocation.method(#delete, [id]),
           returnValue: Future<void>.value(),
           returnValueForMissingStub: Future<void>.value()) as _i8.Future<void>);
-
   @override
   _i8.Future<void> update(_i10.Player? t) =>
       (super.noSuchMethod(Invocation.method(#update, [t]),

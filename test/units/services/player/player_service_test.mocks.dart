@@ -34,7 +34,6 @@ class MockPlayerRepository extends _i1.Mock implements _i3.PlayerRepository {
   String get database =>
       (super.noSuchMethod(Invocation.getter(#database), returnValue: '')
           as String);
-
   @override
   String get environment =>
       (super.noSuchMethod(Invocation.getter(#environment), returnValue: '')
@@ -51,43 +50,36 @@ class MockPlayerRepository extends _i1.Mock implements _i3.PlayerRepository {
   set connectionString(String? _connectionString) => super.noSuchMethod(
       Invocation.setter(#connectionString, _connectionString),
       returnValueForMissingStub: null);
-
   @override
   _i4.Future<_i5.Player?> get(String? id) =>
       (super.noSuchMethod(Invocation.method(#get, [id]),
           returnValue: Future<_i5.Player?>.value()) as _i4.Future<_i5.Player?>);
-
   @override
   _i4.Future<_i5.Player?> getPlayerOfUser(String? userId) =>
       (super.noSuchMethod(Invocation.method(#getPlayerOfUser, [userId]),
           returnValue: Future<_i5.Player?>.value()) as _i4.Future<_i5.Player?>);
-
   @override
   _i4.Future<void> delete(String? id) =>
       (super.noSuchMethod(Invocation.method(#delete, [id]),
           returnValue: Future<void>.value(),
           returnValueForMissingStub: Future<void>.value()) as _i4.Future<void>);
-
   @override
   _i4.Future<void> updateField(String? id, String? fieldName, dynamic value) =>
       (super.noSuchMethod(
           Invocation.method(#updateField, [id, fieldName, value]),
           returnValue: Future<void>.value(),
           returnValueForMissingStub: Future<void>.value()) as _i4.Future<void>);
-
   @override
   _i4.Future<void> partialUpdate(
           _i5.Player? t, Map<String, dynamic>? partToUpdate) =>
       (super.noSuchMethod(Invocation.method(#partialUpdate, [t, partToUpdate]),
           returnValue: Future<void>.value(),
           returnValueForMissingStub: Future<void>.value()) as _i4.Future<void>);
-
   @override
   _i4.Future<void> update(_i5.Player? t) =>
       (super.noSuchMethod(Invocation.method(#update, [t]),
           returnValue: Future<void>.value(),
           returnValueForMissingStub: Future<void>.value()) as _i4.Future<void>);
-
   @override
   _i4.Future<String> create(_i5.Player? t) =>
       (super.noSuchMethod(Invocation.method(#create, [t]),

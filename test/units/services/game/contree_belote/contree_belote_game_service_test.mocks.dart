@@ -82,38 +82,32 @@ class MockContreeBeloteScoreService extends _i3.Mock
                   returnValue: _FakeAbstractBeloteScoreRepository_0<
                       _i16.ContreeBeloteScore>())
               as _i4.AbstractBeloteScoreRepository<_i16.ContreeBeloteScore>);
-
   @override
   _i7.AbstractScoreRepository<_i16.ContreeBeloteScore> get scoreRepository =>
       (super.noSuchMethod(Invocation.getter(#scoreRepository),
               returnValue:
                   _FakeAbstractScoreRepository_1<_i16.ContreeBeloteScore>())
           as _i7.AbstractScoreRepository<_i16.ContreeBeloteScore>);
-
   @override
   _i9.BaseRepository<_i5.Score<_i6.Round>> get repository =>
       (super.noSuchMethod(Invocation.getter(#repository),
               returnValue: _FakeBaseRepository_2<_i5.Score<_i6.Round>>())
           as _i9.BaseRepository<_i5.Score<_i6.Round>>);
-
   @override
   _i17.Future<_i16.ContreeBeloteScore?> generateNewScore(String? gameId) =>
       (super.noSuchMethod(Invocation.method(#generateNewScore, [gameId]),
               returnValue: Future<_i16.ContreeBeloteScore?>.value())
           as _i17.Future<_i16.ContreeBeloteScore?>);
-
   @override
   _i17.Future<_i16.ContreeBeloteScore?> getScoreByGame(String? gameId) =>
       (super.noSuchMethod(Invocation.method(#getScoreByGame, [gameId]),
               returnValue: Future<_i16.ContreeBeloteScore?>.value())
           as _i17.Future<_i16.ContreeBeloteScore?>);
-
   @override
   _i17.Stream<_i16.ContreeBeloteScore?> getScoreByGameStream(String? gameId) =>
       (super.noSuchMethod(Invocation.method(#getScoreByGameStream, [gameId]),
               returnValue: Stream<_i16.ContreeBeloteScore?>.empty())
           as _i17.Stream<_i16.ContreeBeloteScore?>);
-
   @override
   _i17.Future<void> deleteScoreByGame(String? gameId) => (super.noSuchMethod(
       Invocation.method(#deleteScoreByGame, [gameId]),
@@ -159,17 +153,14 @@ class MockContreeBeloteGameRepository extends _i3.Mock
   String get database =>
       (super.noSuchMethod(Invocation.getter(#database), returnValue: '')
           as String);
-
   @override
   String get environment =>
       (super.noSuchMethod(Invocation.getter(#environment), returnValue: '')
           as String);
-
   @override
   _i10.FirebaseFirestore get provider =>
       (super.noSuchMethod(Invocation.getter(#provider),
           returnValue: _FakeFirebaseFirestore_3()) as _i10.FirebaseFirestore);
-
   @override
   String get connectionString =>
       (super.noSuchMethod(Invocation.getter(#connectionString), returnValue: '')
@@ -234,7 +225,6 @@ class MockPlayerService extends _i3.Mock implements _i20.PlayerService {
       (super.noSuchMethod(Invocation.getter(#playerRepository),
               returnValue: _FakeAbstractPlayerRepository_4())
           as _i11.AbstractPlayerRepository);
-
   @override
   _i9.BaseRepository<_i21.Player> get repository =>
       (super.noSuchMethod(Invocation.getter(#repository),
@@ -302,25 +292,21 @@ class MockTeamService extends _i3.Mock implements _i24.TeamService {
       (super.noSuchMethod(Invocation.getter(#teamRepository),
               returnValue: _FakeAbstractTeamRepository_5())
           as _i12.AbstractTeamRepository);
-
   @override
   _i13.AbstractPlayerService get playerService =>
       (super.noSuchMethod(Invocation.getter(#playerService),
               returnValue: _FakeAbstractPlayerService_6())
           as _i13.AbstractPlayerService);
-
   @override
   _i9.BaseRepository<_i14.Team> get repository =>
       (super.noSuchMethod(Invocation.getter(#repository),
               returnValue: _FakeBaseRepository_2<_i14.Team>())
           as _i9.BaseRepository<_i14.Team>);
-
   @override
   _i17.Future<_i14.Team> getTeamByPlayers(List<String?>? playerIds) =>
       (super.noSuchMethod(Invocation.method(#getTeamByPlayers, [playerIds]),
               returnValue: Future<_i14.Team>.value(_FakeTeam_7()))
           as _i17.Future<_i14.Team>);
-
   @override
   _i17.Future<_i14.Team> incrementPlayedGamesByOne(
           String? id, _i22.Game<_i23.Players>? game) =>
@@ -328,7 +314,6 @@ class MockTeamService extends _i3.Mock implements _i24.TeamService {
               Invocation.method(#incrementPlayedGamesByOne, [id, game]),
               returnValue: Future<_i14.Team>.value(_FakeTeam_7()))
           as _i17.Future<_i14.Team>);
-
   @override
   _i17.Future<_i14.Team> incrementWonGamesByOne(
           String? id, _i22.Game<_i23.Players>? game) =>
@@ -336,24 +321,20 @@ class MockTeamService extends _i3.Mock implements _i24.TeamService {
               Invocation.method(#incrementWonGamesByOne, [id, game]),
               returnValue: Future<_i14.Team>.value(_FakeTeam_7()))
           as _i17.Future<_i14.Team>);
-
   @override
   _i17.Future<_i14.Team?> get(String? id) =>
       (super.noSuchMethod(Invocation.method(#get, [id]),
           returnValue: Future<_i14.Team?>.value()) as _i17.Future<_i14.Team?>);
-
   @override
   _i17.Future<void> delete(String? id) => (super.noSuchMethod(
       Invocation.method(#delete, [id]),
       returnValue: Future<void>.value(),
       returnValueForMissingStub: Future<void>.value()) as _i17.Future<void>);
-
   @override
   _i17.Future<void> update(_i14.Team? t) => (super.noSuchMethod(
       Invocation.method(#update, [t]),
       returnValue: Future<void>.value(),
       returnValueForMissingStub: Future<void>.value()) as _i17.Future<void>);
-
   @override
   _i17.Future<String> create(_i14.Team? t) =>
       (super.noSuchMethod(Invocation.method(#create, [t]),

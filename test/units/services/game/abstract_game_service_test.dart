@@ -1,72 +1,16 @@
 import 'package:carg/exceptions/service_exception.dart';
-import 'package:carg/models/game/game.dart';
-import 'package:carg/models/player.dart';
-import 'package:carg/models/players/players.dart';
-import 'package:carg/models/score/round/round.dart';
-import 'package:carg/models/score/score.dart';
 import 'package:carg/repositories/game/abstract_game_repository.dart';
-import 'package:carg/services/game/abstract_game_service.dart';
 import 'package:carg/services/impl/player_service.dart';
 import 'package:carg/services/impl/team_service.dart';
-import 'package:carg/services/player/abstract_player_service.dart';
 import 'package:carg/services/score/abstract_score_service.dart';
-import 'package:carg/services/team/abstract_team_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
+import '../../mocks/fake_game.dart';
+import '../../mocks/fake_game_service.dart';
+import '../../mocks/fake_players.dart';
 import 'abstract_game_service_test.mocks.dart';
-
-class FakePlayers extends Players {
-  FakePlayers(List<String> players) : super(playerList: players);
-
-  @override
-  String getSelectedPlayersStatus() {
-    throw UnimplementedError();
-  }
-
-  @override
-  bool isFull() {
-    throw UnimplementedError();
-  }
-
-  @override
-  void onSelectedPlayer(Player player) {}
-
-  @override
-  void reset() {}
-}
-
-class FakeGame extends Game {
-  FakeGame(String? id, DateTime startingDate, Players players)
-      : super(players: players, id: id, startingDate: startingDate);
-}
-
-class FakeGameService extends AbstractGameService {
-  FakeGameService(
-      {required AbstractScoreService<Score<Round>> scoreService,
-      required AbstractGameRepository<Game<Players>> gameRepository,
-      required AbstractPlayerService playerService,
-      required AbstractTeamService teamService})
-      : super(
-            scoreService: scoreService,
-            gameRepository: gameRepository,
-            playerService: playerService,
-            teamService: teamService);
-
-  @override
-  Future<Game<Players>> createGameWithPlayerList(
-      List<String?> playerListForOrder,
-      List<String?> playerListForTeam,
-      DateTime? startingDate) {
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<void> endAGame(Game<Players> game, DateTime? endingDate) {
-    throw UnimplementedError();
-  }
-}
 
 @GenerateMocks(
     [AbstractScoreService, AbstractGameRepository, PlayerService, TeamService])

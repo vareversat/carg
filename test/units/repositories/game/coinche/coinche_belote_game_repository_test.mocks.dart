@@ -2,8 +2,6 @@
 // in carg/test/units/repositories/game/coinche/coinche_belote_game_repository_test.dart.
 // Do not manually edit this file.
 
-// ignore_for_file: subtype_of_sealed_class
-
 import 'dart:async' as _i5;
 import 'dart:typed_data' as _i6;
 
