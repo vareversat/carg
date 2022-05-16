@@ -1,8 +1,9 @@
 import 'package:carg/models/carg_object.dart';
+import 'package:collection/collection.dart';
 
 class Team extends CargObject {
   String? name;
-  int? playedGames;
+  int playedGames;
   int wonGames;
   List<dynamic>? players;
   List<dynamic>? games;
@@ -39,6 +40,32 @@ class Team extends CargObject {
 
   @override
   String toString() {
-    return 'Team{name: $name, playedGames: $playedGames, wonGames: $wonGames, players: $players, games: $games}';
+    return 'Team{id: $id, \n'
+        'name: $name, \n'
+        'playedGames: $playedGames, \n'
+        'wonGames: $wonGames, \n'
+        'players: $players, \n'
+        'games: $games}';
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      super == other &&
+          other is Team &&
+          runtimeType == other.runtimeType &&
+          name == other.name &&
+          playedGames == other.playedGames &&
+          wonGames == other.wonGames &&
+          const ListEquality().equals(players, other.players) &&
+          const ListEquality().equals(games, other.games);
+
+  @override
+  int get hashCode =>
+      super.hashCode ^
+      name.hashCode ^
+      playedGames.hashCode ^
+      wonGames.hashCode ^
+      players.hashCode ^
+      games.hashCode;
 }

@@ -1,4 +1,4 @@
-import 'package:carg/services/auth_service.dart';
+import 'package:carg/services/auth/auth_service.dart';
 import 'package:carg/views/screens/register/register_screen.dart';
 import 'package:carg/views/widgets/register/register_email_widget.dart';
 import 'package:carg/views/widgets/register/register_phone_widget.dart';

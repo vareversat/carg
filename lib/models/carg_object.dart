@@ -12,4 +12,9 @@ abstract class CargObject {
   int get hashCode => id.hashCode;
 
   Map<String, dynamic> toJSON();
+
+  @override
+  String toString() {
+    return '$id';
+  }
 }

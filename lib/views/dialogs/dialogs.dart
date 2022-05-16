@@ -38,7 +38,7 @@ class Dialogs {
                 children: <Widget>[
                   Center(
                       child: Text(
-                        message,
+                    message,
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                         fontSize: 20, fontWeight: FontWeight.bold),

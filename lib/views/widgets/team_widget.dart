@@ -1,5 +1,6 @@
 import 'package:carg/models/team.dart';
-import 'package:carg/services/team_service.dart';
+import 'package:carg/services/player/abstract_player_service.dart';
+import 'package:carg/services/team/abstract_team_service.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/widgets/api_mini_player_widget.dart';
 import 'package:flutter/material.dart';
@@ -7,13 +8,15 @@ import 'package:flutter/material.dart';
 class TeamWidget extends StatefulWidget {
   final String? teamId;
   final String title;
-  final TeamService teamService;
+  final AbstractTeamService teamService;
+  final AbstractPlayerService playerService;
 
   const TeamWidget(
       {Key? key,
       required this.teamId,
       required this.title,
-      required this.teamService})
+      required this.teamService,
+      required this.playerService})
       : super(key: key);
 
   @override
@@ -31,7 +34,7 @@ class _TeamWidgetState extends State<TeamWidget> {
       Text(widget.title,
           key: const ValueKey('textTitleWidget'),
           style: CustomTextStyle.boldAndItalic(context)),
-      FutureBuilder<Team>(
+      FutureBuilder<Team?>(
           builder: (context, snapshot) {
             if (snapshot.hasData &&
                 snapshot.connectionState == ConnectionState.done) {
@@ -44,14 +47,15 @@ class _TeamWidgetState extends State<TeamWidget> {
                         key: ValueKey(
                             'apiminiplayerwidget-${snapshot.data!.players![index]}'),
                         playerId: snapshot.data!.players![index],
-                        displayImage: true);
+                        displayImage: true,
+                        playerService: widget.playerService);
                   });
             }
             return Center(child: Text(_errorMessage));
           },
           // ignore: return_of_invalid_type_from_catch_error
           future: widget.teamService
-              .getTeam(widget.teamId)
+              .get(widget.teamId)
               // ignore: return_of_invalid_type_from_catch_error
               .catchError((error) => {_errorMessage = error.toString()}))
     ]);

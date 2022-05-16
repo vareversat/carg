@@ -11,20 +11,20 @@ class CoincheBeloteRound extends BeloteRound {
   late BeloteContractType _contractType;
 
   CoincheBeloteRound(
-      {index,
-      cardColor,
-      contract,
-      contractFulfilled,
-      dixDeDer,
-      beloteRebelote,
-      taker,
-      takerScore,
-      defenderScore,
-      usTrickScore,
-      themTrickScore,
-      contractName,
-      contractType,
-      defender})
+      {int? index,
+      CardColor? cardColor,
+      bool? contractFulfilled,
+      BeloteTeamEnum? dixDeDer,
+      BeloteTeamEnum? beloteRebelote,
+      BeloteTeamEnum? taker,
+      BeloteTeamEnum? defender,
+      int? takerScore,
+      int? defenderScore,
+      int? usTrickScore,
+      int? themTrickScore,
+      int? contract,
+      CoincheBeloteContractName? contractName,
+      BeloteContractType? contractType})
       : super(
             index: index,
             cardColor: cardColor,

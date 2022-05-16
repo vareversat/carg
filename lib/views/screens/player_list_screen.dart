@@ -1,6 +1,6 @@
 import 'package:carg/models/player.dart';
-import 'package:carg/services/auth_service.dart';
-import 'package:carg/services/player_service.dart';
+import 'package:carg/services/auth/auth_service.dart';
+import 'package:carg/services/player/abstract_player_service.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/dialogs/player_color_explanation_dialog.dart';
 import 'package:carg/views/dialogs/player_info_dialog.dart';
@@ -12,7 +12,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 class PlayerListScreen extends StatefulWidget {
-  final PlayerService playerService;
+  final AbstractPlayerService playerService;
   final TextEditingController textEditingController;
 
   const PlayerListScreen(
@@ -50,7 +50,6 @@ class _PlayerListScreenState extends State<PlayerListScreen> {
     isAdmin = Provider.of<AuthService>(context, listen: false).getAdmin()!;
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -185,11 +184,9 @@ class _PlayerListScreenState extends State<PlayerListScreen> {
                 future: widget.playerService
                     .searchPlayers(
                         query: searchQuery,
-                        playerId:
+                        currentPlayer:
                             Provider.of<AuthService>(context, listen: false)
-                                .getPlayerIdOfUser(),
-                        admin: Provider.of<AuthService>(context, listen: false)
-                            .getAdmin())
+                                .getPlayer())
                     .catchError(
                         // ignore: return_of_invalid_type_from_catch_error
                         (error) => {_errorMessage = error.toString()}),

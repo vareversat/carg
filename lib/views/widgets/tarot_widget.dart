@@ -1,6 +1,11 @@
+import 'package:carg/helpers/correct_instance.dart';
 import 'package:carg/helpers/custom_route.dart';
 import 'package:carg/models/game/tarot.dart';
 import 'package:carg/models/score/tarot_score.dart';
+import 'package:carg/services/game/abstract_tarot_game_service.dart';
+import 'package:carg/services/impl/player_service.dart';
+import 'package:carg/services/player/abstract_player_service.dart';
+import 'package:carg/services/score/abstract_tarot_score_service.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/views/dialogs/warning_dialog.dart';
 import 'package:carg/views/screens/play/play_tarot_game_screen.dart';
@@ -11,8 +16,22 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class TarotWidget extends StatelessWidget {
   final Tarot tarotGame;
+  late final AbstractTarotGameService gameService;
+  late final AbstractTarotScoreService scoreService;
+  late final AbstractPlayerService playerService;
 
-  const TarotWidget({Key? key, required this.tarotGame}) : super(key: key);
+  TarotWidget(
+      {Key? key,
+      required this.tarotGame,
+      gameService,
+      scoreService,
+      playerService})
+      : super(key: key) {
+    this.gameService = gameService ?? CorrectInstance.ofGameService(tarotGame);
+    this.scoreService =
+        scoreService ?? CorrectInstance.ofScoreService(tarotGame);
+    this.playerService = playerService ?? PlayerService();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,28 +72,28 @@ class TarotWidget extends StatelessWidget {
                                   playerId: playerId,
                                   displayImage: true,
                                   size: 20,
+                                  playerService: playerService,
                                   additionalText:
-                                      ' | ${snapshot.data!.getScoreOf(playerId).score
-                                  .round().toString()}',
-                            ))
+                                      ' | ${snapshot.data!.getScoreOf(playerId).score.round().toString()}',
+                                ))
                             .toList()
                             .cast<Widget>(),
                       );
                     }
                     return const Center(child: Text('error'));
                   },
-                  future: tarotGame.scoreService.getScoreByGame(tarotGame.id)
-                  as Future<TarotScore?>?),
+                  future: scoreService.getScoreByGame(tarotGame.id)),
               const Divider(height: 10, thickness: 2),
-              _ButtonRowWidget(tarotGame: tarotGame),
+              _ButtonRowWidget(tarotGame: tarotGame, gameService: gameService),
             ]));
   }
 }
 
 class _ButtonRowWidget extends StatelessWidget {
   final Tarot tarotGame;
+  final AbstractTarotGameService gameService;
 
-  const _ButtonRowWidget({required this.tarotGame});
+  const _ButtonRowWidget({required this.tarotGame, required this.gameService});
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +114,8 @@ class _ButtonRowWidget extends StatelessWidget {
                       context: context,
                       builder: (BuildContext context) => WarningDialog(
                           onConfirm: () async => {
-                                await tarotGame.gameService.endAGame(tarotGame),
+                                await gameService.endAGame(
+                                    tarotGame, DateTime.now()),
                               },
                           message:
                               'Tu es sur le point de terminer cette partie. Les gagnants ainsi que les perdants (honteux) vont être désignés',
@@ -122,8 +142,7 @@ class _ButtonRowWidget extends StatelessWidget {
                 await showDialog(
                     context: context,
                     builder: (BuildContext context) => WarningDialog(
-                        onConfirm: () =>
-                            {tarotGame.gameService.deleteGame(tarotGame.id)},
+                        onConfirm: () => {gameService.deleteGame(tarotGame.id)},
                         message: 'Tu es sur le point de supprimer une partie.',
                         title: 'Suppression'))
               },

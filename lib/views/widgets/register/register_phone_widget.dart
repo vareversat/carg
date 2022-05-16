@@ -1,5 +1,5 @@
-import 'package:carg/services/auth_service.dart';
-import 'package:carg/services/custom_exception.dart';
+import 'package:carg/exceptions/custom_exception.dart';
+import 'package:carg/services/auth/auth_service.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/views/helpers/info_snackbar.dart';
 import 'package:flutter/material.dart';
@@ -53,29 +53,34 @@ class _RegisterPhoneWidgetState extends State<RegisterPhoneWidget>
                                   itemBuilder:
                                       (BuildContext context, int index) {
                                     return TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context,
-                                            countryListData.countries![index]);
-                                      },
-                                      child: RichText(
-                                        text: TextSpan(
-                                          text: countryListData
-                                              .countries![index].countryName,
-                                          style: TextStyle(
-                                              fontFamily:
-                                                  DefaultTextStyle.of(context)
-                                                      .style
-                                                      .fontFamily,
-                                              fontSize:
-                                                  DefaultTextStyle.of(context)
-                                                      .style
-                                                      .fontSize,
-                                              fontWeight: FontWeight.bold,
-                                              color:
-                                                  DefaultTextStyle.of(context)
-                                                      .style
-                                                      .color),
-                                          children: <TextSpan>[
+                                        onPressed: () {
+                                          Navigator.pop(
+                                              context,
+                                              countryListData
+                                                  .countries![index]);
+                                        },
+                                        child: RichText(
+                                            text: TextSpan(
+                                                text: countryListData
+                                                    .countries![index]
+                                                    .countryName,
+                                                style: TextStyle(
+                                                    fontFamily:
+                                                        DefaultTextStyle.of(
+                                                                context)
+                                                            .style
+                                                            .fontFamily,
+                                                    fontSize:
+                                                        DefaultTextStyle.of(
+                                                                context)
+                                                            .style
+                                                            .fontSize,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: DefaultTextStyle.of(
+                                                            context)
+                                                        .style
+                                                        .color),
+                                                children: <TextSpan>[
                                               TextSpan(
                                                   text:
                                                       ' (${countryListData.countries![index].countryCode}',
@@ -143,20 +148,20 @@ class _RegisterPhoneWidgetState extends State<RegisterPhoneWidget>
                                           shape: MaterialStateProperty.all<OutlinedBorder>(
                                               RoundedRectangleBorder(
                                                   side: BorderSide(
-                                                width: 2,
-                                                color: Theme.of(context)
-                                                    .primaryColor),
-                                            borderRadius: BorderRadius.circular(
-                                                CustomProperties.borderRadius)))),
-                                onPressed: snapshot.connectionState ==
-                                    ConnectionState.done
-                                    ? () async {
-                                  phoneRegistrationData.country =
-                                  await showCountriesDialog(
-                                      snapshot.data!);
-                                }
-                                    : null,
-                                child: AnimatedSize(
+                                                      width: 2,
+                                                      color: Theme.of(context)
+                                                          .primaryColor),
+                                                  borderRadius: BorderRadius.circular(
+                                                      CustomProperties.borderRadius)))),
+                                      onPressed: snapshot.connectionState ==
+                                              ConnectionState.done
+                                          ? () async {
+                                              phoneRegistrationData.country =
+                                                  await showCountriesDialog(
+                                                      snapshot.data!);
+                                            }
+                                          : null,
+                                      child: AnimatedSize(
                                           curve: Curves.linear,
                                           duration:
                                               const Duration(milliseconds: 300),

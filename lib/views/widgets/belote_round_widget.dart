@@ -1,6 +1,7 @@
 import 'package:carg/models/score/french_belote_score.dart';
-import 'package:carg/services/score/french_belote_score_service.dart';
 import 'package:flutter/material.dart';
+
+import '../../services/impl/score/french_belote_score_service.dart';
 
 class BeloteRoundWidget extends StatefulWidget {
   final String beloteGameId;
@@ -46,21 +47,21 @@ class _BeloteRoundWidgetState extends State<BeloteRoundWidget> {
                   children: <Widget>[
                     Flexible(
                       child: ListView.builder(
-                          itemCount: snapshot.data!.rounds!.length,
+                          itemCount: snapshot.data!.rounds.length,
                           itemBuilder: (BuildContext context, int index) {
                             return Row(
                               children: <Widget>[
                                 Flexible(
                                   child: Center(
                                     child: Text(snapshot
-                                        .data!.rounds![index].takerScore
+                                        .data!.rounds[index].takerScore
                                         .toString()),
                                   ),
                                 ),
                                 Flexible(
                                   child: Center(
                                     child: Text(snapshot
-                                        .data!.rounds![index].defenderScore
+                                        .data!.rounds[index].defenderScore
                                         .toString()),
                                   ),
                                 )

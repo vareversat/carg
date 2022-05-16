@@ -1,8 +1,12 @@
+import 'package:carg/helpers/correct_instance.dart';
 import 'package:carg/models/game/tarot.dart';
 import 'package:carg/models/players/tarot_round_players.dart';
 import 'package:carg/models/score/round/tarot_round.dart';
 import 'package:carg/models/score/tarot_score.dart';
-import 'package:carg/services/score/tarot_score_service.dart';
+import 'package:carg/services/impl/game/tarot_game_service.dart';
+import 'package:carg/services/impl/player_service.dart';
+import 'package:carg/services/impl/round/tarot_round_service.dart';
+import 'package:carg/services/impl/score/tarot_score_service.dart';
 import 'package:carg/views/dialogs/notes_dialog.dart';
 import 'package:carg/views/dialogs/warning_dialog.dart';
 import 'package:carg/views/screens/add_round/add_tarot_round_screen.dart';
@@ -17,9 +21,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class PlayTarotGameScreen extends StatefulWidget {
   final Tarot tarotGame;
+  final tarotGameService = TarotGameService();
+  final tarotRoundService = TarotRoundService();
+  final tarotScoreService = TarotScoreService();
 
-  const PlayTarotGameScreen({Key? key, required this.tarotGame})
-      : super(key: key);
+  PlayTarotGameScreen({Key? key, required this.tarotGame}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -50,10 +56,9 @@ class _PlayTarotGameScreenState extends State<PlayTarotGameScreen> {
     await showDialog(
       context: context,
       builder: (BuildContext context) => WarningDialog(
-          onConfirm: () async =>
-          {
-                await widget.tarotGame.scoreService
-                    .deleteLastRoundOfGame(widget.tarotGame.id),
+          onConfirm: () async => {
+                await widget.tarotRoundService
+                    .deleteLastRoundOfScoreByGameId(widget.tarotGame.id),
               },
           message:
               'Tu es sur le point de supprimer la dernière manche de la partie. Cette action est irréversible',
@@ -66,9 +71,9 @@ class _PlayTarotGameScreenState extends State<PlayTarotGameScreen> {
     await showDialog(
         context: context,
         builder: (BuildContext context) => WarningDialog(
-              onConfirm: () async =>
-              {
-                await widget.tarotGame.gameService.endAGame(widget.tarotGame),
+              onConfirm: () async => {
+                await widget.tarotGameService
+                    .endAGame(widget.tarotGame, DateTime.now()),
                 await Navigator.of(context)
                     .pushReplacementNamed(HomeScreen.routeName, arguments: 1)
               },
@@ -82,9 +87,9 @@ class _PlayTarotGameScreenState extends State<PlayTarotGameScreen> {
   void _editLastRound() async {
     TarotRound? lastRound;
     try {
-      lastRound = (await widget.tarotGame.scoreService
-              .getScoreByGame(widget.tarotGame.id))!
-          .getLastRound() as TarotRound?;
+      lastRound =
+          (await widget.tarotScoreService.getScoreByGame(widget.tarotGame.id))!
+              .getLastRound();
       await Navigator.push(
           context,
           MaterialPageRoute(
@@ -108,7 +113,9 @@ class _PlayTarotGameScreenState extends State<PlayTarotGameScreen> {
   void _addNotes() async {
     await showDialog(
         context: context,
-        builder: (BuildContext context) => NotesDialog(game: widget.tarotGame));
+        builder: (BuildContext context) => NotesDialog(
+            game: widget.tarotGame,
+            gameService: CorrectInstance.ofGameService(widget.tarotGame)));
   }
 
   @override
@@ -128,6 +135,7 @@ class _PlayTarotGameScreenState extends State<PlayTarotGameScreen> {
                           width: MediaQuery.of(context).size.width /
                               widget.tarotGame.players!.playerList!.length,
                           child: APIMiniPlayerWidget(
+                            playerService: PlayerService(),
                             playerId:
                                 widget.tarotGame.players!.playerList![index],
                             displayImage: true,
@@ -145,7 +153,7 @@ class _PlayTarotGameScreenState extends State<PlayTarotGameScreen> {
                           width: 1,
                         ),
                       )),
-                      child: StreamBuilder<TarotScore>(
+                      child: StreamBuilder<TarotScore?>(
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
@@ -184,10 +192,10 @@ class _PlayTarotGameScreenState extends State<PlayTarotGameScreen> {
                               Flexible(
                                 flex: 10,
                                 child: ListView.builder(
-                                    itemCount: snapshot.data!.rounds!.length,
+                                    itemCount: snapshot.data!.rounds.length,
                                     itemBuilder:
                                         (BuildContext context, int index) {
-                                          return SizedBox(
+                                      return SizedBox(
                                           height: 20,
                                           width:
                                               MediaQuery.of(context).size.width,
@@ -195,7 +203,7 @@ class _PlayTarotGameScreenState extends State<PlayTarotGameScreen> {
                                               scrollDirection: Axis.horizontal,
                                               itemCount: snapshot
                                                   .data!
-                                                  .rounds![index]
+                                                  .rounds[index]
                                                   .playerPoints!
                                                   .length,
                                               itemBuilder:
@@ -213,7 +221,7 @@ class _PlayTarotGameScreenState extends State<PlayTarotGameScreen> {
                                                                 .length,
                                                     child: _RoundDisplay(
                                                         round: snapshot.data!
-                                                            .rounds![index],
+                                                            .rounds[index],
                                                         player: widget
                                                                 .tarotGame
                                                                 .players!
@@ -226,9 +234,9 @@ class _PlayTarotGameScreenState extends State<PlayTarotGameScreen> {
                                 NextPlayerWidget(
                                     playerId:
                                         widget.tarotGame.players!.playerList![
-                                            snapshot.data!.rounds!.length %
+                                            snapshot.data!.rounds.length %
                                                 widget.tarotGame.players!
-                                                    .playerList!.length]),
+                                                    .playerList!.length]!),
                             ],
                           );
                         },

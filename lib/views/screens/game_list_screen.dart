@@ -1,9 +1,9 @@
 import 'package:carg/helpers/custom_route.dart';
 import 'package:carg/models/game/game_type.dart';
-import 'package:carg/services/game/coinche_belote_service.dart';
-import 'package:carg/services/game/contree_belote_service.dart';
-import 'package:carg/services/game/french_belote_service.dart';
-import 'package:carg/services/game/tarot_game_service.dart';
+import 'package:carg/services/impl/game/coinche_belote_game_service.dart';
+import 'package:carg/services/impl/game/contree_belote_game_service.dart';
+import 'package:carg/services/impl/game/french_belote_game_service.dart';
+import 'package:carg/services/impl/game/tarot_game_service.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/screens/game_mode_picker_screen.dart';
@@ -77,9 +77,9 @@ class GameListScreen extends StatelessWidget {
             ),
             body: TabBarView(
               children: [
-                GameListTabWidget(gameService: CoincheBeloteService()),
-                GameListTabWidget(gameService: FrenchBeloteService()),
-                GameListTabWidget(gameService: ContreeBeloteService()),
+                GameListTabWidget(gameService: CoincheBeloteGameService()),
+                GameListTabWidget(gameService: FrenchBeloteGameService()),
+                GameListTabWidget(gameService: ContreeBeloteGameService()),
                 GameListTabWidget(gameService: TarotGameService())
               ],
             )));

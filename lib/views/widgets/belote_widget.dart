@@ -1,7 +1,17 @@
+import 'package:carg/helpers/correct_instance.dart';
 import 'package:carg/helpers/custom_route.dart';
 import 'package:carg/models/game/belote_game.dart';
 import 'package:carg/models/score/belote_score.dart';
-import 'package:carg/services/team_service.dart';
+import 'package:carg/services/game/abstract_belote_game_service.dart';
+import 'package:carg/services/game/abstract_game_service.dart';
+import 'package:carg/services/impl/player_service.dart';
+import 'package:carg/services/impl/team_service.dart';
+import 'package:carg/services/player/abstract_player_service.dart';
+import 'package:carg/services/round/abstract_belote_round_service.dart';
+import 'package:carg/services/round/abstract_round_service.dart';
+import 'package:carg/services/score/abstract_belote_score_service.dart';
+import 'package:carg/services/score/abstract_score_service.dart';
+import 'package:carg/services/team/abstract_team_service.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/views/dialogs/warning_dialog.dart';
 import 'package:carg/views/screens/play/play_belote_screen.dart';
@@ -12,8 +22,29 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class BeloteWidget extends StatelessWidget {
   final Belote beloteGame;
+  late final AbstractBeloteGameService gameService;
+  late final AbstractBeloteScoreService scoreService;
+  late final AbstractTeamService teamService;
+  late final AbstractBeloteRoundService roundService;
+  late final AbstractPlayerService playerService;
 
-  const BeloteWidget({Key? key, required this.beloteGame}) : super(key: key);
+  BeloteWidget(
+      {Key? key,
+      required this.beloteGame,
+      gameService,
+      scoreService,
+      teamService,
+      roundService,
+      playerService})
+      : super(key: key) {
+    this.gameService = gameService ?? CorrectInstance.ofGameService(beloteGame);
+    this.scoreService =
+        scoreService ?? CorrectInstance.ofScoreService(beloteGame);
+    this.teamService = teamService ?? TeamService();
+    this.roundService =
+        roundService ?? CorrectInstance.ofRoundService(beloteGame);
+    this.playerService = playerService ?? PlayerService();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,20 +68,29 @@ class BeloteWidget extends StatelessWidget {
                             key: const ValueKey('teamWidget-US'),
                             teamId: beloteGame.players!.us,
                             title: 'Nous',
-                            teamService: TeamService()),
+                            teamService: teamService,
+                            playerService: playerService),
                       ),
                       Flexible(
                         child: TeamWidget(
                             key: const ValueKey('teamWidget-THEM'),
                             teamId: beloteGame.players!.them,
                             title: 'Eux',
-                            teamService: TeamService()),
+                            teamService: teamService,
+                            playerService: playerService),
                       ),
                     ],
                   ),
-                  _ShowScoreWidget(beloteGame: beloteGame),
+                  _ShowScoreWidget(
+                      beloteGame: beloteGame,
+                      gameService: gameService,
+                      scoreService: scoreService),
                   const Divider(height: 10, thickness: 2),
-                  _ButtonRowWidget(beloteGame: beloteGame),
+                  _ButtonRowWidget(
+                      beloteGame: beloteGame,
+                      gameService: gameService,
+                      scoreService: scoreService,
+                      roundService: roundService),
                 ],
               )
             ]));
@@ -59,8 +99,13 @@ class BeloteWidget extends StatelessWidget {
 
 class _ShowScoreWidget extends StatefulWidget {
   final Belote beloteGame;
+  final AbstractGameService gameService;
+  final AbstractScoreService scoreService;
 
-  const _ShowScoreWidget({required this.beloteGame});
+  const _ShowScoreWidget(
+      {required this.beloteGame,
+      required this.gameService,
+      required this.scoreService});
 
   @override
   State<StatefulWidget> createState() {
@@ -108,11 +153,11 @@ class _ShowScoreWidgetState extends State<_ShowScoreWidget> {
                 }
                 return Center(child: Text(_errorMessage));
               },
-              future: widget.beloteGame.scoreService
+              future: widget.scoreService
                       .getScoreByGame(widget.beloteGame.id)
                       // ignore: return_of_invalid_type_from_catch_error
                       .catchError((error) => {_errorMessage = error.toString()})
-                  as Future<BeloteScore?>?)),
+                  as Future<BeloteScore?>)),
       if (widget.beloteGame.isEnded)
         const Padding(
             padding: EdgeInsets.all(8.0),
@@ -126,8 +171,15 @@ class _ShowScoreWidgetState extends State<_ShowScoreWidget> {
 
 class _ButtonRowWidget extends StatelessWidget {
   final Belote beloteGame;
+  final AbstractGameService gameService;
+  final AbstractScoreService scoreService;
+  final AbstractRoundService roundService;
 
-  const _ButtonRowWidget({required this.beloteGame});
+  const _ButtonRowWidget(
+      {required this.beloteGame,
+      required this.gameService,
+      required this.scoreService,
+      required this.roundService});
 
   @override
   Widget build(BuildContext context) {
@@ -149,8 +201,8 @@ class _ButtonRowWidget extends StatelessWidget {
                       context: context,
                       builder: (BuildContext context) => WarningDialog(
                           onConfirm: () async => {
-                                await beloteGame.gameService
-                                    .endAGame(beloteGame),
+                                await gameService.endAGame(
+                                    beloteGame, DateTime.now()),
                               },
                           message:
                               'Tu es sur le point de terminer cette partie. Les gagnants ainsi que les perdants (honteux) vont être désignés',
@@ -179,7 +231,7 @@ class _ButtonRowWidget extends StatelessWidget {
                     context: context,
                     builder: (BuildContext context) => WarningDialog(
                         onConfirm: () =>
-                            {beloteGame.gameService.deleteGame(beloteGame.id)},
+                            {gameService.deleteGame(beloteGame.id)},
                         message: 'Tu es sur le point de supprimer une partie.',
                         title: 'Suppression'))
               },
@@ -203,6 +255,9 @@ class _ButtonRowWidget extends StatelessWidget {
                     CustomRouteFade(
                       builder: (context) => PlayBeloteScreen(
                         beloteGame: beloteGame,
+                        gameService: gameService,
+                        scoreService: scoreService,
+                        roundService: roundService,
                       ),
                     ),
                   )
@@ -229,6 +284,9 @@ class _ButtonRowWidget extends StatelessWidget {
                     CustomRouteFade(
                       builder: (context) => PlayBeloteScreen(
                         beloteGame: beloteGame,
+                        gameService: gameService,
+                        scoreService: scoreService,
+                        roundService: roundService,
                       ),
                     ),
                   )

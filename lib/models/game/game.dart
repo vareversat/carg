@@ -1,10 +1,6 @@
 import 'package:carg/models/carg_object.dart';
 import 'package:carg/models/game/game_type.dart';
-import 'package:carg/models/game_stats.dart';
-import 'package:carg/models/player.dart';
 import 'package:carg/models/players/players.dart';
-import 'package:carg/services/game/game_service.dart';
-import 'package:carg/services/score/score_service.dart';
 import 'package:intl/intl.dart';
 
 abstract class Game<T extends Players> extends CargObject {
@@ -13,16 +9,12 @@ abstract class Game<T extends Players> extends CargObject {
   DateTime? endingDate;
   String? winner;
   T? players;
-  GameService gameService;
-  ScoreService scoreService;
   String? notes;
   late GameType gameType;
 
   Game(
       {String? id,
       gameType,
-      required this.gameService,
-      required this.scoreService,
       this.players,
       this.endingDate,
       this.winner,
@@ -33,36 +25,6 @@ abstract class Game<T extends Players> extends CargObject {
     this.gameType = gameType ?? GameType.UNDEFINE;
     this.startingDate = startingDate ?? DateTime.now();
     this.isEnded = isEnded ?? false;
-  }
-
-  void incrementPlayerPlayedGamesByOne(Player player) {
-    GameStats stat;
-    var index = player.gameStatsList!
-        .indexWhere((element) => element.gameType.name == gameType.name);
-    if (index == -1) {
-      stat = GameStats(gameType: gameType, wonGames: 0, playedGames: 1);
-      player.gameStatsList!.add(stat);
-    } else {
-      stat = player.gameStatsList![index];
-      stat.playedGames += 1;
-      player.gameStatsList!.removeAt(index);
-      player.gameStatsList!.add(stat);
-    }
-  }
-
-  void incrementPlayerWonGamesByOne(Player player) {
-    GameStats stat;
-    var index = player.gameStatsList!
-        .indexWhere((element) => element.gameType.name == gameType.name);
-    if (index == -1) {
-      stat = GameStats(gameType: gameType, wonGames: 1, playedGames: 1);
-      player.gameStatsList!.add(stat);
-    } else {
-      stat = player.gameStatsList![index];
-      stat.wonGames += 1;
-      player.gameStatsList!.removeAt(index);
-      player.gameStatsList!.add(stat);
-    }
   }
 
   @override
@@ -80,10 +42,39 @@ abstract class Game<T extends Players> extends CargObject {
 
   @override
   String toString() {
-    return 'Game{startingDate: $startingDate, '
-        'endingDate: $endingDate, isEnded: $isEnded, '
-        'winner: $winner, players: $players, '
-        'gameService: $gameService, '
-        'scoreService: $scoreService, _gameType: $gameType}';
+    return '$runtimeType{id: ${super.toString()}, \n'
+        'startingDate: $startingDate, \n'
+        'isEnded: $isEnded, \n'
+        'endingDate: $endingDate, \n'
+        'winner: $winner, \n'
+        'players: $players, \n'
+        'notes: $notes, \n'
+        'gameType: $gameType}';
   }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        super == other &&
+            other is Game &&
+            runtimeType == other.runtimeType &&
+            startingDate == other.startingDate &&
+            isEnded == other.isEnded &&
+            endingDate == other.endingDate &&
+            winner == other.winner &&
+            players == other.players &&
+            notes == other.notes &&
+            gameType == other.gameType;
+  }
+
+  @override
+  int get hashCode =>
+      super.hashCode ^
+      startingDate.hashCode ^
+      isEnded.hashCode ^
+      endingDate.hashCode ^
+      winner.hashCode ^
+      players.hashCode ^
+      notes.hashCode ^
+      gameType.hashCode;
 }

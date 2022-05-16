@@ -3,6 +3,7 @@ import 'package:carg/models/score/round/belote_round.dart';
 import 'package:carg/models/score/round/coinche_belote_round.dart';
 import 'package:carg/models/score/round/contree_belote_round.dart';
 import 'package:carg/models/score/round/french_belote_round.dart';
+import 'package:carg/services/round/abstract_round_service.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/views/screens/add_round/widget/real_time_display_widget.dart';
 import 'package:carg/views/screens/add_round/widget/screen_title_widget.dart';
@@ -14,23 +15,25 @@ import 'package:carg/views/screens/add_round/widget/team_game/trick_points_belot
 import 'package:flutter/material.dart';
 
 class AddBeloteRoundScreen extends StatelessWidget {
-  final Belote? teamGame;
+  final Belote? beloteGame;
   final BeloteRound? beloteRound;
   final bool isEditing;
+  final AbstractRoundService roundService;
 
   const AddBeloteRoundScreen(
       {Key? key,
-      this.teamGame,
+      this.beloteGame,
       required this.beloteRound,
-      this.isEditing = false})
+      this.isEditing = false,
+      required this.roundService})
       : super(key: key);
 
   void _setupRound() async {
     if (isEditing) {
-      await teamGame!.scoreService
-          .editLastRoundOfGame(teamGame!.id, beloteRound);
+      await roundService.editLastRoundOfScoreByGameId(
+          beloteGame!.id, beloteRound);
     } else {
-      await teamGame!.scoreService.addRoundToGame(teamGame!.id, beloteRound);
+      await roundService.addRoundToGame(beloteGame!.id, beloteRound);
     }
   }
 

@@ -1,7 +1,7 @@
 import 'package:carg/models/game/game_type.dart';
 import 'package:carg/models/player.dart';
-import 'package:carg/services/auth_service.dart';
-import 'package:carg/services/player_service.dart';
+import 'package:carg/services/auth/auth_service.dart';
+import 'package:carg/services/player/abstract_player_service.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/helpers/info_snackbar.dart';
@@ -12,7 +12,7 @@ import 'package:provider/provider.dart';
 
 class PlayerInfoDialog extends StatelessWidget {
   final Player player;
-  final PlayerService playerService;
+  final AbstractPlayerService playerService;
   final bool isNewPlayer;
 
   const PlayerInfoDialog(
@@ -36,10 +36,10 @@ class PlayerInfoDialog extends StatelessWidget {
     if (isNewPlayer) {
       player.ownedBy =
           Provider.of<AuthService>(context, listen: false).getPlayerIdOfUser();
-      await playerService.addPlayer(player);
+      await playerService.create(player);
       Navigator.of(context).pop('Joueur créé avec succès');
     } else {
-      await playerService.updatePlayer(player);
+      await playerService.create(player);
       Navigator.of(context).pop('Joueur modifié avec succès');
     }
   }
@@ -133,11 +133,13 @@ class PlayerInfoDialog extends StatelessWidget {
                         decoration: InputDecoration(
                             enabledBorder: UnderlineInputBorder(
                               borderSide: BorderSide(
-                                  color: player.getSideColor(context), width: 2),
+                                  color: player.getSideColor(context),
+                                  width: 2),
                             ),
                             focusedBorder: UnderlineInputBorder(
                               borderSide: BorderSide(
-                                  color: player.getSideColor(context), width: 2),
+                                  color: player.getSideColor(context),
+                                  width: 2),
                             ),
                             disabledBorder: InputBorder.none,
                             labelStyle:
@@ -164,14 +166,15 @@ class PlayerInfoDialog extends StatelessWidget {
                   maxLines: null,
                   decoration: InputDecoration(
                       enabledBorder: UnderlineInputBorder(
-                        borderSide:
-                            BorderSide(color: player.getSideColor(context), width: 2),
+                        borderSide: BorderSide(
+                            color: player.getSideColor(context), width: 2),
                       ),
                       focusedBorder: UnderlineInputBorder(
-                        borderSide:
-                            BorderSide(color: player.getSideColor(context), width: 2),
+                        borderSide: BorderSide(
+                            color: player.getSideColor(context), width: 2),
                       ),
-                      labelStyle: TextStyle(color: player.getSideColor(context)),
+                      labelStyle:
+                          TextStyle(color: player.getSideColor(context)),
                       hintStyle: TextStyle(
                           fontSize: 15, color: Theme.of(context).hintColor),
                       labelText: 'Image de profile (url)')),
@@ -225,8 +228,8 @@ class PlayerInfoDialog extends StatelessWidget {
           ElevatedButton.icon(
               key: const ValueKey('editButton'),
               style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all<Color>(player.getSideColor(context)),
+                  backgroundColor: MaterialStateProperty.all<Color>(
+                      player.getSideColor(context)),
                   foregroundColor: MaterialStateProperty.all<Color>(
                       Theme.of(context).cardColor),
                   shape: MaterialStateProperty.all<OutlinedBorder>(
@@ -241,8 +244,8 @@ class PlayerInfoDialog extends StatelessWidget {
             key: const ValueKey('closeButton'),
             style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
-                foregroundColor:
-                    MaterialStateProperty.all<Color>(player.getSideColor(context)),
+                foregroundColor: MaterialStateProperty.all<Color>(
+                    player.getSideColor(context)),
                 shape: MaterialStateProperty.all<OutlinedBorder>(
                     RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(

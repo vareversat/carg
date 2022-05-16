@@ -1,8 +1,6 @@
 import 'package:carg/models/game/game.dart';
 import 'package:carg/models/game/game_type.dart';
 import 'package:carg/models/players/tarot_players.dart';
-import 'package:carg/services/game/tarot_game_service.dart';
-import 'package:carg/services/score/tarot_score_service.dart';
 
 class Tarot extends Game<TarotPlayers> {
   Tarot(
@@ -13,14 +11,10 @@ class Tarot extends Game<TarotPlayers> {
       bool? isEnded,
       TarotPlayers? players,
       String? notes,
-      TarotScoreService? scoreService,
-      TarotGameService? gameService,
       GameType? gameType})
       : super(
             id: id,
             gameType: gameType ?? GameType.TAROT,
-            gameService: gameService ?? TarotGameService(),
-            scoreService: scoreService ?? TarotScoreService(),
             players: players ?? TarotPlayers(),
             endingDate: endingDate,
             startingDate: startingDate ?? DateTime.now(),
@@ -47,4 +41,13 @@ class Tarot extends Game<TarotPlayers> {
         players: TarotPlayers.fromJSON(json?['players']),
         notes: json?['notes']);
   }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        super == other && other is Tarot && runtimeType == other.runtimeType;
+  }
+
+  @override
+  int get hashCode => super.hashCode;
 }

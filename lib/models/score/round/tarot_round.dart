@@ -7,6 +7,7 @@ import 'package:carg/models/score/misc/tarot_perk.dart';
 import 'package:carg/models/score/misc/tarot_player_score.dart';
 import 'package:carg/models/score/misc/tarot_team.dart';
 import 'package:carg/models/score/round/round.dart';
+import 'package:carg/models/score/tarot_score.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 
 class TarotRound extends Round {
@@ -18,7 +19,6 @@ class TarotRound extends Round {
   late double defenseScore;
   late double _attackTrickPoints;
   late double _defenseTrickPoints;
-  TarotRoundPlayers? players;
   TarotOudler? _oudler;
   late TarotContract _contract;
   TarotBonus? _bonus;
@@ -27,20 +27,21 @@ class TarotRound extends Round {
   TarotTeam? _smallAtTheEndTeam;
   TarotChelem? _chelem;
   List<TarotPlayerScore>? playerPoints;
+  TarotRoundPlayers? players;
 
   TarotRound({
-    index,
-    attackScore,
-    defenseScore,
-    attackTrickPoints,
-    defenseTrickPoints,
-    oudler,
-    contract,
-    bonus,
-    handful,
-    handfulTeam,
-    chelem,
-    smallToTheEnd,
+    int? index,
+    double? attackScore,
+    double? defenseScore,
+    double? attackTrickPoints,
+    double? defenseTrickPoints,
+    TarotOudler? oudler,
+    TarotContract? contract,
+    TarotBonus? bonus,
+    TarotHandful? handful,
+    TarotTeam? handfulTeam,
+    TarotChelem? chelem,
+    TarotTeam? smallToTheEnd,
     this.playerPoints,
     this.players,
   }) : super(index: index) {
@@ -124,7 +125,7 @@ class TarotRound extends Round {
 
   @override
   void computeRound() {
-    var gain = (attackTrickPoints - oudler.pointToDo!);
+    var gain = (attackTrickPoints - oudler.pointToDo);
     var score = 0.0;
     var winCoefficient = 1;
     var smallToTheEndBonus = 0.0;
@@ -192,6 +193,27 @@ class TarotRound extends Round {
     attackScore = winCoefficient * score * (players!.playerList!.length - 1);
     defenseScore = -winCoefficient * score;
     notifyListeners();
+  }
+
+  void computePlayerPoints(TarotScore tarotScore) {
+    var _playerPoints = <TarotPlayerScore>[];
+    var realAttackScore =
+        players!.playerList!.length <= 4 ? attackScore : attackScore * (2 / 3);
+    var calledPlayerScore = attackScore * (1 / 3);
+    for (var player in players!.playerList!) {
+      if (players!.attackPlayer == player) {
+        _playerPoints
+            .add(TarotPlayerScore(player: player, score: realAttackScore));
+      } else if (players!.calledPlayer == player) {
+        _playerPoints
+            .add(TarotPlayerScore(player: player, score: calledPlayerScore));
+      } else {
+        _playerPoints
+            .add(TarotPlayerScore(player: player, score: defenseScore));
+      }
+    }
+    playerPoints = _playerPoints;
+    index = tarotScore.rounds.length;
   }
 
   TarotPlayerScore getScoreOf(String? player) {

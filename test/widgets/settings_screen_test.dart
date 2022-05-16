@@ -1,6 +1,6 @@
 import 'package:carg/models/player.dart';
-import 'package:carg/services/auth_service.dart';
-import 'package:carg/services/player_service.dart';
+import 'package:carg/services/auth/auth_service.dart';
+import 'package:carg/services/impl/player_service.dart';
 import 'package:carg/views/screens/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -75,7 +75,7 @@ void main() {
     testWidgets('is disabled', (WidgetTester tester) async {
       await mockNetworkImagesFor(() => tester.pumpWidget(
           testableWidget(authService, mockPlayerService, mockPlayer)));
-      when(mockPlayerService.updatePlayer(mockPlayer))
+      when(mockPlayerService.update(mockPlayer))
           .thenAnswer((_) async => Future.value());
 
       await tester.tap(find.byKey(const ValueKey('gravatarSwitchTile')));
