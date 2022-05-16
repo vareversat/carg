@@ -22,7 +22,7 @@ dependencies:
   flutter_svg: ^1.0.0
   flutter_secure_storage: ^5.0.0
   flutter_libphonenumber: ^1.1.0
-  font_awesome_flutter: ^9.1.0
+  font_awesome_flutter: ^10.0.0
   http: ^0.13.0
   intl: ^0.17.0
   package_info_plus : ^1.4.0
