@@ -164,7 +164,7 @@ class CargAboutDialog extends StatelessWidget {
                                 .toLowerCase(),
                         style: const TextStyle(fontSize: 18)),
                     icon: const Icon(
-                      FontAwesomeIcons.fileAlt,
+                      FontAwesomeIcons.fileLines,
                       size: 20,
                     ))
               ],

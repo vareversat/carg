@@ -287,12 +287,12 @@ class _RoundDisplay extends StatelessWidget {
             if (round!.contractFulfilled)
               const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 5),
-                  child: FaIcon(FontAwesomeIcons.solidCheckCircle,
+                  child: FaIcon(FontAwesomeIcons.solidCircleCheck,
                       size: 10, color: Colors.green))
             else
               const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 5),
-                  child: FaIcon(FontAwesomeIcons.solidTimesCircle,
+                  child: FaIcon(FontAwesomeIcons.solidCircleXmark,
                       size: 10, color: Colors.red))
           else
             Container(),

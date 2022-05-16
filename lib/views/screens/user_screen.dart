@@ -380,7 +380,7 @@ class _AppBarTitle extends StatelessWidget {
             onPressed: () async => await onPressEdit(),
             label: const Text('Paramètres'),
             icon: const Icon(
-              FontAwesomeIcons.cogs,
+              FontAwesomeIcons.gears,
               size: 13,
             ))
       ],

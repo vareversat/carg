@@ -294,7 +294,7 @@ class _RoundDisplay extends StatelessWidget {
           const Padding(
             padding: EdgeInsets.only(left: 5),
             child: Icon(
-              FontAwesomeIcons.fistRaised,
+              FontAwesomeIcons.handFist,
               size: 15,
             ),
           )

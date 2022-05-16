@@ -50,7 +50,7 @@ class GameListScreen extends StatelessWidget {
                           label: const Text(
                             'Nouvelle partie',
                           ),
-                          icon: const FaIcon(FontAwesomeIcons.plusCircle,
+                          icon: const FaIcon(FontAwesomeIcons.circlePlus,
                               size: 15))
                     ],
                   ),
