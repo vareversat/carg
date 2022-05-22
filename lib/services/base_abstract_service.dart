@@ -9,6 +9,11 @@ abstract class BaseAbstractService<T extends CargObject> {
 
   BaseAbstractService({required this.repository});
 
+  /// Reset the last fetch game
+  void resetLastPointedDocument() {
+    repository.lastFetchGameDocument = null;
+  }
+
   /// Get a [T] object from the database
   /// Take an [id] and return a [T]
   Future<T?> get(String? id) async {

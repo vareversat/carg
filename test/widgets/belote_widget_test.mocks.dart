@@ -157,8 +157,8 @@ class MockAbstractBeloteGameService<T extends _i1.Belote<_i2.BelotePlayers>,
           returnValue: Future<T>.value(null)) as _i24.Future<T>);
 
   @override
-  void resetLastPointedGame() =>
-      super.noSuchMethod(Invocation.method(#resetLastPointedGame, []),
+  void resetLastPointedDocument() =>
+      super.noSuchMethod(Invocation.method(#resetLastPointedDocument, []),
           returnValueForMissingStub: null);
 
   @override

@@ -6,13 +6,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class PlayerRepository extends AbstractPlayerRepository {
   PlayerRepository(
-      {String? database, String? environment, FirebaseFirestore? provider})
+      {String? database,
+      String? environment,
+      FirebaseFirestore? provider,
+      DocumentSnapshot? lastFetchGameDocument})
       : super(
             database: database ?? Const.playerDB,
             environment: environment ??
                 const String.fromEnvironment(Const.dartVarEnv,
                     defaultValue: Const.defaultEnv),
-            provider: provider ?? FirebaseFirestore.instance);
+            provider: provider ?? FirebaseFirestore.instance,
+            lastFetchGameDocument: lastFetchGameDocument);
 
   @override
   Future<Player?> get(String id) async {

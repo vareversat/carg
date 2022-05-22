@@ -6,13 +6,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class TeamRepository extends AbstractTeamRepository {
   TeamRepository(
-      {String? database, String? environment, FirebaseFirestore? provider})
+      {String? database,
+      String? environment,
+      FirebaseFirestore? provider,
+      DocumentSnapshot? lastFetchGameDocument})
       : super(
             database: database ?? Const.teamDB,
             environment: environment ??
                 const String.fromEnvironment(Const.dartVarEnv,
                     defaultValue: Const.defaultEnv),
-            provider: provider ?? FirebaseFirestore.instance);
+            provider: provider ?? FirebaseFirestore.instance,
+            lastFetchGameDocument: lastFetchGameDocument);
 
   @override
   Future<Team?> get(String id) async {

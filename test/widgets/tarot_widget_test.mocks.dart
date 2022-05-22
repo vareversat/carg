@@ -121,8 +121,8 @@ class MockAbstractTarotGameService extends _i1.Mock
           as _i13.BaseRepository<_i14.Tarot>);
 
   @override
-  void resetLastPointedGame() =>
-      super.noSuchMethod(Invocation.method(#resetLastPointedGame, []),
+  void resetLastPointedDocument() =>
+      super.noSuchMethod(Invocation.method(#resetLastPointedDocument, []),
           returnValueForMissingStub: null);
 
   @override

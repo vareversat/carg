@@ -6,8 +6,13 @@ abstract class AbstractTeamRepository extends BaseRepository<Team> {
   AbstractTeamRepository(
       {required String database,
       required String environment,
-      required FirebaseFirestore provider})
-      : super(database: database, environment: environment, provider: provider);
+      required FirebaseFirestore provider,
+      DocumentSnapshot? lastFetchGameDocument})
+      : super(
+            database: database,
+            environment: environment,
+            provider: provider,
+            lastFetchGameDocument: lastFetchGameDocument);
 
   /// Get a team by a list of [playerIds]
   /// If no team exists, return null

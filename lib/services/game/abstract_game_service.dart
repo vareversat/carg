@@ -22,11 +22,6 @@ abstract class AbstractGameService<T extends Game, Q extends Score>
       required this.teamService})
       : super(repository: gameRepository);
 
-  /// Reset the last fetch game
-  void resetLastPointedGame() {
-    gameRepository.lastFetchGameDocument = null;
-  }
-
   /// Get a game via the [gameId]
   /// Return the game, null if not present in present in database
   Future<T?> getGame(String? gameId) async {
