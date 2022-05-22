@@ -1,7 +1,9 @@
 import 'package:carg/models/carg_object.dart';
+import 'package:carg/models/game_stats.dart';
 import 'package:collection/collection.dart';
 
 class Team extends CargObject {
+  List<GameStats>? gameStatsList;
   String? name;
   int playedGames;
   int wonGames;
@@ -14,6 +16,7 @@ class Team extends CargObject {
       this.wonGames = 0,
       this.name,
       this.players,
+      this.gameStatsList,
       this.games})
       : super(id: id);
 
@@ -24,12 +27,14 @@ class Team extends CargObject {
         wonGames: json?['won_games'] ?? 0,
         name: json?['name'],
         players: json?['players'],
+        gameStatsList: GameStats.fromJSONList(json?['game_stats']),
         games: json?['games']);
   }
 
   @override
   Map<String, dynamic> toJSON() {
     return {
+      'game_stats': gameStatsList!.map((stat) => stat.toJSON()).toList(),
       'played_games': playedGames,
       'won_games': wonGames,
       'name': name,
@@ -41,6 +46,7 @@ class Team extends CargObject {
   @override
   String toString() {
     return 'Team{id: $id, \n'
+        'gameStatsList: $gameStatsList, \n'
         'name: $name, \n'
         'playedGames: $playedGames, \n'
         'wonGames: $wonGames, \n'
@@ -51,14 +57,14 @@ class Team extends CargObject {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      super == other &&
-          other is Team &&
-          runtimeType == other.runtimeType &&
-          name == other.name &&
-          playedGames == other.playedGames &&
-          wonGames == other.wonGames &&
-          const ListEquality().equals(players, other.players) &&
-          const ListEquality().equals(games, other.games);
+          super == other &&
+              other is Team &&
+              runtimeType == other.runtimeType &&
+              name == other.name &&
+              playedGames == other.playedGames &&
+              wonGames == other.wonGames &&
+              const ListEquality().equals(players, other.players) &&
+              const ListEquality().equals(games, other.games);
 
   @override
   int get hashCode =>
