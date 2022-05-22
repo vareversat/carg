@@ -1,9 +1,8 @@
-import 'package:carg/models/carg_object.dart';
+import 'package:carg/models/carg_player_object.dart';
 import 'package:carg/models/game_stats.dart';
 import 'package:collection/collection.dart';
 
-class Team extends CargObject {
-  List<GameStats>? gameStatsList;
+class Team extends CargPlayerObject {
   String? name;
   int playedGames;
   int wonGames;
@@ -16,9 +15,9 @@ class Team extends CargObject {
       this.wonGames = 0,
       this.name,
       this.players,
-      this.gameStatsList,
+      List<GameStats>? gameStatsList,
       this.games})
-      : super(id: id);
+      : super(id: id, gameStatsList: gameStatsList);
 
   factory Team.fromJSON(Map<String, dynamic>? json, String id) {
     return Team(
@@ -34,7 +33,7 @@ class Team extends CargObject {
   @override
   Map<String, dynamic> toJSON() {
     return {
-      'game_stats': gameStatsList!.map((stat) => stat.toJSON()).toList(),
+      'game_stats': gameStatsList?.map((stat) => stat.toJSON()).toList(),
       'played_games': playedGames,
       'won_games': wonGames,
       'name': name,

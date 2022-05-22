@@ -1,14 +1,12 @@
 import 'dart:convert';
 
-import 'package:carg/models/carg_object.dart';
-import 'package:carg/models/game/game.dart';
+import 'package:carg/models/carg_player_object.dart';
 import 'package:carg/models/game_stats.dart';
 import 'package:collection/collection.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 
-class Player extends CargObject with ChangeNotifier {
-  List<GameStats>? gameStatsList;
+class Player extends CargPlayerObject with ChangeNotifier {
   String? linkedUserId;
   String? firstName;
   String? lastName;
@@ -72,7 +70,7 @@ class Player extends CargObject with ChangeNotifier {
 
   Player(
       {String? id,
-      gameStatsList,
+      List<GameStats>? gameStatsList,
       this.firstName,
       this.lastName,
       this.ownedBy,
@@ -84,7 +82,7 @@ class Player extends CargObject with ChangeNotifier {
       testing,
       admin,
       required this.owned})
-      : super(id: id) {
+      : super(id: id, gameStatsList: gameStatsList) {
     this.testing = testing ?? false;
     this.admin = admin ?? false;
     this.gameStatsList = gameStatsList ?? [];
@@ -93,57 +91,6 @@ class Player extends CargObject with ChangeNotifier {
     _selected = false;
     _useGravatarProfilePicture = useGravatarProfilePicture ?? false;
     _gravatarProfilePicture = gravatarProfilePicture;
-  }
-
-  void incrementPlayedGamesByOne(Game game) {
-    GameStats stat;
-    var index = gameStatsList!
-        .indexWhere((element) => element.gameType.name == game.gameType.name);
-    if (index == -1) {
-      stat = GameStats(gameType: game.gameType, wonGames: 0, playedGames: 1);
-      gameStatsList!.add(stat);
-    } else {
-      stat = gameStatsList![index];
-      stat.playedGames += 1;
-      gameStatsList!.removeAt(index);
-      gameStatsList!.add(stat);
-    }
-  }
-
-  void incrementWonGamesByOne(Game game) {
-    GameStats stat;
-    var index = gameStatsList!
-        .indexWhere((element) => element.gameType.name == game.gameType.name);
-    if (index == -1) {
-      stat = GameStats(gameType: game.gameType, wonGames: 1, playedGames: 1);
-      gameStatsList!.add(stat);
-    } else {
-      stat = gameStatsList![index];
-      stat.wonGames += 1;
-      gameStatsList!.removeAt(index);
-      gameStatsList!.add(stat);
-    }
-  }
-
-  double totalWinPercentage() {
-    return double.parse(
-        ((totalWonGames() * 100) / totalPlayedGames()).toStringAsFixed(1));
-  }
-
-  int totalWonGames() {
-    var total = 0;
-    for (var gameStat in gameStatsList!) {
-      total += gameStat.wonGames;
-    }
-    return total;
-  }
-
-  int totalPlayedGames() {
-    var total = 0;
-    for (var gameStat in gameStatsList!) {
-      total += gameStat.playedGames;
-    }
-    return total;
   }
 
   Color getSideColor(BuildContext context) {
