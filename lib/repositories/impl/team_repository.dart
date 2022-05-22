@@ -30,6 +30,39 @@ class TeamRepository extends AbstractTeamRepository {
   }
 
   @override
+  Future<List<Team>> getAllTeamOfPlayer(
+      String playerId, int pageSize) async {
+    try {
+      var teams = <Team>[];
+      QuerySnapshot<Map<String, dynamic>> querySnapshot;
+      if (lastFetchGameDocument != null) {
+        querySnapshot = await provider
+            .collection(connectionString)
+            .where('players', arrayContains: playerId)
+            .startAfterDocument(lastFetchGameDocument!)
+            .limit(pageSize)
+            .get();
+      } else {
+        querySnapshot = await provider
+            .collection(connectionString)
+            .where('players', arrayContains: playerId)
+            .limit(pageSize)
+            .get();
+      }
+      if (querySnapshot.docs.isEmpty) {
+        return teams;
+      }
+      lastFetchGameDocument = querySnapshot.docs.last;
+      for (var doc in querySnapshot.docs) {
+        teams.add(Team.fromJSON(doc.data(), doc.id));
+      }
+      return teams;
+    } on FirebaseException catch (e) {
+      throw RepositoryException(e.message!);
+    }
+  }
+
+  @override
   Future<Team?> getTeamByPlayers(List<String?> playerIds) async {
     playerIds.sort();
     var querySnapshot = await provider

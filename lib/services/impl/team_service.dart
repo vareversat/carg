@@ -75,4 +75,18 @@ class TeamService extends AbstractTeamService {
       throw ServiceException(e.message);
     }
   }
+
+  @override
+  Future<List<Team>> getAllTeamOfPlayer(String? playerId, int? pageSize) async {
+    if (playerId == null || pageSize == null) {
+      throw ServiceException('Please use a non null player id and page size');
+    }
+    try {
+      var team = await teamRepository.getAllTeamOfPlayer(playerId, pageSize);
+      return team;
+    } on Exception catch (e) {
+      throw ServiceException(
+          'Error during the team fetching : ${e.toString()}');
+    }
+  }
 }

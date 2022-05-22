@@ -12,6 +12,10 @@ abstract class AbstractTeamService extends BaseAbstractService<Team> {
       {required this.teamRepository, required this.playerService})
       : super(repository: teamRepository);
 
+  /// Get all the paginated teams of a player via his/her/them [playerId]
+  /// Return the list of Games
+  Future<List<Team>> getAllTeamOfPlayer(String? playerId, int? pageSize);
+
   /// Get a team by a list of [playerIds]
   /// If no team exists, return a new one
   Future<Team> getTeamByPlayers(List<String?>? playerIds);
