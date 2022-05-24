@@ -51,7 +51,7 @@ class _GameListTabWidgetState extends State<GameListTabWidget> {
 
   @override
   void initState() {
-    widget.gameService.resetLastPointedGame();
+    widget.gameService.resetLastPointedDocument();
     _playerId =
         Provider.of<AuthService>(context, listen: false).getPlayerIdOfUser();
     _pagingController.addPageRequestListener((pageKey) {
@@ -71,7 +71,7 @@ class _GameListTabWidgetState extends State<GameListTabWidget> {
     return RefreshIndicator(
       onRefresh: () => Future.sync(
         () => {
-          widget.gameService.resetLastPointedGame(),
+          widget.gameService.resetLastPointedDocument(),
           _pagingController.refresh()
         },
       ),
@@ -91,7 +91,7 @@ class _GameListTabWidgetState extends State<GameListTabWidget> {
               )),
               ElevatedButton.icon(
                   onPressed: () => {
-                        widget.gameService.resetLastPointedGame(),
+                        widget.gameService.resetLastPointedDocument(),
                         _pagingController.refresh()
                       },
                   icon: const Icon(Icons.refresh),
@@ -102,7 +102,7 @@ class _GameListTabWidgetState extends State<GameListTabWidget> {
               const Center(child: Text('Pas encore de parties')),
               ElevatedButton.icon(
                   onPressed: () => {
-                        widget.gameService.resetLastPointedGame(),
+                        widget.gameService.resetLastPointedDocument(),
                         _pagingController.refresh()
                       },
                   icon: const Icon(Icons.refresh),
