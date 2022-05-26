@@ -10,15 +10,15 @@ abstract class AbstractTarotGameService
     extends AbstractGameService<Tarot, TarotScore> {
   final AbstractTarotScoreService tarotScoreService;
   final AbstractTarotGameRepository tarotGameRepository;
+  final AbstractPlayerService playerService;
 
   AbstractTarotGameService(
       {required this.tarotScoreService,
       required this.tarotGameRepository,
-      required AbstractPlayerService playerService,
+      required this.playerService,
       required AbstractTeamService teamService})
       : super(
             gameRepository: tarotGameRepository,
             scoreService: tarotScoreService,
-            playerService: playerService,
             teamService: teamService);
 }

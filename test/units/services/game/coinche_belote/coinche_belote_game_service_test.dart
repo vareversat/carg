@@ -21,7 +21,6 @@ import 'coinche_belote_game_service_test.mocks.dart';
 void main() {
   final mockCoincheBeloteScoreService = MockCoincheBeloteScoreService();
   final mockCoincheBeloteGameRepository = MockCoincheBeloteGameRepository();
-  final mockPlayerService = MockPlayerService();
   final mockTeamService = MockTeamService();
 
   const uid = '123';
@@ -45,7 +44,6 @@ void main() {
         final coincheBeloteGameService = CoincheBeloteGameService(
             coincheBeloteScoreService: mockCoincheBeloteScoreService,
             coincheBeloteGameRepository: mockCoincheBeloteGameRepository,
-            playerService: mockPlayerService,
             teamService: mockTeamService);
         final game = await coincheBeloteGameService.generateNewGame(
             teamUs, teamThem, playerIds, date);

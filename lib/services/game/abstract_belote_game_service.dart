@@ -4,7 +4,6 @@ import 'package:carg/models/score/belote_score.dart';
 import 'package:carg/models/team.dart';
 import 'package:carg/repositories/game/abstract_belote_game_repository.dart';
 import 'package:carg/services/game/abstract_game_service.dart';
-import 'package:carg/services/player/abstract_player_service.dart';
 import 'package:carg/services/score/abstract_belote_score_service.dart';
 import 'package:carg/services/team/abstract_team_service.dart';
 
@@ -16,12 +15,10 @@ abstract class AbstractBeloteGameService<T extends Belote,
   AbstractBeloteGameService(
       {required this.beloteScoreService,
       required this.beloteGameRepository,
-      required AbstractPlayerService playerService,
       required AbstractTeamService teamService})
       : super(
             gameRepository: beloteGameRepository,
             scoreService: beloteScoreService,
-            playerService: playerService,
             teamService: teamService);
 
   @override

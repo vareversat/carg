@@ -21,7 +21,6 @@ import 'french_belote_game_service_test.mocks.dart';
 void main() {
   final mockFrenchBeloteScoreService = MockFrenchBeloteScoreService();
   final mockFrenchBeloteGameRepository = MockFrenchBeloteGameRepository();
-  final mockPlayerService = MockPlayerService();
   final mockTeamService = MockTeamService();
 
   const uid = '123';
@@ -45,7 +44,6 @@ void main() {
         final frenchBeloteGameService = FrenchBeloteGameService(
             frenchBeloteScoreService: mockFrenchBeloteScoreService,
             frenchBeloteGameRepository: mockFrenchBeloteGameRepository,
-            playerService: mockPlayerService,
             teamService: mockTeamService);
         final game = await frenchBeloteGameService.generateNewGame(
             teamUs, teamThem, playerIds, date);
