@@ -21,7 +21,6 @@ import 'contree_belote_game_service_test.mocks.dart';
 void main() {
   final mockContreeBeloteScoreService = MockContreeBeloteScoreService();
   final mockContreeBeloteGameRepository = MockContreeBeloteGameRepository();
-  final mockPlayerService = MockPlayerService();
   final mockTeamService = MockTeamService();
 
   const uid = '123';
@@ -45,7 +44,6 @@ void main() {
         final contreeBeloteGameService = ContreeBeloteGameService(
             contreeBeloteScoreService: mockContreeBeloteScoreService,
             contreeBeloteGameRepository: mockContreeBeloteGameRepository,
-            playerService: mockPlayerService,
             teamService: mockTeamService);
         final game = await contreeBeloteGameService.generateNewGame(
             teamUs, teamThem, playerIds, date);
