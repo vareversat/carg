@@ -12,11 +12,11 @@ const uid = '123';
 var playerIds = ['p1', 'p2'];
 const jsonTeam = {
   'won_games': 0,
-  'played_games': 1,
+  'played_games': 0,
   'players': ['p1', 'p2']
 };
 final expectedTeam =
-    Team(id: uid, wonGames: 0, playedGames: 1, players: ['p1', 'p2']);
+    Team(id: uid, wonGames: 0, playedGames: 0, players: ['p1', 'p2']);
 
 Map<String, dynamic> dataFunction() => {};
 
@@ -144,7 +144,8 @@ void main() {
           'name': null,
           'games': null,
           'won_games': 0,
-          'played_games': 1,
+          'played_games': 0,
+          'game_stats': [],
           'players': ['p1', 'p2']
         })).thenAnswer((_) async => mockDocumentReference);
         when(mockDocumentReference.id).thenReturn(uid);

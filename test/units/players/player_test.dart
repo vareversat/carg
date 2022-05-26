@@ -111,7 +111,7 @@ void main() {
       player1.incrementWonGamesByOne(game1);
       expect(player1.gameStatsList, [
         GameStats(gameType: GameType.BELOTE, wonGames: 0, playedGames: 2),
-        GameStats(gameType: GameType.COINCHE, wonGames: 1, playedGames: 1)
+        GameStats(gameType: GameType.COINCHE, wonGames: 1, playedGames: 0)
       ]);
     });
 

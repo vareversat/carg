@@ -11,7 +11,7 @@ class Team extends CargPlayerObject {
 
   Team(
       {String? id,
-      this.playedGames = 1,
+      this.playedGames = 0,
       this.wonGames = 0,
       this.name,
       this.players,
