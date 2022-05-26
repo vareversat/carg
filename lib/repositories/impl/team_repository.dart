@@ -30,8 +30,7 @@ class TeamRepository extends AbstractTeamRepository {
   }
 
   @override
-  Future<List<Team>> getAllTeamOfPlayer(
-      String playerId, int pageSize) async {
+  Future<List<Team>> getAllTeamOfPlayer(String playerId, int pageSize) async {
     try {
       var teams = <Team>[];
       QuerySnapshot<Map<String, dynamic>> querySnapshot;
