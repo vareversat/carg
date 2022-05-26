@@ -30,36 +30,26 @@ abstract class AbstractBeloteGameService<T extends Belote,
       throw ServiceException('Please use a non null game object');
     }
     try {
-      Team? winners;
+      Team winners;
       var score = await beloteScoreService.getScoreByGame(game.id);
       if (score != null) {
-        if (score.themTotalPoints == score.usTotalPoints) {
-          throw ServiceException('TIE. Please play another round');
-        } else if (score.themTotalPoints > score.usTotalPoints) {
+        if (score.themTotalPoints > score.usTotalPoints) {
           winners = await teamService.incrementWonGamesByOne(
               game.players!.them, game);
         } else if (score.themTotalPoints < score.usTotalPoints) {
           winners =
               await teamService.incrementWonGamesByOne(game.players!.us, game);
+        } else {
+          throw ServiceException('TIE. Please play another round');
         }
         await teamService.incrementPlayedGamesByOne(game.players!.them, game);
         await teamService.incrementPlayedGamesByOne(game.players!.us, game);
-        for (var player in game.players!.playerList!) {
-          {
-            await playerService.incrementPlayedGamesByOne(player!, game);
-          }
-        }
-        if (winners != null) {
-          final updatePart = {
-            'is_ended': true,
-            'ending_date': (endingDate ?? DateTime.now()).toString(),
-            'winners': winners.id
-          };
-          await beloteGameRepository.partialUpdate(game, updatePart);
-        } else {
-          throw ServiceException(
-              'Error while ending the Game ${game.id} : no winners found');
-        }
+        final updatePart = {
+          'is_ended': true,
+          'ending_date': (endingDate ?? DateTime.now()).toString(),
+          'winners': winners.id
+        };
+        await beloteGameRepository.partialUpdate(game, updatePart);
       } else {
         throw ServiceException(
             'Error while ending the Game ${game.id} : no score linked to this game');

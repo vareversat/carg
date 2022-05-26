@@ -117,14 +117,6 @@ void main() {
             .called(1);
         verify(mockTeamService.incrementPlayedGamesByOne('themTeamId', game))
             .called(1);
-        verify(mockPlayerService.incrementPlayedGamesByOne('p1', game))
-            .called(1);
-        verify(mockPlayerService.incrementPlayedGamesByOne('p2', game))
-            .called(1);
-        verify(mockPlayerService.incrementPlayedGamesByOne('p3', game))
-            .called(1);
-        verify(mockPlayerService.incrementPlayedGamesByOne('p4', game))
-            .called(1);
         verify(mockTeamService.incrementWonGamesByOne('usTeamId', game))
             .called(1);
       });
