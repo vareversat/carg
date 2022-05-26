@@ -43,7 +43,6 @@ class MockPlayerService extends _i1.Mock implements _i5.PlayerService {
       (super.noSuchMethod(Invocation.getter(#playerRepository),
               returnValue: _FakeAbstractPlayerRepository_0())
           as _i2.AbstractPlayerRepository);
-
   @override
   _i4.BaseRepository<_i6.Player> get repository =>
       (super.noSuchMethod(Invocation.getter(#repository),
@@ -79,6 +78,10 @@ class MockPlayerService extends _i1.Mock implements _i5.PlayerService {
                   {#query: query, #currentPlayer: currentPlayer}),
               returnValue: Future<List<_i6.Player>>.value(<_i6.Player>[]))
           as _i7.Future<List<_i6.Player>>);
+  @override
+  void resetLastPointedDocument() =>
+      super.noSuchMethod(Invocation.method(#resetLastPointedDocument, []),
+          returnValueForMissingStub: null);
   @override
   _i7.Future<_i6.Player?> get(String? id) =>
       (super.noSuchMethod(Invocation.method(#get, [id]),

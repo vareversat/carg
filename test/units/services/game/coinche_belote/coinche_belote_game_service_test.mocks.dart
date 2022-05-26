@@ -114,6 +114,10 @@ class MockCoincheBeloteScoreService extends _i3.Mock
       returnValue: Future<void>.value(),
       returnValueForMissingStub: Future<void>.value()) as _i17.Future<void>);
   @override
+  void resetLastPointedDocument() =>
+      super.noSuchMethod(Invocation.method(#resetLastPointedDocument, []),
+          returnValueForMissingStub: null);
+  @override
   _i17.Future<_i5.Score<_i6.Round>?> get(String? id) =>
       (super.noSuchMethod(Invocation.method(#get, [id]),
               returnValue: Future<_i5.Score<_i6.Round>?>.value())
@@ -264,6 +268,10 @@ class MockPlayerService extends _i3.Mock implements _i20.PlayerService {
               returnValue: Future<List<_i21.Player>>.value(<_i21.Player>[]))
           as _i17.Future<List<_i21.Player>>);
   @override
+  void resetLastPointedDocument() =>
+      super.noSuchMethod(Invocation.method(#resetLastPointedDocument, []),
+          returnValueForMissingStub: null);
+  @override
   _i17.Future<_i21.Player?> get(String? id) => (super.noSuchMethod(
       Invocation.method(#get, [id]),
       returnValue: Future<_i21.Player?>.value()) as _i17.Future<_i21.Player?>);
@@ -321,6 +329,17 @@ class MockTeamService extends _i3.Mock implements _i24.TeamService {
               Invocation.method(#incrementWonGamesByOne, [id, game]),
               returnValue: Future<_i14.Team>.value(_FakeTeam_7()))
           as _i17.Future<_i14.Team>);
+  @override
+  _i17.Future<List<_i14.Team>> getAllTeamOfPlayer(
+          String? playerId, int? pageSize) =>
+      (super.noSuchMethod(
+              Invocation.method(#getAllTeamOfPlayer, [playerId, pageSize]),
+              returnValue: Future<List<_i14.Team>>.value(<_i14.Team>[]))
+          as _i17.Future<List<_i14.Team>>);
+  @override
+  void resetLastPointedDocument() =>
+      super.noSuchMethod(Invocation.method(#resetLastPointedDocument, []),
+          returnValueForMissingStub: null);
   @override
   _i17.Future<_i14.Team?> get(String? id) =>
       (super.noSuchMethod(Invocation.method(#get, [id]),

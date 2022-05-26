@@ -73,6 +73,10 @@ class MockTarotScoreService extends _i1.Mock implements _i8.TarotScoreService {
       returnValue: Future<void>.value(),
       returnValueForMissingStub: Future<void>.value()) as _i10.Future<void>);
   @override
+  void resetLastPointedDocument() =>
+      super.noSuchMethod(Invocation.method(#resetLastPointedDocument, []),
+          returnValueForMissingStub: null);
+  @override
   _i10.Future<_i3.Score<_i4.Round>?> get(String? id) =>
       (super.noSuchMethod(Invocation.method(#get, [id]),
               returnValue: Future<_i3.Score<_i4.Round>?>.value())

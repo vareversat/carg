@@ -31,6 +31,12 @@ class MockPlayerRepository extends _i1.Mock implements _i3.PlayerRepository {
   }
 
   @override
+  set lastFetchGameDocument(
+          _i2.DocumentSnapshot<Object?>? _lastFetchGameDocument) =>
+      super.noSuchMethod(
+          Invocation.setter(#lastFetchGameDocument, _lastFetchGameDocument),
+          returnValueForMissingStub: null);
+  @override
   String get database =>
       (super.noSuchMethod(Invocation.getter(#database), returnValue: '')
           as String);
