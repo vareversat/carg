@@ -33,7 +33,7 @@ class Team extends CargPlayerObject {
   @override
   Map<String, dynamic> toJSON() {
     return {
-      'game_stats': gameStatsList?.map((stat) => stat.toJSON()).toList(),
+      'game_stats': gameStatsList!.map((stat) => stat.toJSON()).toList(),
       'played_games': playedGames,
       'won_games': wonGames,
       'name': name,
