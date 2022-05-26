@@ -38,9 +38,8 @@ class TeamService extends AbstractTeamService {
     try {
       var team = await teamRepository.get(id);
       if (team != null) {
-        team.playedGames += 1;
-        await teamRepository.updateField(
-            team.id!, 'played_games', team.playedGames);
+        team.incrementPlayedGamesByOne(game);
+        await teamRepository.update(team);
         for (var player in team.players!) {
           await playerService.incrementPlayedGamesByOne(player, game);
         }
@@ -61,9 +60,8 @@ class TeamService extends AbstractTeamService {
     try {
       var team = await teamRepository.get(id);
       if (team != null) {
-        team.wonGames += 1;
-        await teamRepository.updateField(
-            team.id!, 'won_games', team.playedGames);
+        team.incrementWonGamesByOne(game);
+        await teamRepository.update(team);
         for (var player in team.players!) {
           await playerService.incrementWonGamesByOne(player, game);
         }
@@ -82,9 +80,9 @@ class TeamService extends AbstractTeamService {
       throw ServiceException('Please use a non null player id and page size');
     }
     try {
-      var team = await teamRepository.getAllTeamOfPlayer(playerId, pageSize);
-      return team;
-    } on Exception catch (e) {
+      var teams = await teamRepository.getAllTeamOfPlayer(playerId, pageSize);
+      return teams;
+    } on RepositoryException catch (e) {
       throw ServiceException(
           'Error during the team fetching : ${e.toString()}');
     }

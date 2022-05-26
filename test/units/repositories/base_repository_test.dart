@@ -11,8 +11,9 @@ class FakeBaseRepository extends BaseRepository {
   FakeBaseRepository(
       {required String database,
       required String environment,
-      required FirebaseFirestore provider})
-      : super(database: database, environment: environment, provider: provider);
+      required FirebaseFirestore provider,
+      DocumentSnapshot? lastFetchGameDocument})
+      : super(database: database, environment: environment, provider: provider, lastFetchGameDocument: lastFetchGameDocument);
 
   @override
   Future<CargObject?> get(String id) {

@@ -156,5 +156,116 @@ void main() {
         expect(team, expectedTeam);
       });
     });
+
+    group('Get all teams of user', () {
+      test('DEV', () async {
+        const collection = 'team-dev';
+        const playerId = 'p1';
+        const pageSize = 10;
+        final mockQueryFromStartAfterDocument =
+        MockQuery<Map<String, dynamic>>();
+        final mockQueryFromLimit = MockQuery<Map<String, dynamic>>();
+        when(instance.collection(collection))
+            .thenReturn(mockCollectionReference);
+        when(mockCollectionReference.where('players',
+            arrayContains: playerId))
+            .thenReturn(mockQuery);
+        when(mockQuery.startAfterDocument(mockDocumentSnapshot))
+            .thenReturn(mockQueryFromStartAfterDocument);
+        when(mockQueryFromStartAfterDocument.limit(pageSize))
+            .thenReturn(mockQueryFromLimit);
+        when(mockQueryFromLimit.get())
+            .thenAnswer((_) async => mockQuerySnapshot);
+        when(mockQuerySnapshot.docs).thenReturn([]);
+        final teamRepository = TeamRepository(
+            provider: instance, lastFetchGameDocument: mockDocumentSnapshot);
+        expect(
+            await teamRepository.getAllTeamOfPlayer(
+                playerId, pageSize),
+            <Team>[]);
+      });
+      test('PRD', () async {
+        const collection = 'team-prod';
+        const playerId = 'p1';
+        const pageSize = 10;
+        final mockQueryFromStartAfterDocument =
+        MockQuery<Map<String, dynamic>>();
+        final mockQueryFromLimit = MockQuery<Map<String, dynamic>>();
+        when(instance.collection(collection))
+            .thenReturn(mockCollectionReference);
+        when(mockCollectionReference.where('players',
+            arrayContains: playerId))
+            .thenReturn(mockQuery);
+        when(mockQuery.startAfterDocument(mockDocumentSnapshot))
+            .thenReturn(mockQueryFromStartAfterDocument);
+        when(mockQueryFromStartAfterDocument.limit(pageSize))
+            .thenReturn(mockQueryFromLimit);
+        when(mockQueryFromLimit.get())
+            .thenAnswer((_) async => mockQuerySnapshot);
+        when(mockQuerySnapshot.docs).thenReturn([]);
+        final teamRepository = TeamRepository(
+            provider: instance,
+            lastFetchGameDocument: mockDocumentSnapshot,
+            environment: 'prod');
+        expect(
+            await teamRepository.getAllTeamOfPlayer(
+                playerId, pageSize),
+            <Team>[]);
+      });
+
+      test('Last fetched document not null', () async {
+        const collection = 'team-prod';
+        const playerId = 'p1';
+        const pageSize = 10;
+        final mockQueryFromStartAfterDocument =
+        MockQuery<Map<String, dynamic>>();
+        final mockQueryFromLimit = MockQuery<Map<String, dynamic>>();
+        when(instance.collection(collection))
+            .thenReturn(mockCollectionReference);
+        when(mockCollectionReference.where('players',
+            arrayContains: playerId))
+            .thenReturn(mockQuery);
+        when(mockQuery.startAfterDocument(mockDocumentSnapshot))
+            .thenReturn(mockQueryFromStartAfterDocument);
+        when(mockQueryFromStartAfterDocument.limit(pageSize))
+            .thenReturn(mockQueryFromLimit);
+        when(mockQueryFromLimit.get())
+            .thenAnswer((_) async => mockQuerySnapshot);
+        when(mockQuerySnapshot.docs).thenReturn([]);
+        final teamRepository = TeamRepository(
+            provider: instance,
+            lastFetchGameDocument: mockDocumentSnapshot,
+            environment: 'prod');
+        expect(
+            await teamRepository.getAllTeamOfPlayer(
+                playerId, pageSize),
+            <Team>[]);
+      });
+
+      test('Last fetched document not null and return data', () async {
+        const collection = 'team-prod';
+        const playerId = 'p1';
+        const pageSize = 10;
+        final mockQueryFromLimit = MockQuery<Map<String, dynamic>>();
+        when(instance.collection(collection))
+            .thenReturn(mockCollectionReference);
+        when(mockCollectionReference.where('players',
+            arrayContains: playerId))
+            .thenReturn(mockQuery);
+        when(mockQuery.limit(pageSize))
+            .thenReturn(mockQueryFromLimit);
+        when(mockQueryFromLimit.get())
+            .thenAnswer((_) async => mockQuerySnapshot);
+        when(mockQuerySnapshot.docs).thenReturn([mockQueryDocumentSnapshot]);
+        when(mockQueryDocumentSnapshot.data()).thenReturn(jsonTeam);
+        when(mockQueryDocumentSnapshot.id).thenReturn(uid);
+        final teamRepository = TeamRepository(
+            provider: instance, environment: 'prod');
+        expect(
+            await teamRepository.getAllTeamOfPlayer(
+                playerId, pageSize),
+            <Team>[expectedTeam]);
+      });
+    });
   });
 }
