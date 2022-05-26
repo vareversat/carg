@@ -11,15 +11,15 @@ abstract class AbstractBeloteGameService<T extends Belote,
     P extends BeloteScore> extends AbstractGameService<T, P> {
   final AbstractBeloteGameRepository<T> beloteGameRepository;
   final AbstractBeloteScoreService<P> beloteScoreService;
+  final AbstractTeamService teamService;
 
   AbstractBeloteGameService(
       {required this.beloteScoreService,
       required this.beloteGameRepository,
-      required AbstractTeamService teamService})
+      required this.teamService})
       : super(
             gameRepository: beloteGameRepository,
-            scoreService: beloteScoreService,
-            teamService: teamService);
+            scoreService: beloteScoreService);
 
   @override
   Future<void> endAGame(T? game, DateTime? endingDate) async {

@@ -4,19 +4,16 @@ import 'package:carg/models/score/score.dart';
 import 'package:carg/repositories/game/abstract_game_repository.dart';
 import 'package:carg/services/base_abstract_service.dart';
 import 'package:carg/services/score/abstract_score_service.dart';
-import 'package:carg/services/team/abstract_team_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 abstract class AbstractGameService<T extends Game, Q extends Score>
     extends BaseAbstractService<T> {
   final AbstractGameRepository<T> gameRepository;
   final AbstractScoreService<Q> scoreService;
-  final AbstractTeamService teamService;
 
   AbstractGameService(
       {required this.scoreService,
-      required this.gameRepository,
-      required this.teamService})
+      required this.gameRepository})
       : super(repository: gameRepository);
 
   /// Get a game via the [gameId]

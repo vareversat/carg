@@ -9,22 +9,18 @@ import 'package:carg/repositories/impl/game/tarot_game_repository.dart';
 import 'package:carg/services/game/abstract_tarot_game_service.dart';
 import 'package:carg/services/impl/player_service.dart';
 import 'package:carg/services/impl/score/tarot_score_service.dart';
-import 'package:carg/services/impl/team_service.dart';
 import 'package:carg/services/player/abstract_player_service.dart';
 import 'package:carg/services/score/abstract_tarot_score_service.dart';
-import 'package:carg/services/team/abstract_team_service.dart';
 
 class TarotGameService extends AbstractTarotGameService {
   TarotGameService(
       {AbstractTarotScoreService? tarotScoreService,
       AbstractTarotGameRepository? tarotGameRepository,
-      AbstractPlayerService? playerService,
-      AbstractTeamService? teamService})
+      AbstractPlayerService? playerService})
       : super(
             tarotScoreService: tarotScoreService ?? TarotScoreService(),
             tarotGameRepository: tarotGameRepository ?? TarotGameRepository(),
-            playerService: playerService ?? PlayerService(),
-            teamService: teamService ?? TeamService());
+            playerService: playerService ?? PlayerService());
 
   @override
   Future<void> endAGame(Tarot? game, DateTime? endingDate) async {
