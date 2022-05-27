@@ -20,7 +20,7 @@ class GameListScreen extends StatelessWidget {
         length: 4,
         child: Scaffold(
             appBar: PreferredSize(
-              preferredSize: const Size.fromHeight(120),
+              preferredSize: const Size.fromHeight(100),
               child: AppBar(
                 automaticallyImplyLeading: false,
                 title: Hero(
