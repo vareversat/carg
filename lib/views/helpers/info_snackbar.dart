@@ -6,6 +6,7 @@ class InfoSnackBar {
       BuildContext context, String message) {
     return ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
+        key: const ValueKey('infoSnackBar'),
         margin: const EdgeInsets.all(20),
         duration: const Duration(seconds: 4),
         behavior: SnackBarBehavior.floating,
@@ -19,6 +20,7 @@ class InfoSnackBar {
       showErrorSnackBar(BuildContext context, String message) {
     return ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
+        key: const ValueKey('errorSnackBar'),
         margin: const EdgeInsets.all(20),
         duration: const Duration(seconds: 4),
         behavior: SnackBarBehavior.floating,
