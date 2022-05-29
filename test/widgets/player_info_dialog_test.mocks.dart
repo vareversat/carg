@@ -2,16 +2,19 @@
 // in carg/test/widgets/player_info_dialog_test.dart.
 // Do not manually edit this file.
 
-import 'dart:async' as _i7;
+import 'dart:async' as _i8;
+import 'dart:ui' as _i12;
 
 import 'package:carg/models/carg_object.dart' as _i3;
-import 'package:carg/models/game/game.dart' as _i8;
-import 'package:carg/models/player.dart' as _i6;
-import 'package:carg/models/players/players.dart' as _i9;
+import 'package:carg/models/game/game.dart' as _i9;
+import 'package:carg/models/player.dart' as _i7;
+import 'package:carg/models/players/players.dart' as _i10;
 import 'package:carg/repositories/base_repository.dart' as _i4;
 import 'package:carg/repositories/player/abstract_player_repository.dart'
     as _i2;
-import 'package:carg/services/impl/player_service.dart' as _i5;
+import 'package:carg/services/auth/auth_service.dart' as _i11;
+import 'package:carg/services/impl/player_service.dart' as _i6;
+import 'package:flutter/material.dart' as _i5;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -30,10 +33,16 @@ class _FakeAbstractPlayerRepository_0 extends _i1.Fake
 class _FakeBaseRepository_1<T extends _i3.CargObject> extends _i1.Fake
     implements _i4.BaseRepository<T> {}
 
+class _FakeWidget_2 extends _i1.Fake implements _i5.Widget {
+  @override
+  String toString({_i5.DiagnosticLevel? minLevel = _i5.DiagnosticLevel.info}) =>
+      super.toString();
+}
+
 /// A class which mocks [PlayerService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockPlayerService extends _i1.Mock implements _i5.PlayerService {
+class MockPlayerService extends _i1.Mock implements _i6.PlayerService {
   MockPlayerService() {
     _i1.throwOnMissingStub(this);
   }
@@ -44,56 +53,152 @@ class MockPlayerService extends _i1.Mock implements _i5.PlayerService {
               returnValue: _FakeAbstractPlayerRepository_0())
           as _i2.AbstractPlayerRepository);
   @override
-  _i4.BaseRepository<_i6.Player> get repository =>
+  _i4.BaseRepository<_i7.Player> get repository =>
       (super.noSuchMethod(Invocation.getter(#repository),
-              returnValue: _FakeBaseRepository_1<_i6.Player>())
-          as _i4.BaseRepository<_i6.Player>);
+              returnValue: _FakeBaseRepository_1<_i7.Player>())
+          as _i4.BaseRepository<_i7.Player>);
   @override
-  _i7.Future<String> create(_i6.Player? t) =>
+  _i8.Future<String> create(_i7.Player? t) =>
       (super.noSuchMethod(Invocation.method(#create, [t]),
-          returnValue: Future<String>.value('')) as _i7.Future<String>);
+          returnValue: Future<String>.value('')) as _i8.Future<String>);
   @override
-  _i7.Future<void> incrementPlayedGamesByOne(
-          String? playerId, _i8.Game<_i9.Players>? game) =>
+  _i8.Future<void> incrementPlayedGamesByOne(
+          String? playerId, _i9.Game<_i10.Players>? game) =>
       (super.noSuchMethod(
           Invocation.method(#incrementPlayedGamesByOne, [playerId, game]),
           returnValue: Future<void>.value(),
-          returnValueForMissingStub: Future<void>.value()) as _i7.Future<void>);
+          returnValueForMissingStub: Future<void>.value()) as _i8.Future<void>);
   @override
-  _i7.Future<void> incrementWonGamesByOne(
-          String? playerId, _i8.Game<_i9.Players>? game) =>
+  _i8.Future<void> incrementWonGamesByOne(
+          String? playerId, _i9.Game<_i10.Players>? game) =>
       (super.noSuchMethod(
           Invocation.method(#incrementWonGamesByOne, [playerId, game]),
           returnValue: Future<void>.value(),
-          returnValueForMissingStub: Future<void>.value()) as _i7.Future<void>);
+          returnValueForMissingStub: Future<void>.value()) as _i8.Future<void>);
   @override
-  _i7.Future<_i6.Player?> getPlayerOfUser(String? userId) =>
+  _i8.Future<_i7.Player?> getPlayerOfUser(String? userId) =>
       (super.noSuchMethod(Invocation.method(#getPlayerOfUser, [userId]),
-          returnValue: Future<_i6.Player?>.value()) as _i7.Future<_i6.Player?>);
+          returnValue: Future<_i7.Player?>.value()) as _i8.Future<_i7.Player?>);
   @override
-  _i7.Future<List<_i6.Player>> searchPlayers(
-          {String? query = r'', _i6.Player? currentPlayer}) =>
+  _i8.Future<List<_i7.Player>> searchPlayers(
+          {String? query = r'', _i7.Player? currentPlayer}) =>
       (super.noSuchMethod(
               Invocation.method(#searchPlayers, [],
                   {#query: query, #currentPlayer: currentPlayer}),
-              returnValue: Future<List<_i6.Player>>.value(<_i6.Player>[]))
-          as _i7.Future<List<_i6.Player>>);
+              returnValue: Future<List<_i7.Player>>.value(<_i7.Player>[]))
+          as _i8.Future<List<_i7.Player>>);
   @override
   void resetLastPointedDocument() =>
       super.noSuchMethod(Invocation.method(#resetLastPointedDocument, []),
           returnValueForMissingStub: null);
   @override
-  _i7.Future<_i6.Player?> get(String? id) =>
+  _i8.Future<_i7.Player?> get(String? id) =>
       (super.noSuchMethod(Invocation.method(#get, [id]),
-          returnValue: Future<_i6.Player?>.value()) as _i7.Future<_i6.Player?>);
+          returnValue: Future<_i7.Player?>.value()) as _i8.Future<_i7.Player?>);
   @override
-  _i7.Future<void> delete(String? id) =>
+  _i8.Future<void> delete(String? id) =>
       (super.noSuchMethod(Invocation.method(#delete, [id]),
           returnValue: Future<void>.value(),
-          returnValueForMissingStub: Future<void>.value()) as _i7.Future<void>);
+          returnValueForMissingStub: Future<void>.value()) as _i8.Future<void>);
   @override
-  _i7.Future<void> update(_i6.Player? t) =>
+  _i8.Future<void> update(_i7.Player? t) =>
       (super.noSuchMethod(Invocation.method(#update, [t]),
           returnValue: Future<void>.value(),
-          returnValueForMissingStub: Future<void>.value()) as _i7.Future<void>);
+          returnValueForMissingStub: Future<void>.value()) as _i8.Future<void>);
+}
+
+/// A class which mocks [AuthService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockAuthService extends _i1.Mock implements _i11.AuthService {
+  MockAuthService() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  bool get isAuth =>
+      (super.noSuchMethod(Invocation.getter(#isAuth), returnValue: false)
+          as bool);
+  @override
+  bool get hasListeners =>
+      (super.noSuchMethod(Invocation.getter(#hasListeners), returnValue: false)
+          as bool);
+  @override
+  _i8.Future<String> googleLogIn() =>
+      (super.noSuchMethod(Invocation.method(#googleLogIn, []),
+          returnValue: Future<String>.value('')) as _i8.Future<String>);
+  @override
+  _i8.Future<void> sendSignInWithEmailLink(String? email) =>
+      (super.noSuchMethod(Invocation.method(#sendSignInWithEmailLink, [email]),
+          returnValue: Future<void>.value(),
+          returnValueForMissingStub: Future<void>.value()) as _i8.Future<void>);
+  @override
+  _i8.Future<String> signInWithEmailLink(String? email, String? link) => (super
+      .noSuchMethod(Invocation.method(#signInWithEmailLink, [email, link]),
+          returnValue: Future<String>.value('')) as _i8.Future<String>);
+  @override
+  _i8.Future<String> validatePhoneNumber(
+          String? smsCode, String? verificationId) =>
+      (super.noSuchMethod(
+          Invocation.method(#validatePhoneNumber, [smsCode, verificationId]),
+          returnValue: Future<String>.value('')) as _i8.Future<String>);
+  @override
+  _i8.Future<dynamic> changePhoneNumber(
+          String? smsCode, String? verificationId) =>
+      (super.noSuchMethod(
+          Invocation.method(#changePhoneNumber, [smsCode, verificationId]),
+          returnValue: Future<dynamic>.value()) as _i8.Future<dynamic>);
+  @override
+  _i8.Future<dynamic> resendPhoneVerificationCode(
+          String? phoneNumber, _i5.BuildContext? context) =>
+      (super.noSuchMethod(
+          Invocation.method(
+              #resendPhoneVerificationCode, [phoneNumber, context]),
+          returnValue: Future<dynamic>.value()) as _i8.Future<dynamic>);
+  @override
+  _i8.Future<dynamic> sendPhoneVerificationCode(
+          String? phoneNumber,
+          _i5.BuildContext? context,
+          _i11.CredentialVerificationType? credentialVerificationType) =>
+      (super.noSuchMethod(
+          Invocation.method(#sendPhoneVerificationCode,
+              [phoneNumber, context, credentialVerificationType]),
+          returnValue: Future<dynamic>.value()) as _i8.Future<dynamic>);
+  @override
+  _i8.Future<bool> isAlreadyLogin() =>
+      (super.noSuchMethod(Invocation.method(#isAlreadyLogin, []),
+          returnValue: Future<bool>.value(false)) as _i8.Future<bool>);
+  @override
+  _i8.Future<void> signOut(_i5.BuildContext? context) =>
+      (super.noSuchMethod(Invocation.method(#signOut, [context]),
+          returnValue: Future<void>.value(),
+          returnValueForMissingStub: Future<void>.value()) as _i8.Future<void>);
+  @override
+  _i8.Future<void> changeEmail(String? newEmail) =>
+      (super.noSuchMethod(Invocation.method(#changeEmail, [newEmail]),
+          returnValue: Future<void>.value(),
+          returnValueForMissingStub: Future<void>.value()) as _i8.Future<void>);
+  @override
+  _i5.Widget getCorrectLandingScreen() =>
+      (super.noSuchMethod(Invocation.method(#getCorrectLandingScreen, []),
+          returnValue: _FakeWidget_2()) as _i5.Widget);
+  @override
+  void setCurrentPlayer(_i7.Player? player) =>
+      super.noSuchMethod(Invocation.method(#setCurrentPlayer, [player]),
+          returnValueForMissingStub: null);
+  @override
+  void addListener(_i12.VoidCallback? listener) =>
+      super.noSuchMethod(Invocation.method(#addListener, [listener]),
+          returnValueForMissingStub: null);
+  @override
+  void removeListener(_i12.VoidCallback? listener) =>
+      super.noSuchMethod(Invocation.method(#removeListener, [listener]),
+          returnValueForMissingStub: null);
+  @override
+  void dispose() => super.noSuchMethod(Invocation.method(#dispose, []),
+      returnValueForMissingStub: null);
+  @override
+  void notifyListeners() =>
+      super.noSuchMethod(Invocation.method(#notifyListeners, []),
+          returnValueForMissingStub: null);
 }

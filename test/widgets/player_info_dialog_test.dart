@@ -1,174 +1,250 @@
+import 'package:carg/models/game/game_type.dart';
+import 'package:carg/models/game_stats.dart';
 import 'package:carg/models/player.dart';
+import 'package:carg/services/auth/auth_service.dart';
 import 'package:carg/services/impl/player_service.dart';
 import 'package:carg/views/dialogs/player_info_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
 import 'package:network_image_mock/network_image_mock.dart';
+import 'package:provider/provider.dart';
 
 import 'player_info_dialog_test.mocks.dart';
 
-Widget testableWidget(bool mockIsNewPlayer, PlayerService playerService,
-        Player mockPlayer) =>
+Widget testableWidget(
+        bool mockIsNewPlayer, PlayerService playerService, Player mockPlayer, AuthService mockAuthService) =>
     MaterialApp(
-      home: PlayerInfoDialog(
+      home: ChangeNotifierProvider<AuthService>.value(
+        value: mockAuthService,
+          builder: (context, _) =>PlayerInfoDialog(
           player: mockPlayer,
           playerService: playerService,
-          isNewPlayer: mockIsNewPlayer),
+          isNewPlayer: mockIsNewPlayer)),
     );
 
-@GenerateMocks([PlayerService])
+@GenerateMocks([PlayerService, AuthService])
 void main() {
   late MockPlayerService mockPlayerService;
+  late MockAuthService mockAuthService;
   late Player mockPlayer;
 
   setUp(() {
     mockPlayerService = MockPlayerService();
+    mockAuthService = MockAuthService();
     mockPlayer = Player(owned: true, userName: 'toto');
   });
 
-  group('Title', () {
-    testWidgets('EDITING', (WidgetTester tester) async {
-      await mockNetworkImagesFor(() =>
-          tester.pumpWidget(
-              testableWidget(false, mockPlayerService, mockPlayer)));
+  group('PlayerInfoDialog', () {
+    group('Title', () {
+      testWidgets('EDITING', (WidgetTester tester) async {
+        await mockNetworkImagesFor(() => tester
+            .pumpWidget(testableWidget(false, mockPlayerService, mockPlayer, mockAuthService)));
 
-      expect(
-          tester.widget<Text>(find.byKey(const ValueKey('titleText'))).data,
-          'Edition');
+        expect(
+            tester.widget<Text>(find.byKey(const ValueKey('titleText'))).data,
+            'Edition');
+      });
+
+      testWidgets('CREATING', (WidgetTester tester) async {
+        await mockNetworkImagesFor(() => tester
+            .pumpWidget(testableWidget(true, mockPlayerService, mockPlayer, mockAuthService)));
+
+        expect(
+            tester.widget<Text>(find.byKey(const ValueKey('titleText'))).data,
+            'Nouveau joueur');
+      });
+
+      testWidgets('INFORMATIONS', (WidgetTester tester) async {
+        var mockPlayer = Player(owned: false, userName: 'toto');
+        await mockNetworkImagesFor(() => tester
+            .pumpWidget(testableWidget(false, mockPlayerService, mockPlayer, mockAuthService)));
+
+        expect(
+            tester.widget<Text>(find.byKey(const ValueKey('titleText'))).data,
+            'Informations');
+      });
     });
 
-    testWidgets('CREATING', (WidgetTester tester) async {
-      await mockNetworkImagesFor(() =>
-          tester.pumpWidget(
-              testableWidget(true, mockPlayerService, mockPlayer)));
+    group('Copy ID button', () {
+      testWidgets('is displayed (editing)', (WidgetTester tester) async {
+        await mockNetworkImagesFor(() => tester
+            .pumpWidget(testableWidget(false, mockPlayerService, mockPlayer, mockAuthService)));
 
-      expect(
-          tester.widget<Text>(find.byKey(const ValueKey('titleText'))).data,
-          'Nouveau joueur');
+        expect(find.byKey(const ValueKey('copyIDButton')), findsOneWidget);
+      });
+
+      testWidgets('is hidden (creating)', (WidgetTester tester) async {
+        await mockNetworkImagesFor(() => tester
+            .pumpWidget(testableWidget(true, mockPlayerService, mockPlayer, mockAuthService)));
+
+        expect(find.byKey(const ValueKey('copyIDButton')), findsNothing);
+      });
+
+      testWidgets('is hidden (information)', (WidgetTester tester) async {
+        var mockPlayer = Player(owned: false, userName: 'toto');
+        await mockNetworkImagesFor(() => tester
+            .pumpWidget(testableWidget(true, mockPlayerService, mockPlayer, mockAuthService)));
+
+        expect(find.byKey(const ValueKey('copyIDButton')), findsNothing);
+      });
+
+      testWidgets('click on it', (WidgetTester tester) async {
+        var mockPlayer = Player(owned: true, userName: 'toto', id: 'test');
+        await mockNetworkImagesFor(() => tester
+            .pumpWidget(testableWidget(false, mockPlayerService, mockPlayer, mockAuthService)));
+        await mockNetworkImagesFor(
+            () => tester.tap(find.byKey(const ValueKey('copyIDButton'))));
+        await mockNetworkImagesFor(() => tester.pump());
+      });
     });
 
-    testWidgets('INFORMATIONS', (WidgetTester tester) async {
-      var mockPlayer = Player(owned: false, userName: 'toto');
-      await mockNetworkImagesFor(() =>
-          tester.pumpWidget(
-              testableWidget(false, mockPlayerService, mockPlayer)));
+    group('Username TextField', () {
+      testWidgets('is enabled (editing)', (WidgetTester tester) async {
+        await mockNetworkImagesFor(() => tester
+            .pumpWidget(testableWidget(false, mockPlayerService, mockPlayer, mockAuthService)));
 
-      expect(
-          tester.widget<Text>(find.byKey(const ValueKey('titleText'))).data,
-          'Informations');
+        expect(
+            tester
+                .widget<TextFormField>(
+                    find.byKey(const ValueKey('usernameTextField')))
+                .enabled,
+            true);
+      });
+
+      testWidgets('is enabled (creating)', (WidgetTester tester) async {
+        await mockNetworkImagesFor(() => tester
+            .pumpWidget(testableWidget(true, mockPlayerService, mockPlayer, mockAuthService)));
+
+        expect(
+            tester
+                .widget<TextFormField>(
+                    find.byKey(const ValueKey('usernameTextField')))
+                .enabled,
+            true);
+      });
+
+      testWidgets('is disabled (information)', (WidgetTester tester) async {
+        var mockPlayer = Player(owned: false, userName: 'toto');
+        await mockNetworkImagesFor(() => tester
+            .pumpWidget(testableWidget(true, mockPlayerService, mockPlayer, mockAuthService)));
+
+        expect(
+            tester
+                .widget<TextFormField>(
+                    find.byKey(const ValueKey('usernameTextField')))
+                .enabled,
+            false);
+      });
     });
-  });
 
-
-  group('Copy ID button', () {
-    testWidgets('is displayed (editing)', (WidgetTester tester) async {
+    testWidgets('Display the username', (WidgetTester tester) async {
       await mockNetworkImagesFor(() => tester
-          .pumpWidget(testableWidget(false, mockPlayerService, mockPlayer)));
-
-      expect(find.byKey(const ValueKey('copyIDButton')), findsOneWidget);
-    });
-
-    testWidgets('is hidden (creating)', (WidgetTester tester) async {
-      await mockNetworkImagesFor(() => tester
-          .pumpWidget(testableWidget(true, mockPlayerService, mockPlayer)));
-
-      expect(find.byKey(const ValueKey('copyIDButton')), findsNothing);
-    });
-
-    testWidgets('is hidden (information)', (WidgetTester tester) async {
-      var mockPlayer = Player(owned: false, userName: 'toto');
-      await mockNetworkImagesFor(() => tester
-          .pumpWidget(testableWidget(true, mockPlayerService, mockPlayer)));
-
-      expect(find.byKey(const ValueKey('copyIDButton')), findsNothing);
-    });
-
-  });
-
-  group('Username TextField', () {
-    testWidgets('is enabled (editing)', (WidgetTester tester) async {
-      await mockNetworkImagesFor(() =>
-          tester.pumpWidget(
-              testableWidget(false, mockPlayerService, mockPlayer)));
+          .pumpWidget(testableWidget(false, mockPlayerService, mockPlayer, mockAuthService)));
 
       expect(
           tester
               .widget<TextFormField>(
                   find.byKey(const ValueKey('usernameTextField')))
-              .enabled,
-          true);
+              .initialValue,
+          'toto');
     });
 
-    testWidgets('is enabled (creating)', (WidgetTester tester) async {
-      await mockNetworkImagesFor(() =>
-          tester.pumpWidget(
-              testableWidget(true, mockPlayerService, mockPlayer)));
+    group('Buttons', () {
+      testWidgets('save (editing)', (WidgetTester tester) async {
+        await mockNetworkImagesFor(() => tester
+            .pumpWidget(testableWidget(false, mockPlayerService, mockPlayer, mockAuthService)));
 
-      expect(
-          tester
-              .widget<TextFormField>(
-                  find.byKey(const ValueKey('usernameTextField')))
-              .enabled,
-          true);
+        expect(find.byKey(const ValueKey('saveButton')), findsOneWidget);
+        expect(find.byKey(const ValueKey('closeButton')), findsNothing);
+      });
+
+      testWidgets('save (creation)', (WidgetTester tester) async {
+        await mockNetworkImagesFor(() => tester
+            .pumpWidget(testableWidget(true, mockPlayerService, mockPlayer, mockAuthService)));
+
+        expect(find.byKey(const ValueKey('saveButton')), findsOneWidget);
+        expect(find.byKey(const ValueKey('closeButton')), findsNothing);
+      });
+
+      testWidgets('close (informations)', (WidgetTester tester) async {
+        var mockPlayer = Player(owned: false, userName: 'toto');
+        await mockNetworkImagesFor(() => tester
+            .pumpWidget(testableWidget(true, mockPlayerService, mockPlayer, mockAuthService)));
+
+        expect(find.byKey(const ValueKey('saveButton')), findsNothing);
+        expect(find.byKey(const ValueKey('closeButton')), findsOneWidget);
+      });
     });
 
-    testWidgets('is disabled (information)', (WidgetTester tester) async {
-      var mockPlayer = Player(owned: false, userName: 'toto');
-      await mockNetworkImagesFor(() =>
-          tester.pumpWidget(
-              testableWidget(true, mockPlayerService, mockPlayer)));
+    group('Profile picture text field', () {
+      testWidgets('display', (WidgetTester tester) async {
+        await mockNetworkImagesFor(() => tester
+            .pumpWidget(testableWidget(true, mockPlayerService, mockPlayer, mockAuthService)));
 
-      expect(
-          tester
-              .widget<TextFormField>(
-                  find.byKey(const ValueKey('usernameTextField')))
-              .enabled,
-          false);
+        expect(find.byKey(const ValueKey('profilePictureTextField')),
+            findsOneWidget);
+      });
     });
 
+    group('Stats', () {
+      testWidgets('display', (WidgetTester tester) async {
+        var gameStats = [
+          GameStats(gameType: GameType.CONTREE, wonGames: 0, playedGames: 1),
+          GameStats(gameType: GameType.COINCHE, wonGames: 0, playedGames: 10)
+        ];
+        var mockPlayer = Player(owned: false, gameStatsList: gameStats);
+        await mockNetworkImagesFor(() => tester
+            .pumpWidget(testableWidget(true, mockPlayerService, mockPlayer, mockAuthService)));
+
+        expect(find.byKey(const ValueKey('stat-0-Contrée')), findsOneWidget);
+        expect(find.byKey(const ValueKey('stat-1-Coinche')), findsOneWidget);
+      });
+
+      testWidgets('no display (no stats)', (WidgetTester tester) async {
+        var mockPlayer = Player(owned: false);
+        await mockNetworkImagesFor(() => tester
+            .pumpWidget(testableWidget(true, mockPlayerService, mockPlayer, mockAuthService)));
+
+        expect(find.byKey(const ValueKey('noStatsText')), findsNothing);
+      });
+
+      testWidgets('no display (new player)', (WidgetTester tester) async {
+        var mockPlayer = Player(owned: false);
+        await mockNetworkImagesFor(() => tester
+            .pumpWidget(testableWidget(true, mockPlayerService, mockPlayer, mockAuthService)));
+
+        expect(find.byKey(const ValueKey('noStatsText')), findsNothing);
+      });
+    });
+
+    group('Save player', () {
+
+      testWidgets('tap (edit)', (WidgetTester tester) async {
+        var mockPlayer = Player(owned: true, userName: 'toto', id: 'test');
+        await mockNetworkImagesFor(() => tester
+            .pumpWidget(testableWidget(false, mockPlayerService, mockPlayer, mockAuthService)));
+        await mockNetworkImagesFor(
+                () => tester.tap(find.byKey(const ValueKey('saveButton'))));
+        await mockNetworkImagesFor(() => tester.pump());
+        verify(mockPlayerService.update(mockPlayer)).called(1);
+      });
+
+      testWidgets('tap (create)', (WidgetTester tester) async {
+        var mockPlayer = Player(owned: true, userName: 'toto', id: 'test');
+        var editedMockPlayer = Player(owned: true, userName: 'toto', id: 'test', ownedBy: 'user_toto');
+        when(mockAuthService.getPlayerIdOfUser()).thenReturn('user_toto');
+        when(mockPlayerService.create(mockPlayer)).thenAnswer((_) async => Future<String>(() => 'playerId'));
+        await mockNetworkImagesFor(() => tester
+            .pumpWidget(testableWidget(true, mockPlayerService, mockPlayer, mockAuthService)));
+        await mockNetworkImagesFor(
+                () => tester.tap(find.byKey(const ValueKey('saveButton'))));
+        await mockNetworkImagesFor(() => tester.pumpAndSettle());
+
+        expect(mockPlayer.ownedBy, 'user_toto');
+        verify(mockPlayerService.create(editedMockPlayer)).called(1);
+      });
+    });
   });
-
-  testWidgets('Display the username', (WidgetTester tester) async {
-    await mockNetworkImagesFor(() =>
-        tester.pumpWidget(
-            testableWidget(false, mockPlayerService, mockPlayer)));
-
-    expect(
-        tester
-            .widget<TextFormField>(
-                find.byKey(const ValueKey('usernameTextField')))
-            .initialValue,
-        'toto');
-  });
-
-  group('Buttons', () {
-    testWidgets('save (editing)', (WidgetTester tester) async {
-      await mockNetworkImagesFor(() => tester
-          .pumpWidget(testableWidget(false, mockPlayerService, mockPlayer)));
-
-      expect(find.byKey(const ValueKey('editButton')), findsOneWidget);
-      expect(find.byKey(const ValueKey('closeButton')), findsNothing);
-    });
-
-    testWidgets('save (creation)', (WidgetTester tester) async {
-      await mockNetworkImagesFor(() => tester
-          .pumpWidget(testableWidget(true, mockPlayerService, mockPlayer)));
-
-      expect(find.byKey(const ValueKey('editButton')), findsOneWidget);
-      expect(find.byKey(const ValueKey('closeButton')), findsNothing);
-    });
-
-    testWidgets('close (informations)', (WidgetTester tester) async {
-      var mockPlayer = Player(owned: false, userName: 'toto');
-      await mockNetworkImagesFor(() => tester
-          .pumpWidget(testableWidget(true, mockPlayerService, mockPlayer)));
-
-      expect(find.byKey(const ValueKey('editButton')), findsNothing);
-      expect(find.byKey(const ValueKey('closeButton')), findsOneWidget);
-    });
-
-  });
-
-
 }
