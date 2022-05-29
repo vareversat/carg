@@ -2,19 +2,22 @@
 // in carg/test/widgets/player_list_screen_test.dart.
 // Do not manually edit this file.
 
-import 'dart:async' as _i8;
-import 'dart:ui' as _i12;
+import 'dart:async' as _i10;
+import 'dart:ui' as _i14;
 
 import 'package:carg/models/carg_object.dart' as _i3;
-import 'package:carg/models/game/game.dart' as _i9;
-import 'package:carg/models/player.dart' as _i7;
-import 'package:carg/models/players/players.dart' as _i10;
+import 'package:carg/models/game/game.dart' as _i11;
+import 'package:carg/models/player.dart' as _i9;
+import 'package:carg/models/players/players.dart' as _i12;
+import 'package:carg/models/team.dart' as _i7;
 import 'package:carg/repositories/base_repository.dart' as _i4;
 import 'package:carg/repositories/player/abstract_player_repository.dart'
     as _i2;
-import 'package:carg/services/auth/auth_service.dart' as _i11;
+import 'package:carg/repositories/team/abstract_team_repository.dart' as _i5;
+import 'package:carg/services/auth/auth_service.dart' as _i15;
 import 'package:carg/services/player/abstract_player_service.dart' as _i6;
-import 'package:flutter/material.dart' as _i5;
+import 'package:carg/services/team/abstract_team_service.dart' as _i13;
+import 'package:flutter/material.dart' as _i8;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -33,9 +36,28 @@ class _FakeAbstractPlayerRepository_0 extends _i1.Fake
 class _FakeBaseRepository_1<T extends _i3.CargObject> extends _i1.Fake
     implements _i4.BaseRepository<T> {}
 
-class _FakeWidget_2 extends _i1.Fake implements _i5.Widget {
+class _FakeAbstractTeamRepository_2 extends _i1.Fake
+    implements _i5.AbstractTeamRepository {}
+
+class _FakeAbstractPlayerService_3 extends _i1.Fake
+    implements _i6.AbstractPlayerService {}
+
+class _FakeTeam_4 extends _i1.Fake implements _i7.Team {}
+
+class _FakeTextSelection_5 extends _i1.Fake implements _i8.TextSelection {}
+
+class _FakeTextEditingValue_6 extends _i1.Fake implements _i8.TextEditingValue {
+}
+
+class _FakeTextSpan_7 extends _i1.Fake implements _i8.TextSpan {
   @override
-  String toString({_i5.DiagnosticLevel? minLevel = _i5.DiagnosticLevel.info}) =>
+  String toString({_i8.DiagnosticLevel? minLevel = _i8.DiagnosticLevel.info}) =>
+      super.toString();
+}
+
+class _FakeWidget_8 extends _i1.Fake implements _i8.Widget {
+  @override
+  String toString({_i8.DiagnosticLevel? minLevel = _i8.DiagnosticLevel.info}) =>
       super.toString();
 }
 
@@ -54,64 +76,218 @@ class MockAbstractPlayerService extends _i1.Mock
               returnValue: _FakeAbstractPlayerRepository_0())
           as _i2.AbstractPlayerRepository);
   @override
-  _i4.BaseRepository<_i7.Player> get repository =>
+  _i4.BaseRepository<_i9.Player> get repository =>
       (super.noSuchMethod(Invocation.getter(#repository),
-              returnValue: _FakeBaseRepository_1<_i7.Player>())
-          as _i4.BaseRepository<_i7.Player>);
+              returnValue: _FakeBaseRepository_1<_i9.Player>())
+          as _i4.BaseRepository<_i9.Player>);
   @override
-  _i8.Future<void> incrementPlayedGamesByOne(
-          String? playerId, _i9.Game<_i10.Players>? game) =>
+  _i10.Future<void> incrementPlayedGamesByOne(
+          String? playerId, _i11.Game<_i12.Players>? game) =>
       (super.noSuchMethod(
-          Invocation.method(#incrementPlayedGamesByOne, [playerId, game]),
-          returnValue: Future<void>.value(),
-          returnValueForMissingStub: Future<void>.value()) as _i8.Future<void>);
+              Invocation.method(#incrementPlayedGamesByOne, [playerId, game]),
+              returnValue: Future<void>.value(),
+              returnValueForMissingStub: Future<void>.value())
+          as _i10.Future<void>);
   @override
-  _i8.Future<void> incrementWonGamesByOne(
-          String? playerId, _i9.Game<_i10.Players>? game) =>
+  _i10.Future<void> incrementWonGamesByOne(
+          String? playerId, _i11.Game<_i12.Players>? game) =>
       (super.noSuchMethod(
-          Invocation.method(#incrementWonGamesByOne, [playerId, game]),
-          returnValue: Future<void>.value(),
-          returnValueForMissingStub: Future<void>.value()) as _i8.Future<void>);
+              Invocation.method(#incrementWonGamesByOne, [playerId, game]),
+              returnValue: Future<void>.value(),
+              returnValueForMissingStub: Future<void>.value())
+          as _i10.Future<void>);
   @override
-  _i8.Future<_i7.Player?> getPlayerOfUser(String? userId) =>
+  _i10.Future<_i9.Player?> getPlayerOfUser(String? userId) =>
       (super.noSuchMethod(Invocation.method(#getPlayerOfUser, [userId]),
-          returnValue: Future<_i7.Player?>.value()) as _i8.Future<_i7.Player?>);
+              returnValue: Future<_i9.Player?>.value())
+          as _i10.Future<_i9.Player?>);
   @override
-  _i8.Future<List<_i7.Player>> searchPlayers(
-          {String? query = r'', _i7.Player? currentPlayer}) =>
+  _i10.Future<List<_i9.Player>> searchPlayers(
+          {String? query = r'', _i9.Player? currentPlayer}) =>
       (super.noSuchMethod(
               Invocation.method(#searchPlayers, [],
                   {#query: query, #currentPlayer: currentPlayer}),
-              returnValue: Future<List<_i7.Player>>.value(<_i7.Player>[]))
-          as _i8.Future<List<_i7.Player>>);
+              returnValue: Future<List<_i9.Player>>.value(<_i9.Player>[]))
+          as _i10.Future<List<_i9.Player>>);
   @override
   void resetLastPointedDocument() =>
       super.noSuchMethod(Invocation.method(#resetLastPointedDocument, []),
           returnValueForMissingStub: null);
   @override
-  _i8.Future<_i7.Player?> get(String? id) =>
-      (super.noSuchMethod(Invocation.method(#get, [id]),
-          returnValue: Future<_i7.Player?>.value()) as _i8.Future<_i7.Player?>);
+  _i10.Future<_i9.Player?> get(String? id) => (super.noSuchMethod(
+      Invocation.method(#get, [id]),
+      returnValue: Future<_i9.Player?>.value()) as _i10.Future<_i9.Player?>);
   @override
-  _i8.Future<void> delete(String? id) =>
-      (super.noSuchMethod(Invocation.method(#delete, [id]),
-          returnValue: Future<void>.value(),
-          returnValueForMissingStub: Future<void>.value()) as _i8.Future<void>);
+  _i10.Future<void> delete(String? id) => (super.noSuchMethod(
+      Invocation.method(#delete, [id]),
+      returnValue: Future<void>.value(),
+      returnValueForMissingStub: Future<void>.value()) as _i10.Future<void>);
   @override
-  _i8.Future<void> update(_i7.Player? t) =>
-      (super.noSuchMethod(Invocation.method(#update, [t]),
-          returnValue: Future<void>.value(),
-          returnValueForMissingStub: Future<void>.value()) as _i8.Future<void>);
+  _i10.Future<void> update(_i9.Player? t) => (super.noSuchMethod(
+      Invocation.method(#update, [t]),
+      returnValue: Future<void>.value(),
+      returnValueForMissingStub: Future<void>.value()) as _i10.Future<void>);
   @override
-  _i8.Future<String> create(_i7.Player? t) =>
+  _i10.Future<String> create(_i9.Player? t) =>
       (super.noSuchMethod(Invocation.method(#create, [t]),
-          returnValue: Future<String>.value('')) as _i8.Future<String>);
+          returnValue: Future<String>.value('')) as _i10.Future<String>);
+}
+
+/// A class which mocks [AbstractTeamService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockAbstractTeamService extends _i1.Mock
+    implements _i13.AbstractTeamService {
+  MockAbstractTeamService() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i5.AbstractTeamRepository get teamRepository =>
+      (super.noSuchMethod(Invocation.getter(#teamRepository),
+              returnValue: _FakeAbstractTeamRepository_2())
+          as _i5.AbstractTeamRepository);
+  @override
+  _i6.AbstractPlayerService get playerService =>
+      (super.noSuchMethod(Invocation.getter(#playerService),
+              returnValue: _FakeAbstractPlayerService_3())
+          as _i6.AbstractPlayerService);
+  @override
+  _i4.BaseRepository<_i7.Team> get repository =>
+      (super.noSuchMethod(Invocation.getter(#repository),
+              returnValue: _FakeBaseRepository_1<_i7.Team>())
+          as _i4.BaseRepository<_i7.Team>);
+  @override
+  _i10.Future<List<_i7.Team>> getAllTeamOfPlayer(
+          String? playerId, int? pageSize) =>
+      (super.noSuchMethod(
+              Invocation.method(#getAllTeamOfPlayer, [playerId, pageSize]),
+              returnValue: Future<List<_i7.Team>>.value(<_i7.Team>[]))
+          as _i10.Future<List<_i7.Team>>);
+  @override
+  _i10.Future<_i7.Team> getTeamByPlayers(List<String?>? playerIds) =>
+      (super.noSuchMethod(Invocation.method(#getTeamByPlayers, [playerIds]),
+              returnValue: Future<_i7.Team>.value(_FakeTeam_4()))
+          as _i10.Future<_i7.Team>);
+  @override
+  _i10.Future<_i7.Team> incrementPlayedGamesByOne(
+          String? id, _i11.Game<_i12.Players>? game) =>
+      (super.noSuchMethod(
+              Invocation.method(#incrementPlayedGamesByOne, [id, game]),
+              returnValue: Future<_i7.Team>.value(_FakeTeam_4()))
+          as _i10.Future<_i7.Team>);
+  @override
+  _i10.Future<_i7.Team> incrementWonGamesByOne(
+          String? id, _i11.Game<_i12.Players>? game) =>
+      (super.noSuchMethod(
+              Invocation.method(#incrementWonGamesByOne, [id, game]),
+              returnValue: Future<_i7.Team>.value(_FakeTeam_4()))
+          as _i10.Future<_i7.Team>);
+  @override
+  void resetLastPointedDocument() =>
+      super.noSuchMethod(Invocation.method(#resetLastPointedDocument, []),
+          returnValueForMissingStub: null);
+  @override
+  _i10.Future<_i7.Team?> get(String? id) =>
+      (super.noSuchMethod(Invocation.method(#get, [id]),
+          returnValue: Future<_i7.Team?>.value()) as _i10.Future<_i7.Team?>);
+  @override
+  _i10.Future<void> delete(String? id) => (super.noSuchMethod(
+      Invocation.method(#delete, [id]),
+      returnValue: Future<void>.value(),
+      returnValueForMissingStub: Future<void>.value()) as _i10.Future<void>);
+  @override
+  _i10.Future<void> update(_i7.Team? t) => (super.noSuchMethod(
+      Invocation.method(#update, [t]),
+      returnValue: Future<void>.value(),
+      returnValueForMissingStub: Future<void>.value()) as _i10.Future<void>);
+  @override
+  _i10.Future<String> create(_i7.Team? t) =>
+      (super.noSuchMethod(Invocation.method(#create, [t]),
+          returnValue: Future<String>.value('')) as _i10.Future<String>);
+}
+
+/// A class which mocks [TextEditingController].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockTextEditingController extends _i1.Mock
+    implements _i8.TextEditingController {
+  MockTextEditingController() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  String get text =>
+      (super.noSuchMethod(Invocation.getter(#text), returnValue: '') as String);
+  @override
+  set text(String? newText) =>
+      super.noSuchMethod(Invocation.setter(#text, newText),
+          returnValueForMissingStub: null);
+  @override
+  set value(_i8.TextEditingValue? newValue) =>
+      super.noSuchMethod(Invocation.setter(#value, newValue),
+          returnValueForMissingStub: null);
+  @override
+  _i8.TextSelection get selection =>
+      (super.noSuchMethod(Invocation.getter(#selection),
+          returnValue: _FakeTextSelection_5()) as _i8.TextSelection);
+  @override
+  set selection(_i8.TextSelection? newSelection) =>
+      super.noSuchMethod(Invocation.setter(#selection, newSelection),
+          returnValueForMissingStub: null);
+  @override
+  _i8.TextEditingValue get value =>
+      (super.noSuchMethod(Invocation.getter(#value),
+          returnValue: _FakeTextEditingValue_6()) as _i8.TextEditingValue);
+  @override
+  bool get hasListeners =>
+      (super.noSuchMethod(Invocation.getter(#hasListeners), returnValue: false)
+          as bool);
+  @override
+  _i8.TextSpan buildTextSpan(
+          {_i8.BuildContext? context,
+          _i8.TextStyle? style,
+          bool? withComposing}) =>
+      (super.noSuchMethod(
+          Invocation.method(#buildTextSpan, [], {
+            #context: context,
+            #style: style,
+            #withComposing: withComposing
+          }),
+          returnValue: _FakeTextSpan_7()) as _i8.TextSpan);
+  @override
+  void clear() => super.noSuchMethod(Invocation.method(#clear, []),
+      returnValueForMissingStub: null);
+  @override
+  void clearComposing() =>
+      super.noSuchMethod(Invocation.method(#clearComposing, []),
+          returnValueForMissingStub: null);
+  @override
+  bool isSelectionWithinTextBounds(_i8.TextSelection? selection) =>
+      (super.noSuchMethod(
+          Invocation.method(#isSelectionWithinTextBounds, [selection]),
+          returnValue: false) as bool);
+  @override
+  void addListener(_i14.VoidCallback? listener) =>
+      super.noSuchMethod(Invocation.method(#addListener, [listener]),
+          returnValueForMissingStub: null);
+  @override
+  void removeListener(_i14.VoidCallback? listener) =>
+      super.noSuchMethod(Invocation.method(#removeListener, [listener]),
+          returnValueForMissingStub: null);
+  @override
+  void dispose() => super.noSuchMethod(Invocation.method(#dispose, []),
+      returnValueForMissingStub: null);
+  @override
+  void notifyListeners() =>
+      super.noSuchMethod(Invocation.method(#notifyListeners, []),
+          returnValueForMissingStub: null);
 }
 
 /// A class which mocks [AuthService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockAuthService extends _i1.Mock implements _i11.AuthService {
+class MockAuthService extends _i1.Mock implements _i15.AuthService {
   MockAuthService() {
     _i1.throwOnMissingStub(this);
   }
@@ -125,74 +301,75 @@ class MockAuthService extends _i1.Mock implements _i11.AuthService {
       (super.noSuchMethod(Invocation.getter(#hasListeners), returnValue: false)
           as bool);
   @override
-  _i8.Future<String> googleLogIn() =>
+  _i10.Future<String> googleLogIn() =>
       (super.noSuchMethod(Invocation.method(#googleLogIn, []),
-          returnValue: Future<String>.value('')) as _i8.Future<String>);
+          returnValue: Future<String>.value('')) as _i10.Future<String>);
   @override
-  _i8.Future<void> sendSignInWithEmailLink(String? email) =>
+  _i10.Future<void> sendSignInWithEmailLink(String? email) =>
       (super.noSuchMethod(Invocation.method(#sendSignInWithEmailLink, [email]),
-          returnValue: Future<void>.value(),
-          returnValueForMissingStub: Future<void>.value()) as _i8.Future<void>);
+              returnValue: Future<void>.value(),
+              returnValueForMissingStub: Future<void>.value())
+          as _i10.Future<void>);
   @override
-  _i8.Future<String> signInWithEmailLink(String? email, String? link) => (super
+  _i10.Future<String> signInWithEmailLink(String? email, String? link) => (super
       .noSuchMethod(Invocation.method(#signInWithEmailLink, [email, link]),
-          returnValue: Future<String>.value('')) as _i8.Future<String>);
+          returnValue: Future<String>.value('')) as _i10.Future<String>);
   @override
-  _i8.Future<String> validatePhoneNumber(
+  _i10.Future<String> validatePhoneNumber(
           String? smsCode, String? verificationId) =>
       (super.noSuchMethod(
           Invocation.method(#validatePhoneNumber, [smsCode, verificationId]),
-          returnValue: Future<String>.value('')) as _i8.Future<String>);
+          returnValue: Future<String>.value('')) as _i10.Future<String>);
   @override
-  _i8.Future<dynamic> changePhoneNumber(
+  _i10.Future<dynamic> changePhoneNumber(
           String? smsCode, String? verificationId) =>
       (super.noSuchMethod(
           Invocation.method(#changePhoneNumber, [smsCode, verificationId]),
-          returnValue: Future<dynamic>.value()) as _i8.Future<dynamic>);
+          returnValue: Future<dynamic>.value()) as _i10.Future<dynamic>);
   @override
-  _i8.Future<dynamic> resendPhoneVerificationCode(
-          String? phoneNumber, _i5.BuildContext? context) =>
+  _i10.Future<dynamic> resendPhoneVerificationCode(
+          String? phoneNumber, _i8.BuildContext? context) =>
       (super.noSuchMethod(
           Invocation.method(
               #resendPhoneVerificationCode, [phoneNumber, context]),
-          returnValue: Future<dynamic>.value()) as _i8.Future<dynamic>);
+          returnValue: Future<dynamic>.value()) as _i10.Future<dynamic>);
   @override
-  _i8.Future<dynamic> sendPhoneVerificationCode(
+  _i10.Future<dynamic> sendPhoneVerificationCode(
           String? phoneNumber,
-          _i5.BuildContext? context,
-          _i11.CredentialVerificationType? credentialVerificationType) =>
+          _i8.BuildContext? context,
+          _i15.CredentialVerificationType? credentialVerificationType) =>
       (super.noSuchMethod(
           Invocation.method(#sendPhoneVerificationCode,
               [phoneNumber, context, credentialVerificationType]),
-          returnValue: Future<dynamic>.value()) as _i8.Future<dynamic>);
+          returnValue: Future<dynamic>.value()) as _i10.Future<dynamic>);
   @override
-  _i8.Future<bool> isAlreadyLogin() =>
+  _i10.Future<bool> isAlreadyLogin() =>
       (super.noSuchMethod(Invocation.method(#isAlreadyLogin, []),
-          returnValue: Future<bool>.value(false)) as _i8.Future<bool>);
+          returnValue: Future<bool>.value(false)) as _i10.Future<bool>);
   @override
-  _i8.Future<void> signOut(_i5.BuildContext? context) =>
-      (super.noSuchMethod(Invocation.method(#signOut, [context]),
-          returnValue: Future<void>.value(),
-          returnValueForMissingStub: Future<void>.value()) as _i8.Future<void>);
+  _i10.Future<void> signOut(_i8.BuildContext? context) => (super.noSuchMethod(
+      Invocation.method(#signOut, [context]),
+      returnValue: Future<void>.value(),
+      returnValueForMissingStub: Future<void>.value()) as _i10.Future<void>);
   @override
-  _i8.Future<void> changeEmail(String? newEmail) =>
-      (super.noSuchMethod(Invocation.method(#changeEmail, [newEmail]),
-          returnValue: Future<void>.value(),
-          returnValueForMissingStub: Future<void>.value()) as _i8.Future<void>);
+  _i10.Future<void> changeEmail(String? newEmail) => (super.noSuchMethod(
+      Invocation.method(#changeEmail, [newEmail]),
+      returnValue: Future<void>.value(),
+      returnValueForMissingStub: Future<void>.value()) as _i10.Future<void>);
   @override
-  _i5.Widget getCorrectLandingScreen() =>
+  _i8.Widget getCorrectLandingScreen() =>
       (super.noSuchMethod(Invocation.method(#getCorrectLandingScreen, []),
-          returnValue: _FakeWidget_2()) as _i5.Widget);
+          returnValue: _FakeWidget_8()) as _i8.Widget);
   @override
-  void setCurrentPlayer(_i7.Player? player) =>
+  void setCurrentPlayer(_i9.Player? player) =>
       super.noSuchMethod(Invocation.method(#setCurrentPlayer, [player]),
           returnValueForMissingStub: null);
   @override
-  void addListener(_i12.VoidCallback? listener) =>
+  void addListener(_i14.VoidCallback? listener) =>
       super.noSuchMethod(Invocation.method(#addListener, [listener]),
           returnValueForMissingStub: null);
   @override
-  void removeListener(_i12.VoidCallback? listener) =>
+  void removeListener(_i14.VoidCallback? listener) =>
       super.noSuchMethod(Invocation.method(#removeListener, [listener]),
           returnValueForMissingStub: null);
   @override
