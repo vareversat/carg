@@ -9,12 +9,12 @@ jobs:
   flutter-test-analyze:
     uses: ./.github/workflows/flutter.analyze-test.action.yaml
     with:
-      flutter_version: '2.10.3'
+      flutter_version: '3.0.1'
   flutter-build:
     needs: [flutter-test-analyze]
     uses: ./.github/workflows/flutter.build.action.yaml
     with:
-      flutter_version: '2.10.3'
+      flutter_version: '3.0.1'
       android_output: 'apk'
     secrets:
       passphrase: ${{ secrets.PASSPHRASE }}

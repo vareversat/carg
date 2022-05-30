@@ -51,10 +51,8 @@ class AddTarotRoundScreen extends StatelessWidget {
                 child: ListView(children: [
                   Column(children: [
                     SectionTitleWidget(
-                        title: 'Peneur' +
-                            (tarotRound!.players!.playerList!.length > 4
-                                ? ' et appelé'
-                                : '')),
+                        title:
+                            'Peneur${tarotRound!.players!.playerList!.length > 4 ? ' et appelé' : ''}'),
                     ChangeNotifierProvider.value(
                         value: tarotRound!.players!,
                         child: Consumer<TarotRoundPlayers>(

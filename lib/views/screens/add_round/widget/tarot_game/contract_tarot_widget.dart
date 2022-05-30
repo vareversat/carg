@@ -23,10 +23,7 @@ class ContractTarotWidget extends StatelessWidget {
                       items: TarotContract.values.map((TarotContract value) {
                         return DropdownMenuItem<TarotContract>(
                           value: value,
-                          child: Text(value.name +
-                              ' (x' +
-                              value.multiplayer.toString() +
-                              ')'),
+                          child: Text('${value.name} (x${value.multiplayer})'),
                         );
                       }).toList(),
                       onChanged: (TarotContract? val) {

@@ -29,9 +29,9 @@ class AuthService with ChangeNotifier {
 
   Future<String> googleLogIn() async {
     try {
-      var _googleSignIn = GoogleSignIn();
-      await _googleSignIn.signOut();
-      final googleUser = (await _googleSignIn.signIn())!;
+      var googleSignIn = GoogleSignIn();
+      await googleSignIn.signOut();
+      final googleUser = (await googleSignIn.signIn())!;
       final googleAuth = await googleUser.authentication;
       final AuthCredential credential = GoogleAuthProvider.credential(
           accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
@@ -79,10 +79,9 @@ class AuthService with ChangeNotifier {
   Future<String> validatePhoneNumber(
       String smsCode, String verificationId) async {
     try {
-      var _credential = PhoneAuthProvider.credential(
+      var credential = PhoneAuthProvider.credential(
           verificationId: verificationId, smsCode: smsCode);
-      var result =
-          await FirebaseAuth.instance.signInWithCredential(_credential);
+      var result = await FirebaseAuth.instance.signInWithCredential(credential);
       _connectedUser = result.user;
       _player = await _playerService.getPlayerOfUser(_connectedUser!.uid);
       _expiryDate = (await _connectedUser!.getIdTokenResult()).expirationTime;
@@ -95,9 +94,9 @@ class AuthService with ChangeNotifier {
 
   Future changePhoneNumber(String smsCode, String verificationId) async {
     try {
-      var _credential = PhoneAuthProvider.credential(
+      var credential = PhoneAuthProvider.credential(
           verificationId: verificationId, smsCode: smsCode);
-      await _connectedUser!.updatePhoneNumber(_credential);
+      await _connectedUser!.updatePhoneNumber(credential);
       await _connectedUser!.getIdTokenResult(true);
       _connectedUser = FirebaseAuth.instance.currentUser;
     } on FirebaseAuthException catch (e) {

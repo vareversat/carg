@@ -43,7 +43,7 @@ class TarotRoundPlayers extends Players {
 
   @override
   String getSelectedPlayersStatus() {
-    return 'Joueurs : ' + playerList!.length.toString() + '/5';
+    return 'Joueurs : ${playerList!.length}/5';
   }
 
   @override

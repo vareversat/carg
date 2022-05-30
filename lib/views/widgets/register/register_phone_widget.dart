@@ -22,9 +22,9 @@ class _RegisterPhoneWidgetState extends State<RegisterPhoneWidget>
     with TickerProviderStateMixin {
   Future<CountryWithPhoneCode?> showCountriesDialog(
       Map<String, CountryWithPhoneCode> values) async {
-    var _countries = List.of(values.values)
+    var countries = List.of(values.values)
       ..sort((a, b) => a.countryName!.compareTo(b.countryName!));
-    var countryList = CountryList(_countries);
+    var countryList = CountryList(countries);
     return showDialog<CountryWithPhoneCode>(
         context: context,
         builder: (BuildContext context) => ChangeNotifierProvider.value(

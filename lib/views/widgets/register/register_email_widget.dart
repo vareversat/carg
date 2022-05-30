@@ -111,13 +111,13 @@ class _RegisterEmailWidgetState extends State<RegisterEmailWidget>
   void initState() {
     super.initState();
     developer.log('Call from initState', name: 'carg.dynamic-link');
-    WidgetsBinding.instance!.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
     _retrieveDynamicLink();
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance!.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 

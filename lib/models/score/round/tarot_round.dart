@@ -196,23 +196,22 @@ class TarotRound extends Round {
   }
 
   void computePlayerPoints(TarotScore tarotScore) {
-    var _playerPoints = <TarotPlayerScore>[];
+    var playerPoints = <TarotPlayerScore>[];
     var realAttackScore =
         players!.playerList!.length <= 4 ? attackScore : attackScore * (2 / 3);
     var calledPlayerScore = attackScore * (1 / 3);
     for (var player in players!.playerList!) {
       if (players!.attackPlayer == player) {
-        _playerPoints
+        playerPoints
             .add(TarotPlayerScore(player: player, score: realAttackScore));
       } else if (players!.calledPlayer == player) {
-        _playerPoints
+        playerPoints
             .add(TarotPlayerScore(player: player, score: calledPlayerScore));
       } else {
-        _playerPoints
-            .add(TarotPlayerScore(player: player, score: defenseScore));
+        playerPoints.add(TarotPlayerScore(player: player, score: defenseScore));
       }
     }
-    playerPoints = _playerPoints;
+    playerPoints = playerPoints;
     index = tarotScore.rounds.length;
   }
 
