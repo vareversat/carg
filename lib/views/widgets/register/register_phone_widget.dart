@@ -15,7 +15,9 @@ class RegisterPhoneWidget extends StatefulWidget {
       : super(key: key);
 
   @override
-  _RegisterPhoneWidgetState createState() => _RegisterPhoneWidgetState();
+  State<StatefulWidget> createState() {
+    return _RegisterPhoneWidgetState();
+  }
 }
 
 class _RegisterPhoneWidgetState extends State<RegisterPhoneWidget>

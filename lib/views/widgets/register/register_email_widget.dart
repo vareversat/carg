@@ -20,7 +20,9 @@ class RegisterEmailWidget extends StatefulWidget {
       : super(key: key);
 
   @override
-  _RegisterEmailWidgetState createState() => _RegisterEmailWidgetState();
+  State<StatefulWidget> createState() {
+    return _RegisterEmailWidgetState();
+  }
 }
 
 class _RegisterEmailWidgetState extends State<RegisterEmailWidget>

@@ -20,7 +20,9 @@ class SettingsScreen extends StatefulWidget {
       : super(key: key);
 
   @override
-  _SettingsScreenState createState() => _SettingsScreenState();
+  State<StatefulWidget> createState() {
+    return _SettingsScreenState();
+  }
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {

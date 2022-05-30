@@ -170,7 +170,7 @@ packages:
     source: hosted
     version: "3.0.2"
   crypto:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: crypto
       url: "https://pub.dartlang.org"
@@ -247,7 +247,7 @@ packages:
     source: hosted
     version: "1.17.1"
   firebase_core_platform_interface:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: firebase_core_platform_interface
       url: "https://pub.dartlang.org"
@@ -540,7 +540,7 @@ packages:
     source: hosted
     version: "1.0.2"
   markdown:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: markdown
       url: "https://pub.dartlang.org"
