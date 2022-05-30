@@ -29,7 +29,8 @@ void main() {
             coincheBeloteScoreRepository: mockCoincheBeloteScoreRepository);
         expect(await coincheBeloteScoreService.generateNewScore(uid),
             coincheBeloteScore);
-        verify(mockCoincheBeloteScoreRepository.create(coincheBeloteScore)).called(1);
+        verify(mockCoincheBeloteScoreRepository.create(coincheBeloteScore))
+            .called(1);
       });
     });
   });

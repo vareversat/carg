@@ -11,7 +11,6 @@ Widget testableWidget(bool isAdmin) =>
 
 @GenerateMocks([PlayerService, AuthService])
 void main() {
-
   testWidgets('Display the 3 widgets', (WidgetTester tester) async {
     await mockNetworkImagesFor(() => tester.pumpWidget(testableWidget(true)));
     await mockNetworkImagesFor(

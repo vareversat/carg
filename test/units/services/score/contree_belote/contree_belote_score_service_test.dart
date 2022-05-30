@@ -29,7 +29,8 @@ void main() {
             contreeBeloteScoreRepository: mockContreeBeloteScoreRepository);
         expect(await contreeBeloteScoreService.generateNewScore(uid),
             contreeBeloteScore);
-        verify(mockContreeBeloteScoreRepository.create(contreeBeloteScore)).called(1);
+        verify(mockContreeBeloteScoreRepository.create(contreeBeloteScore))
+            .called(1);
       });
     });
   });

@@ -87,6 +87,10 @@ class MockAbstractScoreService<T extends _i1.Score<_i2.Round>> extends _i3.Mock
       returnValue: Future<void>.value(),
       returnValueForMissingStub: Future<void>.value()) as _i13.Future<void>);
   @override
+  void resetLastPointedDocument() =>
+      super.noSuchMethod(Invocation.method(#resetLastPointedDocument, []),
+          returnValueForMissingStub: null);
+  @override
   _i13.Future<_i1.Score<_i2.Round>?> get(String? id) =>
       (super.noSuchMethod(Invocation.method(#get, [id]),
               returnValue: Future<_i1.Score<_i2.Round>?>.value())
@@ -232,6 +236,10 @@ class MockPlayerService extends _i3.Mock implements _i17.PlayerService {
               returnValue: Future<List<_i18.Player>>.value(<_i18.Player>[]))
           as _i13.Future<List<_i18.Player>>);
   @override
+  void resetLastPointedDocument() =>
+      super.noSuchMethod(Invocation.method(#resetLastPointedDocument, []),
+          returnValueForMissingStub: null);
+  @override
   _i13.Future<_i18.Player?> get(String? id) => (super.noSuchMethod(
       Invocation.method(#get, [id]),
       returnValue: Future<_i18.Player?>.value()) as _i13.Future<_i18.Player?>);
@@ -289,6 +297,17 @@ class MockTeamService extends _i3.Mock implements _i19.TeamService {
               Invocation.method(#incrementWonGamesByOne, [id, game]),
               returnValue: Future<_i11.Team>.value(_FakeTeam_6()))
           as _i13.Future<_i11.Team>);
+  @override
+  _i13.Future<List<_i11.Team>> getAllTeamOfPlayer(
+          String? playerId, int? pageSize) =>
+      (super.noSuchMethod(
+              Invocation.method(#getAllTeamOfPlayer, [playerId, pageSize]),
+              returnValue: Future<List<_i11.Team>>.value(<_i11.Team>[]))
+          as _i13.Future<List<_i11.Team>>);
+  @override
+  void resetLastPointedDocument() =>
+      super.noSuchMethod(Invocation.method(#resetLastPointedDocument, []),
+          returnValueForMissingStub: null);
   @override
   _i13.Future<_i11.Team?> get(String? id) =>
       (super.noSuchMethod(Invocation.method(#get, [id]),

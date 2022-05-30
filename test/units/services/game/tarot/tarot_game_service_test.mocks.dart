@@ -100,6 +100,10 @@ class MockTarotScoreService extends _i1.Mock implements _i13.TarotScoreService {
       returnValue: Future<void>.value(),
       returnValueForMissingStub: Future<void>.value()) as _i15.Future<void>);
   @override
+  void resetLastPointedDocument() =>
+      super.noSuchMethod(Invocation.method(#resetLastPointedDocument, []),
+          returnValueForMissingStub: null);
+  @override
   _i15.Future<_i3.Score<_i4.Round>?> get(String? id) =>
       (super.noSuchMethod(Invocation.method(#get, [id]),
               returnValue: Future<_i3.Score<_i4.Round>?>.value())
@@ -248,6 +252,10 @@ class MockPlayerService extends _i1.Mock implements _i18.PlayerService {
               returnValue: Future<List<_i19.Player>>.value(<_i19.Player>[]))
           as _i15.Future<List<_i19.Player>>);
   @override
+  void resetLastPointedDocument() =>
+      super.noSuchMethod(Invocation.method(#resetLastPointedDocument, []),
+          returnValueForMissingStub: null);
+  @override
   _i15.Future<_i19.Player?> get(String? id) => (super.noSuchMethod(
       Invocation.method(#get, [id]),
       returnValue: Future<_i19.Player?>.value()) as _i15.Future<_i19.Player?>);
@@ -305,6 +313,17 @@ class MockTeamService extends _i1.Mock implements _i22.TeamService {
               Invocation.method(#incrementWonGamesByOne, [id, game]),
               returnValue: Future<_i12.Team>.value(_FakeTeam_7()))
           as _i15.Future<_i12.Team>);
+  @override
+  _i15.Future<List<_i12.Team>> getAllTeamOfPlayer(
+          String? playerId, int? pageSize) =>
+      (super.noSuchMethod(
+              Invocation.method(#getAllTeamOfPlayer, [playerId, pageSize]),
+              returnValue: Future<List<_i12.Team>>.value(<_i12.Team>[]))
+          as _i15.Future<List<_i12.Team>>);
+  @override
+  void resetLastPointedDocument() =>
+      super.noSuchMethod(Invocation.method(#resetLastPointedDocument, []),
+          returnValueForMissingStub: null);
   @override
   _i15.Future<_i12.Team?> get(String? id) =>
       (super.noSuchMethod(Invocation.method(#get, [id]),

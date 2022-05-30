@@ -38,11 +38,11 @@ void main() {
   final mockQuery = MockQuery<Map<String, dynamic>>();
   final mockQuerySnapshot = MockQuerySnapshot<Map<String, dynamic>>();
   final mockQueryDocumentSnapshot =
-  MockQueryDocumentSnapshot<Map<String, dynamic>>();
+      MockQueryDocumentSnapshot<Map<String, dynamic>>();
   final mockDocumentReference = MockDocumentReference<Map<String, dynamic>>();
   final mockDocumentSnapshot = MockDocumentSnapshot<Map<String, dynamic>>();
   final mockCollectionReference =
-  MockCollectionReference<Map<String, dynamic>>();
+      MockCollectionReference<Map<String, dynamic>>();
 
   final game = CoincheBelote(
       id: uid,
@@ -72,7 +72,7 @@ void main() {
         when(mockDocumentSnapshot.data()).thenReturn(jsonCoincheBelote);
         when(mockDocumentSnapshot.id).thenReturn(uid);
         final coincheBeloteGameRepository =
-        CoincheBeloteGameRepository(provider: instance);
+            CoincheBeloteGameRepository(provider: instance);
         final coincheBelote = await coincheBeloteGameRepository.get(uid);
         expect(coincheBelote, game);
       });
@@ -108,12 +108,12 @@ void main() {
         const collection = 'coinche-game-dev';
         final mockQueryFromOrderBy = MockQuery<Map<String, dynamic>>();
         final mockQueryFromStartAfterDocument =
-        MockQuery<Map<String, dynamic>>();
+            MockQuery<Map<String, dynamic>>();
         final mockQueryFromLimit = MockQuery<Map<String, dynamic>>();
         when(instance.collection(collection))
             .thenReturn(mockCollectionReference);
         when(mockCollectionReference.where('players.player_list',
-            arrayContains: playerId))
+                arrayContains: playerId))
             .thenReturn(mockQuery);
         when(mockQuery.orderBy('starting_date', descending: true))
             .thenReturn(mockQueryFromOrderBy);
@@ -135,12 +135,12 @@ void main() {
         const collection = 'coinche-game-prod';
         final mockQueryFromOrderBy = MockQuery<Map<String, dynamic>>();
         final mockQueryFromStartAfterDocument =
-        MockQuery<Map<String, dynamic>>();
+            MockQuery<Map<String, dynamic>>();
         final mockQueryFromLimit = MockQuery<Map<String, dynamic>>();
         when(instance.collection(collection))
             .thenReturn(mockCollectionReference);
         when(mockCollectionReference.where('players.player_list',
-            arrayContains: playerId))
+                arrayContains: playerId))
             .thenReturn(mockQuery);
         when(mockQuery.orderBy('starting_date', descending: true))
             .thenReturn(mockQueryFromOrderBy);
@@ -168,7 +168,7 @@ void main() {
         when(instance.collection(collection))
             .thenReturn(mockCollectionReference);
         when(mockCollectionReference.where('players.player_list',
-            arrayContains: playerId))
+                arrayContains: playerId))
             .thenReturn(mockQuery);
         when(mockQuery.orderBy('starting_date', descending: true))
             .thenReturn(mockQueryFromOrderBy);
@@ -192,7 +192,7 @@ void main() {
         when(instance.collection(collection))
             .thenReturn(mockCollectionReference);
         when(mockCollectionReference.where('players.player_list',
-            arrayContains: playerId))
+                arrayContains: playerId))
             .thenReturn(mockQuery);
         when(mockQuery.orderBy('starting_date', descending: true))
             .thenReturn(mockQueryFromOrderBy);

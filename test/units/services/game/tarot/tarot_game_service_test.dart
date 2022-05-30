@@ -21,7 +21,6 @@ void main() {
   final mockTarotScoreService = MockTarotScoreService();
   final mockTarotGameRepository = MockTarotGameRepository();
   final mockPlayerService = MockPlayerService();
-  final mockTeamService = MockTeamService();
 
   const uid = '123';
 
@@ -51,8 +50,7 @@ void main() {
         final tarotGameService = TarotGameService(
             tarotScoreService: mockTarotScoreService,
             tarotGameRepository: mockTarotGameRepository,
-            playerService: mockPlayerService,
-            teamService: mockTeamService);
+            playerService: mockPlayerService);
         await tarotGameService.endAGame(game, date);
         verify(mockPlayerService.incrementPlayedGamesByOne('p1', game))
             .called(1);
@@ -65,8 +63,7 @@ void main() {
         final tarotGameService = TarotGameService(
             tarotScoreService: mockTarotScoreService,
             tarotGameRepository: mockTarotGameRepository,
-            playerService: mockPlayerService,
-            teamService: mockTeamService);
+            playerService: mockPlayerService);
         expect(tarotGameService.endAGame(null, null),
             throwsA(isA<ServiceException>()));
       });
@@ -77,8 +74,7 @@ void main() {
         final tarotGameService = TarotGameService(
             tarotScoreService: mockTarotScoreService,
             tarotGameRepository: mockTarotGameRepository,
-            playerService: mockPlayerService,
-            teamService: mockTeamService);
+            playerService: mockPlayerService);
         expect(tarotGameService.endAGame(game, date),
             throwsA(isA<ServiceException>()));
       });
@@ -93,8 +89,7 @@ void main() {
         final tarotGameService = TarotGameService(
             tarotScoreService: mockTarotScoreService,
             tarotGameRepository: mockTarotGameRepository,
-            playerService: mockPlayerService,
-            teamService: mockTeamService);
+            playerService: mockPlayerService);
 
         await tarotGameService.createGameWithPlayerList(players, players, date);
         verify(mockTarotGameRepository.create(game)).called(1);

@@ -4,21 +4,18 @@ import 'package:carg/repositories/game/abstract_tarot_game_repository.dart';
 import 'package:carg/services/game/abstract_game_service.dart';
 import 'package:carg/services/player/abstract_player_service.dart';
 import 'package:carg/services/score/abstract_tarot_score_service.dart';
-import 'package:carg/services/team/abstract_team_service.dart';
 
 abstract class AbstractTarotGameService
     extends AbstractGameService<Tarot, TarotScore> {
   final AbstractTarotScoreService tarotScoreService;
   final AbstractTarotGameRepository tarotGameRepository;
+  final AbstractPlayerService playerService;
 
   AbstractTarotGameService(
       {required this.tarotScoreService,
       required this.tarotGameRepository,
-      required AbstractPlayerService playerService,
-      required AbstractTeamService teamService})
+      required this.playerService})
       : super(
             gameRepository: tarotGameRepository,
-            scoreService: tarotScoreService,
-            playerService: playerService,
-            teamService: teamService);
+            scoreService: tarotScoreService);
 }

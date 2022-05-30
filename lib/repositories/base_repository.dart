@@ -3,6 +3,7 @@ import 'package:carg/models/carg_object.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 abstract class BaseRepository<T extends CargObject> {
+  DocumentSnapshot? lastFetchGameDocument;
   final String database;
   final String environment;
   final FirebaseFirestore provider;
@@ -11,7 +12,8 @@ abstract class BaseRepository<T extends CargObject> {
   BaseRepository(
       {required this.database,
       required this.environment,
-      required this.provider}) {
+      required this.provider,
+      this.lastFetchGameDocument}) {
     connectionString = '$database-$environment';
   }
 

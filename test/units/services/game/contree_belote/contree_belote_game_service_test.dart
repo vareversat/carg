@@ -21,7 +21,6 @@ import 'contree_belote_game_service_test.mocks.dart';
 void main() {
   final mockContreeBeloteScoreService = MockContreeBeloteScoreService();
   final mockContreeBeloteGameRepository = MockContreeBeloteGameRepository();
-  final mockPlayerService = MockPlayerService();
   final mockTeamService = MockTeamService();
 
   const uid = '123';
@@ -31,10 +30,10 @@ void main() {
   final teamUs = Team(id: 'usTeamId', players: ['p1', 'p2']);
   final teamThem = Team(id: 'themTeamId', players: ['p3', 'p4']);
   final players =
-  BelotePlayers(us: teamUs.id, them: teamThem.id, playerList: playerIds);
+      BelotePlayers(us: teamUs.id, them: teamThem.id, playerList: playerIds);
 
   final expectedGame =
-  ContreeBelote(id: uid, players: players, startingDate: date);
+      ContreeBelote(id: uid, players: players, startingDate: date);
   final expectedGameNoId = ContreeBelote(players: players, startingDate: date);
 
   group('ContreeBeloteGameService', () {
@@ -45,7 +44,6 @@ void main() {
         final contreeBeloteGameService = ContreeBeloteGameService(
             contreeBeloteScoreService: mockContreeBeloteScoreService,
             contreeBeloteGameRepository: mockContreeBeloteGameRepository,
-            playerService: mockPlayerService,
             teamService: mockTeamService);
         final game = await contreeBeloteGameService.generateNewGame(
             teamUs, teamThem, playerIds, date);

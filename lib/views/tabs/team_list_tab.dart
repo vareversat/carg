@@ -1,41 +1,37 @@
-import 'package:carg/models/game/belote_game.dart';
-import 'package:carg/models/game/game.dart';
-import 'package:carg/models/game/game_type.dart';
-import 'package:carg/models/game/tarot.dart';
+import 'package:carg/models/team.dart';
 import 'package:carg/services/auth/auth_service.dart';
+import 'package:carg/services/player/abstract_player_service.dart';
+import 'package:carg/services/team/abstract_team_service.dart';
 import 'package:carg/styles/properties.dart';
-import 'package:carg/views/widgets/belote_widget.dart';
-import 'package:carg/views/widgets/tarot_widget.dart';
+import 'package:carg/views/widgets/team_stat_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
 
-import '../../services/game/abstract_game_service.dart';
+class TeamListTab extends StatefulWidget {
+  final AbstractTeamService teamService;
+  final AbstractPlayerService playerService;
 
-class GameListTabWidget extends StatefulWidget {
-  final AbstractGameService gameService;
-
-  const GameListTabWidget({Key? key, required this.gameService})
+  const TeamListTab(
+      {Key? key, required this.teamService, required this.playerService})
       : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _GameListTabWidgetState();
+    return _TeamListTabWidget();
   }
 }
 
-class _GameListTabWidgetState extends State<GameListTabWidget> {
+class _TeamListTabWidget extends State<TeamListTab> {
   late final String? _playerId;
-  final _pagingController = PagingController<int, Game>(
+  final _pagingController = PagingController<int, Team>(
     firstPageKey: 1,
   );
 
-  _GameListTabWidgetState();
-
-  Future<void> _fetchGames(int pageKey) async {
+  Future<void> _fetchTeams(int pageKey) async {
     try {
-      final newGames = await widget.gameService
-          .getAllGamesOfPlayerPaginated(_playerId, CustomProperties.pageSize);
+      final newGames = await widget.teamService
+          .getAllTeamOfPlayer(_playerId, CustomProperties.pageSize);
       final isLastPage = newGames.length < CustomProperties.pageSize;
 
       if (isLastPage) {
@@ -51,11 +47,11 @@ class _GameListTabWidgetState extends State<GameListTabWidget> {
 
   @override
   void initState() {
-    widget.gameService.resetLastPointedDocument();
+    widget.teamService.resetLastPointedDocument();
     _playerId =
         Provider.of<AuthService>(context, listen: false).getPlayerIdOfUser();
     _pagingController.addPageRequestListener((pageKey) {
-      _fetchGames(pageKey);
+      _fetchTeams(pageKey);
     });
     super.initState();
   }
@@ -71,7 +67,7 @@ class _GameListTabWidgetState extends State<GameListTabWidget> {
     return RefreshIndicator(
       onRefresh: () => Future.sync(
         () => {
-          widget.gameService.resetLastPointedDocument(),
+          widget.teamService.resetLastPointedDocument(),
           _pagingController.refresh()
         },
       ),
@@ -79,9 +75,9 @@ class _GameListTabWidgetState extends State<GameListTabWidget> {
       color: Theme.of(context).cardColor,
       displacement: 20,
       strokeWidth: 3,
-      child: PagedListView<int, Game>(
+      child: PagedListView<int, Team>(
           pagingController: _pagingController,
-          builderDelegate: PagedChildBuilderDelegate<Game>(
+          builderDelegate: PagedChildBuilderDelegate<Team>(
             firstPageErrorIndicatorBuilder: (_) =>
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               const Center(
@@ -91,7 +87,7 @@ class _GameListTabWidgetState extends State<GameListTabWidget> {
               )),
               ElevatedButton.icon(
                   onPressed: () => {
-                        widget.gameService.resetLastPointedDocument(),
+                        widget.teamService.resetLastPointedDocument(),
                         _pagingController.refresh()
                       },
                   icon: const Icon(Icons.refresh),
@@ -102,7 +98,7 @@ class _GameListTabWidgetState extends State<GameListTabWidget> {
               const Center(child: Text('Pas encore de parties')),
               ElevatedButton.icon(
                   onPressed: () => {
-                        widget.gameService.resetLastPointedDocument(),
+                        widget.teamService.resetLastPointedDocument(),
                         _pagingController.refresh()
                       },
                   icon: const Icon(Icons.refresh),
@@ -111,14 +107,12 @@ class _GameListTabWidgetState extends State<GameListTabWidget> {
             noMoreItemsIndicatorBuilder: (_) => const Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Center(child: Text('♦ ️♣ ♥ ♠ '))),
-            itemBuilder: (BuildContext context, Game game, int index) {
-              if (game.gameType != GameType.TAROT) {
-                return BeloteWidget(
-                  beloteGame: game as Belote,
-                );
-              } else {
-                return TarotWidget(tarotGame: game as Tarot);
-              }
+            itemBuilder: (BuildContext context, Team team, int index) {
+              return TeamStatWidget(
+                  key: ValueKey('teamStatWidget-${team.id}'),
+                  team: team,
+                  playerService: widget.playerService,
+                  teamService: widget.teamService);
             },
           )),
     );

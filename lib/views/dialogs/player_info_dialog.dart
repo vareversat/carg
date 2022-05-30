@@ -39,15 +39,14 @@ class PlayerInfoDialog extends StatelessWidget {
       await playerService.create(player);
       Navigator.of(context).pop('Joueur créé avec succès');
     } else {
-      await playerService.create(player);
+      await playerService.update(player);
       Navigator.of(context).pop('Joueur modifié avec succès');
     }
   }
 
-  void _copyId(BuildContext context) {
-    Clipboard.setData(ClipboardData(text: player.id)).then((_) {
-      InfoSnackBar.showSnackBar(context, 'ID copié dans le presse papier');
-    });
+  Future _copyId(BuildContext context) async {
+    await Clipboard.setData(ClipboardData(text: player.id));
+    InfoSnackBar.showSnackBar(context, 'ID copié dans le presse papier');
   }
 
   @override
@@ -89,7 +88,7 @@ class PlayerInfoDialog extends StatelessWidget {
                           RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(
                                   CustomProperties.borderRadius)))),
-                  onPressed: () => {_copyId(context)},
+                  onPressed: () async => {await _copyId(context)},
                   icon: const Icon(Icons.copy),
                   label: const Text("Copier l'ID"),
                 ),
@@ -179,54 +178,63 @@ class PlayerInfoDialog extends StatelessWidget {
                           fontSize: 15, color: Theme.of(context).hintColor),
                       labelText: 'Image de profile (url)')),
             ),
-          if (player.gameStatsList != null)
+          if (player.gameStatsList!.isNotEmpty)
             Padding(
               padding:
                   const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
               child: Column(
+                // MamEntry : For testing purpose
                 children: player.gameStatsList!
+                    .asMap()
                     .map(
-                      (stat) => Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          SizedBox(
-                              width: 100,
-                              child: Text('${stat.gameType.name} : ',
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(fontSize: 22))),
-                          const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 5.0),
-                            child: Icon(FontAwesomeIcons.trophy, size: 15),
-                          ),
-                          Text(
-                            ' ' + stat.wonGames.toString(),
-                            style: const TextStyle(fontSize: 20),
-                          ),
-                          const Text(
-                            ' - ',
-                            style: TextStyle(fontSize: 20),
-                          ),
-                          Text(
-                            stat.playedGames.toString() + ' ',
-                            style: const TextStyle(fontSize: 20),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 5.0),
-                            child: Icon(FontAwesomeIcons.gamepad, size: 15),
-                          )
-                        ],
-                      ),
+                      (i, stat) => MapEntry(
+                          i,
+                          Row(
+                            key: ValueKey('stat-$i-${stat.gameType.name}'),
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              SizedBox(
+                                  width: 100,
+                                  child: Text('${stat.gameType.name} : ',
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(fontSize: 22))),
+                              const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 5.0),
+                                child: Icon(FontAwesomeIcons.trophy, size: 15),
+                              ),
+                              Text(
+                                ' ' + stat.wonGames.toString(),
+                                style: const TextStyle(fontSize: 20),
+                              ),
+                              const Text(
+                                ' - ',
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              Text(
+                                stat.playedGames.toString() + ' ',
+                                style: const TextStyle(fontSize: 20),
+                              ),
+                              const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 5.0),
+                                child: Icon(FontAwesomeIcons.gamepad, size: 15),
+                              )
+                            ],
+                          )),
                     )
+                    .values
                     .toList()
                     .cast<Widget>(),
               ),
-            ),
+            )
+          else if (!isNewPlayer)
+            const Text('Pas encore de statistiques',
+                key: ValueKey('noStatsText'), textAlign: TextAlign.center)
         ]),
       ),
       actions: <Widget>[
         if (player.owned)
           ElevatedButton.icon(
-              key: const ValueKey('editButton'),
+              key: const ValueKey('saveButton'),
               style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all<Color>(
                       player.getSideColor(context)),

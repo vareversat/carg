@@ -200,6 +200,18 @@ void main() {
         expect(await tarotRepository.getAllGamesOfPlayer(playerId, pageSize),
             <Tarot>[game]);
       });
+
+      test('Firebase Exception', () async {
+        const collection = 'tarot-game-prod';
+        when(instance.collection(collection))
+            .thenThrow(FirebaseException(plugin: 'error', message: 'error'));
+        final tarotRepository = TarotGameRepository(
+            provider: instance,
+            environment: 'prod',
+            lastFetchGameDocument: mockDocumentSnapshot);
+        expect(tarotRepository.getAllGamesOfPlayer(playerId, pageSize),
+            throwsA(isA<RepositoryException>()));
+      });
     });
   });
 }

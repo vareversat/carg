@@ -1,7 +1,8 @@
-import 'package:carg/models/carg_object.dart';
+import 'package:carg/models/carg_player_object.dart';
+import 'package:carg/models/game_stats.dart';
 import 'package:collection/collection.dart';
 
-class Team extends CargObject {
+class Team extends CargPlayerObject {
   String? name;
   int playedGames;
   int wonGames;
@@ -10,12 +11,13 @@ class Team extends CargObject {
 
   Team(
       {String? id,
-      this.playedGames = 1,
+      this.playedGames = 0,
       this.wonGames = 0,
       this.name,
       this.players,
+      List<GameStats>? gameStatsList,
       this.games})
-      : super(id: id);
+      : super(id: id, gameStatsList: gameStatsList);
 
   factory Team.fromJSON(Map<String, dynamic>? json, String id) {
     return Team(
@@ -24,12 +26,14 @@ class Team extends CargObject {
         wonGames: json?['won_games'] ?? 0,
         name: json?['name'],
         players: json?['players'],
+        gameStatsList: GameStats.fromJSONList(json?['game_stats']),
         games: json?['games']);
   }
 
   @override
   Map<String, dynamic> toJSON() {
     return {
+      'game_stats': gameStatsList!.map((stat) => stat.toJSON()).toList(),
       'played_games': playedGames,
       'won_games': wonGames,
       'name': name,
@@ -41,6 +45,7 @@ class Team extends CargObject {
   @override
   String toString() {
     return 'Team{id: $id, \n'
+        'gameStatsList: $gameStatsList, \n'
         'name: $name, \n'
         'playedGames: $playedGames, \n'
         'wonGames: $wonGames, \n'

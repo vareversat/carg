@@ -6,13 +6,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class TeamRepository extends AbstractTeamRepository {
   TeamRepository(
-      {String? database, String? environment, FirebaseFirestore? provider})
+      {String? database,
+      String? environment,
+      FirebaseFirestore? provider,
+      DocumentSnapshot? lastFetchGameDocument})
       : super(
             database: database ?? Const.teamDB,
             environment: environment ??
                 const String.fromEnvironment(Const.dartVarEnv,
                     defaultValue: Const.defaultEnv),
-            provider: provider ?? FirebaseFirestore.instance);
+            provider: provider ?? FirebaseFirestore.instance,
+            lastFetchGameDocument: lastFetchGameDocument);
 
   @override
   Future<Team?> get(String id) async {
@@ -22,6 +26,38 @@ class TeamRepository extends AbstractTeamRepository {
       return Team.fromJSON(querySnapshot.data(), querySnapshot.id);
     } else {
       return null;
+    }
+  }
+
+  @override
+  Future<List<Team>> getAllTeamOfPlayer(String playerId, int pageSize) async {
+    try {
+      var teams = <Team>[];
+      QuerySnapshot<Map<String, dynamic>> querySnapshot;
+      if (lastFetchGameDocument != null) {
+        querySnapshot = await provider
+            .collection(connectionString)
+            .where('players', arrayContains: playerId)
+            .startAfterDocument(lastFetchGameDocument!)
+            .limit(pageSize)
+            .get();
+      } else {
+        querySnapshot = await provider
+            .collection(connectionString)
+            .where('players', arrayContains: playerId)
+            .limit(pageSize)
+            .get();
+      }
+      if (querySnapshot.docs.isEmpty) {
+        return teams;
+      }
+      lastFetchGameDocument = querySnapshot.docs.last;
+      for (var doc in querySnapshot.docs) {
+        teams.add(Team.fromJSON(doc.data(), doc.id));
+      }
+      return teams;
+    } on FirebaseException catch (e) {
+      throw RepositoryException(e.message!);
     }
   }
 

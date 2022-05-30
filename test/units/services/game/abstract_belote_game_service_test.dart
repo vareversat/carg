@@ -6,9 +6,7 @@ import 'package:carg/models/score/round/belote_round.dart';
 import 'package:carg/models/team.dart';
 import 'package:carg/repositories/game/abstract_belote_game_repository.dart';
 import 'package:carg/services/game/abstract_belote_game_service.dart';
-import 'package:carg/services/impl/player_service.dart';
 import 'package:carg/services/impl/team_service.dart';
-import 'package:carg/services/player/abstract_player_service.dart';
 import 'package:carg/services/score/abstract_belote_score_service.dart';
 import 'package:carg/services/team/abstract_team_service.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -43,12 +41,10 @@ class FakeBeloteGameService extends AbstractBeloteGameService {
           beloteScoreService,
       required AbstractBeloteGameRepository<Belote<BelotePlayers>>
           beloteGameRepository,
-      required AbstractPlayerService playerService,
       required AbstractTeamService teamService})
       : super(
             beloteScoreService: beloteScoreService,
             beloteGameRepository: beloteGameRepository,
-            playerService: playerService,
             teamService: teamService);
 
   @override
@@ -69,16 +65,11 @@ class FakeBeloteGameService extends AbstractBeloteGameService {
   }
 }
 
-@GenerateMocks([
-  AbstractBeloteScoreService,
-  AbstractBeloteGameRepository,
-  PlayerService,
-  TeamService
-])
+@GenerateMocks(
+    [AbstractBeloteScoreService, AbstractBeloteGameRepository, TeamService])
 void main() {
   final mockBeloteScoreService = MockAbstractBeloteScoreService();
   final mockBeloteGameRepository = MockAbstractBeloteGameRepository();
-  final mockPlayerService = MockPlayerService();
   final mockTeamService = MockTeamService();
 
   const uid = '123';
@@ -110,20 +101,11 @@ void main() {
         final beloteGameService = FakeBeloteGameService(
             beloteScoreService: mockBeloteScoreService,
             beloteGameRepository: mockBeloteGameRepository,
-            playerService: mockPlayerService,
             teamService: mockTeamService);
         await beloteGameService.endAGame(game, date);
         verify(mockTeamService.incrementPlayedGamesByOne('usTeamId', game))
             .called(1);
         verify(mockTeamService.incrementPlayedGamesByOne('themTeamId', game))
-            .called(1);
-        verify(mockPlayerService.incrementPlayedGamesByOne('p1', game))
-            .called(1);
-        verify(mockPlayerService.incrementPlayedGamesByOne('p2', game))
-            .called(1);
-        verify(mockPlayerService.incrementPlayedGamesByOne('p3', game))
-            .called(1);
-        verify(mockPlayerService.incrementPlayedGamesByOne('p4', game))
             .called(1);
         verify(mockTeamService.incrementWonGamesByOne('usTeamId', game))
             .called(1);
@@ -135,7 +117,6 @@ void main() {
         final beloteGameService = FakeBeloteGameService(
             beloteScoreService: mockBeloteScoreService,
             beloteGameRepository: mockBeloteGameRepository,
-            playerService: mockPlayerService,
             teamService: mockTeamService);
         expect(beloteGameService.endAGame(game, date),
             throwsA(isA<ServiceException>()));
@@ -157,7 +138,6 @@ void main() {
         final beloteGameService = FakeBeloteGameService(
             beloteScoreService: mockBeloteScoreService,
             beloteGameRepository: mockBeloteGameRepository,
-            playerService: mockPlayerService,
             teamService: mockTeamService);
         final finalGame = await beloteGameService.createGameWithPlayerList(
             playerIdsOrder, playerIdsTeam, date);

@@ -21,7 +21,6 @@ import 'coinche_belote_game_service_test.mocks.dart';
 void main() {
   final mockCoincheBeloteScoreService = MockCoincheBeloteScoreService();
   final mockCoincheBeloteGameRepository = MockCoincheBeloteGameRepository();
-  final mockPlayerService = MockPlayerService();
   final mockTeamService = MockTeamService();
 
   const uid = '123';
@@ -31,10 +30,10 @@ void main() {
   final teamUs = Team(id: 'usTeamId', players: ['p1', 'p2']);
   final teamThem = Team(id: 'themTeamId', players: ['p3', 'p4']);
   final players =
-  BelotePlayers(us: teamUs.id, them: teamThem.id, playerList: playerIds);
+      BelotePlayers(us: teamUs.id, them: teamThem.id, playerList: playerIds);
 
   final expectedGame =
-  CoincheBelote(id: uid, players: players, startingDate: date);
+      CoincheBelote(id: uid, players: players, startingDate: date);
   final expectedGameNoId = CoincheBelote(players: players, startingDate: date);
 
   group('CoincheBeloteGameService', () {
@@ -45,7 +44,6 @@ void main() {
         final coincheBeloteGameService = CoincheBeloteGameService(
             coincheBeloteScoreService: mockCoincheBeloteScoreService,
             coincheBeloteGameRepository: mockCoincheBeloteGameRepository,
-            playerService: mockPlayerService,
             teamService: mockTeamService);
         final game = await coincheBeloteGameService.generateNewGame(
             teamUs, teamThem, playerIds, date);

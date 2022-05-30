@@ -4,33 +4,33 @@
 
 import 'dart:async' as _i24;
 
-import 'package:carg/models/carg_object.dart' as _i16;
+import 'package:carg/models/carg_object.dart' as _i15;
 import 'package:carg/models/game/belote_game.dart' as _i1;
-import 'package:carg/models/game/game.dart' as _i8;
+import 'package:carg/models/game/game.dart' as _i9;
 import 'package:carg/models/player.dart' as _i25;
 import 'package:carg/models/players/belote_players.dart' as _i2;
-import 'package:carg/models/players/players.dart' as _i9;
+import 'package:carg/models/players/players.dart' as _i10;
 import 'package:carg/models/score/belote_score.dart' as _i5;
 import 'package:carg/models/score/round/belote_round.dart' as _i6;
-import 'package:carg/models/score/round/round.dart' as _i12;
-import 'package:carg/models/score/score.dart' as _i11;
+import 'package:carg/models/score/round/round.dart' as _i13;
+import 'package:carg/models/score/score.dart' as _i12;
 import 'package:carg/models/team.dart' as _i21;
-import 'package:carg/repositories/base_repository.dart' as _i17;
+import 'package:carg/repositories/base_repository.dart' as _i16;
 import 'package:carg/repositories/game/abstract_belote_game_repository.dart'
     as _i4;
-import 'package:carg/repositories/game/abstract_game_repository.dart' as _i10;
+import 'package:carg/repositories/game/abstract_game_repository.dart' as _i11;
 import 'package:carg/repositories/player/abstract_player_repository.dart'
     as _i22;
 import 'package:carg/repositories/score/abstract_belote_score_repository.dart'
-    as _i18;
-import 'package:carg/repositories/score/abstract_score_repository.dart' as _i19;
-import 'package:carg/repositories/team/abstract_team_repository.dart' as _i20;
+    as _i17;
+import 'package:carg/repositories/score/abstract_score_repository.dart' as _i18;
+import 'package:carg/repositories/team/abstract_team_repository.dart' as _i19;
 import 'package:carg/services/game/abstract_belote_game_service.dart' as _i23;
-import 'package:carg/services/player/abstract_player_service.dart' as _i14;
+import 'package:carg/services/player/abstract_player_service.dart' as _i20;
 import 'package:carg/services/round/abstract_belote_round_service.dart' as _i26;
 import 'package:carg/services/score/abstract_belote_score_service.dart' as _i7;
-import 'package:carg/services/score/abstract_score_service.dart' as _i13;
-import 'package:carg/services/team/abstract_team_service.dart' as _i15;
+import 'package:carg/services/score/abstract_score_service.dart' as _i14;
+import 'package:carg/services/team/abstract_team_service.dart' as _i8;
 import 'package:mockito/mockito.dart' as _i3;
 
 import 'belote_widget_test.dart' as _i27;
@@ -53,30 +53,30 @@ class _FakeAbstractBeloteScoreService_1<
         T extends _i5.BeloteScore<_i6.BeloteRound>> extends _i3.Fake
     implements _i7.AbstractBeloteScoreService<T> {}
 
-class _FakeAbstractGameRepository_2<T extends _i8.Game<_i9.Players>>
-    extends _i3.Fake implements _i10.AbstractGameRepository<T> {}
+class _FakeAbstractTeamService_2 extends _i3.Fake
+    implements _i8.AbstractTeamService {}
 
-class _FakeAbstractScoreService_3<T extends _i11.Score<_i12.Round>>
-    extends _i3.Fake implements _i13.AbstractScoreService<T> {}
+class _FakeAbstractGameRepository_3<T extends _i9.Game<_i10.Players>>
+    extends _i3.Fake implements _i11.AbstractGameRepository<T> {}
 
-class _FakeAbstractPlayerService_4 extends _i3.Fake
-    implements _i14.AbstractPlayerService {}
+class _FakeAbstractScoreService_4<T extends _i12.Score<_i13.Round>>
+    extends _i3.Fake implements _i14.AbstractScoreService<T> {}
 
-class _FakeAbstractTeamService_5 extends _i3.Fake
-    implements _i15.AbstractTeamService {}
+class _FakeBaseRepository_5<T extends _i15.CargObject> extends _i3.Fake
+    implements _i16.BaseRepository<T> {}
 
-class _FakeBaseRepository_6<T extends _i16.CargObject> extends _i3.Fake
-    implements _i17.BaseRepository<T> {}
-
-class _FakeAbstractBeloteScoreRepository_7<
+class _FakeAbstractBeloteScoreRepository_6<
         T extends _i5.BeloteScore<_i6.BeloteRound>> extends _i3.Fake
-    implements _i18.AbstractBeloteScoreRepository<T> {}
+    implements _i17.AbstractBeloteScoreRepository<T> {}
 
-class _FakeAbstractScoreRepository_8<T extends _i11.Score<_i12.Round>>
-    extends _i3.Fake implements _i19.AbstractScoreRepository<T> {}
+class _FakeAbstractScoreRepository_7<T extends _i12.Score<_i13.Round>>
+    extends _i3.Fake implements _i18.AbstractScoreRepository<T> {}
 
-class _FakeAbstractTeamRepository_9 extends _i3.Fake
-    implements _i20.AbstractTeamRepository {}
+class _FakeAbstractTeamRepository_8 extends _i3.Fake
+    implements _i19.AbstractTeamRepository {}
+
+class _FakeAbstractPlayerService_9 extends _i3.Fake
+    implements _i20.AbstractPlayerService {}
 
 class _FakeTeam_10 extends _i3.Fake implements _i21.Team {}
 
@@ -98,48 +98,35 @@ class MockAbstractBeloteGameService<T extends _i1.Belote<_i2.BelotePlayers>,
       (super.noSuchMethod(Invocation.getter(#beloteGameRepository),
               returnValue: _FakeAbstractBeloteGameRepository_0<T>())
           as _i4.AbstractBeloteGameRepository<T>);
-
   @override
   _i7.AbstractBeloteScoreService<P> get beloteScoreService =>
       (super.noSuchMethod(Invocation.getter(#beloteScoreService),
               returnValue: _FakeAbstractBeloteScoreService_1<P>())
           as _i7.AbstractBeloteScoreService<P>);
-
   @override
-  _i10.AbstractGameRepository<T> get gameRepository =>
-      (super.noSuchMethod(Invocation.getter(#gameRepository),
-              returnValue: _FakeAbstractGameRepository_2<T>())
-          as _i10.AbstractGameRepository<T>);
-
-  @override
-  _i13.AbstractScoreService<P> get scoreService =>
-      (super.noSuchMethod(Invocation.getter(#scoreService),
-              returnValue: _FakeAbstractScoreService_3<P>())
-          as _i13.AbstractScoreService<P>);
-
-  @override
-  _i14.AbstractPlayerService get playerService =>
-      (super.noSuchMethod(Invocation.getter(#playerService),
-              returnValue: _FakeAbstractPlayerService_4())
-          as _i14.AbstractPlayerService);
-
-  @override
-  _i15.AbstractTeamService get teamService => (super.noSuchMethod(
+  _i8.AbstractTeamService get teamService => (super.noSuchMethod(
       Invocation.getter(#teamService),
-      returnValue: _FakeAbstractTeamService_5()) as _i15.AbstractTeamService);
-
+      returnValue: _FakeAbstractTeamService_2()) as _i8.AbstractTeamService);
   @override
-  _i17.BaseRepository<T> get repository =>
+  _i11.AbstractGameRepository<T> get gameRepository =>
+      (super.noSuchMethod(Invocation.getter(#gameRepository),
+              returnValue: _FakeAbstractGameRepository_3<T>())
+          as _i11.AbstractGameRepository<T>);
+  @override
+  _i14.AbstractScoreService<P> get scoreService =>
+      (super.noSuchMethod(Invocation.getter(#scoreService),
+              returnValue: _FakeAbstractScoreService_4<P>())
+          as _i14.AbstractScoreService<P>);
+  @override
+  _i16.BaseRepository<T> get repository =>
       (super.noSuchMethod(Invocation.getter(#repository),
-          returnValue: _FakeBaseRepository_6<T>()) as _i17.BaseRepository<T>);
-
+          returnValue: _FakeBaseRepository_5<T>()) as _i16.BaseRepository<T>);
   @override
   _i24.Future<void> endAGame(T? game, DateTime? endingDate) =>
       (super.noSuchMethod(Invocation.method(#endAGame, [game, endingDate]),
               returnValue: Future<void>.value(),
               returnValueForMissingStub: Future<void>.value())
           as _i24.Future<void>);
-
   @override
   _i24.Future<T> createGameWithPlayerList(List<String?>? playerListForOrder,
           List<String?>? playerListForTeam, DateTime? startingDate) =>
@@ -147,7 +134,6 @@ class MockAbstractBeloteGameService<T extends _i1.Belote<_i2.BelotePlayers>,
           Invocation.method(#createGameWithPlayerList,
               [playerListForOrder, playerListForTeam, startingDate]),
           returnValue: Future<T>.value(null)) as _i24.Future<T>);
-
   @override
   _i24.Future<T> generateNewGame(_i21.Team? us, _i21.Team? them,
           List<String?>? playerListForOrder, DateTime? startingDate) =>
@@ -155,23 +141,15 @@ class MockAbstractBeloteGameService<T extends _i1.Belote<_i2.BelotePlayers>,
           Invocation.method(
               #generateNewGame, [us, them, playerListForOrder, startingDate]),
           returnValue: Future<T>.value(null)) as _i24.Future<T>);
-
-  @override
-  void resetLastPointedGame() =>
-      super.noSuchMethod(Invocation.method(#resetLastPointedGame, []),
-          returnValueForMissingStub: null);
-
   @override
   _i24.Future<T?> getGame(String? gameId) =>
       (super.noSuchMethod(Invocation.method(#getGame, [gameId]),
           returnValue: Future<T?>.value()) as _i24.Future<T?>);
-
   @override
   _i24.Future<void> deleteGame(String? gameId) => (super.noSuchMethod(
       Invocation.method(#deleteGame, [gameId]),
       returnValue: Future<void>.value(),
       returnValueForMissingStub: Future<void>.value()) as _i24.Future<void>);
-
   @override
   _i24.Future<List<T>> getAllGamesOfPlayerPaginated(
           String? playerId, int? pageSize) =>
@@ -179,23 +157,23 @@ class MockAbstractBeloteGameService<T extends _i1.Belote<_i2.BelotePlayers>,
           Invocation.method(
               #getAllGamesOfPlayerPaginated, [playerId, pageSize]),
           returnValue: Future<List<T>>.value(<T>[])) as _i24.Future<List<T>>);
-
   @override
   _i24.Future<String> create(T? t) =>
       (super.noSuchMethod(Invocation.method(#create, [t]),
           returnValue: Future<String>.value('')) as _i24.Future<String>);
-
   @override
   _i24.Future<void> delete(String? id) => (super.noSuchMethod(
       Invocation.method(#delete, [id]),
       returnValue: Future<void>.value(),
       returnValueForMissingStub: Future<void>.value()) as _i24.Future<void>);
-
+  @override
+  void resetLastPointedDocument() =>
+      super.noSuchMethod(Invocation.method(#resetLastPointedDocument, []),
+          returnValueForMissingStub: null);
   @override
   _i24.Future<T?> get(String? id) =>
       (super.noSuchMethod(Invocation.method(#get, [id]),
           returnValue: Future<T?>.value()) as _i24.Future<T?>);
-
   @override
   _i24.Future<void> update(T? t) => (super.noSuchMethod(
       Invocation.method(#update, [t]),
@@ -213,64 +191,58 @@ class MockAbstractBeloteScoreService<T extends _i5.BeloteScore<_i6.BeloteRound>>
   }
 
   @override
-  _i18.AbstractBeloteScoreRepository<T> get beloteScoreRepository =>
+  _i17.AbstractBeloteScoreRepository<T> get beloteScoreRepository =>
       (super.noSuchMethod(Invocation.getter(#beloteScoreRepository),
-              returnValue: _FakeAbstractBeloteScoreRepository_7<T>())
-          as _i18.AbstractBeloteScoreRepository<T>);
-
+              returnValue: _FakeAbstractBeloteScoreRepository_6<T>())
+          as _i17.AbstractBeloteScoreRepository<T>);
   @override
-  _i19.AbstractScoreRepository<T> get scoreRepository =>
+  _i18.AbstractScoreRepository<T> get scoreRepository =>
       (super.noSuchMethod(Invocation.getter(#scoreRepository),
-              returnValue: _FakeAbstractScoreRepository_8<T>())
-          as _i19.AbstractScoreRepository<T>);
-
+              returnValue: _FakeAbstractScoreRepository_7<T>())
+          as _i18.AbstractScoreRepository<T>);
   @override
-  _i17.BaseRepository<_i11.Score<_i12.Round>> get repository =>
+  _i16.BaseRepository<_i12.Score<_i13.Round>> get repository =>
       (super.noSuchMethod(Invocation.getter(#repository),
-              returnValue: _FakeBaseRepository_6<_i11.Score<_i12.Round>>())
-          as _i17.BaseRepository<_i11.Score<_i12.Round>>);
-
+              returnValue: _FakeBaseRepository_5<_i12.Score<_i13.Round>>())
+          as _i16.BaseRepository<_i12.Score<_i13.Round>>);
   @override
   _i24.Future<T?> generateNewScore(String? gameId) =>
       (super.noSuchMethod(Invocation.method(#generateNewScore, [gameId]),
           returnValue: Future<T?>.value()) as _i24.Future<T?>);
-
   @override
   _i24.Future<T?> getScoreByGame(String? gameId) =>
       (super.noSuchMethod(Invocation.method(#getScoreByGame, [gameId]),
           returnValue: Future<T?>.value()) as _i24.Future<T?>);
-
   @override
   _i24.Stream<T?> getScoreByGameStream(String? gameId) =>
       (super.noSuchMethod(Invocation.method(#getScoreByGameStream, [gameId]),
           returnValue: Stream<T?>.empty()) as _i24.Stream<T?>);
-
   @override
   _i24.Future<void> deleteScoreByGame(String? gameId) => (super.noSuchMethod(
       Invocation.method(#deleteScoreByGame, [gameId]),
       returnValue: Future<void>.value(),
       returnValueForMissingStub: Future<void>.value()) as _i24.Future<void>);
-
   @override
-  _i24.Future<_i11.Score<_i12.Round>?> get(String? id) =>
+  void resetLastPointedDocument() =>
+      super.noSuchMethod(Invocation.method(#resetLastPointedDocument, []),
+          returnValueForMissingStub: null);
+  @override
+  _i24.Future<_i12.Score<_i13.Round>?> get(String? id) =>
       (super.noSuchMethod(Invocation.method(#get, [id]),
-              returnValue: Future<_i11.Score<_i12.Round>?>.value())
-          as _i24.Future<_i11.Score<_i12.Round>?>);
-
+              returnValue: Future<_i12.Score<_i13.Round>?>.value())
+          as _i24.Future<_i12.Score<_i13.Round>?>);
   @override
   _i24.Future<void> delete(String? id) => (super.noSuchMethod(
       Invocation.method(#delete, [id]),
       returnValue: Future<void>.value(),
       returnValueForMissingStub: Future<void>.value()) as _i24.Future<void>);
-
   @override
-  _i24.Future<void> update(_i11.Score<_i12.Round>? t) => (super.noSuchMethod(
+  _i24.Future<void> update(_i12.Score<_i13.Round>? t) => (super.noSuchMethod(
       Invocation.method(#update, [t]),
       returnValue: Future<void>.value(),
       returnValueForMissingStub: Future<void>.value()) as _i24.Future<void>);
-
   @override
-  _i24.Future<String> create(_i11.Score<_i12.Round>? t) =>
+  _i24.Future<String> create(_i12.Score<_i13.Round>? t) =>
       (super.noSuchMethod(Invocation.method(#create, [t]),
           returnValue: Future<String>.value('')) as _i24.Future<String>);
 }
@@ -279,68 +251,70 @@ class MockAbstractBeloteScoreService<T extends _i5.BeloteScore<_i6.BeloteRound>>
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockAbstractTeamService extends _i3.Mock
-    implements _i15.AbstractTeamService {
+    implements _i8.AbstractTeamService {
   MockAbstractTeamService() {
     _i3.throwOnMissingStub(this);
   }
 
   @override
-  _i20.AbstractTeamRepository get teamRepository =>
+  _i19.AbstractTeamRepository get teamRepository =>
       (super.noSuchMethod(Invocation.getter(#teamRepository),
-              returnValue: _FakeAbstractTeamRepository_9())
-          as _i20.AbstractTeamRepository);
-
+              returnValue: _FakeAbstractTeamRepository_8())
+          as _i19.AbstractTeamRepository);
   @override
-  _i14.AbstractPlayerService get playerService =>
+  _i20.AbstractPlayerService get playerService =>
       (super.noSuchMethod(Invocation.getter(#playerService),
-              returnValue: _FakeAbstractPlayerService_4())
-          as _i14.AbstractPlayerService);
-
+              returnValue: _FakeAbstractPlayerService_9())
+          as _i20.AbstractPlayerService);
   @override
-  _i17.BaseRepository<_i21.Team> get repository =>
+  _i16.BaseRepository<_i21.Team> get repository =>
       (super.noSuchMethod(Invocation.getter(#repository),
-              returnValue: _FakeBaseRepository_6<_i21.Team>())
-          as _i17.BaseRepository<_i21.Team>);
-
+              returnValue: _FakeBaseRepository_5<_i21.Team>())
+          as _i16.BaseRepository<_i21.Team>);
+  @override
+  _i24.Future<List<_i21.Team>> getAllTeamOfPlayer(
+          String? playerId, int? pageSize) =>
+      (super.noSuchMethod(
+              Invocation.method(#getAllTeamOfPlayer, [playerId, pageSize]),
+              returnValue: Future<List<_i21.Team>>.value(<_i21.Team>[]))
+          as _i24.Future<List<_i21.Team>>);
   @override
   _i24.Future<_i21.Team> getTeamByPlayers(List<String?>? playerIds) =>
       (super.noSuchMethod(Invocation.method(#getTeamByPlayers, [playerIds]),
               returnValue: Future<_i21.Team>.value(_FakeTeam_10()))
           as _i24.Future<_i21.Team>);
-
   @override
   _i24.Future<_i21.Team> incrementPlayedGamesByOne(
-          String? id, _i8.Game<_i9.Players>? game) =>
+          String? id, _i9.Game<_i10.Players>? game) =>
       (super.noSuchMethod(
               Invocation.method(#incrementPlayedGamesByOne, [id, game]),
               returnValue: Future<_i21.Team>.value(_FakeTeam_10()))
           as _i24.Future<_i21.Team>);
-
   @override
   _i24.Future<_i21.Team> incrementWonGamesByOne(
-          String? id, _i8.Game<_i9.Players>? game) =>
+          String? id, _i9.Game<_i10.Players>? game) =>
       (super.noSuchMethod(
               Invocation.method(#incrementWonGamesByOne, [id, game]),
               returnValue: Future<_i21.Team>.value(_FakeTeam_10()))
           as _i24.Future<_i21.Team>);
-
+  @override
+  void resetLastPointedDocument() =>
+      super.noSuchMethod(Invocation.method(#resetLastPointedDocument, []),
+          returnValueForMissingStub: null);
   @override
   _i24.Future<_i21.Team?> get(String? id) =>
       (super.noSuchMethod(Invocation.method(#get, [id]),
           returnValue: Future<_i21.Team?>.value()) as _i24.Future<_i21.Team?>);
-
   @override
   _i24.Future<void> delete(String? id) => (super.noSuchMethod(
       Invocation.method(#delete, [id]),
       returnValue: Future<void>.value(),
       returnValueForMissingStub: Future<void>.value()) as _i24.Future<void>);
-
   @override
   _i24.Future<void> update(_i21.Team? t) => (super.noSuchMethod(
       Invocation.method(#update, [t]),
       returnValue: Future<void>.value(),
       returnValueForMissingStub: Future<void>.value()) as _i24.Future<void>);
-
   @override
   _i24.Future<String> create(_i21.Team? t) =>
       (super.noSuchMethod(Invocation.method(#create, [t]),
@@ -351,7 +325,7 @@ class MockAbstractTeamService extends _i3.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockAbstractPlayerService extends _i3.Mock
-    implements _i14.AbstractPlayerService {
+    implements _i20.AbstractPlayerService {
   MockAbstractPlayerService() {
     _i3.throwOnMissingStub(this);
   }
@@ -361,37 +335,32 @@ class MockAbstractPlayerService extends _i3.Mock
       (super.noSuchMethod(Invocation.getter(#playerRepository),
               returnValue: _FakeAbstractPlayerRepository_11())
           as _i22.AbstractPlayerRepository);
-
   @override
-  _i17.BaseRepository<_i25.Player> get repository =>
+  _i16.BaseRepository<_i25.Player> get repository =>
       (super.noSuchMethod(Invocation.getter(#repository),
-              returnValue: _FakeBaseRepository_6<_i25.Player>())
-          as _i17.BaseRepository<_i25.Player>);
-
+              returnValue: _FakeBaseRepository_5<_i25.Player>())
+          as _i16.BaseRepository<_i25.Player>);
   @override
   _i24.Future<void> incrementPlayedGamesByOne(
-          String? playerId, _i8.Game<_i9.Players>? game) =>
+          String? playerId, _i9.Game<_i10.Players>? game) =>
       (super.noSuchMethod(
               Invocation.method(#incrementPlayedGamesByOne, [playerId, game]),
               returnValue: Future<void>.value(),
               returnValueForMissingStub: Future<void>.value())
           as _i24.Future<void>);
-
   @override
   _i24.Future<void> incrementWonGamesByOne(
-          String? playerId, _i8.Game<_i9.Players>? game) =>
+          String? playerId, _i9.Game<_i10.Players>? game) =>
       (super.noSuchMethod(
               Invocation.method(#incrementWonGamesByOne, [playerId, game]),
               returnValue: Future<void>.value(),
               returnValueForMissingStub: Future<void>.value())
           as _i24.Future<void>);
-
   @override
   _i24.Future<_i25.Player?> getPlayerOfUser(String? userId) =>
       (super.noSuchMethod(Invocation.method(#getPlayerOfUser, [userId]),
               returnValue: Future<_i25.Player?>.value())
           as _i24.Future<_i25.Player?>);
-
   @override
   _i24.Future<List<_i25.Player>> searchPlayers(
           {String? query = r'', _i25.Player? currentPlayer}) =>
@@ -400,24 +369,24 @@ class MockAbstractPlayerService extends _i3.Mock
                   {#query: query, #currentPlayer: currentPlayer}),
               returnValue: Future<List<_i25.Player>>.value(<_i25.Player>[]))
           as _i24.Future<List<_i25.Player>>);
-
+  @override
+  void resetLastPointedDocument() =>
+      super.noSuchMethod(Invocation.method(#resetLastPointedDocument, []),
+          returnValueForMissingStub: null);
   @override
   _i24.Future<_i25.Player?> get(String? id) => (super.noSuchMethod(
       Invocation.method(#get, [id]),
       returnValue: Future<_i25.Player?>.value()) as _i24.Future<_i25.Player?>);
-
   @override
   _i24.Future<void> delete(String? id) => (super.noSuchMethod(
       Invocation.method(#delete, [id]),
       returnValue: Future<void>.value(),
       returnValueForMissingStub: Future<void>.value()) as _i24.Future<void>);
-
   @override
   _i24.Future<void> update(_i25.Player? t) => (super.noSuchMethod(
       Invocation.method(#update, [t]),
       returnValue: Future<void>.value(),
       returnValueForMissingStub: Future<void>.value()) as _i24.Future<void>);
-
   @override
   _i24.Future<String> create(_i25.Player? t) =>
       (super.noSuchMethod(Invocation.method(#create, [t]),
@@ -439,24 +408,20 @@ class MockAbstractBeloteRoundService<T extends _i6.BeloteRound,
       (super.noSuchMethod(Invocation.getter(#scoreService),
               returnValue: _FakeAbstractBeloteScoreService_1<S>())
           as _i7.AbstractBeloteScoreService<S>);
-
   @override
-  _i13.AbstractScoreService<S> get abstractScoreService =>
+  _i14.AbstractScoreService<S> get abstractScoreService =>
       (super.noSuchMethod(Invocation.getter(#abstractScoreService),
-              returnValue: _FakeAbstractScoreService_3<S>())
-          as _i13.AbstractScoreService<S>);
-
+              returnValue: _FakeAbstractScoreService_4<S>())
+          as _i14.AbstractScoreService<S>);
   @override
   _i24.Future<void> addRoundToGame(String? gameId, T? round) =>
       (super.noSuchMethod(Invocation.method(#addRoundToGame, [gameId, round]),
               returnValue: Future<void>.value(),
               returnValueForMissingStub: Future<void>.value())
           as _i24.Future<void>);
-
   @override
   T getNewRound() => (super.noSuchMethod(Invocation.method(#getNewRound, []),
       returnValue: _i27.getNewRound()) as T);
-
   @override
   _i24.Future<void> editLastRoundOfScoreByGameId(String? gameId, T? round) =>
       (super.noSuchMethod(
@@ -464,7 +429,6 @@ class MockAbstractBeloteRoundService<T extends _i6.BeloteRound,
               returnValue: Future<void>.value(),
               returnValueForMissingStub: Future<void>.value())
           as _i24.Future<void>);
-
   @override
   _i24.Future<void> deleteLastRoundOfScoreByGameId(String? gameId) =>
       (super.noSuchMethod(

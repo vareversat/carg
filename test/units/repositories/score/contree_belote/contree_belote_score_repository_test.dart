@@ -62,7 +62,8 @@ void main() {
             .thenAnswer((_) async => mockDocumentSnapshot);
         when(mockDocumentSnapshot.data()).thenReturn(contreeBeloteScoreJson);
         when(mockDocumentSnapshot.id).thenReturn(uid);
-        final contreeBeloteScoreRepository = ContreeBeloteScoreRepository(provider: instance);
+        final contreeBeloteScoreRepository =
+            ContreeBeloteScoreRepository(provider: instance);
         final contreeBeloteScore = await contreeBeloteScoreRepository.get(uid);
         expect(contreeBeloteScore, expectedScore);
       });
@@ -76,8 +77,8 @@ void main() {
             .thenAnswer((_) async => mockDocumentSnapshot);
         when(mockDocumentSnapshot.data()).thenReturn(contreeBeloteScoreJson);
         when(mockDocumentSnapshot.id).thenReturn(uid);
-        final contreeBeloteScoreRepository =
-            ContreeBeloteScoreRepository(provider: instance, environment: 'prod');
+        final contreeBeloteScoreRepository = ContreeBeloteScoreRepository(
+            provider: instance, environment: 'prod');
         final contreeBeloteScore = await contreeBeloteScoreRepository.get(uid);
         expect(contreeBeloteScore, expectedScore);
       });
@@ -92,10 +93,13 @@ void main() {
             .thenReturn(mockQuery);
         when(mockQuery.get()).thenAnswer((_) async => mockQuerySnapshot);
         when(mockQuerySnapshot.docs).thenReturn([mockQueryDocumentSnapshot]);
-        when(mockQueryDocumentSnapshot.data()).thenReturn(contreeBeloteScoreJson);
+        when(mockQueryDocumentSnapshot.data())
+            .thenReturn(contreeBeloteScoreJson);
         when(mockQueryDocumentSnapshot.id).thenReturn(uid);
-        final contreeBeloteScoreRepository = ContreeBeloteScoreRepository(provider: instance);
-        final contreeBeloteScore = await contreeBeloteScoreRepository.getScoreByGame(gameId);
+        final contreeBeloteScoreRepository =
+            ContreeBeloteScoreRepository(provider: instance);
+        final contreeBeloteScore =
+            await contreeBeloteScoreRepository.getScoreByGame(gameId);
         expect(contreeBeloteScore, expectedScore);
       });
       test('PROD', () async {
@@ -106,11 +110,13 @@ void main() {
             .thenReturn(mockQuery);
         when(mockQuery.get()).thenAnswer((_) async => mockQuerySnapshot);
         when(mockQuerySnapshot.docs).thenReturn([mockQueryDocumentSnapshot]);
-        when(mockQueryDocumentSnapshot.data()).thenReturn(contreeBeloteScoreJson);
+        when(mockQueryDocumentSnapshot.data())
+            .thenReturn(contreeBeloteScoreJson);
         when(mockQueryDocumentSnapshot.id).thenReturn(uid);
-        final contreeBeloteScoreRepository =
-            ContreeBeloteScoreRepository(provider: instance, environment: 'prod');
-        final contreeBeloteScore = await contreeBeloteScoreRepository.getScoreByGame(gameId);
+        final contreeBeloteScoreRepository = ContreeBeloteScoreRepository(
+            provider: instance, environment: 'prod');
+        final contreeBeloteScore =
+            await contreeBeloteScoreRepository.getScoreByGame(gameId);
         expect(contreeBeloteScore, expectedScore);
       });
     });

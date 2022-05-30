@@ -4,7 +4,6 @@ import 'package:carg/models/score/belote_score.dart';
 import 'package:carg/models/team.dart';
 import 'package:carg/repositories/game/abstract_belote_game_repository.dart';
 import 'package:carg/services/game/abstract_game_service.dart';
-import 'package:carg/services/player/abstract_player_service.dart';
 import 'package:carg/services/score/abstract_belote_score_service.dart';
 import 'package:carg/services/team/abstract_team_service.dart';
 
@@ -12,17 +11,15 @@ abstract class AbstractBeloteGameService<T extends Belote,
     P extends BeloteScore> extends AbstractGameService<T, P> {
   final AbstractBeloteGameRepository<T> beloteGameRepository;
   final AbstractBeloteScoreService<P> beloteScoreService;
+  final AbstractTeamService teamService;
 
   AbstractBeloteGameService(
       {required this.beloteScoreService,
       required this.beloteGameRepository,
-      required AbstractPlayerService playerService,
-      required AbstractTeamService teamService})
+      required this.teamService})
       : super(
             gameRepository: beloteGameRepository,
-            scoreService: beloteScoreService,
-            playerService: playerService,
-            teamService: teamService);
+            scoreService: beloteScoreService);
 
   @override
   Future<void> endAGame(T? game, DateTime? endingDate) async {
@@ -30,36 +27,26 @@ abstract class AbstractBeloteGameService<T extends Belote,
       throw ServiceException('Please use a non null game object');
     }
     try {
-      Team? winners;
+      Team winners;
       var score = await beloteScoreService.getScoreByGame(game.id);
       if (score != null) {
-        if (score.themTotalPoints == score.usTotalPoints) {
-          throw ServiceException('TIE. Please play another round');
-        } else if (score.themTotalPoints > score.usTotalPoints) {
+        if (score.themTotalPoints > score.usTotalPoints) {
           winners = await teamService.incrementWonGamesByOne(
               game.players!.them, game);
         } else if (score.themTotalPoints < score.usTotalPoints) {
           winners =
               await teamService.incrementWonGamesByOne(game.players!.us, game);
+        } else {
+          throw ServiceException('TIE. Please play another round');
         }
         await teamService.incrementPlayedGamesByOne(game.players!.them, game);
         await teamService.incrementPlayedGamesByOne(game.players!.us, game);
-        for (var player in game.players!.playerList!) {
-          {
-            await playerService.incrementPlayedGamesByOne(player!, game);
-          }
-        }
-        if (winners != null) {
-          final updatePart = {
-            'is_ended': true,
-            'ending_date': (endingDate ?? DateTime.now()).toString(),
-            'winners': winners.id
-          };
-          await beloteGameRepository.partialUpdate(game, updatePart);
-        } else {
-          throw ServiceException(
-              'Error while ending the Game ${game.id} : no winners found');
-        }
+        final updatePart = {
+          'is_ended': true,
+          'ending_date': (endingDate ?? DateTime.now()).toString(),
+          'winners': winners.id
+        };
+        await beloteGameRepository.partialUpdate(game, updatePart);
       } else {
         throw ServiceException(
             'Error while ending the Game ${game.id} : no score linked to this game');
