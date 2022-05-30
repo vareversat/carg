@@ -110,7 +110,9 @@ class _PlayerListScreenState extends State<PlayerListScreen> {
             body: TabBarView(
               children: [
                 PlayerListTab(playerService: widget.playerService),
-                TeamListTab(teamService: widget.teamService, playerService: widget.playerService)
+                TeamListTab(
+                    teamService: widget.teamService,
+                    playerService: widget.playerService)
               ],
             )));
   }

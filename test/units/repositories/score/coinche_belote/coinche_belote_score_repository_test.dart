@@ -62,7 +62,8 @@ void main() {
             .thenAnswer((_) async => mockDocumentSnapshot);
         when(mockDocumentSnapshot.data()).thenReturn(coincheBeloteScoreJson);
         when(mockDocumentSnapshot.id).thenReturn(uid);
-        final coincheBeloteScoreRepository = CoincheBeloteScoreRepository(provider: instance);
+        final coincheBeloteScoreRepository =
+            CoincheBeloteScoreRepository(provider: instance);
         final coincheBeloteScore = await coincheBeloteScoreRepository.get(uid);
         expect(coincheBeloteScore, expectedScore);
       });
@@ -76,8 +77,8 @@ void main() {
             .thenAnswer((_) async => mockDocumentSnapshot);
         when(mockDocumentSnapshot.data()).thenReturn(coincheBeloteScoreJson);
         when(mockDocumentSnapshot.id).thenReturn(uid);
-        final coincheBeloteScoreRepository =
-            CoincheBeloteScoreRepository(provider: instance, environment: 'prod');
+        final coincheBeloteScoreRepository = CoincheBeloteScoreRepository(
+            provider: instance, environment: 'prod');
         final coincheBeloteScore = await coincheBeloteScoreRepository.get(uid);
         expect(coincheBeloteScore, expectedScore);
       });
@@ -92,10 +93,13 @@ void main() {
             .thenReturn(mockQuery);
         when(mockQuery.get()).thenAnswer((_) async => mockQuerySnapshot);
         when(mockQuerySnapshot.docs).thenReturn([mockQueryDocumentSnapshot]);
-        when(mockQueryDocumentSnapshot.data()).thenReturn(coincheBeloteScoreJson);
+        when(mockQueryDocumentSnapshot.data())
+            .thenReturn(coincheBeloteScoreJson);
         when(mockQueryDocumentSnapshot.id).thenReturn(uid);
-        final coincheBeloteScoreRepository = CoincheBeloteScoreRepository(provider: instance);
-        final coincheBeloteScore = await coincheBeloteScoreRepository.getScoreByGame(gameId);
+        final coincheBeloteScoreRepository =
+            CoincheBeloteScoreRepository(provider: instance);
+        final coincheBeloteScore =
+            await coincheBeloteScoreRepository.getScoreByGame(gameId);
         expect(coincheBeloteScore, expectedScore);
       });
       test('PROD', () async {
@@ -106,11 +110,13 @@ void main() {
             .thenReturn(mockQuery);
         when(mockQuery.get()).thenAnswer((_) async => mockQuerySnapshot);
         when(mockQuerySnapshot.docs).thenReturn([mockQueryDocumentSnapshot]);
-        when(mockQueryDocumentSnapshot.data()).thenReturn(coincheBeloteScoreJson);
+        when(mockQueryDocumentSnapshot.data())
+            .thenReturn(coincheBeloteScoreJson);
         when(mockQueryDocumentSnapshot.id).thenReturn(uid);
-        final coincheBeloteScoreRepository =
-            CoincheBeloteScoreRepository(provider: instance, environment: 'prod');
-        final coincheBeloteScore = await coincheBeloteScoreRepository.getScoreByGame(gameId);
+        final coincheBeloteScoreRepository = CoincheBeloteScoreRepository(
+            provider: instance, environment: 'prod');
+        final coincheBeloteScore =
+            await coincheBeloteScoreRepository.getScoreByGame(gameId);
         expect(coincheBeloteScore, expectedScore);
       });
     });

@@ -29,7 +29,8 @@ void main() {
             frenchBeloteScoreRepository: mockFrenchBeloteScoreRepository);
         expect(await frenchBeloteScoreService.generateNewScore(uid),
             frenchBeloteScore);
-        verify(mockFrenchBeloteScoreRepository.create(frenchBeloteScore)).called(1);
+        verify(mockFrenchBeloteScoreRepository.create(frenchBeloteScore))
+            .called(1);
       });
     });
   });

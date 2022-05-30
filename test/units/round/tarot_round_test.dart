@@ -96,6 +96,5 @@ void main() {
       expect(tarotRound.attackScore, 750.0);
       expect(tarotRound.defenseScore, -250.0);
     });
-
   });
 }

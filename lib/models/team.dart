@@ -56,14 +56,14 @@ class Team extends CargPlayerObject {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          super == other &&
-              other is Team &&
-              runtimeType == other.runtimeType &&
-              name == other.name &&
-              playedGames == other.playedGames &&
-              wonGames == other.wonGames &&
-              const ListEquality().equals(players, other.players) &&
-              const ListEquality().equals(games, other.games);
+      super == other &&
+          other is Team &&
+          runtimeType == other.runtimeType &&
+          name == other.name &&
+          playedGames == other.playedGames &&
+          wonGames == other.wonGames &&
+          const ListEquality().equals(players, other.players) &&
+          const ListEquality().equals(games, other.games);
 
   @override
   int get hashCode =>

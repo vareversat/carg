@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 abstract class AbstractGameRepository<T extends Game>
     extends BaseRepository<T> {
-
   AbstractGameRepository(
       {required String database,
       required String environment,

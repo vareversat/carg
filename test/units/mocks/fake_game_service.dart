@@ -15,8 +15,9 @@ class FakeGameService extends AbstractGameService {
       required AbstractPlayerService playerService,
       required AbstractTeamService teamService})
       : super(
-            scoreService: scoreService,
-            gameRepository: gameRepository,);
+          scoreService: scoreService,
+          gameRepository: gameRepository,
+        );
 
   @override
   Future<Game<Players>> createGameWithPlayerList(

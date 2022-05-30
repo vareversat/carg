@@ -50,16 +50,19 @@ void main() {
     when(mockAbstractPlayerService.searchPlayers(
             query: '', currentPlayer: currentPlayer))
         .thenAnswer((_) => Future<List<Player>>(() => (mockPlayerList)));
-    when(mockAbstractTeamService.getAllTeamOfPlayer(
-        'player-id', 10))
+    when(mockAbstractTeamService.getAllTeamOfPlayer('player-id', 10))
         .thenAnswer((_) => Future<List<Team>>(() => (mockTeamList)));
     when(mockAuthService.getPlayerIdOfUser()).thenReturn('player-id');
     when(mockAuthService.getPlayer()).thenReturn(currentPlayer);
     when(mockAuthService.getAdmin()).thenReturn(false);
-    when(mockAbstractPlayerService.get('p1')).thenAnswer((_) => Future<Player>(() => (mockPlayerList[0])));
-    when(mockAbstractPlayerService.get('p2')).thenAnswer((_) => Future<Player>(() => (mockPlayerList[0])));
-    when(mockAbstractPlayerService.get('p3')).thenAnswer((_) => Future<Player>(() => (mockPlayerList[0])));
-    when(mockAbstractPlayerService.get('p4')).thenAnswer((_) => Future<Player>(() => (mockPlayerList[0])));
+    when(mockAbstractPlayerService.get('p1'))
+        .thenAnswer((_) => Future<Player>(() => (mockPlayerList[0])));
+    when(mockAbstractPlayerService.get('p2'))
+        .thenAnswer((_) => Future<Player>(() => (mockPlayerList[0])));
+    when(mockAbstractPlayerService.get('p3'))
+        .thenAnswer((_) => Future<Player>(() => (mockPlayerList[0])));
+    when(mockAbstractPlayerService.get('p4'))
+        .thenAnswer((_) => Future<Player>(() => (mockPlayerList[0])));
   });
 
   group('PlayerListScreen ', () {

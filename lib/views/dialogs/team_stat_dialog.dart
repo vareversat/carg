@@ -71,25 +71,25 @@ class TeamStatDialog extends StatelessWidget {
           children: [
             Flexible(
                 flex: 3,
-                  child: Semantics(
-                    explicitChildNodes: true,
-                    child: TextFormField(
-                      controller: textEditingController,
-                      focusNode: focusNode,
-                      key: const ValueKey('nameTextField'),
-                      style: CustomTextStyle.dialogHeaderStyle(context),
-                      decoration: InputDecoration(
-                        hintStyle: TextStyle(color: _getHintColor(context)),
-                        fillColor: Colors.red,
-                        hintText: _getHintText(),
-                        border: InputBorder.none,
-                      ),
-                      onFieldSubmitted: (value) async {
-                        team.name = value;
-                        _saveTeam(context);
-                      },
+                child: Semantics(
+                  explicitChildNodes: true,
+                  child: TextFormField(
+                    controller: textEditingController,
+                    focusNode: focusNode,
+                    key: const ValueKey('nameTextField'),
+                    style: CustomTextStyle.dialogHeaderStyle(context),
+                    decoration: InputDecoration(
+                      hintStyle: TextStyle(color: _getHintColor(context)),
+                      fillColor: Colors.red,
+                      hintText: _getHintText(),
+                      border: InputBorder.none,
                     ),
-                  )),
+                    onFieldSubmitted: (value) async {
+                      team.name = value;
+                      _saveTeam(context);
+                    },
+                  ),
+                )),
             Flexible(
               child: ElevatedButton(
                 style: ButtonStyle(

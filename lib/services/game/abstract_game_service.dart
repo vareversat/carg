@@ -12,8 +12,7 @@ abstract class AbstractGameService<T extends Game, Q extends Score>
   final AbstractScoreService<Q> scoreService;
 
   AbstractGameService(
-      {required this.scoreService,
-      required this.gameRepository})
+      {required this.scoreService, required this.gameRepository})
       : super(repository: gameRepository);
 
   /// Get a game via the [gameId]

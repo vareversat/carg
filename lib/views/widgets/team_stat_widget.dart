@@ -81,15 +81,19 @@ class TeamStatWidget extends StatelessWidget {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    team.name == null || team.name == '' ?  'Sans nom' : team.name!,
+                                    team.name == null || team.name == ''
+                                        ? 'Sans nom'
+                                        : team.name!,
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
-                                        fontWeight: team.name == null || team.name == ''
-                                            ? FontWeight.normal
-                                            : FontWeight.bold,
-                                        color: team.name == null || team.name == ''
-                                            ? Colors.grey
-                                            : Theme.of(context).cardColor),
+                                        fontWeight:
+                                            team.name == null || team.name == ''
+                                                ? FontWeight.normal
+                                                : FontWeight.bold,
+                                        color:
+                                            team.name == null || team.name == ''
+                                                ? Colors.grey
+                                                : Theme.of(context).cardColor),
                                   ),
                                   Row(
                                       mainAxisAlignment: MainAxisAlignment.end,

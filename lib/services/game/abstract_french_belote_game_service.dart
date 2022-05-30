@@ -7,7 +7,6 @@ import 'package:carg/services/team/abstract_team_service.dart';
 
 abstract class AbstractFrenchBeloteGameService
     extends AbstractBeloteGameService<FrenchBelote, FrenchBeloteScore> {
-
   AbstractFrenchBeloteGameService(
       {required AbstractFrenchBeloteScoreService frenchBeloteScoreService,
       required AbstractFrenchBeloteGameRepository frenchBeloteGameRepository,

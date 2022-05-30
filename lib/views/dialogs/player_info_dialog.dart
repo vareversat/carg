@@ -202,13 +202,13 @@ class PlayerInfoDialog extends StatelessWidget {
                                 padding: EdgeInsets.symmetric(horizontal: 5.0),
                                 child: Icon(FontAwesomeIcons.trophy, size: 15),
                               ),
-                          Text(
-                            ' ' + stat.wonGames.toString(),
-                            style: const TextStyle(fontSize: 20),
-                          ),
-                          const Text(
-                            ' - ',
-                            style: TextStyle(fontSize: 20),
+                              Text(
+                                ' ' + stat.wonGames.toString(),
+                                style: const TextStyle(fontSize: 20),
+                              ),
+                              const Text(
+                                ' - ',
+                                style: TextStyle(fontSize: 20),
                               ),
                               Text(
                                 stat.playedGames.toString() + ' ',

@@ -65,11 +65,8 @@ class FakeBeloteGameService extends AbstractBeloteGameService {
   }
 }
 
-@GenerateMocks([
-  AbstractBeloteScoreService,
-  AbstractBeloteGameRepository,
-  TeamService
-])
+@GenerateMocks(
+    [AbstractBeloteScoreService, AbstractBeloteGameRepository, TeamService])
 void main() {
   final mockBeloteScoreService = MockAbstractBeloteScoreService();
   final mockBeloteGameRepository = MockAbstractBeloteGameRepository();

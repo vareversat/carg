@@ -26,8 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
     const UserScreen(),
     const GameListScreen(),
     PlayerListScreen(
-        teamService: TeamService(),
-        playerService: PlayerService()),
+        teamService: TeamService(), playerService: PlayerService()),
   ];
 
   _HomeScreenState(this._currentIndex);

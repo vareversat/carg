@@ -30,10 +30,10 @@ void main() {
   final teamUs = Team(id: 'usTeamId', players: ['p1', 'p2']);
   final teamThem = Team(id: 'themTeamId', players: ['p3', 'p4']);
   final players =
-  BelotePlayers(us: teamUs.id, them: teamThem.id, playerList: playerIds);
+      BelotePlayers(us: teamUs.id, them: teamThem.id, playerList: playerIds);
 
   final expectedGame =
-  CoincheBelote(id: uid, players: players, startingDate: date);
+      CoincheBelote(id: uid, players: players, startingDate: date);
   final expectedGameNoId = CoincheBelote(players: players, startingDate: date);
 
   group('CoincheBeloteGameService', () {

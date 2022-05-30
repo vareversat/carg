@@ -30,10 +30,10 @@ void main() {
   final teamUs = Team(id: 'usTeamId', players: ['p1', 'p2']);
   final teamThem = Team(id: 'themTeamId', players: ['p3', 'p4']);
   final players =
-  BelotePlayers(us: teamUs.id, them: teamThem.id, playerList: playerIds);
+      BelotePlayers(us: teamUs.id, them: teamThem.id, playerList: playerIds);
 
   final expectedGame =
-  ContreeBelote(id: uid, players: players, startingDate: date);
+      ContreeBelote(id: uid, players: players, startingDate: date);
   final expectedGameNoId = ContreeBelote(players: players, startingDate: date);
 
   group('ContreeBeloteGameService', () {

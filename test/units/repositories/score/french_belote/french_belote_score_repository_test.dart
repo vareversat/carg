@@ -62,7 +62,8 @@ void main() {
             .thenAnswer((_) async => mockDocumentSnapshot);
         when(mockDocumentSnapshot.data()).thenReturn(frenchBeloteScoreJson);
         when(mockDocumentSnapshot.id).thenReturn(uid);
-        final frenchBeloteScoreRepository = FrenchBeloteScoreRepository(provider: instance);
+        final frenchBeloteScoreRepository =
+            FrenchBeloteScoreRepository(provider: instance);
         final frenchBeloteScore = await frenchBeloteScoreRepository.get(uid);
         expect(frenchBeloteScore, expectedScore);
       });
@@ -76,8 +77,8 @@ void main() {
             .thenAnswer((_) async => mockDocumentSnapshot);
         when(mockDocumentSnapshot.data()).thenReturn(frenchBeloteScoreJson);
         when(mockDocumentSnapshot.id).thenReturn(uid);
-        final frenchBeloteScoreRepository =
-            FrenchBeloteScoreRepository(provider: instance, environment: 'prod');
+        final frenchBeloteScoreRepository = FrenchBeloteScoreRepository(
+            provider: instance, environment: 'prod');
         final frenchBeloteScore = await frenchBeloteScoreRepository.get(uid);
         expect(frenchBeloteScore, expectedScore);
       });
@@ -92,10 +93,13 @@ void main() {
             .thenReturn(mockQuery);
         when(mockQuery.get()).thenAnswer((_) async => mockQuerySnapshot);
         when(mockQuerySnapshot.docs).thenReturn([mockQueryDocumentSnapshot]);
-        when(mockQueryDocumentSnapshot.data()).thenReturn(frenchBeloteScoreJson);
+        when(mockQueryDocumentSnapshot.data())
+            .thenReturn(frenchBeloteScoreJson);
         when(mockQueryDocumentSnapshot.id).thenReturn(uid);
-        final frenchBeloteScoreRepository = FrenchBeloteScoreRepository(provider: instance);
-        final frenchBeloteScore = await frenchBeloteScoreRepository.getScoreByGame(gameId);
+        final frenchBeloteScoreRepository =
+            FrenchBeloteScoreRepository(provider: instance);
+        final frenchBeloteScore =
+            await frenchBeloteScoreRepository.getScoreByGame(gameId);
         expect(frenchBeloteScore, expectedScore);
       });
       test('PROD', () async {
@@ -106,11 +110,13 @@ void main() {
             .thenReturn(mockQuery);
         when(mockQuery.get()).thenAnswer((_) async => mockQuerySnapshot);
         when(mockQuerySnapshot.docs).thenReturn([mockQueryDocumentSnapshot]);
-        when(mockQueryDocumentSnapshot.data()).thenReturn(frenchBeloteScoreJson);
+        when(mockQueryDocumentSnapshot.data())
+            .thenReturn(frenchBeloteScoreJson);
         when(mockQueryDocumentSnapshot.id).thenReturn(uid);
-        final frenchBeloteScoreRepository =
-            FrenchBeloteScoreRepository(provider: instance, environment: 'prod');
-        final frenchBeloteScore = await frenchBeloteScoreRepository.getScoreByGame(gameId);
+        final frenchBeloteScoreRepository = FrenchBeloteScoreRepository(
+            provider: instance, environment: 'prod');
+        final frenchBeloteScore =
+            await frenchBeloteScoreRepository.getScoreByGame(gameId);
         expect(frenchBeloteScore, expectedScore);
       });
     });

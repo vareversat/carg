@@ -105,7 +105,6 @@ void main() {
       expect(coincheRound.defenderScore, 270);
     });
 
-
     test('Compute score - fulfilled - Dix de Der - US - Capot', () {
       coincheRound.taker = BeloteTeamEnum.US;
       coincheRound.defender = BeloteTeamEnum.THEM;
@@ -135,7 +134,6 @@ void main() {
       expect(coincheRound.takerScore, 10);
       expect(coincheRound.defenderScore, 410);
     });
-
 
     test('Compute score - fulfilled - Dix de Der - US - Generale', () {
       coincheRound.taker = BeloteTeamEnum.US;

@@ -11,8 +11,7 @@ import 'package:network_image_mock/network_image_mock.dart';
 
 import 'team_stat_dialog_test.mocks.dart';
 
-Widget testableWidget(Team team) =>
-    MaterialApp(
+Widget testableWidget(Team team) => MaterialApp(
       home: TeamStatDialog(
         playerService: mockPlayerService,
         teamService: mockTeamService,
@@ -33,21 +32,23 @@ void main() {
 
   group('TeamStatDialog', () {
     testWidgets('existing team name', (WidgetTester tester) async {
-      await mockNetworkImagesFor(() =>
-          tester.pumpWidget(testableWidget(team)));
+      await mockNetworkImagesFor(() => tester.pumpWidget(testableWidget(team)));
       expect(
           tester
-              .widget<TextFormField>(find.byKey(const ValueKey('nameTextField')))
-              .controller?.text,
+              .widget<TextFormField>(
+                  find.byKey(const ValueKey('nameTextField')))
+              .controller
+              ?.text,
           'My name');
     });
 
     testWidgets('enter new name', (WidgetTester tester) async {
-      await mockNetworkImagesFor(() =>
-          tester.pumpWidget(testableWidget(team)));
-      await tester.enterText(find.byKey(const ValueKey('nameTextField')), 'Ny new name');
-      await mockNetworkImagesFor(() =>tester.testTextInput.receiveAction(TextInputAction.done));
-      await mockNetworkImagesFor(() =>tester.pumpAndSettle());
+      await mockNetworkImagesFor(() => tester.pumpWidget(testableWidget(team)));
+      await tester.enterText(
+          find.byKey(const ValueKey('nameTextField')), 'Ny new name');
+      await mockNetworkImagesFor(
+          () => tester.testTextInput.receiveAction(TextInputAction.done));
+      await mockNetworkImagesFor(() => tester.pumpAndSettle());
 
       verify(mockTeamService.update(team)).called(1);
     });

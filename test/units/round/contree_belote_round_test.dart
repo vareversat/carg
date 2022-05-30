@@ -144,7 +144,6 @@ void main() {
       expect(contreeRound.defenderScore, 410);
     });
 
-
     test('Compute score - fulfilled - Dix de Der - US - Generale', () {
       contreeRound.taker = BeloteTeamEnum.US;
       contreeRound.defender = BeloteTeamEnum.THEM;

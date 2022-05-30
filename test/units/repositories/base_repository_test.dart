@@ -13,7 +13,11 @@ class FakeBaseRepository extends BaseRepository {
       required String environment,
       required FirebaseFirestore provider,
       DocumentSnapshot? lastFetchGameDocument})
-      : super(database: database, environment: environment, provider: provider, lastFetchGameDocument: lastFetchGameDocument);
+      : super(
+            database: database,
+            environment: environment,
+            provider: provider,
+            lastFetchGameDocument: lastFetchGameDocument);
 
   @override
   Future<CargObject?> get(String id) {
@@ -107,11 +111,13 @@ void main() {
       when(instance.collection(collection)).thenReturn(mockCollectionReference);
       when(mockCollectionReference.doc('myId'))
           .thenReturn(mockDocumentReference);
-      when(mockDocumentReference.update({'myField': 'myValue', 'mySecondField': 0}))
+      when(mockDocumentReference
+              .update({'myField': 'myValue', 'mySecondField': 0}))
           .thenAnswer((_) async => {});
       final fakeRepository = FakeBaseRepository(
           provider: instance, database: 'fake-collection', environment: 'dev');
-      await fakeRepository.partialUpdate(cargObject, {'myField': 'myValue', 'mySecondField': 0});
+      await fakeRepository.partialUpdate(
+          cargObject, {'myField': 'myValue', 'mySecondField': 0});
     });
 
     test('Create', () async {
