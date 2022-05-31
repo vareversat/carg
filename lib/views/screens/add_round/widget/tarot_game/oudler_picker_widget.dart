@@ -30,11 +30,7 @@ class OudlerPickerWidget extends StatelessWidget {
                               },
                               label: Text(tarotBoutCount.name +
                                   (roundData.oudler == tarotBoutCount
-                                      ? ' (' +
-                                          roundData.oudler.pointToDo
-                                              .round()
-                                              .toString() +
-                                          ')'
+                                      ? ' (${roundData.oudler.pointToDo.round()})'
                                       : ''))))
                           .toList()
                           .cast<Widget>())

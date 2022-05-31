@@ -20,12 +20,7 @@ class BelotePlayers extends Players {
 
   @override
   String getSelectedPlayersStatus() {
-    return 'Nous ' +
-        _usCount().toString() +
-        '/2 - ' +
-        'Eux ' +
-        _themCount().toString() +
-        '/2';
+    return 'Nous ${_usCount()}/2 - Eux ${_themCount()}/2';
   }
 
   @override

@@ -20,7 +20,9 @@ class RegisterEmailWidget extends StatefulWidget {
       : super(key: key);
 
   @override
-  _RegisterEmailWidgetState createState() => _RegisterEmailWidgetState();
+  State<StatefulWidget> createState() {
+    return _RegisterEmailWidgetState();
+  }
 }
 
 class _RegisterEmailWidgetState extends State<RegisterEmailWidget>
@@ -111,13 +113,13 @@ class _RegisterEmailWidgetState extends State<RegisterEmailWidget>
   void initState() {
     super.initState();
     developer.log('Call from initState', name: 'carg.dynamic-link');
-    WidgetsBinding.instance!.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
     _retrieveDynamicLink();
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance!.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 

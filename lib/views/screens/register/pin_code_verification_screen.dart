@@ -23,8 +23,9 @@ class PinCodeVerificationScreen extends StatefulWidget {
       : super(key: key);
 
   @override
-  _PinCodeVerificationScreenState createState() =>
-      _PinCodeVerificationScreenState();
+  State<StatefulWidget> createState() {
+    return _PinCodeVerificationScreenState();
+  }
 }
 
 class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {

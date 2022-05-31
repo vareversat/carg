@@ -102,8 +102,7 @@ class TeamStatWidget extends StatelessWidget {
                                             size: 13,
                                             color: Theme.of(context).cardColor),
                                         Text(
-                                          '  ' +
-                                              team.totalWonGames().toString(),
+                                          '  ${team.totalWonGames()}',
                                           style: const TextStyle(fontSize: 16),
                                         ),
                                         const SizedBox(
@@ -113,10 +112,7 @@ class TeamStatWidget extends StatelessWidget {
                                             size: 13,
                                             color: Theme.of(context).cardColor),
                                         Text(
-                                          '  ' +
-                                              team
-                                                  .totalPlayedGames()
-                                                  .toString(),
+                                          '  ${team.totalPlayedGames()}',
                                           style: const TextStyle(fontSize: 16),
                                         )
                                       ])

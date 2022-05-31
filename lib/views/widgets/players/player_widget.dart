@@ -91,7 +91,7 @@ class PlayerWidget extends StatelessWidget {
                               children: <Widget>[
                                 const Icon(FontAwesomeIcons.trophy, size: 13),
                                 Text(
-                                  '  ' + player.totalWonGames().toString(),
+                                  '  ${player.totalWonGames()}',
                                   style: const TextStyle(fontSize: 16),
                                 ),
                               ],
@@ -102,7 +102,7 @@ class PlayerWidget extends StatelessWidget {
                             Row(children: <Widget>[
                               const Icon(FontAwesomeIcons.gamepad, size: 13),
                               Text(
-                                '  ' + player.totalPlayedGames().toString(),
+                                '  ${player.totalPlayedGames()}',
                                 style: const TextStyle(fontSize: 16),
                               )
                             ])

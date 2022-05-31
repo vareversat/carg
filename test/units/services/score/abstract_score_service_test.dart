@@ -7,36 +7,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
+import '../../mocks/fake_score.dart';
 import 'abstract_score_service_test.mocks.dart';
 
 class FakeScoreService extends AbstractScoreService {
   FakeScoreService(
       {required AbstractScoreRepository<Score<Round>> scoreRepository})
       : super(scoreRepository: scoreRepository);
-}
-
-class FakeScore extends Score {
-  FakeScore(String? id) : super(id: id);
-
-  @override
-  Score<Round> deleteLastRound() {
-    throw UnimplementedError();
-  }
-
-  @override
-  Round getLastRound() {
-    throw UnimplementedError();
-  }
-
-  @override
-  Score<Round> replaceLastRound(Round round) {
-    throw UnimplementedError();
-  }
-
-  @override
-  Map<String, dynamic> toJSON() {
-    throw UnimplementedError();
-  }
 }
 
 @GenerateMocks([

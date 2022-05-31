@@ -15,7 +15,7 @@ extension GameTypeExtension on GameType? {
         return 'Contrée';
       case GameType.UNDEFINE:
         throw Exception(
-            'Name not defined for game type' + GameType.UNDEFINE.name);
+            'Name not defined for game type ${GameType.UNDEFINE.name}');
       case null:
         throw Exception('GameType not defined for null');
     }
@@ -33,7 +33,7 @@ extension GameTypeExtension on GameType? {
         return 'sens anti-horaire';
       case GameType.UNDEFINE:
         throw Exception(
-            'Direction not defined for game type ' + GameType.UNDEFINE.name);
+            'Direction not defined for game type ${GameType.UNDEFINE.name}');
       case null:
         throw Exception('Direction not defined for null');
     }
@@ -51,7 +51,7 @@ extension GameTypeExtension on GameType? {
         return 'contree_belote_rules.md';
       case GameType.UNDEFINE:
         throw Exception(
-            'Rules not defined for game type ' + GameType.UNDEFINE.name);
+            'Rules not defined for game type ${GameType.UNDEFINE.name}');
       case null:
         throw Exception('Rules not defined for null');
     }

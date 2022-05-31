@@ -19,14 +19,14 @@ class TarotRound extends Round {
   late double defenseScore;
   late double _attackTrickPoints;
   late double _defenseTrickPoints;
-  TarotOudler? _oudler;
+  late List<TarotPlayerScore>? playerPoints;
   late TarotContract _contract;
+  TarotOudler? _oudler;
   TarotBonus? _bonus;
   TarotHandful? _handful;
   TarotTeam? _handfulTeam;
   TarotTeam? _smallAtTheEndTeam;
   TarotChelem? _chelem;
-  List<TarotPlayerScore>? playerPoints;
   TarotRoundPlayers? players;
 
   TarotRound({
@@ -42,11 +42,12 @@ class TarotRound extends Round {
     TarotTeam? handfulTeam,
     TarotChelem? chelem,
     TarotTeam? smallToTheEnd,
-    this.playerPoints,
+    List<TarotPlayerScore>? playerPoints,
     this.players,
   }) : super(index: index) {
     this.attackScore = attackScore ?? 0;
     this.defenseScore = defenseScore ?? 0;
+    this.playerPoints = playerPoints ?? <TarotPlayerScore>[];
     _contract = contract ?? TarotContract.PETITE;
     _bonus = bonus;
     _oudler = oudler ?? TarotOudler.ONE;
@@ -196,23 +197,22 @@ class TarotRound extends Round {
   }
 
   void computePlayerPoints(TarotScore tarotScore) {
-    var _playerPoints = <TarotPlayerScore>[];
+    playerPoints = [];
     var realAttackScore =
         players!.playerList!.length <= 4 ? attackScore : attackScore * (2 / 3);
     var calledPlayerScore = attackScore * (1 / 3);
     for (var player in players!.playerList!) {
       if (players!.attackPlayer == player) {
-        _playerPoints
+        playerPoints!
             .add(TarotPlayerScore(player: player, score: realAttackScore));
       } else if (players!.calledPlayer == player) {
-        _playerPoints
+        playerPoints!
             .add(TarotPlayerScore(player: player, score: calledPlayerScore));
       } else {
-        _playerPoints
+        playerPoints!
             .add(TarotPlayerScore(player: player, score: defenseScore));
       }
     }
-    playerPoints = _playerPoints;
     index = tarotScore.rounds.length;
   }
 

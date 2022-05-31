@@ -67,6 +67,7 @@ class TarotScore extends Score<TarotRound> {
   }
 
   void addRound(TarotRound round) {
+    round.computePlayerPoints(this);
     var playerScores = round.playerPoints!;
     for (var playerScore in playerScores) {
       totalPoints

@@ -52,7 +52,7 @@ class CoincheBeloteScoreRepository
           .where('game', isEqualTo: gameId)
           .snapshots()
           .map((event) {
-        final Map<dynamic, dynamic>? value = event.docs[0].data();
+        final Map<dynamic, dynamic> value = event.docs[0].data();
         return CoincheBeloteScore.fromJSON(
             value as Map<String, dynamic>?, event.docs[0].id);
       });
