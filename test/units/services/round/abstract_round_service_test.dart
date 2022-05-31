@@ -11,8 +11,8 @@ import '../../mocks/fake_score.dart';
 import 'abstract_round_service_test.mocks.dart';
 
 class FakeRoundService extends AbstractRoundService {
-
-  FakeRoundService(abstractScoreService) : super(abstractScoreService: abstractScoreService);
+  FakeRoundService(abstractScoreService)
+      : super(abstractScoreService: abstractScoreService);
 
   @override
   BeloteRound getNewRound() {
@@ -25,9 +25,7 @@ class FakeRoundService extends AbstractRoundService {
   }
 }
 
-@GenerateMocks([
-  AbstractScoreService
-])
+@GenerateMocks([AbstractScoreService])
 void main() {
   final mockAbstractScoreService = MockAbstractScoreService();
   final round = FakeRound();
@@ -35,24 +33,20 @@ void main() {
   const uid = '123';
 
   group('AbstractRoundService', () {
-      test('edit the last round of a game', () async {
-        when(mockAbstractScoreService.getScoreByGame(uid))
-            .thenAnswer((_) async => Future(() => score));
-        final roundService =
-        FakeRoundService(mockAbstractScoreService);
-        await roundService.editLastRoundOfScoreByGameId(uid, round);
-        verify(mockAbstractScoreService.update(score)).called(1);
+    test('edit the last round of a game', () async {
+      when(mockAbstractScoreService.getScoreByGame(uid))
+          .thenAnswer((_) async => Future(() => score));
+      final roundService = FakeRoundService(mockAbstractScoreService);
+      await roundService.editLastRoundOfScoreByGameId(uid, round);
+      verify(mockAbstractScoreService.update(score)).called(1);
+    });
 
-      });
-
-      test('delete the last round of a game', () async {
-        when(mockAbstractScoreService.getScoreByGame(uid))
-            .thenAnswer((_) async => Future(() => score));
-        final roundService =
-        FakeRoundService(mockAbstractScoreService);
-        await roundService.deleteLastRoundOfScoreByGameId(uid);
-        verify(mockAbstractScoreService.update(score)).called(1);
-
-      });
+    test('delete the last round of a game', () async {
+      when(mockAbstractScoreService.getScoreByGame(uid))
+          .thenAnswer((_) async => Future(() => score));
+      final roundService = FakeRoundService(mockAbstractScoreService);
+      await roundService.deleteLastRoundOfScoreByGameId(uid);
+      verify(mockAbstractScoreService.update(score)).called(1);
+    });
   });
 }
