@@ -21,7 +21,6 @@ class TarotRoundService extends AbstractTarotRoundService {
     try {
       var tarotScore = await tarotScoreService.getScoreByGame(gameId);
       if (tarotScore != null) {
-        round.computePlayerPoints(tarotScore);
         tarotScore.addRound(round);
         await tarotScoreService.update(tarotScore);
       }
