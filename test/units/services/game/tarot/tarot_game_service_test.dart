@@ -42,6 +42,12 @@ void main() {
   final gameNoId = Tarot(
       startingDate: date, players: TarotPlayers(playerList: ['p1', 'p2']));
 
+  setUp(() {
+    reset(mockTarotScoreService);
+    reset(mockTarotGameRepository);
+    reset(mockPlayerService);
+  });
+
   group('TarotGameService', () {
     group('End a game', () {
       test('OK', () async {

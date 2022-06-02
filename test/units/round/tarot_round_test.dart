@@ -13,10 +13,9 @@ void main() {
         attackPlayer: 'player_1',
         playerList: ['player_1', 'player_2', 'player_3', 'player_4']);
 
-    final tarotRound = TarotRound(
-        attackTrickPoints: 51.0, defenseTrickPoints: 40.0, players: players);
-
     test('Compute score - ONE & PETITE', () {
+      final tarotRound = TarotRound(
+          attackTrickPoints: 51.0, defenseTrickPoints: 40.0, players: players);
       tarotRound.oudler = TarotOudler.ONE;
       tarotRound.contract = TarotContract.PETITE;
       tarotRound.smallToTheEndTeam = null;
@@ -27,6 +26,8 @@ void main() {
     });
 
     test('Compute score - TWO & GARDE', () {
+      final tarotRound = TarotRound(
+          attackTrickPoints: 51.0, defenseTrickPoints: 40.0, players: players);
       tarotRound.oudler = TarotOudler.TWO;
       tarotRound.contract = TarotContract.GARDE_AVEC_CHIEN;
       tarotRound.smallToTheEndTeam = null;
@@ -37,6 +38,8 @@ void main() {
     });
 
     test('Compute score - THREE & GARDE', () {
+      final tarotRound = TarotRound(
+          attackTrickPoints: 51.0, defenseTrickPoints: 40.0, players: players);
       tarotRound.oudler = TarotOudler.ONE;
       tarotRound.contract = TarotContract.GARDE_AVEC_CHIEN;
       tarotRound.smallToTheEndTeam = null;
@@ -47,6 +50,8 @@ void main() {
     });
 
     test('Compute score - Small at the end - Attack', () {
+      final tarotRound = TarotRound(
+          attackTrickPoints: 51.0, defenseTrickPoints: 40.0, players: players);
       tarotRound.oudler = TarotOudler.ONE;
       tarotRound.contract = TarotContract.GARDE_AVEC_CHIEN;
       tarotRound.smallToTheEndTeam = TarotTeam.ATTACK;
@@ -57,6 +62,8 @@ void main() {
     });
 
     test('Compute score - Small at the end - Defense', () {
+      final tarotRound = TarotRound(
+          attackTrickPoints: 51.0, defenseTrickPoints: 40.0, players: players);
       tarotRound.oudler = TarotOudler.ONE;
       tarotRound.contract = TarotContract.GARDE_AVEC_CHIEN;
       tarotRound.smallToTheEndTeam = TarotTeam.DEFENSE;
@@ -67,6 +74,8 @@ void main() {
     });
 
     test('Compute score - Handful won', () {
+      final tarotRound = TarotRound(
+          attackTrickPoints: 51.0, defenseTrickPoints: 40.0, players: players);
       tarotRound.oudler = TarotOudler.ONE;
       tarotRound.contract = TarotContract.GARDE_AVEC_CHIEN;
       tarotRound.smallToTheEndTeam = null;
@@ -77,6 +86,8 @@ void main() {
     });
 
     test('Compute score - Handful lost', () {
+      final tarotRound = TarotRound(
+          attackTrickPoints: 51.0, defenseTrickPoints: 40.0, players: players);
       tarotRound.oudler = TarotOudler.ONE;
       tarotRound.contract = TarotContract.GARDE_AVEC_CHIEN;
       tarotRound.smallToTheEndTeam = null;
@@ -87,6 +98,8 @@ void main() {
     });
 
     test('Compute score - Chelem', () {
+      final tarotRound = TarotRound(
+          attackTrickPoints: 51.0, defenseTrickPoints: 40.0, players: players);
       tarotRound.oudler = TarotOudler.ONE;
       tarotRound.contract = TarotContract.GARDE_AVEC_CHIEN;
       tarotRound.smallToTheEndTeam = null;
