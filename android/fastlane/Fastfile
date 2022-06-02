@@ -17,12 +17,12 @@ lane :firebase do
 end
 
 platform :android do
-    desc "Upload to Play Store : Alpha track"
-    lane :alpha do
+    desc "Upload to Play Store : Dry run"
+    lane :dry_run do
         upload_to_play_store(
-            track: 'alpha',
-            track_promote_to: 'beta',
-            aab: "#{root_path}/app-release.aab"
+            track: 'beta',
+            aab: "#{root_path}/app-release.aab",
+            validate_only: 'true'
         )
     end
 

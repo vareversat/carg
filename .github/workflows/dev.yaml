@@ -16,18 +16,17 @@ jobs:
       passphrase: ${{ secrets.PASSPHRASE }}
       firebase_token: ${{ secrets.FIREBASE_TOKEN }}
   flutter-build:
-    needs: [flutter-test-analyze]
-    uses: ./.github/workflows/flutter.build.action.yaml
-    with:
-      flutter_version: '3.0.1'
-      android_output: 'apk'
-    secrets:
-      passphrase: ${{ secrets.PASSPHRASE }}
-  flutter-build-2:
     needs: [ flutter-test-analyze ]
     uses: ./.github/workflows/flutter.build.action.yaml
     with:
       flutter_version: '3.0.1'
       android_output: 'aab'
+    secrets:
+      passphrase: ${{ secrets.PASSPHRASE }}
+  fastlane-dry-run:
+    needs: [ flutter-build ]
+    uses: ./.github/workflows/fastlane.action.yaml
+    with:
+      lane: 'dry_run'
     secrets:
       passphrase: ${{ secrets.PASSPHRASE }}

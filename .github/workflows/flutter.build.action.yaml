@@ -19,7 +19,7 @@ on:
 
 jobs:
   build_android:
-    name: 'Android'
+    name: 'Android (${{ inputs.android_output }})'
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout source code'
