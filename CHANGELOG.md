@@ -1,3 +1,12 @@
+# **v1.5.0** :
+
+- *Features* :
+  - Teams' stats are know available
+- *Dev stuff* :
+  - Increase test coverage
+  - Whole new code architecture
+
+***
 # **v1.3.0** :
 
 - *Features* :
