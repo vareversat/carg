@@ -3,7 +3,7 @@ name: Dev workflow
 on:
   push:
     branches:
-      - main
+      - dev
 
 jobs:
   flutter-test-analyze:
