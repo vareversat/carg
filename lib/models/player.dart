@@ -103,16 +103,6 @@ class Player extends CargPlayerObject with ChangeNotifier {
     }
   }
 
-  Color getSideColor(BuildContext context) {
-    if (testing) {
-      return Colors.purple;
-    } else if (!owned) {
-      return Theme.of(context).primaryColor;
-    } else {
-      return Theme.of(context).colorScheme.secondary;
-    }
-  }
-
   factory Player.fromJSON(Map<String?, dynamic>? json, String id) {
     return Player(
         id: id,
