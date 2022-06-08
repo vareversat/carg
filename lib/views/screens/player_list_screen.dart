@@ -35,6 +35,12 @@ class _PlayerListScreenState extends State<PlayerListScreen> {
   }
 
   @override
+  void initState() {
+    isAdmin = Provider.of<AuthService>(context, listen: false).getAdmin()!;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return DefaultTabController(
         length: 2,
