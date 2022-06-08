@@ -2,16 +2,22 @@ import 'package:carg/models/score/misc/tarot_player_score.dart';
 import 'package:carg/models/score/round/tarot_round.dart';
 import 'package:carg/models/score/score.dart';
 
-class TarotScore extends Score {
+class TarotScore extends Score<TarotRound> {
   String? game;
-  List<TarotRound>? rounds;
+  late List<TarotRound> rounds;
   late List<TarotPlayerScore> totalPoints;
 
-  TarotScore({id, this.game, this.rounds, scores, List<String?>? players})
+  TarotScore(
+      {id,
+      this.game,
+      List<TarotRound>? rounds,
+      List<TarotPlayerScore>? totalPoints,
+      List<String?>? players})
       : super(id: id) {
-    totalPoints = scores ?? <TarotPlayerScore>[];
+    this.totalPoints = totalPoints ?? <TarotPlayerScore>[];
+    this.rounds = rounds ?? <TarotRound>[];
     for (var player in players ?? []) {
-      totalPoints.add(TarotPlayerScore(player: player, score: 0));
+      this.totalPoints.add(TarotPlayerScore(player: player, score: 0));
     }
   }
 
@@ -19,7 +25,7 @@ class TarotScore extends Score {
   Map<String, dynamic> toJSON() {
     return {
       'game': game,
-      'rounds': rounds!.map((e) => e.toJSON()).toList(),
+      'rounds': rounds.map((e) => e.toJSON()).toList(),
       'player_total_points': totalPoints.map((e) => e.toJSON()).toList()
     };
   }
@@ -32,8 +38,12 @@ class TarotScore extends Score {
     return TarotScore(
         id: id,
         game: json?['game'],
-        rounds: TarotRound.fromJSONList(json?['rounds']),
-        scores: TarotPlayerScore.fromJSONList(json?['player_total_points']));
+        rounds: json?['rounds'] != null
+            ? TarotRound.fromJSONList(json?['rounds'])
+            : <TarotRound>[],
+        totalPoints: json?['player_total_points'] != null
+            ? TarotPlayerScore.fromJSONList(json?['player_total_points'])
+            : <TarotPlayerScore>[]);
   }
 
   @override
@@ -43,7 +53,7 @@ class TarotScore extends Score {
 
   @override
   TarotRound getLastRound() {
-    return rounds!.last;
+    return rounds.last;
   }
 
   void removeRound(TarotRound round) {
@@ -53,21 +63,30 @@ class TarotScore extends Score {
           .firstWhere((element) => element.player == playerScore.player)
           .score -= playerScore.score;
     }
-    rounds!.removeLast();
+    rounds.removeLast();
   }
 
   void addRound(TarotRound round) {
+    round.computePlayerPoints(this);
     var playerScores = round.playerPoints!;
     for (var playerScore in playerScores) {
       totalPoints
           .firstWhere((element) => element.player == playerScore.player)
           .score += playerScore.score;
     }
-    rounds!.add(round);
+    rounds.add(round);
   }
 
-  void replaceLastRound(TarotRound round) {
+  @override
+  TarotScore deleteLastRound() {
+    removeRound(getLastRound());
+    return this;
+  }
+
+  @override
+  TarotScore replaceLastRound(TarotRound round) {
     removeRound(getLastRound());
     addRound(round);
+    return this;
   }
 }

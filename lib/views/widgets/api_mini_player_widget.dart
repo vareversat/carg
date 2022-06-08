@@ -1,5 +1,5 @@
 import 'package:carg/models/player.dart';
-import 'package:carg/services/player_service.dart';
+import 'package:carg/services/player/abstract_player_service.dart';
 import 'package:carg/views/dialogs/player_info_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -13,13 +13,14 @@ class APIMiniPlayerWidget extends StatelessWidget {
   final Function? onTap;
   final Color? selectedColor;
   final String additionalText;
-  final PlayerService _playerService = PlayerService();
+  final AbstractPlayerService playerService;
   final String _errorMessage = 'player missing';
 
-  APIMiniPlayerWidget(
+  const APIMiniPlayerWidget(
       {Key? key,
       required this.playerId,
       required this.displayImage,
+      required this.playerService,
       this.showLoading = true,
       this.size = 15,
       this.isSelected = false,
@@ -34,14 +35,14 @@ class APIMiniPlayerWidget extends StatelessWidget {
           context: context,
           builder: (BuildContext context) => PlayerInfoDialog(
               player: player,
-              playerService: _playerService,
+              playerService: playerService,
               isNewPlayer: false));
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<Player>(
+    return FutureBuilder<Player?>(
       builder: (context, snapshot) {
         Widget? child;
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -49,43 +50,43 @@ class APIMiniPlayerWidget extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 5),
               child: showLoading
                   ? SpinKitThreeBounce(
-                  size: 20,
-                  itemBuilder: (BuildContext context, int index) {
-                    return DecoratedBox(
-                        decoration: BoxDecoration(
-                          color: Theme
-                              .of(context)
-                              .colorScheme
-                              .secondary,
+                      size: 20,
+                      itemBuilder: (BuildContext context, int index) {
+                        return DecoratedBox(
+                            decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.secondary,
                         ));
-                  })
+                      })
                   : const SizedBox());
         }
         if (snapshot.hasData) {
-          child = Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 2),
-              child: InputChip(
-                  selected: isSelected,
-                  selectedColor:
-                      selectedColor ?? Theme.of(context).colorScheme.secondary,
-                  onPressed: onTap as void Function()? ??
-                      () => {_showEditPlayerDialog(context, snapshot.data)},
-                  avatar: (snapshot.data!.profilePicture != '' && displayImage)
-                      ? Container(
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                width: 2,
-                                color: Theme.of(context).primaryColor,
-                              ),
-                              shape: BoxShape.circle,
-                              image: DecorationImage(
-                                  image: NetworkImage(
-                                      snapshot.data!.profilePicture))),
-                        )
-                      : null,
-                  label: Text(snapshot.data!.userName + additionalText,
-                      style: TextStyle(fontSize: size),
-                      overflow: TextOverflow.ellipsis)));
+          child = Material(
+            child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 2),
+                child: InputChip(
+                    selected: isSelected,
+                    selectedColor: selectedColor ??
+                        Theme.of(context).colorScheme.secondary,
+                    onPressed: onTap as void Function()? ??
+                        () => {_showEditPlayerDialog(context, snapshot.data)},
+                    avatar:
+                        (snapshot.data!.profilePicture != '' && displayImage)
+                            ? Container(
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                      width: 2,
+                                      color: Theme.of(context).primaryColor,
+                                    ),
+                                    shape: BoxShape.circle,
+                                    image: DecorationImage(
+                                        image: NetworkImage(
+                                            snapshot.data!.profilePicture))),
+                              )
+                            : null,
+                    label: Text(snapshot.data!.userName + additionalText,
+                        style: TextStyle(fontSize: size),
+                        overflow: TextOverflow.ellipsis))),
+          );
         }
         if (!snapshot.hasData &&
             snapshot.connectionState == ConnectionState.done) {
@@ -104,7 +105,7 @@ class APIMiniPlayerWidget extends StatelessWidget {
         return AnimatedSwitcher(
             duration: const Duration(milliseconds: 500), child: child);
       },
-      future: _playerService.getPlayer(playerId),
+      future: playerService.get(playerId),
     );
   }
 }

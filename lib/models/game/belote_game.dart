@@ -4,9 +4,7 @@ import 'package:carg/models/players/belote_players.dart';
 abstract class Belote<T extends BelotePlayers> extends Game<T> {
   Belote(
       {id,
-      required gameType,
-      required gameService,
-      required scoreService,
+      gameType,
       startingDate,
       endingDate,
       winner,
@@ -18,8 +16,6 @@ abstract class Belote<T extends BelotePlayers> extends Game<T> {
             gameType: gameType,
             endingDate: endingDate,
             players: players,
-            gameService: gameService,
-            scoreService: scoreService,
             startingDate: startingDate,
             winner: winner,
             isEnded: isEnded,

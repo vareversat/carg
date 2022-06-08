@@ -1,8 +1,8 @@
+import 'package:carg/exceptions/custom_exception.dart';
 import 'package:carg/helpers/custom_route.dart';
 import 'package:carg/models/player.dart';
-import 'package:carg/services/auth_service.dart';
-import 'package:carg/services/custom_exception.dart';
-import 'package:carg/services/player_service.dart';
+import 'package:carg/services/auth/auth_service.dart';
+import 'package:carg/services/impl/player_service.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/dialogs/carg_about_dialog.dart';
 import 'package:carg/views/helpers/info_snackbar.dart';
@@ -20,7 +20,9 @@ class SettingsScreen extends StatefulWidget {
       : super(key: key);
 
   @override
-  _SettingsScreenState createState() => _SettingsScreenState();
+  State<StatefulWidget> createState() {
+    return _SettingsScreenState();
+  }
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
@@ -29,7 +31,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Future<void> _savePlayer() async {
     try {
-      await widget.playerService.updatePlayer(widget.player);
+      await widget.playerService.update(widget.player);
       InfoSnackBar.showSnackBar(context, 'Profil modifié avec succès');
     } on CustomException catch (e) {
       InfoSnackBar.showSnackBar(context, e.message);
@@ -85,7 +87,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                           fontSize: 30)),
                                   playerData.admin
                                       ? ClipRRect(
-                                      key: const ValueKey('adminLabel'),
+                                          key: const ValueKey('adminLabel'),
                                           borderRadius:
                                               BorderRadius.circular(5.0),
                                           child: Container(

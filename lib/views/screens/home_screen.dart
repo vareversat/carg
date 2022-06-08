@@ -1,4 +1,5 @@
-import 'package:carg/services/player_service.dart';
+import 'package:carg/services/impl/player_service.dart';
+import 'package:carg/services/impl/team_service.dart';
 import 'package:carg/views/screens/game_list_screen.dart';
 import 'package:carg/views/screens/player_list_screen.dart';
 import 'package:carg/views/screens/user_screen.dart';
@@ -24,7 +25,8 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Widget> _children = [
     const UserScreen(),
     const GameListScreen(),
-    PlayerListScreen(playerService: PlayerService(), textEditingController: TextEditingController()),
+    PlayerListScreen(
+        teamService: TeamService(), playerService: PlayerService()),
   ];
 
   _HomeScreenState(this._currentIndex);

@@ -1,8 +1,9 @@
 import 'package:carg/models/player.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 
 abstract class Players with ChangeNotifier {
-  List<String?>? playerList;
+  List<dynamic>? playerList;
 
   Players({playerList}) {
     if (playerList == null) {
@@ -33,4 +34,14 @@ abstract class Players with ChangeNotifier {
       'player_list': playerList!.map((e) => e).toList(),
     };
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Players &&
+          runtimeType == other.runtimeType &&
+          const ListEquality().equals(playerList, other.playerList);
+
+  @override
+  int get hashCode => playerList.hashCode;
 }

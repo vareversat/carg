@@ -4,13 +4,13 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('BeloteRound', () {
-    final beloteRound = FrenchBeloteRound();
-
     test('Is contract fulfilled', () {
+      final beloteRound = FrenchBeloteRound();
       expect(beloteRound.contractFulfilled, true);
     });
 
     test('Compute score - fulfilled', () {
+      final beloteRound = FrenchBeloteRound();
       beloteRound.taker = BeloteTeamEnum.US;
       beloteRound.defender = BeloteTeamEnum.THEM;
       beloteRound.dixDeDer = BeloteTeamEnum.US;
@@ -23,6 +23,7 @@ void main() {
     });
 
     test('Compute score - fulfilled - BeloteRebelote - US', () {
+      final beloteRound = FrenchBeloteRound();
       beloteRound.taker = BeloteTeamEnum.US;
       beloteRound.defender = BeloteTeamEnum.THEM;
       beloteRound.dixDeDer = BeloteTeamEnum.US;
@@ -35,6 +36,7 @@ void main() {
     });
 
     test('Compute score - not fulfilled - BeloteRebelote - THEM', () {
+      final beloteRound = FrenchBeloteRound();
       beloteRound.taker = BeloteTeamEnum.US;
       beloteRound.dixDeDer = BeloteTeamEnum.US;
       beloteRound.defender = BeloteTeamEnum.THEM;
@@ -47,6 +49,7 @@ void main() {
     });
 
     test('Compute score - fulfilled - Dix de Der - US', () {
+      final beloteRound = FrenchBeloteRound();
       beloteRound.taker = BeloteTeamEnum.US;
       beloteRound.dixDeDer = BeloteTeamEnum.US;
       beloteRound.defender = BeloteTeamEnum.THEM;
@@ -59,6 +62,7 @@ void main() {
     });
 
     test('Compute score - fulfilled - Dix de Der - THEM', () {
+      final beloteRound = FrenchBeloteRound();
       beloteRound.taker = BeloteTeamEnum.US;
       beloteRound.defender = BeloteTeamEnum.THEM;
       beloteRound.dixDeDer = BeloteTeamEnum.THEM;
@@ -71,6 +75,7 @@ void main() {
     });
 
     test('Compute score - failed', () {
+      final beloteRound = FrenchBeloteRound();
       beloteRound.taker = BeloteTeamEnum.THEM;
       beloteRound.defender = BeloteTeamEnum.US;
       beloteRound.dixDeDer = BeloteTeamEnum.US;

@@ -7,6 +7,7 @@ import 'package:carg/models/score/misc/tarot_perk.dart';
 import 'package:carg/models/score/misc/tarot_player_score.dart';
 import 'package:carg/models/score/misc/tarot_team.dart';
 import 'package:carg/models/score/round/round.dart';
+import 'package:carg/models/score/tarot_score.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 
 class TarotRound extends Round {
@@ -18,34 +19,35 @@ class TarotRound extends Round {
   late double defenseScore;
   late double _attackTrickPoints;
   late double _defenseTrickPoints;
-  TarotRoundPlayers? players;
-  TarotOudler? _oudler;
+  late List<TarotPlayerScore>? playerPoints;
   late TarotContract _contract;
+  TarotOudler? _oudler;
   TarotBonus? _bonus;
   TarotHandful? _handful;
   TarotTeam? _handfulTeam;
   TarotTeam? _smallAtTheEndTeam;
   TarotChelem? _chelem;
-  List<TarotPlayerScore>? playerPoints;
+  TarotRoundPlayers? players;
 
   TarotRound({
-    index,
-    attackScore,
-    defenseScore,
-    attackTrickPoints,
-    defenseTrickPoints,
-    oudler,
-    contract,
-    bonus,
-    handful,
-    handfulTeam,
-    chelem,
-    smallToTheEnd,
-    this.playerPoints,
+    int? index,
+    double? attackScore,
+    double? defenseScore,
+    double? attackTrickPoints,
+    double? defenseTrickPoints,
+    TarotOudler? oudler,
+    TarotContract? contract,
+    TarotBonus? bonus,
+    TarotHandful? handful,
+    TarotTeam? handfulTeam,
+    TarotChelem? chelem,
+    TarotTeam? smallToTheEnd,
+    List<TarotPlayerScore>? playerPoints,
     this.players,
   }) : super(index: index) {
     this.attackScore = attackScore ?? 0;
     this.defenseScore = defenseScore ?? 0;
+    this.playerPoints = playerPoints ?? <TarotPlayerScore>[];
     _contract = contract ?? TarotContract.PETITE;
     _bonus = bonus;
     _oudler = oudler ?? TarotOudler.ONE;
@@ -124,7 +126,7 @@ class TarotRound extends Round {
 
   @override
   void computeRound() {
-    var gain = (attackTrickPoints - oudler.pointToDo!);
+    var gain = (attackTrickPoints - oudler.pointToDo);
     var score = 0.0;
     var winCoefficient = 1;
     var smallToTheEndBonus = 0.0;
@@ -192,6 +194,26 @@ class TarotRound extends Round {
     attackScore = winCoefficient * score * (players!.playerList!.length - 1);
     defenseScore = -winCoefficient * score;
     notifyListeners();
+  }
+
+  void computePlayerPoints(TarotScore tarotScore) {
+    playerPoints = [];
+    var realAttackScore =
+        players!.playerList!.length <= 4 ? attackScore : attackScore * (2 / 3);
+    var calledPlayerScore = attackScore * (1 / 3);
+    for (var player in players!.playerList!) {
+      if (players!.attackPlayer == player) {
+        playerPoints!
+            .add(TarotPlayerScore(player: player, score: realAttackScore));
+      } else if (players!.calledPlayer == player) {
+        playerPoints!
+            .add(TarotPlayerScore(player: player, score: calledPlayerScore));
+      } else {
+        playerPoints!
+            .add(TarotPlayerScore(player: player, score: defenseScore));
+      }
+    }
+    index = tarotScore.rounds.length;
   }
 
   TarotPlayerScore getScoreOf(String? player) {

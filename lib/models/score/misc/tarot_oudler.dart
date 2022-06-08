@@ -3,7 +3,7 @@
 enum TarotOudler { ZERO, ONE, TWO, THREE }
 
 extension TarotOudlerExtension on TarotOudler? {
-  double? get pointToDo {
+  double get pointToDo {
     switch (this) {
       case TarotOudler.ZERO:
         return 56;
@@ -14,11 +14,11 @@ extension TarotOudlerExtension on TarotOudler? {
       case TarotOudler.THREE:
         return 36;
       default:
-        return null;
+        throw Exception('No score mapped for Oudler $this');
     }
   }
 
-  String? get name {
+  String get name {
     switch (this) {
       case TarotOudler.ZERO:
         return '0';
@@ -29,7 +29,7 @@ extension TarotOudlerExtension on TarotOudler? {
       case TarotOudler.THREE:
         return '3';
       default:
-        return null;
+        throw Exception('No name mapped for Oudler $this');
     }
   }
 }

@@ -1,15 +1,11 @@
 import 'package:carg/models/game/belote_game.dart';
 import 'package:carg/models/game/game_type.dart';
 import 'package:carg/models/players/belote_players.dart';
-import 'package:carg/services/game/contree_belote_service.dart';
-import 'package:carg/services/score/contree_belote_score_service.dart';
 
 class ContreeBelote extends Belote {
   ContreeBelote(
       {String? id,
       GameType? gameType,
-      ContreeBeloteService? gameService,
-      ContreeScoreService? scoreService,
       DateTime? startingDate,
       DateTime? endingDate,
       String? winner,
@@ -19,8 +15,6 @@ class ContreeBelote extends Belote {
       : super(
             id: id,
             gameType: GameType.CONTREE,
-            gameService: ContreeBeloteService(),
-            scoreService: ContreeScoreService(),
             players: players ?? BelotePlayers(),
             endingDate: endingDate,
             startingDate: startingDate,
@@ -40,7 +34,7 @@ class ContreeBelote extends Belote {
         endingDate: json?['ending_date'] != null
             ? DateTime.parse(json?['ending_date'])
             : null,
-        isEnded: json?['is_ended'] as bool,
+        isEnded: json?['is_ended'],
         players: BelotePlayers.fromJSON(json?['players']),
         winner: json?['winners'],
         notes: json?['notes']);

@@ -6,7 +6,8 @@ class TarotRoundPlayers extends Players {
   String? attackPlayer;
   String? calledPlayer;
 
-  TarotRoundPlayers({this.attackPlayer, this.calledPlayer, playerList})
+  TarotRoundPlayers(
+      {this.attackPlayer, this.calledPlayer, List<dynamic>? playerList})
       : super(playerList: playerList);
 
   bool isPlayerSelected(String? playerId) {
@@ -42,7 +43,7 @@ class TarotRoundPlayers extends Players {
 
   @override
   String getSelectedPlayersStatus() {
-    return 'Joueurs : ' + playerList!.length.toString() + '/5';
+    return 'Joueurs : ${playerList!.length}/5';
   }
 
   @override

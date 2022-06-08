@@ -17,7 +17,18 @@ class TarotPlayerScore {
   }
 
   @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is TarotPlayerScore &&
+          runtimeType == other.runtimeType &&
+          player == other.player &&
+          score == other.score;
+
+  @override
+  int get hashCode => player.hashCode ^ score.hashCode;
+
+  @override
   String toString() {
-    return 'PlayerScore{player: $player, score: $score}';
+    return 'TarotPlayerScore{player: $player, score: $score}';
   }
 }

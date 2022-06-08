@@ -33,8 +33,8 @@ class SplashScreen extends StatelessWidget {
                   strokeWidth: 8,
                 ))
           ],
-            ),
-          )),
+        ),
+      )),
     );
   }
 }

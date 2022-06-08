@@ -22,6 +22,18 @@ jobs:
           flutter-version: ${{ inputs.flutter_version }}
       - name: 'Flutter analyze'
         run: flutter analyze
+  format:
+    name: 'Format'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout source code'
+        uses: actions/checkout@v3
+      - name: 'Setup flutter action'
+        uses: subosito/flutter-action@v1.5.3
+        with:
+          flutter-version: ${{ inputs.flutter_version }}
+      - name: 'Flutter format'
+        run: flutter format lib --set-exit-if-changed
   test:
     name: 'Test'
     runs-on: ubuntu-latest
@@ -33,9 +45,9 @@ jobs:
         with:
           flutter-version: ${{ inputs.flutter_version }}
       - name: 'Flutter test (with coverage)'
-        run: flutter test --coverage
+        run: flutter test --coverage --test-randomize-ordering-seed random
       - name: 'Upload coverage report'
-        uses: codecov/codecov-action@v2.1.0
+        uses: codecov/codecov-action@v3.1.0
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           directory: ./coverage/

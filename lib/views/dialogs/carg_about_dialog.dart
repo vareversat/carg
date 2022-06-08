@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class CargAboutDialog extends StatelessWidget {
   final String _repoUrl = 'https://github.com/vareversat/carg';
@@ -26,8 +26,8 @@ class CargAboutDialog extends StatelessWidget {
   CargAboutDialog({Key? key}) : super(key: key);
 
   void _launchURL() async {
-    if (await canLaunch(_repoUrl)) {
-      await launch(_repoUrl, forceSafariVC: false);
+    if (await canLaunchUrlString(_repoUrl)) {
+      await launchUrlString(_repoUrl);
     } else {
       throw 'Impossible d\'ouvrir $_repoUrl';
     }
@@ -164,7 +164,7 @@ class CargAboutDialog extends StatelessWidget {
                                 .toLowerCase(),
                         style: const TextStyle(fontSize: 18)),
                     icon: const Icon(
-                      FontAwesomeIcons.fileAlt,
+                      FontAwesomeIcons.fileLines,
                       size: 20,
                     ))
               ],

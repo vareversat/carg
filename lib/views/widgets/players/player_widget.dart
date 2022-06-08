@@ -1,5 +1,5 @@
 import 'package:carg/models/player.dart';
-import 'package:carg/services/player_service.dart';
+import 'package:carg/services/impl/player_service.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/views/dialogs/player_info_dialog.dart';
 import 'package:carg/views/helpers/info_snackbar.dart';
@@ -28,8 +28,8 @@ class PlayerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5.0),
-      child: ElevatedButton(
+        padding: const EdgeInsets.symmetric(vertical: 5.0),
+        child: ElevatedButton(
             onPressed: () =>
                 onTap == null ? _showEditPlayerDialog(context) : onTap!(),
             style: ButtonStyle(
@@ -83,7 +83,7 @@ class PlayerWidget extends StatelessWidget {
                             )
                           ])),
                   Flexible(
-                    flex: 2,
+                      flex: 2,
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -91,7 +91,7 @@ class PlayerWidget extends StatelessWidget {
                               children: <Widget>[
                                 const Icon(FontAwesomeIcons.trophy, size: 13),
                                 Text(
-                                  '  ' + player.totalWonGames().toString(),
+                                  '  ${player.totalWonGames()}',
                                   style: const TextStyle(fontSize: 16),
                                 ),
                               ],
@@ -102,7 +102,7 @@ class PlayerWidget extends StatelessWidget {
                             Row(children: <Widget>[
                               const Icon(FontAwesomeIcons.gamepad, size: 13),
                               Text(
-                                '  ' + player.totalPlayedGames().toString(),
+                                '  ${player.totalPlayedGames()}',
                                 style: const TextStyle(fontSize: 16),
                               )
                             ])

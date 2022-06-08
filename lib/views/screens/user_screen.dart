@@ -2,8 +2,8 @@ import 'package:carg/helpers/custom_route.dart';
 import 'package:carg/models/game/game_type.dart';
 import 'package:carg/models/game_stats.dart';
 import 'package:carg/models/player.dart';
-import 'package:carg/services/auth_service.dart';
-import 'package:carg/services/player_service.dart';
+import 'package:carg/services/auth/auth_service.dart';
+import 'package:carg/services/impl/player_service.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/screens/settings_screen.dart';
@@ -39,7 +39,7 @@ class _UserScreenState extends State<UserScreen>
           context,
           CustomRouteFade(
               builder: (context) => SettingsScreen(
-                player: _player!,
+                    player: _player!,
                     playerService: PlayerService(),
                   )));
     }
@@ -380,7 +380,7 @@ class _AppBarTitle extends StatelessWidget {
             onPressed: () async => await onPressEdit(),
             label: const Text('Paramètres'),
             icon: const Icon(
-              FontAwesomeIcons.cogs,
+              FontAwesomeIcons.gears,
               size: 13,
             ))
       ],

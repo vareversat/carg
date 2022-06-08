@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:carg/models/player.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
@@ -19,6 +20,14 @@ class AlgoliaHelper {
   }
 
   AlgoliaHelper._create();
+
+  String _getAlgoliaFilter(bool? admin, String? playerId) {
+    if (admin != null && admin) {
+      return 'owned_by:$playerId OR owned:false OR testing:true';
+    } else {
+      return '(owned_by:$playerId OR owned:false) AND NOT testing:true';
+    }
+  }
 
   static Future<AlgoliaHelper> create() async {
     var component = AlgoliaHelper._create();
@@ -43,7 +52,8 @@ class AlgoliaHelper {
   }
 
   Future<List<dynamic>> filter(
-      {required String filters, required String query}) async {
+      {required String query, required Player currentPlayer}) async {
+    var filters = _getAlgoliaFilter(currentPlayer.admin, currentPlayer.id);
     final params = {
       'query': query,
       'filters': filters,

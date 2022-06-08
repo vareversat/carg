@@ -11,15 +11,6 @@ class GameStats {
       required this.wonGames,
       required this.playedGames});
 
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is GameStats &&
-          runtimeType == other.runtimeType &&
-          gameType == other.gameType &&
-          wonGames == other.wonGames &&
-          playedGames == other.playedGames;
-
   factory GameStats.fromJSON(Map<String, dynamic> json) {
     return GameStats(
         gameType: EnumToString.fromString(GameType.values, json['game_type'])!,
@@ -44,10 +35,20 @@ class GameStats {
   }
 
   @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is GameStats &&
+          runtimeType == other.runtimeType &&
+          gameType == other.gameType &&
+          wonGames == other.wonGames &&
+          playedGames == other.playedGames;
+
+  @override
+  int get hashCode =>
+      gameType.hashCode ^ wonGames.hashCode ^ playedGames.hashCode;
+
+  @override
   String toString() {
     return 'GameStats{gameType: $gameType, wonGames: $wonGames, playedGames: $playedGames}';
   }
-
-  @override
-  int get hashCode => gameType.hashCode;
 }

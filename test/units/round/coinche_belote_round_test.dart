@@ -6,17 +6,21 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('CoincheRound', () {
-    final coincheRound = CoincheBeloteRound(
-        taker: BeloteTeamEnum.US,
-        defender: BeloteTeamEnum.THEM,
-        usTrickScore: 110,
-        themTrickScore: 50);
-
     test('Is contract fulfilled', () {
+      final coincheRound = CoincheBeloteRound(
+          taker: BeloteTeamEnum.US,
+          defender: BeloteTeamEnum.THEM,
+          usTrickScore: 110,
+          themTrickScore: 50);
       expect(coincheRound.contractFulfilled, true);
     });
 
     test('Compute score - Set contract', () {
+      final coincheRound = CoincheBeloteRound(
+          taker: BeloteTeamEnum.US,
+          defender: BeloteTeamEnum.THEM,
+          usTrickScore: 110,
+          themTrickScore: 50);
       coincheRound.dixDeDer = BeloteTeamEnum.US;
       coincheRound.beloteRebelote = null;
       coincheRound.contractName = CoincheBeloteContractName.NORMAL;
@@ -26,6 +30,11 @@ void main() {
     });
 
     test('Compute score - fulfilled', () {
+      final coincheRound = CoincheBeloteRound(
+          taker: BeloteTeamEnum.US,
+          defender: BeloteTeamEnum.THEM,
+          usTrickScore: 110,
+          themTrickScore: 50);
       coincheRound.dixDeDer = BeloteTeamEnum.US;
       coincheRound.beloteRebelote = null;
       coincheRound.contractName = CoincheBeloteContractName.NORMAL;
@@ -36,6 +45,11 @@ void main() {
     });
 
     test('Compute score - fulfilled - BeloteRebelote - US', () {
+      final coincheRound = CoincheBeloteRound(
+          taker: BeloteTeamEnum.US,
+          defender: BeloteTeamEnum.THEM,
+          usTrickScore: 110,
+          themTrickScore: 50);
       coincheRound.dixDeDer = BeloteTeamEnum.THEM;
       coincheRound.beloteRebelote = BeloteTeamEnum.US;
       coincheRound.contractName = CoincheBeloteContractName.NORMAL;
@@ -46,6 +60,11 @@ void main() {
     });
 
     test('Compute score - fulfilled - BeloteRebelote - THEM', () {
+      final coincheRound = CoincheBeloteRound(
+          taker: BeloteTeamEnum.US,
+          defender: BeloteTeamEnum.THEM,
+          usTrickScore: 110,
+          themTrickScore: 50);
       coincheRound.dixDeDer = BeloteTeamEnum.US;
       coincheRound.beloteRebelote = BeloteTeamEnum.THEM;
       coincheRound.contractName = CoincheBeloteContractName.NORMAL;
@@ -56,6 +75,11 @@ void main() {
     });
 
     test('Compute score - fulfilled - Dix de Der - US', () {
+      final coincheRound = CoincheBeloteRound(
+          taker: BeloteTeamEnum.US,
+          defender: BeloteTeamEnum.THEM,
+          usTrickScore: 110,
+          themTrickScore: 50);
       coincheRound.beloteRebelote = null;
       coincheRound.dixDeDer = BeloteTeamEnum.US;
       coincheRound.contractName = CoincheBeloteContractName.NORMAL;
@@ -66,6 +90,11 @@ void main() {
     });
 
     test('Compute score - fulfilled - Dix de Der - THEM', () {
+      final coincheRound = CoincheBeloteRound(
+          taker: BeloteTeamEnum.US,
+          defender: BeloteTeamEnum.THEM,
+          usTrickScore: 110,
+          themTrickScore: 50);
       coincheRound.beloteRebelote = null;
       coincheRound.dixDeDer = BeloteTeamEnum.THEM;
       coincheRound.contractName = CoincheBeloteContractName.NORMAL;
@@ -76,6 +105,11 @@ void main() {
     });
 
     test('Compute score - Contract - Coinche', () {
+      final coincheRound = CoincheBeloteRound(
+          taker: BeloteTeamEnum.US,
+          defender: BeloteTeamEnum.THEM,
+          usTrickScore: 110,
+          themTrickScore: 50);
       coincheRound.beloteRebelote = null;
       coincheRound.dixDeDer = BeloteTeamEnum.US;
       coincheRound.contractName = CoincheBeloteContractName.COINCHE;
@@ -85,6 +119,11 @@ void main() {
     });
 
     test('Compute score - Contract - Sur Coinche', () {
+      final coincheRound = CoincheBeloteRound(
+          taker: BeloteTeamEnum.US,
+          defender: BeloteTeamEnum.THEM,
+          usTrickScore: 110,
+          themTrickScore: 50);
       coincheRound.beloteRebelote = null;
       coincheRound.dixDeDer = BeloteTeamEnum.US;
       coincheRound.contractName = CoincheBeloteContractName.SURCOINCHE;
@@ -94,6 +133,11 @@ void main() {
     });
 
     test('Compute score - failed', () {
+      final coincheRound = CoincheBeloteRound(
+          taker: BeloteTeamEnum.US,
+          defender: BeloteTeamEnum.THEM,
+          usTrickScore: 110,
+          themTrickScore: 50);
       coincheRound.taker = BeloteTeamEnum.THEM;
       coincheRound.defender = BeloteTeamEnum.US;
       coincheRound.beloteRebelote = null;
@@ -105,8 +149,12 @@ void main() {
       expect(coincheRound.defenderScore, 270);
     });
 
-
     test('Compute score - fulfilled - Dix de Der - US - Capot', () {
+      final coincheRound = CoincheBeloteRound(
+          taker: BeloteTeamEnum.US,
+          defender: BeloteTeamEnum.THEM,
+          usTrickScore: 110,
+          themTrickScore: 50);
       coincheRound.taker = BeloteTeamEnum.US;
       coincheRound.defender = BeloteTeamEnum.THEM;
       coincheRound.usTrickScore = 152;
@@ -122,6 +170,11 @@ void main() {
     });
 
     test('Compute score - fulfilled - Dix de Der - US - Capot failed', () {
+      final coincheRound = CoincheBeloteRound(
+          taker: BeloteTeamEnum.US,
+          defender: BeloteTeamEnum.THEM,
+          usTrickScore: 110,
+          themTrickScore: 50);
       coincheRound.taker = BeloteTeamEnum.US;
       coincheRound.defender = BeloteTeamEnum.THEM;
       coincheRound.usTrickScore = 140;
@@ -136,8 +189,12 @@ void main() {
       expect(coincheRound.defenderScore, 410);
     });
 
-
     test('Compute score - fulfilled - Dix de Der - US - Generale', () {
+      final coincheRound = CoincheBeloteRound(
+          taker: BeloteTeamEnum.US,
+          defender: BeloteTeamEnum.THEM,
+          usTrickScore: 110,
+          themTrickScore: 50);
       coincheRound.taker = BeloteTeamEnum.US;
       coincheRound.defender = BeloteTeamEnum.THEM;
       coincheRound.usTrickScore = 152;
@@ -153,6 +210,11 @@ void main() {
     });
 
     test('Compute score - fulfilled - Dix de Der - US - Failed generale', () {
+      final coincheRound = CoincheBeloteRound(
+          taker: BeloteTeamEnum.US,
+          defender: BeloteTeamEnum.THEM,
+          usTrickScore: 110,
+          themTrickScore: 50);
       coincheRound.taker = BeloteTeamEnum.US;
       coincheRound.defender = BeloteTeamEnum.THEM;
       coincheRound.usTrickScore = 152;

@@ -1,8 +1,8 @@
 import 'dart:async';
 
+import 'package:carg/exceptions/custom_exception.dart';
 import 'package:carg/helpers/custom_route.dart';
-import 'package:carg/services/auth_service.dart';
-import 'package:carg/services/custom_exception.dart';
+import 'package:carg/services/auth/auth_service.dart';
 import 'package:carg/views/dialogs/dialogs.dart';
 import 'package:carg/views/helpers/info_snackbar.dart';
 import 'package:flutter/material.dart';
@@ -23,8 +23,9 @@ class PinCodeVerificationScreen extends StatefulWidget {
       : super(key: key);
 
   @override
-  _PinCodeVerificationScreenState createState() =>
-      _PinCodeVerificationScreenState();
+  State<StatefulWidget> createState() {
+    return _PinCodeVerificationScreenState();
+  }
 }
 
 class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {

@@ -6,17 +6,21 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('ContreeRound', () {
-    final contreeRound = ContreeBeloteRound(
-        taker: BeloteTeamEnum.US,
-        defender: BeloteTeamEnum.THEM,
-        usTrickScore: 110,
-        themTrickScore: 50);
-
     test('Is contract fulfilled', () {
+      final contreeRound = ContreeBeloteRound(
+          taker: BeloteTeamEnum.US,
+          defender: BeloteTeamEnum.THEM,
+          usTrickScore: 110,
+          themTrickScore: 50);
       expect(contreeRound.contractFulfilled, true);
     });
 
     test('Compute score - Set contract', () {
+      final contreeRound = ContreeBeloteRound(
+          taker: BeloteTeamEnum.US,
+          defender: BeloteTeamEnum.THEM,
+          usTrickScore: 110,
+          themTrickScore: 50);
       contreeRound.dixDeDer = BeloteTeamEnum.US;
       contreeRound.beloteRebelote = null;
       contreeRound.contractName = ContreeBeloteContractName.NORMAL;
@@ -27,6 +31,11 @@ void main() {
     });
 
     test('Compute score - fulfilled', () {
+      final contreeRound = ContreeBeloteRound(
+          taker: BeloteTeamEnum.US,
+          defender: BeloteTeamEnum.THEM,
+          usTrickScore: 110,
+          themTrickScore: 50);
       contreeRound.dixDeDer = BeloteTeamEnum.US;
       contreeRound.beloteRebelote = null;
       contreeRound.contractName = ContreeBeloteContractName.NORMAL;
@@ -38,6 +47,11 @@ void main() {
     });
 
     test('Compute score - fulfilled - BeloteRebelote - US', () {
+      final contreeRound = ContreeBeloteRound(
+          taker: BeloteTeamEnum.US,
+          defender: BeloteTeamEnum.THEM,
+          usTrickScore: 110,
+          themTrickScore: 50);
       contreeRound.dixDeDer = BeloteTeamEnum.THEM;
       contreeRound.beloteRebelote = BeloteTeamEnum.US;
       contreeRound.contractName = ContreeBeloteContractName.NORMAL;
@@ -49,6 +63,11 @@ void main() {
     });
 
     test('Compute score - fulfilled - BeloteRebelote - THEM', () {
+      final contreeRound = ContreeBeloteRound(
+          taker: BeloteTeamEnum.US,
+          defender: BeloteTeamEnum.THEM,
+          usTrickScore: 110,
+          themTrickScore: 50);
       contreeRound.dixDeDer = BeloteTeamEnum.US;
       contreeRound.beloteRebelote = BeloteTeamEnum.THEM;
       contreeRound.contractName = ContreeBeloteContractName.NORMAL;
@@ -60,6 +79,11 @@ void main() {
     });
 
     test('Compute score - fulfilled - Dix de Der - US', () {
+      final contreeRound = ContreeBeloteRound(
+          taker: BeloteTeamEnum.US,
+          defender: BeloteTeamEnum.THEM,
+          usTrickScore: 110,
+          themTrickScore: 50);
       contreeRound.beloteRebelote = null;
       contreeRound.dixDeDer = BeloteTeamEnum.US;
       contreeRound.contractName = ContreeBeloteContractName.NORMAL;
@@ -71,6 +95,11 @@ void main() {
     });
 
     test('Compute score - fulfilled - Dix de Der - THEM', () {
+      final contreeRound = ContreeBeloteRound(
+          taker: BeloteTeamEnum.US,
+          defender: BeloteTeamEnum.THEM,
+          usTrickScore: 110,
+          themTrickScore: 50);
       contreeRound.beloteRebelote = null;
       contreeRound.dixDeDer = BeloteTeamEnum.THEM;
       contreeRound.contractName = ContreeBeloteContractName.NORMAL;
@@ -82,6 +111,11 @@ void main() {
     });
 
     test('Compute score - Contract - Contré', () {
+      final contreeRound = ContreeBeloteRound(
+          taker: BeloteTeamEnum.US,
+          defender: BeloteTeamEnum.THEM,
+          usTrickScore: 110,
+          themTrickScore: 50);
       contreeRound.beloteRebelote = null;
       contreeRound.dixDeDer = BeloteTeamEnum.US;
       contreeRound.contractName = ContreeBeloteContractName.CONTRE;
@@ -92,6 +126,11 @@ void main() {
     });
 
     test('Compute score - Contract - Sur Contré', () {
+      final contreeRound = ContreeBeloteRound(
+          taker: BeloteTeamEnum.US,
+          defender: BeloteTeamEnum.THEM,
+          usTrickScore: 110,
+          themTrickScore: 50);
       contreeRound.beloteRebelote = null;
       contreeRound.dixDeDer = BeloteTeamEnum.US;
       contreeRound.contractName = ContreeBeloteContractName.SURCONTRE;
@@ -102,6 +141,11 @@ void main() {
     });
 
     test('Compute score - failed', () {
+      final contreeRound = ContreeBeloteRound(
+          taker: BeloteTeamEnum.US,
+          defender: BeloteTeamEnum.THEM,
+          usTrickScore: 110,
+          themTrickScore: 50);
       contreeRound.taker = BeloteTeamEnum.THEM;
       contreeRound.defender = BeloteTeamEnum.US;
       contreeRound.beloteRebelote = null;
@@ -115,6 +159,11 @@ void main() {
     });
 
     test('Compute score - fulfilled - Dix de Der - US - Capot', () {
+      final contreeRound = ContreeBeloteRound(
+          taker: BeloteTeamEnum.US,
+          defender: BeloteTeamEnum.THEM,
+          usTrickScore: 110,
+          themTrickScore: 50);
       contreeRound.taker = BeloteTeamEnum.US;
       contreeRound.defender = BeloteTeamEnum.THEM;
       contreeRound.usTrickScore = 152;
@@ -130,6 +179,11 @@ void main() {
     });
 
     test('Compute score - fulfilled - Dix de Der - US - Capot failed', () {
+      final contreeRound = ContreeBeloteRound(
+          taker: BeloteTeamEnum.US,
+          defender: BeloteTeamEnum.THEM,
+          usTrickScore: 110,
+          themTrickScore: 50);
       contreeRound.taker = BeloteTeamEnum.US;
       contreeRound.defender = BeloteTeamEnum.THEM;
       contreeRound.usTrickScore = 140;
@@ -144,8 +198,12 @@ void main() {
       expect(contreeRound.defenderScore, 410);
     });
 
-
     test('Compute score - fulfilled - Dix de Der - US - Generale', () {
+      final contreeRound = ContreeBeloteRound(
+          taker: BeloteTeamEnum.US,
+          defender: BeloteTeamEnum.THEM,
+          usTrickScore: 110,
+          themTrickScore: 50);
       contreeRound.taker = BeloteTeamEnum.US;
       contreeRound.defender = BeloteTeamEnum.THEM;
       contreeRound.usTrickScore = 152;
@@ -161,6 +219,11 @@ void main() {
     });
 
     test('Compute score - fulfilled - Dix de Der - US - Failed generale', () {
+      final contreeRound = ContreeBeloteRound(
+          taker: BeloteTeamEnum.US,
+          defender: BeloteTeamEnum.THEM,
+          usTrickScore: 110,
+          themTrickScore: 50);
       contreeRound.taker = BeloteTeamEnum.US;
       contreeRound.defender = BeloteTeamEnum.THEM;
       contreeRound.usTrickScore = 152;

@@ -1,4 +1,4 @@
-import 'package:carg/services/auth_service.dart';
+import 'package:carg/services/auth/auth_service.dart';
 import 'package:carg/views/widgets/register/register_phone_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -33,7 +33,7 @@ class EditPhoneNumberScreen extends StatelessWidget {
           const RegisterPhoneWidget(
               credentialVerificationType: CredentialVerificationType.EDIT)
         ]),
-              ))),
+      ))),
     );
   }
 }
