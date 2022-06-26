@@ -17,10 +17,7 @@ jobs:
       firebase_token: ${{ secrets.FIREBASE_TOKEN }}
   hosting:
     uses: ./.github/workflows/hosting.action.yaml
-    with:
-      lane: 'beta'
     secrets:
-      passphrase: ${{ secrets.PASSPHRASE }}
       firebase_token: ${{ secrets.FIREBASE_TOKEN }}
   flutter-build:
     needs: [ flutter-test-analyze ]
