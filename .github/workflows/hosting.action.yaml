@@ -41,8 +41,7 @@ jobs:
           FIREBASE_TOKEN: ${{ secrets.firebase_token }}
       - name: 'Deploy hosting - production'
         if: ${{ inputs.lane == 'production' }}
-        run: |
-          cd ./firebase_hosting
-          firebase deploy --only hosting
+        run: firebase hosting:clone $APP_NAME:beta $APP_NAME:live
         env:
           FIREBASE_TOKEN: ${{ secrets.firebase_token }}
+          APP_NAME: ${{ secrets.app_name }}
