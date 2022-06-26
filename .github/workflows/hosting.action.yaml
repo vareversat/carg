@@ -36,7 +36,7 @@ jobs:
         if: ${{ inputs.lane == 'beta' }}
         run: |
           cd ./firebase_hosting
-          firebase deploy hosting:channel:deploy beta --expires 3d
+          firebase deploy hosting:channel:deploy beta
         env:
           FIREBASE_TOKEN: ${{ secrets.firebase_token }}
       - name: 'Deploy hosting - production'
