@@ -15,6 +15,13 @@ jobs:
     secrets:
       passphrase: ${{ secrets.PASSPHRASE }}
       firebase_token: ${{ secrets.FIREBASE_TOKEN }}
+  hosting:
+    uses: ./.github/workflows/hosting.action.yaml
+    with:
+      lane: 'production'
+    secrets:
+      passphrase: ${{ secrets.PASSPHRASE }}
+      firebase_token: ${{ secrets.FIREBASE_TOKEN }}
   flutter-build:
     needs: [flutter-test-analyze]
     uses: ./.github/workflows/flutter.build.action.yaml
