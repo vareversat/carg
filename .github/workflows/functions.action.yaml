@@ -1,14 +1,9 @@
 name: Firebase deploy functions
 
 on:
-  workflow_call:
-    secrets:
-      passphrase:
-        description: 'The passphrase to decrypt the configuration'
-        required: true
-      firebase_token:
-        description: 'Token used by firebase login'
-        required: true
+  push:
+    paths:
+      - 'firebase_functions/**'
 
 jobs:
   build_deploy:
@@ -20,7 +15,7 @@ jobs:
       - name: 'Decrypt secret configuration'
         run: ./.github/scripts/decrypt_secret.sh
         env:
-          PASSPHRASE: ${{ secrets.passphrase }}
+          PASSPHRASE: ${{ secrets.PASSPHRASE }}
       - name: 'Check secret configuration'
         run: ./.github/scripts/check_secrets_decryption.sh
       - name: 'Setup Node / NPM'
@@ -37,4 +32,4 @@ jobs:
           cd ./firebase_functions
           firebase deploy --only functions
         env:
-          FIREBASE_TOKEN: ${{ secrets.firebase_token }}
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}

@@ -1,12 +1,9 @@
 name: Firebase deploy hosted websites
 
 on:
-  workflow_call:
-    secrets:
-      firebase_token:
-        description: 'Token used by firebase login'
-        required: true
-
+  push:
+    paths:
+      - 'firebase_hosting/**'
 
 jobs:
   build_deploy:
@@ -25,4 +22,4 @@ jobs:
           cd ./firebase_hosting
           firebase deploy --only hosting
         env:
-          FIREBASE_TOKEN: ${{ secrets.firebase_token }}
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}

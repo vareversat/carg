@@ -10,17 +10,8 @@ jobs:
     uses: ./.github/workflows/flutter.analyze-test.action.yaml
     with:
       flutter_version: '3.0.1'
-  functions:
-    uses: ./.github/workflows/functions.action.yaml
-    secrets:
-      passphrase: ${{ secrets.PASSPHRASE }}
-      firebase_token: ${{ secrets.FIREBASE_TOKEN }}
-  hosting:
-    uses: ./.github/workflows/hosting.action.yaml
-    secrets:
-      firebase_token: ${{ secrets.FIREBASE_TOKEN }}
   flutter-build:
-    needs: [ flutter-test-analyze ]
+    needs: [flutter-test-analyze]
     uses: ./.github/workflows/flutter.build.action.yaml
     with:
       flutter_version: '3.0.1'
