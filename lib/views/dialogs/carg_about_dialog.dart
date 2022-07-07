@@ -91,14 +91,13 @@ class CargAboutDialog extends StatelessWidget {
             shape: RoundedRectangleBorder(
                 borderRadius:
                     BorderRadius.circular(CustomProperties.borderRadius)),
-            content: ListBody(
-              children: <Widget>[
-                Text(
-                  _appInfo,
-                  style: const TextStyle(fontSize: 18),
-                ),
-                ElevatedButton.icon(
-                    key: const ValueKey('sourceCodeButton'),
+            content: ListBody(children: <Widget>[
+              Text(
+                _appInfo,
+                style: const TextStyle(fontSize: 18),
+              ),
+              ElevatedButton.icon(
+                  key: const ValueKey('sourceCodeButton'),
                   onPressed: () => _launchURL(_repoUrl),
                   style: ButtonStyle(
                       backgroundColor:
@@ -115,39 +114,38 @@ class CargAboutDialog extends StatelessWidget {
                     FontAwesomeIcons.github,
                     size: 20,
                   )),
-                ElevatedButton.icon(
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            Theme.of(context).colorScheme.secondary),
-                        foregroundColor: MaterialStateProperty.all<Color>(
-                            Theme.of(context).cardColor),
-                        shape: MaterialStateProperty.all<OutlinedBorder>(
-                            RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                    CustomProperties.borderRadius)))),
-                    onPressed: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const ChangeLogScreen(),
-                          ),
+              ElevatedButton.icon(
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          Theme.of(context).colorScheme.secondary),
+                      foregroundColor: MaterialStateProperty.all<Color>(
+                          Theme.of(context).cardColor),
+                      shape: MaterialStateProperty.all<OutlinedBorder>(
+                          RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  CustomProperties.borderRadius)))),
+                  onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ChangeLogScreen(),
                         ),
-                    label:
-                        Text(_changeLog, style: const TextStyle(fontSize: 18)),
-                    icon: const Icon(
-                      FontAwesomeIcons.fileCode,
-                      size: 20,
-                    )),
-                ElevatedButton.icon(
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            Theme.of(context).primaryColor),
-                        foregroundColor: MaterialStateProperty.all<Color>(
-                            Theme.of(context).cardColor),
-                        shape: MaterialStateProperty.all<OutlinedBorder>(
-                            RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                    CustomProperties.borderRadius)))),
-                    onPressed: () {
+                      ),
+                  label: Text(_changeLog, style: const TextStyle(fontSize: 18)),
+                  icon: const Icon(
+                    FontAwesomeIcons.fileCode,
+                    size: 20,
+                  )),
+              ElevatedButton.icon(
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          Theme.of(context).primaryColor),
+                      foregroundColor: MaterialStateProperty.all<Color>(
+                          Theme.of(context).cardColor),
+                      shape: MaterialStateProperty.all<OutlinedBorder>(
+                          RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  CustomProperties.borderRadius)))),
+                  onPressed: () {
                     showLicensePage(
                       context: context,
                       applicationName: snapshot.data!.appName,
