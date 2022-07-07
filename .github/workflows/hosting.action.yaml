@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'firebase_hosting/**'
+      - '.github/workflows/hosting.action.yaml'
 
 jobs:
   build_deploy:

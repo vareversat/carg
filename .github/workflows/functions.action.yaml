@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'firebase_functions/**'
+      - '.github/workflows/functions.action.yaml'
 
 jobs:
   build_deploy:
