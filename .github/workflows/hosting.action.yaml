@@ -1,10 +1,11 @@
 name: Firebase deploy hosted websites
 
 on:
-  push:
-    paths:
-      - 'firebase_hosting/**'
-      - '.github/workflows/hosting.action.yaml'
+  workflow_call:
+    secrets:
+      firebase_token:
+        description: 'Token used by firebase login'
+        required: true
 
 jobs:
   build_deploy:
