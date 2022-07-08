@@ -1,10 +1,19 @@
 name: Firebase deploy functions
 
 on:
-  push:
-    paths:
-      - 'firebase_functions/**'
-      - '.github/workflows/functions.action.yaml'
+  workflow_call:
+    inputs:
+      deploy:
+        description: 'Whether or not deploy the Firebase function'
+        required: true
+        type: boolean
+    secrets:
+      passphrase:
+        description: 'The passphrase to decrypt the configuration'
+        required: true
+      firebase_token:
+        description: 'Token used by firebase login'
+        required: true
 
 jobs:
   build_deploy:
@@ -28,7 +37,14 @@ jobs:
         run: |
           cd firebase_functions/functions
           npm install
+      - name: 'Lint & build'
+        if: ${{ inputs.deploy == false }}
+        run: |
+          cd firebase_functions/functions
+          npm run lint
+          npm run build
       - name: 'Deploy functions'
+        if: ${{ inputs.deploy == true }}
         run: |
           cd ./firebase_functions
           firebase deploy --only functions
