@@ -53,7 +53,7 @@ class _CargState extends State<Carg> {
             ],
             routes: {
               UserScreen.routeName: (context) => const UserScreen(),
-              RegisterScreen.routeName: (context) => const RegisterScreen(),
+              RegisterScreen.routeName: (context) => RegisterScreen(),
               HomeScreen.routeName: (context) => HomeScreen(
                   requestedIndex:
                       ModalRoute.of(context)!.settings.arguments as int? ?? 0)
@@ -69,7 +69,7 @@ class _CargState extends State<Carg> {
                   if (authResult.connectionState == ConnectionState.done) {
                     if (authResult.data == null || !authResult.data!) {
                       // User is not logged
-                      return const RegisterScreen();
+                      return RegisterScreen();
                     } else if (authResult.data != null && authResult.data!) {
                       // User is already logged
                       return Provider.of<AuthService>(context, listen: false)
