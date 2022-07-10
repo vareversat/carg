@@ -3,6 +3,7 @@ import 'package:carg/services/auth/auth_service.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/views/widgets/register/register_email_widget.dart';
 import 'package:carg/views/widgets/register/register_phone_widget.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -11,8 +12,12 @@ import 'package:provider/provider.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const String routeName = '/register';
+  late final FirebaseDynamicLinks linkProvider;
 
-  const RegisterScreen({Key? key}) : super(key: key);
+  RegisterScreen({Key? key, FirebaseDynamicLinks? linkProvider})
+      : super(key: key) {
+    this.linkProvider = linkProvider ?? FirebaseDynamicLinks.instance;
+  }
 
   @override
   State<StatefulWidget> createState() {
@@ -62,7 +67,8 @@ class _RegisterScreenState extends State<RegisterScreen>
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: ChangeNotifierProvider.value(
-                    value: _RegisterData(_EmailRegisterMethod()),
+                    value: _RegisterData(_EmailRegisterMethod(
+                        linkProvider: widget.linkProvider)),
                     child: Consumer<_RegisterData>(
                         builder: (context, registerData, _) => Column(
                               children: [
@@ -101,7 +107,9 @@ class _RegisterScreenState extends State<RegisterScreen>
                                                 borderRadius: BorderRadius.circular(CustomProperties.borderRadius)))),
                                     onPressed: () {
                                       registerData.selectedRegisterMethod =
-                                          _EmailRegisterMethod();
+                                          _EmailRegisterMethod(
+                                              linkProvider:
+                                                  widget.linkProvider);
                                     },
                                     label: const Padding(
                                       padding: EdgeInsets.all(8.0),
@@ -227,9 +235,10 @@ class _PhoneRegisterMethod extends RegisterMethod {
 }
 
 class _EmailRegisterMethod extends RegisterMethod {
-  _EmailRegisterMethod()
-      : super(const RegisterEmailWidget(
-            credentialVerificationType: CredentialVerificationType.CREATE));
+  _EmailRegisterMethod({required FirebaseDynamicLinks linkProvider})
+      : super(RegisterEmailWidget(
+            credentialVerificationType: CredentialVerificationType.CREATE,
+            linkProvider: linkProvider));
 }
 
 class _GoogleRegisterMethod extends RegisterMethod {

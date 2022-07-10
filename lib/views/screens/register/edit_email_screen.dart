@@ -1,5 +1,6 @@
 import 'package:carg/services/auth/auth_service.dart';
 import 'package:carg/views/widgets/register/register_email_widget.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -30,8 +31,9 @@ class EditEmailScreen extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ),
-          const RegisterEmailWidget(
-              credentialVerificationType: CredentialVerificationType.EDIT)
+          RegisterEmailWidget(
+              credentialVerificationType: CredentialVerificationType.EDIT,
+              linkProvider: FirebaseDynamicLinks.instance)
         ]),
       ))),
     );

@@ -2,31 +2,43 @@ import 'package:carg/services/auth/auth_service.dart';
 import 'package:carg/views/screens/register/register_screen.dart';
 import 'package:carg/views/widgets/register/register_email_widget.dart';
 import 'package:carg/views/widgets/register/register_phone_widget.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
+import 'package:mockito/mockito.dart';
+import 'package:provider/provider.dart';
 
-import 'firebase_mock.dart';
+import 'register_screen_test.mocks.dart';
 
-Widget testableWidget() => const MaterialApp(
-      home: RegisterScreen(),
+Widget testableWidget(MockFirebaseDynamicLinks linkProvider,
+        MockAuthService mockAuthService) =>
+    MaterialApp(
+      home: ChangeNotifierProvider<AuthService>.value(
+          value: mockAuthService,
+          builder: (context, _) => RegisterScreen(linkProvider: linkProvider)),
     );
 
+final mockFirebaseDynamicLinks = MockFirebaseDynamicLinks();
+final mockPendingDynamicLinkData = MockPendingDynamicLinkData();
+final mockAuthService = MockAuthService();
+
+@GenerateMocks([FirebaseDynamicLinks, PendingDynamicLinkData, AuthService])
 void main() {
-  setupFirebaseAuthMocks();
-
-  setUpAll(() async {
-    await Firebase.initializeApp();
-  });
-
   group('Press button', () {
     testWidgets('Email', (WidgetTester tester) async {
-      await tester.pumpWidget(testableWidget());
+      when(mockFirebaseDynamicLinks.getInitialLink()).thenAnswer((_) async =>
+          Future<MockPendingDynamicLinkData>(() => mockPendingDynamicLinkData));
+      when(mockPendingDynamicLinkData.link).thenReturn(Uri(host: 'toto.fr'));
+      when(mockAuthService.isAlreadyLogin())
+          .thenAnswer((_) async => Future<bool>(() => false));
 
+      await tester.pumpWidget(
+          testableWidget(mockFirebaseDynamicLinks, mockAuthService));
       final BuildContext context =
           tester.element(find.byKey(const ValueKey('emailButton')));
       await tester.tap(find.byKey(const ValueKey('emailButton')));
-      await tester.pump();
+      await tester.pumpAndSettle();
 
       expect(
           tester
@@ -34,8 +46,9 @@ void main() {
                   find.byKey(const ValueKey('placeholderContainer')))
               .child
               .toString(),
-          const RegisterEmailWidget(
-                  credentialVerificationType: CredentialVerificationType.CREATE)
+          RegisterEmailWidget(
+                  credentialVerificationType: CredentialVerificationType.CREATE,
+                  linkProvider: mockFirebaseDynamicLinks)
               .toString());
 
       expect(
@@ -59,7 +72,7 @@ void main() {
       expect(
           tester
               .widget<ElevatedButton>(
-                  find.byKey(const ValueKey('googleButton')))
+              find.byKey(const ValueKey('googleButton')))
               .style!
               .backgroundColor
               .toString(),
@@ -68,12 +81,13 @@ void main() {
     });
 
     testWidgets('Phone', (WidgetTester tester) async {
-      await tester.pumpWidget(testableWidget());
+      await tester.pumpWidget(
+          testableWidget(mockFirebaseDynamicLinks, mockAuthService));
 
       final BuildContext context =
           tester.element(find.byKey(const ValueKey('phoneButton')));
       await tester.tap(find.byKey(const ValueKey('phoneButton')));
-      await tester.pump();
+      await tester.pumpAndSettle();
 
       expect(
           tester
@@ -106,7 +120,7 @@ void main() {
       expect(
           tester
               .widget<ElevatedButton>(
-                  find.byKey(const ValueKey('googleButton')))
+              find.byKey(const ValueKey('googleButton')))
               .style!
               .backgroundColor
               .toString(),

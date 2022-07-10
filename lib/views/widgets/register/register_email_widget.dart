@@ -14,9 +14,12 @@ import 'package:provider/provider.dart';
 
 class RegisterEmailWidget extends StatefulWidget {
   final CredentialVerificationType credentialVerificationType;
+  final FirebaseDynamicLinks linkProvider;
 
   const RegisterEmailWidget(
-      {Key? key, required this.credentialVerificationType})
+      {Key? key,
+      required this.credentialVerificationType,
+      required this.linkProvider})
       : super(key: key);
 
   @override
@@ -66,7 +69,7 @@ class _RegisterEmailWidgetState extends State<RegisterEmailWidget>
   }
 
   Future<void> _retrieveDynamicLink() async {
-    final data = await FirebaseDynamicLinks.instance.getInitialLink();
+    final data = await widget.linkProvider.getInitialLink();
     final deepLink = data?.link;
     var isLogged =
         await Provider.of<AuthService>(context, listen: false).isAlreadyLogin();
