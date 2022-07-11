@@ -25,14 +25,17 @@ final mockAuthService = MockAuthService();
 
 @GenerateMocks([FirebaseDynamicLinks, PendingDynamicLinkData, AuthService])
 void main() {
+  setUp(() => {
+        when(mockFirebaseDynamicLinks.getInitialLink()).thenAnswer((_) async =>
+            Future<MockPendingDynamicLinkData>(
+                () => mockPendingDynamicLinkData)),
+        when(mockPendingDynamicLinkData.link).thenReturn(Uri(host: 'toto.fr')),
+        when(mockAuthService.isAlreadyLogin())
+            .thenAnswer((_) async => Future<bool>(() => false))
+      });
+
   group('Press button', () {
     testWidgets('Email', (WidgetTester tester) async {
-      when(mockFirebaseDynamicLinks.getInitialLink()).thenAnswer((_) async =>
-          Future<MockPendingDynamicLinkData>(() => mockPendingDynamicLinkData));
-      when(mockPendingDynamicLinkData.link).thenReturn(Uri(host: 'toto.fr'));
-      when(mockAuthService.isAlreadyLogin())
-          .thenAnswer((_) async => Future<bool>(() => false));
-
       await tester.pumpWidget(
           testableWidget(mockFirebaseDynamicLinks, mockAuthService));
       final BuildContext context =
