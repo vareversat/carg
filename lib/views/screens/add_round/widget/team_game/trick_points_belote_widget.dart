@@ -44,14 +44,17 @@ class _TrickPointsBeloteWidgetState extends State<TrickPointsBeloteWidget> {
                             children: <Widget>[
                               Text(
                                   'Nous : ${roundData.usTrickScore.round().toString()} | '
-                                  '${(roundData.themTrickScore.round()).toString()} : Eux', key: const ValueKey('trickPointsBeloteRealTime'))
+                                  '${(roundData.themTrickScore.round()).toString()} : Eux',
+                                  key: const ValueKey(
+                                      'trickPointsBeloteRealTime'))
                             ]),
                         Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Flexible(
                                 child: MaterialButton(
-                                    key: const ValueKey('trickPointsBeloteLeftButton'),
+                                    key: const ValueKey(
+                                        'trickPointsBeloteLeftButton'),
                                     padding: EdgeInsets.zero,
                                     onPressed: () {
                                       roundData.usTrickScore > 0
@@ -85,7 +88,8 @@ class _TrickPointsBeloteWidgetState extends State<TrickPointsBeloteWidget> {
                               ),
                               Flexible(
                                 child: MaterialButton(
-                                    key: const ValueKey('trickPointsBeloteRightButton'),
+                                    key: const ValueKey(
+                                        'trickPointsBeloteRightButton'),
                                     onPressed: () {
                                       roundData.usTrickScore <
                                               BeloteRound.totalTrickScore
