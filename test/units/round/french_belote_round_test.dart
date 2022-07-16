@@ -6,7 +6,7 @@ void main() {
   group('BeloteRound', () {
     test('Is contract fulfilled', () {
       final beloteRound = FrenchBeloteRound();
-      expect(beloteRound.contractFulfilled, true);
+      expect(beloteRound.contractFulfilled, false);
     });
 
     test('Compute score - fulfilled', () {
