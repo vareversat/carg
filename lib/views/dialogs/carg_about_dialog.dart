@@ -29,7 +29,7 @@ class CargAboutDialog extends StatelessWidget {
 
   void _launchURL(String url) async {
     if (await canLaunchUrlString(url)) {
-      await launchUrlString(url);
+      await launchUrlString(url, mode: LaunchMode.externalApplication);
     } else {
       throw 'Impossible d\'ouvrir $url';
     }

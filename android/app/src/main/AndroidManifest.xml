@@ -26,7 +26,8 @@
     <application
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
-        android:label="Carg">
+        android:label="Carg"
+        android:networkSecurityConfig="@xml/network_security_config">
         <!-- Specify that the launch screen should continue being displayed -->
         <!-- until Flutter renders its first frame. -->
         <meta-data
