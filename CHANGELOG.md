@@ -1,3 +1,16 @@
+# **v1.6.0** :
+
+- *Features* :
+  - Teams' stats are know available
+  - Various bug fixes
+  - Change PlayStore title
+- *UI* : 
+  - Brad new UI for Belote round edition
+- *Dev stuff* :
+  - Support now Firebase App Check
+  - Create a web site for the app : https://carg.vareversat.fr
+  - Update multiple dependencies
+***
 # **v1.5.0** :
 
 - *Features* :
