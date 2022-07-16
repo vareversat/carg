@@ -9,7 +9,7 @@ jobs:
   flutter-test-analyze:
     uses: ./.github/workflows/flutter.analyze-test.action.yaml
     with:
-      flutter_version: '3.0.1'
+      flutter_version: '3.0.5'
   functions:
     uses: ./.github/workflows/functions.action.yaml
     with:
@@ -25,7 +25,7 @@ jobs:
     needs: [flutter-test-analyze]
     uses: ./.github/workflows/flutter.build.action.yaml
     with:
-      flutter_version: '3.0.1'
+      flutter_version: '3.0.5'
       android_output: 'aab'
     secrets:
       passphrase: ${{ secrets.PASSPHRASE }}
