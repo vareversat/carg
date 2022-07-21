@@ -40,9 +40,9 @@ abstract class BeloteRound extends Round {
     _dixDeDer = dixDeDer ?? BeloteTeamEnum.US;
     _beloteRebelote = beloteRebelote;
     _usTrickScore = usTrickScore ?? 0;
-    _themTrickScore = themTrickScore ?? 0;
+    _themTrickScore = themTrickScore ?? totalTrickScore;
     _takerScore = takerScore ?? 0;
-    _defenderScore = defenderScore ?? 0;
+    _defenderScore = defenderScore ?? totalTrickScore;
   }
 
   int get usTrickScore => _usTrickScore;

@@ -28,8 +28,9 @@ class RulesScreen extends StatelessWidget {
               if (snapshot.hasData) {
                 return Markdown(
                   onTapLink: (text, url, title) {
-                    Future.delayed(const Duration(seconds: 1))
-                        .then((value) => launchUrlString(url!));
+                    Future.delayed(const Duration(seconds: 1)).then((value) =>
+                        launchUrlString(url!,
+                            mode: LaunchMode.externalApplication));
                     InfoSnackBar.showSnackBar(context, 'Overture de $text...');
                   },
                   data: snapshot.data!,

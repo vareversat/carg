@@ -18,45 +18,34 @@ class TakerTeamWidget extends StatelessWidget {
         builder: (context, roundData, child) => Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              const SectionTitleWidget(title: 'Équipe preneuse'),
+              const SectionTitleWidget(title: 'Preneurs'),
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                _RadioButtonRow(
-                    team: BeloteTeamEnum.US, beloteRound: roundData),
-                _RadioButtonRow(
-                    team: BeloteTeamEnum.THEM, beloteRound: roundData)
+                InputChip(
+                    key: const ValueKey('takerTeamWidget-usPicker'),
+                    selected: beloteRound.taker == BeloteTeamEnum.US,
+                    selectedColor: Theme.of(context).colorScheme.secondary,
+                    onPressed: () => {
+                          beloteRound.taker = BeloteTeamEnum.US,
+                          beloteRound.defender = BeloteTeamEnum.THEM
+                        },
+                    label: Text(BeloteTeamEnum.US.name,
+                        style: const TextStyle(fontSize: 20),
+                        overflow: TextOverflow.ellipsis)),
+                const SizedBox(width: 10),
+                InputChip(
+                    key: const ValueKey('takerTeamWidget-themPicker'),
+                    selected: beloteRound.taker == BeloteTeamEnum.THEM,
+                    selectedColor: Theme.of(context).colorScheme.secondary,
+                    onPressed: () => {
+                          beloteRound.taker = BeloteTeamEnum.THEM,
+                          beloteRound.defender = BeloteTeamEnum.US
+                        },
+                    label: Text(BeloteTeamEnum.THEM.name,
+                        style: const TextStyle(fontSize: 20),
+                        overflow: TextOverflow.ellipsis)),
               ])
             ]),
       ),
     );
-  }
-}
-
-class _RadioButtonRow extends StatelessWidget {
-  final BeloteTeamEnum team;
-  final BeloteRound beloteRound;
-
-  const _RadioButtonRow({required this.team, required this.beloteRound});
-
-  @override
-  Widget build(BuildContext context) {
-    return Wrap(
-        textDirection:
-            team == BeloteTeamEnum.US ? TextDirection.rtl : TextDirection.ltr,
-        crossAxisAlignment: WrapCrossAlignment.center,
-        children: <Widget>[
-          Radio(
-              visualDensity: VisualDensity.compact,
-              value: team,
-              groupValue: beloteRound.taker,
-              onChanged: (BeloteTeamEnum? value) {
-                beloteRound.taker = value!;
-                if (team == BeloteTeamEnum.US) {
-                  beloteRound.defender = BeloteTeamEnum.THEM;
-                } else {
-                  beloteRound.defender = BeloteTeamEnum.US;
-                }
-              }),
-          Text(team.name, style: Theme.of(context).textTheme.bodyText2)
-        ]);
   }
 }

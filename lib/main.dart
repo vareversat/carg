@@ -4,6 +4,7 @@ import 'package:carg/views/screens/home_screen.dart';
 import 'package:carg/views/screens/register/register_screen.dart';
 import 'package:carg/views/screens/splash_screen.dart';
 import 'package:carg/views/screens/user_screen.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,6 +15,9 @@ import 'package:provider/single_child_widget.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await FirebaseAppCheck.instance.activate(
+    webRecaptchaSiteKey: 'recaptcha-v3-site-key',
+  );
   runApp(const Carg());
 }
 
@@ -49,7 +53,7 @@ class _CargState extends State<Carg> {
             ],
             routes: {
               UserScreen.routeName: (context) => const UserScreen(),
-              RegisterScreen.routeName: (context) => const RegisterScreen(),
+              RegisterScreen.routeName: (context) => RegisterScreen(),
               HomeScreen.routeName: (context) => HomeScreen(
                   requestedIndex:
                       ModalRoute.of(context)!.settings.arguments as int? ?? 0)
@@ -65,7 +69,7 @@ class _CargState extends State<Carg> {
                   if (authResult.connectionState == ConnectionState.done) {
                     if (authResult.data == null || !authResult.data!) {
                       // User is not logged
-                      return const RegisterScreen();
+                      return RegisterScreen();
                     } else if (authResult.data != null && authResult.data!) {
                       // User is already logged
                       return Provider.of<AuthService>(context, listen: false)

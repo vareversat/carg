@@ -13,7 +13,9 @@
       ],
       "schedule": ["after 2pm on sunday"],
       "automerge": true,
-      "assigneesFromCodeOwners": false
+      "assigneesFromCodeOwners": false,
+      "commitMessageAction": "chore(dependency): update ",
+      "commitMessageTopic": "{{depName}}"
     },
     {
       "description": "Causes the bot to create a PR (and thus, an email notification), whenever there is a new major Renovate version",
@@ -23,7 +25,9 @@
       ],
       "schedule": ["after 2pm on sunday"],
       "automerge": false,
-      "assigneesFromCodeOwners": true
+      "assigneesFromCodeOwners": true,
+      "commitMessageAction": "chore(dependency): update ",
+      "commitMessageTopic": "{{depName}}"
     }
   ]
 }

@@ -8,12 +8,14 @@ import 'package:url_launcher/url_launcher_string.dart';
 
 class CargAboutDialog extends StatelessWidget {
   final String _repoUrl = 'https://github.com/vareversat/carg';
+  final String _privacyUrl = 'https://carg.vareversat.fr/privacy';
   final String _legalLease = '© ${DateTime.now().year} - Valentin REVERSAT';
   final String _errorMessage =
       'Impossible d\'obtenir les informations de l\'application';
   final String _appInfo =
       'L\'application pour enregistrer vos parties de Belote, Coinche, Contrée et Tarot ! \n';
   final String _sourceCode = 'Code source';
+  final String _privacy = 'Politique de confidentialité';
   final String _changeLog = 'Journal des modifications';
   final Widget _iconWidget = Padding(
       padding: const EdgeInsets.all(5),
@@ -25,11 +27,11 @@ class CargAboutDialog extends StatelessWidget {
 
   CargAboutDialog({Key? key}) : super(key: key);
 
-  void _launchURL() async {
-    if (await canLaunchUrlString(_repoUrl)) {
-      await launchUrlString(_repoUrl);
+  void _launchURL(String url) async {
+    if (await canLaunchUrlString(url)) {
+      await launchUrlString(url, mode: LaunchMode.externalApplication);
     } else {
-      throw 'Impossible d\'ouvrir $_repoUrl';
+      throw 'Impossible d\'ouvrir $url';
     }
   }
 
@@ -89,86 +91,100 @@ class CargAboutDialog extends StatelessWidget {
             shape: RoundedRectangleBorder(
                 borderRadius:
                     BorderRadius.circular(CustomProperties.borderRadius)),
-            content: ListBody(
-              children: <Widget>[
-                Text(
-                  _appInfo,
-                  style: const TextStyle(fontSize: 18),
-                ),
-                ElevatedButton.icon(
-                    key: const ValueKey('sourceCodeButton'),
-                    onPressed: () => _launchURL(),
-                    style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all<Color>(Colors.black),
-                        foregroundColor: MaterialStateProperty.all<Color>(
-                            Theme.of(context).cardColor),
-                        shape: MaterialStateProperty.all<OutlinedBorder>(
-                            RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                    CustomProperties.borderRadius)))),
-                    label:
-                        Text(_sourceCode, style: const TextStyle(fontSize: 18)),
-                    icon: const Icon(
-                      FontAwesomeIcons.github,
-                      size: 20,
-                    )),
-                ElevatedButton.icon(
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            Theme.of(context).colorScheme.secondary),
-                        foregroundColor: MaterialStateProperty.all<Color>(
-                            Theme.of(context).cardColor),
-                        shape: MaterialStateProperty.all<OutlinedBorder>(
-                            RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                    CustomProperties.borderRadius)))),
-                    onPressed: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const ChangeLogScreen(),
-                          ),
+            content: ListBody(children: <Widget>[
+              Text(
+                _appInfo,
+                style: const TextStyle(fontSize: 18),
+              ),
+              ElevatedButton.icon(
+                  key: const ValueKey('sourceCodeButton'),
+                  onPressed: () => _launchURL(_repoUrl),
+                  style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.black),
+                      foregroundColor: MaterialStateProperty.all<Color>(
+                          Theme.of(context).cardColor),
+                      shape: MaterialStateProperty.all<OutlinedBorder>(
+                          RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  CustomProperties.borderRadius)))),
+                  label:
+                      Text(_sourceCode, style: const TextStyle(fontSize: 18)),
+                  icon: const Icon(
+                    FontAwesomeIcons.github,
+                    size: 20,
+                  )),
+              ElevatedButton.icon(
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          Theme.of(context).colorScheme.secondary),
+                      foregroundColor: MaterialStateProperty.all<Color>(
+                          Theme.of(context).cardColor),
+                      shape: MaterialStateProperty.all<OutlinedBorder>(
+                          RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  CustomProperties.borderRadius)))),
+                  onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ChangeLogScreen(),
                         ),
-                    label:
-                        Text(_changeLog, style: const TextStyle(fontSize: 18)),
-                    icon: const Icon(
-                      FontAwesomeIcons.fileCode,
-                      size: 20,
-                    )),
-                ElevatedButton.icon(
-                    style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            Theme.of(context).primaryColor),
-                        foregroundColor: MaterialStateProperty.all<Color>(
-                            Theme.of(context).cardColor),
-                        shape: MaterialStateProperty.all<OutlinedBorder>(
-                            RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                    CustomProperties.borderRadius)))),
-                    onPressed: () {
-                      showLicensePage(
-                        context: context,
-                        applicationName: snapshot.data!.appName,
-                        applicationVersion:
-                            'v${snapshot.data!.version}+${snapshot.data!.buildNumber}',
-                        applicationIcon: _iconWidget,
-                        applicationLegalese: _legalLease,
-                      );
-                    },
-                    label: Text(
-                        MaterialLocalizations.of(context)
-                                .viewLicensesButtonLabel[0] +
-                            MaterialLocalizations.of(context)
-                                .viewLicensesButtonLabel
-                                .substring(1)
-                                .toLowerCase(),
-                        style: const TextStyle(fontSize: 18)),
-                    icon: const Icon(
-                      FontAwesomeIcons.fileLines,
-                      size: 20,
-                    ))
-              ],
-            ),
+                      ),
+                  label: Text(_changeLog, style: const TextStyle(fontSize: 18)),
+                  icon: const Icon(
+                    FontAwesomeIcons.fileCode,
+                    size: 20,
+                  )),
+              ElevatedButton.icon(
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          Theme.of(context).primaryColor),
+                      foregroundColor: MaterialStateProperty.all<Color>(
+                          Theme.of(context).cardColor),
+                      shape: MaterialStateProperty.all<OutlinedBorder>(
+                          RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  CustomProperties.borderRadius)))),
+                  onPressed: () {
+                    showLicensePage(
+                      context: context,
+                      applicationName: snapshot.data!.appName,
+                      applicationVersion:
+                          'v${snapshot.data!.version}+${snapshot.data!.buildNumber}',
+                      applicationIcon: _iconWidget,
+                      applicationLegalese: _legalLease,
+                    );
+                  },
+                  label: Text(
+                      MaterialLocalizations.of(context)
+                              .viewLicensesButtonLabel[0] +
+                          MaterialLocalizations.of(context)
+                              .viewLicensesButtonLabel
+                              .substring(1)
+                              .toLowerCase(),
+                      style: const TextStyle(fontSize: 18)),
+                  icon: const Icon(
+                    FontAwesomeIcons.fileLines,
+                    size: 20,
+                  )),
+              ElevatedButton.icon(
+                  key: const ValueKey('privacyButton'),
+                  onPressed: () => _launchURL(_privacyUrl),
+                  style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.blueAccent),
+                      foregroundColor: MaterialStateProperty.all<Color>(
+                          Theme.of(context).cardColor),
+                      shape: MaterialStateProperty.all<OutlinedBorder>(
+                          RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  CustomProperties.borderRadius)))),
+                  label: Text(_privacy, style: const TextStyle(fontSize: 18)),
+                  icon: const Icon(
+                    FontAwesomeIcons.userShield,
+                    size: 20,
+                  ))
+            ]),
             actions: <Widget>[
               ElevatedButton.icon(
                 style: ButtonStyle(

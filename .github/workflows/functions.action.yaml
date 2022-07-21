@@ -2,6 +2,11 @@ name: Firebase deploy functions
 
 on:
   workflow_call:
+    inputs:
+      deploy:
+        description: 'Whether or not deploy the Firebase function'
+        required: true
+        type: boolean
     secrets:
       passphrase:
         description: 'The passphrase to decrypt the configuration'
@@ -20,21 +25,28 @@ jobs:
       - name: 'Decrypt secret configuration'
         run: ./.github/scripts/decrypt_secret.sh
         env:
-          PASSPHRASE: ${{ secrets.passphrase }}
+          PASSPHRASE: ${{ secrets.PASSPHRASE }}
       - name: 'Check secret configuration'
         run: ./.github/scripts/check_secrets_decryption.sh
       - name: 'Setup Node / NPM'
         uses: actions/setup-node@v3
         with:
-          node-version: '14.x'
+          node-version: '16.x'
       - run: npm install -g firebase-tools
       - name: 'Install npm packages'
         run: |
           cd firebase_functions/functions
           npm install
+      - name: 'Lint & build'
+        if: ${{ inputs.deploy == false }}
+        run: |
+          cd firebase_functions/functions
+          npm run lint
+          npm run build
       - name: 'Deploy functions'
+        if: ${{ inputs.deploy == true }}
         run: |
           cd ./firebase_functions
           firebase deploy --only functions
         env:
-          FIREBASE_TOKEN: ${{ secrets.firebase_token }}
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}

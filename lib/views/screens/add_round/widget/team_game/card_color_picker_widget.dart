@@ -3,21 +3,46 @@ import 'package:carg/models/score/round/belote_round.dart';
 import 'package:flutter/material.dart';
 
 class CardColorPickerWidget extends StatelessWidget {
-  final BeloteRound? teamGameRound;
+  final BeloteRound? beloteRound;
 
-  const CardColorPickerWidget({Key? key, required this.teamGameRound})
+  const CardColorPickerWidget({Key? key, required this.beloteRound})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButton<CardColor>(
-        value: teamGameRound!.cardColor,
-        items: CardColor.values.map((CardColor value) {
-          return DropdownMenuItem<CardColor>(
-              alignment: AlignmentDirectional.center,
-              value: value,
-              child: Text(value.symbol));
-        }).toList(),
-        onChanged: (CardColor? val) => {teamGameRound!.cardColor = val!});
+    return Column(
+      key: const ValueKey('cardColorPickerWidget'),
+      children: [
+        Text(
+          "Couleur (${beloteRound?.cardColor.name})",
+          key: const ValueKey('cardColorPickerTitle'),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Flexible(
+              child: Wrap(
+                alignment: WrapAlignment.center,
+                spacing: 15,
+                children: CardColor.values
+                    .map((cardColor) => InputChip(
+                        key: ValueKey('cardColorInputChip-${cardColor.name}'),
+                        checkmarkColor: Theme.of(context).cardColor,
+                        selected: beloteRound?.cardColor == cardColor,
+                        selectedColor: Theme.of(context).primaryColor,
+                        onPressed: () => {beloteRound?.cardColor = cardColor},
+                        label: Text(cardColor.symbol,
+                            style: TextStyle(
+                                fontSize: 20,
+                                color: Theme.of(context).cardColor),
+                            overflow: TextOverflow.ellipsis)))
+                    .toList()
+                    .cast<Widget>(),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
   }
 }

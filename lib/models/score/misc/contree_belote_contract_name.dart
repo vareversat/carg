@@ -1,20 +1,16 @@
 // ignore_for_file: constant_identifier_names
 
-enum ContreeBeloteContractName { NORMAL, CONTRE, SURCONTRE, CAPOT, GENERALE }
+enum ContreeBeloteContractName { NORMAL, CONTRE, SURCONTRE }
 
 extension ContreeBeloteContractNameExtension on ContreeBeloteContractName? {
   String get name {
     switch (this) {
       case ContreeBeloteContractName.NORMAL:
         return 'Normal';
-      case ContreeBeloteContractName.CAPOT:
-        return 'Capot';
       case ContreeBeloteContractName.CONTRE:
         return 'Contre';
       case ContreeBeloteContractName.SURCONTRE:
         return 'Surcontre';
-      case ContreeBeloteContractName.GENERALE:
-        return 'Générale';
       default:
         throw Exception('ContreeBeloteContractName missing');
     }

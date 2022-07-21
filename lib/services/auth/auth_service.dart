@@ -177,7 +177,7 @@ class AuthService with ChangeNotifier {
     notifyListeners();
     await FirebaseAuth.instance.signOut();
     await Navigator.pushReplacement(
-        context, CustomRouteFade(builder: (context) => const RegisterScreen()));
+        context, CustomRouteFade(builder: (context) => RegisterScreen()));
   }
 
   Future<void> changeEmail(String newEmail) async {
