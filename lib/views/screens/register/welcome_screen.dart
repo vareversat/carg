@@ -1,3 +1,4 @@
+import 'package:carg/exceptions/custom_exception.dart';
 import 'package:carg/exceptions/service_exception.dart';
 import 'package:carg/models/player.dart';
 import 'package:carg/services/auth/auth_service.dart';
@@ -39,194 +40,204 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Center(
-      child: SingleChildScrollView(
-        child: Column(children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(35),
-            child: SizedBox(
-              height: 150,
-              child: SvgPicture.asset(
-                _imagePath,
+      body: Center(
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(35),
+                child: SizedBox(
+                  height: 150,
+                  child: SvgPicture.asset(
+                    _imagePath,
+                  ),
+                ),
               ),
-            ),
-          ),
-          Text(
-            _title,
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 20),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text(
-              _description,
-              style: const TextStyle(fontSize: 15),
-              textAlign: TextAlign.center,
-            ),
-          ),
-          const SizedBox(height: 40),
-          ChangeNotifierProvider.value(
-              value: _AccountCreationData(_NoneMethod()),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Consumer<_AccountCreationData>(
+              Text(
+                _title,
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Text(
+                  _description,
+                  style: const TextStyle(fontSize: 15),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              const SizedBox(height: 40),
+              ChangeNotifierProvider.value(
+                value: _AccountCreationData(_NoneMethod()),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Consumer<_AccountCreationData>(
                     builder: (context, registerData, _) => Column(
-                          children: [
-                            AnimatedSize(
-                              curve: Curves.ease,
-                              duration: const Duration(milliseconds: 500),
-                              child: registerData.selectedCreationMethod
-                                      is _NoneMethod
-                                  ? Column(children: [
-                                      ElevatedButton.icon(
-                                          icon: const Icon(Icons.add),
-                                          style: ButtonStyle(
-                                              backgroundColor:
-                                                  MaterialStateProperty.all<Color>(
-                                                      Theme.of(context)
-                                                          .primaryColor),
-                                              foregroundColor: MaterialStateProperty.all<Color>(
+                      children: [
+                        AnimatedSize(
+                          curve: Curves.ease,
+                          duration: const Duration(milliseconds: 500),
+                          child: registerData.selectedCreationMethod
+                                  is _NoneMethod
+                              ? Column(children: [
+                                  ElevatedButton.icon(
+                                      icon: const Icon(Icons.add),
+                                      style: ButtonStyle(
+                                          backgroundColor: MaterialStateProperty.all<Color>(
+                                              Theme.of(context).primaryColor),
+                                          foregroundColor:
+                                              MaterialStateProperty.all<Color>(
                                                   Theme.of(context).cardColor),
-                                              shape: MaterialStateProperty.all<OutlinedBorder>(
-                                                  RoundedRectangleBorder(
-                                                      side: BorderSide(
-                                                          width: 2,
-                                                          color: Theme.of(context)
-                                                              .primaryColor),
-                                                      borderRadius:
-                                                          BorderRadius.circular(CustomProperties.borderRadius)))),
-                                          onPressed: () {
-                                            registerData
-                                                    .selectedCreationMethod =
-                                                _CreatePlayerMethod(context);
-                                          },
-                                          label: Text(
-                                            _createPlayerButton,
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.bold),
-                                          )),
-                                      Container(
-                                        width: 300,
-                                        height: 40,
-                                        padding:
-                                            const EdgeInsets.only(top: 8.0),
-                                        child: Text(
-                                          _createPlayerDescription,
-                                          style: const TextStyle(
-                                              fontSize: 15,
-                                              fontStyle: FontStyle.italic),
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      ),
-                                      const SizedBox(height: 20),
-                                      const Text('ou',
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold)),
-                                      const SizedBox(height: 20),
-                                      SizedBox(
-                                        width: 250,
-                                        height: 40,
-                                        child: ElevatedButton.icon(
-                                            icon: const Icon(Icons.link),
-                                            style: ButtonStyle(
-                                                backgroundColor:
-                                                    MaterialStateProperty.all<Color>(
-                                                        Theme.of(context)
-                                                            .primaryColor),
-                                                foregroundColor:
-                                                    MaterialStateProperty.all<Color>(
-                                                        Theme.of(context)
-                                                            .cardColor),
-                                                shape: MaterialStateProperty.all<OutlinedBorder>(
-                                                    RoundedRectangleBorder(
-                                                        side: BorderSide(
-                                                            width: 2,
-                                                            color: Theme.of(context).primaryColor),
-                                                        borderRadius: BorderRadius.circular(CustomProperties.borderRadius)))),
-                                            onPressed: () {
-                                              registerData
-                                                      .selectedCreationMethod =
-                                                  _LinkPlayerMethod(context);
-                                            },
-                                            label: Flexible(
-                                              child: Text(
-                                                _linkPlayerButton,
-                                                textAlign: TextAlign.center,
-                                                style: const TextStyle(
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                            )),
-                                      ),
-                                      Container(
-                                        padding:
-                                            const EdgeInsets.only(top: 8.0),
-                                        width: 300,
-                                        child: Text(
-                                          _linkPlayerDescription,
-                                          style: const TextStyle(
-                                              fontSize: 15,
-                                              fontStyle: FontStyle.italic),
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      )
-                                    ])
-                                  : registerData.selectedCreationMethod
-                                      .accountCreationWidget,
-                            ),
-                            const SizedBox(height: 30),
-                            registerData.selectedCreationMethod is _NoneMethod
-                                ? ElevatedButton.icon(
-                                    icon: const Icon(Icons.close),
-                                    style: ButtonStyle(
-                                        backgroundColor: MaterialStateProperty.all<Color>(
-                                            Theme.of(context).errorColor),
-                                        foregroundColor:
-                                            MaterialStateProperty.all<Color>(
+                                          shape: MaterialStateProperty.all<OutlinedBorder>(
+                                              RoundedRectangleBorder(
+                                                  side: BorderSide(
+                                                      width: 2,
+                                                      color: Theme.of(context)
+                                                          .primaryColor),
+                                                  borderRadius: BorderRadius.circular(
+                                                      CustomProperties.borderRadius)))),
+                                      onPressed: () {
+                                        registerData.selectedCreationMethod =
+                                            _CreatePlayerMethod(context);
+                                      },
+                                      label: Text(
+                                        _createPlayerButton,
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      )),
+                                  Container(
+                                    width: 300,
+                                    height: 40,
+                                    padding: const EdgeInsets.only(top: 8.0),
+                                    child: Text(
+                                      _createPlayerDescription,
+                                      style: const TextStyle(
+                                          fontSize: 15,
+                                          fontStyle: FontStyle.italic),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 20),
+                                  const Text('ou',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold)),
+                                  const SizedBox(height: 20),
+                                  SizedBox(
+                                    width: 250,
+                                    height: 40,
+                                    child: ElevatedButton.icon(
+                                        icon: const Icon(Icons.link),
+                                        style: ButtonStyle(
+                                            backgroundColor: MaterialStateProperty.all<Color>(
+                                                Theme.of(context).primaryColor),
+                                            foregroundColor: MaterialStateProperty.all<Color>(
                                                 Theme.of(context).cardColor),
-                                        shape: MaterialStateProperty.all<OutlinedBorder>(
-                                            RoundedRectangleBorder(
-                                                side: BorderSide(
-                                                    width: 2,
-                                                    color: Theme.of(context)
-                                                        .errorColor),
-                                                borderRadius: BorderRadius.circular(
-                                                    CustomProperties.borderRadius)))),
-                                    onPressed: () async {
-                                      await Provider.of<AuthService>(context,
-                                              listen: false)
-                                          .signOut(context);
-                                    },
-                                    label: Flexible(
-                                      child: Text(
-                                        _quitButton,
-                                        textAlign: TextAlign.center,
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ))
-                                : ElevatedButton.icon(
-                                    icon: const Icon(Icons.arrow_back),
-                                    style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Theme.of(context).colorScheme.secondary), foregroundColor: MaterialStateProperty.all<Color>(Theme.of(context).cardColor), shape: MaterialStateProperty.all<OutlinedBorder>(RoundedRectangleBorder(side: BorderSide(width: 2, color: Theme.of(context).colorScheme.secondary), borderRadius: BorderRadius.circular(CustomProperties.borderRadius)))),
-                                    onPressed: () async {
-                                      registerData.selectedCreationMethod =
-                                          _NoneMethod();
-                                    },
-                                    label: Flexible(
-                                      child: Text(
-                                        _returnButton,
-                                        textAlign: TextAlign.center,
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    )),
-                          ],
-                        )),
-              )),
-        ]),
+                                            shape: MaterialStateProperty.all<OutlinedBorder>(
+                                                RoundedRectangleBorder(
+                                                    side: BorderSide(
+                                                        width: 2,
+                                                        color: Theme.of(context)
+                                                            .primaryColor),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            CustomProperties.borderRadius)))),
+                                        onPressed: () {
+                                          registerData.selectedCreationMethod =
+                                              _LinkPlayerMethod(context);
+                                        },
+                                        label: Text(
+                                          _linkPlayerButton,
+                                          textAlign: TextAlign.center,
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        )),
+                                  ),
+                                  Container(
+                                    padding: const EdgeInsets.only(top: 8.0),
+                                    width: 300,
+                                    child: Text(
+                                      _linkPlayerDescription,
+                                      style: const TextStyle(
+                                          fontSize: 15,
+                                          fontStyle: FontStyle.italic),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  )
+                                ])
+                              : registerData
+                                  .selectedCreationMethod.accountCreationWidget,
+                        ),
+                        const SizedBox(height: 30),
+                        registerData.selectedCreationMethod is _NoneMethod
+                            ? ElevatedButton.icon(
+                                icon: const Icon(Icons.close),
+                                style: ButtonStyle(
+                                    backgroundColor: MaterialStateProperty.all<Color>(
+                                        Theme.of(context).errorColor),
+                                    foregroundColor:
+                                        MaterialStateProperty.all<Color>(
+                                            Theme.of(context).cardColor),
+                                    shape: MaterialStateProperty.all<OutlinedBorder>(
+                                        RoundedRectangleBorder(
+                                            side: BorderSide(
+                                                width: 2,
+                                                color: Theme.of(context)
+                                                    .errorColor),
+                                            borderRadius: BorderRadius.circular(
+                                                CustomProperties.borderRadius)))),
+                                onPressed: () async {
+                                  await Provider.of<AuthService>(context,
+                                          listen: false)
+                                      .signOut(context);
+                                },
+                                label: Text(
+                                  _quitButton,
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold),
+                                ))
+                            : ElevatedButton.icon(
+                                icon: const Icon(Icons.arrow_back),
+                                style: ButtonStyle(
+                                    backgroundColor: MaterialStateProperty.all<Color>(
+                                        Theme.of(context)
+                                            .colorScheme
+                                            .secondary),
+                                    foregroundColor:
+                                        MaterialStateProperty.all<Color>(
+                                            Theme.of(context).cardColor),
+                                    shape: MaterialStateProperty.all<OutlinedBorder>(
+                                        RoundedRectangleBorder(
+                                            side: BorderSide(
+                                                width: 2,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .secondary),
+                                            borderRadius:
+                                                BorderRadius.circular(CustomProperties.borderRadius)))),
+                                onPressed: () async {
+                                  registerData.selectedCreationMethod =
+                                      _NoneMethod();
+                                },
+                                label: Text(
+                                  _returnButton,
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
-    ));
+    );
   }
 }
 
@@ -304,7 +315,6 @@ class _EnterUsernameWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Flexible(
-          flex: 2,
           child: TextField(
             controller: _usernameTextController,
             keyboardType: TextInputType.name,
@@ -343,31 +353,27 @@ class _EnterUsernameWidget extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 10, height: 5),
-        Flexible(
-          child: ElevatedButton.icon(
-              icon: const Icon(Icons.check),
-              style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(
-                      Theme.of(context).primaryColor),
-                  foregroundColor: MaterialStateProperty.all<Color>(
-                      Theme.of(context).cardColor),
-                  shape: MaterialStateProperty.all<OutlinedBorder>(
-                      RoundedRectangleBorder(
-                          side: BorderSide(
-                              width: 2, color: Theme.of(context).primaryColor),
-                          borderRadius: BorderRadius.circular(
-                              CustomProperties.borderRadius)))),
-              onPressed: () async {
-                await _createPlayer();
-              },
-              label: Flexible(
-                child: Text(
-                  _validate,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-              )),
-        )
+        ElevatedButton.icon(
+            icon: const Icon(Icons.check),
+            style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(
+                    Theme.of(context).primaryColor),
+                foregroundColor: MaterialStateProperty.all<Color>(
+                    Theme.of(context).cardColor),
+                shape: MaterialStateProperty.all<OutlinedBorder>(
+                    RoundedRectangleBorder(
+                        side: BorderSide(
+                            width: 2, color: Theme.of(context).primaryColor),
+                        borderRadius: BorderRadius.circular(
+                            CustomProperties.borderRadius)))),
+            onPressed: () async {
+              await _createPlayer();
+            },
+            label: Text(
+              _validate,
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ))
       ],
     );
   }
@@ -386,29 +392,34 @@ class _LinkPlayerWidget extends StatelessWidget {
   _LinkPlayerWidget(this.context);
 
   Future<void> _linkPlayer() async {
+    FocusManager.instance.primaryFocus?.unfocus();
     try {
       var userId =
           Provider.of<AuthService>(context, listen: false).getConnectedUserId();
       var player = await _playerService.get(_idTextController.text);
       if (player != null) {
-        if (player.ownedBy == '' || player.linkedUserId != '') {
-          throw Exception('Impossible d\'associer cet utilisateur');
+        if (player.owned == false) {
+          throw CustomException(
+              'Impossible d\'associer ce joueur : Il est déjà associé à un autre compte');
+        } else {
+          player.linkedUserId = userId;
+          player.ownedBy = '';
+          player.owned = false;
+          await _playerService.update(player);
+          Provider.of<AuthService>(context, listen: false)
+              .setCurrentPlayer(player);
+          await Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const HomeScreen(requestedIndex: 0),
+            ),
+          );
         }
-        player.linkedUserId = userId;
-        player.ownedBy = '';
-        player.owned = false;
-        await _playerService.update(player);
-        Provider.of<AuthService>(context, listen: false)
-            .setCurrentPlayer(player);
-        await Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const HomeScreen(requestedIndex: 0),
-          ),
-        );
+      } else {
+        throw CustomException('Joueur introuvable');
       }
-    } on ServiceException catch (e) {
-      InfoSnackBar.showSnackBar(context, e.message);
+    } on CustomException catch (e) {
+      InfoSnackBar.showErrorSnackBar(context, e.message);
     }
   }
 
@@ -420,7 +431,6 @@ class _LinkPlayerWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Flexible(
-              flex: 2,
               child: TextField(
                 controller: _idTextController,
                 keyboardType: TextInputType.name,
@@ -459,32 +469,28 @@ class _LinkPlayerWidget extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 10, height: 5),
-            Flexible(
-              child: ElevatedButton.icon(
-                  icon: const Icon(Icons.check),
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                          Theme.of(context).primaryColor),
-                      foregroundColor: MaterialStateProperty.all<Color>(
-                          Theme.of(context).cardColor),
-                      shape: MaterialStateProperty.all<OutlinedBorder>(
-                          RoundedRectangleBorder(
-                              side: BorderSide(
-                                  width: 2,
-                                  color: Theme.of(context).primaryColor),
-                              borderRadius: BorderRadius.circular(
-                                  CustomProperties.borderRadius)))),
-                  onPressed: () async {
-                    await _linkPlayer();
-                  },
-                  label: Flexible(
-                    child: Text(
-                      _validate,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  )),
-            )
+            ElevatedButton.icon(
+                icon: const Icon(Icons.check),
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                        Theme.of(context).primaryColor),
+                    foregroundColor: MaterialStateProperty.all<Color>(
+                        Theme.of(context).cardColor),
+                    shape: MaterialStateProperty.all<OutlinedBorder>(
+                        RoundedRectangleBorder(
+                            side: BorderSide(
+                                width: 2,
+                                color: Theme.of(context).primaryColor),
+                            borderRadius: BorderRadius.circular(
+                                CustomProperties.borderRadius)))),
+                onPressed: () async {
+                  await _linkPlayer();
+                },
+                label: Text(
+                  _validate,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ))
           ],
         ),
         const SizedBox(height: 8),
