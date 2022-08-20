@@ -1,3 +1,8 @@
+# **v1.6.1** :
+
+- *Fix* :
+  - Fix the user association when creating an account with an existing player
+***
 # **v1.6.0** :
 
 - *Features* :
