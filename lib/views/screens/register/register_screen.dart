@@ -1,6 +1,8 @@
+import 'package:carg/exceptions/custom_exception.dart';
 import 'package:carg/helpers/custom_route.dart';
 import 'package:carg/services/auth/auth_service.dart';
 import 'package:carg/styles/properties.dart';
+import 'package:carg/views/helpers/info_snackbar.dart';
 import 'package:carg/views/widgets/register/register_email_widget.dart';
 import 'package:carg/views/widgets/register/register_phone_widget.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
@@ -27,6 +29,23 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen>
     with TickerProviderStateMixin, WidgetsBindingObserver {
+  Future<void> _googleSigIn(
+      _RegisterData registerData, BuildContext context) async {
+    try {
+      registerData.selectedRegisterMethod = _GoogleRegisterMethod();
+      await Provider.of<AuthService>(context, listen: false).googleLogIn();
+      await Navigator.pushReplacement(
+        context,
+        CustomRouteFade(
+          builder: (context) => Provider.of<AuthService>(context, listen: false)
+              .getCorrectLandingScreen(),
+        ),
+      );
+    } on CustomException catch (e) {
+      InfoSnackBar.showErrorSnackBar(context, e.message);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -183,20 +202,7 @@ class _RegisterScreenState extends State<RegisterScreen>
                                                 side: BorderSide(width: 2, color: Theme.of(context).primaryColor),
                                                 borderRadius: BorderRadius.circular(CustomProperties.borderRadius)))),
                                     onPressed: () async {
-                                      registerData.selectedRegisterMethod =
-                                          _GoogleRegisterMethod();
-                                      await Provider.of<AuthService>(context,
-                                              listen: false)
-                                          .googleLogIn();
-                                      await Navigator.pushReplacement(
-                                        context,
-                                        CustomRouteFade(
-                                          builder: (context) =>
-                                              Provider.of<AuthService>(context,
-                                                      listen: false)
-                                                  .getCorrectLandingScreen(),
-                                        ),
-                                      );
+                                      _googleSigIn(registerData, context);
                                     },
                                     label: const Padding(
                                       padding: EdgeInsets.all(8.0),

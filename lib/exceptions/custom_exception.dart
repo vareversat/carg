@@ -42,6 +42,9 @@ class CustomException implements Exception {
     } else if (rawMessage == 'invalid-verification-code') {
       code = 'ERROR_INVALID_VERIFICATION_CODE';
       message = 'Erreur : Le code de vérification est invalide';
+    } else if (rawMessage == 'sign_in_failed') {
+      code = 'ERROR_SIGN_IN_FAILED';
+      message = 'Erreur : Impossible de se connecter via cette méthode';
     } else if (rawMessage == 'requires-recent-login') {
       code = 'ERROR_REQUIRES_RECENT_LOGIN';
       message =
