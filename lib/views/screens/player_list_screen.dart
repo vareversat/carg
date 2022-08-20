@@ -37,7 +37,7 @@ class _PlayerListScreenState extends State<PlayerListScreen> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-        length: 2,
+        length: 3,
         child: Scaffold(
             appBar: PreferredSize(
               preferredSize: const Size.fromHeight(100),
@@ -100,6 +100,10 @@ class _PlayerListScreenState extends State<PlayerListScreen> {
                         key: ValueKey('playerListTab'),
                         child: Text('Joueurs', style: TextStyle(fontSize: 15))),
                     Tab(
+                        key: ValueKey('ownedPlayerListTab'),
+                        child: Text('Mes joueurs',
+                            style: TextStyle(fontSize: 15))),
+                    Tab(
                         key: ValueKey('playerListTeam'),
                         child: Text('Mes équipes',
                             style: TextStyle(fontSize: 15))),
@@ -109,7 +113,10 @@ class _PlayerListScreenState extends State<PlayerListScreen> {
             ),
             body: TabBarView(
               children: [
-                PlayerListTab(playerService: widget.playerService),
+                PlayerListTab(
+                    playerService: widget.playerService, myPlayers: false),
+                PlayerListTab(
+                    playerService: widget.playerService, myPlayers: true),
                 TeamListTab(
                     teamService: widget.teamService,
                     playerService: widget.playerService)

@@ -21,11 +21,27 @@ class AlgoliaHelper {
 
   AlgoliaHelper._create();
 
-  String _getAlgoliaFilter(bool? admin, String? playerId) {
-    if (admin != null && admin) {
-      return 'owned_by:$playerId OR owned:false OR testing:true';
+  String _getAlgoliaFilter(bool? admin, String? playerId, bool? myPlayers) {
+    if (myPlayers == null) {
+      if (admin != null && admin) {
+        return 'owned_by:$playerId OR owned:false OR testing:true';
+      } else {
+        return '(owned_by:$playerId OR owned:false) AND NOT testing:true';
+      }
     } else {
-      return '(owned_by:$playerId OR owned:false) AND NOT testing:true';
+      if (myPlayers) {
+        if (admin != null && admin) {
+          return 'owned_by:$playerId OR testing:true';
+        } else {
+          return 'owned_by:$playerId AND NOT testing:true';
+        }
+      } else {
+        if (admin != null && admin) {
+          return 'owned:false OR testing:true';
+        } else {
+          return 'owned:false AND NOT testing:true';
+        }
+      }
     }
   }
 
@@ -52,8 +68,11 @@ class AlgoliaHelper {
   }
 
   Future<List<dynamic>> filter(
-      {required String query, required Player currentPlayer}) async {
-    var filters = _getAlgoliaFilter(currentPlayer.admin, currentPlayer.id);
+      {required String query,
+      required Player currentPlayer,
+      bool? myPlayers}) async {
+    var filters =
+        _getAlgoliaFilter(currentPlayer.admin, currentPlayer.id, myPlayers);
     final params = {
       'query': query,
       'filters': filters,
