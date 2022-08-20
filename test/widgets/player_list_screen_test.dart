@@ -48,7 +48,7 @@ void main() {
     currentPlayer = Player(id: 'player-id', userName: 'Player', owned: false);
 
     when(mockAbstractPlayerService.searchPlayers(
-            query: '', currentPlayer: currentPlayer))
+            query: '', currentPlayer: currentPlayer, myPlayers: false))
         .thenAnswer((_) => Future<List<Player>>(() => (mockPlayerList)));
     when(mockAbstractTeamService.getAllTeamOfPlayer('player-id', 10))
         .thenAnswer((_) => Future<List<Team>>(() => (mockTeamList)));
@@ -86,7 +86,7 @@ void main() {
 
       testWidgets('no players', (WidgetTester tester) async {
         when(mockAbstractPlayerService.searchPlayers(
-                query: '', currentPlayer: currentPlayer))
+                query: '', currentPlayer: currentPlayer, myPlayers: false))
             .thenAnswer((_) => Future<List<Player>>(() => []));
         await mockNetworkImagesFor(() => tester.pumpWidget(testableWidget()));
         await mockNetworkImagesFor(() => tester.pumpAndSettle());
