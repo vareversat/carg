@@ -10,6 +10,8 @@ jobs:
     uses: ./.github/workflows/flutter.analyze-test.action.yaml
     with:
       flutter_version: '3.0.5'
+    secrets:
+      passphrase: ${{ secrets.PASSPHRASE }}
   functions:
     uses: ./.github/workflows/functions.action.yaml
     with:

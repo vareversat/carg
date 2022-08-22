@@ -73,7 +73,7 @@ class PlayerService extends AbstractPlayerService {
 
   @override
   Future<List<Player>> searchPlayers(
-      {String query = '', Player? currentPlayer}) async {
+      {String query = '', Player? currentPlayer, bool? myPlayers}) async {
     var algoliaHelper = await AlgoliaHelper.create();
     if (currentPlayer == null) {
       throw throw ServiceException(
@@ -82,7 +82,7 @@ class PlayerService extends AbstractPlayerService {
     try {
       var players = <Player>[];
       var snapshot = await algoliaHelper.filter(
-          query: query, currentPlayer: currentPlayer);
+          query: query, currentPlayer: currentPlayer, myPlayers: myPlayers);
       for (var doc in snapshot) {
         players.add(Player.fromJSON(doc, doc['objectID']));
       }

@@ -9,8 +9,9 @@ import 'package:provider/provider.dart';
 
 class PlayerListTab extends StatefulWidget {
   final AbstractPlayerService playerService;
+  final bool? myPlayers;
 
-  const PlayerListTab({Key? key, required this.playerService})
+  const PlayerListTab({Key? key, required this.playerService, this.myPlayers})
       : super(key: key);
 
   @override
@@ -121,6 +122,7 @@ class _PlayerListTabWidget extends State<PlayerListTab> {
         },
         future: widget.playerService.searchPlayers(
             query: searchQuery,
+            myPlayers: widget.myPlayers,
             currentPlayer:
                 Provider.of<AuthService>(context, listen: false).getPlayer()),
       ))

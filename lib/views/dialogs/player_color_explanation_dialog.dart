@@ -42,7 +42,7 @@ class PlayerColorExplanationDialog extends StatelessWidget {
             key: ValueKey("realPlayerDescription"),
             padding: EdgeInsets.symmetric(horizontal: 4.0, vertical: 6.0),
             child: Text(
-                '"Vrai joueur" : Cette couleur indique que ce joueur dispose de l\'application "Carg"')),
+                '"Joueurs" : Cette couleur indique que ce joueur dispose de l\'application Carg')),
         PlayerWidget(
             key: const ValueKey('playerWidgetOwnedPlayer'),
             player: Player(userName: 'Joueur', owned: true),
@@ -51,7 +51,7 @@ class PlayerColorExplanationDialog extends StatelessWidget {
           key: ValueKey('ownedPlayerDescription'),
           padding: EdgeInsets.symmetric(horizontal: 4.0, vertical: 6.0),
           child: Text(
-              '"Vos joueur" : Cette couleur indique que ce joueur a été créé par vous. Il n\'est accessible que pour les parties que vous créé sur votre application'),
+              '"Mes joueurs" : Cette couleur indique que ce joueur a été créé par vous. Il n\'est accessible que pour les parties que vous créé sur votre application'),
         ),
         if (isAdmin)
           Column(children: [
@@ -63,7 +63,7 @@ class PlayerColorExplanationDialog extends StatelessWidget {
               key: ValueKey('testingPlayerDescription'),
               padding: EdgeInsets.symmetric(horizontal: 4.0, vertical: 6.0),
               child: Text(
-                  '"Jouers de test" : Cette couleur indique que ce joueur est utilisé pour les tests d\'intégrations. Si vous voyez ce type de joueurs, cela indique que vous être administrateur de l\'application'),
+                  '"Jouers de test" : Cette couleur indique que ce joueur est utilisé pour les tests d\'intégrations. Si vous voyez ce type de joueurs, cela indique que vous ếtes administrateur de l\'application'),
             )
           ]),
         const Padding(

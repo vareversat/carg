@@ -7,6 +7,10 @@ on:
         description: 'The Flutter used (ex: 2.5.1)'
         required: true
         type: string
+    secrets:
+      passphrase:
+        description: 'The passphrase to decrypt the configuration'
+        required: true
 
 
 jobs:
@@ -40,6 +44,12 @@ jobs:
     steps:
       - name: 'Checkout source code'
         uses: actions/checkout@v3
+      - name: 'Decrypt secret configuration'
+        run: ./.github/scripts/decrypt_secret.sh
+        env:
+          PASSPHRASE: ${{ secrets.passphrase }}
+      - name: 'Check secret configuration'
+        run: ./.github/scripts/check_secrets_decryption.sh
       - name: 'Setup flutter action'
         uses: subosito/flutter-action@v2.6.1
         with:

@@ -103,10 +103,13 @@ class MockAbstractPlayerService extends _i1.Mock
           as _i10.Future<_i9.Player?>);
   @override
   _i10.Future<List<_i9.Player>> searchPlayers(
-          {String? query = r'', _i9.Player? currentPlayer}) =>
+          {String? query = r'', _i9.Player? currentPlayer, bool? myPlayers}) =>
       (super.noSuchMethod(
-              Invocation.method(#searchPlayers, [],
-                  {#query: query, #currentPlayer: currentPlayer}),
+              Invocation.method(#searchPlayers, [], {
+                #query: query,
+                #currentPlayer: currentPlayer,
+                #myPlayers: myPlayers
+              }),
               returnValue: Future<List<_i9.Player>>.value(<_i9.Player>[]))
           as _i10.Future<List<_i9.Player>>);
   @override
