@@ -8,20 +8,34 @@ class AlgoliaHelper {
   static const String flavor =
       String.fromEnvironment('FLAVOR', defaultValue: 'dev');
 
-  static String _apiKey = '';
-  static String _appID = '';
+  static String apiKey = '';
+  static String appID = '';
+  static String url = '';
+  static String path = '';
+
+  AlgoliaHelper._create();
+
+  static Future<AlgoliaHelper> create() async {
+    var component = AlgoliaHelper._create();
+    final algoliaConfig = jsonDecode(await rootBundle.loadString(
+      'assets/config/algolia.json',
+    ));
+    appID = algoliaConfig['app_id'].toString();
+    apiKey = algoliaConfig['api_key'].toString();
+    url = '$appID-dsn.algolia.net';
+    path = '/1/indexes/player-$flavor';
+    return component;
+  }
 
   Map<String, String> get _header {
     return <String, String>{
-      'X-Algolia-Application-Id': _appID,
-      'X-Algolia-API-Key': _apiKey,
+      'X-Algolia-Application-Id': appID,
+      'X-Algolia-API-Key': apiKey,
       'Content-Type': 'application/json',
     };
   }
 
-  AlgoliaHelper._create();
-
-  String _getAlgoliaFilter(bool? admin, String? playerId, bool? myPlayers) {
+  String getAlgoliaFilter(bool? admin, String? playerId, bool? myPlayers) {
     if (myPlayers == null) {
       if (admin != null && admin) {
         return 'owned_by:$playerId OR owned:false OR testing:true';
@@ -45,22 +59,11 @@ class AlgoliaHelper {
     }
   }
 
-  static Future<AlgoliaHelper> create() async {
-    var component = AlgoliaHelper._create();
-    final algoliaConfig = jsonDecode(await rootBundle.loadString(
-      'assets/config/algolia.json',
-    ));
-    _appID = algoliaConfig['app_id'].toString();
-    _apiKey = algoliaConfig['api_key'].toString();
-    return component;
-  }
-
   Future<List<dynamic>> search(String query) async {
     final params = {
       'query': query,
     };
-    final uri = Uri.https(
-        '$_appID-dsn.algolia.net', '/1/indexes/player-$flavor', params);
+    final uri = Uri.https(url, path, params);
 
     final response = await http.get(uri, headers: _header);
     var body = json.decode(response.body);
@@ -72,13 +75,12 @@ class AlgoliaHelper {
       required Player currentPlayer,
       bool? myPlayers}) async {
     var filters =
-        _getAlgoliaFilter(currentPlayer.admin, currentPlayer.id, myPlayers);
+        getAlgoliaFilter(currentPlayer.admin, currentPlayer.id, myPlayers);
     final params = {
       'query': query,
       'filters': filters,
     };
-    final uri = Uri.https(
-        '$_appID-dsn.algolia.net', '/1/indexes/player-$flavor/browse', params);
+    final uri = Uri.https(url, '$path/browse', params);
 
     final response = await http.get(uri, headers: _header);
     var body = json.decode(response.body);
