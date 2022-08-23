@@ -25,7 +25,7 @@ void main() async {
           TestWidgetsFlutterBinding.ensureInitialized();
           var helper = await AlgoliaHelper.create();
           var filter = helper.getAlgoliaFilter(true, 'player_id', true);
-          expect(filter, 'owned_by:player_id OR testing:true');
+          expect(filter, 'owned_by:player_id AND NOT testing:true');
         });
 
         test('my players = null', () async {

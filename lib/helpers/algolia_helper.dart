@@ -44,11 +44,7 @@ class AlgoliaHelper {
       }
     } else {
       if (myPlayers) {
-        if (admin != null && admin) {
-          return 'owned_by:$playerId OR testing:true';
-        } else {
-          return 'owned_by:$playerId AND NOT testing:true';
-        }
+        return 'owned_by:$playerId AND NOT testing:true';
       } else {
         if (admin != null && admin) {
           return 'owned:false OR testing:true';
