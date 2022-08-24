@@ -9,6 +9,7 @@ import 'package:carg/views/helpers/info_snackbar.dart';
 import 'package:carg/views/screens/register/edit_email_screen.dart';
 import 'package:carg/views/screens/register/edit_phone_number_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -259,6 +260,26 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
               ),
               ListTile(
+                key: const ValueKey('adFreeButton'),
+                subtitle: const Text('L\'application Carg sans aucunes publicités !',
+                    style: TextStyle(fontSize: 15)),
+                selected: true,
+                leading: const Icon(
+                  FontAwesomeIcons.euroSign,
+                  size: 30,
+                ),
+                onTap: () async => await showGeneralDialog(
+                    transitionDuration: const Duration(milliseconds: 300),
+                    context: context,
+                    pageBuilder: (BuildContext context,
+                        Animation<double> animation,
+                        Animation<double> secondaryAnimation) {
+                      return CargAboutDialog();
+                    }),
+                title: Text('Supprimer les publicités',
+                  style: TextStyle(
+                      color: Theme.of(context).primaryColor, fontSize: 25),),),
+              ListTile(
                   key: const ValueKey('aboutButton'),
                   subtitle: const Text('Informations concernant l\'application',
                       style: TextStyle(fontSize: 15)),
@@ -277,7 +298,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       }),
                   title: Text('A propos',
                       style: TextStyle(
-                          color: Theme.of(context).primaryColor, fontSize: 25)))
+                          color: Theme.of(context).primaryColor, fontSize: 25),),),
             ],
           ),
         ),
