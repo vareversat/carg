@@ -80,7 +80,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-appcheck-playintegrity'
     implementation 'com.google.firebase:firebase-appcheck-debug:16.0.1'
     implementation 'com.google.android.gms:play-services-base:18.1.0'
-    implementation 'com.google.android.gms:play-services-auth:20.2.0'
+    implementation 'com.google.android.gms:play-services-auth:20.3.0'
     implementation 'com.google.firebase:firebase-appcheck-safetynet:16.0.1'
     implementation 'androidx.multidex:multidex:2.0.1'
     // For deeplink integration
