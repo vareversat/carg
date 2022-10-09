@@ -15,7 +15,7 @@ dependencies:
   firebase_core: ^1.0.0
   firebase_auth: ^3.1.0
   firebase_dynamic_links: ^4.0.0
-  firebase_app_check: ^0.0.8
+  firebase_app_check: ^0.0.9
   google_sign_in: ^5.0.1
   cupertino_icons: ^1.0.2
   enum_to_string: ^2.0.1
