@@ -27,5 +27,5 @@ class Const {
   static const String coincheBeloteScoreDB = 'coinche-score';
   static const String frenchBeloteScoreDB = 'belote-score';
   static const String tarotScoreDB = 'tarot-score';
-  static const String purchaseDB = 'iap-purchase';
+  static const String purchaseDB = 'iap';
 }
