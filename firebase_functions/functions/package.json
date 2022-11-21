@@ -14,7 +14,7 @@
   },
   "main": "lib/index.js",
   "dependencies": {
-    "@google-cloud/firestore": "5.0.2",
+    "@google-cloud/firestore": "6.4.1",
     "algoliasearch": "4.14.2",
     "firebase-admin": "11.0.1",
     "firebase-functions": "3.24.1"
