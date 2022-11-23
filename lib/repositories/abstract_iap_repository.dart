@@ -9,7 +9,6 @@ abstract class AbstractIAPRepository extends BaseRepository<Purchase> {
       required FirebaseFirestore provider})
       : super(database: database, environment: environment, provider: provider);
 
-
   /// Get a purchase by user ID
   /// If no team exists, return null
   Future<Purchase?> getByUserId(String userId);

@@ -67,8 +67,7 @@ class _RemoveAdsListTileState extends State<RemoveAdsListTile> {
             onPressed: () async =>
                 {_buy(context), Navigator.of(context).pop(true)},
             child: const Text('Acheter',
-                style:
-                    TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           ),
           TextButton(
             style: ButtonStyle(
@@ -83,8 +82,7 @@ class _RemoveAdsListTileState extends State<RemoveAdsListTile> {
             onPressed: () async =>
                 {_restorePurchase(), Navigator.of(context).pop(true)},
             child: const Text('Restorer mon achat',
-                style:
-                    TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           ),
         ],
       ),
@@ -101,7 +99,10 @@ class _RemoveAdsListTileState extends State<RemoveAdsListTile> {
             contentPadding: const EdgeInsets.all(24),
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-            children: <Widget>[Text(iapImplementationData.purchaseStatus, style: const TextStyle(fontWeight: FontWeight.bold))],
+            children: <Widget>[
+              Text(iapImplementationData.purchaseStatus,
+                  style: const TextStyle(fontWeight: FontWeight.bold))
+            ],
           ),
         ),
       ),
@@ -126,7 +127,8 @@ class _RemoveAdsListTileState extends State<RemoveAdsListTile> {
         await _verifyPurchase(purchaseDetails);
         developer.log('Purchase is RESTORED', name: 'carg.iap-tile');
       } else if (purchaseDetails.status == PurchaseStatus.error) {
-        developer.log('Purchase is IN ERROR : ${purchaseDetails.error}', name: 'carg.iap-tile');
+        developer.log('Purchase is IN ERROR : ${purchaseDetails.error}',
+            name: 'carg.iap-tile');
       } else if (purchaseDetails.pendingCompletePurchase) {
         developer.log('Purchase is PENDING_COMPLETE_PURCHASE',
             name: 'carg.iap-tile');

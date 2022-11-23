@@ -31,7 +31,8 @@ class NonSubscriptionPurchase extends Purchase {
       Map<String, dynamic>? json, String id) {
     return NonSubscriptionPurchase(
         id: id,
-        iapSource: EnumToString.fromString(IAPSourceEnum.values, json?['iap_source'])!,
+        iapSource:
+            EnumToString.fromString(IAPSourceEnum.values, json?['iap_source'])!,
         orderId: json?['order_id'],
         productId: json?['product_id'],
         userId: json?['user_id'],
