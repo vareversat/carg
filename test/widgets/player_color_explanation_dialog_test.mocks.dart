@@ -190,6 +190,10 @@ class MockAuthService extends _i1.Mock implements _i11.AuthService {
       super.noSuchMethod(Invocation.method(#setCurrentPlayer, [player]),
           returnValueForMissingStub: null);
   @override
+  _i8.Future<bool> isAdFreeUser() =>
+      (super.noSuchMethod(Invocation.method(#isAdFreeUser, []),
+          returnValue: Future<bool>.value(false)) as _i8.Future<bool>);
+  @override
   void addListener(_i12.VoidCallback? listener) =>
       super.noSuchMethod(Invocation.method(#addListener, [listener]),
           returnValueForMissingStub: null);
