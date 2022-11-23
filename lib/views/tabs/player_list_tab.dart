@@ -85,10 +85,10 @@ class _PlayerListTabWidget extends State<PlayerListTab> {
           ],
         ),
       ),
-          const Padding(
-            padding: EdgeInsets.all(4.0),
-            child: AdBannerWidget(),
-          ),
+      const Padding(
+        padding: EdgeInsets.all(4.0),
+        child: AdBannerWidget(),
+      ),
       Flexible(
           child: FutureBuilder<List<Player>>(
         builder: (context, snapshot) {
