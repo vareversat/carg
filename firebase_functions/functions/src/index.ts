@@ -2,8 +2,8 @@ import * as functions from 'firebase-functions';
 import algoliasearch from 'algoliasearch';
 import * as firestore from "@google-cloud/firestore";
 
-import * as algolia_key from "./algolia-key.json";
-import * as google_key from "./backup-service-key.json";
+import * as algolia_key from "./assets/algolia-key.json";
+import * as google_key from "./assets/backup-service-key.json";
 
 const algoliaClient = algoliasearch(algolia_key.app_id, algolia_key.api_key);
 const firestoreClient = new firestore.v1.FirestoreAdminClient({credentials:
