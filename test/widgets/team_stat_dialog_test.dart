@@ -12,10 +12,12 @@ import 'package:network_image_mock/network_image_mock.dart';
 import 'team_stat_dialog_test.mocks.dart';
 
 Widget testableWidget(Team team) => MaterialApp(
-      home: TeamStatDialog(
-        playerService: mockPlayerService,
-        teamService: mockTeamService,
-        team: team,
+      home: Scaffold(
+        body: TeamStatDialog(
+          playerService: mockPlayerService,
+          teamService: mockTeamService,
+          team: team,
+        ),
       ),
     );
 
