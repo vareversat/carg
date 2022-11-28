@@ -18,7 +18,7 @@ class TarotPerkWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future<dynamic> _showHandfulPicker() {
+    Future<dynamic> showHandfulPicker() {
       return showDialog(
         context: context,
         builder: (
@@ -30,7 +30,7 @@ class TarotPerkWidget extends StatelessWidget {
       );
     }
 
-    Future<dynamic> _showChelemPicker() {
+    Future<dynamic> showChelemPicker() {
       return showDialog(
         context: context,
         builder: (
@@ -41,7 +41,7 @@ class TarotPerkWidget extends StatelessWidget {
       );
     }
 
-    Future<TarotTeam?> _showSmallToTheEndPicker() {
+    Future<TarotTeam?> showSmallToTheEndPicker() {
       return showDialog(
         context: context,
         builder: (
@@ -73,7 +73,7 @@ class TarotPerkWidget extends StatelessWidget {
                       selectedColor: Theme.of(context).colorScheme.secondary,
                       selected: roundData.smallToTheEndTeam != null,
                       onPressed: () async {
-                        await _showSmallToTheEndPicker().then((value) => {
+                        await showSmallToTheEndPicker().then((value) => {
                               if (value != null)
                                 roundData.smallToTheEndTeam = value
                             });
@@ -97,7 +97,7 @@ class TarotPerkWidget extends StatelessWidget {
                       selectedColor: Theme.of(context).colorScheme.secondary,
                       selected: roundData.handful != null,
                       onPressed: () async {
-                        await _showHandfulPicker().then((value) => {
+                        await showHandfulPicker().then((value) => {
                               if (value != null)
                                 {
                                   roundData.handful = value[0],
@@ -124,7 +124,7 @@ class TarotPerkWidget extends StatelessWidget {
                       selectedColor: Theme.of(context).colorScheme.secondary,
                       selected: roundData.chelem != null,
                       onPressed: () async {
-                        await _showChelemPicker().then((value) =>
+                        await showChelemPicker().then((value) =>
                             {if (value != null) roundData.chelem = value});
                       },
                       label: Text(TarotBonus.CHELEM.name +
