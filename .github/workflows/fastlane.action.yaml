@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout source code'
-        uses: actions/checkout@v3.0.2
+        uses: actions/checkout@v3.1.0
         with:
           fetch-depth: 0
       - name: 'Decrypt secret configuration'
@@ -34,7 +34,7 @@ jobs:
       - name: 'Generate changelog'
         run: ./.github/scripts/generate_changelog.sh
       - name: 'Fastlane deploy ${{ inputs.lane }} lane'
-        uses: maierj/fastlane-action@v2.2.1
+        uses: maierj/fastlane-action@v2.3.0
         with:
           lane: ${{ inputs.lane }}
           subdirectory: 'android'
