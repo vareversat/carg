@@ -1,6 +1,7 @@
 import 'package:carg/models/player.dart';
 import 'package:carg/services/auth/auth_service.dart';
 import 'package:carg/services/player/abstract_player_service.dart';
+import 'package:carg/views/widgets/ad_banner_widget.dart';
 import 'package:carg/views/widgets/error_message_widget.dart';
 import 'package:carg/views/widgets/players/player_widget.dart';
 import 'package:flutter/material.dart';
@@ -83,6 +84,10 @@ class _PlayerListTabWidget extends State<PlayerListTab> {
             ),
           ],
         ),
+      ),
+      const Padding(
+        padding: EdgeInsets.all(4.0),
+        child: AdBannerWidget(),
       ),
       Flexible(
           child: FutureBuilder<List<Player>>(

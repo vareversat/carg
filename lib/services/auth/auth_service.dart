@@ -5,6 +5,7 @@ import 'dart:async';
 import 'package:carg/exceptions/custom_exception.dart';
 import 'package:carg/helpers/custom_route.dart';
 import 'package:carg/models/player.dart';
+import 'package:carg/repositories/impl/iap_repository.dart';
 import 'package:carg/services/impl/player_service.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/helpers/info_snackbar.dart';
@@ -22,6 +23,7 @@ class AuthService with ChangeNotifier {
   Player? _player;
   DateTime? _expiryDate;
   final _playerService = PlayerService();
+  final _iapRepository = IAPRepository();
 
   bool get isAuth {
     return _connectedUser != null && _expiryDate!.isAfter(DateTime.now());
@@ -223,6 +225,19 @@ class AuthService with ChangeNotifier {
 
   void setCurrentPlayer(Player player) {
     _player = player;
+  }
+
+  Future<bool> isAdFreeUser() async {
+    if (_connectedUser == null) {
+      return true;
+    } else {
+      var purchase = await _iapRepository.getByUserId(_connectedUser!.uid);
+      if (purchase == null) {
+        return false;
+      } else {
+        return purchase.isValid() && purchase.productId == "carg.free.ads";
+      }
+    }
   }
 }
 

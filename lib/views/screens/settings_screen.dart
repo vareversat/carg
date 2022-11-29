@@ -8,6 +8,7 @@ import 'package:carg/views/dialogs/carg_about_dialog.dart';
 import 'package:carg/views/helpers/info_snackbar.dart';
 import 'package:carg/views/screens/register/edit_email_screen.dart';
 import 'package:carg/views/screens/register/edit_phone_number_screen.dart';
+import 'package:carg/views/widgets/remove_ads_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -258,26 +259,30 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                 ),
               ),
+              const RemoveAdsListTile(key: ValueKey('removeAdsListTile')),
               ListTile(
-                  key: const ValueKey('aboutButton'),
-                  subtitle: const Text('Informations concernant l\'application',
-                      style: TextStyle(fontSize: 15)),
-                  selected: true,
-                  leading: const Icon(
-                    Icons.info_outline,
-                    size: 30,
-                  ),
-                  onTap: () async => await showGeneralDialog(
-                      transitionDuration: const Duration(milliseconds: 300),
-                      context: context,
-                      pageBuilder: (BuildContext context,
-                          Animation<double> animation,
-                          Animation<double> secondaryAnimation) {
-                        return CargAboutDialog();
-                      }),
-                  title: Text('A propos',
-                      style: TextStyle(
-                          color: Theme.of(context).primaryColor, fontSize: 25)))
+                key: const ValueKey('aboutButton'),
+                subtitle: const Text('Informations concernant l\'application',
+                    style: TextStyle(fontSize: 15)),
+                selected: true,
+                leading: const Icon(
+                  Icons.info_outline,
+                  size: 30,
+                ),
+                onTap: () async => await showGeneralDialog(
+                    transitionDuration: const Duration(milliseconds: 300),
+                    context: context,
+                    pageBuilder: (BuildContext context,
+                        Animation<double> animation,
+                        Animation<double> secondaryAnimation) {
+                      return CargAboutDialog();
+                    }),
+                title: Text(
+                  'A propos',
+                  style: TextStyle(
+                      color: Theme.of(context).primaryColor, fontSize: 25),
+                ),
+              ),
             ],
           ),
         ),

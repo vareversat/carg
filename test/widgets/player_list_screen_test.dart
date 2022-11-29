@@ -55,6 +55,7 @@ void main() {
     when(mockAuthService.getPlayerIdOfUser()).thenReturn('player-id');
     when(mockAuthService.getPlayer()).thenReturn(currentPlayer);
     when(mockAuthService.getAdmin()).thenReturn(false);
+    when(mockAuthService.isAdFreeUser()).thenAnswer((_) => Future(() => true));
     when(mockAbstractPlayerService.get('p1'))
         .thenAnswer((_) => Future<Player>(() => (mockPlayerList[0])));
     when(mockAbstractPlayerService.get('p2'))
