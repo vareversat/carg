@@ -14,6 +14,13 @@ else
   exit 1
 fi
 
+if [ -s "$GITHUB_WORKSPACE"/assets/config/google-play-apy-key.json ]; then
+  echo "google-play-apy-key.json ✅"
+else
+  echo "google-play-apy-key.json is empty ❌"
+  exit 1
+fi
+
 if [ -f "$GITHUB_WORKSPACE"/ios/Runner/GoogleService-Info.plist ]; then
   echo "GoogleService-Info.plist ✅"
 else
