@@ -1,3 +1,8 @@
+# **v1.7.0** :
+
+- *Features* :
+  - Display ads to generate some revenues and add the in purchase app to remove the add banners
+***
 # **v1.6.1** :
 
 - *Fix* :
