@@ -2,8 +2,8 @@
 
 # Decrypt google-services.json.gpg
 gpg --batch --yes --decrypt --pinentry-mode loopback --passphrase="$PASSPHRASE" --output "$GITHUB_WORKSPACE"/android/app/google-services.json "$GITHUB_WORKSPACE"/encrypted_config/google-services.json.gpg
-# Decrypt google-play-apy-key.json.gpg
-gpg --batch --yes --decrypt --pinentry-mode loopback --passphrase="$PASSPHRASE" --output "$GITHUB_WORKSPACE"/assets/config/google-play-apy-key.json "$GITHUB_WORKSPACE"/encrypted_config/google-play-apy-key.json.gpg
+# Decrypt google-play-api-key.json.gpg
+gpg --batch --yes --decrypt --pinentry-mode loopback --passphrase="$PASSPHRASE" --output "$GITHUB_WORKSPACE"/assets/config/google-play-api-key.json "$GITHUB_WORKSPACE"/encrypted_config/google-play-api-key.json.gpg
 # Decrypt GoogleService-Info.plist.gpg
 gpg --batch --yes --decrypt --pinentry-mode loopback --passphrase="$PASSPHRASE" --output "$GITHUB_WORKSPACE"/ios/Runner/GoogleService-Info.plist "$GITHUB_WORKSPACE"/encrypted_config/GoogleService-Info.plist.gpg
 # Decrypt key.json.gpg
