@@ -1,3 +1,9 @@
+# **v1.7.1** :
+
+- *Fix* :
+  - Fix the purchase restoration
+  - Add `app-ads.txt` to the root of https://carg.vareversat.fr
+***
 # **v1.7.0** :
 
 - *Features* :
