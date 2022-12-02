@@ -25,7 +25,7 @@ class RemoveAdsListTile extends StatefulWidget {
 class _RemoveAdsListTileState extends State<RemoveAdsListTile> {
   final InAppPurchase iap = InAppPurchase.instance;
   late StreamSubscription<List<PurchaseDetails>> _subscription;
-  late final AbstractIAPService iapImplementation;
+  late AbstractIAPService iapImplementation;
 
   Future<bool> _verifyPurchase(PurchaseDetails purchaseDetails) async {
     try {
@@ -40,7 +40,7 @@ class _RemoveAdsListTileState extends State<RemoveAdsListTile> {
       return iapImplementation.verifyPurchase(
           userId: userId, productData: productData, token: token);
     } catch (e) {
-      throw Exception('Error while verifying the purchase : ${e.toString()}');
+      throw Exception(e.toString());
     }
   }
 
@@ -111,28 +111,33 @@ class _RemoveAdsListTileState extends State<RemoveAdsListTile> {
 
   Future<void> _handlePurchase(PurchaseDetails purchaseDetails) async {
     // Break when not mounted when restoring purchases
-    if (mounted) {
-      if (purchaseDetails.status == PurchaseStatus.purchased) {
-        await iap.completePurchase(purchaseDetails);
-        var validPurchase = await _verifyPurchase(purchaseDetails);
-        if (validPurchase) {
-          developer.log('Purchase is COMPLETED', name: 'carg.iap-tile');
-        } else {
-          developer.log('Purchase KO during COMPLETE PROCESS',
+    try {
+      if (mounted) {
+        if (purchaseDetails.status == PurchaseStatus.purchased) {
+          await iap.completePurchase(purchaseDetails);
+          var validPurchase = await _verifyPurchase(purchaseDetails);
+          if (validPurchase) {
+            developer.log('Purchase is COMPLETED', name: 'carg.iap-tile');
+          } else {
+            developer.log('Purchase KO during COMPLETE PROCESS',
+                name: 'carg.iap-tile');
+          }
+        } else if (purchaseDetails.status == PurchaseStatus.canceled) {
+          developer.log('Purchase is CANCELED', name: 'carg.iap-tile');
+        } else if (purchaseDetails.status == PurchaseStatus.restored) {
+          await _verifyPurchase(purchaseDetails);
+          developer.log('Purchase is RESTORED', name: 'carg.iap-tile');
+        } else if (purchaseDetails.status == PurchaseStatus.error) {
+          developer.log('Purchase is IN ERROR : ${purchaseDetails.error}',
+              name: 'carg.iap-tile');
+        } else if (purchaseDetails.pendingCompletePurchase) {
+          developer.log('Purchase is PENDING_COMPLETE_PURCHASE',
               name: 'carg.iap-tile');
         }
-      } else if (purchaseDetails.status == PurchaseStatus.canceled) {
-        developer.log('Purchase is CANCELED', name: 'carg.iap-tile');
-      } else if (purchaseDetails.status == PurchaseStatus.restored) {
-        await _verifyPurchase(purchaseDetails);
-        developer.log('Purchase is RESTORED', name: 'carg.iap-tile');
-      } else if (purchaseDetails.status == PurchaseStatus.error) {
-        developer.log('Purchase is IN ERROR : ${purchaseDetails.error}',
-            name: 'carg.iap-tile');
-      } else if (purchaseDetails.pendingCompletePurchase) {
-        developer.log('Purchase is PENDING_COMPLETE_PURCHASE',
-            name: 'carg.iap-tile');
       }
+    } catch (e) {
+      InfoSnackBar.showErrorSnackBar(
+          context, 'Erreur durant la restoration : ${e.toString()}');
     }
   }
 
