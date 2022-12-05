@@ -1,18 +1,20 @@
 // ignore_for_file: constant_identifier_names
+import 'package:flutter/widgets.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 enum BeloteContractType { NORMAL, CAPOT, GENERALE, FAILED_GENERALE }
 
 extension BeloteContractTypeExtension on BeloteContractType {
-  String get name {
+  String name(BuildContext context) {
     switch (this) {
       case BeloteContractType.NORMAL:
-        return 'Normal';
+        return AppLocalizations.of(context)!.contractTypeNormal;
       case BeloteContractType.CAPOT:
-        return 'Capot';
+        return AppLocalizations.of(context)!.contractTypeCapot;
       case BeloteContractType.GENERALE:
-        return 'Générale';
+        return AppLocalizations.of(context)!.contractTypeGenerale;
       case BeloteContractType.FAILED_GENERALE:
-        return 'Générale chutée';
+        return AppLocalizations.of(context)!.contractTypeFailedGenerale;
       default:
         return '';
     }

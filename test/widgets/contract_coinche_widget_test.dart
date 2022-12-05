@@ -5,8 +5,16 @@ import 'package:carg/views/screens/add_round/widget/team_game/contract_coinche_w
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-Widget testableWidget(CoincheBeloteRound coincheRound) => MaterialApp(
-    home: Scaffold(body: ContractCoincheWidget(coincheRound: coincheRound)));
+import 'localized_testable_widget.dart';
+
+Widget testableWidget(CoincheBeloteRound coincheRound) =>
+    localizedTestableWidget(
+      Scaffold(
+        body: ContractCoincheWidget(
+          coincheRound: coincheRound,
+        ),
+      ),
+    );
 
 void main() {
   late CoincheBeloteRound coincheRound;

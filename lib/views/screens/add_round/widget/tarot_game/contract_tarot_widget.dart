@@ -2,6 +2,7 @@ import 'package:carg/models/score/misc/tarot_contract.dart';
 import 'package:carg/models/score/round/tarot_round.dart';
 import 'package:carg/views/screens/add_round/widget/section_title_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 class ContractTarotWidget extends StatelessWidget {
@@ -15,22 +16,26 @@ class ContractTarotWidget extends StatelessWidget {
     return ChangeNotifierProvider.value(
       value: tarotRound..computeRound(),
       child: Consumer<TarotRound>(
-          builder: (context, roundData, _) => Column(
-                children: [
-                  const SectionTitleWidget(title: 'Contrat'),
-                  DropdownButton<TarotContract>(
-                      value: roundData.contract,
-                      items: TarotContract.values.map((TarotContract value) {
-                        return DropdownMenuItem<TarotContract>(
-                          value: value,
-                          child: Text('${value.name} (x${value.multiplayer})'),
-                        );
-                      }).toList(),
-                      onChanged: (TarotContract? val) {
-                        roundData.contract = val!;
-                      }),
-                ],
-              )),
+        builder: (context, roundData, _) => Column(
+          children: [
+            SectionTitleWidget(title: AppLocalizations.of(context)!.contract),
+            DropdownButton<TarotContract>(
+              value: roundData.contract,
+              items: TarotContract.values.map((TarotContract value) {
+                return DropdownMenuItem<TarotContract>(
+                  value: value,
+                  child: Text(
+                    '${value.name(context)} \nx${value.multiplayer}',
+                  ),
+                );
+              }).toList(),
+              onChanged: (TarotContract? val) {
+                roundData.contract = val!;
+              },
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

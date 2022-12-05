@@ -4,6 +4,7 @@ import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/widgets/players/player_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PlayerColorExplanationDialog extends StatelessWidget {
   final bool isAdmin;
@@ -26,7 +27,7 @@ class PlayerColorExplanationDialog extends StatelessWidget {
                 topRight: Radius.circular(15.0))),
         padding: const EdgeInsets.fromLTRB(20, 20, 20, 15),
         child: Text(
-          'Informations',
+          AppLocalizations.of(context)!.information,
           key: const ValueKey('titleText'),
           overflow: TextOverflow.ellipsis,
           style: CustomTextStyle.dialogHeaderStyle(context)
@@ -36,34 +37,41 @@ class PlayerColorExplanationDialog extends StatelessWidget {
       content: ListBody(children: [
         PlayerWidget(
             key: const ValueKey('playerWidgetRealPlayer'),
-            player: Player(userName: 'Joueur', owned: false),
+            player: Player(
+                userName: AppLocalizations.of(context)!.player(1),
+                owned: false),
             onTap: () => {}),
-        const Padding(
-            key: ValueKey("realPlayerDescription"),
-            padding: EdgeInsets.symmetric(horizontal: 4.0, vertical: 6.0),
+        Padding(
+            key: const ValueKey("realPlayerDescription"),
+            padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 6.0),
             child: Text(
-                '"Joueurs" : Cette couleur indique que ce joueur dispose de l\'application Carg')),
+                '"${AppLocalizations.of(context)!.player(2)}" : ${AppLocalizations.of(context)!.realPlayersExplanation}')),
         PlayerWidget(
             key: const ValueKey('playerWidgetOwnedPlayer'),
-            player: Player(userName: 'Joueur', owned: true),
+            player: Player(
+                userName: AppLocalizations.of(context)!.player(1), owned: true),
             onTap: () => {}),
-        const Padding(
-          key: ValueKey('ownedPlayerDescription'),
-          padding: EdgeInsets.symmetric(horizontal: 4.0, vertical: 6.0),
+        Padding(
+          key: const ValueKey('ownedPlayerDescription'),
+          padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 6.0),
           child: Text(
-              '"Mes joueurs" : Cette couleur indique que ce joueur a été créé par vous. Il n\'est accessible que pour les parties que vous créé sur votre application'),
+              '"${AppLocalizations.of(context)!.myPlayers}" : ${AppLocalizations.of(context)!.ownedPlayersExplanation}'),
         ),
         if (isAdmin)
           Column(children: [
             PlayerWidget(
                 key: const ValueKey('playerWidgetTestingPlayer'),
-                player: Player(userName: 'Joueur', owned: false, testing: true),
+                player: Player(
+                    userName: AppLocalizations.of(context)!.player(1),
+                    owned: false,
+                    testing: true),
                 onTap: () => {}),
-            const Padding(
-              key: ValueKey('testingPlayerDescription'),
-              padding: EdgeInsets.symmetric(horizontal: 4.0, vertical: 6.0),
+            Padding(
+              key: const ValueKey('testingPlayerDescription'),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 4.0, vertical: 6.0),
               child: Text(
-                  '"Jouers de test" : Cette couleur indique que ce joueur est utilisé pour les tests d\'intégrations. Si vous voyez ce type de joueurs, cela indique que vous ếtes administrateur de l\'application'),
+                  '"${AppLocalizations.of(context)!.testPlayers}" : ${AppLocalizations.of(context)!.testPlayersExplanation}'),
             )
           ]),
         const Padding(
@@ -77,7 +85,7 @@ class PlayerColorExplanationDialog extends StatelessWidget {
           const Icon(FontAwesomeIcons.trophy, color: Colors.black, size: 15),
           Flexible(
             key: const ValueKey('wonGamesDescription'),
-            child: Text('   Nombre total de parties remportées',
+            child: Text('   ${AppLocalizations.of(context)!.wonGamesTotal}',
                 style: CustomTextStyle.boldAndItalic(context)
                     .copyWith(fontSize: 15)),
           )
@@ -86,7 +94,7 @@ class PlayerColorExplanationDialog extends StatelessWidget {
           const Icon(FontAwesomeIcons.gamepad, color: Colors.black, size: 15),
           Flexible(
             key: const ValueKey('playedGamesDescription'),
-            child: Text('   Nombre total de parties jouées',
+            child: Text('   ${AppLocalizations.of(context)!.playedGamesTotal}',
                 overflow: TextOverflow.clip,
                 style: CustomTextStyle.boldAndItalic(context)
                     .copyWith(fontSize: 15)),

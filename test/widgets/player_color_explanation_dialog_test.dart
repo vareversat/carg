@@ -6,8 +6,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 
-Widget testableWidget(bool isAdmin) =>
-    MaterialApp(home: PlayerColorExplanationDialog(isAdmin: isAdmin));
+import 'localized_testable_widget.dart';
+
+Widget testableWidget(bool isAdmin) => localizedTestableWidget(
+      PlayerColorExplanationDialog(
+        isAdmin: isAdmin,
+      ),
+    );
 
 @GenerateMocks([PlayerService, AuthService])
 void main() {

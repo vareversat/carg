@@ -1,5 +1,8 @@
 // ignore_for_file: constant_identifier_names
 
+import 'package:flutter/widgets.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 enum TarotContract {
   PETITE,
   GARDE_AVEC_CHIEN,
@@ -23,16 +26,16 @@ extension TarotContractExtension on TarotContract? {
     }
   }
 
-  String get name {
+  String name(BuildContext context) {
     switch (this) {
       case TarotContract.PETITE:
-        return 'Petite';
+        return AppLocalizations.of(context)!.tarotSmall;
       case TarotContract.GARDE_AVEC_CHIEN:
-        return 'Garde avec chien';
+        return AppLocalizations.of(context)!.tarotGuardWithKitty;
       case TarotContract.GARDE_SANS_CHIEN:
-        return 'Garde sans chien';
+        return AppLocalizations.of(context)!.tarotGuardNoKitty;
       case TarotContract.GARDE_CONTRE:
-        return 'Garde contre';
+        return AppLocalizations.of(context)!.tarotGuardAgainstKitty;
       default:
         return '';
     }

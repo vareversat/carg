@@ -5,6 +5,7 @@ import 'package:carg/views/screens/add_round/widget/section_title_widget.dart';
 import 'package:carg/views/screens/add_round/widget/team_game/card_color_picker_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -18,24 +19,45 @@ class ContractCoincheWidget extends StatelessWidget {
     return ChangeNotifierProvider.value(
       value: coincheRound,
       child: Consumer<CoincheBeloteRound>(
-          builder: (context, roundData, child) => Column(children: [
-                const SectionTitleWidget(title: 'Contrat'),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: Column(children: <Widget>[
-                    const SizedBox(height: 15),
-                    Column(children: [
-                      _ContractValueTextFieldWidget(coincheRound: roundData),
-                      const SizedBox(height: 15),
-                      _ContractTypeWidget(roundData: roundData),
-                      const SizedBox(height: 15),
-                      _ContractNameWidget(roundData: roundData),
-                      const SizedBox(height: 15),
-                      CardColorPickerWidget(beloteRound: coincheRound)
-                    ])
-                  ]),
-                )
-              ])),
+        builder: (context, roundData, child) => Column(
+          children: [
+            SectionTitleWidget(title: AppLocalizations.of(context)!.contract),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Column(
+                children: <Widget>[
+                  const SizedBox(height: 15),
+                  Column(
+                    children: [
+                      _ContractValueTextFieldWidget(
+                        coincheRound: roundData,
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      _ContractTypeWidget(
+                        roundData: roundData,
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      _ContractNameWidget(
+                        roundData: roundData,
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      CardColorPickerWidget(
+                        beloteRound: coincheRound,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
@@ -50,39 +72,42 @@ class _ContractValueTextFieldWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     _contractTextController.text = coincheRound.contract.toString();
     return Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        key: const ValueKey('contractValueTextFieldWidget'),
-        children: [
-          SizedBox(
-            width: 100,
-            child: TextField(
-                key: const ValueKey('contractValueTextFieldValue'),
-                textAlign: TextAlign.center,
-                style:
-                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 40),
-                controller: _contractTextController,
-                enabled: !(coincheRound.contractType ==
-                        BeloteContractType.CAPOT ||
-                    coincheRound.contractType == BeloteContractType.GENERALE),
-                keyboardType: TextInputType.number,
-                inputFormatters: const <TextInputFormatter>[],
-                onSubmitted: (String value) =>
-                    {coincheRound.contract = int.parse(value)}),
+      mainAxisAlignment: MainAxisAlignment.center,
+      key: const ValueKey('contractValueTextFieldWidget'),
+      children: [
+        SizedBox(
+          width: 100,
+          child: TextField(
+            key: const ValueKey('contractValueTextFieldValue'),
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 40),
+            controller: _contractTextController,
+            enabled: !(coincheRound.contractType == BeloteContractType.CAPOT ||
+                coincheRound.contractType == BeloteContractType.GENERALE),
+            keyboardType: TextInputType.number,
+            inputFormatters: const <TextInputFormatter>[],
+            onSubmitted: (String value) => {
+              coincheRound.contract = int.parse(value),
+            },
           ),
-          AnimatedSize(
-            curve: Curves.ease,
-            duration: const Duration(milliseconds: 500),
-            child: (coincheRound.contractType == BeloteContractType.CAPOT ||
-                    coincheRound.contractType == BeloteContractType.GENERALE)
-                ? Icon(
-                    key: const ValueKey('lockWidget'),
-                    FontAwesomeIcons.lock,
-                    color: Theme.of(context).colorScheme.secondary,
-                    size: 20,
-                  )
-                : const SizedBox(key: ValueKey('noLockWidget')),
-          )
-        ]);
+        ),
+        AnimatedSize(
+          curve: Curves.ease,
+          duration: const Duration(milliseconds: 500),
+          child: (coincheRound.contractType == BeloteContractType.CAPOT ||
+                  coincheRound.contractType == BeloteContractType.GENERALE)
+              ? Icon(
+                  key: const ValueKey('lockWidget'),
+                  FontAwesomeIcons.lock,
+                  color: Theme.of(context).colorScheme.secondary,
+                  size: 20,
+                )
+              : const SizedBox(
+                  key: ValueKey('noLockWidget'),
+                ),
+        ),
+      ],
+    );
   }
 }
 
@@ -96,7 +121,7 @@ class _ContractTypeWidget extends StatelessWidget {
     return Column(
       key: const ValueKey('contractTypeWidget'),
       children: [
-        const Text("Type"),
+        Text(AppLocalizations.of(context)!.type),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -105,19 +130,25 @@ class _ContractTypeWidget extends StatelessWidget {
                 alignment: WrapAlignment.center,
                 spacing: 5,
                 children: BeloteContractType.values
-                    .map((contractType) => InputChip(
-                        key:
-                            ValueKey('contractTypeWidget-${contractType.name}'),
+                    .map(
+                      (contractType) => InputChip(
+                        key: ValueKey(
+                            'contractTypeWidget-${contractType.name(context)}'),
                         checkmarkColor: Theme.of(context).cardColor,
                         selected: roundData.contractType == contractType,
                         selectedColor: Theme.of(context).primaryColor,
                         onPressed: () =>
                             {roundData.contractType = contractType},
-                        label: Text(contractType.name,
-                            style: TextStyle(
-                                fontSize: 20,
-                                color: Theme.of(context).cardColor),
-                            overflow: TextOverflow.ellipsis)))
+                        label: Text(
+                          contractType.name(context),
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Theme.of(context).cardColor,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    )
                     .toList()
                     .cast<Widget>(),
               ),
@@ -139,7 +170,8 @@ class _ContractNameWidget extends StatelessWidget {
     return Column(
       key: const ValueKey('contractNameWidget'),
       children: [
-        Text("Mise (x${roundData.contractName.multiplier})"),
+        Text(
+            '${AppLocalizations.of(context)!.bet} (x${roundData.contractName.multiplier})'),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -148,7 +180,8 @@ class _ContractNameWidget extends StatelessWidget {
                 alignment: WrapAlignment.center,
                 spacing: 5,
                 children: CoincheBeloteContractName.values
-                    .map((contractName) => InputChip(
+                    .map(
+                      (contractName) => InputChip(
                         key:
                             ValueKey('contractNameWidget-${contractName.name}'),
                         checkmarkColor: Theme.of(context).cardColor,
@@ -156,11 +189,14 @@ class _ContractNameWidget extends StatelessWidget {
                         selectedColor: Theme.of(context).primaryColor,
                         onPressed: () =>
                             {roundData.contractName = contractName},
-                        label: Text(contractName.name,
-                            style: TextStyle(
-                                fontSize: 20,
-                                color: Theme.of(context).cardColor),
-                            overflow: TextOverflow.ellipsis)))
+                        label: Text(
+                          contractName.name,
+                          style: TextStyle(
+                              fontSize: 20, color: Theme.of(context).cardColor),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    )
                     .toList()
                     .cast<Widget>(),
               ),

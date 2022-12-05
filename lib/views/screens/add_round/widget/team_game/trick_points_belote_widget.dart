@@ -3,6 +3,7 @@ import 'package:carg/models/score/round/belote_round.dart';
 import 'package:carg/views/screens/add_round/widget/section_title_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TrickPointsBeloteWidget extends StatefulWidget {
   final BeloteRound round;
@@ -34,7 +35,8 @@ class _TrickPointsBeloteWidgetState extends State<TrickPointsBeloteWidget> {
         value: widget.round,
         child: Consumer<BeloteRound>(
             builder: (context, roundData, child) => Column(children: [
-                  const SectionTitleWidget(title: 'Points des plis'),
+                  SectionTitleWidget(
+                      title: AppLocalizations.of(context)!.trickPoints),
                   Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: Column(children: <Widget>[
@@ -43,8 +45,8 @@ class _TrickPointsBeloteWidgetState extends State<TrickPointsBeloteWidget> {
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: <Widget>[
                               Text(
-                                  'Nous : ${roundData.usTrickScore.round().toString()} | '
-                                  '${(roundData.themTrickScore.round()).toString()} : Eux',
+                                  '${AppLocalizations.of(context)!.us} : ${roundData.usTrickScore.round().toString()} | '
+                                  '${(roundData.themTrickScore.round()).toString()} : ${AppLocalizations.of(context)!.them}',
                                   key: const ValueKey(
                                       'trickPointsBeloteRealTime'))
                             ]),
@@ -136,11 +138,11 @@ class _BeloteRebeloteWidget extends StatelessWidget {
                   else
                     round?.beloteRebelote = null
                 },
-            label: Text(BeloteTeamEnum.US.name,
+            label: Text(BeloteTeamEnum.US.name(context),
                 style:
                     TextStyle(fontSize: 20, color: Theme.of(context).cardColor),
                 overflow: TextOverflow.ellipsis)),
-        const Text('Belote / Rebelote'),
+        Text(AppLocalizations.of(context)!.beloteRebelote),
         InputChip(
             key: const ValueKey('beloteRebeloteWidgetThem'),
             checkmarkColor: Theme.of(context).cardColor,
@@ -152,7 +154,7 @@ class _BeloteRebeloteWidget extends StatelessWidget {
                   else
                     round?.beloteRebelote = null
                 },
-            label: Text(BeloteTeamEnum.THEM.name,
+            label: Text(BeloteTeamEnum.THEM.name(context),
                 style:
                     TextStyle(fontSize: 20, color: Theme.of(context).cardColor),
                 overflow: TextOverflow.ellipsis)),
@@ -177,18 +179,18 @@ class _DixDeDerWidget extends StatelessWidget {
             selected: round?.dixDeDer == BeloteTeamEnum.US,
             selectedColor: Theme.of(context).primaryColor,
             onPressed: () => {round?.dixDeDer = BeloteTeamEnum.US},
-            label: Text(BeloteTeamEnum.US.name,
+            label: Text(BeloteTeamEnum.US.name(context),
                 style:
                     TextStyle(fontSize: 20, color: Theme.of(context).cardColor),
                 overflow: TextOverflow.ellipsis)),
-        const Text('Dix de Der'),
+        Text(AppLocalizations.of(context)!.dixDeDer),
         InputChip(
             key: const ValueKey('dixDeDerWidgetThem'),
             checkmarkColor: Theme.of(context).cardColor,
             selected: round?.dixDeDer == BeloteTeamEnum.THEM,
             selectedColor: Theme.of(context).primaryColor,
             onPressed: () => {round?.dixDeDer = BeloteTeamEnum.THEM},
-            label: Text(BeloteTeamEnum.THEM.name,
+            label: Text(BeloteTeamEnum.THEM.name(context),
                 style:
                     TextStyle(fontSize: 20, color: Theme.of(context).cardColor),
                 overflow: TextOverflow.ellipsis)),

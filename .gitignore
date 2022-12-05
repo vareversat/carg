@@ -41,6 +41,7 @@ assets/config/
 .pub/
 /build/
 /coverage/
+untranslated_messages.txt
 # Web related
 lib/generated_plugin_registrant.dart
 

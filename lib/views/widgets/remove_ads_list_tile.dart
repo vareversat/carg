@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RemoveAdsListTile extends StatefulWidget {
   const RemoveAdsListTile({Key? key}) : super(key: key);
@@ -66,8 +67,9 @@ class _RemoveAdsListTileState extends State<RemoveAdsListTile> {
                             CustomProperties.borderRadius)))),
             onPressed: () async =>
                 {_buy(context), Navigator.of(context).pop(true)},
-            child: const Text('Acheter',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            child: Text(AppLocalizations.of(context)!.buy,
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           ),
           TextButton(
             style: ButtonStyle(
@@ -81,8 +83,9 @@ class _RemoveAdsListTileState extends State<RemoveAdsListTile> {
                             CustomProperties.borderRadius)))),
             onPressed: () async =>
                 {_restorePurchase(), Navigator.of(context).pop(true)},
-            child: const Text('Restorer mon achat',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            child: Text(AppLocalizations.of(context)!.restoreMyPurchase,
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           ),
         ],
       ),
@@ -125,7 +128,13 @@ class _RemoveAdsListTileState extends State<RemoveAdsListTile> {
         } else if (purchaseDetails.status == PurchaseStatus.canceled) {
           developer.log('Purchase is CANCELED', name: 'carg.iap-tile');
         } else if (purchaseDetails.status == PurchaseStatus.restored) {
-          await _verifyPurchase(purchaseDetails);
+          var validPurchase = await _verifyPurchase(purchaseDetails);
+          if (validPurchase) {
+            developer.log('Restore is COMPLETED', name: 'carg.iap-tile');
+          } else {
+            developer.log('v KO during COMPLETE PROCESS',
+                name: 'carg.iap-tile');
+          }
           developer.log('Purchase is RESTORED', name: 'carg.iap-tile');
         } else if (purchaseDetails.status == PurchaseStatus.error) {
           developer.log('Purchase is IN ERROR : ${purchaseDetails.error}',
@@ -136,8 +145,8 @@ class _RemoveAdsListTileState extends State<RemoveAdsListTile> {
         }
       }
     } catch (e) {
-      InfoSnackBar.showErrorSnackBar(
-          context, 'Erreur durant la restoration : ${e.toString()}');
+      InfoSnackBar.showErrorSnackBar(context,
+          '${AppLocalizations.of(context)!.errorWhileRestoring} : ${e.toString()}');
     }
   }
 
@@ -163,11 +172,11 @@ class _RemoveAdsListTileState extends State<RemoveAdsListTile> {
         await iap.restorePurchases(applicationUserName: null);
       } on Exception {
         InfoSnackBar.showErrorSnackBar(
-            context, 'Erreur durant la restoration des achats');
+            context, AppLocalizations.of(context)!.errorWhileRestoring);
       }
     } else {
-      InfoSnackBar.showErrorSnackBar(context,
-          'Impossible de resoter les achats pour le moment. Veuillez réessayer plus tard');
+      InfoSnackBar.showErrorSnackBar(
+          context, AppLocalizations.of(context)!.cannotRestorePurchase);
     }
   }
 
@@ -178,7 +187,7 @@ class _RemoveAdsListTileState extends State<RemoveAdsListTile> {
             await iap.queryProductDetails({Const.iapFreeAdsProductId});
         if (queryProductDetails.productDetails.isEmpty) {
           InfoSnackBar.showErrorSnackBar(
-              context, 'Aucun produit n\'est diponible à l\'achat');
+              context, AppLocalizations.of(context)!.noProducts);
         } else {
           developer.log('Purchase PROCESS STARTING', name: 'carg.iap-tile');
           await iap.buyConsumable(
@@ -186,11 +195,12 @@ class _RemoveAdsListTileState extends State<RemoveAdsListTile> {
                   productDetails: queryProductDetails.productDetails[0]));
         }
       } on Exception {
-        InfoSnackBar.showErrorSnackBar(context, 'Erreur durant l\'achant');
+        InfoSnackBar.showErrorSnackBar(
+            context, AppLocalizations.of(context)!.errorDuringPurchase);
       }
     } else {
-      InfoSnackBar.showErrorSnackBar(context,
-          'Impossible de réaliser l\'achat pour le moment. Veuillez réessayer plus tard');
+      InfoSnackBar.showErrorSnackBar(
+          context, AppLocalizations.of(context)!.cannotPurchase);
     }
   }
 
@@ -205,14 +215,14 @@ class _RemoveAdsListTileState extends State<RemoveAdsListTile> {
     return ListTile(
       selectedTileColor: Theme.of(context).primaryColor,
       key: const ValueKey('adFreeButton'),
-      subtitle: Text('L\'application Carg sans aucunes publicités !',
+      subtitle: Text(AppLocalizations.of(context)!.theAppWithoutAds,
           style: TextStyle(fontSize: 15, color: Theme.of(context).cardColor)),
       selected: true,
       leading: Icon(FontAwesomeIcons.rectangleAd,
           size: 30, color: Theme.of(context).cardColor),
       onTap: () async => {await _freeAdsOptionsDialog(context)},
       title: Text(
-        'Supprimer les publicités',
+        AppLocalizations.of(context)!.removeAds,
         style: TextStyle(color: Theme.of(context).cardColor, fontSize: 25),
       ),
     );

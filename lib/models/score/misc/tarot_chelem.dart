@@ -1,16 +1,19 @@
 // ignore_for_file: constant_identifier_names
 
+import 'package:flutter/widgets.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 enum TarotChelem { PASSED, ANNOUNCED_AND_PASSED, FAILED }
 
 extension TarotChelemExtension on TarotChelem? {
-  String get name {
+  String name(BuildContext context) {
     switch (this) {
       case TarotChelem.PASSED:
-        return 'Remporté';
+        return AppLocalizations.of(context)!.tarotChelemWon;
       case TarotChelem.ANNOUNCED_AND_PASSED:
-        return 'Annoncé et remporté';
+        return AppLocalizations.of(context)!.tarotChelemAnnouncedAndWon;
       case TarotChelem.FAILED:
-        return 'Échoué';
+        return AppLocalizations.of(context)!.tarotChelemFailed;
       default:
         return '';
     }

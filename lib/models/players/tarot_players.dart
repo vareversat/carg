@@ -1,5 +1,7 @@
 import 'package:carg/models/player.dart';
 import 'package:carg/models/players/players.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TarotPlayers extends Players {
   TarotPlayers({playerList}) : super(playerList: playerList);
@@ -18,8 +20,8 @@ class TarotPlayers extends Players {
   }
 
   @override
-  String getSelectedPlayersStatus() {
-    return 'Joueurs : ${playerList!.length}/5';
+  String getSelectedPlayersStatus(BuildContext context) {
+    return '${AppLocalizations.of(context)!.player(playerList!.length)} : ${playerList!.length}/5';
   }
 
   @override

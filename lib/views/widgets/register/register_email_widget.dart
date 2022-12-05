@@ -9,6 +9,7 @@ import 'package:carg/views/dialogs/dialogs.dart';
 import 'package:carg/views/helpers/info_snackbar.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 
@@ -46,12 +47,13 @@ class _RegisterEmailWidgetState extends State<RegisterEmailWidget>
           CredentialVerificationType.CREATE) {
         await Provider.of<AuthService>(context, listen: false)
             .sendSignInWithEmailLink(email);
-        InfoSnackBar.showSnackBar(context, 'Email de conexion envoyé');
+        InfoSnackBar.showSnackBar(
+            context, AppLocalizations.of(context)!.emailSent);
       } else {
         await Provider.of<AuthService>(context, listen: false)
             .changeEmail(email);
         Dialogs.showMessageDialog(context, _keyLoader,
-            'Lien de validation envoyé. Vous allez être déconnecté');
+            AppLocalizations.of(context)!.emailSentAndSignOut);
         await Future.delayed(const Duration(seconds: 2));
         Navigator.of(_keyLoader.currentContext!, rootNavigator: true).pop();
         await Provider.of<AuthService>(context, listen: false).signOut(context);
@@ -130,73 +132,80 @@ class _RegisterEmailWidgetState extends State<RegisterEmailWidget>
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Column(children: [
-        Row(
-          children: [
-            AnimatedSize(
-                key: const ValueKey('placeholderPhoneContainer'),
-                curve: Curves.ease,
-                duration: const Duration(milliseconds: 200),
-                child: _emailSending
-                    ? const Padding(
-                        padding: EdgeInsets.only(right: 15),
-                        child: CircularProgressIndicator(strokeWidth: 5),
-                      )
-                    : const SizedBox(width: 0)),
-            Flexible(
-              child: TextField(
-                textInputAction: TextInputAction.go,
-                autofillHints: const [AutofillHints.email],
-                onSubmitted: (value) async {
-                  if (value.isNotEmpty) {
-                    await _signInWithEmailAndLink(value);
-                  }
-                },
-                keyboardType: TextInputType.emailAddress,
-                decoration: InputDecoration(
-                  labelText: 'Email',
-                  labelStyle: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                    fontWeight: FontWeight.normal,
-                  ),
-                  fillColor: Theme.of(context).primaryColor,
-                  disabledBorder: OutlineInputBorder(
-                    borderRadius:
-                        BorderRadius.circular(CustomProperties.borderRadius),
-                    borderSide: const BorderSide(
-                      color: Colors.grey,
-                      width: 2.0,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius:
-                        BorderRadius.circular(CustomProperties.borderRadius),
-                    borderSide: BorderSide(
+      child: Column(
+        children: [
+          Row(
+            children: [
+              AnimatedSize(
+                  key: const ValueKey('placeholderPhoneContainer'),
+                  curve: Curves.ease,
+                  duration: const Duration(milliseconds: 200),
+                  child: _emailSending
+                      ? const Padding(
+                          padding: EdgeInsets.only(right: 15),
+                          child: CircularProgressIndicator(strokeWidth: 5),
+                        )
+                      : const SizedBox(width: 0)),
+              Flexible(
+                child: TextField(
+                  textInputAction: TextInputAction.go,
+                  autofillHints: const [AutofillHints.email],
+                  onSubmitted: (value) async {
+                    if (value.isNotEmpty) {
+                      await _signInWithEmailAndLink(value);
+                    }
+                  },
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: InputDecoration(
+                    labelText: AppLocalizations.of(context)!.email,
+                    labelStyle: TextStyle(
                       color: Theme.of(context).primaryColor,
-                      width: 2.0,
+                      fontWeight: FontWeight.normal,
                     ),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius:
-                        BorderRadius.circular(CustomProperties.borderRadius),
-                    borderSide: BorderSide(
-                      color: Theme.of(context).primaryColor,
-                      width: 2.0,
+                    fillColor: Theme.of(context).primaryColor,
+                    disabledBorder: OutlineInputBorder(
+                      borderRadius:
+                          BorderRadius.circular(CustomProperties.borderRadius),
+                      borderSide: const BorderSide(
+                        color: Colors.grey,
+                        width: 2.0,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius:
+                          BorderRadius.circular(CustomProperties.borderRadius),
+                      borderSide: BorderSide(
+                        color: Theme.of(context).primaryColor,
+                        width: 2.0,
+                      ),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius:
+                          BorderRadius.circular(CustomProperties.borderRadius),
+                      borderSide: BorderSide(
+                        color: Theme.of(context).primaryColor,
+                        width: 2.0,
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 8),
-        widget.credentialVerificationType == CredentialVerificationType.CREATE
-            ? const Text(
-                'Un e-mail contenant un lien de connexion va vous être envoyé',
-                style: TextStyle(fontStyle: FontStyle.italic, fontSize: 13),
-              )
-            : const SizedBox(height: 10)
-      ]),
+            ],
+          ),
+          const SizedBox(height: 8),
+          widget.credentialVerificationType == CredentialVerificationType.CREATE
+              ? Text(
+                  AppLocalizations.of(context)!.emailSentWithLink,
+                  style: const TextStyle(
+                    fontStyle: FontStyle.italic,
+                    fontSize: 13,
+                  ),
+                )
+              : const SizedBox(
+                  height: 10,
+                )
+        ],
+      ),
     );
   }
 }

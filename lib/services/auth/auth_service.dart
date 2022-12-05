@@ -2,12 +2,12 @@
 
 import 'dart:async';
 
+import 'package:carg/const.dart';
 import 'package:carg/exceptions/custom_exception.dart';
 import 'package:carg/helpers/custom_route.dart';
 import 'package:carg/models/player.dart';
 import 'package:carg/repositories/impl/iap_repository.dart';
 import 'package:carg/services/impl/player_service.dart';
-import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/helpers/info_snackbar.dart';
 import 'package:carg/views/screens/home_screen.dart';
 import 'package:carg/views/screens/register/pin_code_verification_screen.dart';
@@ -16,6 +16,7 @@ import 'package:carg/views/screens/register/welcome_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService with ChangeNotifier {
@@ -51,10 +52,10 @@ class AuthService with ChangeNotifier {
   Future<void> sendSignInWithEmailLink(String email) async {
     try {
       var acs = ActionCodeSettings(
-          url: 'https://carg.page.link/',
+          url: Const.deepLinkScheme,
           handleCodeInApp: true,
-          iOSBundleId: 'fr.vareversat.carg',
-          androidPackageName: 'fr.vareversat.carg',
+          iOSBundleId: Const.packageId,
+          androidPackageName: Const.packageId,
           androidInstallApp: true,
           androidMinimumVersion: '18');
       await FirebaseAuth.instance
@@ -109,12 +110,13 @@ class AuthService with ChangeNotifier {
   Future<dynamic> resendPhoneVerificationCode(
       String phoneNumber, BuildContext context) async {
     await _verifyPhoneNumber(
-        phoneNumber,
-        context,
-        (verificationId, forceResendingToken) =>
-            InfoSnackBar.showSnackBar(context, 'Code renvoyé avec succès'),
-        (credentials) => InfoSnackBar.showSnackBar(
-            context, 'Erreur : Le numéro de téléphone est invalide'));
+      phoneNumber,
+      context,
+      (verificationId, forceResendingToken) => InfoSnackBar.showSnackBar(
+          context, AppLocalizations.of(context)!.otpSend),
+      (credentials) => InfoSnackBar.showErrorSnackBar(
+          context, AppLocalizations.of(context)!.errorInvalidPhoneNumber),
+    );
   }
 
   Future<dynamic> sendPhoneVerificationCode(
@@ -122,22 +124,18 @@ class AuthService with ChangeNotifier {
       BuildContext context,
       CredentialVerificationType credentialVerificationType) async {
     await _verifyPhoneNumber(
-        phoneNumber,
-        context,
-        (verificationId, forceResendingToken) => Navigator.push(
-            context,
-            CustomRouteLeftToRight(
-                builder: (context) => PinCodeVerificationScreen(
-                    phoneNumber: phoneNumber,
-                    verificationId: verificationId,
-                    credentialVerificationType: credentialVerificationType))),
-        (credentials) => SnackBar(
-              margin: const EdgeInsets.all(20),
-              duration: const Duration(seconds: 4),
-              behavior: SnackBarBehavior.floating,
-              content: Text('Erreur : Le numéro de téléphone est invalide',
-                  style: CustomTextStyle.snackBarTextStyle(context)),
-            ));
+      phoneNumber,
+      context,
+      (verificationId, forceResendingToken) => Navigator.push(
+          context,
+          CustomRouteLeftToRight(
+              builder: (context) => PinCodeVerificationScreen(
+                  phoneNumber: phoneNumber,
+                  verificationId: verificationId,
+                  credentialVerificationType: credentialVerificationType))),
+      (credentials) => InfoSnackBar.showErrorSnackBar(
+          context, AppLocalizations.of(context)!.errorInvalidPhoneNumber),
+    );
   }
 
   Future<dynamic> _verifyPhoneNumber(
@@ -235,7 +233,8 @@ class AuthService with ChangeNotifier {
       if (purchase == null) {
         return false;
       } else {
-        return purchase.isValid() && purchase.productId == "carg.free.ads";
+        return purchase.isValid() &&
+            purchase.productId == Const.iapFreeAdsProductId;
       }
     }
   }

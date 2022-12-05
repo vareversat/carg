@@ -1,37 +1,30 @@
+import 'package:carg/const.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/views/screens/change_log_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class CargAboutDialog extends StatelessWidget {
-  final String _repoUrl = 'https://github.com/vareversat/carg';
-  final String _privacyUrl = 'https://carg.vareversat.fr/privacy';
   final String _legalLease = '© ${DateTime.now().year} - Valentin REVERSAT';
-  final String _errorMessage =
-      'Impossible d\'obtenir les informations de l\'application';
-  final String _appInfo =
-      'L\'application pour enregistrer vos parties de Belote, Coinche, Contrée et Tarot ! \n';
-  final String _sourceCode = 'Code source';
-  final String _privacy = 'Politique de confidentialité';
-  final String _changeLog = 'Journal des modifications';
   final Widget _iconWidget = Padding(
       padding: const EdgeInsets.all(5),
       child: SizedBox(
         height: 60,
         width: 60,
-        child: SvgPicture.asset('assets/images/card_game.svg'),
+        child: SvgPicture.asset(Const.svgLogoPath),
       ));
 
   CargAboutDialog({Key? key}) : super(key: key);
 
-  void _launchURL(String url) async {
+  void _launchURL(String url, BuildContext context) async {
     if (await canLaunchUrlString(url)) {
       await launchUrlString(url, mode: LaunchMode.externalApplication);
     } else {
-      throw 'Impossible d\'ouvrir $url';
+      throw '${AppLocalizations.of(context)!.unableToOpen} $url';
     }
   }
 
@@ -44,7 +37,7 @@ class CargAboutDialog extends StatelessWidget {
           }
           if (snapshot.connectionState == ConnectionState.none &&
               snapshot.data == null) {
-            return Text(_errorMessage);
+            return Text(AppLocalizations.of(context)!.unableAppInfo);
           }
           return AlertDialog(
             insetPadding: const EdgeInsets.symmetric(horizontal: 20),
@@ -93,12 +86,12 @@ class CargAboutDialog extends StatelessWidget {
                     BorderRadius.circular(CustomProperties.borderRadius)),
             content: ListBody(children: <Widget>[
               Text(
-                _appInfo,
+                '${AppLocalizations.of(context)!.appDescription}\n',
                 style: const TextStyle(fontSize: 18),
               ),
               ElevatedButton.icon(
                   key: const ValueKey('sourceCodeButton'),
-                  onPressed: () => _launchURL(_repoUrl),
+                  onPressed: () => _launchURL(Const.githubLink, context),
                   style: ButtonStyle(
                       backgroundColor:
                           MaterialStateProperty.all<Color>(Colors.black),
@@ -108,8 +101,8 @@ class CargAboutDialog extends StatelessWidget {
                           RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(
                                   CustomProperties.borderRadius)))),
-                  label:
-                      Text(_sourceCode, style: const TextStyle(fontSize: 18)),
+                  label: Text(AppLocalizations.of(context)!.sourceCode,
+                      style: const TextStyle(fontSize: 18)),
                   icon: const Icon(
                     FontAwesomeIcons.github,
                     size: 20,
@@ -130,7 +123,8 @@ class CargAboutDialog extends StatelessWidget {
                           builder: (context) => const ChangeLogScreen(),
                         ),
                       ),
-                  label: Text(_changeLog, style: const TextStyle(fontSize: 18)),
+                  label: Text(AppLocalizations.of(context)!.changelog,
+                      style: const TextStyle(fontSize: 18)),
                   icon: const Icon(
                     FontAwesomeIcons.fileCode,
                     size: 20,
@@ -169,7 +163,7 @@ class CargAboutDialog extends StatelessWidget {
                   )),
               ElevatedButton.icon(
                   key: const ValueKey('privacyButton'),
-                  onPressed: () => _launchURL(_privacyUrl),
+                  onPressed: () => _launchURL(Const.privacyInfoLink, context),
                   style: ButtonStyle(
                       backgroundColor:
                           MaterialStateProperty.all<Color>(Colors.blueAccent),
@@ -179,7 +173,8 @@ class CargAboutDialog extends StatelessWidget {
                           RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(
                                   CustomProperties.borderRadius)))),
-                  label: Text(_privacy, style: const TextStyle(fontSize: 18)),
+                  label: Text(AppLocalizations.of(context)!.privacyPolicy,
+                      style: const TextStyle(fontSize: 18)),
                   icon: const Icon(
                     FontAwesomeIcons.userShield,
                     size: 20,

@@ -6,6 +6,7 @@ import 'package:carg/views/dialogs/team_stat_dialog.dart';
 import 'package:carg/views/widgets/api_mini_player_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TeamStatWidget extends StatelessWidget {
   final Team team;
@@ -82,7 +83,7 @@ class TeamStatWidget extends StatelessWidget {
                                 children: [
                                   Text(
                                     team.name == null || team.name == ''
-                                        ? 'Sans nom'
+                                        ? AppLocalizations.of(context)!.noName
                                         : team.name!,
                                     textAlign: TextAlign.left,
                                     style: TextStyle(

@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PlayerInfoDialog extends StatelessWidget {
   final Player player;
@@ -22,13 +23,13 @@ class PlayerInfoDialog extends StatelessWidget {
       required this.isNewPlayer})
       : super(key: key);
 
-  String _getTitle() {
+  String _getTitle(BuildContext context) {
     if (isNewPlayer) {
-      return 'Nouveau joueur';
+      return AppLocalizations.of(context)!.newPlayer;
     } else if (player.owned) {
-      return 'Edition';
+      return AppLocalizations.of(context)!.edition;
     } else {
-      return 'Informations';
+      return AppLocalizations.of(context)!.information;
     }
   }
 
@@ -37,16 +38,16 @@ class PlayerInfoDialog extends StatelessWidget {
       player.ownedBy =
           Provider.of<AuthService>(context, listen: false).getPlayerIdOfUser();
       await playerService.create(player);
-      Navigator.of(context).pop('Joueur créé avec succès');
+      Navigator.of(context).pop(AppLocalizations.of(context)!.playerCreated);
     } else {
       await playerService.update(player);
-      Navigator.of(context).pop('Joueur modifié avec succès');
+      Navigator.of(context).pop(AppLocalizations.of(context)!.playerEdited);
     }
   }
 
   Future _copyId(BuildContext context) async {
     await Clipboard.setData(ClipboardData(text: player.id));
-    InfoSnackBar.showSnackBar(context, 'ID copié dans le presse papier');
+    InfoSnackBar.showSnackBar(context, AppLocalizations.of(context)!.idCopied);
   }
 
   @override
@@ -69,7 +70,7 @@ class PlayerInfoDialog extends StatelessWidget {
           children: [
             Flexible(
               child: Text(
-                _getTitle(),
+                _getTitle(context),
                 key: const ValueKey('titleText'),
                 overflow: TextOverflow.ellipsis,
                 style: CustomTextStyle.dialogHeaderStyle(context),
@@ -90,7 +91,7 @@ class PlayerInfoDialog extends StatelessWidget {
                                   CustomProperties.borderRadius)))),
                   onPressed: () async => {await _copyId(context)},
                   icon: const Icon(Icons.copy),
-                  label: const Text("Copier l'ID"),
+                  label: Text(AppLocalizations.of(context)!.copyId),
                 ),
               )
           ],
@@ -147,7 +148,7 @@ class PlayerInfoDialog extends StatelessWidget {
                                 fontSize: 25,
                                 color: Theme.of(context).hintColor),
                             labelText: playerData.owned && isNewPlayer
-                                ? "Nom d'utilisateur"
+                                ? AppLocalizations.of(context)!.username
                                 : null)),
                   ),
                 ),
@@ -176,7 +177,7 @@ class PlayerInfoDialog extends StatelessWidget {
                           TextStyle(color: player.getSideColor(context)),
                       hintStyle: TextStyle(
                           fontSize: 15, color: Theme.of(context).hintColor),
-                      labelText: 'Image de profile (url)')),
+                      labelText: AppLocalizations.of(context)!.profilePicture)),
             ),
           if (player.gameStatsList!.isNotEmpty)
             Padding(
@@ -227,8 +228,8 @@ class PlayerInfoDialog extends StatelessWidget {
               ),
             )
           else if (!isNewPlayer)
-            const Text('Pas encore de statistiques',
-                key: ValueKey('noStatsText'), textAlign: TextAlign.center)
+            Text(AppLocalizations.of(context)!.noStatisticYet,
+                key: const ValueKey('noStatsText'), textAlign: TextAlign.center)
         ]),
       ),
       actions: <Widget>[

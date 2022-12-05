@@ -1,5 +1,6 @@
 import 'package:carg/models/game/game.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 
 class GameTitleWidget extends StatelessWidget {
@@ -10,19 +11,23 @@ class GameTitleWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-        child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        Flexible(
-          flex: 2,
-          child: Text(
-              DateFormat('dd/MM/yyyy, HH:mm').format(game!.startingDate),
-              style:
-                  const TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-        ),
-        Flexible(
-          flex: 1,
-          child: ClipRRect(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Flexible(
+            flex: 2,
+            child: Text(
+              DateFormat.yMMMMd(Localizations.localeOf(context).languageCode)
+                  .format(game!.startingDate),
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              ),
+            ),
+          ),
+          Flexible(
+            flex: 1,
+            child: ClipRRect(
               borderRadius: BorderRadius.circular(80.0),
               child: Container(
                 color: game!.isEnded
@@ -30,15 +35,22 @@ class GameTitleWidget extends StatelessWidget {
                     : Theme.of(context).colorScheme.secondary,
                 height: 30,
                 child: Center(
-                    child: Text(game!.isEnded ? 'Terminée' : 'En cours',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(context).cardColor,
-                            fontSize: 15),
-                        overflow: TextOverflow.ellipsis)),
-              )),
-        )
-      ],
-    ));
+                  child: Text(
+                    game!.isEnded
+                        ? AppLocalizations.of(context)!.ended
+                        : AppLocalizations.of(context)!.inProgress,
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).cardColor,
+                        fontSize: 15),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

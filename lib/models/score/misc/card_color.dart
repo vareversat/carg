@@ -1,22 +1,24 @@
 // ignore_for_file: constant_identifier_names
+import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 enum CardColor { HEART, DIAMOND, CLUB, SPADE, ALL_TRUMP, NO_TRUMP }
 
 extension CardColorExtension on CardColor? {
-  String get name {
+  String name(BuildContext context) {
     switch (this) {
       case CardColor.HEART:
-        return 'Coeur';
+        return AppLocalizations.of(context)!.cardColorHeart;
       case CardColor.DIAMOND:
-        return 'Carreau';
+        return AppLocalizations.of(context)!.cardColorDiamond;
       case CardColor.CLUB:
-        return 'Trèfle';
+        return AppLocalizations.of(context)!.cardColorClub;
       case CardColor.SPADE:
-        return 'Pic';
+        return AppLocalizations.of(context)!.cardColorSpade;
       case CardColor.ALL_TRUMP:
-        return 'Tout atout';
+        return AppLocalizations.of(context)!.cardColorAllTrump;
       case CardColor.NO_TRUMP:
-        return 'Sans atout';
+        return AppLocalizations.of(context)!.cardColorNoTrump;
       default:
         return '';
     }

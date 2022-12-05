@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:carg/const.dart';
 import 'package:carg/models/player.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
@@ -17,9 +18,11 @@ class AlgoliaHelper {
 
   static Future<AlgoliaHelper> create() async {
     var component = AlgoliaHelper._create();
-    final algoliaConfig = jsonDecode(await rootBundle.loadString(
-      'assets/config/algolia.json',
-    ));
+    final algoliaConfig = jsonDecode(
+      await rootBundle.loadString(
+        Const.algoliaConfigPath,
+      ),
+    );
     appID = algoliaConfig['app_id'].toString();
     apiKey = algoliaConfig['api_key'].toString();
     url = '$appID-dsn.algolia.net';

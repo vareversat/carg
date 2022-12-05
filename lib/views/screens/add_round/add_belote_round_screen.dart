@@ -13,6 +13,7 @@ import 'package:carg/views/screens/add_round/widget/team_game/contract_contree_w
 import 'package:carg/views/screens/add_round/widget/team_game/taker_team_widget.dart';
 import 'package:carg/views/screens/add_round/widget/team_game/trick_points_belote_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddBeloteRoundScreen extends StatelessWidget {
   final Belote? beloteGame;
@@ -51,51 +52,59 @@ class AddBeloteRoundScreen extends StatelessWidget {
         child: Column(
           children: [
             Flexible(
-              child: ListView(children: [
-                TakerTeamWidget(beloteRound: beloteRound!),
-                const Divider(),
-                TrickPointsBeloteWidget(round: beloteRound!),
-                const Divider(),
-                if (beloteRound! is CoincheBeloteRound)
-                  ContractCoincheWidget(
-                      coincheRound: beloteRound! as CoincheBeloteRound)
-                else if (beloteRound! is FrenchBeloteRound)
-                  ContractBeloteWidget(
-                      frenchBeloteRound: beloteRound! as FrenchBeloteRound)
-                else if (beloteRound! is ContreeBeloteRound)
-                  ContractContreeWidget(
-                      contreeRound: beloteRound! as ContreeBeloteRound),
-              ]),
+              child: ListView(
+                children: [
+                  TakerTeamWidget(beloteRound: beloteRound!),
+                  const Divider(),
+                  TrickPointsBeloteWidget(round: beloteRound!),
+                  const Divider(),
+                  if (beloteRound! is CoincheBeloteRound)
+                    ContractCoincheWidget(
+                        coincheRound: beloteRound! as CoincheBeloteRound)
+                  else if (beloteRound! is FrenchBeloteRound)
+                    ContractBeloteWidget(
+                        frenchBeloteRound: beloteRound! as FrenchBeloteRound)
+                  else if (beloteRound! is ContreeBeloteRound)
+                    ContractContreeWidget(
+                        contreeRound: beloteRound! as ContreeBeloteRound),
+                ],
+              ),
             ),
             Column(
               children: [
                 RealTimeDisplayWidget(round: beloteRound!),
                 Center(
-                    child: SizedBox(
-                  width: double.infinity,
-                  height: 50,
-                  child: Directionality(
-                    textDirection: TextDirection.rtl,
-                    child: ElevatedButton.icon(
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: 50,
+                    child: Directionality(
+                      textDirection: TextDirection.rtl,
+                      child: ElevatedButton.icon(
                         style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(
-                                Theme.of(context).primaryColor),
-                            foregroundColor: MaterialStateProperty.all<Color>(
-                                Theme.of(context).cardColor),
-                            shape: MaterialStateProperty.all<OutlinedBorder>(
-                                RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(
-                                        CustomProperties.borderRadius)))),
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              Theme.of(context).primaryColor),
+                          foregroundColor: MaterialStateProperty.all<Color>(
+                              Theme.of(context).cardColor),
+                          shape: MaterialStateProperty.all<OutlinedBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                CustomProperties.borderRadius,
+                              ),
+                            ),
+                          ),
+                        ),
                         onPressed: () =>
                             {_setupRound(), Navigator.pop(context)},
-                        label: const Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child:
-                              Text('Valider', style: TextStyle(fontSize: 23)),
+                        label: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(AppLocalizations.of(context)!.validate,
+                              style: const TextStyle(fontSize: 23)),
                         ),
-                        icon: const Icon(Icons.check, size: 30)),
+                        icon: const Icon(Icons.check, size: 30),
+                      ),
+                    ),
                   ),
-                )),
+                ),
               ],
             )
           ],
