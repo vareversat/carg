@@ -32,7 +32,7 @@ class PlayStoreIAPService extends AbstractIAPService {
 
   Future<ap.AndroidPublisherApi?> _getApiPublisherAccess() async {
     final googleApiConfig = jsonDecode(await rootBundle.loadString(
-      'assets/config/google-play-api-key.json',
+      Const.googleApiKey,
     ));
     final credentials =
         auth.ServiceAccountCredentials.fromJson(googleApiConfig);

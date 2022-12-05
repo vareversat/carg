@@ -9,6 +9,7 @@ import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/screens/settings_screen.dart';
 import 'package:carg/views/widgets/error_message_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -27,7 +28,7 @@ class UserScreen extends StatefulWidget {
 
 class _UserScreenState extends State<UserScreen>
     with SingleTickerProviderStateMixin {
-  String _errorMessage = 'Vous ne disposez pas de joueur';
+  String? _errorMessage;
   Player? _player;
   final _playerService = PlayerService();
   late Animation<Offset> _opacityAnimation;
@@ -107,7 +108,9 @@ class _UserScreenState extends State<UserScreen>
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    ErrorMessageWidget(message: _errorMessage),
+                    ErrorMessageWidget(
+                        message: _errorMessage ??
+                            AppLocalizations.of(context)!.youDontHaveAnyPlayer),
                     ElevatedButton.icon(
                         style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all<Color>(
@@ -119,8 +122,8 @@ class _UserScreenState extends State<UserScreen>
                                     borderRadius: BorderRadius.circular(
                                         CustomProperties.borderRadius)))),
                         onPressed: () async => _signOut(),
-                        label: const Text('Connexion',
-                            style: TextStyle(fontSize: 14)),
+                        label: Text(AppLocalizations.of(context)!.connection,
+                            style: const TextStyle(fontSize: 14)),
                         icon: const Icon(Icons.arrow_back)),
                   ],
                 );
@@ -129,9 +132,9 @@ class _UserScreenState extends State<UserScreen>
                 return Center(
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const <Widget>[
-                        Text('Pas encore de joueur',
-                            style: TextStyle(fontSize: 18))
+                      children: <Widget>[
+                        Text(AppLocalizations.of(context)!.noPlayerYet,
+                            style: const TextStyle(fontSize: 18))
                       ]),
                 );
               }
@@ -169,7 +172,7 @@ class _UserScreenState extends State<UserScreen>
                                           padding: const EdgeInsets.symmetric(
                                               vertical: 30),
                                           child: Text(
-                                              '-- Pourcentages de victoires --',
+                                              '-- ${AppLocalizations.of(context)!.winPercentage} --',
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .bodyText2!
@@ -200,12 +203,13 @@ class _UserScreenState extends State<UserScreen>
                                                   .cast<Widget>()),
                                         )
                                       ])
-                                    : const Center(
+                                    : Center(
                                         child: Padding(
-                                        padding: EdgeInsets.all(30),
+                                        padding: const EdgeInsets.all(30),
                                         child: Text(
-                                          'Pas encore de statistiques',
-                                          style: TextStyle(
+                                          AppLocalizations.of(context)!
+                                              .noStatisticYet,
+                                          style: const TextStyle(
                                               fontSize: 25,
                                               fontStyle: FontStyle.italic),
                                         ),
@@ -286,7 +290,7 @@ class _StatCircularChart extends StatelessWidget {
         tooltipBehavior: TooltipBehavior(
             enable: true, textStyle: Theme.of(context).textTheme.bodyText1!),
         title: ChartTitle(
-            text: '-- Distributions des parties --',
+            text: '-- ${AppLocalizations.of(context)!.gameDistribution} --',
             alignment: ChartAlignment.center,
             textStyle: Theme.of(context)
                 .textTheme
@@ -366,7 +370,8 @@ class _AppBarTitle extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text('Profil', style: CustomTextStyle.screenHeadLine1(context)),
+        Text(AppLocalizations.of(context)!.profileTitle,
+            style: CustomTextStyle.screenHeadLine1(context)),
         ElevatedButton.icon(
             style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(
@@ -378,7 +383,7 @@ class _AppBarTitle extends StatelessWidget {
                         borderRadius: BorderRadius.circular(
                             CustomProperties.borderRadius)))),
             onPressed: () async => await onPressEdit(),
-            label: const Text('Paramètres'),
+            label: Text(AppLocalizations.of(context)!.settings),
             icon: const Icon(
               FontAwesomeIcons.gears,
               size: 13,
@@ -404,7 +409,8 @@ class _WonPlayedWidget extends StatelessWidget {
             child: Text(player!.totalWonGames().toString(),
                 style: const TextStyle(
                     fontSize: 20, fontWeight: FontWeight.bold))),
-        const Text('Victoires', style: TextStyle(fontSize: 20))
+        Text(AppLocalizations.of(context)!.victories,
+            style: const TextStyle(fontSize: 20))
       ])),
       Container(
         decoration: BoxDecoration(
@@ -424,7 +430,8 @@ class _WonPlayedWidget extends StatelessWidget {
             child: Text(player!.totalPlayedGames().toString(),
                 style: const TextStyle(
                     fontSize: 20, fontWeight: FontWeight.bold))),
-        const Text('Parties', style: TextStyle(fontSize: 20))
+        Text(AppLocalizations.of(context)!.games,
+            style: const TextStyle(fontSize: 20))
       ]))
     ]);
   }

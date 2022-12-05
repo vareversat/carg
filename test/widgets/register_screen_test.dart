@@ -9,14 +9,18 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
 
+import 'localized_testable_widget.dart';
 import 'register_screen_test.mocks.dart';
 
 Widget testableWidget(MockFirebaseDynamicLinks linkProvider,
         MockAuthService mockAuthService) =>
-    MaterialApp(
-      home: ChangeNotifierProvider<AuthService>.value(
-          value: mockAuthService,
-          builder: (context, _) => RegisterScreen(linkProvider: linkProvider)),
+    localizedTestableWidget(
+      ChangeNotifierProvider<AuthService>.value(
+        value: mockAuthService,
+        builder: (context, _) => RegisterScreen(
+          linkProvider: linkProvider,
+        ),
+      ),
     );
 
 final mockFirebaseDynamicLinks = MockFirebaseDynamicLinks();
@@ -75,7 +79,7 @@ void main() {
       expect(
           tester
               .widget<ElevatedButton>(
-              find.byKey(const ValueKey('googleButton')))
+                  find.byKey(const ValueKey('googleButton')))
               .style!
               .backgroundColor
               .toString(),
@@ -123,7 +127,7 @@ void main() {
       expect(
           tester
               .widget<ElevatedButton>(
-              find.byKey(const ValueKey('googleButton')))
+                  find.byKey(const ValueKey('googleButton')))
               .style!
               .backgroundColor
               .toString(),

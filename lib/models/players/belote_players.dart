@@ -1,5 +1,7 @@
 import 'package:carg/models/player.dart';
 import 'package:carg/models/players/players.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class BelotePlayers extends Players {
   String? us;
@@ -19,8 +21,8 @@ class BelotePlayers extends Players {
   }
 
   @override
-  String getSelectedPlayersStatus() {
-    return 'Nous ${_usCount()}/2 - Eux ${_themCount()}/2';
+  String getSelectedPlayersStatus(BuildContext context) {
+    return '${AppLocalizations.of(context)!.us} ${_usCount()}/2 - ${AppLocalizations.of(context)!.them} ${_themCount()}/2';
   }
 
   @override

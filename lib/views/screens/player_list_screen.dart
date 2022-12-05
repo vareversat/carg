@@ -10,6 +10,7 @@ import 'package:carg/views/tabs/player_list_tab.dart';
 import 'package:carg/views/tabs/team_list_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PlayerListScreen extends StatefulWidget {
   final AbstractPlayerService playerService;
@@ -48,8 +49,9 @@ class _PlayerListScreenState extends State<PlayerListScreen> {
                       itemBuilder: (context) => [
                             PopupMenuItem(
                                 key: const ValueKey('addPlayerPopupMenuItem'),
-                                child: const Text('Nouveau joueur',
-                                    style: TextStyle(fontSize: 14)),
+                                child: Text(
+                                    AppLocalizations.of(context)!.newPlayer,
+                                    style: const TextStyle(fontSize: 14)),
                                 onTap: () async {
                                   Future.delayed(const Duration(seconds: 0),
                                       () async {
@@ -72,8 +74,9 @@ class _PlayerListScreenState extends State<PlayerListScreen> {
                             PopupMenuItem(
                                 key: const ValueKey(
                                     'showInformationPopupMenuItem'),
-                                child: const Text('Informations',
-                                    style: TextStyle(fontSize: 14)),
+                                child: Text(
+                                    AppLocalizations.of(context)!.information,
+                                    style: const TextStyle(fontSize: 14)),
                                 onTap: () async {
                                   Future.delayed(const Duration(seconds: 0),
                                       () async {
@@ -90,23 +93,24 @@ class _PlayerListScreenState extends State<PlayerListScreen> {
                           ])
                 ],
                 automaticallyImplyLeading: false,
-                title: Text('Joueurs',
+                title: Text(AppLocalizations.of(context)!.player(2),
                     style: CustomTextStyle.screenHeadLine1(context)),
-                bottom: const TabBar(
+                bottom: TabBar(
                   indicatorWeight: 4,
                   indicatorSize: TabBarIndicatorSize.tab,
                   tabs: [
                     Tab(
-                        key: ValueKey('playerListTab'),
-                        child: Text('Joueurs', style: TextStyle(fontSize: 15))),
+                        key: const ValueKey('playerListTab'),
+                        child: Text(AppLocalizations.of(context)!.player(2),
+                            style: const TextStyle(fontSize: 15))),
                     Tab(
-                        key: ValueKey('ownedPlayerListTab'),
-                        child: Text('Mes joueurs',
-                            style: TextStyle(fontSize: 15))),
+                        key: const ValueKey('ownedPlayerListTab'),
+                        child: Text(AppLocalizations.of(context)!.myPlayers,
+                            style: const TextStyle(fontSize: 15))),
                     Tab(
-                        key: ValueKey('playerListTeam'),
-                        child: Text('Mes équipes',
-                            style: TextStyle(fontSize: 15))),
+                        key: const ValueKey('playerListTeam'),
+                        child: Text(AppLocalizations.of(context)!.myTeams,
+                            style: const TextStyle(fontSize: 15))),
                   ],
                 ),
               ),

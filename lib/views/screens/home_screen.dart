@@ -6,6 +6,7 @@ import 'package:carg/views/screens/user_screen.dart';
 import 'package:carg/views/widgets/nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home';
@@ -46,19 +47,19 @@ class _HomeScreenState extends State<HomeScreen> {
         items: [
           BottomNavyBarItem(
             icon: const Icon(Icons.account_circle),
-            title: const Text('Profil'),
+            title: Text(AppLocalizations.of(context)!.profileTitle),
             activeColor: Theme.of(context).primaryColor,
             textAlign: TextAlign.center,
           ),
           BottomNavyBarItem(
             icon: const Icon(FontAwesomeIcons.gamepad),
-            title: const Text('Parties'),
+            title: Text(AppLocalizations.of(context)!.games),
             activeColor: Theme.of(context).primaryColor,
             textAlign: TextAlign.center,
           ),
           BottomNavyBarItem(
             icon: const Icon(Icons.people),
-            title: const Text('Joueurs'),
+            title: Text(AppLocalizations.of(context)!.player(2)),
             activeColor: Theme.of(context).primaryColor,
             textAlign: TextAlign.center,
           ),

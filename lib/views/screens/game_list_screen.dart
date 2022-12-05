@@ -10,6 +10,7 @@ import 'package:carg/views/screens/game_mode_picker_screen.dart';
 import 'package:carg/views/tabs/game_list_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class GameListScreen extends StatelessWidget {
   const GameListScreen({Key? key}) : super(key: key);
@@ -28,7 +29,7 @@ class GameListScreen extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Parties',
+                      Text(AppLocalizations.of(context)!.games,
                           style: CustomTextStyle.screenHeadLine1(context)),
                       ElevatedButton.icon(
                           style: ButtonStyle(
@@ -47,8 +48,8 @@ class GameListScreen extends StatelessWidget {
                                       const GameModePickerScreen(),
                                 ),
                               ),
-                          label: const Text(
-                            'Nouvelle partie',
+                          label: Text(
+                            AppLocalizations.of(context)!.newGame,
                           ),
                           icon: const FaIcon(FontAwesomeIcons.circlePlus,
                               size: 15))

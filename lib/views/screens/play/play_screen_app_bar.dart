@@ -4,6 +4,7 @@ import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/screens/rules_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PlayScreenAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Game game;
@@ -30,17 +31,26 @@ class PlayScreenAppBar extends StatelessWidget implements PreferredSizeWidget {
             Text(game.gameType.name,
                 style: CustomTextStyle.screenHeadLine1(context)),
             Text(
-              'Commencée le ${DateFormat.yMMMMEEEEd(Localizations.localeOf(context).languageCode).format(game.startingDate)} à '
-              '${DateFormat.jm(Localizations.localeOf(context).languageCode).format(game.startingDate)}',
+              AppLocalizations.of(context)!.startedOn(
+                  DateFormat.yMd(Localizations.localeOf(context).languageCode)
+                      .format(game.startingDate),
+                  DateFormat.jm(Localizations.localeOf(context).languageCode)
+                      .format(game.startingDate)),
               style: const TextStyle(fontSize: 12),
-              overflow: TextOverflow.clip,
+              overflow: TextOverflow.ellipsis,
             ),
             const Divider(color: Colors.transparent, height: 5),
             if (game.isEnded)
               Text(
-                  'Terminée le ${DateFormat.yMMMMEEEEd(Localizations.localeOf(context).languageCode).format(game.endingDate!)} à '
-                  '${DateFormat.jm(Localizations.localeOf(context).languageCode).format(game.endingDate!)}',
-                  style: const TextStyle(fontSize: 12))
+                  AppLocalizations.of(context)!.completedOn(
+                      DateFormat.yMd(
+                              Localizations.localeOf(context).languageCode)
+                          .format(game.endingDate!),
+                      DateFormat.jm(
+                              Localizations.localeOf(context).languageCode)
+                          .format(game.endingDate!)),
+                  style: const TextStyle(fontSize: 12),
+                  overflow: TextOverflow.ellipsis)
           ],
         ),
         centerTitle: true,

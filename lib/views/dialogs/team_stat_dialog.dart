@@ -8,6 +8,7 @@ import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/helpers/info_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TeamStatDialog extends StatelessWidget {
   final Team team;
@@ -26,18 +27,19 @@ class TeamStatDialog extends StatelessWidget {
   Future<void> _saveTeam(BuildContext context) async {
     try {
       await teamService.update(team);
-      InfoSnackBar.showSnackBar(context, 'Nom d\'équipe modifié avec succès');
+      InfoSnackBar.showSnackBar(
+          context, AppLocalizations.of(context)!.teamNameEdited);
       Navigator.pop(context);
     } on ServiceException catch (e) {
       InfoSnackBar.showErrorSnackBar(context, e.message);
     }
   }
 
-  String _getHintText() {
+  String _getHintText(BuildContext context) {
     if (team.name != null && team.name != '') {
       return '';
     } else {
-      return 'Sans nom';
+      return AppLocalizations.of(context)!.noName;
     }
   }
 
@@ -81,7 +83,7 @@ class TeamStatDialog extends StatelessWidget {
                     decoration: InputDecoration(
                       hintStyle: TextStyle(color: _getHintColor(context)),
                       fillColor: Colors.red,
-                      hintText: _getHintText(),
+                      hintText: _getHintText(context),
                       border: InputBorder.none,
                     ),
                     onFieldSubmitted: (value) async {
@@ -127,7 +129,9 @@ class TeamStatDialog extends StatelessWidget {
                                           .copyWith(
                                               fontWeight: FontWeight.bold)),
                                   Text(
-                                    '${stat.winPercentage().toString()}% de victoires',
+                                    AppLocalizations.of(context)!
+                                        .victoryPercentage(
+                                            stat.winPercentage().toString()),
                                     style: const TextStyle(fontSize: 18),
                                   ),
                                 ],
@@ -149,11 +153,11 @@ class TeamStatDialog extends StatelessWidget {
                         color: Theme.of(context).colorScheme.secondary,
                         borderRadius: BorderRadius.circular(
                             CustomProperties.borderRadius)),
-                    child: const Padding(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 6.0, horizontal: 9.0),
-                      child: Text('Partie(s) jouée(s)',
-                          style: TextStyle(fontSize: 15)),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 6.0, horizontal: 9.0),
+                      child: Text(AppLocalizations.of(context)!.playedGames,
+                          style: const TextStyle(fontSize: 15)),
                     ))),
             Flexible(
                 child: Container(
@@ -164,7 +168,7 @@ class TeamStatDialog extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
                           vertical: 6.0, horizontal: 9.0),
-                      child: Text('Partie(s) gagnée(s)',
+                      child: Text(AppLocalizations.of(context)!.wonGames,
                           style: TextStyle(
                               fontSize: 15,
                               color: Theme.of(context).cardColor)),

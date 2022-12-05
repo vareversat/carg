@@ -1,7 +1,11 @@
 import 'package:carg/models/player.dart';
 import 'package:carg/models/players/belote_players.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+// testWidgets is used instead on test because we need a valid context to test these widgets
 void main() {
   group('BelotePlayers', () {
     test('Empty initialization ', () {
@@ -29,28 +33,76 @@ void main() {
   });
 
   group('Get Selected Players Status', () {
-    test('Teams are partially full (1/2)', () {
+    testWidgets('Teams are partially full (1/2)', (WidgetTester tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Material(child: Container()),
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [
+            Locale('fr', ''),
+          ],
+        ),
+      );
+      final context = tester.element(find.byType(Container));
       final belotePlayers = BelotePlayers(
           playerList: ['player_1', ' ', 'player_3', 'player_4'],
           us: 'team_1',
           them: 'team_2');
-      expect(belotePlayers.getSelectedPlayersStatus(), 'Nous 1/2 - Eux 2/2');
+      expect(belotePlayers.getSelectedPlayersStatus(context),
+          'Nous 1/2 - Eux 2/2');
     });
 
-    test('Teams are partially full (2/1)', () {
+    testWidgets('Teams are partially full (2/1)', (WidgetTester tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Material(child: Container()),
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [
+            Locale('fr', ''),
+          ],
+        ),
+      );
+      final context = tester.element(find.byType(Container));
       final belotePlayers = BelotePlayers(
           playerList: ['player_1', 'player_2', 'player_3', ' '],
           us: 'team_1',
           them: 'team_2');
-      expect(belotePlayers.getSelectedPlayersStatus(), 'Nous 2/2 - Eux 1/2');
+      expect(belotePlayers.getSelectedPlayersStatus(context),
+          'Nous 2/2 - Eux 1/2');
     });
 
-    test('Teams are full', () {
+    testWidgets('Teams are full', (WidgetTester tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Material(child: Container()),
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [
+            Locale('fr', ''),
+          ],
+        ),
+      );
+      final context = tester.element(find.byType(Container));
       final belotePlayers = BelotePlayers(
           playerList: ['player_1', 'player_2', 'player_3', 'player_4'],
           us: 'team_1',
           them: 'team_2');
-      expect(belotePlayers.getSelectedPlayersStatus(), 'Nous 2/2 - Eux 2/2');
+      expect(belotePlayers.getSelectedPlayersStatus(context),
+          'Nous 2/2 - Eux 2/2');
     });
   });
 

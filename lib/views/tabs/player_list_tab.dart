@@ -7,6 +7,7 @@ import 'package:carg/views/widgets/players/player_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PlayerListTab extends StatefulWidget {
   final AbstractPlayerService playerService;
@@ -64,9 +65,9 @@ class _PlayerListTabWidget extends State<PlayerListTab> {
                   textInputAction: TextInputAction.search,
                   style: const TextStyle(
                       fontSize: 25, fontWeight: FontWeight.bold),
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     enabledBorder: InputBorder.none,
-                    labelText: 'Rechercher...',
+                    labelText: '${AppLocalizations.of(context)!.search}...',
                   )),
             ),
             MaterialButton(
@@ -102,14 +103,14 @@ class _PlayerListTabWidget extends State<PlayerListTab> {
           if (snapshot.data!.isEmpty) {
             return Center(
               child: Row(
-                  key: const ValueKey('noPlayersMessage'),
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const <Widget>[
-                    Text('Pas encore de joueurs ',
-                        style: TextStyle(fontSize: 18)),
-                    Icon(Icons.person),
-                    Text(' enregistrés', style: TextStyle(fontSize: 18))
-                  ]),
+                key: const ValueKey('noPlayersMessage'),
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text('${AppLocalizations.of(context)!.noPlayerYet} ',
+                      style: const TextStyle(fontSize: 18)),
+                  const Icon(Icons.person),
+                ],
+              ),
             );
           }
           return ListView.builder(

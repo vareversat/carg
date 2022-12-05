@@ -3,6 +3,7 @@ import 'package:carg/models/score/round/belote_round.dart';
 import 'package:carg/views/screens/add_round/widget/section_title_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TakerTeamWidget extends StatelessWidget {
   final BeloteRound beloteRound;
@@ -16,35 +17,48 @@ class TakerTeamWidget extends StatelessWidget {
       value: beloteRound,
       child: Consumer<BeloteRound>(
         builder: (context, roundData, child) => Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const SectionTitleWidget(title: 'Preneurs'),
-              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            SectionTitleWidget(
+                title: AppLocalizations.of(context)!.takerTitleBelote),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
                 InputChip(
-                    key: const ValueKey('takerTeamWidget-usPicker'),
-                    selected: beloteRound.taker == BeloteTeamEnum.US,
-                    selectedColor: Theme.of(context).colorScheme.secondary,
-                    onPressed: () => {
-                          beloteRound.taker = BeloteTeamEnum.US,
-                          beloteRound.defender = BeloteTeamEnum.THEM
-                        },
-                    label: Text(BeloteTeamEnum.US.name,
-                        style: const TextStyle(fontSize: 20),
-                        overflow: TextOverflow.ellipsis)),
+                  key: const ValueKey('takerTeamWidget-usPicker'),
+                  selected: beloteRound.taker == BeloteTeamEnum.US,
+                  selectedColor: Theme.of(context).colorScheme.secondary,
+                  onPressed: () => {
+                    beloteRound.taker = BeloteTeamEnum.US,
+                    beloteRound.defender = BeloteTeamEnum.THEM
+                  },
+                  label: Text(
+                    BeloteTeamEnum.US.name(context),
+                    style: const TextStyle(fontSize: 20),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
                 const SizedBox(width: 10),
                 InputChip(
-                    key: const ValueKey('takerTeamWidget-themPicker'),
-                    selected: beloteRound.taker == BeloteTeamEnum.THEM,
-                    selectedColor: Theme.of(context).colorScheme.secondary,
-                    onPressed: () => {
-                          beloteRound.taker = BeloteTeamEnum.THEM,
-                          beloteRound.defender = BeloteTeamEnum.US
-                        },
-                    label: Text(BeloteTeamEnum.THEM.name,
-                        style: const TextStyle(fontSize: 20),
-                        overflow: TextOverflow.ellipsis)),
-              ])
-            ]),
+                  key: const ValueKey('takerTeamWidget-themPicker'),
+                  selected: beloteRound.taker == BeloteTeamEnum.THEM,
+                  selectedColor: Theme.of(context).colorScheme.secondary,
+                  onPressed: () => {
+                    beloteRound.taker = BeloteTeamEnum.THEM,
+                    beloteRound.defender = BeloteTeamEnum.US
+                  },
+                  label: Text(
+                    BeloteTeamEnum.THEM.name(context),
+                    style: const TextStyle(
+                      fontSize: 20,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

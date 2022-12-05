@@ -4,9 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../units/mocks/fake_belote_round.dart';
+import 'localized_testable_widget.dart';
 
-Widget testableWidget(FakeBeloteRound beloteRound) => MaterialApp(
-    home: Scaffold(body: TrickPointsBeloteWidget(round: beloteRound)));
+Widget testableWidget(FakeBeloteRound beloteRound) => localizedTestableWidget(
+      Scaffold(
+        body: TrickPointsBeloteWidget(
+          round: beloteRound,
+        ),
+      ),
+    );
 
 void main() {
   late FakeBeloteRound beloteRound;
@@ -23,16 +29,20 @@ void main() {
 
   testWidgets("Add 2 to us score", (WidgetTester tester) async {
     await tester.pumpWidget(testableWidget(beloteRound));
-    await tester.tap(find.byKey(const ValueKey('trickPointsBeloteRightButton')));
-    await tester.tap(find.byKey(const ValueKey('trickPointsBeloteRightButton')));
+    await tester
+        .tap(find.byKey(const ValueKey('trickPointsBeloteRightButton')));
+    await tester
+        .tap(find.byKey(const ValueKey('trickPointsBeloteRightButton')));
     expect(beloteRound.usTrickScore, 2);
     expect(beloteRound.themTrickScore, 150);
   });
 
   testWidgets("Add 2 to us score", (WidgetTester tester) async {
     await tester.pumpWidget(testableWidget(beloteRound));
-    await tester.tap(find.byKey(const ValueKey('trickPointsBeloteRightButton')));
-    await tester.tap(find.byKey(const ValueKey('trickPointsBeloteRightButton')));
+    await tester
+        .tap(find.byKey(const ValueKey('trickPointsBeloteRightButton')));
+    await tester
+        .tap(find.byKey(const ValueKey('trickPointsBeloteRightButton')));
     expect(beloteRound.usTrickScore, 2);
     expect(beloteRound.themTrickScore, 150);
   });

@@ -1,4 +1,19 @@
 class Const {
+  /// App
+  static const String appName = 'Carg';
+  static const String appBottomList = '♦ ️♣ ♥ ♠ ';
+  static const String deepLinkScheme = 'https://carg.page.link/';
+
+  /// Paths
+  static const String changelogPath = 'CHANGELOG.md';
+  static const String svgLogoPath = 'assets/images/card_game.svg';
+  static const String algoliaConfigPath = 'assets/config/algolia.json';
+  static const String googleApiKey = 'assets/config/google-play-api-key.json';
+
+  /// Link
+  static const String githubLink = 'https://github.com/vareversat/carg';
+  static const String privacyInfoLink = 'https://carg.vareversat.fr/privacy';
+
   /// Package id
   static const String packageId = 'fr.vareversat.carg';
   static const String appStoreSharedSecret = 'WIP';

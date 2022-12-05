@@ -4,9 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../units/mocks/fake_belote_round.dart';
+import 'localized_testable_widget.dart';
 
-Widget testableWidget(FakeBeloteRound beloteRound) => MaterialApp(
-    home: Scaffold(body: TakerTeamWidget(beloteRound: beloteRound)));
+Widget testableWidget(FakeBeloteRound beloteRound) => localizedTestableWidget(
+      Scaffold(
+        body: TakerTeamWidget(
+          beloteRound: beloteRound,
+        ),
+      ),
+    );
 
 void main() {
   late FakeBeloteRound beloteRound;

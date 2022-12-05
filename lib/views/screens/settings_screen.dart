@@ -10,6 +10,7 @@ import 'package:carg/views/screens/register/edit_email_screen.dart';
 import 'package:carg/views/screens/register/edit_phone_number_screen.dart';
 import 'package:carg/views/widgets/remove_ads_list_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -33,7 +34,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Future<void> _savePlayer() async {
     try {
       await widget.playerService.update(widget.player);
-      InfoSnackBar.showSnackBar(context, 'Profil modifié avec succès');
+      InfoSnackBar.showSnackBar(
+          context, AppLocalizations.of(context)!.profileSuccessfullyEdited);
     } on CustomException catch (e) {
       InfoSnackBar.showSnackBar(context, e.message);
     }
@@ -62,8 +64,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
         leading: IconButton(
             icon: const Icon(Icons.close),
             onPressed: () => Navigator.of(context).pop()),
-        title:
-            Text('Paramètres', style: CustomTextStyle.screenHeadLine1(context)),
+        title: Text(AppLocalizations.of(context)!.settings,
+            style: CustomTextStyle.screenHeadLine1(context)),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -81,7 +83,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text('Mon profil',
+                                  Text(AppLocalizations.of(context)!.myProfile,
                                       style: TextStyle(
                                           color: Theme.of(context).primaryColor,
                                           fontWeight: FontWeight.bold,
@@ -101,7 +103,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                               padding:
                                                   const EdgeInsets.symmetric(
                                                       horizontal: 8.0),
-                                              child: Text('Admin',
+                                              child: Text(
+                                                  AppLocalizations.of(context)!
+                                                      .admin,
                                                   style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.bold,
@@ -124,10 +128,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                       fontWeight: FontWeight.bold,
                                       fontSize: 20),
                                   keyboardType: TextInputType.name,
-                                  decoration: const InputDecoration(
-                                    labelStyle: TextStyle(
+                                  decoration: InputDecoration(
+                                    labelStyle: const TextStyle(
                                         fontWeight: FontWeight.normal),
-                                    labelText: 'Nom d\'utilisateur',
+                                    labelText:
+                                        AppLocalizations.of(context)!.username,
                                   ),
                                   onFieldSubmitted: (value) async {
                                     playerData.userName = value;
@@ -174,10 +179,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                     playerData.profilePicture = value;
                                   },
                                   keyboardType: TextInputType.visiblePassword,
-                                  decoration: const InputDecoration(
-                                    labelStyle: TextStyle(
+                                  decoration: InputDecoration(
+                                    labelStyle: const TextStyle(
                                         fontWeight: FontWeight.normal),
-                                    labelText: 'Image de profil (URL)',
+                                    labelText: AppLocalizations.of(context)!
+                                        .profilePicture,
                                   ),
                                   onFieldSubmitted: (value) async {
                                     await _savePlayer();
@@ -186,8 +192,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               ),
                               SwitchListTile(
                                 key: const ValueKey('gravatarSwitchTile'),
-                                title: const Text('Utiliser mon Gravatar',
-                                    style: TextStyle(fontSize: 20)),
+                                title: Text(
+                                    AppLocalizations.of(context)!.useMyGravatar,
+                                    style: const TextStyle(fontSize: 20)),
                                 onChanged: (bool value) async =>
                                     await _onSwitchTileChanged(value),
                                 value: playerData.useGravatarProfilePicture,
@@ -196,7 +203,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           ))),
               const SizedBox(height: 15),
               ListTile(
-                  title: Text('Mon compte',
+                  title: Text(AppLocalizations.of(context)!.myAccount,
                       style: TextStyle(
                           color: Theme.of(context).primaryColor,
                           fontWeight: FontWeight.bold,
@@ -207,7 +214,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       subtitle: Text(
                           Provider.of<AuthService>(context, listen: false)
                                   .getConnectedUserEmail() ??
-                              "Pas d'email renseigné'",
+                              AppLocalizations.of(context)!.noEmailProvided,
                           key: const ValueKey('emailText'),
                           style: const TextStyle(
                               fontSize: 15, fontStyle: FontStyle.italic)),
@@ -220,13 +227,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           context,
                           CustomRouteLeftToRight(
                               builder: (context) => const EditEmailScreen())),
-                      title: const Text('Changer mon adresse e-mail',
-                          style: TextStyle(fontSize: 20))),
+                      title: Text(AppLocalizations.of(context)!.changeMyEmail,
+                          style: const TextStyle(fontSize: 20))),
                   ListTile(
                       subtitle: Text(
                           Provider.of<AuthService>(context, listen: false)
                                   .getConnectedUserPhoneNumber() ??
-                              'Pas de numéro renseigné',
+                              AppLocalizations.of(context)!
+                                  .noPhoneNumberProvided,
                           key: const ValueKey('phoneText'),
                           style: const TextStyle(
                               fontSize: 15, fontStyle: FontStyle.italic)),
@@ -240,8 +248,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           CustomRouteLeftToRight(
                               builder: (context) =>
                                   const EditPhoneNumberScreen())),
-                      title: const Text('Changer mon numéro de téléphone',
-                          style: TextStyle(fontSize: 20))),
+                      title: Text(
+                          AppLocalizations.of(context)!.changeMyPhoneNumber,
+                          style: const TextStyle(fontSize: 20))),
                 ],
               ),
               Padding(
@@ -251,8 +260,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     onPressed: () async =>
                         await Provider.of<AuthService>(context, listen: false)
                             .signOut(context),
-                    child: const Text('Déconnexion',
-                        style: TextStyle(
+                    child: Text(AppLocalizations.of(context)!.signOut,
+                        style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.red,
                             fontSize: 25)),
@@ -262,8 +271,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
               const RemoveAdsListTile(key: ValueKey('removeAdsListTile')),
               ListTile(
                 key: const ValueKey('aboutButton'),
-                subtitle: const Text('Informations concernant l\'application',
-                    style: TextStyle(fontSize: 15)),
+                subtitle: Text(
+                    AppLocalizations.of(context)!.informationAboutTheApp,
+                    style: const TextStyle(fontSize: 15)),
                 selected: true,
                 leading: const Icon(
                   Icons.info_outline,
@@ -278,7 +288,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       return CargAboutDialog();
                     }),
                 title: Text(
-                  'A propos',
+                  AppLocalizations.of(context)!.about,
                   style: TextStyle(
                       color: Theme.of(context).primaryColor, fontSize: 25),
                 ),
