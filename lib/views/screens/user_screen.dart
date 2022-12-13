@@ -86,44 +86,43 @@ class _UserScreenState extends State<UserScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: FutureBuilder<Player?>(
-            future: _playerService
-                .getPlayerOfUser(
-                    Provider.of<AuthService>(context, listen: false)
-                        .getConnectedUserId())
-                .catchError(
-                    // ignore: return_of_invalid_type_from_catch_error
-                    (onError) => {_errorMessage = onError.toString()}),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return CustomScrollView(
-                  slivers: [
-                    SliverAppBar(
-                      automaticallyImplyLeading: false,
-                      forceElevated: true,
-                      expandedHeight: 200,
-                      collapsedHeight: 140,
-                      title: _AppBarTitle(
-                        onPressEdit: _showSettingsScreen,
-                      ),
-                      flexibleSpace: const FlexibleSpaceBar(
-                        centerTitle: true,
-                        title: Text(''),
-                      ),
-                    )
-                  ],
-                );
-              }
-              if (snapshot.connectionState == ConnectionState.none ||
-                  snapshot.data == null) {
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ErrorMessageWidget(
-                        message: _errorMessage ??
-                            AppLocalizations.of(context)!.youDontHaveAnyPlayer),
-                    ElevatedButton.icon(
-                      style: ButtonStyle(
+      body: FutureBuilder<Player?>(
+        future: _playerService
+            .getPlayerOfUser(Provider.of<AuthService>(context, listen: false)
+                .getConnectedUserId())
+            .catchError(
+                // ignore: return_of_invalid_type_from_catch_error
+                (onError) => {_errorMessage = onError.toString()}),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CustomScrollView(
+              slivers: [
+                SliverAppBar(
+                  automaticallyImplyLeading: false,
+                  forceElevated: true,
+                  expandedHeight: 200,
+                  collapsedHeight: 140,
+                  title: _AppBarTitle(
+                    onPressEdit: _showSettingsScreen,
+                  ),
+                  flexibleSpace: const FlexibleSpaceBar(
+                    centerTitle: true,
+                    title: Text(''),
+                  ),
+                )
+              ],
+            );
+          }
+          if (snapshot.connectionState == ConnectionState.none ||
+              snapshot.data == null) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ErrorMessageWidget(
+                    message: _errorMessage ??
+                        AppLocalizations.of(context)!.youDontHaveAnyPlayer),
+                ElevatedButton.icon(
+                  style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(
                         Theme.of(context).primaryColor),
                     foregroundColor: MaterialStateProperty.all<Color>(
@@ -148,87 +147,84 @@ class _UserScreenState extends State<UserScreen>
                   ),
                 ),
               ],
-                );
-              }
-              if (snapshot.data == null) {
-                return Center(
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
+            );
+          }
+          if (snapshot.data == null) {
+            return Center(
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
                       AppLocalizations.of(context)!.noPlayerYet,
                       style: const TextStyle(
                         fontSize: 18,
                       ),
                     )
                   ]),
-                );
-              }
-              _player = snapshot.data;
-              return ChangeNotifierProvider.value(
-                value: _player!,
-                child: Consumer<Player>(
-                    builder: (context, player, _) => CustomScrollView(
-                          slivers: [
-                            SliverAppBar(
-                              automaticallyImplyLeading: false,
-                              floating: true,
-                              pinned: true,
-                              forceElevated: true,
-                              expandedHeight: 200,
-                              collapsedHeight: 140,
-                              title: _AppBarTitle(
-                                onPressEdit: _showSettingsScreen,
-                              ),
-                              flexibleSpace: FlexibleSpaceBar(
-                                centerTitle: true,
-                                title: _PlayerUsernameAndProfilePictureWidget(
-                                    player: _player,
-                                    animation: _opacityAnimation),
-                              ),
-                            ),
-                            SliverList(
-                              delegate: SliverChildListDelegate([
-                                _player!.gameStatsList!.isNotEmpty
-                                    ? Column(children: [
-                                        _StatCircularChart(
-                                            gameStatsList:
-                                                _player!.gameStatsList),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 30),
-                                          child: Text(
-                                              '-- ${AppLocalizations.of(context)!.winPercentage} --',
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText2!
-                                                  .copyWith(
-                                                      fontStyle:
-                                                          FontStyle.italic)),
-                                        ),
-                                        _WonPlayedWidget(player: _player),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 30),
-                                          child: Wrap(
-                                              runSpacing: 20,
-                                              spacing: 80,
-                                              alignment:
-                                                  WrapAlignment.spaceEvenly,
-                                              children: _player!.gameStatsList!
-                                                  .map(
-                                                    (stat) => ConstrainedBox(
-                                                        constraints:
-                                                            const BoxConstraints(
-                                                                maxWidth: 160,
-                                                                maxHeight: 160),
-                                                        child: _StatGauge(
-                                                            gameStats: stat)),
-                                                  )
-                                                  .toList()
-                                                  .cast<Widget>()),
-                                        )
-                                      ])
+            );
+          }
+          _player = snapshot.data;
+          return ChangeNotifierProvider.value(
+            value: _player!,
+            child: Consumer<Player>(
+              builder: (context, player, _) => CustomScrollView(
+                slivers: [
+                  SliverAppBar(
+                    automaticallyImplyLeading: false,
+                    floating: true,
+                    pinned: true,
+                    forceElevated: true,
+                    expandedHeight: 200,
+                    collapsedHeight: 140,
+                    title: _AppBarTitle(
+                      onPressEdit: _showSettingsScreen,
+                    ),
+                    flexibleSpace: FlexibleSpaceBar(
+                      centerTitle: true,
+                      title: _PlayerUsernameAndProfilePictureWidget(
+                          player: _player, animation: _opacityAnimation),
+                    ),
+                  ),
+                  SliverList(
+                    delegate: SliverChildListDelegate(
+                      [
+                        _player!.gameStatsList!.isNotEmpty
+                            ? Column(children: [
+                                _StatCircularChart(
+                                    gameStatsList: _player!.gameStatsList),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 30),
+                                  child: Text(
+                                      '-- ${AppLocalizations.of(context)!.winPercentage} --',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyText2!
+                                          .copyWith(
+                                              fontStyle: FontStyle.italic)),
+                                ),
+                                _WonPlayedWidget(player: _player),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 30),
+                                  child: Wrap(
+                                      runSpacing: 20,
+                                      spacing: 80,
+                                      alignment: WrapAlignment.spaceEvenly,
+                                      children: _player!.gameStatsList!
+                                          .map(
+                                            (stat) => ConstrainedBox(
+                                                constraints:
+                                                    const BoxConstraints(
+                                                        maxWidth: 160,
+                                                        maxHeight: 160),
+                                                child: _StatGauge(
+                                                    gameStats: stat)),
+                                          )
+                                          .toList()
+                                          .cast<Widget>()),
+                                )
+                              ])
                             : Center(
                                 child: Padding(
                                   padding: const EdgeInsets.all(30),
@@ -281,17 +277,17 @@ class _StatGauge extends StatelessWidget {
                     style: const TextStyle(
                         fontWeight: FontWeight.bold, fontSize: 22),
                   )),
-                GaugeAnnotation(
-                    axisValue: 50,
-                    positionFactor: 0.3,
-                    widget: Text(
-                      '${gameStats!.wonGames} | ${gameStats!.playedGames}',
-                      style: const TextStyle(fontSize: 15),
-                    ))
-              ],
-              startAngle: 270,
-              endAngle: 270,
-              interval: 10,
+              GaugeAnnotation(
+                  axisValue: 50,
+                  positionFactor: 0.3,
+                  widget: Text(
+                    '${gameStats!.wonGames} | ${gameStats!.playedGames}',
+                    style: const TextStyle(fontSize: 15),
+                  ))
+            ],
+            startAngle: 270,
+            endAngle: 270,
+            interval: 10,
             showLabels: false,
             showTicks: false,
             ranges: <GaugeRange>[
@@ -366,11 +362,13 @@ class _PlayerUsernameAndProfilePictureWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-      Flexible(
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 6.0),
-          child: SlideTransition(
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        Flexible(
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 6.0),
+            child: SlideTransition(
               position: animation,
               child: Container(
                 width: 80,

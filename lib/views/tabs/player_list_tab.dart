@@ -51,74 +51,75 @@ class _PlayerListTabWidget extends State<PlayerListTab> {
   Widget build(BuildContext context) {
     var deviceSize = MediaQuery.of(context).size;
     return Scaffold(
-      body: Column(children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 15),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                width: deviceSize.width * 0.5,
-                child: TextFormField(
-                    onFieldSubmitted: (term) => _searchPlayer(),
-                    controller: textEditingController,
-                    textInputAction: TextInputAction.search,
-                    style: const TextStyle(
-                        fontSize: 25, fontWeight: FontWeight.bold),
-                    decoration: InputDecoration(
-                      enabledBorder: InputBorder.none,
-                      labelText: '${AppLocalizations.of(context)!.search}...',
-                    )),
-              ),
-              MaterialButton(
-                key: const ValueKey('resetSearchButton'),
-                onPressed: () => _resetSearch(),
-                color: Theme.of(context).primaryColor,
-                textColor: Colors.white,
-                padding: EdgeInsets.zero,
-                shape: const CircleBorder(),
-                child: const Icon(Icons.close),
-              ),
-              SizedBox(
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 15),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: deviceSize.width * 0.5,
+                  child: TextFormField(
+                      onFieldSubmitted: (term) => _searchPlayer(),
+                      controller: textEditingController,
+                      textInputAction: TextInputAction.search,
+                      style: const TextStyle(
+                          fontSize: 25, fontWeight: FontWeight.bold),
+                      decoration: InputDecoration(
+                        enabledBorder: InputBorder.none,
+                        labelText: '${AppLocalizations.of(context)!.search}...',
+                      )),
+                ),
+                MaterialButton(
+                  key: const ValueKey('resetSearchButton'),
+                  onPressed: () => _resetSearch(),
+                  color: Theme.of(context).primaryColor,
+                  textColor: Colors.white,
+                  padding: EdgeInsets.zero,
+                  shape: const CircleBorder(),
+                  child: const Icon(Icons.close),
+                ),
+                SizedBox(
                   width: 50,
                   child: Image.asset(Const.algoliaLogo),
                 ),
-            ],
+              ],
+            ),
           ),
-        ),
-        const Padding(
-          padding: EdgeInsets.all(4.0),
-          child: AdBannerWidget(),
-        ),
-        Flexible(
-          child: FutureBuilder<List<Player>>(
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              }
-              if (snapshot.connectionState == ConnectionState.none ||
-                  snapshot.data == null) {
-                return ErrorMessageWidget(message: _errorMessage);
-              }
-              if (snapshot.data!.isEmpty) {
-                return Center(
-                  child: Row(
-                    key: const ValueKey('noPlayersMessage'),
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text('${AppLocalizations.of(context)!.noPlayerYet} ',
-                          style: const TextStyle(fontSize: 18)),
-                      const Icon(Icons.person),
-                    ],
-                  ),
-                );
-              }
-              return ListView.builder(
-                  padding: const EdgeInsets.all(10),
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return ChangeNotifierProvider.value(
-                      value: snapshot.data![index],
+          const Padding(
+            padding: EdgeInsets.all(4.0),
+            child: AdBannerWidget(),
+          ),
+          Flexible(
+            child: FutureBuilder<List<Player>>(
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                if (snapshot.connectionState == ConnectionState.none ||
+                    snapshot.data == null) {
+                  return ErrorMessageWidget(message: _errorMessage);
+                }
+                if (snapshot.data!.isEmpty) {
+                  return Center(
+                    child: Row(
+                      key: const ValueKey('noPlayersMessage'),
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text('${AppLocalizations.of(context)!.noPlayerYet} ',
+                            style: const TextStyle(fontSize: 18)),
+                        const Icon(Icons.person),
+                      ],
+                    ),
+                  );
+                }
+                return ListView.builder(
+                    padding: const EdgeInsets.all(10),
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return ChangeNotifierProvider.value(
+                        value: snapshot.data![index],
                         child: Consumer<Player>(
                           builder: (context, playerData, child) => PlayerWidget(
                             player: playerData,
