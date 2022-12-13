@@ -37,12 +37,14 @@ class _UserScreenState extends State<UserScreen>
   Future _showSettingsScreen() async {
     if (_player != null) {
       await Navigator.push(
-          context,
-          CustomRouteFade(
-              builder: (context) => SettingsScreen(
-                    player: _player!,
-                    playerService: PlayerService(),
-                  )));
+        context,
+        CustomRouteFade(
+          builder: (context) => SettingsScreen(
+            player: _player!,
+            playerService: PlayerService(),
+          ),
+        ),
+      );
     }
   }
 
@@ -57,11 +59,20 @@ class _UserScreenState extends State<UserScreen>
   @override
   void initState() {
     _animationController = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 1100));
+      vsync: this,
+      duration: const Duration(
+        milliseconds: 1100,
+      ),
+    );
     _opacityAnimation = Tween<Offset>(
-            begin: const Offset(0.0, -1.0), end: const Offset(0.0, 0.0))
-        .animate(
-            CurvedAnimation(parent: _animationController, curve: Curves.ease));
+      begin: const Offset(0.0, -1.0),
+      end: const Offset(0.0, 0.0),
+    ).animate(
+      CurvedAnimation(
+        parent: _animationController,
+        curve: Curves.ease,
+      ),
+    );
     _animationController.forward();
     super.initState();
   }
@@ -112,20 +123,31 @@ class _UserScreenState extends State<UserScreen>
                         message: _errorMessage ??
                             AppLocalizations.of(context)!.youDontHaveAnyPlayer),
                     ElevatedButton.icon(
-                        style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(
-                                Theme.of(context).primaryColor),
-                            foregroundColor: MaterialStateProperty.all<Color>(
-                                Theme.of(context).cardColor),
-                            shape: MaterialStateProperty.all<OutlinedBorder>(
-                                RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(
-                                        CustomProperties.borderRadius)))),
-                        onPressed: () async => _signOut(),
-                        label: Text(AppLocalizations.of(context)!.connection,
-                            style: const TextStyle(fontSize: 14)),
-                        icon: const Icon(Icons.arrow_back)),
-                  ],
+                      style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all<Color>(
+                        Theme.of(context).primaryColor),
+                    foregroundColor: MaterialStateProperty.all<Color>(
+                        Theme.of(context).cardColor),
+                    shape: MaterialStateProperty.all<OutlinedBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                          CustomProperties.borderRadius,
+                        ),
+                      ),
+                    ),
+                  ),
+                  onPressed: () async => _signOut(),
+                  label: Text(
+                    AppLocalizations.of(context)!.connection,
+                    style: const TextStyle(
+                      fontSize: 14,
+                    ),
+                  ),
+                  icon: const Icon(
+                    Icons.arrow_back,
+                  ),
+                ),
+              ],
                 );
               }
               if (snapshot.data == null) {
@@ -133,9 +155,13 @@ class _UserScreenState extends State<UserScreen>
                   child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Text(AppLocalizations.of(context)!.noPlayerYet,
-                            style: const TextStyle(fontSize: 18))
-                      ]),
+                        Text(
+                      AppLocalizations.of(context)!.noPlayerYet,
+                      style: const TextStyle(
+                        fontSize: 18,
+                      ),
+                    )
+                  ]),
                 );
               }
               _player = snapshot.data;
@@ -203,23 +229,29 @@ class _UserScreenState extends State<UserScreen>
                                                   .cast<Widget>()),
                                         )
                                       ])
-                                    : Center(
-                                        child: Padding(
-                                        padding: const EdgeInsets.all(30),
-                                        child: Text(
-                                          AppLocalizations.of(context)!
-                                              .noStatisticYet,
-                                          style: const TextStyle(
-                                              fontSize: 25,
-                                              fontStyle: FontStyle.italic),
-                                        ),
-                                      ))
-                              ]),
-                            )
-                          ],
-                        )),
-              );
-            }));
+                            : Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(30),
+                                  child: Text(
+                                    AppLocalizations.of(context)!
+                                        .noStatisticYet,
+                                    style: const TextStyle(
+                                      fontSize: 25,
+                                      fontStyle: FontStyle.italic,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
+    );
   }
 }
 
@@ -233,22 +265,22 @@ class _StatGauge extends StatelessWidget {
     return InkWell(
       child: SfRadialGauge(
         title: GaugeTitle(
-            text: gameStats!.gameType.name,
-            textStyle: Theme.of(context)
-                .textTheme
-                .bodyText2!
-                .copyWith(fontWeight: FontWeight.bold)),
+          text: gameStats!.gameType.name,
+          textStyle: Theme.of(context).textTheme.bodyText2!.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+        ),
         axes: <RadialAxis>[
           RadialAxis(
-              annotations: <GaugeAnnotation>[
-                GaugeAnnotation(
-                    axisValue: 50,
-                    positionFactor: 0,
-                    widget: Text(
-                      '${gameStats!.winPercentage().toString()}%',
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 22),
-                    )),
+            annotations: <GaugeAnnotation>[
+              GaugeAnnotation(
+                  axisValue: 50,
+                  positionFactor: 0,
+                  widget: Text(
+                    '${gameStats!.winPercentage().toString()}%',
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 22),
+                  )),
                 GaugeAnnotation(
                     axisValue: 50,
                     positionFactor: 0.3,
@@ -260,18 +292,20 @@ class _StatGauge extends StatelessWidget {
               startAngle: 270,
               endAngle: 270,
               interval: 10,
-              showLabels: false,
-              showTicks: false,
-              ranges: <GaugeRange>[
-                GaugeRange(
-                    startValue: 0,
-                    endValue: gameStats!.winPercentage(),
-                    color: Theme.of(context).primaryColor),
-                GaugeRange(
-                    startValue: gameStats!.winPercentage(),
-                    endValue: 100,
-                    color: Theme.of(context).colorScheme.secondary),
-              ]),
+            showLabels: false,
+            showTicks: false,
+            ranges: <GaugeRange>[
+              GaugeRange(
+                  startValue: 0,
+                  endValue: gameStats!.winPercentage(),
+                  color: Theme.of(context).primaryColor),
+              GaugeRange(
+                startValue: gameStats!.winPercentage(),
+                endValue: 100,
+                color: Theme.of(context).colorScheme.secondary,
+              ),
+            ],
+          ),
         ],
         enableLoadingAnimation: true,
       ),
@@ -339,24 +373,35 @@ class _PlayerUsernameAndProfilePictureWidget extends StatelessWidget {
           child: SlideTransition(
               position: animation,
               child: Container(
-                  width: 80,
-                  height: 80,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                        width: 2, color: _getBackgroundColor(context)),
-                    image: DecorationImage(
-                        fit: BoxFit.fill,
-                        image: NetworkImage(player!.profilePicture)),
-                  ))),
+                width: 80,
+                height: 80,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    width: 2,
+                    color: _getBackgroundColor(context),
+                  ),
+                  image: DecorationImage(
+                    fit: BoxFit.fill,
+                    image: NetworkImage(
+                      player!.profilePicture,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
         ),
-      ),
-      Center(
-          child: Text(player!.userName,
-              overflow: TextOverflow.ellipsis,
-              style: const TextStyle(fontSize: 25),
-              textAlign: TextAlign.center))
-    ]);
+        Center(
+          child: Text(
+            player!.userName,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(fontSize: 25),
+            textAlign: TextAlign.center,
+          ),
+        )
+      ],
+    );
   }
 }
 
@@ -373,21 +418,26 @@ class _AppBarTitle extends StatelessWidget {
         Text(AppLocalizations.of(context)!.profileTitle,
             style: CustomTextStyle.screenHeadLine1(context)),
         ElevatedButton.icon(
-            style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(
-                    Theme.of(context).cardColor),
-                foregroundColor: MaterialStateProperty.all<Color>(
-                    Theme.of(context).primaryColor),
-                shape: MaterialStateProperty.all<OutlinedBorder>(
-                    RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                            CustomProperties.borderRadius)))),
-            onPressed: () async => await onPressEdit(),
-            label: Text(AppLocalizations.of(context)!.settings),
-            icon: const Icon(
-              FontAwesomeIcons.gears,
-              size: 13,
-            ))
+          style: ButtonStyle(
+            backgroundColor:
+                MaterialStateProperty.all<Color>(Theme.of(context).cardColor),
+            foregroundColor: MaterialStateProperty.all<Color>(
+                Theme.of(context).primaryColor),
+            shape: MaterialStateProperty.all<OutlinedBorder>(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(
+                  CustomProperties.borderRadius,
+                ),
+              ),
+            ),
+          ),
+          onPressed: () async => await onPressEdit(),
+          label: Text(AppLocalizations.of(context)!.settings),
+          icon: const Icon(
+            FontAwesomeIcons.gears,
+            size: 13,
+          ),
+        ),
       ],
     );
   }
