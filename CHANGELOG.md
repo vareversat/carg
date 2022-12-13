@@ -1,3 +1,11 @@
+# **v1.8.0** :
+
+- *Fix* :
+  - Fix the purchase restoration
+- *Features* :
+  - Add the localization support (FR and EN as a fallback language)
+
+***
 # **v1.7.1** :
 
 - *Fix* :
