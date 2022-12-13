@@ -38,6 +38,8 @@ jobs:
         with:
           ruby-version: '3.0'
           bundler-cache: true
+        env:
+          BUNDLE_GEMFILE: 'android/Gemfile'
       - name: 'Fastlane deploy ${{ inputs.lane }} lane'
         uses: maierj/fastlane-action@v3.0.0
         with:
