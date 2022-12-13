@@ -3,6 +3,7 @@ import 'package:carg/services/player/abstract_player_service.dart';
 import 'package:carg/views/dialogs/player_info_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class APIMiniPlayerWidget extends StatelessWidget {
   final String? playerId;
@@ -14,7 +15,6 @@ class APIMiniPlayerWidget extends StatelessWidget {
   final Color? selectedColor;
   final String additionalText;
   final AbstractPlayerService playerService;
-  final String _errorMessage = 'player missing';
 
   const APIMiniPlayerWidget(
       {Key? key,
@@ -99,7 +99,8 @@ class APIMiniPlayerWidget extends StatelessWidget {
                       color: Theme.of(context).errorColor,
                       shape: BoxShape.circle,
                     )),
-                    label: Text(_errorMessage))),
+                    label: Text(
+                        AppLocalizations.of(context)!.errorPlayerNotFound))),
           );
         }
         return AnimatedSwitcher(

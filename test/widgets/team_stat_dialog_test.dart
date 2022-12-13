@@ -9,13 +9,16 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 
+import 'localized_testable_widget.dart';
 import 'team_stat_dialog_test.mocks.dart';
 
-Widget testableWidget(Team team) => MaterialApp(
-      home: TeamStatDialog(
-        playerService: mockPlayerService,
-        teamService: mockTeamService,
-        team: team,
+Widget testableWidget(Team team) => localizedTestableWidget(
+      Scaffold(
+        body: TeamStatDialog(
+          playerService: mockPlayerService,
+          teamService: mockTeamService,
+          team: team,
+        ),
       ),
     );
 

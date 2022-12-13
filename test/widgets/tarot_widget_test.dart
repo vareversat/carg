@@ -14,14 +14,17 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 
+import 'localized_testable_widget.dart';
 import 'tarot_widget_test.mocks.dart';
 
-Widget testableWidget(Tarot tarotGame) => MaterialApp(
-    home: TarotWidget(
+Widget testableWidget(Tarot tarotGame) => localizedTestableWidget(
+      TarotWidget(
         tarotGame: tarotGame,
         gameService: mockAbstractGameService,
         scoreService: mockAbstractScoreService,
-        playerService: mockAbstractPlayerService));
+        playerService: mockAbstractPlayerService,
+      ),
+    );
 
 final mockAbstractGameService = MockAbstractTarotGameService();
 final mockAbstractScoreService = MockAbstractTarotScoreService();

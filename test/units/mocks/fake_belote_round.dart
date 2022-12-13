@@ -3,8 +3,7 @@ import 'package:carg/models/score/round/belote_round.dart';
 
 class FakeBeloteRound extends BeloteRound {
   @override
-  void computeRound() {
-  }
+  void computeRound() {}
 
   @override
   int getTrickPointsOfTeam(BeloteTeamEnum team) {
@@ -14,5 +13,4 @@ class FakeBeloteRound extends BeloteRound {
       return 20;
     }
   }
-
 }

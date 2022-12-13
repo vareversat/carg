@@ -1,6 +1,6 @@
 import 'package:carg/models/player.dart';
 import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 
 abstract class Players with ChangeNotifier {
   List<dynamic>? playerList;
@@ -23,7 +23,7 @@ abstract class Players with ChangeNotifier {
 
   void onSelectedPlayer(Player player);
 
-  String getSelectedPlayersStatus();
+  String getSelectedPlayersStatus(BuildContext context);
 
   bool isFull();
 

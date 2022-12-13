@@ -1,7 +1,7 @@
 import 'package:carg/models/score/french_belote_score.dart';
+import 'package:carg/services/impl/score/french_belote_score_service.dart';
 import 'package:flutter/material.dart';
-
-import '../../services/impl/score/french_belote_score_service.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class BeloteRoundWidget extends StatefulWidget {
   final String beloteGameId;
@@ -36,9 +36,9 @@ class _BeloteRoundWidgetState extends State<BeloteRoundWidget> {
         if (snapshot.data != null) {
           return Column(
             children: <Widget>[
-              const Flexible(
+              Flexible(
                 flex: 1,
-                child: Text('Score'),
+                child: Text(AppLocalizations.of(context)!.score),
               ),
               Flexible(
                 flex: 5,
@@ -99,7 +99,7 @@ class _BeloteRoundWidgetState extends State<BeloteRoundWidget> {
             ],
           );
         }
-        return const Text('Pas de score pour le moment');
+        return Text(AppLocalizations.of(context)!.noScoreYet);
       },
       future: _roundService.getScoreByGame(widget.beloteGameId),
     );

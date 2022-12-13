@@ -1,5 +1,7 @@
+import 'package:carg/const.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/svg.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -17,13 +19,13 @@ class SplashScreen extends StatelessWidget {
             SizedBox(
               height: 60,
               width: 60,
-              child: SvgPicture.asset('assets/images/card_game.svg'),
+              child: SvgPicture.asset(Const.svgLogoPath),
             ),
-            const Padding(
-              padding: EdgeInsets.all(8.0),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
               child: Text(
-                'Démarrage...',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                '${AppLocalizations.of(context)!.startup}...',
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
             const SizedBox(

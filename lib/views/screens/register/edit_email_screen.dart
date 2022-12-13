@@ -1,8 +1,10 @@
+import 'package:carg/const.dart';
 import 'package:carg/services/auth/auth_service.dart';
 import 'package:carg/views/widgets/register/register_email_widget.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/svg.dart';
 
 class EditEmailScreen extends StatelessWidget {
@@ -13,29 +15,37 @@ class EditEmailScreen extends StatelessWidget {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.dark,
       child: Scaffold(
-          body: Center(
-              child: SingleChildScrollView(
-        child: Column(children: <Widget>[
-          const SizedBox(height: 30),
-          SizedBox(
-            height: 150,
-            child: SvgPicture.asset(
-              'assets/images/card_game.svg',
+        body: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                const SizedBox(height: 30),
+                SizedBox(
+                  height: 150,
+                  child: SvgPicture.asset(
+                    Const.svgLogoPath,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(35),
+                  child: Text(
+                    AppLocalizations.of(context)!.newEmail,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                RegisterEmailWidget(
+                  credentialVerificationType: CredentialVerificationType.EDIT,
+                  linkProvider: FirebaseDynamicLinks.instance,
+                ),
+              ],
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.all(35),
-            child: Text(
-              'Nouvelle adresse e-mail',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
-              textAlign: TextAlign.center,
-            ),
-          ),
-          RegisterEmailWidget(
-              credentialVerificationType: CredentialVerificationType.EDIT,
-              linkProvider: FirebaseDynamicLinks.instance)
-        ]),
-      ))),
+        ),
+      ),
     );
   }
 }

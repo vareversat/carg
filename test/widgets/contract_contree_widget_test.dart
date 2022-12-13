@@ -5,8 +5,16 @@ import 'package:carg/views/screens/add_round/widget/team_game/contract_contree_w
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-Widget testableWidget(ContreeBeloteRound contreeRound) => MaterialApp(
-    home: Scaffold(body: ContractContreeWidget(contreeRound: contreeRound)));
+import 'localized_testable_widget.dart';
+
+Widget testableWidget(ContreeBeloteRound contreeRound) =>
+    localizedTestableWidget(
+      Scaffold(
+        body: ContractContreeWidget(
+          contreeRound: contreeRound,
+        ),
+      ),
+    );
 
 void main() {
   late ContreeBeloteRound contreeRound;

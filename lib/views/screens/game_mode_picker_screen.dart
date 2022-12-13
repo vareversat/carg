@@ -9,11 +9,9 @@ import 'package:carg/styles/properties.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/screens/player_picker_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class GameModePickerScreen extends StatelessWidget {
-  final _appBarTitle = 'Nouvelle partie';
-  final _title = 'Sélection du jeu';
-
   const GameModePickerScreen({Key? key}) : super(key: key);
 
   @override
@@ -23,13 +21,21 @@ class GameModePickerScreen extends StatelessWidget {
         preferredSize: const Size.fromHeight(60),
         child: AppBar(
           leading: IconButton(
-            icon: const Icon(Icons.close),
-            onPressed: () => Navigator.pop(context),
+            icon: const Icon(
+              Icons.close,
+            ),
+            onPressed: () => Navigator.pop(
+              context,
+            ),
           ),
           title: Hero(
             tag: 'game_screen_title',
-            child: Text(_appBarTitle,
-                style: CustomTextStyle.screenHeadLine1(context)),
+            child: Text(
+              AppLocalizations.of(context)!.newGame,
+              style: CustomTextStyle.screenHeadLine1(
+                context,
+              ),
+            ),
           ),
         ),
       ),
@@ -39,7 +45,7 @@ class GameModePickerScreen extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text(_title,
+              child: Text(AppLocalizations.of(context)!.gameSelection,
                   style: const TextStyle(
                       fontSize: 20, fontWeight: FontWeight.bold)),
             ),
@@ -51,8 +57,12 @@ class GameModePickerScreen extends StatelessWidget {
                     _GameModeButton(
                       game: CoincheBelote(),
                     ),
-                    _GameModeButton(game: FrenchBelote()),
-                    _GameModeButton(game: ContreeBelote()),
+                    _GameModeButton(
+                      game: FrenchBelote(),
+                    ),
+                    _GameModeButton(
+                      game: ContreeBelote(),
+                    ),
                     _GameModeButton(
                       game: Tarot(),
                     )
@@ -76,28 +86,39 @@ class _GameModeButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: SizedBox(
-          width: double.infinity,
-          height: 55,
-          child: ElevatedButton(
-            style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(
-                    Theme.of(context).primaryColor),
-                foregroundColor: MaterialStateProperty.all<Color>(
-                    Theme.of(context).cardColor),
-                shape: MaterialStateProperty.all<OutlinedBorder>(
-                    RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                            CustomProperties.borderRadius)))),
-            onPressed: () => {
-              Navigator.of(context).push(CustomRouteLeftToRight(
-                  builder: (context) => PlayerPickerScreen(
-                      game: game, title: game!.gameType.name)))
-            },
-            child:
-                Text(game!.gameType.name, style: const TextStyle(fontSize: 25)),
+      padding: const EdgeInsets.all(8.0),
+      child: SizedBox(
+        width: double.infinity,
+        height: 55,
+        child: ElevatedButton(
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all<Color>(
+              Theme.of(context).primaryColor,
+            ),
+            foregroundColor: MaterialStateProperty.all<Color>(
+              Theme.of(context).cardColor,
+            ),
+            shape: MaterialStateProperty.all<OutlinedBorder>(
+              RoundedRectangleBorder(
+                borderRadius:
+                    BorderRadius.circular(CustomProperties.borderRadius),
+              ),
+            ),
           ),
-        ));
+          onPressed: () => {
+            Navigator.of(context).push(
+              CustomRouteLeftToRight(
+                builder: (context) =>
+                    PlayerPickerScreen(game: game, title: game!.gameType.name),
+              ),
+            )
+          },
+          child: Text(
+            game!.gameType.name,
+            style: const TextStyle(fontSize: 25),
+          ),
+        ),
+      ),
+    );
   }
 }

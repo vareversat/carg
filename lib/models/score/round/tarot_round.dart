@@ -9,6 +9,8 @@ import 'package:carg/models/score/misc/tarot_team.dart';
 import 'package:carg/models/score/round/round.dart';
 import 'package:carg/models/score/tarot_score.dart';
 import 'package:enum_to_string/enum_to_string.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TarotRound extends Round {
   static const double maxTrickPoints = 91;
@@ -221,14 +223,14 @@ class TarotRound extends Round {
   }
 
   @override
-  String realTimeDisplay() {
+  String realTimeDisplay(BuildContext context) {
     if (players!.playerList!.length <= 4) {
-      return 'Attaquant : ${attackScore.toStringAsFixed(1)} '
-          '| Défenseurs : ${defenseScore.toStringAsFixed(1)}';
+      return '${AppLocalizations.of(context)!.tarotAttackers} : ${attackScore.toStringAsFixed(1)} '
+          '| ${AppLocalizations.of(context)!.tarotDefenders} : ${defenseScore.toStringAsFixed(1)}';
     } else {
-      return 'Attaquant : ${(attackScore.round() * (2 / 3)).toStringAsFixed(1)} '
-          '| Appelé ${(attackScore * (1 / 3)).toStringAsFixed(1)} '
-          '| Défenseurs : ${defenseScore.toStringAsFixed(1)}';
+      return '${AppLocalizations.of(context)!.tarotAttackers} : ${(attackScore.round() * (2 / 3)).toStringAsFixed(1)} '
+          '| ${AppLocalizations.of(context)!.tarotCalled} ${(attackScore * (1 / 3)).toStringAsFixed(1)} '
+          '| ${AppLocalizations.of(context)!.tarotDefenders} : ${defenseScore.toStringAsFixed(1)}';
     }
   }
 

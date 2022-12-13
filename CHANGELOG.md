@@ -1,3 +1,22 @@
+# **v1.8.0** :
+
+- *Fix* :
+  - Fix the purchase restoration
+- *Features* :
+  - Add the localization support (FR and EN as a fallback language)
+
+***
+# **v1.7.1** :
+
+- *Fix* :
+  - Fix the purchase restoration
+  - Add `app-ads.txt` to the root of https://carg.vareversat.fr
+***
+# **v1.7.0** :
+
+- *Features* :
+  - Display ads to generate some revenues and add the in purchase app to remove the add banners
+***
 # **v1.6.1** :
 
 - *Fix* :

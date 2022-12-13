@@ -3,6 +3,7 @@ import 'package:carg/services/game/abstract_game_service.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NotesDialog extends StatefulWidget {
   final Game game;
@@ -29,13 +30,15 @@ class _NotesDialogState extends State<NotesDialog> {
       actionsPadding: const EdgeInsets.fromLTRB(0, 0, 20, 10),
       title: Container(
         decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.secondary,
-            borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(15.0),
-                topRight: Radius.circular(15.0))),
+          color: Theme.of(context).colorScheme.secondary,
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(15.0),
+            topRight: Radius.circular(15.0),
+          ),
+        ),
         padding: const EdgeInsets.fromLTRB(20, 20, 0, 15),
         child: Text(
-          'Notes de partie',
+          AppLocalizations.of(context)!.gameNotes,
           overflow: TextOverflow.ellipsis,
           style: CustomTextStyle.dialogHeaderStyle(context),
         ),
@@ -45,9 +48,13 @@ class _NotesDialogState extends State<NotesDialog> {
         onChanged: (text) => widget.game.notes = text,
         initialValue: widget.game.notes,
         decoration: InputDecoration(
-            focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(
-                    color: Theme.of(context).colorScheme.secondary, width: 2))),
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(
+              color: Theme.of(context).colorScheme.secondary,
+              width: 2,
+            ),
+          ),
+        ),
         style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
         minLines: 1,
         maxLines: 5,
@@ -56,33 +63,44 @@ class _NotesDialogState extends State<NotesDialog> {
       ),
       actions: <Widget>[
         ElevatedButton.icon(
-            style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(
-                    Theme.of(context).colorScheme.secondary),
-                foregroundColor: MaterialStateProperty.all<Color>(
-                    Theme.of(context).cardColor),
-                shape: MaterialStateProperty.all<OutlinedBorder>(
-                    RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                            CustomProperties.borderRadius)))),
-            onPressed: () async => {
-                  await widget.gameService.update(widget.game),
-                  Navigator.pop(context)
-                },
-            label: Text(
-              MaterialLocalizations.of(context).okButtonLabel,
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all<Color>(
+                Theme.of(context).colorScheme.secondary),
+            foregroundColor:
+                MaterialStateProperty.all<Color>(Theme.of(context).cardColor),
+            shape: MaterialStateProperty.all<OutlinedBorder>(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(
+                  CustomProperties.borderRadius,
+                ),
+              ),
             ),
-            icon: const Icon(Icons.check)),
+          ),
+          onPressed: () async => {
+            await widget.gameService.update(widget.game),
+            Navigator.pop(context)
+          },
+          label: Text(
+            MaterialLocalizations.of(context).okButtonLabel,
+          ),
+          icon: const Icon(
+            Icons.check,
+          ),
+        ),
         ElevatedButton.icon(
           style: ButtonStyle(
-              backgroundColor:
-                  MaterialStateProperty.all<Color>(Theme.of(context).cardColor),
-              foregroundColor: MaterialStateProperty.all<Color>(
-                  Theme.of(context).colorScheme.secondary),
-              shape: MaterialStateProperty.all<OutlinedBorder>(
-                  RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(
-                          CustomProperties.borderRadius)))),
+            backgroundColor:
+                MaterialStateProperty.all<Color>(Theme.of(context).cardColor),
+            foregroundColor: MaterialStateProperty.all<Color>(
+                Theme.of(context).colorScheme.secondary),
+            shape: MaterialStateProperty.all<OutlinedBorder>(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(
+                  CustomProperties.borderRadius,
+                ),
+              ),
+            ),
+          ),
           onPressed: () => {Navigator.pop(context)},
           icon: const Icon(Icons.close),
           label: Text(

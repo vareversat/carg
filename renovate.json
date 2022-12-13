@@ -14,7 +14,6 @@
       "schedule": ["after 2pm on sunday"],
       "automerge": true,
       "assigneesFromCodeOwners": false,
-      "commitMessageAction": "chore(dependency): update ",
       "commitMessageTopic": "{{depName}}"
     },
     {
@@ -26,7 +25,6 @@
       "schedule": ["after 2pm on sunday"],
       "automerge": false,
       "assigneesFromCodeOwners": true,
-      "commitMessageAction": "chore(dependency): update ",
       "commitMessageTopic": "{{depName}}"
     }
   ]

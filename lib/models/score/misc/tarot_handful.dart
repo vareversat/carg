@@ -1,4 +1,6 @@
 // ignore_for_file: constant_identifier_names
+import 'package:flutter/widgets.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 enum TarotHandful { SIMPLE, DOUBLE, TRIPLE }
 
@@ -29,14 +31,14 @@ extension TarotHandfulExtension on TarotHandful? {
     }
   }
 
-  String? get name {
+  String? name(BuildContext context) {
     switch (this) {
       case TarotHandful.SIMPLE:
-        return 'Simple';
+        return AppLocalizations.of(context)!.tarotPoigneeSimple;
       case TarotHandful.DOUBLE:
-        return 'Double';
+        return AppLocalizations.of(context)!.tarotPoigneeDouble;
       case TarotHandful.TRIPLE:
-        return 'Triple';
+        return AppLocalizations.of(context)!.tarotPoigneeTriple;
       default:
         return null;
     }

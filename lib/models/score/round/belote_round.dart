@@ -2,6 +2,7 @@ import 'package:carg/models/score/misc/belote_team_enum.dart';
 import 'package:carg/models/score/misc/card_color.dart';
 import 'package:carg/models/score/round/round.dart';
 import 'package:enum_to_string/enum_to_string.dart';
+import 'package:flutter/widgets.dart';
 
 abstract class BeloteRound extends Round {
   static const int beloteRebeloteBonus = 20;
@@ -127,8 +128,8 @@ abstract class BeloteRound extends Round {
   }
 
   @override
-  String realTimeDisplay() {
-    return '${taker.name} : ${takerScore.toString()} | ${defender.name} : ${defenderScore.toString()}';
+  String realTimeDisplay(BuildContext context) {
+    return '${taker.name(context)} : ${takerScore.toString()} | ${defender.name(context)} : ${defenderScore.toString()}';
   }
 
   Map<String, dynamic> toJSON() {

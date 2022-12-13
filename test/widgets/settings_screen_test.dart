@@ -9,15 +9,19 @@ import 'package:mockito/mockito.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 import 'package:provider/provider.dart';
 
+import 'localized_testable_widget.dart';
 import 'settings_screen_test.mocks.dart';
 
 Widget testableWidget(AuthService mockAuthService, PlayerService playerService,
         Player mockPlayer) =>
-    MaterialApp(
-      home: ChangeNotifierProvider<AuthService>.value(
-          value: mockAuthService,
-          child:
-              SettingsScreen(player: mockPlayer, playerService: playerService)),
+    localizedTestableWidget(
+      ChangeNotifierProvider<AuthService>.value(
+        value: mockAuthService,
+        child: SettingsScreen(
+          player: mockPlayer,
+          playerService: playerService,
+        ),
+      ),
     );
 
 @GenerateMocks([PlayerService, AuthService])
@@ -110,7 +114,7 @@ void main() {
       await mockNetworkImagesFor(() => tester.pumpWidget(
           testableWidget(authService, mockPlayerService, mockPlayer)));
       expect(tester.widget<Text>(find.byKey(const ValueKey('emailText'))).data,
-          "Pas d'email renseigné'");
+          "Pas d'email renseigné");
     });
 
     testWidgets('No phone number', (WidgetTester tester) async {
@@ -118,7 +122,7 @@ void main() {
       await mockNetworkImagesFor(() => tester.pumpWidget(
           testableWidget(authService, mockPlayerService, mockPlayer)));
       expect(tester.widget<Text>(find.byKey(const ValueKey('phoneText'))).data,
-          'Pas de numéro renseigné');
+          'Pas de numéro de téléphone renseigné');
     });
 
     testWidgets('Must display the "Admin" label', (WidgetTester tester) async {

@@ -7,8 +7,13 @@ import 'package:carg/views/widgets/register/game_title_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-Widget testableWidget(Game game) =>
-    MaterialApp(home: GameTitleWidget(game: game));
+import 'localized_testable_widget.dart';
+
+Widget testableWidget(Game game) => localizedTestableWidget(
+      GameTitleWidget(
+        game: game,
+      ),
+    );
 
 void main() {
   late Tarot tarotGame;
@@ -31,7 +36,7 @@ void main() {
     await tester.pumpWidget(testableWidget(tarotGame));
 
     expect(find.text('En cours'), findsOneWidget);
-    expect(find.text('07/09/2017, 17:30'), findsOneWidget);
+    expect(find.text('7 septembre 2017'), findsOneWidget);
   });
 
   testWidgets("French belote - must display 'Terminée' and '07/09/2020, 17:30'",
@@ -39,7 +44,7 @@ void main() {
     await tester.pumpWidget(testableWidget(frenchBelote));
 
     expect(find.text('Terminée'), findsOneWidget);
-    expect(find.text('07/09/2020, 17:30'), findsOneWidget);
+    expect(find.text('7 septembre 2020'), findsOneWidget);
   });
 
   testWidgets(
@@ -48,7 +53,7 @@ void main() {
     await tester.pumpWidget(testableWidget(coincheBelote));
 
     expect(find.text('En cours'), findsOneWidget);
-    expect(find.text('07/09/2017, 17:30'), findsOneWidget);
+    expect(find.text('7 septembre 2017'), findsOneWidget);
   });
 
   testWidgets("Contre belote - must display 'Terminée' and '07/09/2017, 17:30'",
@@ -56,6 +61,6 @@ void main() {
     await tester.pumpWidget(testableWidget(contreeBelote));
 
     expect(find.text('Terminée'), findsOneWidget);
-    expect(find.text('07/09/2017, 17:30'), findsOneWidget);
+    expect(find.text('7 septembre 2017'), findsOneWidget);
   });
 }

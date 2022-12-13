@@ -1,6 +1,9 @@
+import 'package:carg/const.dart';
+import 'package:carg/exceptions/custom_exception.dart';
 import 'package:carg/helpers/custom_route.dart';
 import 'package:carg/services/auth/auth_service.dart';
 import 'package:carg/styles/properties.dart';
+import 'package:carg/views/helpers/info_snackbar.dart';
 import 'package:carg/views/widgets/register/register_email_widget.dart';
 import 'package:carg/views/widgets/register/register_phone_widget.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
@@ -9,6 +12,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const String routeName = '/register';
@@ -27,6 +31,23 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen>
     with TickerProviderStateMixin, WidgetsBindingObserver {
+  Future<void> _googleSigIn(
+      _RegisterData registerData, BuildContext context) async {
+    try {
+      registerData.selectedRegisterMethod = _GoogleRegisterMethod(context);
+      await Provider.of<AuthService>(context, listen: false).googleLogIn();
+      await Navigator.pushReplacement(
+        context,
+        CustomRouteFade(
+          builder: (context) => Provider.of<AuthService>(context, listen: false)
+              .getCorrectLandingScreen(),
+        ),
+      );
+    } on CustomException catch (e) {
+      InfoSnackBar.showErrorSnackBar(context, e.message);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -45,20 +66,19 @@ class _RegisterScreenState extends State<RegisterScreen>
                     children: [
                       SizedBox(
                           height: 110,
-                          child:
-                              SvgPicture.asset('assets/images/card_game.svg')),
+                          child: SvgPicture.asset(Const.svgLogoPath)),
                       const SizedBox(height: 15),
                       const Text(
-                        'Carg',
+                        Const.appName,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontSize: 45, fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 8),
-                      const Text(
-                        'Connexion & Inscription',
+                      Text(
+                        AppLocalizations.of(context)!.signInAndUp,
                         textAlign: TextAlign.center,
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 22, fontWeight: FontWeight.bold),
                       ),
                     ],
@@ -78,12 +98,6 @@ class _RegisterScreenState extends State<RegisterScreen>
                                     duration: const Duration(milliseconds: 500),
                                     child: registerData.selectedRegisterMethod
                                         .registrationWidget),
-                                const Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 8.0),
-                                  child: Text('ou',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold)),
-                                ),
                                 SizedBox(
                                   height: 45,
                                   width: double.infinity,
@@ -111,11 +125,12 @@ class _RegisterScreenState extends State<RegisterScreen>
                                               linkProvider:
                                                   widget.linkProvider);
                                     },
-                                    label: const Padding(
-                                      padding: EdgeInsets.all(8.0),
+                                    label: Padding(
+                                      padding: const EdgeInsets.all(8.0),
                                       child: Text(
-                                        'Continuer avec une adresse email',
-                                        style: TextStyle(
+                                        AppLocalizations.of(context)!
+                                            .continueWithEmail,
+                                        style: const TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 18),
                                       ),
@@ -148,11 +163,12 @@ class _RegisterScreenState extends State<RegisterScreen>
                                       registerData.selectedRegisterMethod =
                                           _PhoneRegisterMethod();
                                     },
-                                    label: const Padding(
-                                      padding: EdgeInsets.all(8.0),
+                                    label: Padding(
+                                      padding: const EdgeInsets.all(8.0),
                                       child: Text(
-                                        'Continuer avec un numéro de téléphone',
-                                        style: TextStyle(
+                                        AppLocalizations.of(context)!
+                                            .continueWithPhone,
+                                        style: const TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 15),
                                       ),
@@ -183,26 +199,14 @@ class _RegisterScreenState extends State<RegisterScreen>
                                                 side: BorderSide(width: 2, color: Theme.of(context).primaryColor),
                                                 borderRadius: BorderRadius.circular(CustomProperties.borderRadius)))),
                                     onPressed: () async {
-                                      registerData.selectedRegisterMethod =
-                                          _GoogleRegisterMethod();
-                                      await Provider.of<AuthService>(context,
-                                              listen: false)
-                                          .googleLogIn();
-                                      await Navigator.pushReplacement(
-                                        context,
-                                        CustomRouteFade(
-                                          builder: (context) =>
-                                              Provider.of<AuthService>(context,
-                                                      listen: false)
-                                                  .getCorrectLandingScreen(),
-                                        ),
-                                      );
+                                      _googleSigIn(registerData, context);
                                     },
-                                    label: const Padding(
-                                      padding: EdgeInsets.all(8.0),
+                                    label: Padding(
+                                      padding: const EdgeInsets.all(8.0),
                                       child: Text(
-                                        'Continuer avec Google',
-                                        style: TextStyle(
+                                        AppLocalizations.of(context)!
+                                            .continueWithGoogle,
+                                        style: const TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 18),
                                       ),
@@ -242,20 +246,23 @@ class _EmailRegisterMethod extends RegisterMethod {
 }
 
 class _GoogleRegisterMethod extends RegisterMethod {
-  _GoogleRegisterMethod()
-      : super(Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            Text('Connexion à votre compte Google...',
-                style: TextStyle(fontStyle: FontStyle.italic)),
-            Padding(
-              padding: EdgeInsets.all(8.0),
-              child: SizedBox(
-                  width: 12,
-                  height: 12,
-                  child: CircularProgressIndicator(strokeWidth: 3)),
-            )
-          ],
+  _GoogleRegisterMethod(BuildContext context)
+      : super(Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('${AppLocalizations.of(context)!.logInToGoogle}...',
+                  style: const TextStyle(fontStyle: FontStyle.italic)),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: SizedBox(
+                    width: 12,
+                    height: 12,
+                    child: CircularProgressIndicator(strokeWidth: 3)),
+              )
+            ],
+          ),
         ));
 }
 

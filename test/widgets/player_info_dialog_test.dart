@@ -11,17 +11,20 @@ import 'package:mockito/mockito.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 import 'package:provider/provider.dart';
 
+import 'localized_testable_widget.dart';
 import 'player_info_dialog_test.mocks.dart';
 
 Widget testableWidget(bool mockIsNewPlayer, PlayerService playerService,
         Player mockPlayer, AuthService mockAuthService) =>
-    MaterialApp(
-      home: ChangeNotifierProvider<AuthService>.value(
-          value: mockAuthService,
-          builder: (context, _) => PlayerInfoDialog(
-              player: mockPlayer,
-              playerService: playerService,
-              isNewPlayer: mockIsNewPlayer)),
+    localizedTestableWidget(
+      ChangeNotifierProvider<AuthService>.value(
+        value: mockAuthService,
+        builder: (context, _) => PlayerInfoDialog(
+          player: mockPlayer,
+          playerService: playerService,
+          isNewPlayer: mockIsNewPlayer,
+        ),
+      ),
     );
 
 @GenerateMocks([PlayerService, AuthService])
@@ -44,7 +47,7 @@ void main() {
 
         expect(
             tester.widget<Text>(find.byKey(const ValueKey('titleText'))).data,
-            'Edition');
+            'Édition');
       });
 
       testWidgets('CREATING', (WidgetTester tester) async {
@@ -53,7 +56,7 @@ void main() {
 
         expect(
             tester.widget<Text>(find.byKey(const ValueKey('titleText'))).data,
-            'Nouveau joueur');
+            'Nouveau/nouvelle joueur/joueuse');
       });
 
       testWidgets('INFORMATIONS', (WidgetTester tester) async {

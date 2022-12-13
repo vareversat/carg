@@ -17,6 +17,7 @@ import 'package:carg/views/widgets/api_mini_player_widget.dart';
 import 'package:carg/views/widgets/error_message_widget.dart';
 import 'package:carg/views/widgets/players/next_player_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class PlayTarotGameScreen extends StatefulWidget {
@@ -43,12 +44,14 @@ class _PlayTarotGameScreenState extends State<PlayTarotGameScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => AddTarotRoundScreen(
-              tarotRound: TarotRound(
-                  players: TarotRoundPlayers(
-                      playerList: widget.tarotGame.players!.playerList)),
-              isEditing: false,
-              tarotGame: widget.tarotGame)),
+        builder: (context) => AddTarotRoundScreen(
+            tarotRound: TarotRound(
+              players: TarotRoundPlayers(
+                  playerList: widget.tarotGame.players!.playerList),
+            ),
+            isEditing: false,
+            tarotGame: widget.tarotGame),
+      ),
     );
   }
 
@@ -60,28 +63,27 @@ class _PlayTarotGameScreenState extends State<PlayTarotGameScreen> {
                 await widget.tarotRoundService
                     .deleteLastRoundOfScoreByGameId(widget.tarotGame.id),
               },
-          message:
-              'Tu es sur le point de supprimer la dernière manche de la partie. Cette action est irréversible',
-          title: 'Attention',
+          message: AppLocalizations.of(context)!.messageDeleteGame,
+          title: AppLocalizations.of(context)!.warning,
           color: Theme.of(context).errorColor),
     );
   }
 
   void _endGame() async {
     await showDialog(
-        context: context,
-        builder: (BuildContext context) => WarningDialog(
-              onConfirm: () async => {
-                await widget.tarotGameService
-                    .endAGame(widget.tarotGame, DateTime.now()),
-                await Navigator.of(context)
-                    .pushReplacementNamed(HomeScreen.routeName, arguments: 1)
-              },
-              message:
-                  'Tu es sur le point de terminer cette partie. Les gagnants ainsi que les perdants (honteux) vont être désignés',
-              title: 'Attention',
-              color: Theme.of(context).errorColor,
-            ));
+      context: context,
+      builder: (BuildContext context) => WarningDialog(
+        onConfirm: () async => {
+          await widget.tarotGameService
+              .endAGame(widget.tarotGame, DateTime.now()),
+          await Navigator.of(context)
+              .pushReplacementNamed(HomeScreen.routeName, arguments: 1)
+        },
+        message: AppLocalizations.of(context)!.messageStopGame,
+        title: AppLocalizations.of(context)!.warning,
+        color: Theme.of(context).errorColor,
+      ),
+    );
   }
 
   void _editLastRound() async {
@@ -91,22 +93,26 @@ class _PlayTarotGameScreenState extends State<PlayTarotGameScreen> {
           (await widget.tarotScoreService.getScoreByGame(widget.tarotGame.id))!
               .getLastRound();
       await Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => AddTarotRoundScreen(
-                  tarotGame: widget.tarotGame,
-                  tarotRound: lastRound,
-                  isEditing: true)));
+        context,
+        MaterialPageRoute(
+          builder: (context) => AddTarotRoundScreen(
+            tarotGame: widget.tarotGame,
+            tarotRound: lastRound,
+            isEditing: true,
+          ),
+        ),
+      );
     } on StateError {
       await showDialog(
-          context: context,
-          builder: (BuildContext context) => WarningDialog(
-                onConfirm: () => {},
-                showCancelButton: false,
-                message: 'Aucune manche n\'est enregistrée pour cette partie',
-                title: 'Erreur',
-                color: Theme.of(context).errorColor,
-              ));
+        context: context,
+        builder: (BuildContext context) => WarningDialog(
+          onConfirm: () => {},
+          showCancelButton: false,
+          message: AppLocalizations.of(context)!.messageNoRound,
+          title: AppLocalizations.of(context)!.error,
+          color: Theme.of(context).errorColor,
+        ),
+      );
     }
   }
 
@@ -121,158 +127,144 @@ class _PlayTarotGameScreenState extends State<PlayTarotGameScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: PlayScreenAppBar(game: widget.tarotGame),
-        body: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Flexible(
-                  child: ListView.builder(
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      itemCount: widget.tarotGame.players!.playerList!.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return SizedBox(
-                          width: MediaQuery.of(context).size.width /
+      appBar: PlayScreenAppBar(game: widget.tarotGame),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Flexible(
+            child: ListView.builder(
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              itemCount: widget.tarotGame.players!.playerList!.length,
+              itemBuilder: (BuildContext context, int index) {
+                return SizedBox(
+                  width: MediaQuery.of(context).size.width /
+                      widget.tarotGame.players!.playerList!.length,
+                  child: APIMiniPlayerWidget(
+                    playerService: PlayerService(),
+                    playerId: widget.tarotGame.players!.playerList![index],
+                    displayImage: true,
+                  ),
+                );
+              },
+            ),
+          ),
+          Flexible(
+            flex: 10,
+            child: Container(
+              padding: const EdgeInsets.all(10),
+              decoration: const BoxDecoration(
+                  border: Border(
+                top: BorderSide(
+                  color: Colors.black,
+                  width: 1,
+                ),
+              )),
+              child: StreamBuilder<TarotScore?>(
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  if (snapshot.connectionState == ConnectionState.none &&
+                      snapshot.data == null) {
+                    return ErrorMessageWidget(message: _errorMessage);
+                  }
+                  return Column(
+                    children: <Widget>[
+                      Flexible(
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount:
                               widget.tarotGame.players!.playerList!.length,
-                          child: APIMiniPlayerWidget(
-                            playerService: PlayerService(),
-                            playerId:
-                                widget.tarotGame.players!.playerList![index],
-                            displayImage: true,
-                          ),
-                        );
-                      })),
-              Flexible(
-                  flex: 10,
-                  child: Container(
-                      padding: const EdgeInsets.all(10),
-                      decoration: const BoxDecoration(
-                          border: Border(
-                        top: BorderSide(
-                          color: Colors.black,
-                          width: 1,
+                          itemBuilder: (BuildContext context, int index) {
+                            return SizedBox(
+                              width: MediaQuery.of(context).size.width /
+                                  widget.tarotGame.players!.playerList!.length,
+                              child: _TotalPointsWidget(
+                                  totalPoints: snapshot.data!
+                                      .getScoreOf(widget.tarotGame.players!
+                                          .playerList![index])
+                                      .score),
+                            );
+                          },
                         ),
-                      )),
-                      child: StreamBuilder<TarotScore?>(
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return const Center(
-                                child: CircularProgressIndicator());
-                          }
-                          if (snapshot.connectionState ==
-                                  ConnectionState.none &&
-                              snapshot.data == null) {
-                            return ErrorMessageWidget(message: _errorMessage);
-                          }
-                          return Column(
-                            children: <Widget>[
-                              Flexible(
-                                child: ListView.builder(
-                                    scrollDirection: Axis.horizontal,
-                                    itemCount: widget
-                                        .tarotGame.players!.playerList!.length,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      return SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                                widget.tarotGame.players!
-                                                    .playerList!.length,
-                                        child: _TotalPointsWidget(
-                                            totalPoints: snapshot.data!
-                                                .getScoreOf(widget
-                                                    .tarotGame
-                                                    .players!
-                                                    .playerList![index])
-                                                .score),
-                                      );
-                                    }),
+                      ),
+                      Flexible(
+                        flex: 10,
+                        child: ListView.builder(
+                          itemCount: snapshot.data!.rounds.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return SizedBox(
+                              height: 20,
+                              width: MediaQuery.of(context).size.width,
+                              child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: snapshot
+                                    .data!.rounds[index].playerPoints!.length,
+                                itemBuilder:
+                                    (BuildContext context, int playerIndex) {
+                                  return SizedBox(
+                                    width: MediaQuery.of(context).size.width /
+                                        widget.tarotGame.players!.playerList!
+                                            .length,
+                                    child: _RoundDisplay(
+                                      round: snapshot.data!.rounds[index],
+                                      player: widget.tarotGame.players!
+                                          .playerList![playerIndex],
+                                    ),
+                                  );
+                                },
                               ),
-                              Flexible(
-                                flex: 10,
-                                child: ListView.builder(
-                                    itemCount: snapshot.data!.rounds.length,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      return SizedBox(
-                                          height: 20,
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          child: ListView.builder(
-                                              scrollDirection: Axis.horizontal,
-                                              itemCount: snapshot
-                                                  .data!
-                                                  .rounds[index]
-                                                  .playerPoints!
-                                                  .length,
-                                              itemBuilder:
-                                                  (BuildContext context,
-                                                      int playerIndex) {
-                                                return SizedBox(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width /
-                                                            widget
-                                                                .tarotGame
-                                                                .players!
-                                                                .playerList!
-                                                                .length,
-                                                    child: _RoundDisplay(
-                                                        round: snapshot.data!
-                                                            .rounds[index],
-                                                        player: widget
-                                                                .tarotGame
-                                                                .players!
-                                                                .playerList![
-                                                            playerIndex]));
-                                              }));
-                                    }),
-                              ),
-                              if (!widget.tarotGame.isEnded)
-                                NextPlayerWidget(
-                                    playerId:
-                                        widget.tarotGame.players!.playerList![
-                                            snapshot.data!.rounds.length %
-                                                widget.tarotGame.players!
-                                                    .playerList!.length]!),
-                            ],
-                          );
-                        },
-                        stream: _tarotScoreService
-                            .getScoreByGameStream(widget.tarotGame.id),
-                      ))),
-              if (!widget.tarotGame.isEnded)
-                PlayScreenButtonBlock(
-                    deleteLastRound: _deleteLastRound,
-                    editLastRound: _editLastRound,
-                    endGame: _endGame,
-                    addNewRound: _addNewRound,
-                    addNotes: _addNotes)
-              else if (widget.tarotGame.notes != null)
-                Padding(
+                            );
+                          },
+                        ),
+                      ),
+                      if (!widget.tarotGame.isEnded)
+                        NextPlayerWidget(
+                            playerId: widget.tarotGame.players!.playerList![
+                                snapshot.data!.rounds.length %
+                                    widget.tarotGame.players!.playerList!
+                                        .length]!),
+                    ],
+                  );
+                },
+                stream: _tarotScoreService
+                    .getScoreByGameStream(widget.tarotGame.id),
+              ),
+            ),
+          ),
+          if (!widget.tarotGame.isEnded)
+            PlayScreenButtonBlock(
+                deleteLastRound: _deleteLastRound,
+                editLastRound: _editLastRound,
+                endGame: _endGame,
+                addNewRound: _addNewRound,
+                addNotes: _addNotes)
+          else if (widget.tarotGame.notes != null)
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Card(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0)),
+                margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                elevation: 2,
+                color: Colors.white,
+                child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Card(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0)),
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 4),
-                      elevation: 2,
-                      color: Colors.white,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-                            const Text('Notes de partie : ',
-                                style: TextStyle(fontWeight: FontWeight.bold)),
-                            const Divider(color: Colors.transparent),
-                            Text(widget.tarotGame.notes!),
-                          ],
-                        ),
-                      )),
-                )
-            ]));
+                  child: Column(
+                    children: [
+                      Text('${AppLocalizations.of(context)!.gameNotes} : ',
+                          style: const TextStyle(fontWeight: FontWeight.bold)),
+                      const Divider(color: Colors.transparent),
+                      Text(widget.tarotGame.notes!),
+                    ],
+                  ),
+                ),
+              ),
+            )
+        ],
+      ),
+    );
   }
 }
 

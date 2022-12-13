@@ -2,6 +2,7 @@ import 'package:carg/models/player.dart';
 import 'package:carg/services/impl/player_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NextPlayerWidget extends StatelessWidget {
   final String? playerId;
@@ -26,19 +27,22 @@ class NextPlayerWidget extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.none ||
             snapshot.data == null) {
           return Text(
-            'Error : player $playerId unknown',
+            AppLocalizations.of(context)!.errorPlayerNotFound,
             style: const TextStyle(fontStyle: FontStyle.italic),
           );
         }
         return RichText(
           text: TextSpan(
-            text: 'Au tours de ',
+            text:
+                '${AppLocalizations.of(context)!.messagePlayerDistributeCardsFirsPart} ',
             style: DefaultTextStyle.of(context).style,
             children: <TextSpan>[
               TextSpan(
                   text: snapshot.data!.userName,
                   style: const TextStyle(fontWeight: FontWeight.bold)),
-              const TextSpan(text: ' de donner les cartes !'),
+              TextSpan(
+                  text: AppLocalizations.of(context)!
+                      .messagePlayerDistributeCardsSecondPart),
             ],
           ),
           textAlign: TextAlign.center,

@@ -1,4 +1,7 @@
 // ignore_for_file: constant_identifier_names
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+import 'package:flutter/material.dart';
 
 enum GameType { COINCHE, BELOTE, TAROT, CONTREE, UNDEFINE }
 
@@ -21,16 +24,16 @@ extension GameTypeExtension on GameType? {
     }
   }
 
-  String get direction {
+  String direction(BuildContext context) {
     switch (this) {
       case GameType.COINCHE:
-        return 'sens anti-horaire';
+        return AppLocalizations.of(context)!.gameAnticlockwiseDirection;
       case GameType.BELOTE:
-        return 'sens horaire';
+        return AppLocalizations.of(context)!.gameClockwiseDirection;
       case GameType.TAROT:
-        return 'sens anti-horaire';
+        return AppLocalizations.of(context)!.gameAnticlockwiseDirection;
       case GameType.CONTREE:
-        return 'sens anti-horaire';
+        return AppLocalizations.of(context)!.gameAnticlockwiseDirection;
       case GameType.UNDEFINE:
         throw Exception(
             'Direction not defined for game type ${GameType.UNDEFINE.name}');

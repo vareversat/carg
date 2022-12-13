@@ -12,6 +12,7 @@ import 'package:carg/views/screens/player_order_screen.dart';
 import 'package:carg/views/widgets/error_message_widget.dart';
 import 'package:carg/views/widgets/players/player_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 class PlayerPickerScreen extends StatefulWidget {
@@ -35,7 +36,8 @@ class _PlayerPickerScreenState extends State<PlayerPickerScreen> {
   _PlayerPickerScreenState();
 
   Future _getPlayers() async {
-    Dialogs.showLoadingDialog(context, _keyLoader, 'Chargement...');
+    Dialogs.showLoadingDialog(
+        context, _keyLoader, '${AppLocalizations.of(context)!.loading}...');
     var playerListTmp = <Player>[];
     for (var playerId in widget.game!.players!.playerList!) {
       var player = await _playerService.get(playerId);
@@ -53,120 +55,139 @@ class _PlayerPickerScreenState extends State<PlayerPickerScreen> {
   Widget build(BuildContext context) {
     widget.game!.players!.reset();
     return Scaffold(
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(60),
-          child: AppBar(
-            title: Text(widget.title!,
-                style: CustomTextStyle.screenHeadLine1(context)),
-          ),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(60),
+        child: AppBar(
+          title: Text(widget.title!,
+              style: CustomTextStyle.screenHeadLine1(context)),
         ),
-        body: Column(
-          children: <Widget>[
-            const Padding(
-              padding: EdgeInsets.all(15.0),
-              child: Text('Sélection des joueurs',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+      ),
+      body: Column(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: Text(
+              AppLocalizations.of(context)!.playerSelection,
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ChangeNotifierProvider.value(
-                value: widget.game!.players!,
-                child: Consumer<Players>(
-                  builder: (context, playersData, child) =>
-                      Text(playersData.getSelectedPlayersStatus()),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ChangeNotifierProvider.value(
+              value: widget.game!.players!,
+              child: Consumer<Players>(
+                builder: (context, playersData, child) => Text(
+                  playersData.getSelectedPlayersStatus(context),
                 ),
               ),
             ),
-            Flexible(
-              child: FutureBuilder<List<Player>>(
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(child: CircularProgressIndicator());
-                    }
-                    if (snapshot.connectionState == ConnectionState.none) {
-                      return Container(
-                          alignment: Alignment.center,
-                          child: const Icon(Icons.error));
-                    }
-                    if (snapshot.data != null) {
-                      return ListView.builder(
-                          padding: const EdgeInsets.all(10),
-                          itemCount: snapshot.data!.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return ChangeNotifierProvider.value(
-                                value: snapshot.data![index],
-                                child: Consumer<Player>(
-                                    builder: (context, playerData, child) =>
-                                        PlayerWidget(
-                                            player: playerData,
-                                            onTap: () => widget.game!.players!
-                                                .onSelectedPlayer(
-                                                    playerData))));
-                          });
-                    } else {
-                      return const ErrorMessageWidget(
-                          message: "Vous n'avez accès à aucun joueurs");
-                    }
-                  },
-                  future: _playerService.searchPlayers(
-                      currentPlayer:
-                          Provider.of<AuthService>(context, listen: false)
-                              .getPlayer())),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8),
-              child: ChangeNotifierProvider.value(
-                value: widget.game!.players!,
-                child: Consumer<Players>(
-                    builder: (context, playersData, child) => playersData
-                            .isFull()
-                        ? SizedBox(
-                            width: double.infinity,
-                            height: 50,
-                            child: Directionality(
-                              textDirection: TextDirection.rtl,
-                              child: ElevatedButton.icon(
-                                  style: ButtonStyle(
-                                      backgroundColor: MaterialStateProperty.all<Color>(
-                                          Theme.of(context).primaryColor),
-                                      foregroundColor:
-                                          MaterialStateProperty.all<Color>(
-                                              Theme.of(context).cardColor),
-                                      shape: MaterialStateProperty.all<OutlinedBorder>(
-                                          RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(
-                                                  CustomProperties
-                                                      .borderRadius)))),
-                                  onPressed: () async => {
-                                        await _getPlayers(),
-                                        widget.game!.players!.reset(),
-                                        Navigator.push(
-                                            context,
-                                            CustomRouteLeftToRight(
-                                              builder: (context) =>
-                                                  PlayerOrderScreen(
-                                                      playerList: newPlayers!,
-                                                      title: widget.title!,
-                                                      game: widget.game!,
-                                                      gameService:
-                                                          CorrectInstance
-                                                              .ofGameService(
-                                                                  widget
-                                                                      .game!)),
-                                            ))
-                                      },
-                                  label: const Text('Ordre des joueurs',
-                                      style: TextStyle(fontSize: 23)),
-                                  icon: const Icon(
-                                    Icons.arrow_right_alt,
-                                    size: 30,
-                                  )),
+          ),
+          Flexible(
+            child: FutureBuilder<List<Player>>(
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                if (snapshot.connectionState == ConnectionState.none) {
+                  return Container(
+                      alignment: Alignment.center,
+                      child: const Icon(Icons.error));
+                }
+                if (snapshot.data != null) {
+                  return ListView.builder(
+                    padding: const EdgeInsets.all(10),
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return ChangeNotifierProvider.value(
+                        value: snapshot.data![index],
+                        child: Consumer<Player>(
+                          builder: (context, playerData, child) => PlayerWidget(
+                            player: playerData,
+                            onTap: () => widget.game!.players!.onSelectedPlayer(
+                              playerData,
                             ),
-                          )
-                        : Container()),
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                } else {
+                  return ErrorMessageWidget(
+                      message: AppLocalizations.of(context)!.noPlayerYet);
+                }
+              },
+              future: _playerService.searchPlayers(
+                currentPlayer: Provider.of<AuthService>(context, listen: false)
+                    .getPlayer(),
               ),
-            )
-          ],
-        ));
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8),
+            child: ChangeNotifierProvider.value(
+              value: widget.game!.players!,
+              child: Consumer<Players>(
+                builder: (context, playersData, child) => playersData.isFull()
+                    ? SizedBox(
+                        width: double.infinity,
+                        height: 50,
+                        child: Directionality(
+                          textDirection: TextDirection.rtl,
+                          child: ElevatedButton.icon(
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                Theme.of(context).primaryColor,
+                              ),
+                              foregroundColor: MaterialStateProperty.all<Color>(
+                                Theme.of(context).cardColor,
+                              ),
+                              shape: MaterialStateProperty.all<OutlinedBorder>(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                    CustomProperties.borderRadius,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            onPressed: () async => {
+                              await _getPlayers(),
+                              widget.game!.players!.reset(),
+                              Navigator.push(
+                                context,
+                                CustomRouteLeftToRight(
+                                  builder: (context) => PlayerOrderScreen(
+                                    playerList: newPlayers!,
+                                    title: widget.title!,
+                                    game: widget.game!,
+                                    gameService: CorrectInstance.ofGameService(
+                                      widget.game!,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            },
+                            label: Text(
+                              AppLocalizations.of(context)!.playerOrder,
+                              style: const TextStyle(
+                                fontSize: 23,
+                              ),
+                            ),
+                            icon: const Icon(
+                              Icons.arrow_right_alt,
+                              size: 30,
+                            ),
+                          ),
+                        ),
+                      )
+                    : Container(),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

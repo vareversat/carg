@@ -1,7 +1,11 @@
 import 'package:carg/models/player.dart';
 import 'package:carg/models/players/tarot_players.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+// testWidgets is used instead on test because we need a valid context to test these widgets
 void main() {
   group('TarotPlayers', () {
     test('Empty initialization ', () {
@@ -30,12 +34,43 @@ void main() {
   });
 
   group('Get Selected Players Status', () {
-    test('(2/5)', () {
+    testWidgets('(2/5)', (WidgetTester tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Material(child: Container()),
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [
+            Locale('fr', ''),
+          ],
+        ),
+      );
+      final context = tester.element(find.byType(Container));
       final tarotPlayers = TarotPlayers(playerList: ['player_1', 'player_4']);
-      expect(tarotPlayers.getSelectedPlayersStatus(), 'Joueurs : 2/5');
+      expect(tarotPlayers.getSelectedPlayersStatus(context),
+          'Joueurs.euses : 2/5');
     });
 
-    test('(5/5)', () {
+    testWidgets('(5/5)', (WidgetTester tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Material(child: Container()),
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [
+            Locale('fr', ''),
+          ],
+        ),
+      );
+      final context = tester.element(find.byType(Container));
       final tarotPlayers = TarotPlayers(playerList: [
         'player_1',
         'player_2',
@@ -43,7 +78,8 @@ void main() {
         'player_4',
         'player_5'
       ]);
-      expect(tarotPlayers.getSelectedPlayersStatus(), 'Joueurs : 5/5');
+      expect(tarotPlayers.getSelectedPlayersStatus(context),
+          'Joueurs.euses : 5/5');
     });
   });
 

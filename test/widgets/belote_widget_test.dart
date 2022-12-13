@@ -23,6 +23,7 @@ import 'package:mockito/mockito.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 
 import 'belote_widget_test.mocks.dart';
+import 'localized_testable_widget.dart';
 
 final mockAbstractBeloteGameService = MockAbstractBeloteGameService();
 final mockAbstractBeloteScoreService = MockAbstractBeloteScoreService();
@@ -30,14 +31,15 @@ final mockAbstractTeamService = MockAbstractTeamService();
 final mockAbstractBeloteRoundService = MockAbstractBeloteRoundService();
 final mockAbstractPlayerService = MockAbstractPlayerService();
 
-Widget testableWidget(Belote beloteGame) => MaterialApp(
-    home: mockNetworkImagesFor(() => BeloteWidget(
-        beloteGame: beloteGame,
-        gameService: mockAbstractBeloteGameService,
-        scoreService: mockAbstractBeloteScoreService,
-        teamService: mockAbstractTeamService,
-        roundService: mockAbstractBeloteRoundService,
-        playerService: mockAbstractPlayerService)));
+Widget testableWidget(Belote beloteGame) => localizedTestableWidget(
+      BeloteWidget(
+          beloteGame: beloteGame,
+          gameService: mockAbstractBeloteGameService,
+          scoreService: mockAbstractBeloteScoreService,
+          teamService: mockAbstractTeamService,
+          roundService: mockAbstractBeloteRoundService,
+          playerService: mockAbstractPlayerService),
+    );
 
 Object getNewRound() => {};
 
@@ -179,17 +181,5 @@ void main() {
             .widget<Text>(find.byKey(const ValueKey('themTotalPointsText')))
             .data,
         '110');
-  });
-
-  testWidgets("Contree belote - Must find 'Partie terminée'",
-      (WidgetTester tester) async {
-    await mockNetworkImagesFor(
-        () => tester.pumpWidget(testableWidget(frenchBelote)));
-    await mockNetworkImagesFor(
-        () => tester.tap(find.byKey(const ValueKey('expansionTileTitle'))));
-    await mockNetworkImagesFor(
-        () => tester.pumpAndSettle(const Duration(milliseconds: 1000)));
-
-    expect(find.text('Partie terminée'), findsOneWidget);
   });
 }

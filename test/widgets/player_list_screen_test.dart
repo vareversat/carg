@@ -5,20 +5,31 @@ import 'package:carg/services/player/abstract_player_service.dart';
 import 'package:carg/services/team/abstract_team_service.dart';
 import 'package:carg/views/screens/player_list_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'player_list_screen_test.mocks.dart';
 
 Widget testableWidget() => MaterialApp(
-    home: ChangeNotifierProvider<AuthService>.value(
-        value: mockAuthService,
-        builder: (context, _) => PlayerListScreen(
-            teamService: mockAbstractTeamService,
-            playerService: mockAbstractPlayerService)));
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: const [
+          Locale('en', ''),
+        ],
+        home: ChangeNotifierProvider<AuthService>.value(
+            value: mockAuthService,
+            builder: (context, _) => PlayerListScreen(
+                teamService: mockAbstractTeamService,
+                playerService: mockAbstractPlayerService)));
 
 final mockAbstractPlayerService = MockAbstractPlayerService();
 final mockAbstractTeamService = MockAbstractTeamService();
@@ -48,13 +59,14 @@ void main() {
     currentPlayer = Player(id: 'player-id', userName: 'Player', owned: false);
 
     when(mockAbstractPlayerService.searchPlayers(
-            query: '', currentPlayer: currentPlayer))
+            query: '', currentPlayer: currentPlayer, myPlayers: false))
         .thenAnswer((_) => Future<List<Player>>(() => (mockPlayerList)));
     when(mockAbstractTeamService.getAllTeamOfPlayer('player-id', 10))
         .thenAnswer((_) => Future<List<Team>>(() => (mockTeamList)));
     when(mockAuthService.getPlayerIdOfUser()).thenReturn('player-id');
     when(mockAuthService.getPlayer()).thenReturn(currentPlayer);
     when(mockAuthService.getAdmin()).thenReturn(false);
+    when(mockAuthService.isAdFreeUser()).thenAnswer((_) => Future(() => true));
     when(mockAbstractPlayerService.get('p1'))
         .thenAnswer((_) => Future<Player>(() => (mockPlayerList[0])));
     when(mockAbstractPlayerService.get('p2'))
@@ -86,7 +98,7 @@ void main() {
 
       testWidgets('no players', (WidgetTester tester) async {
         when(mockAbstractPlayerService.searchPlayers(
-                query: '', currentPlayer: currentPlayer))
+                query: '', currentPlayer: currentPlayer, myPlayers: false))
             .thenAnswer((_) => Future<List<Player>>(() => []));
         await mockNetworkImagesFor(() => tester.pumpWidget(testableWidget()));
         await mockNetworkImagesFor(() => tester.pumpAndSettle());
