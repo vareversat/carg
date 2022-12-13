@@ -9,6 +9,7 @@ class Const {
   static const String svgLogoPath = 'assets/images/card_game.svg';
   static const String algoliaConfigPath = 'assets/config/algolia.json';
   static const String googleApiKey = 'assets/config/google-play-api-key.json';
+  static const String algoliaLogo = 'assets/images/algolia_logo.png';
 
   /// Link
   static const String githubLink = 'https://github.com/vareversat/carg';

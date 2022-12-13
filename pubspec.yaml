@@ -68,7 +68,7 @@ flutter:
 
   assets:
     - assets/images/card_game.svg
-    - assets/images/search_by_algolia.svg
+    - assets/images/algolia_logo.png
     - assets/images/google_logo.svg
     - assets/config/
     - assets/rules/
