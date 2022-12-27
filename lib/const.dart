@@ -44,4 +44,5 @@ class Const {
   static const String frenchBeloteScoreDB = 'belote-score';
   static const String tarotScoreDB = 'tarot-score';
   static const String purchaseDB = 'iap';
+  static const String notificationDB = 'notification';
 }

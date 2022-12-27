@@ -1,6 +1,7 @@
 import 'package:carg/app_theme.dart';
 import 'package:carg/services/auth/auth_service.dart';
 import 'package:carg/views/screens/home_screen.dart';
+import 'package:carg/views/screens/notifications_screen.dart';
 import 'package:carg/views/screens/register/register_screen.dart';
 import 'package:carg/views/screens/splash_screen.dart';
 import 'package:carg/views/screens/user_screen.dart';
@@ -63,6 +64,7 @@ class _CargState extends State<Carg> {
             routes: {
               UserScreen.routeName: (context) => const UserScreen(),
               RegisterScreen.routeName: (context) => RegisterScreen(),
+              NotificationsScreen.routeName: (context) => NotificationsScreen(),
               HomeScreen.routeName: (context) => HomeScreen(
                   requestedIndex:
                       ModalRoute.of(context)!.settings.arguments as int? ?? 0)

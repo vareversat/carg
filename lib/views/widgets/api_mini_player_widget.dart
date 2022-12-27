@@ -1,4 +1,5 @@
 import 'package:carg/models/player.dart';
+import 'package:carg/services/impl/player_service.dart';
 import 'package:carg/services/player/abstract_player_service.dart';
 import 'package:carg/views/dialogs/player_info_dialog.dart';
 import 'package:flutter/material.dart';
@@ -14,20 +15,22 @@ class APIMiniPlayerWidget extends StatelessWidget {
   final Function? onTap;
   final Color? selectedColor;
   final String additionalText;
-  final AbstractPlayerService playerService;
+  late AbstractPlayerService playerService;
 
-  const APIMiniPlayerWidget(
+  APIMiniPlayerWidget(
       {Key? key,
       required this.playerId,
       required this.displayImage,
-      required this.playerService,
+      AbstractPlayerService? playerService,
       this.showLoading = true,
       this.size = 15,
       this.isSelected = false,
       this.onTap,
       this.selectedColor,
       this.additionalText = ''})
-      : super(key: key);
+      : super(key: key) {
+    this.playerService = playerService ?? PlayerService();
+  }
 
   Future _showEditPlayerDialog(BuildContext context, Player? player) async {
     if (player != null) {
@@ -61,46 +64,56 @@ class APIMiniPlayerWidget extends StatelessWidget {
         }
         if (snapshot.hasData) {
           child = Material(
+            color: Theme.of(context).cardColor,
             child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 2),
-                child: InputChip(
-                    selected: isSelected,
-                    selectedColor: selectedColor ??
-                        Theme.of(context).colorScheme.secondary,
-                    onPressed: onTap as void Function()? ??
-                        () => {_showEditPlayerDialog(context, snapshot.data)},
-                    avatar:
-                        (snapshot.data!.profilePicture != '' && displayImage)
-                            ? Container(
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                      width: 2,
-                                      color: Theme.of(context).primaryColor,
-                                    ),
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                        image: NetworkImage(
-                                            snapshot.data!.profilePicture))),
-                              )
-                            : null,
-                    label: Text(snapshot.data!.userName + additionalText,
-                        style: TextStyle(fontSize: size),
-                        overflow: TextOverflow.ellipsis))),
+              padding: const EdgeInsets.symmetric(horizontal: 2),
+              child: InputChip(
+                selected: isSelected,
+                selectedColor:
+                    selectedColor ?? Theme.of(context).colorScheme.secondary,
+                onPressed: onTap as void Function()? ??
+                    () => {_showEditPlayerDialog(context, snapshot.data)},
+                avatar: (snapshot.data!.profilePicture != '' && displayImage)
+                    ? Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            width: 2,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                            image: NetworkImage(
+                              snapshot.data!.profilePicture,
+                            ),
+                          ),
+                        ),
+                      )
+                    : null,
+                label: Text(
+                  snapshot.data!.userName + additionalText,
+                  style: TextStyle(fontSize: size),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ),
           );
         }
         if (!snapshot.hasData &&
             snapshot.connectionState == ConnectionState.done) {
           child = Center(
             child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 2),
-                child: InputChip(
-                    avatar: Container(
-                        decoration: BoxDecoration(
-                      color: Theme.of(context).errorColor,
-                      shape: BoxShape.circle,
-                    )),
-                    label: Text(
-                        AppLocalizations.of(context)!.errorPlayerNotFound))),
+              padding: const EdgeInsets.symmetric(horizontal: 2),
+              child: InputChip(
+                avatar: Container(
+                    decoration: BoxDecoration(
+                  color: Theme.of(context).errorColor,
+                  shape: BoxShape.circle,
+                )),
+                label: Text(
+                  AppLocalizations.of(context)!.errorPlayerNotFound,
+                ),
+              ),
+            ),
           );
         }
         return AnimatedSwitcher(

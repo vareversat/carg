@@ -6,6 +6,7 @@ import 'package:carg/services/auth/auth_service.dart';
 import 'package:carg/services/impl/player_service.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/styles/text_style.dart';
+import 'package:carg/views/screens/notifications_screen.dart';
 import 'package:carg/views/screens/settings_screen.dart';
 import 'package:carg/views/widgets/error_message_widget.dart';
 import 'package:flutter/material.dart';
@@ -413,27 +414,46 @@ class _AppBarTitle extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(AppLocalizations.of(context)!.profileTitle,
-            style: CustomTextStyle.screenHeadLine1(context)),
-        ElevatedButton.icon(
-          style: ButtonStyle(
-            backgroundColor:
-                MaterialStateProperty.all<Color>(Theme.of(context).cardColor),
-            foregroundColor: MaterialStateProperty.all<Color>(
-                Theme.of(context).primaryColor),
-            shape: MaterialStateProperty.all<OutlinedBorder>(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(
-                  CustomProperties.borderRadius,
+        Text(
+          AppLocalizations.of(context)!.profileTitle,
+          style: CustomTextStyle.screenHeadLine1(context),
+        ),
+        Flexible(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              RawMaterialButton(
+                constraints: const BoxConstraints(minHeight: 40, minWidth: 60),
+                onPressed: () async => {
+                  Navigator.push(
+                    context,
+                    CustomRouteFade(
+                      builder: (context) => NotificationsScreen(),
+                    ),
+                  )
+                },
+                elevation: 2.0,
+                fillColor: Theme.of(context).cardColor,
+                textStyle: TextStyle(color: Theme.of(context).primaryColor),
+                shape: const CircleBorder(),
+                child: const Icon(
+                  Icons.notifications,
+                  size: 22,
                 ),
               ),
-            ),
-          ),
-          onPressed: () async => await onPressEdit(),
-          label: Text(AppLocalizations.of(context)!.settings),
-          icon: const Icon(
-            FontAwesomeIcons.gears,
-            size: 13,
+              RawMaterialButton(
+                constraints: const BoxConstraints(minHeight: 40, minWidth: 60),
+                onPressed: () async => await onPressEdit(),
+                elevation: 2.0,
+                fillColor: Theme.of(context).cardColor,
+                textStyle: TextStyle(color: Theme.of(context).primaryColor),
+                shape: const CircleBorder(),
+                child: const Icon(
+                  FontAwesomeIcons.gear,
+                  size: 18,
+                ),
+              ),
+            ],
           ),
         ),
       ],
@@ -448,39 +468,73 @@ class _WonPlayedWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-      Flexible(
-          child: Column(children: [
-        const Icon(FontAwesomeIcons.trophy, size: 20),
-        Padding(
-            padding: const EdgeInsets.all(5.0),
-            child: Text(player!.totalWonGames().toString(),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        Flexible(
+          child: Column(
+            children: [
+              const Icon(FontAwesomeIcons.trophy, size: 20),
+              Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Text(
+                  player!.totalWonGames().toString(),
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              Text(
+                AppLocalizations.of(context)!.victories,
                 style: const TextStyle(
-                    fontSize: 20, fontWeight: FontWeight.bold))),
-        Text(AppLocalizations.of(context)!.victories,
-            style: const TextStyle(fontSize: 20))
-      ])),
-      Container(
-        decoration: BoxDecoration(
+                  fontSize: 20,
+                ),
+              ),
+            ],
+          ),
+        ),
+        Container(
+          decoration: BoxDecoration(
             border: Border(
-                bottom: BorderSide(
-          color: Theme.of(context).primaryColor,
-          width: 6,
-        ))),
-        child: Text('${player!.totalWinPercentage()} %',
-            style: const TextStyle(fontSize: 35, fontWeight: FontWeight.bold)),
-      ),
-      Flexible(
-          child: Column(children: [
-        const Icon(FontAwesomeIcons.gamepad, size: 20),
-        Padding(
-            padding: const EdgeInsets.all(5.0),
-            child: Text(player!.totalPlayedGames().toString(),
+              bottom: BorderSide(
+                color: Theme.of(context).primaryColor,
+                width: 6,
+              ),
+            ),
+          ),
+          child: Text(
+            '${player!.totalWinPercentage()} %',
+            style: const TextStyle(
+              fontSize: 35,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        Flexible(
+          child: Column(
+            children: [
+              const Icon(FontAwesomeIcons.gamepad, size: 20),
+              Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Text(
+                  player!.totalPlayedGames().toString(),
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              Text(
+                AppLocalizations.of(context)!.games,
                 style: const TextStyle(
-                    fontSize: 20, fontWeight: FontWeight.bold))),
-        Text(AppLocalizations.of(context)!.games,
-            style: const TextStyle(fontSize: 20))
-      ]))
-    ]);
+                  fontSize: 20,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 }
