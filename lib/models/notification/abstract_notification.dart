@@ -17,7 +17,7 @@ abstract class AbstractNotification extends CargObject {
       required this.kind})
       : super(id: id) {
     this.timeStamp = timeStamp ?? DateTime.now();
-    this.notificationStatus = notificationStatus ?? NotificationStatus.unseen;
+    this.notificationStatus = notificationStatus ?? NotificationStatus.unread;
   }
 
   @override
@@ -40,7 +40,7 @@ abstract class AbstractNotification extends CargObject {
 
   /// Return the Icon representing the notification status
   IconData getStatusIcon() {
-    if (notificationStatus == NotificationStatus.unseen) {
+    if (notificationStatus == NotificationStatus.unread) {
       return Icons.notifications_on_outlined;
     } else {
       return Icons.check_circle;
@@ -48,6 +48,6 @@ abstract class AbstractNotification extends CargObject {
   }
 }
 
-enum NotificationStatus { seen, unseen }
+enum NotificationStatus { read, unread }
 
 enum NotificationKind { newGameInvite, gameEnded, system }
