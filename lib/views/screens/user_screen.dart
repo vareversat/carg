@@ -6,8 +6,8 @@ import 'package:carg/services/auth/auth_service.dart';
 import 'package:carg/services/impl/player_service.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/styles/text_style.dart';
-import 'package:carg/views/screens/notifications_screen.dart';
 import 'package:carg/views/screens/settings_screen.dart';
+import 'package:carg/views/widgets/bell_notification_widget.dart';
 import 'package:carg/views/widgets/error_message_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -409,6 +409,7 @@ class _AppBarTitle extends StatelessWidget {
 
   const _AppBarTitle({required this.onPressEdit});
 
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -422,25 +423,7 @@ class _AppBarTitle extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              RawMaterialButton(
-                constraints: const BoxConstraints(minHeight: 40, minWidth: 60),
-                onPressed: () async => {
-                  Navigator.push(
-                    context,
-                    CustomRouteFade(
-                      builder: (context) => NotificationsScreen(),
-                    ),
-                  )
-                },
-                elevation: 2.0,
-                fillColor: Theme.of(context).cardColor,
-                textStyle: TextStyle(color: Theme.of(context).primaryColor),
-                shape: const CircleBorder(),
-                child: const Icon(
-                  Icons.notifications,
-                  size: 22,
-                ),
-              ),
+              const BellNotificationWidget(),
               RawMaterialButton(
                 constraints: const BoxConstraints(minHeight: 40, minWidth: 60),
                 onPressed: () async => await onPressEdit(),
