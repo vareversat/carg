@@ -6,7 +6,6 @@ import 'package:carg/services/impl/notification_service.dart';
 import 'package:carg/views/screens/notifications_screen.dart';
 import 'package:flutter/material.dart';
 
-
 class BellNotificationWidget extends StatefulWidget {
   const BellNotificationWidget();
 

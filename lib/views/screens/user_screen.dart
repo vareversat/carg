@@ -409,7 +409,6 @@ class _AppBarTitle extends StatelessWidget {
 
   const _AppBarTitle({required this.onPressEdit});
 
-
   @override
   Widget build(BuildContext context) {
     return Row(

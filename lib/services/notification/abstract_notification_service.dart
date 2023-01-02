@@ -13,10 +13,12 @@ abstract class AbstractNotificationService
 
   /// Get the notifications of a particular user via his/her/them [userId]
   /// Return the notification or null if not found
-  Future getAllNotificationsOfUser(String? userId,
-      StreamController<List<AbstractNotification>> streamController, NotificationStatus status);
+  Future getAllNotificationsOfUser(
+      String? userId,
+      StreamController<List<AbstractNotification>> streamController,
+      NotificationStatus status);
 
   /// Mark a notification [notificationId] as read
   /// Return the notification or null if not found
   Future markNotificationAsRead(String? notificationId);
-  }
+}
