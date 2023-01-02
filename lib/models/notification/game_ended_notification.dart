@@ -84,16 +84,13 @@ class GameEndedNotification extends AbstractNotification {
             height: 10,
           ),
           Text(
-            AppLocalizations.of(context)!.newGameInvite(
+            AppLocalizations.of(context)!.gameEndedNotificationMessage(
               gameType.name,
             ),
           ),
-          Text(
-            AppLocalizations.of(context)!.newGameInviteJoinAsking,
-          ),
         ],
       ),
-      title: AppLocalizations.of(context)!.newGame,
+      title: AppLocalizations.of(context)!.gameEnded,
       color: Theme.of(context).primaryColor,
     );
   }

@@ -11,15 +11,12 @@ abstract class AbstractNotificationService
   AbstractNotificationService({required this.notificationRepository})
       : super(repository: notificationRepository);
 
-  /// Get the notification of a particular user via his/her/them [userId]
+  /// Get the notifications of a particular user via his/her/them [userId]
   /// Return the notification or null if not found
-  Future getNotificationOfUser(String? userId,
-      StreamController<List<AbstractNotification>> streamController);
+  Future getAllNotificationsOfUser(String? userId,
+      StreamController<List<AbstractNotification>> streamController, NotificationStatus status);
 
-  /// Search notifications into the index
+  /// Mark a notification [notificationId] as read
   /// Return the notification or null if not found
-  Future<List<AbstractNotification>> searchNotifications(
-      {String query = '',
-      AbstractNotification? currentNotification,
-      bool? myNotifications});
-}
+  Future markNotificationAsRead(String? notificationId);
+  }

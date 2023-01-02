@@ -21,4 +21,9 @@ abstract class AbstractNotificationRepository
   /// Return the notifications or null if not found
   Future getNotificationOfUser(String userId,
       StreamController<List<AbstractNotification>> streamController);
+
+  /// Get the notifications of a particular status user via his/her/them [userId]
+  /// Return the notifications or null if not found
+  Future getNotificationOfStatusOfUser(String userId,
+      StreamController<List<AbstractNotification>> streamController, NotificationStatus status);
 }

@@ -41,6 +41,37 @@ class NotificationRepository extends AbstractNotificationRepository {
         for (var doc in element.docs) {
           final Map<String, dynamic> value = doc.data();
           var kind = value['kind'];
+          if (kind == NotificationKind.system.name) {
+            notifications.add(SystemNotification.fromJSON(value, doc.id));
+          } else if (kind == NotificationKind.newGameInvite.name) {
+            notifications.add(NewGameNotification.fromJSON(value, doc.id));
+          } else if (kind == NotificationKind.gameEnded.name) {
+            notifications.add(GameEndedNotification.fromJSON(value, doc.id));
+          }
+        }
+        return notifications;
+      }).pipe(streamController);
+    } on FirebaseException catch (e) {
+      throw RepositoryException(e.message!);
+    }
+  }
+
+  @override
+  Future getNotificationOfStatusOfUser(
+      String userId,
+      StreamController<List<AbstractNotification>> streamController,
+      NotificationStatus status) {
+    try {
+      return provider
+          .collection(connectionString)
+          .where('bound_to', isEqualTo: userId)
+          .where('status', isEqualTo: status.name)
+          .snapshots()
+          .map((element) {
+        List<AbstractNotification> notifications = [];
+        for (var doc in element.docs) {
+          final Map<String, dynamic> value = doc.data();
+          var kind = value['kind'];
           if (kind == 'system') {
             notifications.add(SystemNotification.fromJSON(value, doc.id));
           } else if (kind == 'newGameInvite') {

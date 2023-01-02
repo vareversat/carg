@@ -14,14 +14,23 @@ class NotificationService extends AbstractNotificationService {
                 notificationRepository ?? NotificationRepository());
 
   @override
-  Future getNotificationOfUser(String? userId,
-      StreamController<List<AbstractNotification>> streamController) {
+  Future getAllNotificationsOfUser(
+      String? userId,
+      StreamController<List<AbstractNotification>> streamController,
+      NotificationStatus? status) {
     if (userId == null) {
       throw ServiceException('Please use a non null user id');
     }
     try {
-      var notificationStream = notificationRepository.getNotificationOfUser(
-          userId, streamController);
+      Future notificationStream;
+      if (status == null) {
+        notificationStream = notificationRepository.getNotificationOfUser(
+            userId, streamController);
+      } else {
+        notificationStream =
+            notificationRepository.getNotificationOfStatusOfUser(
+                userId, streamController, NotificationStatus.unread);
+      }
       return notificationStream;
     } on RepositoryException catch (e) {
       throw ServiceException(
@@ -30,11 +39,16 @@ class NotificationService extends AbstractNotificationService {
   }
 
   @override
-  Future<List<AbstractNotification>> searchNotifications(
-      {String query = '',
-      AbstractNotification? currentNotification,
-      bool? myNotifications}) {
-    // TODO: implement searchNotifications
-    throw UnimplementedError();
+  Future markNotificationAsRead(String? notificationId) async {
+    if (notificationId == null) {
+      throw ServiceException('Please use a non notification id');
+    }
+    try {
+      await notificationRepository.updateField(
+          notificationId, 'status', NotificationStatus.read.name);
+    } on RepositoryException catch (e) {
+      throw ServiceException(
+          'Error marking as read the notification [$notificationId] : ${e.message}');
+    }
   }
 }

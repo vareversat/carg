@@ -27,13 +27,14 @@ class _NotificationsScreenState extends State<NotificationsScreen>
 
   @override
   void initState() {
-    super.initState();
     streamController = StreamController.broadcast();
+    widget.notificationService
+        .getAllNotificationsOfUser('id', streamController, null);
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    widget.notificationService.getNotificationOfUser('id', streamController);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -63,7 +64,10 @@ class _NotificationsScreenState extends State<NotificationsScreen>
             return ListView.builder(
               itemCount: snapshot.data!.length,
               itemBuilder: (BuildContext context, int index) {
-                return NotificationWidget(notification: snapshot.data![index]);
+                return _NotificationListTile(
+                  notification: snapshot.data![index],
+                  notificationService: widget.notificationService,
+                );
               },
             );
           } else {
@@ -75,16 +79,19 @@ class _NotificationsScreenState extends State<NotificationsScreen>
   }
 }
 
-class NotificationWidget extends StatelessWidget {
+class _NotificationListTile extends StatelessWidget {
   final no.AbstractNotification notification;
+  final NotificationService notificationService;
 
-  const NotificationWidget({Key? key, required this.notification})
+  const _NotificationListTile(
+      {Key? key, required this.notification, required this.notificationService})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () async => {
+        notificationService.markNotificationAsRead(notification.id),
         await showDialog(
             context: context,
             builder: (BuildContext context) =>
