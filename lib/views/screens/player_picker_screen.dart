@@ -163,7 +163,7 @@ class _PlayerPickerScreenState extends State<PlayerPickerScreen> {
                                     title: widget.title!,
                                     game: widget.game!,
                                     gameService: CorrectInstance.ofGameService(
-                                      widget.game!,
+                                      widget.game!.gameType,
                                     ),
                                   ),
                                 ),

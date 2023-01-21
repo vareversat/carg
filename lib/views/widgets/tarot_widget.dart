@@ -28,9 +28,10 @@ class TarotWidget extends StatelessWidget {
       scoreService,
       playerService})
       : super(key: key) {
-    this.gameService = gameService ?? CorrectInstance.ofGameService(tarotGame);
+    this.gameService =
+        gameService ?? CorrectInstance.ofGameService(tarotGame.gameType);
     this.scoreService =
-        scoreService ?? CorrectInstance.ofScoreService(tarotGame);
+        scoreService ?? CorrectInstance.ofScoreService(tarotGame.gameType);
     this.playerService = playerService ?? PlayerService();
   }
 

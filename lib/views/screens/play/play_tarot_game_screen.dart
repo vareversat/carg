@@ -121,7 +121,8 @@ class _PlayTarotGameScreenState extends State<PlayTarotGameScreen> {
         context: context,
         builder: (BuildContext context) => NotesDialog(
             game: widget.tarotGame,
-            gameService: CorrectInstance.ofGameService(widget.tarotGame)));
+            gameService:
+                CorrectInstance.ofGameService(widget.tarotGame.gameType)));
   }
 
   @override

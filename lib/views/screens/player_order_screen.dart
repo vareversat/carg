@@ -1,4 +1,3 @@
-import 'package:carg/helpers/correct_instance.dart';
 import 'package:carg/helpers/custom_route.dart';
 import 'package:carg/models/game/belote_game.dart';
 import 'package:carg/models/game/game.dart';
@@ -136,11 +135,6 @@ class _PlayerOrderScreenState extends State<PlayerOrderScreen> {
                           builder: (context) => _newGame!.gameType !=
                                   GameType.TAROT
                               ? PlayBeloteScreen(
-                                  gameService: widget.gameService,
-                                  scoreService:
-                                      CorrectInstance.ofScoreService(_newGame!),
-                                  roundService:
-                                      CorrectInstance.ofRoundService(_newGame!),
                                   beloteGame: _newGame as Belote<BelotePlayers>)
                               : PlayTarotGameScreen(
                                   tarotGame: _newGame as Tarot,

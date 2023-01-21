@@ -24,17 +24,24 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class PlayBeloteScreen extends StatefulWidget {
   final Belote beloteGame;
-  final AbstractGameService gameService;
-  final AbstractScoreService scoreService;
-  final AbstractRoundService roundService;
+  late final AbstractGameService gameService;
+  late final AbstractScoreService scoreService;
+  late final AbstractRoundService roundService;
 
-  const PlayBeloteScreen(
+  PlayBeloteScreen(
       {Key? key,
       required this.beloteGame,
-      required this.gameService,
-      required this.scoreService,
-      required this.roundService})
-      : super(key: key);
+      AbstractGameService? gameService,
+      AbstractScoreService? scoreService,
+      AbstractRoundService? roundService})
+      : super(key: key) {
+    this.gameService =
+        gameService ?? CorrectInstance.ofGameService(beloteGame.gameType);
+    this.scoreService =
+        scoreService ?? CorrectInstance.ofScoreService(beloteGame.gameType);
+    this.roundService =
+        roundService ?? CorrectInstance.ofRoundService(beloteGame.gameType);
+  }
 
   @override
   State<StatefulWidget> createState() {
@@ -52,7 +59,8 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
         builder: (context) => AddBeloteRoundScreen(
           beloteGame: widget.beloteGame,
           beloteRound: widget.roundService.getNewRound() as BeloteRound?,
-          roundService: CorrectInstance.ofRoundService(widget.beloteGame),
+          roundService:
+              CorrectInstance.ofRoundService(widget.beloteGame.gameType),
         ),
       ),
     );
@@ -101,7 +109,8 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
           builder: (context) => AddBeloteRoundScreen(
               beloteGame: widget.beloteGame,
               beloteRound: lastRound as BeloteRound,
-              roundService: CorrectInstance.ofRoundService(widget.beloteGame),
+              roundService:
+                  CorrectInstance.ofRoundService(widget.beloteGame.gameType),
               isEditing: true),
         ),
       );

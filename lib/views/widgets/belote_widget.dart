@@ -38,12 +38,13 @@ class BeloteWidget extends StatelessWidget {
       roundService,
       playerService})
       : super(key: key) {
-    this.gameService = gameService ?? CorrectInstance.ofGameService(beloteGame);
+    this.gameService =
+        gameService ?? CorrectInstance.ofGameService(beloteGame.gameType);
     this.scoreService =
-        scoreService ?? CorrectInstance.ofScoreService(beloteGame);
+        scoreService ?? CorrectInstance.ofScoreService(beloteGame.gameType);
     this.teamService = teamService ?? TeamService();
     this.roundService =
-        roundService ?? CorrectInstance.ofRoundService(beloteGame);
+        roundService ?? CorrectInstance.ofRoundService(beloteGame.gameType);
     this.playerService = playerService ?? PlayerService();
   }
 

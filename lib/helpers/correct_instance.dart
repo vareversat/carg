@@ -1,8 +1,4 @@
-import 'package:carg/models/game/coinche_belote.dart';
-import 'package:carg/models/game/contree_belote.dart';
-import 'package:carg/models/game/french_belote.dart';
-import 'package:carg/models/game/game.dart';
-import 'package:carg/models/game/tarot.dart';
+import 'package:carg/models/game/game_type.dart';
 import 'package:carg/services/impl/game/coinche_belote_game_service.dart';
 import 'package:carg/services/impl/game/contree_belote_game_service.dart';
 import 'package:carg/services/impl/game/french_belote_game_service.dart';
@@ -17,51 +13,51 @@ import 'package:carg/services/impl/score/french_belote_score_service.dart';
 import 'package:carg/services/impl/score/tarot_score_service.dart';
 
 class CorrectInstance {
-  static ofGameService(Game game) {
-    switch (game.runtimeType) {
-      case FrenchBelote:
+  static ofGameService(GameType type) {
+    switch (type) {
+      case GameType.BELOTE:
         return FrenchBeloteGameService();
-      case CoincheBelote:
+      case GameType.COINCHE:
         return CoincheBeloteGameService();
-      case ContreeBelote:
+      case GameType.CONTREE:
         return ContreeBeloteGameService();
-      case Tarot:
+      case GameType.TAROT:
         return TarotGameService();
       default:
         throw Exception(
-            '${game.runtimeType.toString()} does not have any registered game service');
+            '${type.name.toString()} does not have any registered game service');
     }
   }
 
-  static ofRoundService(Game game) {
-    switch (game.runtimeType) {
-      case FrenchBelote:
+  static ofRoundService(GameType type) {
+    switch (type) {
+      case GameType.BELOTE:
         return FrenchBeloteRoundService();
-      case CoincheBelote:
+      case GameType.COINCHE:
         return CoincheBeloteRoundService();
-      case ContreeBelote:
+      case GameType.CONTREE:
         return ContreeBeloteRoundService();
-      case Tarot:
+      case GameType.TAROT:
         return TarotRoundService();
       default:
         throw Exception(
-            '${game.runtimeType.toString()} does not have any registered round service');
+            '${type.name.toString()} does not have any registered round service');
     }
   }
 
-  static ofScoreService(Game game) {
-    switch (game.runtimeType) {
-      case FrenchBelote:
+  static ofScoreService(GameType type) {
+    switch (type) {
+      case GameType.BELOTE:
         return FrenchBeloteScoreService();
-      case CoincheBelote:
+      case GameType.COINCHE:
         return CoincheBeloteScoreService();
-      case ContreeBelote:
+      case GameType.CONTREE:
         return ContreeBeloteScoreService();
-      case Tarot:
+      case GameType.TAROT:
         return TarotScoreService();
       default:
         throw Exception(
-            '${game.runtimeType.toString()} does not have any registered score service');
+            '${type.name.toString()} does not have any registered score service');
     }
   }
 }
