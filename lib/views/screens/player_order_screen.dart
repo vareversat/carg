@@ -71,8 +71,12 @@ class _PlayerOrderScreenState extends State<PlayerOrderScreen> {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
         child: AppBar(
-          title: Text(widget.title,
-              style: CustomTextStyle.screenHeadLine1(context)),
+          title: Text(
+            widget.title,
+            style: CustomTextStyle.screenHeadLine1(
+              context,
+            ),
+          ),
         ),
       ),
       body: Padding(
@@ -81,22 +85,31 @@ class _PlayerOrderScreenState extends State<PlayerOrderScreen> {
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text(AppLocalizations.of(context)!.orderOfPlay,
-                  style: const TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.bold)),
+              child: Text(
+                AppLocalizations.of(context)!.orderOfPlay,
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
             Flexible(
                 child: ReorderableListView(
                     onReorder: _onReorder,
                     children: playerListForOrder
                         .asMap()
-                        .map((i, player) => MapEntry(
+                        .map(
+                          (i, player) => MapEntry(
                             i,
-                            Container(
-                              key: ValueKey(player),
-                              child: DraggablePlayerWidget(
-                                  player: player, index: i),
-                            )))
+                            DraggablePlayerWidget(
+                              player: player,
+                              index: i,
+                              key: ValueKey(
+                                player,
+                              ),
+                            ),
+                          ),
+                        )
                         .values
                         .toList())),
             Padding(
