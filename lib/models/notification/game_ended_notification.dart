@@ -1,4 +1,5 @@
 import 'package:carg/models/game/game_type.dart';
+import 'package:carg/models/notification/abstract_game_notification.dart';
 import 'package:carg/models/notification/abstract_notification.dart';
 import 'package:carg/views/dialogs/warning_dialog.dart';
 import 'package:enum_to_string/enum_to_string.dart';
@@ -6,10 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class GameEndedNotification extends AbstractNotification {
-  final String gameId;
-  final GameType gameType;
-
+class GameEndedNotification extends AbstractGameNotification {
   factory GameEndedNotification.fromJSON(
       Map<String, dynamic>? json, String id) {
     return GameEndedNotification(
@@ -28,18 +26,14 @@ class GameEndedNotification extends AbstractNotification {
       super.notificationStatus,
       super.timeStamp,
       required super.boundTo,
-      required this.gameId,
-      required this.gameType})
+      required super.gameId,
+      required super.gameType})
       : super(kind: NotificationKind.gameEnded);
 
   @override
   Map<String, dynamic> toJSON() {
     var tmpJSON = super.toJSON();
-    tmpJSON.addAll({
-      'game_id': gameId,
-      'kind': NotificationKind.gameEnded.name,
-      'game_type': gameType.name
-    });
+    tmpJSON.addAll({'game_id': gameId, 'game_type': gameType.name});
     return tmpJSON;
   }
 
@@ -58,7 +52,8 @@ class GameEndedNotification extends AbstractNotification {
   Widget displayDialog(BuildContext context) {
     return WarningDialog(
       onConfirmButtonMessage: AppLocalizations.of(context)!.yes,
-      onConfirm: () async => {},
+      onCancelButtonMessage: AppLocalizations.of(context)!.no,
+      onConfirm: () async => {goToGame(context)},
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

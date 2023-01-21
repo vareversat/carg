@@ -29,7 +29,7 @@ class SystemNotification extends AbstractNotification {
   @override
   Map<String, dynamic> toJSON() {
     var tmpJSON = super.toJSON();
-    tmpJSON.addAll({'message': message, 'kind': NotificationKind.system.name});
+    tmpJSON.addAll({'message': message});
     return tmpJSON;
   }
 

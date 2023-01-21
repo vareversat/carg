@@ -49,6 +49,7 @@
     "enterOtp": "Please enter the OTP code sent to",
     "error": "Error",
     "errorDuringPurchase": "Error during purchase",
+    "errorGameNotFound": "Game not found",
     "errorInvalidPhoneNumber": "The phone number is invalid",
     "errorLoadingPage": "Error encountered while loading the page",
     "errorPlayerAlreadyLinked": "This player is already linked to another account",

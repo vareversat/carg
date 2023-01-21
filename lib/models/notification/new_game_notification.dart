@@ -1,4 +1,5 @@
 import 'package:carg/models/game/game_type.dart';
+import 'package:carg/models/notification/abstract_game_notification.dart';
 import 'package:carg/models/notification/abstract_notification.dart';
 import 'package:carg/views/dialogs/warning_dialog.dart';
 import 'package:carg/views/widgets/api_mini_player_widget.dart';
@@ -7,10 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class NewGameNotification extends AbstractNotification {
-  final String gameId;
+class NewGameNotification extends AbstractGameNotification {
   final String sourcePlayerId;
-  final GameType gameType;
 
   factory NewGameNotification.fromJSON(Map<String, dynamic>? json, String id) {
     return NewGameNotification(
@@ -30,9 +29,9 @@ class NewGameNotification extends AbstractNotification {
       super.notificationStatus,
       super.timeStamp,
       required super.boundTo,
-      required this.gameId,
+      required super.gameId,
       required this.sourcePlayerId,
-      required this.gameType})
+      required super.gameType})
       : super(kind: NotificationKind.newGameInvite);
 
   @override
@@ -62,7 +61,7 @@ class NewGameNotification extends AbstractNotification {
     return WarningDialog(
       onConfirmButtonMessage: AppLocalizations.of(context)!.yes,
       onCancelButtonMessage: AppLocalizations.of(context)!.no,
-      onConfirm: () async => {},
+      onConfirm: () async => {goToGame(context)},
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

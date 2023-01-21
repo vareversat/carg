@@ -25,7 +25,8 @@ abstract class AbstractNotification extends CargObject {
     return {
       'status': EnumToString.convertToString(notificationStatus),
       'time_stamp': DateFormat('yyyy-MM-ddTHH:mm:ss').format(timeStamp),
-      'bound_to': boundTo
+      'bound_to': boundTo,
+      'kind': kind.name,
     };
   }
 
