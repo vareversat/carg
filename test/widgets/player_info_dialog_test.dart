@@ -56,7 +56,7 @@ void main() {
 
         expect(
             tester.widget<Text>(find.byKey(const ValueKey('titleText'))).data,
-            'Nouveau/nouvelle joueur/joueuse');
+            'Nouveau.elle joueur.euse');
       });
 
       testWidgets('INFORMATIONS', (WidgetTester tester) async {
