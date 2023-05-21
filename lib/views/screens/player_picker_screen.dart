@@ -17,9 +17,8 @@ import 'package:provider/provider.dart';
 
 class PlayerPickerScreen extends StatefulWidget {
   final Game? game;
-  final String? title;
 
-  const PlayerPickerScreen({Key? key, required this.game, required this.title})
+  const PlayerPickerScreen({Key? key, required this.game})
       : super(key: key);
 
   @override
@@ -58,7 +57,7 @@ class _PlayerPickerScreenState extends State<PlayerPickerScreen> {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
         child: AppBar(
-          title: Text(widget.title!,
+          title: Text(widget.game!.gameType.name,
               style: CustomTextStyle.screenHeadLine1(context)),
         ),
       ),
@@ -160,7 +159,6 @@ class _PlayerPickerScreenState extends State<PlayerPickerScreen> {
                                 CustomRouteLeftToRight(
                                   builder: (context) => PlayerOrderScreen(
                                     playerList: newPlayers!,
-                                    title: widget.title!,
                                     game: widget.game!,
                                     gameService: CorrectInstance.ofGameService(
                                       widget.game!.gameType,

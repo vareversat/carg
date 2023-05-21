@@ -109,7 +109,7 @@ class _GameModeButton extends StatelessWidget {
             Navigator.of(context).push(
               CustomRouteLeftToRight(
                 builder: (context) =>
-                    PlayerPickerScreen(game: game, title: game!.gameType.name),
+                    PlayerPickerScreen(game: game),
               ),
             )
           },

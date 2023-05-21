@@ -61,7 +61,7 @@ abstract class AbstractGameService<T extends Game, Q extends Score>
 
   /// Create a new game with a player list
   /// [playerListForOrder] is used to keep the play order of the players
-  /// [playerListForTeam] is used to create the teams od the game
+  /// [playerListForTeam] is used to create the teams of the game
   /// Return the new game
   Future<T> createGameWithPlayerList(List<String?> playerListForOrder,
       List<String?> playerListForTeam, DateTime? startingDate);
