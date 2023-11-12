@@ -1,7 +1,8 @@
 import 'dart:io' show Platform;
+
 import 'package:carg/exceptions/custom_exception.dart';
 import 'package:carg/services/auth/auth_service.dart';
-import 'package:carg/styles/properties.dart';
+import 'package:carg/styles/custom_properties.dart';
 import 'package:carg/views/helpers/info_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,9 +13,10 @@ import 'package:provider/provider.dart';
 class RegisterPhoneWidget extends StatefulWidget {
   final CredentialVerificationType credentialVerificationType;
 
-  const RegisterPhoneWidget(
-      {Key? key, required this.credentialVerificationType})
-      : super(key: key);
+  const RegisterPhoneWidget({
+    super.key,
+    required this.credentialVerificationType,
+  });
 
   @override
   State<StatefulWidget> createState() {
@@ -25,8 +27,14 @@ class RegisterPhoneWidget extends StatefulWidget {
 class _RegisterPhoneWidgetState extends State<RegisterPhoneWidget>
     with TickerProviderStateMixin {
   Future<CountryWithPhoneCode?> showCountriesDialog(
-      Map<String, CountryWithPhoneCode> values) async {
-    var countryList = CountryList(List.of(values.values));
+    Map<String, CountryWithPhoneCode> values,
+  ) async {
+    var countryList = CountryList(
+      List.of(
+        values.values,
+      ),
+    );
+
     return showDialog<CountryWithPhoneCode>(
       context: context,
       builder: (BuildContext context) => ChangeNotifierProvider.value(
@@ -43,7 +51,8 @@ class _RegisterPhoneWidgetState extends State<RegisterPhoneWidget>
                   countryListData.filter(value);
                 },
                 decoration: InputDecoration(
-                    labelText: '${AppLocalizations.of(context)!.search}...'),
+                  labelText: '${AppLocalizations.of(context)!.search}...',
+                ),
                 textInputAction: TextInputAction.search,
               ),
               SizedBox(
@@ -62,24 +71,15 @@ class _RegisterPhoneWidgetState extends State<RegisterPhoneWidget>
                       child: RichText(
                         text: TextSpan(
                           text: countryListData.countries![index].countryName,
-                          style: TextStyle(
-                            fontFamily:
-                                DefaultTextStyle.of(context).style.fontFamily,
-                            fontSize:
-                                DefaultTextStyle.of(context).style.fontSize,
-                            fontWeight: FontWeight.bold,
-                            color: DefaultTextStyle.of(context).style.color,
-                          ),
+                          style: Theme.of(context).textTheme.bodyLarge,
                           children: <TextSpan>[
                             TextSpan(
                               text:
                                   ' (${countryListData.countries![index].countryCode}',
-                              style: DefaultTextStyle.of(context).style,
                             ),
                             TextSpan(
                               text:
                                   ' +${countryListData.countries![index].phoneCode})',
-                              style: DefaultTextStyle.of(context).style,
                             ),
                           ],
                         ),
@@ -97,7 +97,7 @@ class _RegisterPhoneWidgetState extends State<RegisterPhoneWidget>
                     fontStyle: FontStyle.italic,
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),
@@ -108,10 +108,15 @@ class _RegisterPhoneWidgetState extends State<RegisterPhoneWidget>
   Future _sendPinCode(PhoneRegistrationData phoneRegistrationData) async {
     try {
       phoneRegistrationData.sendingSms = true;
-      var phoneNumber = await phoneRegistrationData.formatPhoneNumberToE164();
-      await Provider.of<AuthService>(context, listen: false)
-          .sendPhoneVerificationCode(
-              phoneNumber, context, widget.credentialVerificationType);
+      await phoneRegistrationData.formatPhoneNumberToE164().then(
+            (phoneNumber) async =>
+                await Provider.of<AuthService>(context, listen: false)
+                    .sendPhoneVerificationCode(
+              phoneNumber,
+              context,
+              widget.credentialVerificationType,
+            ),
+          );
     } on CustomException catch (e) {
       InfoSnackBar.showSnackBar(context, e.message);
     }
@@ -119,6 +124,8 @@ class _RegisterPhoneWidgetState extends State<RegisterPhoneWidget>
 
   @override
   Widget build(BuildContext context) {
+    final primaryColor = Theme.of(context).primaryColor;
+
     return ChangeNotifierProvider.value(
       value: PhoneRegistrationData(),
       child: Consumer<PhoneRegistrationData>(
@@ -139,25 +146,35 @@ class _RegisterPhoneWidgetState extends State<RegisterPhoneWidget>
                             ? const CircularProgressIndicator(strokeWidth: 5)
                             : ElevatedButton(
                                 style: ButtonStyle(
-                                    backgroundColor: MaterialStateProperty.all<Color>(
-                                        Theme.of(context).cardColor),
-                                    foregroundColor:
-                                        MaterialStateProperty.all<Color>(
-                                            Theme.of(context).primaryColor),
-                                    shape: MaterialStateProperty.all<OutlinedBorder>(
-                                        RoundedRectangleBorder(
-                                            side: BorderSide(
-                                                width: 2,
-                                                color: Theme.of(context)
-                                                    .primaryColor),
-                                            borderRadius: BorderRadius.circular(
-                                                CustomProperties.borderRadius)))),
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                    Theme.of(context).cardColor,
+                                  ),
+                                  foregroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                    primaryColor,
+                                  ),
+                                  shape:
+                                      MaterialStateProperty.all<OutlinedBorder>(
+                                    RoundedRectangleBorder(
+                                      side: BorderSide(
+                                        width: 2,
+                                        color: Theme.of(context).primaryColor,
+                                      ),
+                                      borderRadius: BorderRadius.circular(
+                                        CustomProperties.borderRadius,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                //ignore: avoid-passing-async-when-sync-expected
                                 onPressed: snapshot.connectionState ==
                                         ConnectionState.done
                                     ? () async {
                                         phoneRegistrationData.country =
                                             await showCountriesDialog(
-                                                snapshot.data!);
+                                          snapshot.data!,
+                                        );
                                       }
                                     : null,
                                 child: AnimatedSize(
@@ -181,9 +198,9 @@ class _RegisterPhoneWidgetState extends State<RegisterPhoneWidget>
                         child: TextField(
                           textInputAction: TextInputAction.go,
                           enabled: phoneRegistrationData.country != null,
-                          onSubmitted: (value) async {
+                          onSubmitted: (value) {
                             if (!phoneRegistrationData.isPhoneNumberEmpty()) {
-                              await _sendPinCode(phoneRegistrationData);
+                              _sendPinCode(phoneRegistrationData);
                             }
                           },
                           onChanged: (value) {
@@ -192,16 +209,17 @@ class _RegisterPhoneWidgetState extends State<RegisterPhoneWidget>
                           keyboardType: TextInputType.number,
                           decoration: InputDecoration(
                             labelStyle: TextStyle(
-                              color: Theme.of(context).primaryColor,
+                              color: primaryColor,
                               fontWeight: FontWeight.normal,
                             ),
                             labelText: (phoneRegistrationData.country == null
                                 ? ''
                                 : ' ${AppLocalizations.of(context)!.example} : ${phoneRegistrationData.country?.exampleNumberMobileNational}'),
-                            fillColor: Theme.of(context).primaryColor,
+                            fillColor: primaryColor,
                             disabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(
-                                  CustomProperties.borderRadius),
+                                CustomProperties.borderRadius,
+                              ),
                               borderSide: const BorderSide(
                                 color: Colors.grey,
                                 width: 2.0,
@@ -209,17 +227,19 @@ class _RegisterPhoneWidgetState extends State<RegisterPhoneWidget>
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(
-                                  CustomProperties.borderRadius),
+                                CustomProperties.borderRadius,
+                              ),
                               borderSide: BorderSide(
-                                color: Theme.of(context).primaryColor,
+                                color: primaryColor,
                                 width: 2.0,
                               ),
                             ),
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(
-                                  CustomProperties.borderRadius),
+                                CustomProperties.borderRadius,
+                              ),
                               borderSide: BorderSide(
-                                color: Theme.of(context).primaryColor,
+                                color: primaryColor,
                                 width: 2.0,
                               ),
                             ),
@@ -232,7 +252,9 @@ class _RegisterPhoneWidgetState extends State<RegisterPhoneWidget>
                   Text(
                     AppLocalizations.of(context)!.messageSmsInfo,
                     style: const TextStyle(
-                        fontStyle: FontStyle.italic, fontSize: 13),
+                      fontStyle: FontStyle.italic,
+                      fontSize: 13,
+                    ),
                   ),
                 ],
               );
@@ -270,6 +292,7 @@ class CountryList with ChangeNotifier {
 
   List<CountryWithPhoneCode> _extractSuggestedCountry() {
     String deviceCountry = Platform.localeName.substring(3, 5);
+
     return _countries!
         .where((element) => element.countryCode == deviceCountry)
         .toList();
@@ -294,10 +317,12 @@ class PhoneRegistrationData with ChangeNotifier {
   String? get phoneNumber => _phoneNumber;
 
   set phoneNumber(String? value) {
-    _phoneNumber = FlutterLibphonenumber().formatNumberSync(value!,
-        country: country!,
-        removeCountryCodeFromResult: false,
-        phoneNumberFormat: PhoneNumberFormat.national);
+    _phoneNumber = formatNumberSync(
+      value!,
+      country: country!,
+      removeCountryCodeFromResult: false,
+      phoneNumberFormat: PhoneNumberFormat.national,
+    );
     notifyListeners();
   }
 
@@ -328,14 +353,15 @@ class PhoneRegistrationData with ChangeNotifier {
   }
 
   Future<Map<String, CountryWithPhoneCode>> getAllRegions() async {
-    await FlutterLibphonenumber().init();
-    return FlutterLibphonenumber().getAllSupportedRegions();
+    await init();
+
+    return getAllSupportedRegions();
   }
 
   Future<String> formatPhoneNumberToE164() async {
     try {
-      var result = await FlutterLibphonenumber()
-          .parse(phoneNumber!, region: country!.countryCode);
+      var result = await parse(phoneNumber!, region: country!.countryCode);
+
       return result['e164'];
     } on PlatformException {
       throw CustomException('invalid-phone-number');

@@ -1,7 +1,7 @@
 import 'package:carg/models/game/game.dart';
 import 'package:carg/services/game/abstract_game_service.dart';
-import 'package:carg/styles/properties.dart';
-import 'package:carg/styles/text_style.dart';
+import 'package:carg/styles/custom_properties.dart';
+import 'package:carg/styles/custom_text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -9,8 +9,7 @@ class NotesDialog extends StatefulWidget {
   final Game game;
   final AbstractGameService gameService;
 
-  const NotesDialog({Key? key, required this.game, required this.gameService})
-      : super(key: key);
+  const NotesDialog({super.key, required this.game, required this.gameService});
 
   @override
   State<StatefulWidget> createState() {
@@ -23,6 +22,8 @@ class _NotesDialogState extends State<NotesDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final color = Theme.of(context).colorScheme.secondary;
+
     return AlertDialog(
       insetPadding: const EdgeInsets.symmetric(horizontal: 20),
       titlePadding: const EdgeInsets.all(0),
@@ -30,7 +31,7 @@ class _NotesDialogState extends State<NotesDialog> {
       actionsPadding: const EdgeInsets.fromLTRB(0, 0, 20, 10),
       title: Container(
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.secondary,
+          color: color,
           borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(15.0),
             topRight: Radius.circular(15.0),
@@ -50,7 +51,7 @@ class _NotesDialogState extends State<NotesDialog> {
         decoration: InputDecoration(
           focusedBorder: UnderlineInputBorder(
             borderSide: BorderSide(
-              color: Theme.of(context).colorScheme.secondary,
+              color: color,
               width: 2,
             ),
           ),
@@ -65,7 +66,8 @@ class _NotesDialogState extends State<NotesDialog> {
         ElevatedButton.icon(
           style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all<Color>(
-                Theme.of(context).colorScheme.secondary),
+              color,
+            ),
             foregroundColor:
                 MaterialStateProperty.all<Color>(Theme.of(context).cardColor),
             shape: MaterialStateProperty.all<OutlinedBorder>(
@@ -76,9 +78,10 @@ class _NotesDialogState extends State<NotesDialog> {
               ),
             ),
           ),
-          onPressed: () async => {
-            await widget.gameService.update(widget.game),
-            Navigator.pop(context)
+          onPressed: () => {
+            widget.gameService.update(widget.game).then(
+                  (value) => Navigator.pop(context),
+                ),
           },
           label: Text(
             MaterialLocalizations.of(context).okButtonLabel,
@@ -92,7 +95,8 @@ class _NotesDialogState extends State<NotesDialog> {
             backgroundColor:
                 MaterialStateProperty.all<Color>(Theme.of(context).cardColor),
             foregroundColor: MaterialStateProperty.all<Color>(
-                Theme.of(context).colorScheme.secondary),
+              color,
+            ),
             shape: MaterialStateProperty.all<OutlinedBorder>(
               RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(
@@ -106,7 +110,7 @@ class _NotesDialogState extends State<NotesDialog> {
           label: Text(
             MaterialLocalizations.of(context).cancelButtonLabel,
           ),
-        )
+        ),
       ],
     );
   }

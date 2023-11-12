@@ -19,10 +19,12 @@ abstract class AbstractScoreService<T extends Score>
     }
     try {
       var score = await scoreRepository.getScoreByGame(gameId);
+
       return score;
     } on RepositoryException catch (e) {
       throw ServiceException(
-          'Error on getting the score by game ID [$gameId] : ${e.message}');
+        'Error on getting the score by game ID [$gameId] : ${e.message}',
+      );
     }
   }
 
@@ -34,10 +36,12 @@ abstract class AbstractScoreService<T extends Score>
     }
     try {
       var scoreStream = scoreRepository.getScoreByGameStream(gameId);
+
       return scoreStream;
     } on RepositoryException catch (e) {
       throw ServiceException(
-          'Error on streaming the score by game ID [$gameId] : ${e.message}');
+        'Error on streaming the score by game ID [$gameId] : ${e.message}',
+      );
     }
   }
 
@@ -50,7 +54,8 @@ abstract class AbstractScoreService<T extends Score>
       await scoreRepository.deleteScoreByGame(gameId);
     } on RepositoryException catch (e) {
       throw ServiceException(
-          'Error on deleting a score by game ID [$gameId] : ${e.message}');
+        'Error on deleting a score by game ID [$gameId] : ${e.message}',
+      );
     }
   }
 }

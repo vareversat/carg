@@ -13,14 +13,15 @@ import 'package:carg/services/player/abstract_player_service.dart';
 import 'package:carg/services/score/abstract_tarot_score_service.dart';
 
 class TarotGameService extends AbstractTarotGameService {
-  TarotGameService(
-      {AbstractTarotScoreService? tarotScoreService,
-      AbstractTarotGameRepository? tarotGameRepository,
-      AbstractPlayerService? playerService})
-      : super(
-            tarotScoreService: tarotScoreService ?? TarotScoreService(),
-            tarotGameRepository: tarotGameRepository ?? TarotGameRepository(),
-            playerService: playerService ?? PlayerService());
+  TarotGameService({
+    AbstractTarotScoreService? tarotScoreService,
+    AbstractTarotGameRepository? tarotGameRepository,
+    AbstractPlayerService? playerService,
+  }) : super(
+          tarotScoreService: tarotScoreService ?? TarotScoreService(),
+          tarotGameRepository: tarotGameRepository ?? TarotGameRepository(),
+          playerService: playerService ?? PlayerService(),
+        );
 
   @override
   Future<void> endAGame(Tarot? game, DateTime? endingDate) async {
@@ -46,16 +47,18 @@ class TarotGameService extends AbstractTarotGameService {
           final updatePart = {
             'is_ended': true,
             'ending_date': (endingDate ?? DateTime.now()).toString(),
-            'winners': winner.player
+            'winners': winner.player,
           };
           await tarotGameRepository.partialUpdate(game, updatePart);
         } else {
           throw ServiceException(
-              'Error while ending the Game ${game.id} : no winners found');
+            'Error while ending the Game ${game.id} : no winners found',
+          );
         }
       } else {
         throw ServiceException(
-            'Error while ending the Game ${game.id} : no score found');
+          'Error while ending the Game ${game.id} : no score found',
+        );
       }
     } on Exception catch (e) {
       throw ServiceException('Error during the game ending : ${e.toString()}');
@@ -63,23 +66,32 @@ class TarotGameService extends AbstractTarotGameService {
   }
 
   @override
-  Future<Tarot> createGameWithPlayerList(List<String?> playerListForOrder,
-      List<String?> playerListForTeam, DateTime? startingDate) async {
+  Future<Tarot> createGameWithPlayerList(
+    List<String?> playerListForOrder,
+    List<String?> playerListForTeam,
+    DateTime? startingDate,
+  ) async {
     try {
       var tarotGame = Tarot(
-          isEnded: false,
-          startingDate: startingDate ?? DateTime.now(),
-          players: TarotPlayers(playerList: playerListForTeam));
+        isEnded: false,
+        startingDate: startingDate ?? DateTime.now(),
+        players: TarotPlayers(
+          playerList: playerListForTeam,
+        ),
+      );
       tarotGame.id = await tarotGameRepository.create(tarotGame);
       var tarotScore = TarotScore(
-          game: tarotGame.id,
-          rounds: <TarotRound>[],
-          players: playerListForTeam);
+        game: tarotGame.id,
+        rounds: <TarotRound>[],
+        players: playerListForTeam,
+      );
       await tarotScoreService.create(tarotScore);
+
       return tarotGame;
     } on Exception catch (e) {
       throw ServiceException(
-          'Error during the game creation : ${e.toString()}');
+        'Error during the game creation : ${e.toString()}',
+      );
     }
   }
 }

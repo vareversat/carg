@@ -11,9 +11,10 @@ abstract class AbstractGameService<T extends Game, Q extends Score>
   final AbstractGameRepository<T> gameRepository;
   final AbstractScoreService<Q> scoreService;
 
-  AbstractGameService(
-      {required this.scoreService, required this.gameRepository})
-      : super(repository: gameRepository);
+  AbstractGameService({
+    required this.scoreService,
+    required this.gameRepository,
+  }) : super(repository: gameRepository);
 
   /// Get a game via the [gameId]
   /// Return the game, null if not present in present in database
@@ -25,7 +26,8 @@ abstract class AbstractGameService<T extends Game, Q extends Score>
       return gameRepository.get(gameId);
     } on FirebaseException catch (e) {
       throw ServiceException(
-          'Impossible to get the Game $gameId : ${e.message}');
+        'Impossible to get the Game $gameId : ${e.message}',
+      );
     }
   }
 
@@ -39,23 +41,28 @@ abstract class AbstractGameService<T extends Game, Q extends Score>
       await scoreService.deleteScoreByGame(gameId);
     } on Exception catch (e) {
       throw ServiceException(
-          'Error while deleting the Game $gameId : ${e.toString()}');
+        'Error while deleting the Game $gameId : ${e.toString()}',
+      );
     }
   }
 
   /// Get all the paginated games of a player via his/her/them [playerId]
   /// Return the list of Games
   Future<List<T>> getAllGamesOfPlayerPaginated(
-      String? playerId, int? pageSize) async {
+    String? playerId,
+    int? pageSize,
+  ) async {
     if (playerId == null || pageSize == null) {
       throw ServiceException('Please use a non null player id and page size');
     }
     try {
       var game = await gameRepository.getAllGamesOfPlayer(playerId, pageSize);
+
       return game;
     } on Exception catch (e) {
       throw ServiceException(
-          'Error during the game fetching : ${e.toString()}');
+        'Error during the game fetching : ${e.toString()}',
+      );
     }
   }
 
@@ -63,8 +70,11 @@ abstract class AbstractGameService<T extends Game, Q extends Score>
   /// [playerListForOrder] is used to keep the play order of the players
   /// [playerListForTeam] is used to create the teams od the game
   /// Return the new game
-  Future<T> createGameWithPlayerList(List<String?> playerListForOrder,
-      List<String?> playerListForTeam, DateTime? startingDate);
+  Future<T> createGameWithPlayerList(
+    List<String?> playerListForOrder,
+    List<String?> playerListForTeam,
+    DateTime? startingDate,
+  );
 
   /// End a [game]
   Future<void> endAGame(T game, DateTime? endingDate);

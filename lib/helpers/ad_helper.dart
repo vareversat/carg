@@ -11,7 +11,8 @@ class AdHelper {
       return Const.iosInlineBanner;
     } else {
       throw UnsupportedError(
-          "Unsupported platform to determine the banner unit ID");
+        'Unsupported platform to determine the banner unit ID',
+      );
     }
   }
 }

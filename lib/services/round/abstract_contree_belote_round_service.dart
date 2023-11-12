@@ -5,7 +5,7 @@ import 'package:carg/services/score/abstract_contree_belote_score_service.dart';
 
 abstract class AbstractContreeBeloteRoundService
     extends AbstractBeloteRoundService<ContreeBeloteRound, ContreeBeloteScore> {
-  AbstractContreeBeloteRoundService(
-      {required AbstractContreeBeloteScoreService scoreService})
-      : super(scoreService: scoreService);
+  AbstractContreeBeloteRoundService({
+    required AbstractContreeBeloteScoreService scoreService,
+  }) : super(scoreService: scoreService);
 }

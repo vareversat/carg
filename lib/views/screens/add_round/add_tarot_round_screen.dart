@@ -3,7 +3,7 @@ import 'package:carg/models/players/tarot_round_players.dart';
 import 'package:carg/models/score/round/tarot_round.dart';
 import 'package:carg/services/impl/player_service.dart';
 import 'package:carg/services/impl/round/tarot_round_service.dart';
-import 'package:carg/styles/properties.dart';
+import 'package:carg/styles/custom_properties.dart';
 import 'package:carg/views/screens/add_round/widget/real_time_display_widget.dart';
 import 'package:carg/views/screens/add_round/widget/screen_title_widget.dart';
 import 'package:carg/views/screens/add_round/widget/section_title_widget.dart';
@@ -25,25 +25,31 @@ class AddTarotRoundScreen extends StatelessWidget {
   void _setupRound() async {
     if (isEditing!) {
       await tarotRoundService.editLastRoundOfScoreByGameId(
-          tarotGame!.id, tarotRound);
+        tarotGame!.id,
+        tarotRound,
+      );
     } else {
       await tarotRoundService.addRoundToGame(tarotGame!.id, tarotRound);
     }
   }
 
-  AddTarotRoundScreen(
-      {Key? key, this.tarotGame, this.tarotRound, this.isEditing})
-      : super(key: key);
+  AddTarotRoundScreen({
+    super.key,
+    this.tarotGame,
+    this.tarotRound,
+    this.isEditing,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          leading: IconButton(
-            icon: const Icon(Icons.cancel),
-            onPressed: () => Navigator.pop(context),
-          ),
-          title: const ScreenTitleWidget()),
+        leading: IconButton(
+          icon: const Icon(Icons.cancel),
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: const ScreenTitleWidget(),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
@@ -55,7 +61,8 @@ class AddTarotRoundScreen extends StatelessWidget {
                     children: [
                       SectionTitleWidget(
                         title: AppLocalizations.of(context)!.takerTitleTarot(
-                            tarotRound!.players!.playerList!.length % 5),
+                          tarotRound!.players!.playerList!.length % 5,
+                        ),
                       ),
                       ChangeNotifierProvider.value(
                         value: tarotRound!.players!,
@@ -73,7 +80,9 @@ class AddTarotRoundScreen extends StatelessWidget {
                                         !playerData.isPlayerSelected(player),
                                     showLoading: false,
                                     selectedColor: playerData.getSelectedColor(
-                                        player, context),
+                                      player,
+                                      context,
+                                    ),
                                     size: 20,
                                     playerService: PlayerService(),
                                     onTap: () =>
@@ -155,11 +164,14 @@ class AddTarotRoundScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    icon: const Icon(Icons.check, size: 30),
+                    icon: const Icon(
+                      Icons.check,
+                      size: 30,
+                    ),
                   ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

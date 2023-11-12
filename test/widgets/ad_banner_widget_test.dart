@@ -12,7 +12,7 @@ import 'ad_banner_widget_test.mocks.dart';
 Widget testableWidget(AuthService mockAuthService) => MaterialApp(
     home: ChangeNotifierProvider<AuthService>.value(
         value: mockAuthService,
-        builder: (context, _) => const AdBannerWidget()));
+        builder: (context, _) => const AdBannerWidget(),),);
 
 @GenerateMocks([AuthService])
 void main() {
@@ -22,7 +22,7 @@ void main() {
     mockAuthService = MockAuthService();
   });
 
-  testWidgets("Display no ad - Android", (WidgetTester tester) async {
+  testWidgets('Display no ad - Android', (WidgetTester tester) async {
     debugDefaultTargetPlatformOverride = TargetPlatform.android;
     when(mockAuthService.isAdFreeUser()).thenAnswer((_) => Future(() => true));
     await tester.pumpWidget(testableWidget(mockAuthService));
@@ -31,7 +31,7 @@ void main() {
     debugDefaultTargetPlatformOverride = null;
   });
 
-  testWidgets("Display no ad - iOS", (WidgetTester tester) async {
+  testWidgets('Display no ad - iOS', (WidgetTester tester) async {
     debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
     when(mockAuthService.isAdFreeUser()).thenAnswer((_) => Future(() => true));
     await tester.pumpWidget(testableWidget(mockAuthService));

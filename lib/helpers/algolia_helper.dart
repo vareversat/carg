@@ -27,6 +27,7 @@ class AlgoliaHelper {
     apiKey = algoliaConfig['api_key'].toString();
     url = '$appID-dsn.algolia.net';
     path = '/1/indexes/player-$flavor';
+
     return component;
   }
 
@@ -40,25 +41,21 @@ class AlgoliaHelper {
 
   String getAlgoliaFilter(bool? admin, String? playerId, bool? myPlayers) {
     if (myPlayers == null) {
-      if (admin != null && admin) {
-        return 'owned_by:$playerId OR owned:false OR testing:true';
-      } else {
-        return '(owned_by:$playerId OR owned:false) AND NOT testing:true';
-      }
+      return admin != null && admin
+          ? 'owned_by:$playerId OR owned:false OR testing:true'
+          : '(owned_by:$playerId OR owned:false) AND NOT testing:true';
     } else {
       if (myPlayers) {
         return 'owned_by:$playerId AND NOT testing:true';
       } else {
-        if (admin != null && admin) {
-          return 'owned:false OR testing:true';
-        } else {
-          return 'owned:false AND NOT testing:true';
-        }
+        return admin != null && admin
+            ? 'owned:false OR testing:true'
+            : 'owned:false AND NOT testing:true';
       }
     }
   }
 
-  Future<List<dynamic>> search(String query) async {
+  Future<List<Map<String, dynamic>>> search(String query) async {
     final params = {
       'query': query,
     };
@@ -66,13 +63,15 @@ class AlgoliaHelper {
 
     final response = await http.get(uri, headers: _header);
     var body = json.decode(response.body);
+
     return body['hits'];
   }
 
-  Future<List<dynamic>> filter(
-      {required String query,
-      required Player currentPlayer,
-      bool? myPlayers}) async {
+  Future<List<dynamic>> filter({
+    required String query,
+    required Player currentPlayer,
+    bool? myPlayers,
+  }) async {
     var filters =
         getAlgoliaFilter(currentPlayer.admin, currentPlayer.id, myPlayers);
     final params = {

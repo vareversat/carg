@@ -21,6 +21,7 @@ abstract class BaseAbstractService<T extends CargObject> {
       throw ServiceException('Error : Please provide an ID');
     }
     developer.log('[$T] Get document $id');
+
     return await repository.get(id);
   }
 
@@ -36,7 +37,8 @@ abstract class BaseAbstractService<T extends CargObject> {
   Future<void> update(T? t) async {
     if (t == null || t.id == null) {
       throw ServiceException(
-          'Error : Please provide an object with an ID for the update');
+        'Error : Please provide an object with an ID for the update',
+      );
     }
     developer.log('[$T] Document ${t.id} updated');
     return await repository.update(t);
@@ -50,6 +52,7 @@ abstract class BaseAbstractService<T extends CargObject> {
     }
     var id = await repository.create(t);
     developer.log('[$T] Document $id created');
+
     return id;
   }
 }

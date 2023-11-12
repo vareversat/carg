@@ -8,7 +8,7 @@ class NonSubscriptionPurchase extends Purchase {
   final NonSubscriptionStatusEnum status;
 
   NonSubscriptionPurchase({
-    String? id,
+    super.id,
     required super.iapSource,
     required super.orderId,
     required super.productId,
@@ -16,7 +16,7 @@ class NonSubscriptionPurchase extends Purchase {
     required super.purchaseDate,
     required this.status,
     super.type = ProductTypeEnum.nonSubscription,
-  }) : super(id: id);
+  });
 
   @override
   Map<String, dynamic> toJSON() {
@@ -24,22 +24,28 @@ class NonSubscriptionPurchase extends Purchase {
     json.addAll({
       'status': status.name,
     });
+
     return json;
   }
 
   factory NonSubscriptionPurchase.fromJSON(
-      Map<String, dynamic>? json, String id) {
+    Map<String, dynamic>? json,
+    String id,
+  ) {
     return NonSubscriptionPurchase(
-        id: id,
-        iapSource:
-            EnumToString.fromString(IAPSourceEnum.values, json?['iap_source'])!,
-        orderId: json?['order_id'],
-        productId: json?['product_id'],
-        userId: json?['user_id'],
-        purchaseDate: DateTime.parse(json?['purchase_date']),
-        type: EnumToString.fromString(ProductTypeEnum.values, json?['type'])!,
-        status: EnumToString.fromString(
-            NonSubscriptionStatusEnum.values, json?['status'])!);
+      id: id,
+      iapSource:
+          EnumToString.fromString(IAPSourceEnum.values, json?['iap_source'])!,
+      orderId: json?['order_id'],
+      productId: json?['product_id'],
+      userId: json?['user_id'],
+      purchaseDate: DateTime.parse(json?['purchase_date']),
+      type: EnumToString.fromString(ProductTypeEnum.values, json?['type'])!,
+      status: EnumToString.fromString(
+        NonSubscriptionStatusEnum.values,
+        json?['status'],
+      )!,
+    );
   }
 
   @override

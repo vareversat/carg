@@ -33,7 +33,7 @@ final mockAbstractPlayerService = MockAbstractPlayerService();
 @GenerateMocks([
   AbstractTarotGameService,
   AbstractTarotScoreService,
-  AbstractPlayerService
+  AbstractPlayerService,
 ])
 void main() {
   late Tarot tarotGame;
@@ -52,15 +52,14 @@ void main() {
       gameType: GameType.TAROT,
     );
 
-    tarotScore = TarotScore(players: [
-      'p1',
-      'p2',
-      'p3'
-    ], totalPoints: [
-      TarotPlayerScore(score: 0, player: 'p1'),
-      TarotPlayerScore(score: 100, player: 'p2'),
-      TarotPlayerScore(score: 150, player: 'p3')
-    ]);
+    tarotScore = TarotScore(
+      players: ['p1', 'p2', 'p3'],
+      totalPoints: [
+        TarotPlayerScore(score: 0, player: 'p1'),
+        TarotPlayerScore(score: 100, player: 'p2'),
+        TarotPlayerScore(score: 150, player: 'p3'),
+      ],
+    );
 
     when(mockAbstractScoreService.getScoreByGame('ID'))
         .thenAnswer((_) => Future<TarotScore?>(() => tarotScore));
@@ -72,20 +71,41 @@ void main() {
         .thenAnswer((_) => Future(() => player3));
   });
 
-  testWidgets('Players - must display 3 players widget when tapped',
-      (WidgetTester tester) async {
-    await mockNetworkImagesFor(
-        () => tester.pumpWidget(testableWidget(tarotGame)));
-    await mockNetworkImagesFor(
-        () => tester.tap(find.byKey(const ValueKey('expansionTileTitle'))));
-    await mockNetworkImagesFor(
-        () => tester.pumpAndSettle(const Duration(milliseconds: 1000)));
+  testWidgets(
+    'Players - must display 3 players widget when tapped',
+    (WidgetTester tester) async {
+      await mockNetworkImagesFor(
+        () => tester.pumpWidget(testableWidget(tarotGame)),
+      );
+      await mockNetworkImagesFor(
+        () => tester.tap(
+          find.byKey(
+            const ValueKey(
+              'expansionTileTitle',
+            ),
+          ),
+        ),
+      );
+      await mockNetworkImagesFor(
+        () => tester.pumpAndSettle(
+          const Duration(
+            milliseconds: 1000,
+          ),
+        ),
+      );
 
-    expect(
-        find.byKey(const ValueKey('apiminiplayerwidget-p1')), findsOneWidget);
-    expect(
-        find.byKey(const ValueKey('apiminiplayerwidget-p2')), findsOneWidget);
-    expect(
-        find.byKey(const ValueKey('apiminiplayerwidget-p3')), findsOneWidget);
-  });
+      expect(
+        find.byKey(const ValueKey('apiminiplayerwidget-p1')),
+        findsOneWidget,
+      );
+      expect(
+        find.byKey(const ValueKey('apiminiplayerwidget-p2')),
+        findsOneWidget,
+      );
+      expect(
+        find.byKey(const ValueKey('apiminiplayerwidget-p3')),
+        findsOneWidget,
+      );
+    },
+  );
 }

@@ -7,8 +7,8 @@ class BelotePlayers extends Players {
   String? us;
   String? them;
 
-  BelotePlayers({this.us, this.them, List<dynamic>? playerList})
-      : super.prefilledList(playerList: playerList);
+  BelotePlayers({this.us, this.them, List<dynamic>? super.playerList})
+      : super.prefilledList();
 
   @override
   void onSelectedPlayer(Player player) {
@@ -50,6 +50,7 @@ class BelotePlayers extends Players {
     for (var element in playerList!) {
       element != ' ' ? size++ : size += 0;
     }
+
     return size;
   }
 
@@ -58,6 +59,7 @@ class BelotePlayers extends Players {
     playerList!.sublist(0, 2).forEach((element) {
       element != ' ' ? size++ : size += 0;
     });
+
     return size;
   }
 
@@ -66,6 +68,7 @@ class BelotePlayers extends Players {
     playerList!.sublist(2, 4).forEach((element) {
       element != ' ' ? size++ : size += 0;
     });
+
     return size;
   }
 
@@ -83,11 +86,15 @@ class BelotePlayers extends Players {
   Map<String, dynamic> toJSON() {
     var tmpJSON = super.toJSON();
     tmpJSON.addAll({'us': us, 'them': them});
+
     return tmpJSON;
   }
 
   factory BelotePlayers.fromJSON(Map<String, dynamic> json) {
     return BelotePlayers(
-        us: json['us'], them: json['them'], playerList: json['player_list']);
+      us: json['us'],
+      them: json['them'],
+      playerList: json['player_list'],
+    );
   }
 }

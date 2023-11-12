@@ -7,9 +7,11 @@ class TarotRoundPlayers extends Players {
   String? attackPlayer;
   String? calledPlayer;
 
-  TarotRoundPlayers(
-      {this.attackPlayer, this.calledPlayer, List<dynamic>? playerList})
-      : super(playerList: playerList);
+  TarotRoundPlayers({
+    this.attackPlayer,
+    this.calledPlayer,
+    List<dynamic>? super.playerList,
+  });
 
   bool isPlayerSelected(String? playerId) {
     return attackPlayer == playerId || calledPlayer == playerId;
@@ -22,6 +24,7 @@ class TarotRoundPlayers extends Players {
     if (attackPlayer == playerId) {
       return Theme.of(context).colorScheme.secondary;
     }
+
     return null;
   }
 
@@ -59,6 +62,7 @@ class TarotRoundPlayers extends Players {
       'attack_player': attackPlayer,
       'called_player': calledPlayer,
     });
+
     return tmpJSON;
   }
 

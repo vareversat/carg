@@ -5,7 +5,7 @@ import 'package:carg/services/score/abstract_french_belote_score_service.dart';
 
 abstract class AbstractFrenchBeloteRoundService
     extends AbstractBeloteRoundService<FrenchBeloteRound, FrenchBeloteScore> {
-  AbstractFrenchBeloteRoundService(
-      {required AbstractFrenchBeloteScoreService scoreService})
-      : super(scoreService: scoreService);
+  AbstractFrenchBeloteRoundService({
+    required AbstractFrenchBeloteScoreService scoreService,
+  }) : super(scoreService: scoreService);
 }

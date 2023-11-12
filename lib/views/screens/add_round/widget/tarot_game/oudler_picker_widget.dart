@@ -2,14 +2,16 @@ import 'package:carg/models/score/misc/tarot_oudler.dart';
 import 'package:carg/models/score/round/tarot_round.dart';
 import 'package:carg/views/screens/add_round/widget/section_title_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
 class OudlerPickerWidget extends StatelessWidget {
   final TarotRound tarotRound;
 
-  const OudlerPickerWidget({Key? key, required this.tarotRound})
-      : super(key: key);
+  const OudlerPickerWidget({
+    super.key,
+    required this.tarotRound,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,8 @@ class OudlerPickerWidget extends StatelessWidget {
         builder: (context, roundData, _) => Column(
           children: [
             SectionTitleWidget(
-                title: AppLocalizations.of(context)!.oudlerCount),
+              title: AppLocalizations.of(context)!.oudlerCount,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: TarotOudler.values
@@ -40,7 +43,7 @@ class OudlerPickerWidget extends StatelessWidget {
                   )
                   .toList()
                   .cast<Widget>(),
-            )
+            ),
           ],
         ),
       ),

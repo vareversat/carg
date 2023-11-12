@@ -30,18 +30,27 @@ final mockAuthService = MockAuthService();
 @GenerateMocks([FirebaseDynamicLinks, PendingDynamicLinkData, AuthService])
 void main() {
   setUp(() => {
-        when(mockFirebaseDynamicLinks.getInitialLink()).thenAnswer((_) async =>
-            Future<MockPendingDynamicLinkData>(
-                () => mockPendingDynamicLinkData)),
+        when(mockFirebaseDynamicLinks.getInitialLink()).thenAnswer(
+          (_) async => Future<MockPendingDynamicLinkData>(
+            () => mockPendingDynamicLinkData,
+          ),
+        ),
         when(mockPendingDynamicLinkData.link).thenReturn(Uri(host: 'toto.fr')),
-        when(mockAuthService.isAlreadyLogin())
-            .thenAnswer((_) async => Future<bool>(() => false))
+        when(mockAuthService.isAlreadyLogin()).thenAnswer(
+          (_) async => Future<bool>(
+            () => false,
+          ),
+        )
       });
 
   group('Press button', () {
     testWidgets('Email', (WidgetTester tester) async {
       await tester.pumpWidget(
-          testableWidget(mockFirebaseDynamicLinks, mockAuthService));
+        testableWidget(
+          mockFirebaseDynamicLinks,
+          mockAuthService,
+        ),
+      );
       final BuildContext context =
           tester.element(find.byKey(const ValueKey('emailButton')));
       await tester.tap(find.byKey(const ValueKey('emailButton')));
@@ -50,56 +59,90 @@ void main() {
       expect(
           tester
               .widget<AnimatedSize>(
-                  find.byKey(const ValueKey('placeholderContainer')))
+                find.byKey(
+                  const ValueKey(
+                    'placeholderContainer',
+                  ),
+                ),
+              )
               .child
               .toString(),
           RegisterEmailWidget(
-                  credentialVerificationType: CredentialVerificationType.CREATE,
-                  linkProvider: mockFirebaseDynamicLinks)
-              .toString());
+            credentialVerificationType: CredentialVerificationType.CREATE,
+            linkProvider: mockFirebaseDynamicLinks,
+          ).toString());
 
       expect(
-          tester
-              .widget<ElevatedButton>(find.byKey(const ValueKey('emailButton')))
-              .style!
-              .backgroundColor
-              .toString(),
-          MaterialStateProperty.all<Color>(Theme.of(context).primaryColor)
-              .toString());
+        tester
+            .widget<ElevatedButton>(find.byKey(const ValueKey('emailButton')))
+            .style!
+            .backgroundColor
+            .toString(),
+        MaterialStateProperty.all<Color>(
+          Theme.of(context).primaryColor,
+        ).toString(),
+      );
 
       expect(
-          tester
-              .widget<ElevatedButton>(find.byKey(const ValueKey('phoneButton')))
-              .style!
-              .backgroundColor
-              .toString(),
-          MaterialStateProperty.all<Color>(Theme.of(context).cardColor)
-              .toString());
+        tester
+            .widget<ElevatedButton>(find.byKey(const ValueKey('phoneButton')))
+            .style!
+            .backgroundColor
+            .toString(),
+        MaterialStateProperty.all<Color>(Theme.of(context).cardColor)
+            .toString(),
+      );
 
       expect(
           tester
               .widget<ElevatedButton>(
-                  find.byKey(const ValueKey('googleButton')))
+                find.byKey(
+                  const ValueKey(
+                    'googleButton',
+                  ),
+                ),
+              )
               .style!
               .backgroundColor
               .toString(),
-          MaterialStateProperty.all<Color>(Theme.of(context).cardColor)
-              .toString());
+          MaterialStateProperty.all<Color>(
+            Theme.of(context).cardColor,
+          ).toString());
     });
 
     testWidgets('Phone', (WidgetTester tester) async {
       await tester.pumpWidget(
-          testableWidget(mockFirebaseDynamicLinks, mockAuthService));
+        testableWidget(
+          mockFirebaseDynamicLinks,
+          mockAuthService,
+        ),
+      );
 
-      final BuildContext context =
-          tester.element(find.byKey(const ValueKey('phoneButton')));
-      await tester.tap(find.byKey(const ValueKey('phoneButton')));
+      final BuildContext context = tester.element(
+        find.byKey(
+          const ValueKey(
+            'phoneButton',
+          ),
+        ),
+      );
+      await tester.tap(
+        find.byKey(
+          const ValueKey(
+            'phoneButton',
+          ),
+        ),
+      );
       await tester.pumpAndSettle();
 
       expect(
           tester
               .widget<AnimatedSize>(
-                  find.byKey(const ValueKey('placeholderContainer')))
+                find.byKey(
+                  const ValueKey(
+                    'placeholderContainer',
+                  ),
+                ),
+              )
               .child
               .toString(),
           const RegisterPhoneWidget(
@@ -108,7 +151,13 @@ void main() {
 
       expect(
           tester
-              .widget<ElevatedButton>(find.byKey(const ValueKey('emailButton')))
+              .widget<ElevatedButton>(
+                find.byKey(
+                  const ValueKey(
+                    'emailButton',
+                  ),
+                ),
+              )
               .style!
               .backgroundColor
               .toString(),
@@ -117,17 +166,29 @@ void main() {
 
       expect(
           tester
-              .widget<ElevatedButton>(find.byKey(const ValueKey('phoneButton')))
+              .widget<ElevatedButton>(
+                find.byKey(
+                  const ValueKey(
+                    'phoneButton',
+                  ),
+                ),
+              )
               .style!
               .backgroundColor
               .toString(),
-          MaterialStateProperty.all<Color>(Theme.of(context).primaryColor)
-              .toString());
+          MaterialStateProperty.all<Color>(
+            Theme.of(context).primaryColor,
+          ).toString());
 
       expect(
           tester
               .widget<ElevatedButton>(
-                  find.byKey(const ValueKey('googleButton')))
+                find.byKey(
+                  const ValueKey(
+                    'googleButton',
+                  ),
+                ),
+              )
               .style!
               .backgroundColor
               .toString(),

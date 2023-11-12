@@ -6,8 +6,7 @@ import 'package:collection/collection.dart';
 abstract class CargPlayerObject extends CargObject {
   late List<GameStats>? gameStatsList;
 
-  CargPlayerObject({String? id, List<GameStats>? gameStatsList})
-      : super(id: id) {
+  CargPlayerObject({super.id, List<GameStats>? gameStatsList}) {
     this.gameStatsList = gameStatsList ?? <GameStats>[];
   }
 
@@ -43,7 +42,8 @@ abstract class CargPlayerObject extends CargObject {
 
   double totalWinPercentage() {
     return double.parse(
-        ((totalWonGames() * 100) / totalPlayedGames()).toStringAsFixed(1));
+      ((totalWonGames() * 100) / totalPlayedGames()).toStringAsFixed(1),
+    );
   }
 
   int totalWonGames() {
@@ -51,6 +51,7 @@ abstract class CargPlayerObject extends CargObject {
     for (var gameStat in gameStatsList!) {
       total += gameStat.wonGames;
     }
+
     return total;
   }
 
@@ -59,6 +60,7 @@ abstract class CargPlayerObject extends CargObject {
     for (var gameStat in gameStatsList!) {
       total += gameStat.playedGames;
     }
+
     return total;
   }
 

@@ -7,7 +7,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 
 class AdBannerWidget extends StatefulWidget {
-  const AdBannerWidget({Key? key}) : super(key: key);
+  const AdBannerWidget({super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -21,18 +21,26 @@ class _AdBannerWidgetState extends State<AdBannerWidget> {
 
   void _createBannerAd() {
     _bannerAd = BannerAd(
-        adUnitId: AdHelper.bannerAdUnitId(context),
-        size: AdSize.banner,
-        request: const AdRequest(),
-        listener: BannerAdListener(onAdLoaded: (ad) {
-          setState(() {
-            _ad = ad;
-          });
-        }, onAdFailedToLoad: (ad, error) {
-          developer.log('Enable to load the ad : ${error.message}',
-              name: 'carg.ad-banner');
+      adUnitId: AdHelper.bannerAdUnitId(context),
+      size: AdSize.banner,
+      request: const AdRequest(),
+      listener: BannerAdListener(
+        onAdLoaded: (ad) {
+          setState(
+            () {
+              _ad = ad;
+            },
+          );
+        },
+        onAdFailedToLoad: (ad, error) {
+          developer.log(
+            'Enable to load the ad : ${error.message}',
+            name: 'carg.ad-banner',
+          );
           _ad?.dispose();
-        }));
+        },
+      ),
+    );
     _bannerAd.load();
   }
 
@@ -57,17 +65,17 @@ class _AdBannerWidgetState extends State<AdBannerWidget> {
         future: Provider.of<AuthService>(context, listen: false).isAdFreeUser(),
         builder: (context, snapshot) {
           if (_ad != null && snapshot.connectionState == ConnectionState.done) {
-            if (snapshot.data != null && !snapshot.data!) {
-              return Container(
-                key: const ValueKey('adContent'),
-                width: _bannerAd.size.width.toDouble(),
-                height: _bannerAd.size.height.toDouble(),
-                alignment: Alignment.center,
-                child: AdWidget(ad: _bannerAd),
-              );
-            } else {
-              return Container();
-            }
+            return snapshot.data != null && !snapshot.data!
+                ? Container(
+                    key: const ValueKey('adContent'),
+                    width: _bannerAd.size.width.toDouble(),
+                    height: _bannerAd.size.height.toDouble(),
+                    alignment: Alignment.center,
+                    child: AdWidget(
+                      ad: _bannerAd,
+                    ),
+                  )
+                : Container();
           } else {
             return Container();
           }

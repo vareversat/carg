@@ -1,5 +1,5 @@
-import 'package:carg/styles/properties.dart';
-import 'package:carg/styles/text_style.dart';
+import 'package:carg/styles/custom_properties.dart';
+import 'package:carg/styles/custom_text_style.dart';
 import 'package:flutter/material.dart';
 
 class WarningDialog extends StatefulWidget {
@@ -10,15 +10,15 @@ class WarningDialog extends StatefulWidget {
   final bool showCancelButton;
   final String? onConfirmButtonMessage;
 
-  const WarningDialog(
-      {Key? key,
-      required this.message,
-      required this.title,
-      required this.onConfirm,
-      this.color,
-      this.showCancelButton = true,
-      this.onConfirmButtonMessage})
-      : super(key: key);
+  const WarningDialog({
+    super.key,
+    required this.message,
+    required this.title,
+    required this.onConfirm,
+    this.color,
+    this.showCancelButton = true,
+    this.onConfirmButtonMessage,
+  });
 
   @override
   State<StatefulWidget> createState() {
@@ -49,6 +49,8 @@ class _WarningDialogState extends State<WarningDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final errorColor = Theme.of(context).colorScheme.error;
+
     return AlertDialog(
       insetPadding: const EdgeInsets.symmetric(horizontal: 20),
       titlePadding: const EdgeInsets.all(0),
@@ -56,10 +58,14 @@ class _WarningDialogState extends State<WarningDialog> {
       actionsPadding: const EdgeInsets.fromLTRB(0, 0, 20, 10),
       title: Container(
         decoration: BoxDecoration(
-            color: widget.color ?? Theme.of(context).errorColor,
-            borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(15.0),
-                topRight: Radius.circular(15.0))),
+          color: widget.color ?? errorColor,
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(15.0),
+            topRight: Radius.circular(
+              15.0,
+            ),
+          ),
+        ),
         padding: const EdgeInsets.fromLTRB(20, 20, 0, 15),
         child: Text(
           widget.title,
@@ -77,32 +83,53 @@ class _WarningDialogState extends State<WarningDialog> {
           const CircularProgressIndicator()
         else
           ElevatedButton.icon(
-              style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(
-                      widget.color ?? Theme.of(context).errorColor),
-                  foregroundColor: MaterialStateProperty.all<Color>(
-                      Theme.of(context).cardColor),
-                  shape: MaterialStateProperty.all<OutlinedBorder>(
-                      RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                              CustomProperties.borderRadius)))),
-              onPressed: () async => {await _exec(), Navigator.pop(context)},
-              label: Text(
-                widget.onConfirmButtonMessage?.toUpperCase() ??
-                    MaterialLocalizations.of(context).okButtonLabel,
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(
+                widget.color ?? errorColor,
               ),
-              icon: const Icon(Icons.check)),
+              foregroundColor: MaterialStateProperty.all<Color>(
+                Theme.of(context).cardColor,
+              ),
+              shape: MaterialStateProperty.all<OutlinedBorder>(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(
+                    CustomProperties.borderRadius,
+                  ),
+                ),
+              ),
+            ),
+            onPressed: () => {
+              _exec().then(
+                (value) => Navigator.pop(
+                  context,
+                ),
+              ),
+            },
+            label: Text(
+              widget.onConfirmButtonMessage?.toUpperCase() ??
+                  MaterialLocalizations.of(context).okButtonLabel,
+            ),
+            icon: const Icon(
+              Icons.check,
+            ),
+          ),
         if (widget.showCancelButton)
           ElevatedButton.icon(
             style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(
-                    Theme.of(context).cardColor),
-                foregroundColor: MaterialStateProperty.all<Color>(
-                    widget.color ?? Theme.of(context).errorColor),
-                shape: MaterialStateProperty.all<OutlinedBorder>(
-                    RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                            CustomProperties.borderRadius)))),
+              backgroundColor: MaterialStateProperty.all<Color>(
+                Theme.of(context).cardColor,
+              ),
+              foregroundColor: MaterialStateProperty.all<Color>(
+                widget.color ?? errorColor,
+              ),
+              shape: MaterialStateProperty.all<OutlinedBorder>(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(
+                    CustomProperties.borderRadius,
+                  ),
+                ),
+              ),
+            ),
             onPressed: () => {Navigator.pop(context)},
             icon: const Icon(Icons.close),
             label: Text(

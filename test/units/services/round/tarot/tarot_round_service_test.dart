@@ -1,7 +1,7 @@
 import 'package:carg/models/players/tarot_round_players.dart';
 import 'package:carg/models/score/misc/tarot_contract.dart';
 import 'package:carg/models/score/misc/tarot_oudler.dart';
-import 'package:carg/models/score/misc/tarot_perk.dart';
+import 'package:carg/models/score/misc/tarot_bonus.dart';
 import 'package:carg/models/score/misc/tarot_player_score.dart';
 import 'package:carg/models/score/round/tarot_round.dart';
 import 'package:carg/models/score/tarot_score.dart';

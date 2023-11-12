@@ -5,16 +5,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 abstract class AbstractScoreRepository<T extends Score>
     extends BaseRepository<T> {
-  AbstractScoreRepository(
-      {required String database,
-      required String environment,
-      required FirebaseFirestore provider,
-      DocumentSnapshot? lastFetchGameDocument})
-      : super(
-            database: database,
-            environment: environment,
-            provider: provider,
-            lastFetchGameDocument: lastFetchGameDocument);
+  AbstractScoreRepository({
+    required super.database,
+    required super.environment,
+    required super.provider,
+    super.lastFetchGameDocument,
+  });
 
   /// Get a score by a [gameId]
   /// Return a score or null if not found
@@ -38,7 +34,8 @@ abstract class AbstractScoreRepository<T extends Score>
       });
     } on FirebaseException catch (e) {
       throw RepositoryException(
-          'Error during delete of the score linked to the game $gameId : ${e.message!}');
+        'Error during delete of the score linked to the game $gameId : ${e.message!}',
+      );
     }
   }
 }

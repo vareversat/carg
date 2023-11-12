@@ -7,9 +7,9 @@ class BeloteRoundWidget extends StatefulWidget {
   final String beloteGameId;
 
   const BeloteRoundWidget({
-    Key? key,
+    super.key,
     required this.beloteGameId,
-  }) : super(key: key);
+  });
 
   @override
   State<StatefulWidget> createState() {
@@ -31,7 +31,11 @@ class _BeloteRoundWidgetState extends State<BeloteRoundWidget> {
         }
         if (snapshot.connectionState == ConnectionState.none) {
           return Container(
-              alignment: Alignment.center, child: const Icon(Icons.error));
+            alignment: Alignment.center,
+            child: const Icon(
+              Icons.error,
+            ),
+          );
         }
         if (snapshot.data != null) {
           return Column(
@@ -47,28 +51,29 @@ class _BeloteRoundWidgetState extends State<BeloteRoundWidget> {
                   children: <Widget>[
                     Flexible(
                       child: ListView.builder(
-                          itemCount: snapshot.data!.rounds.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Row(
-                              children: <Widget>[
-                                Flexible(
-                                  child: Center(
-                                    child: Text(snapshot
-                                        .data!.rounds[index].takerScore
-                                        .toString()),
-                                  ),
+                        itemCount: snapshot.data!.rounds.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Row(
+                            children: <Widget>[
+                              Flexible(
+                                child: Center(
+                                  child: Text(snapshot
+                                      .data!.rounds[index].takerScore
+                                      .toString()),
                                 ),
-                                Flexible(
-                                  child: Center(
-                                    child: Text(snapshot
-                                        .data!.rounds[index].defenderScore
-                                        .toString()),
-                                  ),
-                                )
-                              ],
-                            );
-                          }),
-                    )
+                              ),
+                              Flexible(
+                                child: Center(
+                                  child: Text(snapshot
+                                      .data!.rounds[index].defenderScore
+                                      .toString()),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -82,24 +87,31 @@ class _BeloteRoundWidgetState extends State<BeloteRoundWidget> {
                         children: <Widget>[
                           Flexible(
                             child: Center(
-                                child: Text(
-                                    snapshot.data!.usTotalPoints.toString())),
+                              child: Text(
+                                snapshot.data!.usTotalPoints.toString(),
+                              ),
+                            ),
                           ),
                           Flexible(
                             child: Center(
-                                child: Text(
-                                    snapshot.data!.themTotalPoints.toString())),
-                          )
+                              child: Text(
+                                snapshot.data!.themTotalPoints.toString(),
+                              ),
+                            ),
+                          ),
                         ],
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
             ],
           );
         }
-        return Text(AppLocalizations.of(context)!.noScoreYet);
+
+        return Text(
+          AppLocalizations.of(context)!.noScoreYet,
+        );
       },
       future: _roundService.getScoreByGame(widget.beloteGameId),
     );

@@ -16,7 +16,7 @@ Widget testableWidget() => MaterialApp(
         title: 'Nous',
         teamService: mockAbstractTeamService,
         playerService: mockAbstractPlayerService,
-        teamId: 'TEAM_ID'));
+        teamId: 'TEAM_ID'),);
 
 final mockAbstractTeamService = MockAbstractTeamService();
 final mockAbstractPlayerService = MockAbstractPlayerService();

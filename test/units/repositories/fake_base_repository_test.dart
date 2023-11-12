@@ -7,17 +7,13 @@ import 'package:mockito/mockito.dart';
 
 import 'base_repository_test.mocks.dart';
 
-class FakeBaseRepository extends BaseRepository {
-  FakeBaseRepository(
-      {required String database,
-      required String environment,
-      required FirebaseFirestore provider,
-      DocumentSnapshot? lastFetchGameDocument})
-      : super(
-            database: database,
-            environment: environment,
-            provider: provider,
-            lastFetchGameDocument: lastFetchGameDocument);
+class FakeBaseRepositoryTest extends BaseRepository {
+  FakeBaseRepositoryTest({
+    required super.database,
+    required super.environment,
+    required super.provider,
+    super.lastFetchGameDocument,
+  });
 
   @override
   Future<CargObject?> get(String id) {
@@ -26,7 +22,7 @@ class FakeBaseRepository extends BaseRepository {
 }
 
 class FakeCargObject extends CargObject {
-  FakeCargObject({String? id}) : super(id: id);
+  FakeCargObject({super.id});
 
   @override
   Map<String, dynamic> toJSON() {
@@ -38,17 +34,22 @@ const uid = '123';
 
 Map<String, dynamic> dataFunction() => {};
 
-@GenerateMocks([
-  FirebaseFirestore,
-  CollectionReference,
-  DocumentReference,
-  DocumentSnapshot,
-  QuerySnapshot,
-  Query
-], customMocks: [
-  MockSpec<QueryDocumentSnapshot>(
-      unsupportedMembers: {#data}, fallbackGenerators: {#data: dataFunction})
-])
+@GenerateMocks(
+  [
+    FirebaseFirestore,
+    CollectionReference,
+    DocumentReference,
+    DocumentSnapshot,
+    QuerySnapshot,
+    Query
+  ],
+  customMocks: [
+    MockSpec<QueryDocumentSnapshot>(
+      unsupportedMembers: {#data},
+      fallbackGenerators: {#data: dataFunction},
+    ),
+  ],
+)
 void main() {
   final instance = MockFirebaseFirestore();
   final mockQuery = MockQuery<Map<String, dynamic>>();
@@ -76,7 +77,7 @@ void main() {
       when(instance.collection(collection)).thenReturn(mockCollectionReference);
       when(mockCollectionReference.doc(uid)).thenReturn(mockDocumentReference);
       when(mockDocumentReference.delete()).thenAnswer((_) async => {});
-      final fakeRepository = FakeBaseRepository(
+      final fakeRepository = FakeBaseRepositoryTest(
           provider: instance, database: 'fake-collection', environment: 'dev');
       await fakeRepository.delete(uid);
     });
@@ -87,7 +88,7 @@ void main() {
       when(mockCollectionReference.doc(uid)).thenReturn(mockDocumentReference);
       when(mockDocumentReference.update({'myField': 0}))
           .thenAnswer((_) async => {});
-      final fakeRepository = FakeBaseRepository(
+      final fakeRepository = FakeBaseRepositoryTest(
           provider: instance, database: 'fake-collection', environment: 'dev');
       await fakeRepository.updateField(uid, 'myField', 0);
     });
@@ -100,7 +101,7 @@ void main() {
           .thenReturn(mockDocumentReference);
       when(mockDocumentReference.update({'id': 'myId'}))
           .thenAnswer((_) async => {});
-      final fakeRepository = FakeBaseRepository(
+      final fakeRepository = FakeBaseRepositoryTest(
           provider: instance, database: 'fake-collection', environment: 'dev');
       await fakeRepository.update(cargObject);
     });
@@ -114,7 +115,7 @@ void main() {
       when(mockDocumentReference
               .update({'myField': 'myValue', 'mySecondField': 0}))
           .thenAnswer((_) async => {});
-      final fakeRepository = FakeBaseRepository(
+      final fakeRepository = FakeBaseRepositoryTest(
           provider: instance, database: 'fake-collection', environment: 'dev');
       await fakeRepository.partialUpdate(
           cargObject, {'myField': 'myValue', 'mySecondField': 0});
@@ -127,7 +128,7 @@ void main() {
       when(mockCollectionReference.add({'id': 'myId'}))
           .thenAnswer((_) async => mockDocumentReference);
       when(mockDocumentReference.id).thenReturn('myId');
-      final fakeRepository = FakeBaseRepository(
+      final fakeRepository = FakeBaseRepositoryTest(
           provider: instance, database: 'fake-collection', environment: 'dev');
       final id = await fakeRepository.create(cargObject);
       expect(id, 'myId');

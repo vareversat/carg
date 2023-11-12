@@ -2,26 +2,27 @@ import 'package:carg/models/game/game_type.dart';
 import 'package:carg/models/player.dart';
 import 'package:carg/services/auth/auth_service.dart';
 import 'package:carg/services/player/abstract_player_service.dart';
-import 'package:carg/styles/properties.dart';
-import 'package:carg/styles/text_style.dart';
+import 'package:carg/styles/custom_properties.dart';
+import 'package:carg/styles/custom_text_style.dart';
 import 'package:carg/views/helpers/info_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+//ignore_for_file: prefer-moving-to-variable
 class PlayerInfoDialog extends StatelessWidget {
   final Player player;
   final AbstractPlayerService playerService;
   final bool isNewPlayer;
 
-  const PlayerInfoDialog(
-      {Key? key,
-      required this.player,
-      required this.playerService,
-      required this.isNewPlayer})
-      : super(key: key);
+  const PlayerInfoDialog({
+    super.key,
+    required this.player,
+    required this.playerService,
+    required this.isNewPlayer,
+  });
 
   String _getTitle(BuildContext context) {
     if (isNewPlayer) {
@@ -33,21 +34,25 @@ class PlayerInfoDialog extends StatelessWidget {
     }
   }
 
-  Future<void> _savePlayer(BuildContext context) async {
+  void _savePlayer(BuildContext context) {
     if (isNewPlayer) {
       player.ownedBy =
           Provider.of<AuthService>(context, listen: false).getPlayerIdOfUser();
-      await playerService.create(player);
-      Navigator.of(context).pop(AppLocalizations.of(context)!.playerCreated);
+      playerService.create(player).then((value) => Navigator.of(context)
+          .pop(AppLocalizations.of(context)!.playerCreated));
     } else {
-      await playerService.update(player);
-      Navigator.of(context).pop(AppLocalizations.of(context)!.playerEdited);
+      playerService.update(player).then((value) => Navigator.of(context)
+          .pop(AppLocalizations.of(context)!.playerEdited));
     }
   }
 
-  Future _copyId(BuildContext context) async {
-    await Clipboard.setData(ClipboardData(text: player.id));
-    InfoSnackBar.showSnackBar(context, AppLocalizations.of(context)!.idCopied);
+  void _copyId(BuildContext context) {
+    Clipboard.setData(ClipboardData(text: player.id ?? '')).then(
+      (value) => InfoSnackBar.showSnackBar(
+        context,
+        AppLocalizations.of(context)!.idCopied,
+      ),
+    );
   }
 
   @override
@@ -60,10 +65,14 @@ class PlayerInfoDialog extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       title: Container(
         decoration: BoxDecoration(
-            color: player.getSideColor(context),
-            borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(15.0),
-                topRight: Radius.circular(15.0))),
+          color: player.getSideColor(context),
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(15.0),
+            topRight: Radius.circular(
+              15.0,
+            ),
+          ),
+        ),
         padding: const EdgeInsets.fromLTRB(20, 20, 20, 15),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -81,19 +90,24 @@ class PlayerInfoDialog extends StatelessWidget {
                 child: ElevatedButton.icon(
                   key: const ValueKey('copyIDButton'),
                   style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.white),
-                      foregroundColor: MaterialStateProperty.all<Color>(
-                          player.getSideColor(context)),
-                      shape: MaterialStateProperty.all<OutlinedBorder>(
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                  CustomProperties.borderRadius)))),
-                  onPressed: () async => {await _copyId(context)},
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(Colors.white),
+                    foregroundColor: MaterialStateProperty.all<Color>(
+                      player.getSideColor(context),
+                    ),
+                    shape: MaterialStateProperty.all<OutlinedBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                          CustomProperties.borderRadius,
+                        ),
+                      ),
+                    ),
+                  ),
+                  onPressed: () => _copyId(context),
                   icon: const Icon(Icons.copy),
                   label: Text(AppLocalizations.of(context)!.copyId),
                 ),
-              )
+              ),
           ],
         ),
       ),
@@ -106,15 +120,24 @@ class PlayerInfoDialog extends StatelessWidget {
                 builder: (context, playerData, _) => Padding(
                   padding: const EdgeInsets.fromLTRB(0, 15, 15, 15),
                   child: Container(
-                      width: 60,
-                      height: 60,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                              width: 2, color: player.getSideColor(context)),
-                          image: DecorationImage(
-                              fit: BoxFit.fill,
-                              image: NetworkImage(playerData.profilePicture)))),
+                    width: 60,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        width: 2,
+                        color: player.getSideColor(
+                          context,
+                        ),
+                      ),
+                      image: DecorationImage(
+                        fit: BoxFit.fill,
+                        image: NetworkImage(
+                          playerData.profilePicture,
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
               ),
               Flexible(
@@ -123,33 +146,40 @@ class PlayerInfoDialog extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: Consumer<Player>(
                     builder: (context, playerData, _) => TextFormField(
-                        key: const ValueKey('usernameTextField'),
-                        initialValue: playerData.userName,
-                        enabled: playerData.owned,
-                        style: const TextStyle(
-                            fontSize: 25, fontWeight: FontWeight.bold),
-                        maxLines: null,
-                        onChanged: (value) => playerData.userName = value,
-                        decoration: InputDecoration(
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: player.getSideColor(context),
-                                  width: 2),
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: player.getSideColor(context),
-                                  width: 2),
-                            ),
-                            disabledBorder: InputBorder.none,
-                            labelStyle:
-                                TextStyle(color: player.getSideColor(context)),
-                            hintStyle: TextStyle(
-                                fontSize: 25,
-                                color: Theme.of(context).hintColor),
-                            labelText: playerData.owned && isNewPlayer
-                                ? AppLocalizations.of(context)!.username
-                                : null)),
+                      key: const ValueKey('usernameTextField'),
+                      initialValue: playerData.userName,
+                      enabled: playerData.owned,
+                      style: const TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      maxLines: null,
+                      onChanged: (value) => playerData.userName = value,
+                      decoration: InputDecoration(
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: player.getSideColor(context),
+                            width: 2,
+                          ),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: player.getSideColor(context),
+                            width: 2,
+                          ),
+                        ),
+                        disabledBorder: InputBorder.none,
+                        labelStyle:
+                            TextStyle(color: player.getSideColor(context)),
+                        hintStyle: TextStyle(
+                          fontSize: 25,
+                          color: Theme.of(context).hintColor,
+                        ),
+                        labelText: playerData.owned && isNewPlayer
+                            ? AppLocalizations.of(context)!.username
+                            : null,
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -158,26 +188,33 @@ class PlayerInfoDialog extends StatelessWidget {
           if (isNewPlayer)
             Consumer<Player>(
               builder: (context, playerData, _) => TextFormField(
-                  key: const ValueKey('profilePictureTextField'),
-                  initialValue: playerData.profilePicture,
-                  enabled: playerData.owned,
-                  onChanged: (value) => playerData.profilePicture = value,
-                  style: const TextStyle(fontSize: 20),
-                  maxLines: null,
-                  decoration: InputDecoration(
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                            color: player.getSideColor(context), width: 2),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                            color: player.getSideColor(context), width: 2),
-                      ),
-                      labelStyle:
-                          TextStyle(color: player.getSideColor(context)),
-                      hintStyle: TextStyle(
-                          fontSize: 15, color: Theme.of(context).hintColor),
-                      labelText: AppLocalizations.of(context)!.profilePicture)),
+                key: const ValueKey('profilePictureTextField'),
+                initialValue: playerData.profilePicture,
+                enabled: playerData.owned,
+                onChanged: (value) => playerData.profilePicture = value,
+                style: const TextStyle(fontSize: 20),
+                maxLines: null,
+                decoration: InputDecoration(
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: player.getSideColor(context),
+                      width: 2,
+                    ),
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: player.getSideColor(context),
+                      width: 2,
+                    ),
+                  ),
+                  labelStyle: TextStyle(color: player.getSideColor(context)),
+                  hintStyle: TextStyle(
+                    fontSize: 15,
+                    color: Theme.of(context).hintColor,
+                  ),
+                  labelText: AppLocalizations.of(context)!.profilePicture,
+                ),
+              ),
             ),
           if (player.gameStatsList!.isNotEmpty)
             Padding(
@@ -189,38 +226,44 @@ class PlayerInfoDialog extends StatelessWidget {
                     .asMap()
                     .map(
                       (i, stat) => MapEntry(
-                          i,
-                          Row(
-                            key: ValueKey('stat-$i-${stat.gameType.name}'),
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              SizedBox(
-                                  width: 100,
-                                  child: Text('${stat.gameType.name} : ',
-                                      overflow: TextOverflow.ellipsis,
-                                      style: const TextStyle(fontSize: 22))),
-                              const Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 5.0),
-                                child: Icon(FontAwesomeIcons.trophy, size: 15),
+                        i,
+                        Row(
+                          key: ValueKey('stat-$i-${stat.gameType.name}'),
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            SizedBox(
+                              width: 100,
+                              child: Text(
+                                '${stat.gameType.name} : ',
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontSize: 22,
+                                ),
                               ),
-                              Text(
-                                ' ${stat.wonGames}',
-                                style: const TextStyle(fontSize: 20),
-                              ),
-                              const Text(
-                                ' - ',
-                                style: TextStyle(fontSize: 20),
-                              ),
-                              Text(
-                                '${stat.playedGames} ',
-                                style: const TextStyle(fontSize: 20),
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 5.0),
-                                child: Icon(FontAwesomeIcons.gamepad, size: 15),
-                              )
-                            ],
-                          )),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 5.0),
+                              child: Icon(FontAwesomeIcons.trophy, size: 15),
+                            ),
+                            Text(
+                              ' ${stat.wonGames}',
+                              style: const TextStyle(fontSize: 20),
+                            ),
+                            const Text(
+                              ' - ',
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            Text(
+                              '${stat.playedGames} ',
+                              style: const TextStyle(fontSize: 20),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 5.0),
+                              child: Icon(FontAwesomeIcons.gamepad, size: 15),
+                            ),
+                          ],
+                        ),
+                      ),
                     )
                     .values
                     .toList()
@@ -228,41 +271,64 @@ class PlayerInfoDialog extends StatelessWidget {
               ),
             )
           else if (!isNewPlayer)
-            Text(AppLocalizations.of(context)!.noStatisticYet,
-                key: const ValueKey('noStatsText'), textAlign: TextAlign.center)
+            Text(
+              AppLocalizations.of(context)!.noStatisticYet,
+              key: const ValueKey('noStatsText'),
+              textAlign: TextAlign.center,
+            ),
         ]),
       ),
       actions: <Widget>[
         if (player.owned)
           ElevatedButton.icon(
-              key: const ValueKey('saveButton'),
-              style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(
-                      player.getSideColor(context)),
-                  foregroundColor: MaterialStateProperty.all<Color>(
-                      Theme.of(context).cardColor),
-                  shape: MaterialStateProperty.all<OutlinedBorder>(
-                      RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                              CustomProperties.borderRadius)))),
-              onPressed: () async => await _savePlayer(context),
-              label: Text(MaterialLocalizations.of(context).saveButtonLabel),
-              icon: const Icon(Icons.check))
+            key: const ValueKey('saveButton'),
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(
+                player.getSideColor(
+                  context,
+                ),
+              ),
+              foregroundColor: MaterialStateProperty.all<Color>(
+                Theme.of(context).cardColor,
+              ),
+              shape: MaterialStateProperty.all<OutlinedBorder>(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(
+                    CustomProperties.borderRadius,
+                  ),
+                ),
+              ),
+            ),
+            onPressed: () => _savePlayer(
+              context,
+            ),
+            label: Text(MaterialLocalizations.of(context).saveButtonLabel),
+            icon: const Icon(
+              Icons.check,
+            ),
+          )
         else
           ElevatedButton.icon(
             key: const ValueKey('closeButton'),
             style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
-                foregroundColor: MaterialStateProperty.all<Color>(
-                    player.getSideColor(context)),
-                shape: MaterialStateProperty.all<OutlinedBorder>(
-                    RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                            CustomProperties.borderRadius)))),
+              backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+              foregroundColor: MaterialStateProperty.all<Color>(
+                player.getSideColor(
+                  context,
+                ),
+              ),
+              shape: MaterialStateProperty.all<OutlinedBorder>(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(
+                    CustomProperties.borderRadius,
+                  ),
+                ),
+              ),
+            ),
             onPressed: () => Navigator.pop(context),
             icon: const Icon(Icons.close),
             label: Text(MaterialLocalizations.of(context).closeButtonLabel),
-          )
+          ),
       ],
       scrollable: true,
     );

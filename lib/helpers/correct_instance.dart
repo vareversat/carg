@@ -29,7 +29,8 @@ class CorrectInstance {
         return TarotGameService();
       default:
         throw Exception(
-            '${game.runtimeType.toString()} does not have any registered game service');
+          '${game.runtimeType.toString()} does not have any registered game service',
+        );
     }
   }
 
@@ -45,7 +46,8 @@ class CorrectInstance {
         return TarotRoundService();
       default:
         throw Exception(
-            '${game.runtimeType.toString()} does not have any registered round service');
+          '${game.runtimeType.toString()} does not have any registered round service',
+        );
     }
   }
 
@@ -61,7 +63,8 @@ class CorrectInstance {
         return TarotScoreService();
       default:
         throw Exception(
-            '${game.runtimeType.toString()} does not have any registered score service');
+          '${game.runtimeType.toString()} does not have any registered score service',
+        );
     }
   }
 }

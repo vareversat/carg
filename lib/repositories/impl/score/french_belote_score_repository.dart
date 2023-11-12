@@ -5,24 +5,28 @@ import 'package:carg/repositories/score/abstract_french_belote_score_repository.
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FrenchBeloteScoreRepository extends AbstractFrenchBeloteScoreRepository {
-  FrenchBeloteScoreRepository(
-      {String? database, String? environment, FirebaseFirestore? provider})
-      : super(
-            database: database ?? Const.frenchBeloteScoreDB,
-            environment: environment ??
-                const String.fromEnvironment(Const.dartVarEnv,
-                    defaultValue: Const.defaultEnv),
-            provider: provider ?? FirebaseFirestore.instance);
+  FrenchBeloteScoreRepository({
+    String? database,
+    String? environment,
+    FirebaseFirestore? provider,
+  }) : super(
+          database: database ?? Const.frenchBeloteScoreDB,
+          environment: environment ??
+              const String.fromEnvironment(
+                Const.dartVarEnv,
+                defaultValue: Const.defaultEnv,
+              ),
+          provider: provider ?? FirebaseFirestore.instance,
+        );
 
   @override
   Future<FrenchBeloteScore?> get(String id) async {
     var querySnapshot =
         await provider.collection(connectionString).doc(id).get();
-    if (querySnapshot.data() != null) {
-      return FrenchBeloteScore.fromJSON(querySnapshot.data(), querySnapshot.id);
-    } else {
-      return null;
-    }
+
+    return querySnapshot.data() != null
+        ? FrenchBeloteScore.fromJSON(querySnapshot.data(), querySnapshot.id)
+        : null;
   }
 
   @override
@@ -34,8 +38,11 @@ class FrenchBeloteScoreRepository extends AbstractFrenchBeloteScoreRepository {
           .get();
       if (querySnapshot.docs.isNotEmpty) {
         return FrenchBeloteScore.fromJSON(
-            querySnapshot.docs.first.data(), querySnapshot.docs.first.id);
+          querySnapshot.docs.first.data(),
+          querySnapshot.docs.first.id,
+        );
       }
+
       return null;
     } on FirebaseException catch (e) {
       throw RepositoryException(e.message!);
@@ -51,8 +58,11 @@ class FrenchBeloteScoreRepository extends AbstractFrenchBeloteScoreRepository {
           .snapshots()
           .map((event) {
         final Map<dynamic, dynamic> value = event.docs[0].data();
+
         return FrenchBeloteScore.fromJSON(
-            value as Map<String, dynamic>?, event.docs[0].id);
+          value as Map<String, dynamic>?,
+          event.docs[0].id,
+        );
       });
     } on FirebaseException catch (e) {
       throw RepositoryException(e.message!);

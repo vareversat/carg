@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 const int _mcgpalette0PrimaryValue = 0xFF38761D;
 MaterialColor mcgpalette0 =
@@ -25,20 +26,16 @@ const MaterialColor mcgpalette0Accent =
 });
 
 class AppTheme {
-  static final ThemeData theme = _buildTheme();
-
-  static ThemeData _buildTheme() {
-    final ThemeData base = ThemeData(
-      textTheme: const TextTheme(
-        bodyText1: TextStyle(fontSize: 18, color: Colors.white),
-        bodyText2: TextStyle(fontSize: 18),
-      ),
-      brightness: Brightness.light,
-      primarySwatch: mcgpalette0,
-      fontFamily: 'Josefin',
-    );
-
-    return base.copyWith(
-        colorScheme: base.colorScheme.copyWith(secondary: mcgpalette0Accent));
-  }
+  static final ThemeData theme = ThemeData.light(useMaterial3: true).copyWith(
+    bottomAppBarTheme: const BottomAppBarTheme(
+      color: Colors.white,
+    ),
+    colorScheme: const ColorScheme.light().copyWith(
+      primary: const Color(0xFF326E1A),
+      secondary: const Color(0xFFFF7039),
+    ),
+    textTheme: GoogleFonts.josefinSansTextTheme(
+      ThemeData.light().textTheme.copyWith(),
+    ),
+  );
 }

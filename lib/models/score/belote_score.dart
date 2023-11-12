@@ -8,13 +8,13 @@ abstract class BeloteScore<T extends BeloteRound> extends Score<T> {
   int themTotalPoints;
   String? game;
 
-  BeloteScore(
-      {id,
-      rounds,
-      required this.usTotalPoints,
-      required this.themTotalPoints,
-      this.game})
-      : super(id: id) {
+  BeloteScore({
+    super.id,
+    rounds,
+    required this.usTotalPoints,
+    required this.themTotalPoints,
+    this.game,
+  }) {
     this.rounds = rounds ?? <T>[];
   }
 
@@ -23,6 +23,7 @@ abstract class BeloteScore<T extends BeloteRound> extends Score<T> {
     usTotalPoints -= getPointsOfRound(BeloteTeamEnum.US, getLastRound());
     themTotalPoints -= getPointsOfRound(BeloteTeamEnum.THEM, getLastRound());
     _setLastRound(round);
+
     return this;
   }
 
@@ -31,6 +32,7 @@ abstract class BeloteScore<T extends BeloteRound> extends Score<T> {
     usTotalPoints -= getPointsOfRound(BeloteTeamEnum.US, getLastRound());
     themTotalPoints -= getPointsOfRound(BeloteTeamEnum.THEM, getLastRound());
     rounds.removeLast();
+
     return this;
   }
 
@@ -40,14 +42,12 @@ abstract class BeloteScore<T extends BeloteRound> extends Score<T> {
   }
 
   int getPointsOfRound(BeloteTeamEnum teamGameEnum, T teamGameRound) {
-    if (teamGameEnum == teamGameRound.taker) {
-      return teamGameRound.takerScore;
-    } else {
-      return teamGameRound.defenderScore;
-    }
+    return teamGameEnum == teamGameRound.taker
+        ? teamGameRound.takerScore
+        : teamGameRound.defenderScore;
   }
 
-  void addRound(T round) async {
+  void addRound(T round) {
     usTotalPoints += getPointsOfRound(BeloteTeamEnum.US, round);
     themTotalPoints += getPointsOfRound(BeloteTeamEnum.THEM, round);
     round.index = rounds.length;
@@ -66,7 +66,7 @@ abstract class BeloteScore<T extends BeloteRound> extends Score<T> {
       'rounds': rounds.map((round) => round.toJSON()).toList(),
       'us_total_points': usTotalPoints,
       'them_total_points': themTotalPoints,
-      'game': game
+      'game': game,
     };
   }
 }

@@ -1,4 +1,4 @@
-import 'package:carg/models/game/belote_game.dart';
+import 'package:carg/models/game/belote.dart';
 import 'package:carg/models/game/coinche_belote.dart';
 import 'package:carg/models/game/contree_belote.dart';
 import 'package:carg/models/game/french_belote.dart';
@@ -33,12 +33,13 @@ final mockAbstractPlayerService = MockAbstractPlayerService();
 
 Widget testableWidget(Belote beloteGame) => localizedTestableWidget(
       BeloteWidget(
-          beloteGame: beloteGame,
-          gameService: mockAbstractBeloteGameService,
-          scoreService: mockAbstractBeloteScoreService,
-          teamService: mockAbstractTeamService,
-          roundService: mockAbstractBeloteRoundService,
-          playerService: mockAbstractPlayerService),
+        beloteGame: beloteGame,
+        gameService: mockAbstractBeloteGameService,
+        scoreService: mockAbstractBeloteScoreService,
+        teamService: mockAbstractTeamService,
+        roundService: mockAbstractBeloteRoundService,
+        playerService: mockAbstractPlayerService,
+      ),
     );
 
 Object getNewRound() => {};
@@ -72,22 +73,38 @@ void main() {
   final Player player4 = Player(owned: false, id: 'p4', userName: 'player 4');
 
   final BelotePlayers players = BelotePlayers(
-      us: teamId1, them: teamId2, playerList: ['p1', 'p2', 'p3', 'p4']);
+    us: teamId1,
+    them: teamId2,
+    playerList: [
+      'p1',
+      'p2',
+      'p3',
+      'p4',
+    ],
+  );
 
-  final FrenchBeloteScore frenchBeloteScore = FrenchBeloteScore(rounds: [
-    FrenchBeloteRound(
-        taker: BeloteTeamEnum.THEM,
-        defender: BeloteTeamEnum.US,
-        defenderScore: 90,
-        takerScore: 110)
-  ], themTotalPoints: 110, usTotalPoints: 90);
-  final CoincheBeloteScore coincheBeloteScore = CoincheBeloteScore(rounds: [
-    CoincheBeloteRound(
-        taker: BeloteTeamEnum.THEM,
-        defender: BeloteTeamEnum.US,
-        defenderScore: 90,
-        takerScore: 110)
-  ], themTotalPoints: 110, usTotalPoints: 90);
+  final FrenchBeloteScore frenchBeloteScore = FrenchBeloteScore(
+    rounds: [
+      FrenchBeloteRound(
+          taker: BeloteTeamEnum.THEM,
+          defender: BeloteTeamEnum.US,
+          defenderScore: 90,
+          takerScore: 110),
+    ],
+    themTotalPoints: 110,
+    usTotalPoints: 90,
+  );
+  final CoincheBeloteScore coincheBeloteScore = CoincheBeloteScore(
+    rounds: [
+      CoincheBeloteRound(
+          taker: BeloteTeamEnum.THEM,
+          defender: BeloteTeamEnum.US,
+          defenderScore: 90,
+          takerScore: 110),
+    ],
+    themTotalPoints: 110,
+    usTotalPoints: 90,
+  );
 
   setUp(() {
     when(mockAbstractTeamService.get(teamId1))

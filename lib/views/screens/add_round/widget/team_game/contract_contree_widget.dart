@@ -12,8 +12,7 @@ import 'package:provider/provider.dart';
 class ContractContreeWidget extends StatelessWidget {
   final ContreeBeloteRound contreeRound;
 
-  const ContractContreeWidget({Key? key, required this.contreeRound})
-      : super(key: key);
+  const ContractContreeWidget({super.key, required this.contreeRound});
 
   @override
   Widget build(BuildContext context) {
@@ -72,6 +71,7 @@ class _ContractValueTextFieldWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _contractTextController.text = contreeBeloteRound.contract.toString();
+
     return Row(
       key: const ValueKey('contractValueTextFieldWidget'),
       mainAxisAlignment: MainAxisAlignment.center,
@@ -136,7 +136,8 @@ class _ContractTypeWidget extends StatelessWidget {
                     .map(
                       (contractType) => InputChip(
                         key: ValueKey(
-                            'contractTypeWidget-${contractType.name(context)}'),
+                          'contractTypeWidget-${contractType.name(context)}',
+                        ),
                         checkmarkColor: Theme.of(context).cardColor,
                         selected: roundData.contractType == contractType,
                         selectedColor: Theme.of(context).primaryColor,
@@ -145,7 +146,9 @@ class _ContractTypeWidget extends StatelessWidget {
                         label: Text(
                           contractType.name(context),
                           style: TextStyle(
-                              fontSize: 20, color: Theme.of(context).cardColor),
+                            fontSize: 20,
+                            color: Theme.of(context).cardColor,
+                          ),
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
@@ -172,7 +175,8 @@ class _ContractNameWidget extends StatelessWidget {
       key: const ValueKey('contractNameWidget'),
       children: [
         Text(
-            '${AppLocalizations.of(context)!.bet} (x${roundData.contractName.multiplier})'),
+          '${AppLocalizations.of(context)!.bet} (x${roundData.contractName.multiplier})',
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -193,7 +197,9 @@ class _ContractNameWidget extends StatelessWidget {
                         label: Text(
                           contractName.name,
                           style: TextStyle(
-                              fontSize: 20, color: Theme.of(context).cardColor),
+                            fontSize: 20,
+                            color: Theme.of(context).cardColor,
+                          ),
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),

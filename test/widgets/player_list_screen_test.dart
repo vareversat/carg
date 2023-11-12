@@ -5,31 +5,34 @@ import 'package:carg/services/player/abstract_player_service.dart';
 import 'package:carg/services/team/abstract_team_service.dart';
 import 'package:carg/views/screens/player_list_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'player_list_screen_test.mocks.dart';
 
 Widget testableWidget() => MaterialApp(
-        localizationsDelegates: const [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: const [
-          Locale('en', ''),
-        ],
-        home: ChangeNotifierProvider<AuthService>.value(
-            value: mockAuthService,
-            builder: (context, _) => PlayerListScreen(
-                teamService: mockAbstractTeamService,
-                playerService: mockAbstractPlayerService)));
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en', ''),
+      ],
+      home: ChangeNotifierProvider<AuthService>.value(
+        value: mockAuthService,
+        builder: (context, _) => PlayerListScreen(
+          teamService: mockAbstractTeamService,
+          playerService: mockAbstractPlayerService,
+        ),
+      ),
+    );
 
 final mockAbstractPlayerService = MockAbstractPlayerService();
 final mockAbstractTeamService = MockAbstractTeamService();
@@ -54,13 +57,20 @@ void main() {
     ];
     mockTeamList = [
       Team(id: 't1', players: ['p1', 'p2']),
-      Team(id: 't2', players: ['p3', 'p4'])
+      Team(
+        id: 't2',
+        players: ['p3', 'p4'],
+      ),
     ];
     currentPlayer = Player(id: 'player-id', userName: 'Player', owned: false);
 
-    when(mockAbstractPlayerService.searchPlayers(
-            query: '', currentPlayer: currentPlayer, myPlayers: false))
-        .thenAnswer((_) => Future<List<Player>>(() => (mockPlayerList)));
+    when(
+      mockAbstractPlayerService.searchPlayers(
+        query: '',
+        currentPlayer: currentPlayer,
+        myPlayers: false,
+      ),
+    ).thenAnswer((_) => Future<List<Player>>(() => (mockPlayerList)));
     when(mockAbstractTeamService.getAllTeamOfPlayer('player-id', 10))
         .thenAnswer((_) => Future<List<Team>>(() => (mockTeamList)));
     when(mockAuthService.getPlayerIdOfUser()).thenReturn('player-id');
@@ -82,8 +92,17 @@ void main() {
       testWidgets('display 2 teams', (WidgetTester tester) async {
         await mockNetworkImagesFor(() => tester.pumpWidget(testableWidget()));
         await mockNetworkImagesFor(
-            () => tester.tap(find.byKey(const ValueKey('playerListTeam'))));
-        await mockNetworkImagesFor(() => tester.pumpAndSettle());
+          () => tester.tap(
+            find.byKey(
+              const ValueKey(
+                'playerListTeam',
+              ),
+            ),
+          ),
+        );
+        await mockNetworkImagesFor(
+          () => tester.pumpAndSettle(),
+        );
       });
     });
 
@@ -97,9 +116,13 @@ void main() {
       });
 
       testWidgets('no players', (WidgetTester tester) async {
-        when(mockAbstractPlayerService.searchPlayers(
-                query: '', currentPlayer: currentPlayer, myPlayers: false))
-            .thenAnswer((_) => Future<List<Player>>(() => []));
+        when(
+          mockAbstractPlayerService.searchPlayers(
+            query: '',
+            currentPlayer: currentPlayer,
+            myPlayers: false,
+          ),
+        ).thenAnswer((_) => Future<List<Player>>(() => []));
         await mockNetworkImagesFor(() => tester.pumpWidget(testableWidget()));
         await mockNetworkImagesFor(() => tester.pumpAndSettle());
         expect(find.byKey(const ValueKey('noPlayersMessage')), findsOneWidget);
@@ -108,50 +131,139 @@ void main() {
       testWidgets('reset search', (WidgetTester tester) async {
         await mockNetworkImagesFor(() => tester.pumpWidget(testableWidget()));
         await mockNetworkImagesFor(
-            () => tester.tap(find.byKey(const ValueKey('resetSearchButton'))));
-        await mockNetworkImagesFor(() => tester.pumpAndSettle());
+          () => tester.tap(
+            find.byKey(
+              const ValueKey(
+                'resetSearchButton',
+              ),
+            ),
+          ),
+        );
+        await mockNetworkImagesFor(
+          () => tester.pumpAndSettle(),
+        );
       });
     });
 
-    group('display popups', () {
-      testWidgets('popup menu items', (WidgetTester tester) async {
-        await mockNetworkImagesFor(() => tester.pumpWidget(testableWidget()));
-        await mockNetworkImagesFor(() => tester
-            .tap(find.byKey(const ValueKey('playerListPopupMenuButton'))));
-        await mockNetworkImagesFor(
-            () => tester.pumpAndSettle(const Duration(milliseconds: 1000)));
-        expect(find.byKey(const ValueKey('addPlayerPopupMenuItem')),
-            findsOneWidget);
-        expect(find.byKey(const ValueKey('showInformationPopupMenuItem')),
-            findsOneWidget);
-      });
+    group(
+      'display popups',
+      () {
+        testWidgets('popup menu items', (WidgetTester tester) async {
+          await mockNetworkImagesFor(() => tester.pumpWidget(testableWidget()));
+          await mockNetworkImagesFor(
+            () => tester.tap(
+              find.byKey(
+                const ValueKey(
+                  'playerListPopupMenuButton',
+                ),
+              ),
+            ),
+          );
+          await mockNetworkImagesFor(
+            () => tester.pumpAndSettle(
+              const Duration(
+                milliseconds: 1000,
+              ),
+            ),
+          );
+          expect(
+              find.byKey(
+                const ValueKey(
+                  'addPlayerPopupMenuItem',
+                ),
+              ),
+              findsOneWidget);
+          expect(find.byKey(const ValueKey('showInformationPopupMenuItem')),
+              findsOneWidget);
+        });
 
-      testWidgets('information dialog', (WidgetTester tester) async {
-        await mockNetworkImagesFor(() => tester.pumpWidget(testableWidget()));
-        await mockNetworkImagesFor(() => tester
-            .tap(find.byKey(const ValueKey('playerListPopupMenuButton'))));
-        await mockNetworkImagesFor(
-            () => tester.pumpAndSettle(const Duration(milliseconds: 1000)));
-        await mockNetworkImagesFor(() => tester
-            .tap(find.byKey(const ValueKey('showInformationPopupMenuItem'))));
-        await mockNetworkImagesFor(
-            () => tester.pumpAndSettle(const Duration(milliseconds: 1000)));
-        expect(find.byKey(const ValueKey('playerColorExplanationDialog')),
-            findsOneWidget);
-      });
+        testWidgets('information dialog', (WidgetTester tester) async {
+          await mockNetworkImagesFor(() => tester.pumpWidget(testableWidget()));
+          await mockNetworkImagesFor(
+            () => tester.tap(
+              find.byKey(
+                const ValueKey(
+                  'playerListPopupMenuButton',
+                ),
+              ),
+            ),
+          );
+          await mockNetworkImagesFor(
+            () => tester.pumpAndSettle(
+              const Duration(
+                milliseconds: 1000,
+              ),
+            ),
+          );
+          await mockNetworkImagesFor(
+            () => tester.tap(
+              find.byKey(
+                const ValueKey(
+                  'showInformationPopupMenuItem',
+                ),
+              ),
+            ),
+          );
+          await mockNetworkImagesFor(
+            () => tester.pumpAndSettle(
+              const Duration(
+                milliseconds: 1000,
+              ),
+            ),
+          );
+          expect(
+              find.byKey(
+                const ValueKey(
+                  'playerColorExplanationDialog',
+                ),
+              ),
+              findsOneWidget);
+        });
 
-      testWidgets('add player dialog', (WidgetTester tester) async {
-        await mockNetworkImagesFor(() => tester.pumpWidget(testableWidget()));
-        await mockNetworkImagesFor(() => tester
-            .tap(find.byKey(const ValueKey('playerListPopupMenuButton'))));
-        await mockNetworkImagesFor(
-            () => tester.pumpAndSettle(const Duration(milliseconds: 1000)));
-        await mockNetworkImagesFor(() =>
-            tester.tap(find.byKey(const ValueKey('addPlayerPopupMenuItem'))));
-        await mockNetworkImagesFor(
-            () => tester.pumpAndSettle(const Duration(milliseconds: 1000)));
-        expect(find.byKey(const ValueKey('addPlayerDialog')), findsOneWidget);
-      });
-    });
+        testWidgets(
+          'add player dialog',
+          (WidgetTester tester) async {
+            await mockNetworkImagesFor(
+                () => tester.pumpWidget(testableWidget()));
+            await mockNetworkImagesFor(
+              () => tester.tap(
+                find.byKey(
+                  const ValueKey(
+                    'playerListPopupMenuButton',
+                  ),
+                ),
+              ),
+            );
+            await mockNetworkImagesFor(
+              () => tester.pumpAndSettle(
+                const Duration(
+                  milliseconds: 1000,
+                ),
+              ),
+            );
+            await mockNetworkImagesFor(
+              () => tester.tap(
+                find.byKey(
+                  const ValueKey(
+                    'addPlayerPopupMenuItem',
+                  ),
+                ),
+              ),
+            );
+            await mockNetworkImagesFor(
+              () => tester.pumpAndSettle(
+                const Duration(
+                  milliseconds: 1000,
+                ),
+              ),
+            );
+            expect(
+              find.byKey(const ValueKey('addPlayerDialog')),
+              findsOneWidget,
+            );
+          },
+        );
+      },
+    );
   });
 }

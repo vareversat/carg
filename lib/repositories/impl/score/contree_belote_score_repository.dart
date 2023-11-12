@@ -6,25 +6,28 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ContreeBeloteScoreRepository
     extends AbstractContreeBeloteScoreRepository {
-  ContreeBeloteScoreRepository(
-      {String? database, String? environment, FirebaseFirestore? provider})
-      : super(
-            database: database ?? Const.contreeBeloteScoreDB,
-            environment: environment ??
-                const String.fromEnvironment(Const.dartVarEnv,
-                    defaultValue: Const.defaultEnv),
-            provider: provider ?? FirebaseFirestore.instance);
+  ContreeBeloteScoreRepository({
+    String? database,
+    String? environment,
+    FirebaseFirestore? provider,
+  }) : super(
+          database: database ?? Const.contreeBeloteScoreDB,
+          environment: environment ??
+              const String.fromEnvironment(
+                Const.dartVarEnv,
+                defaultValue: Const.defaultEnv,
+              ),
+          provider: provider ?? FirebaseFirestore.instance,
+        );
 
   @override
   Future<ContreeBeloteScore?> get(String id) async {
     var querySnapshot =
         await provider.collection(connectionString).doc(id).get();
-    if (querySnapshot.data() != null) {
-      return ContreeBeloteScore.fromJSON(
-          querySnapshot.data(), querySnapshot.id);
-    } else {
-      return null;
-    }
+
+    return querySnapshot.data() != null
+        ? ContreeBeloteScore.fromJSON(querySnapshot.data(), querySnapshot.id)
+        : null;
   }
 
   @override
@@ -36,8 +39,11 @@ class ContreeBeloteScoreRepository
           .get();
       if (querySnapshot.docs.isNotEmpty) {
         return ContreeBeloteScore.fromJSON(
-            querySnapshot.docs.first.data(), querySnapshot.docs.first.id);
+          querySnapshot.docs.first.data(),
+          querySnapshot.docs.first.id,
+        );
       }
+
       return null;
     } on FirebaseException catch (e) {
       throw RepositoryException(e.message!);
@@ -53,8 +59,11 @@ class ContreeBeloteScoreRepository
           .snapshots()
           .map((event) {
         final Map<dynamic, dynamic> value = event.docs[0].data();
+
         return ContreeBeloteScore.fromJSON(
-            value as Map<String, dynamic>?, event.docs[0].id);
+          value as Map<String, dynamic>?,
+          event.docs[0].id,
+        );
       });
     } on FirebaseException catch (e) {
       throw RepositoryException(e.message!);

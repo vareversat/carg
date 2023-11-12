@@ -6,8 +6,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class CardColorPickerWidget extends StatelessWidget {
   final BeloteRound? beloteRound;
 
-  const CardColorPickerWidget({Key? key, required this.beloteRound})
-      : super(key: key);
+  const CardColorPickerWidget({super.key, required this.beloteRound});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +28,8 @@ class CardColorPickerWidget extends StatelessWidget {
                     .map(
                       (cardColor) => InputChip(
                         key: ValueKey(
-                            'cardColorInputChip-${cardColor.name(context)}'),
+                          'cardColorInputChip-${cardColor.name(context)}',
+                        ),
                         checkmarkColor: Theme.of(context).cardColor,
                         selected: beloteRound?.cardColor == cardColor,
                         selectedColor: Theme.of(context).primaryColor,
@@ -37,7 +37,9 @@ class CardColorPickerWidget extends StatelessWidget {
                         label: Text(
                           cardColor.symbol,
                           style: TextStyle(
-                              fontSize: 20, color: Theme.of(context).cardColor),
+                            fontSize: 20,
+                            color: Theme.of(context).cardColor,
+                          ),
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),

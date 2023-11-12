@@ -23,13 +23,21 @@ void main() {
   testWidgets("Display at least 'Coeur'", (WidgetTester tester) async {
     await tester.pumpWidget(testableWidget(beloteRound));
     expect(
-        find.byKey(const ValueKey('cardColorInputChip-Cœur')), findsOneWidget);
+      find.byKey(const ValueKey('cardColorInputChip-Cœur')),
+      findsOneWidget,
+    );
     expect(find.text('Couleur (Cœur)'), findsOneWidget);
   });
 
   testWidgets("Select 'Trèfle'", (WidgetTester tester) async {
     await tester.pumpWidget(testableWidget(beloteRound));
-    await tester.tap(find.byKey(const ValueKey('cardColorInputChip-Trèfle')));
+    await tester.tap(
+      find.byKey(
+        const ValueKey(
+          'cardColorInputChip-Trèfle',
+        ),
+      ),
+    );
     expect(beloteRound.cardColor, CardColor.CLUB);
   });
 }

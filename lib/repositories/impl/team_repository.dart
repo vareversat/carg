@@ -5,28 +5,29 @@ import 'package:carg/repositories/team/abstract_team_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class TeamRepository extends AbstractTeamRepository {
-  TeamRepository(
-      {String? database,
-      String? environment,
-      FirebaseFirestore? provider,
-      DocumentSnapshot? lastFetchGameDocument})
-      : super(
-            database: database ?? Const.teamDB,
-            environment: environment ??
-                const String.fromEnvironment(Const.dartVarEnv,
-                    defaultValue: Const.defaultEnv),
-            provider: provider ?? FirebaseFirestore.instance,
-            lastFetchGameDocument: lastFetchGameDocument);
+  TeamRepository({
+    String? database,
+    String? environment,
+    FirebaseFirestore? provider,
+    super.lastFetchGameDocument,
+  }) : super(
+          database: database ?? Const.teamDB,
+          environment: environment ??
+              const String.fromEnvironment(
+                Const.dartVarEnv,
+                defaultValue: Const.defaultEnv,
+              ),
+          provider: provider ?? FirebaseFirestore.instance,
+        );
 
   @override
   Future<Team?> get(String id) async {
     var querySnapshot =
         await provider.collection(connectionString).doc(id).get();
-    if (querySnapshot.data() != null) {
-      return Team.fromJSON(querySnapshot.data(), querySnapshot.id);
-    } else {
-      return null;
-    }
+
+    return querySnapshot.data() != null
+        ? Team.fromJSON(querySnapshot.data(), querySnapshot.id)
+        : null;
   }
 
   @override
@@ -34,20 +35,18 @@ class TeamRepository extends AbstractTeamRepository {
     try {
       var teams = <Team>[];
       QuerySnapshot<Map<String, dynamic>> querySnapshot;
-      if (lastFetchGameDocument != null) {
-        querySnapshot = await provider
-            .collection(connectionString)
-            .where('players', arrayContains: playerId)
-            .startAfterDocument(lastFetchGameDocument!)
-            .limit(pageSize)
-            .get();
-      } else {
-        querySnapshot = await provider
-            .collection(connectionString)
-            .where('players', arrayContains: playerId)
-            .limit(pageSize)
-            .get();
-      }
+      querySnapshot = lastFetchGameDocument != null
+          ? await provider
+              .collection(connectionString)
+              .where('players', arrayContains: playerId)
+              .startAfterDocument(lastFetchGameDocument!)
+              .limit(pageSize)
+              .get()
+          : await provider
+              .collection(connectionString)
+              .where('players', arrayContains: playerId)
+              .limit(pageSize)
+              .get();
       if (querySnapshot.docs.isEmpty) {
         return teams;
       }
@@ -55,6 +54,7 @@ class TeamRepository extends AbstractTeamRepository {
       for (var doc in querySnapshot.docs) {
         teams.add(Team.fromJSON(doc.data(), doc.id));
       }
+
       return teams;
     } on FirebaseException catch (e) {
       throw RepositoryException(e.message!);
@@ -68,12 +68,13 @@ class TeamRepository extends AbstractTeamRepository {
         .collection(connectionString)
         .where('players', isEqualTo: playerIds)
         .get();
-    if (querySnapshot.docs.isNotEmpty) {
-      return Team.fromJSON(
-          querySnapshot.docs.first.data(), querySnapshot.docs.first.id);
-    } else {
-      return null;
-    }
+
+    return querySnapshot.docs.isNotEmpty
+        ? Team.fromJSON(
+            querySnapshot.docs.first.data(),
+            querySnapshot.docs.first.id,
+          )
+        : null;
   }
 
   @override
@@ -82,12 +83,14 @@ class TeamRepository extends AbstractTeamRepository {
     var team = await getTeamByPlayers(playerIds);
     if (team != null) {
       throw RepositoryException(
-          'Error, the team composed of [${playerIds.toString()}] already exists');
+        'Error, the team composed of [${playerIds.toString()}] already exists',
+      );
     } else {
       var team = Team(players: playerIds);
       var documentReference =
           await provider.collection(connectionString).add(team.toJSON());
       team.id = documentReference.id;
+
       return team;
     }
   }

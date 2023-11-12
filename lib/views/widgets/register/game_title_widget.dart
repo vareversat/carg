@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 class GameTitleWidget extends StatelessWidget {
   final Game? game;
 
-  const GameTitleWidget({Key? key, this.game}) : super(key: key);
+  const GameTitleWidget({super.key, this.game});
 
   @override
   Widget build(BuildContext context) {
@@ -40,9 +40,10 @@ class GameTitleWidget extends StatelessWidget {
                         ? AppLocalizations.of(context)!.ended
                         : AppLocalizations.of(context)!.inProgress,
                     style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).cardColor,
-                        fontSize: 15),
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).cardColor,
+                      fontSize: 15,
+                    ),
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),

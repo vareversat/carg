@@ -22,7 +22,7 @@ void main() {
     contreeRound = ContreeBeloteRound();
   });
 
-  testWidgets("All sub widget are displayed", (WidgetTester tester) async {
+  testWidgets('All sub widget are displayed', (WidgetTester tester) async {
     await tester.pumpWidget(testableWidget(contreeRound));
     expect(find.byKey(const ValueKey('contractValueTextFieldWidget')),
         findsOneWidget);
@@ -38,7 +38,7 @@ void main() {
     var textField = tester.widget<TextField>(
         find.byKey(const ValueKey('contractValueTextFieldValue')));
     expect(textField.enabled, false);
-    expect(textField.controller!.text, "162");
+    expect(textField.controller!.text, '162');
     expect(find.byKey(const ValueKey('lockWidget')), findsOneWidget);
     expect(contreeRound.contractType, BeloteContractType.CAPOT);
   });
@@ -50,7 +50,7 @@ void main() {
     var textField = tester.widget<TextField>(
         find.byKey(const ValueKey('contractValueTextFieldValue')));
     expect(textField.enabled, false);
-    expect(textField.controller!.text, "162");
+    expect(textField.controller!.text, '162');
     expect(find.byKey(const ValueKey('lockWidget')), findsOneWidget);
     expect(contreeRound.contractType, BeloteContractType.GENERALE);
   });

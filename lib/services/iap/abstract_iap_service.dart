@@ -18,7 +18,8 @@ abstract class AbstractIAPService with ChangeNotifier {
       return AppStoreIAPService();
     } else {
       throw Exception(
-          'Cannot get the correct IAP service from this source : $source');
+        'Cannot get the correct IAP service from this source : $source',
+      );
     }
   }
 
@@ -27,7 +28,7 @@ abstract class AbstractIAPService with ChangeNotifier {
     required String userId,
     required ProductData productData,
     required String token,
-  }) async {
+  }) {
     switch (productData.type) {
       case ProductTypeEnum.subscription:
         return handleSubscription(

@@ -4,11 +4,11 @@ import 'package:carg/services/round/abstract_french_belote_round_service.dart';
 import 'package:carg/services/score/abstract_french_belote_score_service.dart';
 
 class FrenchBeloteRoundService extends AbstractFrenchBeloteRoundService {
-  FrenchBeloteRoundService(
-      {AbstractFrenchBeloteScoreService? frenchBeloteScoreService})
-      : super(
-            scoreService:
-                frenchBeloteScoreService ?? FrenchBeloteScoreService());
+  FrenchBeloteRoundService({
+    AbstractFrenchBeloteScoreService? frenchBeloteScoreService,
+  }) : super(
+          scoreService: frenchBeloteScoreService ?? FrenchBeloteScoreService(),
+        );
 
   @override
   FrenchBeloteRound getNewRound() {

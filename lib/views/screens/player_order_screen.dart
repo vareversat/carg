@@ -1,14 +1,14 @@
 import 'package:carg/helpers/correct_instance.dart';
-import 'package:carg/helpers/custom_route.dart';
-import 'package:carg/models/game/belote_game.dart';
+import 'package:carg/models/game/belote.dart';
 import 'package:carg/models/game/game.dart';
 import 'package:carg/models/game/game_type.dart';
 import 'package:carg/models/game/tarot.dart';
 import 'package:carg/models/player.dart';
 import 'package:carg/models/players/belote_players.dart';
+import 'package:carg/routes/custom_route_fade.dart';
 import 'package:carg/services/game/abstract_game_service.dart';
-import 'package:carg/styles/properties.dart';
-import 'package:carg/styles/text_style.dart';
+import 'package:carg/styles/custom_properties.dart';
+import 'package:carg/styles/custom_text_style.dart';
 import 'package:carg/views/dialogs/dialogs.dart';
 import 'package:carg/views/screens/play/play_belote_screen.dart';
 import 'package:carg/views/screens/play/play_tarot_game_screen.dart';
@@ -22,13 +22,13 @@ class PlayerOrderScreen extends StatefulWidget {
   final String title;
   final AbstractGameService gameService;
 
-  const PlayerOrderScreen(
-      {Key? key,
-      required this.playerList,
-      required this.game,
-      required this.title,
-      required this.gameService})
-      : super(key: key);
+  const PlayerOrderScreen({
+    super.key,
+    required this.playerList,
+    required this.game,
+    required this.title,
+    required this.gameService,
+  });
 
   @override
   State<StatefulWidget> createState() {
@@ -44,11 +44,15 @@ class _PlayerOrderScreenState extends State<PlayerOrderScreen> {
 
   Future _createGame() async {
     Dialogs.showLoadingDialog(
-        context, _keyLoader, AppLocalizations.of(context)!.gameIsStarting);
+      context,
+      _keyLoader,
+      AppLocalizations.of(context)!.gameIsStarting,
+    );
     var gameTmp = (await widget.gameService.createGameWithPlayerList(
-        playerListForOrder.map((e) => e.id).toList(),
-        playerListForTeam.map((e) => e.id).toList(),
-        DateTime.now()));
+      playerListForOrder.map((e) => e.id).toList(),
+      playerListForTeam.map((e) => e.id).toList(),
+      DateTime.now(),
+    ));
     setState(() {
       _newGame = gameTmp;
     });
@@ -72,8 +76,12 @@ class _PlayerOrderScreenState extends State<PlayerOrderScreen> {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
         child: AppBar(
-          title: Text(widget.title,
-              style: CustomTextStyle.screenHeadLine1(context)),
+          title: Text(
+            widget.title,
+            style: CustomTextStyle.screenDisplayLarge(
+              context,
+            ),
+          ),
         ),
       ),
       body: Padding(
@@ -82,24 +90,35 @@ class _PlayerOrderScreenState extends State<PlayerOrderScreen> {
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text(AppLocalizations.of(context)!.orderOfPlay,
-                  style: const TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.bold)),
+              child: Text(
+                AppLocalizations.of(context)!.orderOfPlay,
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
             Flexible(
-                child: ReorderableListView(
-                    onReorder: _onReorder,
-                    children: playerListForOrder
-                        .asMap()
-                        .map((i, player) => MapEntry(
-                            i,
-                            Container(
-                              key: ValueKey(player),
-                              child: DraggablePlayerWidget(
-                                  player: player, index: i),
-                            )))
-                        .values
-                        .toList())),
+              child: ReorderableListView(
+                onReorder: _onReorder,
+                children: playerListForOrder
+                    .asMap()
+                    .map(
+                      (i, player) => MapEntry(
+                        i,
+                        Container(
+                          key: ValueKey(player),
+                          child: DraggablePlayerWidget(
+                            player: player,
+                            index: i,
+                          ),
+                        ),
+                      ),
+                    )
+                    .values
+                    .toList(),
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
@@ -117,9 +136,11 @@ class _PlayerOrderScreenState extends State<PlayerOrderScreen> {
                 child: ElevatedButton.icon(
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(
-                        Theme.of(context).primaryColor),
+                      Theme.of(context).primaryColor,
+                    ),
                     foregroundColor: MaterialStateProperty.all<Color>(
-                        Theme.of(context).cardColor),
+                      Theme.of(context).cardColor,
+                    ),
                     shape: MaterialStateProperty.all<OutlinedBorder>(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
@@ -128,26 +149,27 @@ class _PlayerOrderScreenState extends State<PlayerOrderScreen> {
                       ),
                     ),
                   ),
-                  onPressed: () async => {
-                    await _createGame(),
-                    Navigator.pushAndRemoveUntil(
-                        context,
-                        CustomRouteFade(
-                          builder: (context) => _newGame!.gameType !=
-                                  GameType.TAROT
-                              ? PlayBeloteScreen(
-                                  gameService: widget.gameService,
-                                  scoreService:
-                                      CorrectInstance.ofScoreService(_newGame!),
-                                  roundService:
-                                      CorrectInstance.ofRoundService(_newGame!),
-                                  beloteGame: _newGame as Belote<BelotePlayers>)
-                              : PlayTarotGameScreen(
-                                  tarotGame: _newGame as Tarot,
-                                ),
-                        ),
-                        ModalRoute.withName('/'))
-                  },
+                  onPressed: () => _createGame().then(
+                    (value) => Navigator.pushAndRemoveUntil(
+                      context,
+                      CustomRouteFade(
+                        builder: (context) => _newGame!.gameType !=
+                                GameType.TAROT
+                            ? PlayBeloteScreen(
+                                gameService: widget.gameService,
+                                scoreService:
+                                    CorrectInstance.ofScoreService(_newGame!),
+                                roundService:
+                                    CorrectInstance.ofRoundService(_newGame!),
+                                beloteGame: _newGame as Belote<BelotePlayers>,
+                              )
+                            : PlayTarotGameScreen(
+                                tarotGame: _newGame as Tarot,
+                              ),
+                      ),
+                      ModalRoute.withName('/'),
+                    ),
+                  ),
                   label: Text(
                     AppLocalizations.of(context)!.startTheGame,
                     style: const TextStyle(fontSize: 23),

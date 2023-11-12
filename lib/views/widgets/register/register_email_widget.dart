@@ -1,10 +1,10 @@
 import 'dart:developer' as developer;
 
 import 'package:carg/exceptions/custom_exception.dart';
-import 'package:carg/helpers/custom_route.dart';
+import 'package:carg/routes/custom_route_fade.dart';
 import 'package:carg/services/auth/auth_service.dart';
 import 'package:carg/services/storage_service.dart';
-import 'package:carg/styles/properties.dart';
+import 'package:carg/styles/custom_properties.dart';
 import 'package:carg/views/dialogs/dialogs.dart';
 import 'package:carg/views/helpers/info_snackbar.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
@@ -17,11 +17,11 @@ class RegisterEmailWidget extends StatefulWidget {
   final CredentialVerificationType credentialVerificationType;
   final FirebaseDynamicLinks linkProvider;
 
-  const RegisterEmailWidget(
-      {Key? key,
-      required this.credentialVerificationType,
-      required this.linkProvider})
-      : super(key: key);
+  const RegisterEmailWidget({
+    super.key,
+    required this.credentialVerificationType,
+    required this.linkProvider,
+  });
 
   @override
   State<StatefulWidget> createState() {
@@ -37,69 +37,97 @@ class _RegisterEmailWidgetState extends State<RegisterEmailWidget>
       StorageService(flutterSecureStorage: const FlutterSecureStorage());
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
 
-  Future<dynamic> _signInWithEmailAndLink(String email) async {
+  Future<void> _signInWithEmailAndLink(String email) async {
     await _store.setEmail(email);
-    try {
-      setState(() {
-        _emailSending = true;
-      });
-      if (widget.credentialVerificationType ==
-          CredentialVerificationType.CREATE) {
-        await Provider.of<AuthService>(context, listen: false)
-            .sendSignInWithEmailLink(email);
+    if (mounted) {
+      try {
+        setState(() {
+          _emailSending = true;
+        });
+        if (widget.credentialVerificationType ==
+            CredentialVerificationType.CREATE) {
+          await Provider.of<AuthService>(context, listen: false)
+              .sendSignInWithEmailLink(email)
+              .then(
+                (value) => InfoSnackBar.showSnackBar(
+                  context,
+                  AppLocalizations.of(context)!.emailSent,
+                ),
+              );
+        } else {
+          await Provider.of<AuthService>(context, listen: false)
+              .changeEmail(email)
+              .then(
+                (value) => Dialogs.showMessageDialog(
+                  context,
+                  _keyLoader,
+                  AppLocalizations.of(context)!.emailSentAndSignOut,
+                ),
+              );
+
+          await Future.delayed(const Duration(seconds: 2));
+          Navigator.of(_keyLoader.currentContext!, rootNavigator: true).pop();
+          if (mounted) {
+            await Provider.of<AuthService>(context, listen: false)
+                .signOut(context);
+          }
+        }
+      } on CustomException catch (e) {
         InfoSnackBar.showSnackBar(
-            context, AppLocalizations.of(context)!.emailSent);
-      } else {
-        await Provider.of<AuthService>(context, listen: false)
-            .changeEmail(email);
-        Dialogs.showMessageDialog(context, _keyLoader,
-            AppLocalizations.of(context)!.emailSentAndSignOut);
-        await Future.delayed(const Duration(seconds: 2));
-        Navigator.of(_keyLoader.currentContext!, rootNavigator: true).pop();
-        await Provider.of<AuthService>(context, listen: false).signOut(context);
+          context,
+          e.message,
+        );
+        setState(() {
+          _emailSending = false;
+        });
+      } finally {
+        setState(() {
+          _emailSending = false;
+        });
       }
-    } on CustomException catch (e) {
-      InfoSnackBar.showSnackBar(context, e.message);
-      setState(() {
-        _emailSending = false;
-      });
-    } finally {
-      setState(() {
-        _emailSending = false;
-      });
     }
   }
 
   Future<void> _retrieveDynamicLink() async {
     final data = await widget.linkProvider.getInitialLink();
-    final deepLink = data?.link;
-    var isLogged =
-        await Provider.of<AuthService>(context, listen: false).isAlreadyLogin();
-    developer.log('Logged : $isLogged', name: 'carg.dynamic-link');
-    if (deepLink != null && !isLogged) {
-      var link = deepLink.toString();
-      var email = await _store.getEmail();
-      developer.log('Link : $link', name: 'carg.dynamic-link');
-      developer.log('Email : $email', name: 'carg.dynamic-link');
-      try {
-        await Provider.of<AuthService>(context, listen: false)
-            .signInWithEmailLink(email!, link);
-        developer.log('Sing in : OK', name: 'carg.dynamic-link');
-        Dialogs.showLoadingDialog(context, _keyLoader, 'Connexion');
-        await Navigator.pushReplacement(
-          context,
-          CustomRouteFade(
-            builder: (context) =>
-                Provider.of<AuthService>(context, listen: false)
-                    .getCorrectLandingScreen(),
-          ),
-        );
-      } on CustomException catch (e) {
-        developer.log(e.message, name: 'carg.dynamic-link');
-        InfoSnackBar.showSnackBar(context, e.message);
-      } finally {
-        if (_keyLoader.currentContext != null) {
-          Navigator.of(_keyLoader.currentContext!, rootNavigator: true).pop();
+    if (mounted) {
+      final deepLink = data?.link;
+      var isLogged = await Provider.of<AuthService>(context, listen: false)
+          .isAlreadyLogin();
+      developer.log('Logged : $isLogged', name: 'carg.dynamic-link');
+      if (deepLink != null && !isLogged) {
+        var link = deepLink.toString();
+        var email = await _store.getEmail();
+        if (mounted) {
+          developer.log('Link : $link', name: 'carg.dynamic-link');
+          developer.log('Email : $email', name: 'carg.dynamic-link');
+          try {
+            await Provider.of<AuthService>(context, listen: false)
+                .signInWithEmailLink(email!, link);
+            if (mounted) {
+              developer.log('Sing in : OK', name: 'carg.dynamic-link');
+              Dialogs.showLoadingDialog(context, _keyLoader, 'Connexion');
+              await Navigator.pushReplacement(
+                context,
+                CustomRouteFade(
+                  builder: (context) =>
+                      Provider.of<AuthService>(context, listen: false)
+                          .getCorrectLandingScreen(),
+                ),
+              );
+            }
+          } on CustomException catch (e) {
+            developer.log(e.message, name: 'carg.dynamic-link');
+            InfoSnackBar.showSnackBar(
+              context,
+              e.message,
+            );
+          } finally {
+            if (_keyLoader.currentContext != null) {
+              Navigator.of(_keyLoader.currentContext!, rootNavigator: true)
+                  .pop();
+            }
+          }
         }
       }
     }
@@ -108,8 +136,10 @@ class _RegisterEmailWidgetState extends State<RegisterEmailWidget>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
-      developer.log('Call from didChangeAppLifecycleState',
-          name: 'carg.dynamic-link');
+      developer.log(
+        'Call from didChangeAppLifecycleState',
+        name: 'carg.dynamic-link',
+      );
       _retrieveDynamicLink();
     }
   }
@@ -130,6 +160,8 @@ class _RegisterEmailWidgetState extends State<RegisterEmailWidget>
 
   @override
   Widget build(BuildContext context) {
+    final primaryColor = Theme.of(context).primaryColor;
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
@@ -137,32 +169,35 @@ class _RegisterEmailWidgetState extends State<RegisterEmailWidget>
           Row(
             children: [
               AnimatedSize(
-                  key: const ValueKey('placeholderPhoneContainer'),
-                  curve: Curves.ease,
-                  duration: const Duration(milliseconds: 200),
-                  child: _emailSending
-                      ? const Padding(
-                          padding: EdgeInsets.only(right: 15),
-                          child: CircularProgressIndicator(strokeWidth: 5),
-                        )
-                      : const SizedBox(width: 0)),
+                key: const ValueKey('placeholderPhoneContainer'),
+                curve: Curves.ease,
+                duration: const Duration(milliseconds: 200),
+                child: _emailSending
+                    ? const Padding(
+                        padding: EdgeInsets.only(right: 15),
+                        child: CircularProgressIndicator(strokeWidth: 5),
+                      )
+                    : const SizedBox(
+                        width: 0,
+                      ),
+              ),
               Flexible(
                 child: TextField(
                   textInputAction: TextInputAction.go,
                   autofillHints: const [AutofillHints.email],
-                  onSubmitted: (value) async {
+                  onSubmitted: (value) {
                     if (value.isNotEmpty) {
-                      await _signInWithEmailAndLink(value);
+                      _signInWithEmailAndLink(value);
                     }
                   },
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
                     labelText: AppLocalizations.of(context)!.email,
                     labelStyle: TextStyle(
-                      color: Theme.of(context).primaryColor,
+                      color: primaryColor,
                       fontWeight: FontWeight.normal,
                     ),
-                    fillColor: Theme.of(context).primaryColor,
+                    fillColor: primaryColor,
                     disabledBorder: OutlineInputBorder(
                       borderRadius:
                           BorderRadius.circular(CustomProperties.borderRadius),
@@ -175,7 +210,7 @@ class _RegisterEmailWidgetState extends State<RegisterEmailWidget>
                       borderRadius:
                           BorderRadius.circular(CustomProperties.borderRadius),
                       borderSide: BorderSide(
-                        color: Theme.of(context).primaryColor,
+                        color: primaryColor,
                         width: 2.0,
                       ),
                     ),
@@ -183,7 +218,7 @@ class _RegisterEmailWidgetState extends State<RegisterEmailWidget>
                       borderRadius:
                           BorderRadius.circular(CustomProperties.borderRadius),
                       borderSide: BorderSide(
-                        color: Theme.of(context).primaryColor,
+                        color: primaryColor,
                         width: 2.0,
                       ),
                     ),
@@ -203,7 +238,7 @@ class _RegisterEmailWidgetState extends State<RegisterEmailWidget>
                 )
               : const SizedBox(
                   height: 10,
-                )
+                ),
         ],
       ),
     );

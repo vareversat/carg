@@ -16,8 +16,8 @@ const pageSize = 10;
 const jsonFrenchBelote = {
   'starting_date': '2022-04-10 00:00:00.000',
   'players': {
-    "player_list": ['p1', 'p2']
-  }
+    'player_list': ['p1', 'p2'],
+  },
 };
 
 Map<String, dynamic> dataFunction() => {};

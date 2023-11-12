@@ -23,6 +23,9 @@ abstract class AbstractPlayerService extends BaseAbstractService<Player> {
 
   /// Search players into the index
   /// Return the player or null if not found
-  Future<List<Player>> searchPlayers(
-      {String query = '', Player? currentPlayer, bool? myPlayers});
+  Future<List<Player>> searchPlayers({
+    String query = '',
+    Player? currentPlayer,
+    bool? myPlayers,
+  });
 }

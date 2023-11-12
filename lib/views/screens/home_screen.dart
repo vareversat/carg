@@ -5,14 +5,14 @@ import 'package:carg/views/screens/player_list_screen.dart';
 import 'package:carg/views/screens/user_screen.dart';
 import 'package:carg/views/widgets/nav_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home';
   final int requestedIndex;
 
-  const HomeScreen({Key? key, required this.requestedIndex}) : super(key: key);
+  const HomeScreen({super.key, required this.requestedIndex});
 
   @override
   State<StatefulWidget> createState() {
@@ -27,13 +27,17 @@ class _HomeScreenState extends State<HomeScreen> {
     const UserScreen(),
     const GameListScreen(),
     PlayerListScreen(
-        teamService: TeamService(), playerService: PlayerService()),
+      teamService: TeamService(),
+      playerService: PlayerService(),
+    ),
   ];
 
   _HomeScreenState(this._currentIndex);
 
   @override
   Widget build(BuildContext context) {
+    final primaryColor = Theme.of(context).primaryColor;
+
     return Scaffold(
       body: _children[_currentIndex],
       bottomNavigationBar: NavBar(
@@ -46,21 +50,35 @@ class _HomeScreenState extends State<HomeScreen> {
         }),
         items: [
           BottomNavyBarItem(
-            icon: const Icon(Icons.account_circle),
-            title: Text(AppLocalizations.of(context)!.profileTitle),
-            activeColor: Theme.of(context).primaryColor,
+            icon: const Icon(
+              Icons.account_circle,
+            ),
+            title: Text(
+              AppLocalizations.of(context)!.profileTitle,
+            ),
+            activeColor: primaryColor,
             textAlign: TextAlign.center,
           ),
           BottomNavyBarItem(
-            icon: const Icon(FontAwesomeIcons.gamepad),
-            title: Text(AppLocalizations.of(context)!.games),
-            activeColor: Theme.of(context).primaryColor,
+            icon: const Icon(
+              FontAwesomeIcons.gamepad,
+            ),
+            title: Text(
+              AppLocalizations.of(context)!.games,
+            ),
+            activeColor: primaryColor,
             textAlign: TextAlign.center,
           ),
           BottomNavyBarItem(
-            icon: const Icon(Icons.people),
-            title: Text(AppLocalizations.of(context)!.player(2)),
-            activeColor: Theme.of(context).primaryColor,
+            icon: const Icon(
+              Icons.people,
+            ),
+            title: Text(
+              AppLocalizations.of(context)!.player(
+                2,
+              ),
+            ),
+            activeColor: primaryColor,
             textAlign: TextAlign.center,
           ),
         ],

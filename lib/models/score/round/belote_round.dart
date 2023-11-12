@@ -22,19 +22,19 @@ abstract class BeloteRound extends Round {
   late int _usTrickScore;
   late int _themTrickScore;
 
-  BeloteRound(
-      {index,
-      cardColor,
-      contractFulfilled,
-      dixDeDer,
-      beloteRebelote,
-      taker,
-      takerScore,
-      defenderScore,
-      usTrickScore,
-      themTrickScore,
-      defender})
-      : super(index: index) {
+  BeloteRound({
+    super.index,
+    cardColor,
+    contractFulfilled,
+    dixDeDer,
+    beloteRebelote,
+    taker,
+    takerScore,
+    defenderScore,
+    usTrickScore,
+    themTrickScore,
+    defender,
+  }) {
     _taker = taker ?? BeloteTeamEnum.US;
     _defender = defender ?? BeloteTeamEnum.THEM;
     _cardColor = cardColor ?? CardColor.HEART;
@@ -116,11 +116,7 @@ abstract class BeloteRound extends Round {
   }
 
   int getDixDeDerOfTeam(BeloteTeamEnum? team) {
-    if (team == dixDeDer) {
-      return BeloteRound.dixDeDerBonus;
-    } else {
-      return 0;
-    }
+    return team == dixDeDer ? BeloteRound.dixDeDerBonus : 0;
   }
 
   int roundScore(int trickPoints) {

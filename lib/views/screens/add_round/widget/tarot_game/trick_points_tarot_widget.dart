@@ -7,8 +7,7 @@ import 'package:provider/provider.dart';
 class TrickPointsTarotWidget extends StatelessWidget {
   final TarotRound tarotRound;
 
-  const TrickPointsTarotWidget({Key? key, required this.tarotRound})
-      : super(key: key);
+  const TrickPointsTarotWidget({super.key, required this.tarotRound});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +17,8 @@ class TrickPointsTarotWidget extends StatelessWidget {
         builder: (context, roundData, _) => Column(
           children: [
             SectionTitleWidget(
-                title: AppLocalizations.of(context)!.trickPoints),
+              title: AppLocalizations.of(context)!.trickPoints,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -69,8 +69,9 @@ class TrickPointsTarotWidget extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             Text(
-                '${AppLocalizations.of(context)!.attack} : ${roundData.attackTrickPoints.round().toString()} '
-                '| ${AppLocalizations.of(context)!.defense} : ${roundData.defenseTrickPoints.round().toString()}')
+              '${AppLocalizations.of(context)!.attack} : ${roundData.attackTrickPoints.round().toString()} '
+              '| ${AppLocalizations.of(context)!.defense} : ${roundData.defenseTrickPoints.round().toString()}',
+            ),
           ],
         ),
       ),

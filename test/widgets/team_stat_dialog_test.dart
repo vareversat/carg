@@ -39,7 +39,12 @@ void main() {
       expect(
           tester
               .widget<TextFormField>(
-                  find.byKey(const ValueKey('nameTextField')))
+                find.byKey(
+                  const ValueKey(
+                    'nameTextField',
+                  ),
+                ),
+              )
               .controller
               ?.text,
           'My name');
@@ -48,10 +53,15 @@ void main() {
     testWidgets('enter new name', (WidgetTester tester) async {
       await mockNetworkImagesFor(() => tester.pumpWidget(testableWidget(team)));
       await tester.enterText(
-          find.byKey(const ValueKey('nameTextField')), 'Ny new name');
+        find.byKey(const ValueKey('nameTextField')),
+        'Ny new name',
+      );
       await mockNetworkImagesFor(
-          () => tester.testTextInput.receiveAction(TextInputAction.done));
-      await mockNetworkImagesFor(() => tester.pumpAndSettle());
+        () => tester.testTextInput.receiveAction(TextInputAction.done),
+      );
+      await mockNetworkImagesFor(
+        () => tester.pumpAndSettle(),
+      );
 
       verify(mockTeamService.update(team)).called(1);
     });

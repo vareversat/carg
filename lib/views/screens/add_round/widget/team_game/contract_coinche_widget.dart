@@ -12,7 +12,7 @@ import 'package:provider/provider.dart';
 class ContractCoincheWidget extends StatelessWidget {
   final CoincheBeloteRound? coincheRound;
 
-  const ContractCoincheWidget({Key? key, this.coincheRound}) : super(key: key);
+  const ContractCoincheWidget({super.key, this.coincheRound});
 
   @override
   Widget build(BuildContext context) {
@@ -71,6 +71,7 @@ class _ContractValueTextFieldWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _contractTextController.text = coincheRound.contract.toString();
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       key: const ValueKey('contractValueTextFieldWidget'),
@@ -133,7 +134,8 @@ class _ContractTypeWidget extends StatelessWidget {
                     .map(
                       (contractType) => InputChip(
                         key: ValueKey(
-                            'contractTypeWidget-${contractType.name(context)}'),
+                          'contractTypeWidget-${contractType.name(context)}',
+                        ),
                         checkmarkColor: Theme.of(context).cardColor,
                         selected: roundData.contractType == contractType,
                         selectedColor: Theme.of(context).primaryColor,
@@ -171,7 +173,8 @@ class _ContractNameWidget extends StatelessWidget {
       key: const ValueKey('contractNameWidget'),
       children: [
         Text(
-            '${AppLocalizations.of(context)!.bet} (x${roundData.contractName.multiplier})'),
+          '${AppLocalizations.of(context)!.bet} (x${roundData.contractName.multiplier})',
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -192,7 +195,9 @@ class _ContractNameWidget extends StatelessWidget {
                         label: Text(
                           contractName.name,
                           style: TextStyle(
-                              fontSize: 20, color: Theme.of(context).cardColor),
+                            fontSize: 20,
+                            color: Theme.of(context).cardColor,
+                          ),
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),

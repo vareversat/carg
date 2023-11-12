@@ -1,11 +1,11 @@
-import 'package:carg/helpers/custom_route.dart';
 import 'package:carg/models/game/game_type.dart';
 import 'package:carg/models/game_stats.dart';
 import 'package:carg/models/player.dart';
+import 'package:carg/routes/custom_route_fade.dart';
 import 'package:carg/services/auth/auth_service.dart';
 import 'package:carg/services/impl/player_service.dart';
-import 'package:carg/styles/properties.dart';
-import 'package:carg/styles/text_style.dart';
+import 'package:carg/styles/custom_properties.dart';
+import 'package:carg/styles/custom_text_style.dart';
 import 'package:carg/views/screens/settings_screen.dart';
 import 'package:carg/views/widgets/error_message_widget.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +18,7 @@ import 'package:syncfusion_flutter_gauges/gauges.dart';
 class UserScreen extends StatefulWidget {
   static const routeName = '/user';
 
-  const UserScreen({Key? key}) : super(key: key);
+  const UserScreen({super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -91,8 +91,11 @@ class _UserScreenState extends State<UserScreen>
             .getPlayerOfUser(Provider.of<AuthService>(context, listen: false)
                 .getConnectedUserId())
             .catchError(
-                // ignore: return_of_invalid_type_from_catch_error
-                (onError) => {_errorMessage = onError.toString()}),
+              // ignore: return_of_invalid_type_from_catch_error
+              (onError) => {
+                _errorMessage = onError.toString(),
+              },
+            ),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return CustomScrollView(
@@ -109,7 +112,7 @@ class _UserScreenState extends State<UserScreen>
                     centerTitle: true,
                     title: Text(''),
                   ),
-                )
+                ),
               ],
             );
           }
@@ -119,14 +122,17 @@ class _UserScreenState extends State<UserScreen>
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ErrorMessageWidget(
-                    message: _errorMessage ??
-                        AppLocalizations.of(context)!.youDontHaveAnyPlayer),
+                  message: _errorMessage ??
+                      AppLocalizations.of(context)!.youDontHaveAnyPlayer,
+                ),
                 ElevatedButton.icon(
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(
-                        Theme.of(context).primaryColor),
+                      Theme.of(context).primaryColor,
+                    ),
                     foregroundColor: MaterialStateProperty.all<Color>(
-                        Theme.of(context).cardColor),
+                      Theme.of(context).cardColor,
+                    ),
                     shape: MaterialStateProperty.all<OutlinedBorder>(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
@@ -135,7 +141,7 @@ class _UserScreenState extends State<UserScreen>
                       ),
                     ),
                   ),
-                  onPressed: () async => _signOut(),
+                  onPressed: () => _signOut(),
                   label: Text(
                     AppLocalizations.of(context)!.connection,
                     style: const TextStyle(
@@ -152,18 +158,21 @@ class _UserScreenState extends State<UserScreen>
           if (snapshot.data == null) {
             return Center(
               child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      AppLocalizations.of(context)!.noPlayerYet,
-                      style: const TextStyle(
-                        fontSize: 18,
-                      ),
-                    )
-                  ]),
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    AppLocalizations.of(context)!.noPlayerYet,
+                    style: const TextStyle(
+                      fontSize: 18,
+                    ),
+                  ),
+                ],
+              ),
             );
           }
           _player = snapshot.data;
+          final gameList = _player!.gameStatsList;
+
           return ChangeNotifierProvider.value(
             value: _player!,
             child: Consumer<Player>(
@@ -182,49 +191,61 @@ class _UserScreenState extends State<UserScreen>
                     flexibleSpace: FlexibleSpaceBar(
                       centerTitle: true,
                       title: _PlayerUsernameAndProfilePictureWidget(
-                          player: _player, animation: _opacityAnimation),
+                        player: _player,
+                        animation: _opacityAnimation,
+                      ),
                     ),
                   ),
                   SliverList(
                     delegate: SliverChildListDelegate(
                       [
-                        _player!.gameStatsList!.isNotEmpty
-                            ? Column(children: [
-                                _StatCircularChart(
-                                    gameStatsList: _player!.gameStatsList),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 30),
-                                  child: Text(
+                        gameList!.isNotEmpty
+                            ? Column(
+                                children: [
+                                  _StatCircularChart(
+                                    gameStatsList: gameList,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 30,
+                                    ),
+                                    child: Text(
                                       '-- ${AppLocalizations.of(context)!.winPercentage} --',
                                       style: Theme.of(context)
                                           .textTheme
-                                          .bodyText2!
+                                          .bodyMedium!
                                           .copyWith(
-                                              fontStyle: FontStyle.italic)),
-                                ),
-                                _WonPlayedWidget(player: _player),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 30),
-                                  child: Wrap(
+                                            fontStyle: FontStyle.italic,
+                                          ),
+                                    ),
+                                  ),
+                                  _WonPlayedWidget(player: _player),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 30,
+                                    ),
+                                    child: Wrap(
                                       runSpacing: 20,
                                       spacing: 80,
                                       alignment: WrapAlignment.spaceEvenly,
-                                      children: _player!.gameStatsList!
+                                      children: gameList
                                           .map(
                                             (stat) => ConstrainedBox(
-                                                constraints:
-                                                    const BoxConstraints(
-                                                        maxWidth: 160,
-                                                        maxHeight: 160),
-                                                child: _StatGauge(
-                                                    gameStats: stat)),
+                                              constraints: const BoxConstraints(
+                                                maxWidth: 160,
+                                                maxHeight: 160,
+                                              ),
+                                              child: _StatGauge(
+                                                gameStats: stat,
+                                              ),
+                                            ),
                                           )
                                           .toList()
-                                          .cast<Widget>()),
-                                )
-                              ])
+                                          .cast<Widget>(),
+                                    ),
+                                  ),
+                                ],
+                              )
                             : Center(
                                 child: Padding(
                                   padding: const EdgeInsets.all(30),
@@ -258,11 +279,13 @@ class _StatGauge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final winPercentage = gameStats!.winPercentage();
+
     return InkWell(
       child: SfRadialGauge(
         title: GaugeTitle(
           text: gameStats!.gameType.name,
-          textStyle: Theme.of(context).textTheme.bodyText2!.copyWith(
+          textStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
                 fontWeight: FontWeight.bold,
               ),
         ),
@@ -270,20 +293,24 @@ class _StatGauge extends StatelessWidget {
           RadialAxis(
             annotations: <GaugeAnnotation>[
               GaugeAnnotation(
-                  axisValue: 50,
-                  positionFactor: 0,
-                  widget: Text(
-                    '${gameStats!.winPercentage().toString()}%',
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 22),
-                  )),
+                axisValue: 50,
+                positionFactor: 0,
+                widget: Text(
+                  '${winPercentage.toString()}%',
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 22,
+                  ),
+                ),
+              ),
               GaugeAnnotation(
-                  axisValue: 50,
-                  positionFactor: 0.3,
-                  widget: Text(
-                    '${gameStats!.wonGames} | ${gameStats!.playedGames}',
-                    style: const TextStyle(fontSize: 15),
-                  ))
+                axisValue: 50,
+                positionFactor: 0.3,
+                widget: Text(
+                  '${gameStats!.wonGames} | ${gameStats!.playedGames}',
+                  style: const TextStyle(fontSize: 15),
+                ),
+              ),
             ],
             startAngle: 270,
             endAngle: 270,
@@ -292,11 +319,12 @@ class _StatGauge extends StatelessWidget {
             showTicks: false,
             ranges: <GaugeRange>[
               GaugeRange(
-                  startValue: 0,
-                  endValue: gameStats!.winPercentage(),
-                  color: Theme.of(context).primaryColor),
+                startValue: 0,
+                endValue: winPercentage,
+                color: Theme.of(context).primaryColor,
+              ),
               GaugeRange(
-                startValue: gameStats!.winPercentage(),
+                startValue: winPercentage,
                 endValue: 100,
                 color: Theme.of(context).colorScheme.secondary,
               ),
@@ -316,32 +344,38 @@ class _StatCircularChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+
     return SfCircularChart(
-        tooltipBehavior: TooltipBehavior(
-            enable: true, textStyle: Theme.of(context).textTheme.bodyText1!),
-        title: ChartTitle(
-            text: '-- ${AppLocalizations.of(context)!.gameDistribution} --',
-            alignment: ChartAlignment.center,
-            textStyle: Theme.of(context)
-                .textTheme
-                .bodyText2!
-                .copyWith(fontStyle: FontStyle.italic)),
-        series: <CircularSeries>[
-          DoughnutSeries<GameStats, String?>(
-            radius: '110%',
-            innerRadius: '60%',
-            dataSource: gameStatsList!,
-            xValueMapper: (GameStats data, _) => data.gameType.name,
-            yValueMapper: (GameStats data, _) => data.playedGames,
-          )
-        ],
-        legend: Legend(
-            iconHeight: 20,
-            iconWidth: 20,
-            textStyle: Theme.of(context).textTheme.bodyText2!,
-            position: LegendPosition.left,
-            isVisible: true,
-            toggleSeriesVisibility: true));
+      tooltipBehavior: TooltipBehavior(
+        enable: true,
+        textStyle: textTheme.bodyLarge!,
+      ),
+      title: ChartTitle(
+        text: '-- ${AppLocalizations.of(context)!.gameDistribution} --',
+        alignment: ChartAlignment.center,
+        textStyle: textTheme.bodyMedium!.copyWith(
+          fontStyle: FontStyle.italic,
+        ),
+      ),
+      series: <CircularSeries>[
+        DoughnutSeries<GameStats, String?>(
+          radius: '110%',
+          innerRadius: '60%',
+          dataSource: gameStatsList!,
+          xValueMapper: (GameStats data, _) => data.gameType.name,
+          yValueMapper: (GameStats data, _) => data.playedGames,
+        ),
+      ],
+      legend: Legend(
+        iconHeight: 20,
+        iconWidth: 20,
+        textStyle: textTheme.bodyMedium!,
+        position: LegendPosition.left,
+        isVisible: true,
+        toggleSeriesVisibility: true,
+      ),
+    );
   }
 }
 
@@ -350,15 +384,15 @@ class _PlayerUsernameAndProfilePictureWidget extends StatelessWidget {
   final Animation<Offset> animation;
 
   Color _getBackgroundColor(BuildContext context) {
-    if (player != null && player!.admin) {
-      return Theme.of(context).colorScheme.secondary;
-    } else {
-      return Theme.of(context).primaryColor;
-    }
+    return player != null && player!.admin
+        ? Theme.of(context).colorScheme.secondary
+        : Theme.of(context).primaryColor;
   }
 
-  const _PlayerUsernameAndProfilePictureWidget(
-      {this.player, required this.animation});
+  const _PlayerUsernameAndProfilePictureWidget({
+    this.player,
+    required this.animation,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -397,7 +431,7 @@ class _PlayerUsernameAndProfilePictureWidget extends StatelessWidget {
             style: const TextStyle(fontSize: 25),
             textAlign: TextAlign.center,
           ),
-        )
+        ),
       ],
     );
   }
@@ -413,14 +447,19 @@ class _AppBarTitle extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(AppLocalizations.of(context)!.profileTitle,
-            style: CustomTextStyle.screenHeadLine1(context)),
+        Text(
+          AppLocalizations.of(context)!.profileTitle,
+          style: CustomTextStyle.screenDisplayLarge(
+            context,
+          ),
+        ),
         ElevatedButton.icon(
           style: ButtonStyle(
             backgroundColor:
                 MaterialStateProperty.all<Color>(Theme.of(context).cardColor),
             foregroundColor: MaterialStateProperty.all<Color>(
-                Theme.of(context).primaryColor),
+              Theme.of(context).primaryColor,
+            ),
             shape: MaterialStateProperty.all<OutlinedBorder>(
               RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(
@@ -429,7 +468,7 @@ class _AppBarTitle extends StatelessWidget {
               ),
             ),
           ),
-          onPressed: () async => await onPressEdit(),
+          onPressed: () => onPressEdit(),
           label: Text(AppLocalizations.of(context)!.settings),
           icon: const Icon(
             FontAwesomeIcons.gears,
@@ -448,39 +487,73 @@ class _WonPlayedWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-      Flexible(
-          child: Column(children: [
-        const Icon(FontAwesomeIcons.trophy, size: 20),
-        Padding(
-            padding: const EdgeInsets.all(5.0),
-            child: Text(player!.totalWonGames().toString(),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        Flexible(
+          child: Column(
+            children: [
+              const Icon(FontAwesomeIcons.trophy, size: 20),
+              Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Text(
+                  player!.totalWonGames().toString(),
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              Text(
+                AppLocalizations.of(context)!.victories,
                 style: const TextStyle(
-                    fontSize: 20, fontWeight: FontWeight.bold))),
-        Text(AppLocalizations.of(context)!.victories,
-            style: const TextStyle(fontSize: 20))
-      ])),
-      Container(
-        decoration: BoxDecoration(
+                  fontSize: 20,
+                ),
+              ),
+            ],
+          ),
+        ),
+        Container(
+          decoration: BoxDecoration(
             border: Border(
-                bottom: BorderSide(
-          color: Theme.of(context).primaryColor,
-          width: 6,
-        ))),
-        child: Text('${player!.totalWinPercentage()} %',
-            style: const TextStyle(fontSize: 35, fontWeight: FontWeight.bold)),
-      ),
-      Flexible(
-          child: Column(children: [
-        const Icon(FontAwesomeIcons.gamepad, size: 20),
-        Padding(
-            padding: const EdgeInsets.all(5.0),
-            child: Text(player!.totalPlayedGames().toString(),
+              bottom: BorderSide(
+                color: Theme.of(context).primaryColor,
+                width: 6,
+              ),
+            ),
+          ),
+          child: Text(
+            '${player!.totalWinPercentage()} %',
+            style: const TextStyle(
+              fontSize: 35,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        Flexible(
+          child: Column(
+            children: [
+              const Icon(FontAwesomeIcons.gamepad, size: 20),
+              Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Text(
+                  player!.totalPlayedGames().toString(),
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              Text(
+                AppLocalizations.of(context)!.games,
                 style: const TextStyle(
-                    fontSize: 20, fontWeight: FontWeight.bold))),
-        Text(AppLocalizations.of(context)!.games,
-            style: const TextStyle(fontSize: 20))
-      ]))
-    ]);
+                  fontSize: 20,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 }

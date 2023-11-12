@@ -1,9 +1,9 @@
 import 'package:carg/models/players/tarot_round_players.dart';
+import 'package:carg/models/score/misc/tarot_bonus.dart';
 import 'package:carg/models/score/misc/tarot_chelem.dart';
 import 'package:carg/models/score/misc/tarot_contract.dart';
 import 'package:carg/models/score/misc/tarot_handful.dart';
 import 'package:carg/models/score/misc/tarot_oudler.dart';
-import 'package:carg/models/score/misc/tarot_perk.dart';
 import 'package:carg/models/score/misc/tarot_player_score.dart';
 import 'package:carg/models/score/misc/tarot_team.dart';
 import 'package:carg/models/score/round/round.dart';
@@ -32,7 +32,7 @@ class TarotRound extends Round {
   TarotRoundPlayers? players;
 
   TarotRound({
-    int? index,
+    super.index,
     double? attackScore,
     double? defenseScore,
     double? attackTrickPoints,
@@ -46,7 +46,7 @@ class TarotRound extends Round {
     TarotTeam? smallToTheEnd,
     List<TarotPlayerScore>? playerPoints,
     this.players,
-  }) : super(index: index) {
+  }) {
     this.attackScore = attackScore ?? 0;
     this.defenseScore = defenseScore ?? 0;
     this.playerPoints = playerPoints ?? <TarotPlayerScore>[];
@@ -224,14 +224,12 @@ class TarotRound extends Round {
 
   @override
   String realTimeDisplay(BuildContext context) {
-    if (players!.playerList!.length <= 4) {
-      return '${AppLocalizations.of(context)!.tarotAttackers} : ${attackScore.toStringAsFixed(1)} '
-          '| ${AppLocalizations.of(context)!.tarotDefenders} : ${defenseScore.toStringAsFixed(1)}';
-    } else {
-      return '${AppLocalizations.of(context)!.tarotAttackers} : ${(attackScore.round() * (2 / 3)).toStringAsFixed(1)} '
-          '| ${AppLocalizations.of(context)!.tarotCalled} ${(attackScore * (1 / 3)).toStringAsFixed(1)} '
-          '| ${AppLocalizations.of(context)!.tarotDefenders} : ${defenseScore.toStringAsFixed(1)}';
-    }
+    return players!.playerList!.length <= 4
+        ? '${AppLocalizations.of(context)!.tarotAttackers} : ${attackScore.toStringAsFixed(1)} '
+            '| ${AppLocalizations.of(context)!.tarotDefenders} : ${defenseScore.toStringAsFixed(1)}'
+        : '${AppLocalizations.of(context)!.tarotAttackers} : ${(attackScore.round() * (2 / 3)).toStringAsFixed(1)} '
+            '| ${AppLocalizations.of(context)!.tarotCalled} ${(attackScore * (1 / 3)).toStringAsFixed(1)} '
+            '| ${AppLocalizations.of(context)!.tarotDefenders} : ${defenseScore.toStringAsFixed(1)}';
   }
 
   Map<String, dynamic> toJSON() {
@@ -250,7 +248,7 @@ class TarotRound extends Round {
           ? EnumToString.convertToString(smallToTheEndTeam)
           : null,
       'chelem': chelem != null ? EnumToString.convertToString(chelem) : null,
-      'player_points': playerPoints!.map((e) => e.toJSON()).toList()
+      'player_points': playerPoints!.map((e) => e.toJSON()).toList(),
     };
   }
 
@@ -269,7 +267,9 @@ class TarotRound extends Round {
       handful:
           EnumToString.fromString(TarotHandful.values, json['handful'] ?? ''),
       smallToTheEnd: EnumToString.fromString(
-          TarotTeam.values, json['small_to_the_end'] ?? ''),
+        TarotTeam.values,
+        json['small_to_the_end'] ?? '',
+      ),
       chelem: EnumToString.fromString(TarotChelem.values, json['chelem'] ?? ''),
     );
   }

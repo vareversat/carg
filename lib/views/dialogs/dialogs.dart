@@ -1,9 +1,12 @@
-import 'package:carg/styles/properties.dart';
+import 'package:carg/styles/custom_properties.dart';
 import 'package:flutter/material.dart';
 
 class Dialogs {
-  static void showLoadingDialog(
-      BuildContext context, GlobalKey key, String message) async {
+  static Future<void> showLoadingDialog(
+    BuildContext context,
+    GlobalKey key,
+    String message,
+  ) {
     return showDialog(
       context: context,
       barrierDismissible: false,
@@ -24,7 +27,9 @@ class Dialogs {
                 Text(
                   message,
                   style: const TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.bold),
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ],
             ),
@@ -34,8 +39,11 @@ class Dialogs {
     );
   }
 
-  static void showMessageDialog(
-      BuildContext context, GlobalKey key, String message) async {
+  static Future<void> showMessageDialog(
+    BuildContext context,
+    GlobalKey key,
+    String message,
+  ) {
     return showDialog(
       context: context,
       barrierDismissible: false,

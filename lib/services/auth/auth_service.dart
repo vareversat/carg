@@ -4,9 +4,10 @@ import 'dart:async';
 
 import 'package:carg/const.dart';
 import 'package:carg/exceptions/custom_exception.dart';
-import 'package:carg/helpers/custom_route.dart';
 import 'package:carg/models/player.dart';
 import 'package:carg/repositories/impl/iap_repository.dart';
+import 'package:carg/routes/custom_route_fade.dart';
+import 'package:carg/routes/custom_route_left_to_right.dart';
 import 'package:carg/services/impl/player_service.dart';
 import 'package:carg/views/helpers/info_snackbar.dart';
 import 'package:carg/views/screens/home_screen.dart';
@@ -37,12 +38,15 @@ class AuthService with ChangeNotifier {
       final googleUser = (await googleSignIn.signIn())!;
       final googleAuth = await googleUser.authentication;
       final AuthCredential credential = GoogleAuthProvider.credential(
-          accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
       _connectedUser =
           (await FirebaseAuth.instance.signInWithCredential(credential)).user;
       _player = await _playerService.getPlayerOfUser(_connectedUser!.uid);
       _expiryDate = (await _connectedUser!.getIdTokenResult()).expirationTime;
       await _connectedUser!.getIdTokenResult(true);
+
       return _connectedUser!.uid;
     } on PlatformException catch (e) {
       throw CustomException(e.code);
@@ -52,12 +56,13 @@ class AuthService with ChangeNotifier {
   Future<void> sendSignInWithEmailLink(String email) async {
     try {
       var acs = ActionCodeSettings(
-          url: Const.deepLinkScheme,
-          handleCodeInApp: true,
-          iOSBundleId: Const.packageId,
-          androidPackageName: Const.packageId,
-          androidInstallApp: true,
-          androidMinimumVersion: '18');
+        url: Const.deepLinkScheme,
+        handleCodeInApp: true,
+        iOSBundleId: Const.packageId,
+        androidPackageName: Const.packageId,
+        androidInstallApp: true,
+        androidMinimumVersion: '18',
+      );
       await FirebaseAuth.instance
           .sendSignInLinkToEmail(email: email, actionCodeSettings: acs);
     } on FirebaseAuthException catch (e) {
@@ -73,6 +78,7 @@ class AuthService with ChangeNotifier {
       _player = await _playerService.getPlayerOfUser(_connectedUser!.uid);
       _expiryDate = (await _connectedUser!.getIdTokenResult()).expirationTime;
       await _connectedUser!.getIdTokenResult(true);
+
       return _connectedUser!.uid;
     } on FirebaseAuthException catch (e) {
       throw CustomException(e.code);
@@ -80,15 +86,20 @@ class AuthService with ChangeNotifier {
   }
 
   Future<String> validatePhoneNumber(
-      String smsCode, String verificationId) async {
+    String smsCode,
+    String verificationId,
+  ) async {
     try {
       var credential = PhoneAuthProvider.credential(
-          verificationId: verificationId, smsCode: smsCode);
+        verificationId: verificationId,
+        smsCode: smsCode,
+      );
       var result = await FirebaseAuth.instance.signInWithCredential(credential);
       _connectedUser = result.user;
       _player = await _playerService.getPlayerOfUser(_connectedUser!.uid);
       _expiryDate = (await _connectedUser!.getIdTokenResult()).expirationTime;
       await _connectedUser!.getIdTokenResult(true);
+
       return _connectedUser!.uid;
     } on FirebaseAuthException catch (e) {
       throw CustomException(e.code);
@@ -98,7 +109,9 @@ class AuthService with ChangeNotifier {
   Future changePhoneNumber(String smsCode, String verificationId) async {
     try {
       var credential = PhoneAuthProvider.credential(
-          verificationId: verificationId, smsCode: smsCode);
+        verificationId: verificationId,
+        smsCode: smsCode,
+      );
       await _connectedUser!.updatePhoneNumber(credential);
       await _connectedUser!.getIdTokenResult(true);
       _connectedUser = FirebaseAuth.instance.currentUser;
@@ -107,48 +120,64 @@ class AuthService with ChangeNotifier {
     }
   }
 
-  Future<dynamic> resendPhoneVerificationCode(
-      String phoneNumber, BuildContext context) async {
+  Future<void> resendPhoneVerificationCode(
+    String phoneNumber,
+    BuildContext context,
+  ) async {
     await _verifyPhoneNumber(
       phoneNumber,
       context,
       (verificationId, forceResendingToken) => InfoSnackBar.showSnackBar(
-          context, AppLocalizations.of(context)!.otpSend),
+        context,
+        AppLocalizations.of(context)!.otpSend,
+      ),
       (credentials) => InfoSnackBar.showErrorSnackBar(
-          context, AppLocalizations.of(context)!.errorInvalidPhoneNumber),
+        context,
+        AppLocalizations.of(context)!.errorInvalidPhoneNumber,
+      ),
     );
   }
 
-  Future<dynamic> sendPhoneVerificationCode(
-      String phoneNumber,
-      BuildContext context,
-      CredentialVerificationType credentialVerificationType) async {
+  Future<void> sendPhoneVerificationCode(
+    String phoneNumber,
+    BuildContext context,
+    CredentialVerificationType credentialVerificationType,
+  ) async {
     await _verifyPhoneNumber(
       phoneNumber,
       context,
       (verificationId, forceResendingToken) => Navigator.push(
-          context,
-          CustomRouteLeftToRight(
-              builder: (context) => PinCodeVerificationScreen(
-                  phoneNumber: phoneNumber,
-                  verificationId: verificationId,
-                  credentialVerificationType: credentialVerificationType))),
+        context,
+        CustomRouteLeftToRight(
+          builder: (context) => PinCodeVerificationScreen(
+            phoneNumber: phoneNumber,
+            verificationId: verificationId,
+            credentialVerificationType: credentialVerificationType,
+          ),
+        ),
+      ),
       (credentials) => InfoSnackBar.showErrorSnackBar(
-          context, AppLocalizations.of(context)!.errorInvalidPhoneNumber),
+        context,
+        AppLocalizations.of(context)!.errorInvalidPhoneNumber,
+      ),
     );
   }
 
-  Future<dynamic> _verifyPhoneNumber(
-      String phoneNumber,
-      BuildContext context,
-      Function(String verificationId, int? forceResendingToken) onCodeSend,
-      Function(FirebaseAuthException credentials) onVerificationFailed) async {
+  Future<void> _verifyPhoneNumber(
+    String phoneNumber,
+    BuildContext context,
+    Function(String verificationId, int? forceResendingToken) onCodeSend,
+    Function(FirebaseAuthException credentials) onVerificationFailed,
+  ) async {
     await FirebaseAuth.instance.verifyPhoneNumber(
-        phoneNumber: phoneNumber,
-        verificationCompleted: (PhoneAuthCredential credentials) {},
-        verificationFailed: onVerificationFailed,
-        codeSent: onCodeSend,
-        codeAutoRetrievalTimeout: (String verificationId) {});
+      phoneNumber: phoneNumber,
+      //ignore: no-empty-block
+      verificationCompleted: (PhoneAuthCredential credentials) {},
+      verificationFailed: onVerificationFailed,
+      codeSent: onCodeSend,
+      //ignore: no-empty-block
+      codeAutoRetrievalTimeout: (String verificationId) {},
+    );
   }
 
   Future<bool> isAlreadyLogin() async {
@@ -156,18 +185,21 @@ class AuthService with ChangeNotifier {
     if (firebaseUser == null) {
       // Make sure the user is disconnected
       await FirebaseAuth.instance.signOut();
+
       return false;
     }
     final expiryDate = (await firebaseUser.getIdTokenResult()).expirationTime!;
     if (expiryDate.isBefore(DateTime.now())) {
       // Make sure the user is disconnected
       await FirebaseAuth.instance.signOut();
+
       return false;
     }
     await firebaseUser.getIdTokenResult(true);
     _connectedUser = firebaseUser;
     _player = await _playerService.getPlayerOfUser(_connectedUser!.uid);
     _expiryDate = expiryDate;
+
     return true;
   }
 
@@ -175,9 +207,14 @@ class AuthService with ChangeNotifier {
     _connectedUser = null;
     _expiryDate = null;
     notifyListeners();
-    await FirebaseAuth.instance.signOut();
-    await Navigator.pushReplacement(
-        context, CustomRouteFade(builder: (context) => RegisterScreen()));
+    await FirebaseAuth.instance.signOut().then(
+          (value) => Navigator.pushReplacement(
+            context,
+            CustomRouteFade(
+              builder: (context) => RegisterScreen(),
+            ),
+          ),
+        );
   }
 
   Future<void> changeEmail(String newEmail) async {
@@ -190,11 +227,9 @@ class AuthService with ChangeNotifier {
   }
 
   Widget getCorrectLandingScreen() {
-    if (_player == null) {
-      return const WelcomeScreen();
-    } else {
-      return const HomeScreen(requestedIndex: 0);
-    }
+    return _player == null
+        ? const WelcomeScreen()
+        : const HomeScreen(requestedIndex: 0);
   }
 
   String? getConnectedUserId() {
@@ -230,12 +265,11 @@ class AuthService with ChangeNotifier {
       return true;
     } else {
       var purchase = await _iapRepository.getByUserId(_connectedUser!.uid);
-      if (purchase == null) {
-        return false;
-      } else {
-        return purchase.isValid() &&
-            purchase.productId == Const.iapFreeAdsProductId;
-      }
+
+      return purchase == null
+          ? false
+          : purchase.isValid() &&
+              purchase.productId == Const.iapFreeAdsProductId;
     }
   }
 }

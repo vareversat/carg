@@ -47,13 +47,15 @@ class AppStoreIAPService extends AbstractIAPService {
       }),
       headers: headers,
     );
-    final dynamic json = jsonDecode(response.body);
+    final Map<String, dynamic> json = jsonDecode(response.body);
     final status = json['status'] as int;
     if (status == 0) {
       developer.log('Successfully verified purchase');
+
       return true;
     } else {
       developer.log('Error: Status: $status');
+
       return false;
     }
   }

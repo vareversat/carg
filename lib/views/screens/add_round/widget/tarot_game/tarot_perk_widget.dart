@@ -1,7 +1,7 @@
 import 'package:carg/models/game/tarot.dart';
+import 'package:carg/models/score/misc/tarot_bonus.dart';
 import 'package:carg/models/score/misc/tarot_chelem.dart';
 import 'package:carg/models/score/misc/tarot_handful.dart';
-import 'package:carg/models/score/misc/tarot_perk.dart';
 import 'package:carg/models/score/misc/tarot_team.dart';
 import 'package:carg/models/score/round/tarot_round.dart';
 import 'package:carg/views/screens/add_round/widget/section_title_widget.dart';
@@ -14,25 +14,29 @@ class TarotPerkWidget extends StatelessWidget {
   final TarotRound tarotRound;
   final Tarot? tarotGame;
 
-  const TarotPerkWidget({Key? key, required this.tarotRound, this.tarotGame})
-      : super(key: key);
+  const TarotPerkWidget({super.key, required this.tarotRound, this.tarotGame});
 
   @override
   Widget build(BuildContext context) {
-    Future<dynamic> showHandfulPicker() {
-      return showDialog(
+    final selectedColor = Theme.of(context).colorScheme.secondary;
+
+    Future<List<Object>?> showHandfulPicker() {
+      return showDialog<List<Object>>(
         context: context,
         builder: (
           BuildContext context,
         ) {
-          return _HandfulPicker(tarotRound.handful, tarotRound.handfulTeam,
-              tarotGame!.players!.playerList!.length);
+          return _HandfulPicker(
+            tarotRound.handful,
+            tarotRound.handfulTeam,
+            tarotGame!.players!.playerList!.length,
+          );
         },
       );
     }
 
-    Future<dynamic> showChelemPicker() {
-      return showDialog(
+    Future<TarotChelem?> showChelemPicker() {
+      return showDialog<TarotChelem>(
         context: context,
         builder: (
           BuildContext context,
@@ -71,21 +75,19 @@ class TarotPerkWidget extends StatelessWidget {
                       ? CircleAvatar(
                           child: Text(
                             EnumToString.convertToString(
-                                    roundData.smallToTheEndTeam)
-                                .substring(0, 1),
+                              roundData.smallToTheEndTeam,
+                            ).substring(0, 1),
                           ),
                         )
                       : null,
                   showCheckmark: false,
-                  selectedColor: Theme.of(context).colorScheme.secondary,
+                  selectedColor: selectedColor,
                   selected: roundData.smallToTheEndTeam != null,
-                  onPressed: () async {
-                    await showSmallToTheEndPicker().then(
-                      (value) => {
-                        if (value != null) roundData.smallToTheEndTeam = value
-                      },
-                    );
-                  },
+                  onPressed: () => showSmallToTheEndPicker().then(
+                    (value) => {
+                      if (value != null) roundData.smallToTheEndTeam = value,
+                    },
+                  ),
                   label: Text(
                     TarotBonus.SMALL_TO_THE_END.name(context) +
                         (roundData.smallToTheEndTeam != null
@@ -106,19 +108,17 @@ class TarotPerkWidget extends StatelessWidget {
                         )
                       : null,
                   showCheckmark: false,
-                  selectedColor: Theme.of(context).colorScheme.secondary,
+                  selectedColor: selectedColor,
                   selected: roundData.handful != null,
-                  onPressed: () async {
-                    await showHandfulPicker().then(
-                      (value) => {
-                        if (value != null)
-                          {
-                            roundData.handful = value[0],
-                            roundData.handfulTeam = value[1]
-                          }
-                      },
-                    );
-                  },
+                  onPressed: () => showHandfulPicker().then(
+                    (value) => {
+                      if (value != null)
+                        {
+                          roundData.handful = value[0] as TarotHandful?,
+                          roundData.handfulTeam = value[1] as TarotTeam?,
+                        },
+                    },
+                  ),
                   label: Text(
                     TarotBonus.HANDFUL.name(context) +
                         (roundData.handful != null
@@ -133,25 +133,33 @@ class TarotPerkWidget extends StatelessWidget {
                   avatar: roundData.chelem != null
                       ? CircleAvatar(
                           child: Text(
-                              EnumToString.convertToString(roundData.chelem)
-                                  .substring(0, 1)))
+                            EnumToString.convertToString(roundData.chelem)
+                                .substring(
+                              0,
+                              1,
+                            ),
+                          ),
+                        )
                       : null,
                   showCheckmark: false,
-                  selectedColor: Theme.of(context).colorScheme.secondary,
+                  selectedColor: selectedColor,
                   selected: roundData.chelem != null,
-                  onPressed: () async {
-                    await showChelemPicker().then((value) =>
-                        {if (value != null) roundData.chelem = value});
-                  },
+                  onPressed: () => showChelemPicker().then(
+                    (value) => {
+                      if (value != null) roundData.chelem = value,
+                    },
+                  ),
                   label: Text(
                     TarotBonus.CHELEM.name(context) +
                         (roundData.chelem != null
-                            ? ' | ${AppLocalizations.of(context)!.points(roundData.chelem.bonus)}'
+                            ? ' | ${AppLocalizations.of(context)!.points(
+                                roundData.chelem.bonus,
+                              )}'
                             : ''),
                   ),
                 ),
               ],
-            )
+            ),
           ],
         ),
       ),
@@ -182,8 +190,11 @@ class _HandfulPicker extends StatelessWidget {
                 (poingnee) => Column(
                   children: [
                     Text(
-                        '${poingnee.name(context)} (${AppLocalizations.of(context)!.trump(poingnee.perkCount)} = ${AppLocalizations.of(context)!.points(poingnee.bonus!)})',
-                        style: const TextStyle(fontWeight: FontWeight.bold)),
+                      '${poingnee.name(context)} (${AppLocalizations.of(context)!.trump(poingnee.perkCount)} = ${AppLocalizations.of(context)!.points(poingnee.bonus!)})',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -204,10 +215,11 @@ class _HandfulPicker extends StatelessWidget {
                           label: Text(
                             AppLocalizations.of(context)!.attack,
                             style: TextStyle(
-                                color: (handful == poingnee &&
-                                        handfulTeam == TarotTeam.ATTACK)
-                                    ? Colors.white
-                                    : Colors.black),
+                              color: (handful == poingnee &&
+                                      handfulTeam == TarotTeam.ATTACK)
+                                  ? Colors.white
+                                  : Colors.black,
+                            ),
                           ),
                         ),
                         InputChip(
@@ -220,15 +232,21 @@ class _HandfulPicker extends StatelessWidget {
                               handfulTeam == TarotTeam.DEFENSE,
                           onPressed: () {
                             Navigator.pop(
-                                context, [poingnee, TarotTeam.DEFENSE]);
+                              context,
+                              [
+                                poingnee,
+                                TarotTeam.DEFENSE,
+                              ],
+                            );
                           },
                           label: Text(
                             AppLocalizations.of(context)!.defense,
                             style: TextStyle(
-                                color: (handful == poingnee &&
-                                        handfulTeam == TarotTeam.DEFENSE)
-                                    ? Colors.white
-                                    : Colors.black),
+                              color: (handful == poingnee &&
+                                      handfulTeam == TarotTeam.DEFENSE)
+                                  ? Colors.white
+                                  : Colors.black,
+                            ),
                           ),
                         ),
                       ],
@@ -297,7 +315,7 @@ class _PetitAuBoutPicker extends StatelessWidget {
                         : Colors.black,
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),

@@ -1,9 +1,11 @@
-import 'package:carg/styles/text_style.dart';
+import 'package:carg/styles/custom_text_style.dart';
 import 'package:flutter/material.dart';
 
 class InfoSnackBar {
   static ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showSnackBar(
-      BuildContext context, String message) {
+    BuildContext context,
+    String message,
+  ) {
     return ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         key: const ValueKey('infoSnackBar'),
@@ -25,9 +27,13 @@ class InfoSnackBar {
         duration: const Duration(seconds: 4),
         behavior: SnackBarBehavior.floating,
         backgroundColor: Theme.of(context).cardColor,
-        content: Text(message,
-            style: CustomTextStyle.snackBarTextStyle(context)
-                .copyWith(color: Colors.red, fontWeight: FontWeight.bold)),
+        content: Text(
+          message,
+          style: CustomTextStyle.snackBarTextStyle(context).copyWith(
+            color: Colors.red,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
     );
   }

@@ -1,18 +1,13 @@
 import 'package:carg/models/team.dart';
 import 'package:carg/repositories/base_repository.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 abstract class AbstractTeamRepository extends BaseRepository<Team> {
-  AbstractTeamRepository(
-      {required String database,
-      required String environment,
-      required FirebaseFirestore provider,
-      DocumentSnapshot? lastFetchGameDocument})
-      : super(
-            database: database,
-            environment: environment,
-            provider: provider,
-            lastFetchGameDocument: lastFetchGameDocument);
+  AbstractTeamRepository({
+    required super.database,
+    required super.environment,
+    required super.provider,
+    super.lastFetchGameDocument,
+  });
 
   /// Get a team by a list of [playerIds]
   /// If no team exists, return null

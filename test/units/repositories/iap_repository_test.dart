@@ -14,13 +14,13 @@ const id = '123';
 const userId = 'FQcEdrEwghWU1p2AKO8MVfh8pe72';
 
 const jsonIAP = {
-  'iap_source': "google_play",
+  'iap_source': 'google_play',
   'order_id': 'GPA.3309-0924-5376-12025',
   'product_id': 'carg.free.ads',
   'purchase_date': '2022-09-23T00:00:00.000Z',
   'status': 'purchased',
   'type': 'nonSubscription',
-  'user_id': 'FQcEdrEwghWU1p2AKO8MVfh8pe72'
+  'user_id': 'FQcEdrEwghWU1p2AKO8MVfh8pe72',
 };
 final expectedIAP = NonSubscriptionPurchase(
     id: '123',

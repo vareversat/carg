@@ -1,4 +1,4 @@
-import 'package:carg/styles/properties.dart';
+import 'package:carg/styles/custom_properties.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -9,27 +9,30 @@ class PlayScreenButtonBlock extends StatelessWidget {
   final Function addNewRound;
   final Function addNotes;
 
-  const PlayScreenButtonBlock(
-      {Key? key,
-      required this.deleteLastRound,
-      required this.editLastRound,
-      required this.endGame,
-      required this.addNewRound,
-      required this.addNotes})
-      : super(key: key);
+  const PlayScreenButtonBlock({
+    super.key,
+    required this.deleteLastRound,
+    required this.editLastRound,
+    required this.endGame,
+    required this.addNewRound,
+    required this.addNotes,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final cardColor = Theme.of(context).cardColor;
+
     return Wrap(
       runSpacing: 10,
       spacing: 10,
       alignment: WrapAlignment.spaceEvenly,
       children: <Widget>[
         RawMaterialButton(
-          onPressed: () async => {deleteLastRound()},
+          onPressed: () => deleteLastRound(),
           elevation: 2.0,
-          fillColor: Theme.of(context).errorColor,
-          textStyle: TextStyle(color: Theme.of(context).cardColor),
+          fillColor: colorScheme.error,
+          textStyle: TextStyle(color: cardColor),
           padding: const EdgeInsets.all(15.0),
           shape: const CircleBorder(),
           child: const Icon(
@@ -38,10 +41,10 @@ class PlayScreenButtonBlock extends StatelessWidget {
           ),
         ),
         RawMaterialButton(
-          onPressed: () async => {editLastRound()},
+          onPressed: () => editLastRound(),
           elevation: 2.0,
           fillColor: Colors.black,
-          textStyle: TextStyle(color: Theme.of(context).cardColor),
+          textStyle: TextStyle(color: cardColor),
           padding: const EdgeInsets.all(15.0),
           shape: const CircleBorder(),
           child: const Icon(
@@ -50,10 +53,10 @@ class PlayScreenButtonBlock extends StatelessWidget {
           ),
         ),
         RawMaterialButton(
-          onPressed: () async => {addNotes()},
+          onPressed: () => addNotes(),
           elevation: 2.0,
-          fillColor: Theme.of(context).colorScheme.secondary,
-          textStyle: TextStyle(color: Theme.of(context).cardColor),
+          fillColor: colorScheme.secondary,
+          textStyle: TextStyle(color: cardColor),
           padding: const EdgeInsets.all(15.0),
           shape: const CircleBorder(),
           child: const Icon(
@@ -62,10 +65,10 @@ class PlayScreenButtonBlock extends StatelessWidget {
           ),
         ),
         RawMaterialButton(
-          onPressed: () async => {endGame()},
+          onPressed: () => endGame(),
           elevation: 2.0,
-          fillColor: Theme.of(context).errorColor,
-          textStyle: TextStyle(color: Theme.of(context).cardColor),
+          fillColor: colorScheme.error,
+          textStyle: TextStyle(color: cardColor),
           padding: const EdgeInsets.all(15.0),
           shape: const CircleBorder(),
           child: const Icon(
@@ -83,9 +86,11 @@ class PlayScreenButtonBlock extends StatelessWidget {
               child: ElevatedButton.icon(
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all<Color>(
-                      Theme.of(context).primaryColor),
+                    Theme.of(context).primaryColor,
+                  ),
                   foregroundColor: MaterialStateProperty.all<Color>(
-                      Theme.of(context).cardColor),
+                    cardColor,
+                  ),
                   shape: MaterialStateProperty.all<OutlinedBorder>(
                     RoundedRectangleBorder(
                       borderRadius:
@@ -98,12 +103,14 @@ class PlayScreenButtonBlock extends StatelessWidget {
                 label: Text(
                   AppLocalizations.of(context)!.newRound,
                   style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 23),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 23,
+                  ),
                 ),
               ),
             ),
           ),
-        )
+        ),
       ],
     );
   }

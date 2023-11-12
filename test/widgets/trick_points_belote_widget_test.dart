@@ -20,14 +20,14 @@ void main() {
     beloteRound = FakeBeloteRound();
   });
 
-  testWidgets("Check default value", (WidgetTester tester) async {
+  testWidgets('Check default value', (WidgetTester tester) async {
     await tester.pumpWidget(testableWidget(beloteRound));
     expect(find.text('Nous : 0 | 152 : Eux'), findsOneWidget);
     expect(beloteRound.usTrickScore, 0);
     expect(beloteRound.themTrickScore, 152);
   });
 
-  testWidgets("Add 2 to us score", (WidgetTester tester) async {
+  testWidgets('Add 2 to us score', (WidgetTester tester) async {
     await tester.pumpWidget(testableWidget(beloteRound));
     await tester
         .tap(find.byKey(const ValueKey('trickPointsBeloteRightButton')));
@@ -37,7 +37,7 @@ void main() {
     expect(beloteRound.themTrickScore, 150);
   });
 
-  testWidgets("Add 2 to us score", (WidgetTester tester) async {
+  testWidgets('Add 2 to us score', (WidgetTester tester) async {
     await tester.pumpWidget(testableWidget(beloteRound));
     await tester
         .tap(find.byKey(const ValueKey('trickPointsBeloteRightButton')));
@@ -47,7 +47,7 @@ void main() {
     expect(beloteRound.themTrickScore, 150);
   });
 
-  testWidgets("Set Belote / Rebelote to US", (WidgetTester tester) async {
+  testWidgets('Set Belote / Rebelote to US', (WidgetTester tester) async {
     await tester.pumpWidget(testableWidget(beloteRound));
     await tester.tap(find.byKey(const ValueKey('beloteRebeloteWidgetUs')));
     expect(beloteRound.usTrickScore, 0);
@@ -55,7 +55,7 @@ void main() {
     expect(beloteRound.beloteRebelote, BeloteTeamEnum.US);
   });
 
-  testWidgets("Set Dix de Der to THEM", (WidgetTester tester) async {
+  testWidgets('Set Dix de Der to THEM', (WidgetTester tester) async {
     await tester.pumpWidget(testableWidget(beloteRound));
     await tester.tap(find.byKey(const ValueKey('dixDeDerWidgetThem')));
     expect(beloteRound.usTrickScore, 0);

@@ -4,7 +4,7 @@ import 'package:carg/exceptions/service_exception.dart';
 import 'package:carg/models/player.dart';
 import 'package:carg/services/auth/auth_service.dart';
 import 'package:carg/services/impl/player_service.dart';
-import 'package:carg/styles/properties.dart';
+import 'package:carg/styles/custom_properties.dart';
 import 'package:carg/views/dialogs/dialogs.dart';
 import 'package:carg/views/helpers/info_snackbar.dart';
 import 'package:carg/views/screens/home_screen.dart';
@@ -16,7 +16,7 @@ import 'package:provider/provider.dart';
 class WelcomeScreen extends StatefulWidget {
   static const routeName = '/welcome';
 
-  const WelcomeScreen({Key? key}) : super(key: key);
+  const WelcomeScreen({super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -28,6 +28,11 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
+    final foregroundColor = MaterialStateProperty.all<Color>(
+      Theme.of(context).cardColor,
+    );
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Scaffold(
       body: Center(
         child: SingleChildScrollView(
@@ -77,17 +82,17 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                                       style: ButtonStyle(
                                         backgroundColor:
                                             MaterialStateProperty.all<Color>(
-                                                Theme.of(context).primaryColor),
-                                        foregroundColor:
-                                            MaterialStateProperty.all<Color>(
-                                                Theme.of(context).cardColor),
+                                          Theme.of(context).primaryColor,
+                                        ),
+                                        foregroundColor: foregroundColor,
                                         shape: MaterialStateProperty.all<
                                             OutlinedBorder>(
                                           RoundedRectangleBorder(
                                             side: BorderSide(
-                                                width: 2,
-                                                color: Theme.of(context)
-                                                    .primaryColor),
+                                              width: 2,
+                                              color: Theme.of(context)
+                                                  .primaryColor,
+                                            ),
                                             borderRadius: BorderRadius.circular(
                                               CustomProperties.borderRadius,
                                             ),
@@ -102,7 +107,8 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                                         AppLocalizations.of(context)!
                                             .createNewPlayer,
                                         style: const TextStyle(
-                                            fontWeight: FontWeight.bold),
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
                                     ),
                                     Container(
@@ -113,8 +119,9 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                                         AppLocalizations.of(context)!
                                             .messageCreatePlayer,
                                         style: const TextStyle(
-                                            fontSize: 15,
-                                            fontStyle: FontStyle.italic),
+                                          fontSize: 15,
+                                          fontStyle: FontStyle.italic,
+                                        ),
                                         textAlign: TextAlign.center,
                                       ),
                                     ),
@@ -122,51 +129,52 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                                     Text(
                                       AppLocalizations.of(context)!.or,
                                       style: const TextStyle(
-                                          fontWeight: FontWeight.bold),
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                     const SizedBox(height: 20),
                                     SizedBox(
                                       width: 250,
                                       height: 40,
                                       child: ElevatedButton.icon(
-                                          icon: const Icon(Icons.link),
-                                          style: ButtonStyle(
-                                            backgroundColor:
-                                                MaterialStateProperty.all<
-                                                        Color>(
-                                                    Theme.of(context)
-                                                        .primaryColor),
-                                            foregroundColor:
-                                                MaterialStateProperty.all<
-                                                        Color>(
-                                                    Theme.of(context)
-                                                        .cardColor),
-                                            shape: MaterialStateProperty.all<
-                                                OutlinedBorder>(
-                                              RoundedRectangleBorder(
-                                                side: BorderSide(
-                                                    width: 2,
-                                                    color: Theme.of(context)
-                                                        .primaryColor),
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                  CustomProperties.borderRadius,
-                                                ),
+                                        icon: const Icon(Icons.link),
+                                        style: ButtonStyle(
+                                          backgroundColor:
+                                              MaterialStateProperty.all<Color>(
+                                            Theme.of(context).primaryColor,
+                                          ),
+                                          foregroundColor:
+                                              MaterialStateProperty.all<Color>(
+                                            Theme.of(context).cardColor,
+                                          ),
+                                          shape: MaterialStateProperty.all<
+                                              OutlinedBorder>(
+                                            RoundedRectangleBorder(
+                                              side: BorderSide(
+                                                width: 2,
+                                                color: Theme.of(context)
+                                                    .primaryColor,
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                CustomProperties.borderRadius,
                                               ),
                                             ),
                                           ),
-                                          onPressed: () {
-                                            registerData
-                                                    .selectedCreationMethod =
-                                                _LinkPlayerMethod(context);
-                                          },
-                                          label: Text(
-                                            AppLocalizations.of(context)!
-                                                .linkPlayer,
-                                            textAlign: TextAlign.center,
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.bold),
-                                          )),
+                                        ),
+                                        onPressed: () {
+                                          registerData.selectedCreationMethod =
+                                              _LinkPlayerMethod(context);
+                                        },
+                                        label: Text(
+                                          AppLocalizations.of(context)!
+                                              .linkPlayer,
+                                          textAlign: TextAlign.center,
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                     Container(
                                       padding: const EdgeInsets.only(top: 8.0),
@@ -175,8 +183,9 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                                         AppLocalizations.of(context)!
                                             .messageLinkPlayer,
                                         style: const TextStyle(
-                                            fontSize: 15,
-                                            fontStyle: FontStyle.italic),
+                                          fontSize: 15,
+                                          fontStyle: FontStyle.italic,
+                                        ),
                                         textAlign: TextAlign.center,
                                       ),
                                     ),
@@ -190,50 +199,60 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                             ? ElevatedButton.icon(
                                 icon: const Icon(Icons.close),
                                 style: ButtonStyle(
-                                    backgroundColor: MaterialStateProperty.all<Color>(
-                                        Theme.of(context).errorColor),
-                                    foregroundColor:
-                                        MaterialStateProperty.all<Color>(
-                                            Theme.of(context).cardColor),
-                                    shape: MaterialStateProperty.all<OutlinedBorder>(
-                                        RoundedRectangleBorder(
-                                            side: BorderSide(
-                                                width: 2,
-                                                color: Theme.of(context)
-                                                    .errorColor),
-                                            borderRadius: BorderRadius.circular(
-                                                CustomProperties.borderRadius)))),
-                                onPressed: () async {
-                                  await Provider.of<AuthService>(context,
-                                          listen: false)
-                                      .signOut(context);
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                    colorScheme.error,
+                                  ),
+                                  foregroundColor: foregroundColor,
+                                  shape:
+                                      MaterialStateProperty.all<OutlinedBorder>(
+                                    RoundedRectangleBorder(
+                                      side: BorderSide(
+                                        width: 2,
+                                        color: colorScheme.error,
+                                      ),
+                                      borderRadius: BorderRadius.circular(
+                                        CustomProperties.borderRadius,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                onPressed: () {
+                                  Provider.of<AuthService>(
+                                    context,
+                                    listen: false,
+                                  ).signOut(context);
                                 },
                                 label: Text(
                                   AppLocalizations.of(context)!.leave,
                                   textAlign: TextAlign.center,
                                   style: const TextStyle(
-                                      fontWeight: FontWeight.bold),
-                                ))
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              )
                             : ElevatedButton.icon(
                                 icon: const Icon(Icons.arrow_back),
                                 style: ButtonStyle(
-                                    backgroundColor: MaterialStateProperty.all<Color>(
-                                        Theme.of(context)
-                                            .colorScheme
-                                            .secondary),
-                                    foregroundColor:
-                                        MaterialStateProperty.all<Color>(
-                                            Theme.of(context).cardColor),
-                                    shape: MaterialStateProperty.all<OutlinedBorder>(
-                                        RoundedRectangleBorder(
-                                            side: BorderSide(
-                                                width: 2,
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .secondary),
-                                            borderRadius:
-                                                BorderRadius.circular(CustomProperties.borderRadius)))),
-                                onPressed: () async {
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                    colorScheme.secondary,
+                                  ),
+                                  foregroundColor: foregroundColor,
+                                  shape:
+                                      MaterialStateProperty.all<OutlinedBorder>(
+                                    RoundedRectangleBorder(
+                                      side: BorderSide(
+                                        width: 2,
+                                        color: colorScheme.secondary,
+                                      ),
+                                      borderRadius: BorderRadius.circular(
+                                        CustomProperties.borderRadius,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                onPressed: () {
                                   registerData.selectedCreationMethod =
                                       _NoneMethod();
                                 },
@@ -241,7 +260,8 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                                   AppLocalizations.of(context)!.back,
                                   textAlign: TextAlign.center,
                                   style: const TextStyle(
-                                      fontWeight: FontWeight.bold),
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
                       ],
@@ -298,32 +318,44 @@ class _EnterUsernameWidget extends StatelessWidget {
   _EnterUsernameWidget(this.context);
 
   Future<void> _createPlayer() async {
-    Dialogs.showLoadingDialog(context, _keyLoader,
-        '${AppLocalizations.of(context)!.messagePlayerCreation}...');
-    try {
-      var userId =
-          Provider.of<AuthService>(context, listen: false).getConnectedUserId();
-      var player = Player(
-          userName: _usernameTextController.text,
-          linkedUserId: userId,
-          owned: false);
-      await _playerService.create(player);
-      Navigator.of(_keyLoader.currentContext!, rootNavigator: true).pop();
-      await Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const HomeScreen(requestedIndex: 0),
-        ),
-      );
-    } on ServiceException catch (e) {
-      _usernameTextController.clear();
-      InfoSnackBar.showSnackBar(context, e.message);
-    }
-    Navigator.of(context, rootNavigator: true).pop();
+    Dialogs.showLoadingDialog(
+      context,
+      _keyLoader,
+      '${AppLocalizations.of(context)!.messagePlayerCreation}...',
+    );
+    var userId =
+        Provider.of<AuthService>(context, listen: false).getConnectedUserId();
+    var player = Player(
+      userName: _usernameTextController.text,
+      linkedUserId: userId,
+      owned: false,
+    );
+    await _playerService
+        .create(player)
+        .then((value) => {
+              Navigator.of(_keyLoader.currentContext!, rootNavigator: true)
+                  .pop(),
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => const HomeScreen(
+                    requestedIndex: 0,
+                  ),
+                ),
+              ),
+            })
+        .onError<ServiceException>((error, stackTrace) => {
+              _usernameTextController.clear(),
+              InfoSnackBar.showSnackBar(context, error.message),
+            })
+        .whenComplete(
+          () => Navigator.of(context, rootNavigator: true).pop(),
+        );
   }
 
   @override
   Widget build(BuildContext context) {
+    final primaryColor = Theme.of(context).primaryColor;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -333,11 +365,11 @@ class _EnterUsernameWidget extends StatelessWidget {
             keyboardType: TextInputType.name,
             decoration: InputDecoration(
               labelStyle: TextStyle(
-                color: Theme.of(context).primaryColor,
+                color: primaryColor,
                 fontWeight: FontWeight.normal,
               ),
               labelText: AppLocalizations.of(context)!.messageEnterUsername,
-              fillColor: Theme.of(context).primaryColor,
+              fillColor: primaryColor,
               disabledBorder: OutlineInputBorder(
                 borderRadius:
                     BorderRadius.circular(CustomProperties.borderRadius),
@@ -350,7 +382,7 @@ class _EnterUsernameWidget extends StatelessWidget {
                 borderRadius:
                     BorderRadius.circular(CustomProperties.borderRadius),
                 borderSide: BorderSide(
-                  color: Theme.of(context).primaryColor,
+                  color: primaryColor,
                   width: 2.0,
                 ),
               ),
@@ -358,7 +390,7 @@ class _EnterUsernameWidget extends StatelessWidget {
                 borderRadius:
                     BorderRadius.circular(CustomProperties.borderRadius),
                 borderSide: BorderSide(
-                  color: Theme.of(context).primaryColor,
+                  color: primaryColor,
                   width: 2.0,
                 ),
               ),
@@ -367,26 +399,37 @@ class _EnterUsernameWidget extends StatelessWidget {
         ),
         const SizedBox(width: 10, height: 5),
         ElevatedButton.icon(
-            icon: const Icon(Icons.check),
-            style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(
-                    Theme.of(context).primaryColor),
-                foregroundColor: MaterialStateProperty.all<Color>(
-                    Theme.of(context).cardColor),
-                shape: MaterialStateProperty.all<OutlinedBorder>(
-                    RoundedRectangleBorder(
-                        side: BorderSide(
-                            width: 2, color: Theme.of(context).primaryColor),
-                        borderRadius: BorderRadius.circular(
-                            CustomProperties.borderRadius)))),
-            onPressed: () async {
-              await _createPlayer();
-            },
-            label: Text(
-              AppLocalizations.of(context)!.validate,
-              textAlign: TextAlign.center,
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ))
+          icon: const Icon(Icons.check),
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all<Color>(
+              primaryColor,
+            ),
+            foregroundColor: MaterialStateProperty.all<Color>(
+              Theme.of(context).cardColor,
+            ),
+            shape: MaterialStateProperty.all<OutlinedBorder>(
+              RoundedRectangleBorder(
+                side: BorderSide(
+                  width: 2,
+                  color: primaryColor,
+                ),
+                borderRadius: BorderRadius.circular(
+                  CustomProperties.borderRadius,
+                ),
+              ),
+            ),
+          ),
+          onPressed: () {
+            _createPlayer();
+          },
+          label: Text(
+            AppLocalizations.of(context)!.validate,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
       ],
     );
   }
@@ -404,29 +447,43 @@ class _LinkPlayerWidget extends StatelessWidget {
     try {
       var userId =
           Provider.of<AuthService>(context, listen: false).getConnectedUserId();
-      var player = await _playerService.get(_idTextController.text);
-      if (player != null) {
-        if (player.owned == false) {
-          throw CustomException(
-              AppLocalizations.of(context)!.errorPlayerAlreadyLinked);
-        } else {
-          player.linkedUserId = userId;
-          player.ownedBy = '';
-          player.owned = false;
-          await _playerService.update(player);
-          Provider.of<AuthService>(context, listen: false)
-              .setCurrentPlayer(player);
-          await Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const HomeScreen(requestedIndex: 0),
-            ),
-          );
-        }
-      } else {
-        throw CustomException(
-            AppLocalizations.of(context)!.errorPlayerNotFound);
-      }
+      await _playerService.get(_idTextController.text).then((player) async => {
+            if (player != null)
+              {
+                if (!player.owned)
+                  {
+                    throw CustomException(
+                      AppLocalizations.of(context)!.errorPlayerAlreadyLinked,
+                    ),
+                  }
+                else
+                  {
+                    player.linkedUserId = userId,
+                    player.ownedBy = '',
+                    player.owned = false,
+                    await _playerService.update(player).then((value) async => {
+                          Provider.of<AuthService>(context, listen: false)
+                              .setCurrentPlayer(
+                            player,
+                          ),
+                          await Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const HomeScreen(
+                                requestedIndex: 0,
+                              ),
+                            ),
+                          ),
+                        }),
+                  },
+              }
+            else
+              {
+                throw CustomException(
+                  AppLocalizations.of(context)!.errorPlayerNotFound,
+                ),
+              },
+          });
     } on CustomException catch (e) {
       InfoSnackBar.showErrorSnackBar(context, e.message);
     }
@@ -434,6 +491,8 @@ class _LinkPlayerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final primaryColor = Theme.of(context).primaryColor;
+
     return Column(
       children: [
         Row(
@@ -445,11 +504,11 @@ class _LinkPlayerWidget extends StatelessWidget {
                 keyboardType: TextInputType.name,
                 decoration: InputDecoration(
                   labelStyle: TextStyle(
-                    color: Theme.of(context).primaryColor,
+                    color: primaryColor,
                     fontWeight: FontWeight.normal,
                   ),
                   labelText: AppLocalizations.of(context)!.messageEnterUniqueId,
-                  fillColor: Theme.of(context).primaryColor,
+                  fillColor: primaryColor,
                   disabledBorder: OutlineInputBorder(
                     borderRadius:
                         BorderRadius.circular(CustomProperties.borderRadius),
@@ -462,7 +521,7 @@ class _LinkPlayerWidget extends StatelessWidget {
                     borderRadius:
                         BorderRadius.circular(CustomProperties.borderRadius),
                     borderSide: BorderSide(
-                      color: Theme.of(context).primaryColor,
+                      color: primaryColor,
                       width: 2.0,
                     ),
                   ),
@@ -470,7 +529,7 @@ class _LinkPlayerWidget extends StatelessWidget {
                     borderRadius:
                         BorderRadius.circular(CustomProperties.borderRadius),
                     borderSide: BorderSide(
-                      color: Theme.of(context).primaryColor,
+                      color: primaryColor,
                       width: 2.0,
                     ),
                   ),
@@ -479,29 +538,37 @@ class _LinkPlayerWidget extends StatelessWidget {
             ),
             const SizedBox(width: 10, height: 5),
             ElevatedButton.icon(
-                icon: const Icon(Icons.check),
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(
-                      Theme.of(context).primaryColor),
-                  foregroundColor: MaterialStateProperty.all<Color>(
-                      Theme.of(context).cardColor),
-                  shape: MaterialStateProperty.all<OutlinedBorder>(
-                    RoundedRectangleBorder(
-                      side: BorderSide(
-                          width: 2, color: Theme.of(context).primaryColor),
-                      borderRadius:
-                          BorderRadius.circular(CustomProperties.borderRadius),
+              icon: const Icon(Icons.check),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(
+                  primaryColor,
+                ),
+                foregroundColor: MaterialStateProperty.all<Color>(
+                  Theme.of(context).cardColor,
+                ),
+                shape: MaterialStateProperty.all<OutlinedBorder>(
+                  RoundedRectangleBorder(
+                    side: BorderSide(
+                      width: 2,
+                      color: primaryColor,
+                    ),
+                    borderRadius: BorderRadius.circular(
+                      CustomProperties.borderRadius,
                     ),
                   ),
                 ),
-                onPressed: () async {
-                  await _linkPlayer();
-                },
-                label: Text(
-                  AppLocalizations.of(context)!.validate,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(fontWeight: FontWeight.bold),
-                ))
+              ),
+              onPressed: () {
+                _linkPlayer();
+              },
+              label: Text(
+                AppLocalizations.of(context)!.validate,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
           ],
         ),
         const SizedBox(height: 8),

@@ -13,8 +13,7 @@ class PlayerListTab extends StatefulWidget {
   final AbstractPlayerService playerService;
   final bool? myPlayers;
 
-  const PlayerListTab({Key? key, required this.playerService, this.myPlayers})
-      : super(key: key);
+  const PlayerListTab({super.key, required this.playerService, this.myPlayers});
 
   @override
   State<StatefulWidget> createState() {
@@ -50,6 +49,7 @@ class _PlayerListTabWidget extends State<PlayerListTab> {
   @override
   Widget build(BuildContext context) {
     var deviceSize = MediaQuery.of(context).size;
+
     return Scaffold(
       body: Column(
         children: [
@@ -61,15 +61,18 @@ class _PlayerListTabWidget extends State<PlayerListTab> {
                 SizedBox(
                   width: deviceSize.width * 0.5,
                   child: TextFormField(
-                      onFieldSubmitted: (term) => _searchPlayer(),
-                      controller: textEditingController,
-                      textInputAction: TextInputAction.search,
-                      style: const TextStyle(
-                          fontSize: 25, fontWeight: FontWeight.bold),
-                      decoration: InputDecoration(
-                        enabledBorder: InputBorder.none,
-                        labelText: '${AppLocalizations.of(context)!.search}...',
-                      )),
+                    onFieldSubmitted: (term) => _searchPlayer(),
+                    controller: textEditingController,
+                    textInputAction: TextInputAction.search,
+                    style: const TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    decoration: InputDecoration(
+                      enabledBorder: InputBorder.none,
+                      labelText: '${AppLocalizations.of(context)!.search}...',
+                    ),
+                  ),
                 ),
                 MaterialButton(
                   key: const ValueKey('resetSearchButton'),
@@ -107,27 +110,31 @@ class _PlayerListTabWidget extends State<PlayerListTab> {
                       key: const ValueKey('noPlayersMessage'),
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Text('${AppLocalizations.of(context)!.noPlayerYet} ',
-                            style: const TextStyle(fontSize: 18)),
+                        Text(
+                          '${AppLocalizations.of(context)!.noPlayerYet} ',
+                          style: const TextStyle(fontSize: 18),
+                        ),
                         const Icon(Icons.person),
                       ],
                     ),
                   );
                 }
+
                 return ListView.builder(
-                    padding: const EdgeInsets.all(10),
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return ChangeNotifierProvider.value(
-                        value: snapshot.data![index],
-                        child: Consumer<Player>(
-                          builder: (context, playerData, child) => PlayerWidget(
-                            player: playerData,
-                            key: ValueKey("playerWidget-$index"),
-                          ),
+                  padding: const EdgeInsets.all(10),
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return ChangeNotifierProvider.value(
+                      value: snapshot.data![index],
+                      child: Consumer<Player>(
+                        builder: (context, playerData, child) => PlayerWidget(
+                          player: playerData,
+                          key: ValueKey('playerWidget-$index'),
                         ),
-                      );
-                    });
+                      ),
+                    );
+                  },
+                );
               },
               future: widget.playerService.searchPlayers(
                 query: searchQuery,

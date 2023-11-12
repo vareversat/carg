@@ -3,20 +3,22 @@ import 'package:carg/models/team.dart';
 import 'package:carg/services/auth/auth_service.dart';
 import 'package:carg/services/player/abstract_player_service.dart';
 import 'package:carg/services/team/abstract_team_service.dart';
-import 'package:carg/styles/properties.dart';
+import 'package:carg/styles/custom_properties.dart';
 import 'package:carg/views/widgets/team_stat_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TeamListTab extends StatefulWidget {
   final AbstractTeamService teamService;
   final AbstractPlayerService playerService;
 
-  const TeamListTab(
-      {Key? key, required this.teamService, required this.playerService})
-      : super(key: key);
+  const TeamListTab({
+    super.key,
+    required this.teamService,
+    required this.playerService,
+  });
 
   @override
   State<StatefulWidget> createState() {
@@ -70,7 +72,7 @@ class _TeamListTabWidget extends State<TeamListTab> {
       onRefresh: () => Future.sync(
         () => {
           widget.teamService.resetLastPointedDocument(),
-          _pagingController.refresh()
+          _pagingController.refresh(),
         },
       ),
       backgroundColor: Theme.of(context).primaryColor,
@@ -78,45 +80,63 @@ class _TeamListTabWidget extends State<TeamListTab> {
       displacement: 20,
       strokeWidth: 3,
       child: PagedListView<int, Team>(
-          pagingController: _pagingController,
-          builderDelegate: PagedChildBuilderDelegate<Team>(
-            firstPageErrorIndicatorBuilder: (_) =>
-                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+        pagingController: _pagingController,
+        builderDelegate: PagedChildBuilderDelegate<Team>(
+          firstPageErrorIndicatorBuilder: (_) => Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
               Center(
-                  child: Text(
-                AppLocalizations.of(context)!.errorLoadingPage,
-                textAlign: TextAlign.center,
-              )),
+                child: Text(
+                  AppLocalizations.of(context)!.errorLoadingPage,
+                  textAlign: TextAlign.center,
+                ),
+              ),
               ElevatedButton.icon(
-                  onPressed: () => {
-                        widget.teamService.resetLastPointedDocument(),
-                        _pagingController.refresh()
-                      },
-                  icon: const Icon(Icons.refresh),
-                  label: Text(AppLocalizations.of(context)!.refresh))
-            ]),
-            noItemsFoundIndicatorBuilder: (_) =>
-                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                onPressed: () => {
+                  widget.teamService.resetLastPointedDocument(),
+                  _pagingController.refresh(),
+                },
+                icon: const Icon(Icons.refresh),
+                label: Text(
+                  AppLocalizations.of(context)!.refresh,
+                ),
+              ),
+            ],
+          ),
+          noItemsFoundIndicatorBuilder: (_) => Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
               Center(child: Text(AppLocalizations.of(context)!.noGamesYet)),
               ElevatedButton.icon(
-                  onPressed: () => {
-                        widget.teamService.resetLastPointedDocument(),
-                        _pagingController.refresh()
-                      },
-                  icon: const Icon(Icons.refresh),
-                  label: Text(AppLocalizations.of(context)!.refresh))
-            ]),
-            noMoreItemsIndicatorBuilder: (_) => const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Center(child: Text(Const.appBottomList))),
-            itemBuilder: (BuildContext context, Team team, int index) {
-              return TeamStatWidget(
-                  key: ValueKey('teamStatWidget-${team.id}'),
-                  team: team,
-                  playerService: widget.playerService,
-                  teamService: widget.teamService);
-            },
-          )),
+                onPressed: () => {
+                  widget.teamService.resetLastPointedDocument(),
+                  _pagingController.refresh(),
+                },
+                icon: const Icon(Icons.refresh),
+                label: Text(
+                  AppLocalizations.of(context)!.refresh,
+                ),
+              ),
+            ],
+          ),
+          noMoreItemsIndicatorBuilder: (_) => const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Center(
+              child: Text(
+                Const.appBottomList,
+              ),
+            ),
+          ),
+          itemBuilder: (BuildContext context, Team team, int index) {
+            return TeamStatWidget(
+              key: ValueKey('teamStatWidget-${team.id}'),
+              team: team,
+              playerService: widget.playerService,
+              teamService: widget.teamService,
+            );
+          },
+        ),
+      ),
     );
   }
 }

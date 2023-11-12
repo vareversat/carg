@@ -122,7 +122,7 @@ void main() {
       await mockNetworkImagesFor(() => tester.pumpWidget(
           testableWidget(authService, mockPlayerService, mockPlayer)));
       expect(tester.widget<Text>(find.byKey(const ValueKey('phoneText'))).data,
-          'Pas de numéro de téléphone renseigné');
+          'Pas de numéro de téléphone renseigné',);
     });
 
     testWidgets('Must display the "Admin" label', (WidgetTester tester) async {

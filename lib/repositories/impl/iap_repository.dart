@@ -9,17 +9,25 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 
 class IAPRepository extends AbstractIAPRepository {
-  IAPRepository(
-      {String? database, String? environment, FirebaseFirestore? provider})
-      : super(
-            database: database ?? Const.purchaseDB,
-            environment: environment ??
-                const String.fromEnvironment(Const.dartVarEnv,
-                    defaultValue: Const.defaultEnv),
-            provider: provider ?? FirebaseFirestore.instance);
+  IAPRepository({
+    String? database,
+    String? environment,
+    FirebaseFirestore? provider,
+  }) : super(
+          database: database ?? Const.purchaseDB,
+          environment: environment ??
+              const String.fromEnvironment(
+                Const.dartVarEnv,
+                defaultValue: Const.defaultEnv,
+              ),
+          provider: provider ?? FirebaseFirestore.instance,
+        );
 
   Purchase? _buildWithCorrectInstance(
-      ProductTypeEnum? type, Map<String, dynamic>? data, String id) {
+    ProductTypeEnum? type,
+    Map<String, dynamic>? data,
+    String id,
+  ) {
     switch (type) {
       case ProductTypeEnum.nonSubscription:
         return NonSubscriptionPurchase.fromJSON(data, id);
@@ -37,9 +45,15 @@ class IAPRepository extends AbstractIAPRepository {
           await provider.collection(connectionString).doc(id).get();
       if (querySnapshot.data() != null) {
         var type = EnumToString.fromString(
-            ProductTypeEnum.values, querySnapshot.data()!['type']);
+          ProductTypeEnum.values,
+          querySnapshot.data()!['type'],
+        );
+
         return _buildWithCorrectInstance(
-            type, querySnapshot.data(), querySnapshot.id);
+          type,
+          querySnapshot.data(),
+          querySnapshot.id,
+        );
       } else {
         return null;
       }
@@ -57,10 +71,17 @@ class IAPRepository extends AbstractIAPRepository {
           .get();
       if (querySnapshot.docs.isNotEmpty) {
         var type = EnumToString.fromString(
-            ProductTypeEnum.values, querySnapshot.docs.first.data()['type']);
+          ProductTypeEnum.values,
+          querySnapshot.docs.first.data()['type'],
+        );
+
         return _buildWithCorrectInstance(
-            type, querySnapshot.docs.first.data(), querySnapshot.docs.first.id);
+          type,
+          querySnapshot.docs.first.data(),
+          querySnapshot.docs.first.id,
+        );
       }
+
       return null;
     } on FirebaseException catch (e) {
       throw RepositoryException(e.message!);
@@ -78,6 +99,7 @@ class IAPRepository extends AbstractIAPRepository {
         /// If doc exists, update it
         p.id = doc.id;
         await update(p);
+
         return p.id!;
       }
     } on FirebaseException catch (e) {

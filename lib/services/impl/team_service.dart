@@ -9,12 +9,13 @@ import 'package:carg/services/player/abstract_player_service.dart';
 import 'package:carg/services/team/abstract_team_service.dart';
 
 class TeamService extends AbstractTeamService {
-  TeamService(
-      {AbstractTeamRepository? teamRepository,
-      AbstractPlayerService? playerService})
-      : super(
-            teamRepository: teamRepository ?? TeamRepository(),
-            playerService: playerService ?? PlayerService());
+  TeamService({
+    AbstractTeamRepository? teamRepository,
+    AbstractPlayerService? playerService,
+  }) : super(
+          teamRepository: teamRepository ?? TeamRepository(),
+          playerService: playerService ?? PlayerService(),
+        );
 
   @override
   Future<Team> getTeamByPlayers(List<String?>? playerIds) async {
@@ -24,6 +25,7 @@ class TeamService extends AbstractTeamService {
     try {
       var team = await teamRepository.getTeamByPlayers(playerIds);
       team ??= await teamRepository.createTeamWithPlayers(playerIds);
+
       return team;
     } on RepositoryException catch (e) {
       throw ServiceException(e.message);
@@ -43,6 +45,7 @@ class TeamService extends AbstractTeamService {
         for (var player in team.players!) {
           await playerService.incrementPlayedGamesByOne(player, game);
         }
+
         return team;
       } else {
         throw ServiceException('No team associated to $id exists');
@@ -65,6 +68,7 @@ class TeamService extends AbstractTeamService {
         for (var player in team.players!) {
           await playerService.incrementWonGamesByOne(player, game);
         }
+
         return team;
       } else {
         throw ServiceException('No team associated to $id exists');
@@ -81,10 +85,12 @@ class TeamService extends AbstractTeamService {
     }
     try {
       var teams = await teamRepository.getAllTeamOfPlayer(playerId, pageSize);
+
       return teams;
     } on RepositoryException catch (e) {
       throw ServiceException(
-          'Error during the team fetching : ${e.toString()}');
+        'Error during the team fetching : ${e.toString()}',
+      );
     }
   }
 }

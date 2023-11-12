@@ -1,12 +1,12 @@
 import 'package:carg/helpers/correct_instance.dart';
-import 'package:carg/helpers/custom_route.dart';
 import 'package:carg/models/game/game.dart';
 import 'package:carg/models/player.dart';
 import 'package:carg/models/players/players.dart';
+import 'package:carg/routes/custom_route_left_to_right.dart';
 import 'package:carg/services/auth/auth_service.dart';
 import 'package:carg/services/impl/player_service.dart';
-import 'package:carg/styles/properties.dart';
-import 'package:carg/styles/text_style.dart';
+import 'package:carg/styles/custom_properties.dart';
+import 'package:carg/styles/custom_text_style.dart';
 import 'package:carg/views/dialogs/dialogs.dart';
 import 'package:carg/views/screens/player_order_screen.dart';
 import 'package:carg/views/widgets/error_message_widget.dart';
@@ -19,8 +19,8 @@ class PlayerPickerScreen extends StatefulWidget {
   final Game? game;
   final String? title;
 
-  const PlayerPickerScreen({Key? key, required this.game, required this.title})
-      : super(key: key);
+  const PlayerPickerScreen(
+      {super.key, required this.game, required this.title});
 
   @override
   State<StatefulWidget> createState() {
@@ -37,7 +37,10 @@ class _PlayerPickerScreenState extends State<PlayerPickerScreen> {
 
   Future _getPlayers() async {
     Dialogs.showLoadingDialog(
-        context, _keyLoader, '${AppLocalizations.of(context)!.loading}...');
+      context,
+      _keyLoader,
+      '${AppLocalizations.of(context)!.loading}...',
+    );
     var playerListTmp = <Player>[];
     for (var playerId in widget.game!.players!.playerList!) {
       var player = await _playerService.get(playerId);
@@ -54,12 +57,17 @@ class _PlayerPickerScreenState extends State<PlayerPickerScreen> {
   @override
   Widget build(BuildContext context) {
     widget.game!.players!.reset();
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
         child: AppBar(
-          title: Text(widget.title!,
-              style: CustomTextStyle.screenHeadLine1(context)),
+          title: Text(
+            widget.title!,
+            style: CustomTextStyle.screenDisplayLarge(
+              context,
+            ),
+          ),
         ),
       ),
       body: Column(
@@ -93,31 +101,36 @@ class _PlayerPickerScreenState extends State<PlayerPickerScreen> {
                 }
                 if (snapshot.connectionState == ConnectionState.none) {
                   return Container(
-                      alignment: Alignment.center,
-                      child: const Icon(Icons.error));
-                }
-                if (snapshot.data != null) {
-                  return ListView.builder(
-                    padding: const EdgeInsets.all(10),
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return ChangeNotifierProvider.value(
-                        value: snapshot.data![index],
-                        child: Consumer<Player>(
-                          builder: (context, playerData, child) => PlayerWidget(
-                            player: playerData,
-                            onTap: () => widget.game!.players!.onSelectedPlayer(
-                              playerData,
-                            ),
-                          ),
-                        ),
-                      );
-                    },
+                    alignment: Alignment.center,
+                    child: const Icon(
+                      Icons.error,
+                    ),
                   );
-                } else {
-                  return ErrorMessageWidget(
-                      message: AppLocalizations.of(context)!.noPlayerYet);
                 }
+
+                return snapshot.data != null
+                    ? ListView.builder(
+                        padding: const EdgeInsets.all(10),
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return ChangeNotifierProvider.value(
+                            value: snapshot.data![index],
+                            child: Consumer<Player>(
+                              builder: (context, playerData, child) =>
+                                  PlayerWidget(
+                                player: playerData,
+                                onTap: () =>
+                                    widget.game!.players!.onSelectedPlayer(
+                                  playerData,
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      )
+                    : ErrorMessageWidget(
+                        message: AppLocalizations.of(context)!.noPlayerYet,
+                      );
               },
               future: _playerService.searchPlayers(
                 currentPlayer: Provider.of<AuthService>(context, listen: false)
@@ -152,8 +165,8 @@ class _PlayerPickerScreenState extends State<PlayerPickerScreen> {
                                 ),
                               ),
                             ),
-                            onPressed: () async => {
-                              await _getPlayers(),
+                            onPressed: () => {
+                              _getPlayers(),
                               widget.game!.players!.reset(),
                               Navigator.push(
                                 context,

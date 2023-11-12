@@ -1,38 +1,37 @@
 import 'package:carg/const.dart';
-import 'package:carg/models/game/belote_game.dart';
+import 'package:carg/models/game/belote.dart';
 import 'package:carg/models/game/game.dart';
 import 'package:carg/models/game/game_type.dart';
 import 'package:carg/models/game/tarot.dart';
 import 'package:carg/services/auth/auth_service.dart';
 import 'package:carg/services/game/abstract_game_service.dart';
-import 'package:carg/styles/properties.dart';
+import 'package:carg/styles/custom_properties.dart';
 import 'package:carg/views/widgets/ad_banner_widget.dart';
 import 'package:carg/views/widgets/belote_widget.dart';
 import 'package:carg/views/widgets/tarot_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class GameListTabWidget extends StatefulWidget {
+class GameListTab extends StatefulWidget {
   final AbstractGameService gameService;
 
-  const GameListTabWidget({Key? key, required this.gameService})
-      : super(key: key);
+  const GameListTab({super.key, required this.gameService});
 
   @override
   State<StatefulWidget> createState() {
-    return _GameListTabWidgetState();
+    return _GameListTabState();
   }
 }
 
-class _GameListTabWidgetState extends State<GameListTabWidget> {
+class _GameListTabState extends State<GameListTab> {
   late final String? _playerId;
   final _pagingController = PagingController<int, Game>(
     firstPageKey: 1,
   );
 
-  _GameListTabWidgetState();
+  _GameListTabState();
 
   Future<void> _fetchGames(int pageKey) async {
     try {
@@ -74,7 +73,7 @@ class _GameListTabWidgetState extends State<GameListTabWidget> {
       onRefresh: () => Future.sync(
         () => {
           widget.gameService.resetLastPointedDocument(),
-          _pagingController.refresh()
+          _pagingController.refresh(),
         },
       ),
       backgroundColor: Theme.of(context).primaryColor,
@@ -92,46 +91,58 @@ class _GameListTabWidgetState extends State<GameListTabWidget> {
               pagingController: _pagingController,
               builderDelegate: PagedChildBuilderDelegate<Game>(
                 firstPageErrorIndicatorBuilder: (_) => Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Center(
-                          child: Text(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Center(
+                      child: Text(
                         AppLocalizations.of(context)!.errorLoadingPage,
                         textAlign: TextAlign.center,
-                      )),
-                      ElevatedButton.icon(
-                          onPressed: () => {
-                                widget.gameService.resetLastPointedDocument(),
-                                _pagingController.refresh()
-                              },
-                          icon: const Icon(Icons.refresh),
-                          label: Text(AppLocalizations.of(context)!.refresh))
-                    ]),
+                      ),
+                    ),
+                    ElevatedButton.icon(
+                      onPressed: () => {
+                        widget.gameService.resetLastPointedDocument(),
+                        _pagingController.refresh(),
+                      },
+                      icon: const Icon(Icons.refresh),
+                      label: Text(
+                        AppLocalizations.of(context)!.refresh,
+                      ),
+                    ),
+                  ],
+                ),
                 noItemsFoundIndicatorBuilder: (_) => Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Center(
-                          child:
-                              Text(AppLocalizations.of(context)!.noGamesYet)),
-                      ElevatedButton.icon(
-                          onPressed: () => {
-                                widget.gameService.resetLastPointedDocument(),
-                                _pagingController.refresh()
-                              },
-                          icon: const Icon(Icons.refresh),
-                          label: Text(AppLocalizations.of(context)!.refresh))
-                    ]),
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Center(
+                      child: Text(
+                        AppLocalizations.of(context)!.noGamesYet,
+                      ),
+                    ),
+                    ElevatedButton.icon(
+                      onPressed: () => {
+                        widget.gameService.resetLastPointedDocument(),
+                        _pagingController.refresh(),
+                      },
+                      icon: const Icon(Icons.refresh),
+                      label: Text(
+                        AppLocalizations.of(context)!.refresh,
+                      ),
+                    ),
+                  ],
+                ),
                 noMoreItemsIndicatorBuilder: (_) => const Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Center(child: Text(Const.appBottomList))),
+                  padding: EdgeInsets.all(8.0),
+                  child: Center(
+                    child: Text(
+                      Const.appBottomList,
+                    ),
+                  ),
+                ),
                 itemBuilder: (BuildContext context, Game game, int index) {
-                  if (game.gameType != GameType.TAROT) {
-                    return BeloteWidget(
-                      beloteGame: game as Belote,
-                    );
-                  } else {
-                    return TarotWidget(tarotGame: game as Tarot);
-                  }
+                  return game.gameType != GameType.TAROT
+                      ? BeloteWidget(beloteGame: game as Belote)
+                      : TarotWidget(tarotGame: game as Tarot);
                 },
               ),
             ),

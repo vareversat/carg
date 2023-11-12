@@ -2,10 +2,39 @@ include: package:flutter_lints/flutter.yaml
 
 linter:
   rules:
-    use_build_context_synchronously: false
+    prefer_single_quotes: true
 
 analyzer:
+  plugins:
+    - dart_code_metrics
   exclude:
     - "**.g.dart"
     - "**.mocks.dart"
     - "lib/generated_plugin_registrant.dart"
+
+dart_code_metrics:
+  metrics:
+    cyclomatic-complexity: 20
+    number-of-parameters: 5
+    maximum-nesting-level: 5
+  metrics-exclude:
+    - test/**
+  rules:
+    - avoid-dynamic
+    - avoid-passing-async-when-sync-expected
+    - avoid-redundant-async
+    - avoid-unnecessary-type-assertions
+    - avoid-unnecessary-type-casts
+    - avoid-unrelated-type-assertions
+    - avoid-nested-conditional-expressions:
+        acceptable-level: 2
+    - newline-before-return
+    - no-boolean-literal-compare
+    - no-empty-block
+    - prefer-trailing-comma
+    - prefer-conditional-expressions:
+        ignore-nested: true
+    - no-equal-then-else
+    - prefer-moving-to-variable:
+        allowed-duplicated-chains: 3
+    - prefer-match-file-name

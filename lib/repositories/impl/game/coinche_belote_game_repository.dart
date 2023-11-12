@@ -5,29 +5,30 @@ import 'package:carg/repositories/game/abstract_coinche_belote_game_repository.d
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CoincheBeloteGameRepository extends AbstractCoincheBeloteGameRepository {
-  CoincheBeloteGameRepository(
-      {String? database,
-      String? environment,
-      FirebaseFirestore? provider,
-      DocumentSnapshot? lastFetchGameDocument})
-      : super(
-            database: database ?? Const.coincheBeloteGameDB,
-            environment: environment ??
-                const String.fromEnvironment(Const.dartVarEnv,
-                    defaultValue: Const.defaultEnv),
-            provider: provider ?? FirebaseFirestore.instance,
-            lastFetchGameDocument: lastFetchGameDocument);
+  CoincheBeloteGameRepository({
+    String? database,
+    String? environment,
+    FirebaseFirestore? provider,
+    super.lastFetchGameDocument,
+  }) : super(
+          database: database ?? Const.coincheBeloteGameDB,
+          environment: environment ??
+              const String.fromEnvironment(
+                Const.dartVarEnv,
+                defaultValue: Const.defaultEnv,
+              ),
+          provider: provider ?? FirebaseFirestore.instance,
+        );
 
   @override
   Future<CoincheBelote?> get(String id) async {
     try {
       var querySnapshot =
           await provider.collection(connectionString).doc(id).get();
-      if (querySnapshot.data() != null) {
-        return CoincheBelote.fromJSON(querySnapshot.data(), querySnapshot.id);
-      } else {
-        return null;
-      }
+
+      return querySnapshot.data() != null
+          ? CoincheBelote.fromJSON(querySnapshot.data(), querySnapshot.id)
+          : null;
     } on FirebaseException catch (e) {
       throw RepositoryException(e.message!);
     }
@@ -35,26 +36,26 @@ class CoincheBeloteGameRepository extends AbstractCoincheBeloteGameRepository {
 
   @override
   Future<List<CoincheBelote>> getAllGamesOfPlayer(
-      String playerId, int pageSize) async {
+    String playerId,
+    int pageSize,
+  ) async {
     try {
       var games = <CoincheBelote>[];
       QuerySnapshot<Map<String, dynamic>> querySnapshot;
-      if (lastFetchGameDocument != null) {
-        querySnapshot = await provider
-            .collection(connectionString)
-            .where('players.player_list', arrayContains: playerId)
-            .orderBy('starting_date', descending: true)
-            .startAfterDocument(lastFetchGameDocument!)
-            .limit(pageSize)
-            .get();
-      } else {
-        querySnapshot = await provider
-            .collection(connectionString)
-            .where('players.player_list', arrayContains: playerId)
-            .orderBy('starting_date', descending: true)
-            .limit(pageSize)
-            .get();
-      }
+      querySnapshot = lastFetchGameDocument != null
+          ? await provider
+              .collection(connectionString)
+              .where('players.player_list', arrayContains: playerId)
+              .orderBy('starting_date', descending: true)
+              .startAfterDocument(lastFetchGameDocument!)
+              .limit(pageSize)
+              .get()
+          : await provider
+              .collection(connectionString)
+              .where('players.player_list', arrayContains: playerId)
+              .orderBy('starting_date', descending: true)
+              .limit(pageSize)
+              .get();
       if (querySnapshot.docs.isEmpty) {
         return games;
       }
@@ -62,6 +63,7 @@ class CoincheBeloteGameRepository extends AbstractCoincheBeloteGameRepository {
       for (var doc in querySnapshot.docs) {
         games.add(CoincheBelote.fromJSON(doc.data(), doc.id));
       }
+
       return games;
     } on FirebaseException catch (e) {
       throw RepositoryException(e.message!);

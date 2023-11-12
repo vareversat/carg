@@ -1,18 +1,18 @@
-import 'package:carg/helpers/custom_route.dart';
 import 'package:carg/models/game/coinche_belote.dart';
 import 'package:carg/models/game/contree_belote.dart';
 import 'package:carg/models/game/french_belote.dart';
 import 'package:carg/models/game/game.dart';
 import 'package:carg/models/game/game_type.dart';
 import 'package:carg/models/game/tarot.dart';
-import 'package:carg/styles/properties.dart';
-import 'package:carg/styles/text_style.dart';
+import 'package:carg/routes/custom_route_left_to_right.dart';
+import 'package:carg/styles/custom_properties.dart';
+import 'package:carg/styles/custom_text_style.dart';
 import 'package:carg/views/screens/player_picker_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class GameModePickerScreen extends StatelessWidget {
-  const GameModePickerScreen({Key? key}) : super(key: key);
+  const GameModePickerScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class GameModePickerScreen extends StatelessWidget {
             tag: 'game_screen_title',
             child: Text(
               AppLocalizations.of(context)!.newGame,
-              style: CustomTextStyle.screenHeadLine1(
+              style: CustomTextStyle.screenDisplayLarge(
                 context,
               ),
             ),
@@ -45,9 +45,13 @@ class GameModePickerScreen extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text(AppLocalizations.of(context)!.gameSelection,
-                  style: const TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.bold)),
+              child: Text(
+                AppLocalizations.of(context)!.gameSelection,
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 8.0),
@@ -65,7 +69,7 @@ class GameModePickerScreen extends StatelessWidget {
                     ),
                     _GameModeButton(
                       game: Tarot(),
-                    )
+                    ),
                     //_GameModeButton(game: TarotGame())
                   ],
                 ),
@@ -105,14 +109,12 @@ class _GameModeButton extends StatelessWidget {
               ),
             ),
           ),
-          onPressed: () => {
-            Navigator.of(context).push(
-              CustomRouteLeftToRight(
-                builder: (context) =>
-                    PlayerPickerScreen(game: game, title: game!.gameType.name),
-              ),
-            )
-          },
+          onPressed: () => Navigator.of(context).push(
+            CustomRouteLeftToRight(
+              builder: (context) =>
+                  PlayerPickerScreen(game: game, title: game!.gameType.name),
+            ),
+          ),
           child: Text(
             game!.gameType.name,
             style: const TextStyle(fontSize: 25),

@@ -16,7 +16,7 @@ const pageSize = 10;
 const jsonCoincheBelote = {
   'starting_date': '2022-04-10 00:00:00.000',
   'players': {
-    "player_list": ['p1', 'p2']
+    'player_list': ['p1', 'p2'],
   }
 };
 
@@ -31,7 +31,11 @@ Map<String, dynamic> dataFunction() => {};
   Query
 ], customMocks: [
   MockSpec<QueryDocumentSnapshot>(
-      unsupportedMembers: {#data}, fallbackGenerators: {#data: dataFunction})
+    unsupportedMembers: {#data},
+    fallbackGenerators: {
+      #data: dataFunction,
+    },
+  )
 ])
 void main() {
   final instance = MockFirebaseFirestore();
