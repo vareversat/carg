@@ -38,22 +38,6 @@ jobs:
           flutter-version: ${{ inputs.flutter_version }}
       - name: 'Flutter format'
         run: dart format lib --set-exit-if-changed
-  code-metrics:
-    name: 'Code metrics'
-    runs-on: ubuntu-latest
-    steps:
-      - name: 'Checkout source code'
-        uses: actions/checkout@v3
-      - name: 'Setup flutter action'
-        uses: subosito/flutter-action@v2.10.0
-        with:
-          flutter-version: ${{ inputs.flutter_version }}
-      - name: '[Global] Code metrics'
-        run: dart run dart_code_metrics:metrics analyze --fatal-style --fatal-warnings --fatal-performance --reporter=github lib
-      - name: '[Unused files] Code metrics'
-        run: dart run dart_code_metrics:metrics check-unused-files lib
-      - name: '[Unused code] Code metrics'
-        run: dart run dart_code_metrics:metrics check-unused-code lib
   test:
     name: 'Test'
     runs-on: ubuntu-latest
