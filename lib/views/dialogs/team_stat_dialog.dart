@@ -1,4 +1,3 @@
-import 'package:carg/exceptions/service_exception.dart';
 import 'package:carg/models/game_stats.dart';
 import 'package:carg/models/team.dart';
 import 'package:carg/services/player/abstract_player_service.dart';
@@ -25,17 +24,18 @@ class TeamStatDialog extends StatelessWidget {
   });
 
   Future<void> _saveTeam(BuildContext context) async {
-    try {
-      await teamService.update(team).then((value) => {
-            InfoSnackBar.showSnackBar(
-              context,
-              AppLocalizations.of(context)!.teamNameEdited,
-            ),
-            Navigator.pop(context),
-          });
-    } on ServiceException catch (e) {
-      InfoSnackBar.showErrorSnackBar(context, e.message);
-    }
+    await teamService
+        .update(team)
+        .then((value) => {
+              InfoSnackBar.showSnackBar(
+                context,
+                AppLocalizations.of(context)!.teamNameEdited,
+              ),
+              Navigator.pop(context),
+            })
+        .catchError(
+          (err) => {InfoSnackBar.showErrorSnackBar(context, err.message)},
+        );
   }
 
   String _getHintText(BuildContext context) {

@@ -1,5 +1,4 @@
 import 'package:carg/const.dart';
-import 'package:carg/exceptions/custom_exception.dart';
 import 'package:carg/exceptions/service_exception.dart';
 import 'package:carg/models/player.dart';
 import 'package:carg/services/auth/auth_service.dart';
@@ -444,49 +443,49 @@ class _LinkPlayerWidget extends StatelessWidget {
 
   Future<void> _linkPlayer() async {
     FocusManager.instance.primaryFocus?.unfocus();
-    try {
-      var userId =
-          Provider.of<AuthService>(context, listen: false).getConnectedUserId();
-      await _playerService.get(_idTextController.text).then((player) async => {
+
+    var userId =
+        Provider.of<AuthService>(context, listen: false).getConnectedUserId();
+
+    await _playerService.get(_idTextController.text).then(
+          (player) async => {
             if (player != null)
-              {
-                if (!player.owned)
-                  {
-                    throw CustomException(
-                      AppLocalizations.of(context)!.errorPlayerAlreadyLinked,
-                    ),
-                  }
-                else
-                  {
-                    player.linkedUserId = userId,
-                    player.ownedBy = '',
-                    player.owned = false,
-                    await _playerService.update(player).then((value) async => {
-                          Provider.of<AuthService>(context, listen: false)
-                              .setCurrentPlayer(
-                            player,
-                          ),
-                          await Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const HomeScreen(
-                                requestedIndex: 0,
+              if (!player.owned)
+                {
+                  InfoSnackBar.showErrorSnackBar(
+                    context,
+                    AppLocalizations.of(context)!.errorPlayerAlreadyLinked,
+                  ),
+                }
+              else
+                {
+                  player.linkedUserId = userId,
+                  player.ownedBy = '',
+                  player.owned = false,
+                  await _playerService
+                      .update(player)
+                      .then((value) => {
+                            Provider.of<AuthService>(context, listen: false)
+                                .setCurrentPlayer(
+                              player,
+                            ),
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const HomeScreen(
+                                  requestedIndex: 0,
+                                ),
                               ),
                             ),
-                          ),
-                        }),
-                  },
-              }
-            else
-              {
-                throw CustomException(
-                  AppLocalizations.of(context)!.errorPlayerNotFound,
-                ),
-              },
-          });
-    } on CustomException catch (e) {
-      InfoSnackBar.showErrorSnackBar(context, e.message);
-    }
+                          })
+                      .catchError(
+                        (err) => {
+                          InfoSnackBar.showErrorSnackBar(context, err.message),
+                        },
+                      ),
+                },
+          },
+        );
   }
 
   @override

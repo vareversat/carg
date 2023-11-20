@@ -118,7 +118,9 @@ class _RegisterPhoneWidgetState extends State<RegisterPhoneWidget>
             ),
           );
     } on CustomException catch (e) {
-      InfoSnackBar.showSnackBar(context, e.message);
+      if (mounted) {
+        InfoSnackBar.showSnackBar(context, e.message);
+      }
     }
   }
 

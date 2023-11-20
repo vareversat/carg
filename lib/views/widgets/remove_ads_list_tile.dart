@@ -190,10 +190,12 @@ class _RemoveAdsListTileState extends State<RemoveAdsListTile> {
         }
       }
     } catch (e) {
-      InfoSnackBar.showErrorSnackBar(
-        context,
-        '${AppLocalizations.of(context)!.errorWhileRestoring} : ${e.toString()}',
-      );
+      if (mounted) {
+        InfoSnackBar.showErrorSnackBar(
+          context,
+          '${AppLocalizations.of(context)!.errorWhileRestoring} : ${e.toString()}',
+        );
+      }
     }
   }
 
@@ -213,62 +215,68 @@ class _RemoveAdsListTileState extends State<RemoveAdsListTile> {
     _subscription.cancel();
   }
 
-  Future<void> _restorePurchase() async {
-    final isAvailable = await iap.isAvailable();
-    if (isAvailable && mounted) {
-      await iap.restorePurchases(applicationUserName: null).onError<Exception>(
-            (error, stackTrace) => InfoSnackBar.showErrorSnackBar(
-              context,
-              AppLocalizations.of(context)!.errorWhileRestoring,
-            ),
-          );
-    } else {
-      InfoSnackBar.showErrorSnackBar(
-        context,
-        AppLocalizations.of(context)!.cannotRestorePurchase,
-      );
-    }
+  Future<void> _restorePurchase() {
+    return iap.isAvailable().then((isAvailable) => {
+          if (mounted)
+            if (isAvailable)
+              {
+                iap
+                    .restorePurchases(applicationUserName: null)
+                    .onError<Exception>(
+                      (error, stackTrace) => InfoSnackBar.showErrorSnackBar(
+                        context,
+                        AppLocalizations.of(context)!.errorWhileRestoring,
+                      ),
+                    ),
+              }
+            else
+              {
+                InfoSnackBar.showErrorSnackBar(
+                  context,
+                  AppLocalizations.of(context)!.cannotRestorePurchase,
+                ),
+              },
+        });
   }
 
   Future<void> _buy(BuildContext context) async {
-    final isAvailable = await iap.isAvailable();
-    if (isAvailable && mounted) {
-      try {
-        await iap.queryProductDetails({
-          Const.iapFreeAdsProductId,
-        }).then((queryProductDetails) async => {
-              if (queryProductDetails.productDetails.isEmpty)
-                {
-                  InfoSnackBar.showErrorSnackBar(
-                    context,
-                    AppLocalizations.of(context)!.noProducts,
-                  ),
-                }
-              else
-                {
-                  developer.log(
-                    'Purchase PROCESS STARTING',
-                    name: 'carg.iap-tile',
-                  ),
-                  await iap.buyConsumable(
-                    purchaseParam: PurchaseParam(
-                      productDetails: queryProductDetails.productDetails[0],
-                    ),
-                  ),
-                },
-            });
-      } on Exception {
-        InfoSnackBar.showErrorSnackBar(
-          context,
-          AppLocalizations.of(context)!.errorDuringPurchase,
-        );
-      }
-    } else {
-      InfoSnackBar.showErrorSnackBar(
-        context,
-        AppLocalizations.of(context)!.cannotPurchase,
-      );
-    }
+    return iap.isAvailable().then((isAvailable) => {
+          if (mounted)
+            if (isAvailable)
+              {
+                iap.queryProductDetails({
+                  Const.iapFreeAdsProductId,
+                }).then((queryProductDetails) async => {
+                      if (queryProductDetails.productDetails.isEmpty)
+                        {
+                          InfoSnackBar.showErrorSnackBar(
+                            context,
+                            AppLocalizations.of(context)!.noProducts,
+                          ),
+                        }
+                      else
+                        {
+                          developer.log(
+                            'Purchase PROCESS STARTING',
+                            name: 'carg.iap-tile',
+                          ),
+                          await iap.buyConsumable(
+                            purchaseParam: PurchaseParam(
+                              productDetails:
+                                  queryProductDetails.productDetails[0],
+                            ),
+                          ),
+                        },
+                    }),
+              }
+            else
+              {
+                InfoSnackBar.showErrorSnackBar(
+                  context,
+                  AppLocalizations.of(context)!.cannotPurchase,
+                ),
+              },
+        });
   }
 
   _RemoveAdsListTileState() {

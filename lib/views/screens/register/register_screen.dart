@@ -47,7 +47,9 @@ class _RegisterScreenState extends State<RegisterScreen>
             ),
           );
     } on CustomException catch (e) {
-      InfoSnackBar.showErrorSnackBar(context, e.message);
+      if (mounted) {
+        InfoSnackBar.showErrorSnackBar(context, e.message);
+      }
     }
   }
 

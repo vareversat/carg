@@ -111,16 +111,18 @@ class _PlayTarotGameScreenState extends State<PlayTarotGameScreen> {
                 ),
               });
     } on StateError {
-      await showDialog(
-        context: context,
-        builder: (BuildContext context) => WarningDialog(
-          onConfirm: () => {},
-          showCancelButton: false,
-          message: AppLocalizations.of(context)!.messageNoRound,
-          title: AppLocalizations.of(context)!.error,
-          color: Theme.of(context).colorScheme.error,
-        ),
-      );
+      if (mounted) {
+        await showDialog(
+          context: context,
+          builder: (BuildContext context) => WarningDialog(
+            onConfirm: () => {},
+            showCancelButton: false,
+            message: AppLocalizations.of(context)!.messageNoRound,
+            title: AppLocalizations.of(context)!.error,
+            color: Theme.of(context).colorScheme.error,
+          ),
+        );
+      }
     }
   }
 

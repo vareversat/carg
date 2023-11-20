@@ -78,11 +78,12 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
       context: context,
       builder: (BuildContext context) => WarningDialog(
         onConfirm: () async => {
-          await widget.gameService.endAGame(widget.beloteGame, DateTime.now()),
-          await Navigator.of(context).pushReplacementNamed(
-            HomeScreen.routeName,
-            arguments: 1,
-          ),
+          await widget.gameService
+              .endAGame(widget.beloteGame, DateTime.now())
+              .then((value) => Navigator.of(context).pushReplacementNamed(
+                    HomeScreen.routeName,
+                    arguments: 1,
+                  )),
         },
         message: AppLocalizations.of(context)!.messageStopGame,
         title: AppLocalizations.of(context)!.warning,
@@ -113,16 +114,18 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
         );
       }
     } on StateError {
-      await showDialog(
-        context: context,
-        builder: (BuildContext context) => WarningDialog(
-          onConfirm: () => {},
-          showCancelButton: false,
-          message: AppLocalizations.of(context)!.messageNoRound,
-          title: AppLocalizations.of(context)!.error,
-          color: Theme.of(context).colorScheme.error,
-        ),
-      );
+      if (mounted) {
+        await showDialog(
+          context: context,
+          builder: (BuildContext context) => WarningDialog(
+            onConfirm: () => {},
+            showCancelButton: false,
+            message: AppLocalizations.of(context)!.messageNoRound,
+            title: AppLocalizations.of(context)!.error,
+            color: Theme.of(context).colorScheme.error,
+          ),
+        );
+      }
     }
   }
 

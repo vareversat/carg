@@ -54,7 +54,9 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
       await Provider.of<AuthService>(context, listen: false)
           .resendPhoneVerificationCode(widget.phoneNumber, context);
     } on CustomException catch (e) {
-      InfoSnackBar.showSnackBar(context, e.message);
+      if (mounted) {
+        InfoSnackBar.showSnackBar(context, e.message);
+      }
     }
   }
 
@@ -130,10 +132,12 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
         ErrorAnimationType.shake,
       );
       _pinTextController.clear();
-      InfoSnackBar.showSnackBar(
-        context,
-        e.message,
-      );
+      if (mounted) {
+        InfoSnackBar.showSnackBar(
+          context,
+          e.message,
+        );
+      }
     }
   }
 

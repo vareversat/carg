@@ -42,7 +42,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
           );
     } on CustomException catch (e) {
-      InfoSnackBar.showSnackBar(context, e.message);
+      if (mounted) {
+        InfoSnackBar.showSnackBar(context, e.message);
+      }
     }
   }
 

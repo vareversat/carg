@@ -73,10 +73,12 @@ class _RegisterEmailWidgetState extends State<RegisterEmailWidget>
           }
         }
       } on CustomException catch (e) {
-        InfoSnackBar.showSnackBar(
-          context,
-          e.message,
-        );
+        if (mounted) {
+          InfoSnackBar.showSnackBar(
+            context,
+            e.message,
+          );
+        }
         setState(() {
           _emailSending = false;
         });
@@ -118,10 +120,12 @@ class _RegisterEmailWidgetState extends State<RegisterEmailWidget>
             }
           } on CustomException catch (e) {
             developer.log(e.message, name: 'carg.dynamic-link');
-            InfoSnackBar.showSnackBar(
-              context,
-              e.message,
-            );
+            if (mounted) {
+              InfoSnackBar.showSnackBar(
+                context,
+                e.message,
+              );
+            }
           } finally {
             if (_keyLoader.currentContext != null) {
               Navigator.of(_keyLoader.currentContext!, rootNavigator: true)
