@@ -25,7 +25,8 @@ class FakeBeloteGameService extends AbstractBeloteGameService {
         null,
         startingDate!,
         BelotePlayers(us: us.id, them: them.id, playerList: playerListForOrder),
-        FakeBeloteGameSetting(maxPoint: 1000, addContractToScore: true),
+        FakeBeloteGameSetting(
+            maxPoint: 1000, isInfinite: false, addContractToScore: true),
       );
       belote.id = await beloteGameRepository.create(belote);
       return belote;

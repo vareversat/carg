@@ -1,6 +1,9 @@
 import 'package:carg/helpers/custom_route.dart';
+import 'package:carg/models/game/belote_game.dart';
 import 'package:carg/models/game/game.dart';
 import 'package:carg/models/game/game_type.dart';
+import 'package:carg/models/game/setting/belote_game_setting.dart';
+import 'package:carg/models/game/setting/game_setting.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/screens/player_picker_screen.dart';
@@ -8,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class BeloteGameSettingsScreen extends StatelessWidget {
   final Game? game;
@@ -41,109 +45,175 @@ class BeloteGameSettingsScreen extends StatelessWidget {
           Flexible(
             child: Column(
               children: [
-                const Padding(
-                  padding: EdgeInsets.only(top: 8.0),
-                  child: Center(child: Text("Nombre de points à atteindre")),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Center(
+                    child: Text(
+                      AppLocalizations.of(context)!.numberOfPointToReach,
+                    ),
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Flexible(
-                        flex: 1,
-                        child: TextField(
-                          key: const ValueKey('maxPointsTextFieldValue'),
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 40),
-                          controller: _contractTextController,
-                          enabled: true,
-                          keyboardType: TextInputType.number,
-                          inputFormatters: const <TextInputFormatter>[],
-                          onSubmitted: (String value) => {
-                            print(value),
-                          },
-                        ),
-                      ),
-                      Flexible(
-                        child: ElevatedButton.icon(
-                          key: const ValueKey('infinitePoints'),
-                          onPressed: () => {},
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(
-                              Theme.of(context).primaryColor,
+                  child: ChangeNotifierProvider.value(
+                    value: game?.settings,
+                    child: Consumer<GameSetting>(
+                        builder: (context, settingsData, child) {
+                      _contractTextController.text =
+                          settingsData.maxPoint.toString();
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Flexible(
+                            child: AnimatedSize(
+                              curve: Curves.ease,
+                              duration: const Duration(milliseconds: 500),
+                              child: Center(
+                                child: settingsData.isInfinite
+                                    ? Icon(
+                                        FontAwesomeIcons.infinity,
+                                        color: Theme.of(context).primaryColor,
+                                        size: 50,
+                                      )
+                                    : TextField(
+                                        key: const ValueKey(
+                                            'maxPointsTextFieldValue'),
+                                        textAlign: TextAlign.center,
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 40),
+                                        controller: _contractTextController,
+                                        enabled: !settingsData.isInfinite,
+                                        keyboardType: TextInputType.number,
+                                        inputFormatters: const <
+                                            TextInputFormatter>[],
+                                        onSubmitted: (String value) => {
+                                          settingsData.maxPoint =
+                                              int.parse(value),
+                                        },
+                                      ),
+                              ),
                             ),
-                            foregroundColor: MaterialStateProperty.all<Color>(
-                                Theme.of(context).cardColor),
-                            shape: MaterialStateProperty.all<OutlinedBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                  CustomProperties.borderRadius,
+                          ),
+                          Flexible(
+                            flex: 2,
+                            child: ElevatedButton.icon(
+                              key: const ValueKey('infinitePoints'),
+                              onPressed: () => {
+                                settingsData.isInfinite =
+                                    !settingsData.isInfinite
+                              },
+                              style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                  settingsData.isInfinite
+                                      ? Theme.of(context).cardColor
+                                      : Theme.of(context).primaryColor,
+                                ),
+                                foregroundColor:
+                                    MaterialStateProperty.all<Color>(
+                                  settingsData.isInfinite
+                                      ? Theme.of(context).primaryColor
+                                      : Theme.of(context).cardColor,
+                                ),
+                                shape:
+                                    MaterialStateProperty.all<OutlinedBorder>(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(
+                                      CustomProperties.borderRadius,
+                                    ),
+                                    side: BorderSide(
+                                      color: settingsData.isInfinite
+                                          ? Theme.of(context).primaryColor
+                                          : Colors.transparent,
+                                    ),
+                                  ),
                                 ),
                               ),
+                              label: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  AppLocalizations.of(context)!.infinite,
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                  ),
+                                ),
+                              ),
+                              icon: settingsData.isInfinite
+                                  ? const Icon(
+                                      Icons.cancel_outlined,
+                                      size: 20,
+                                    )
+                                  : const Icon(
+                                      FontAwesomeIcons.check,
+                                      size: 20,
+                                    ),
                             ),
                           ),
-                          label: const Padding(
+                        ],
+                      );
+                    }),
+                  ),
+                ),
+                game is Belote
+                    ? Column(
+                        children: [
+                          const Padding(
                             padding: EdgeInsets.all(8.0),
-                            child: Text(
-                              "Infini",
-                              style: TextStyle(
-                                fontSize: 18,
+                            child: Divider(),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: Center(
+                              child: Text(
+                                AppLocalizations.of(context)!
+                                    .addAnnouncementAndPointDone,
                               ),
                             ),
                           ),
-                          icon: const Icon(
-                            FontAwesomeIcons.check,
-                            size: 20,
+                          ChangeNotifierProvider.value(
+                            value: (game?.settings as BeloteGameSetting),
+                            child: Consumer<BeloteGameSetting>(
+                                builder: (context, settingsData, child) {
+                              return Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Text(
+                                    "Non",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                  Switch(
+                                    value: settingsData.addContractToScore,
+                                    activeColor: Theme.of(context).primaryColor,
+                                    onChanged: (bool value) {
+                                      settingsData.addContractToScore = value;
+                                    },
+                                  ),
+                                  const Text(
+                                    "Oui",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  )
+                                ],
+                              );
+                            }),
                           ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Divider(),
-                ),
-                const Padding(
-                  padding: EdgeInsets.only(top: 8.0),
-                  child:
-                      Center(child: Text("Additioner annonce et points fait")),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      "Non",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    Switch(
-                      // This bool value toggles the switch.
-                      value: true,
-                      activeColor: Theme.of(context).primaryColor,
-                      onChanged: (bool value) {
-                        print(value);
-                      },
-                    ),
-                    const Text(
-                      "Oui",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    )
-                  ],
-                ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Text(
-                    "Exemple : L'attaque annonce 110 points. Elle remporte en faisant un total de 125.\n "
-                    "L'attaque marque donc 125 + 110 = 235 et la défence 160 - 125 = 35",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontStyle: FontStyle.italic,
-                      fontSize: 15,
-                    ),
-                  ),
-                ),
+                          const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 20.0),
+                            child: Text(
+                              "Exemple : L'attaque annonce 110 points. Elle remporte en faisant un total de 125.\n "
+                              "L'attaque marque donc 130 + 110 = 240 et la défense 40",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontStyle: FontStyle.italic,
+                                fontSize: 15,
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    : const SizedBox.shrink(),
               ],
             ),
           ),

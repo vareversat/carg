@@ -23,6 +23,7 @@ class Tarot extends Game<TarotPlayers, TarotGameSetting> {
           settings: settings ??
               TarotGameSetting(
                 maxPoint: Const.defaultMaxPoints,
+                isInfinite: false,
               ),
         );
 

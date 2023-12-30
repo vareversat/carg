@@ -22,6 +22,7 @@ class ContreeBelote extends Belote {
           settings: settings ??
               ContreeBeloteGameSetting(
                 maxPoint: Const.defaultMaxPoints,
+                isInfinite: false,
                 addContractToScore: true,
               ),
         );

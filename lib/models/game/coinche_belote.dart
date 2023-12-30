@@ -22,6 +22,7 @@ class CoincheBelote extends Belote {
           settings: settings ??
               CoincheBeloteGameSetting(
                 maxPoint: Const.defaultMaxPoints,
+                isInfinite: false,
                 addContractToScore: true,
               ),
         );

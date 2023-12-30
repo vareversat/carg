@@ -1,10 +1,20 @@
 import 'package:carg/models/game/setting/game_setting.dart';
 
 abstract class BeloteGameSetting extends GameSetting {
-  bool addContractToScore;
+  late bool _addContractToScore;
 
   BeloteGameSetting({
     required super.maxPoint,
-    required this.addContractToScore,
-  });
+    required super.isInfinite,
+    required bool addContractToScore,
+  }) {
+    _addContractToScore = addContractToScore;
+  }
+
+  bool get addContractToScore => _addContractToScore;
+
+  set addContractToScore(bool value) {
+    _addContractToScore = value;
+    notifyListeners();
+  }
 }

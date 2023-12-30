@@ -2,10 +2,11 @@ import 'package:carg/models/carg_object.dart';
 import 'package:carg/models/game/game_type.dart';
 import 'package:carg/models/game/setting/game_setting.dart';
 import 'package:carg/models/players/players.dart';
+import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 
-abstract class Game<T extends Players, S extends GameSetting>
-    extends CargObject {
+abstract class Game<T extends Players, S extends GameSetting> extends CargObject
+    with ChangeNotifier {
   late DateTime startingDate;
   late bool isEnded;
   DateTime? endingDate;

@@ -28,6 +28,7 @@ void main() {
   final players = FakePlayers(playerIds);
   final settings = FakeGameSetting(
     maxPoint: 1000,
+    isInfinite: false,
   );
   final game = FakeGame(
     uid,

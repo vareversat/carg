@@ -33,10 +33,26 @@ void main() {
   final players =
       BelotePlayers(us: teamUs.id, them: teamThem.id, playerList: playerIds);
 
-  final game = FakeBeloteGame(uid, date, players,
-      FakeBeloteGameSetting(maxPoint: 1000, addContractToScore: true));
-  final gameNoId = FakeBeloteGame(null, date, players,
-      FakeBeloteGameSetting(maxPoint: 1000, addContractToScore: true));
+  final game = FakeBeloteGame(
+    uid,
+    date,
+    players,
+    FakeBeloteGameSetting(
+      maxPoint: 1000,
+      isInfinite: false,
+      addContractToScore: true,
+    ),
+  );
+  final gameNoId = FakeBeloteGame(
+    null,
+    date,
+    players,
+    FakeBeloteGameSetting(
+      maxPoint: 1000,
+      isInfinite: false,
+      addContractToScore: true,
+    ),
+  );
 
   group('AbstractBeloteGameService', () {
     group('End a game', () {
