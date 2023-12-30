@@ -1,8 +1,10 @@
+import 'package:carg/const.dart';
 import 'package:carg/models/game/game.dart';
 import 'package:carg/models/game/game_type.dart';
+import 'package:carg/models/game/setting/tarot_game_setting.dart';
 import 'package:carg/models/players/tarot_players.dart';
 
-class Tarot extends Game<TarotPlayers> {
+class Tarot extends Game<TarotPlayers, TarotGameSetting> {
   Tarot(
       {super.id,
       DateTime? startingDate,
@@ -11,12 +13,18 @@ class Tarot extends Game<TarotPlayers> {
       bool? isEnded,
       TarotPlayers? players,
       super.notes,
-      GameType? gameType})
+      GameType? gameType,
+      TarotGameSetting? settings})
       : super(
-            gameType: gameType ?? GameType.TAROT,
-            players: players ?? TarotPlayers(),
-            startingDate: startingDate ?? DateTime.now(),
-            isEnded: isEnded ?? false);
+          gameType: gameType ?? GameType.TAROT,
+          players: players ?? TarotPlayers(),
+          startingDate: startingDate ?? DateTime.now(),
+          isEnded: isEnded ?? false,
+          settings: settings ??
+              TarotGameSetting(
+                maxPoint: Const.defaultMaxPoints,
+              ),
+        );
 
   @override
   Map<String, dynamic> toJSON() {

@@ -9,6 +9,7 @@ import 'package:mockito/mockito.dart';
 
 import '../../mocks/fake_game.dart';
 import '../../mocks/fake_game_service.dart';
+import '../../mocks/fake_game_setting.dart';
 import '../../mocks/fake_players.dart';
 import 'abstract_game_service_test.mocks.dart';
 
@@ -25,7 +26,15 @@ void main() {
   final date = DateTime.parse('2022-04-10 00:00:00.000');
   final playerIds = ['p1', 'p2', 'p3', 'p4'];
   final players = FakePlayers(playerIds);
-  final game = FakeGame(uid, date, players);
+  final settings = FakeGameSetting(
+    maxPoint: 1000,
+  );
+  final game = FakeGame(
+    uid,
+    date,
+    players,
+    settings,
+  );
 
   group('AbstractGameService', () {
     group('Get Game', () {

@@ -1,21 +1,30 @@
+import 'package:carg/const.dart';
 import 'package:carg/models/game/belote_game.dart';
 import 'package:carg/models/game/game_type.dart';
+import 'package:carg/models/game/setting/coinche_belote_game_setting.dart';
 import 'package:carg/models/players/belote_players.dart';
 
 class CoincheBelote extends Belote {
-  CoincheBelote(
-      {super.id,
-      GameType? gameType,
-      DateTime? super.startingDate,
-      super.endingDate,
-      super.winner,
-      bool? isEnded,
-      BelotePlayers? players,
-      super.notes})
-      : super(
-            gameType: GameType.COINCHE,
-            players: players ?? BelotePlayers(),
-            isEnded: isEnded ?? false);
+  CoincheBelote({
+    super.id,
+    GameType? gameType,
+    DateTime? super.startingDate,
+    super.endingDate,
+    super.winner,
+    bool? isEnded,
+    BelotePlayers? players,
+    super.notes,
+    CoincheBeloteGameSetting? settings,
+  }) : super(
+          gameType: GameType.COINCHE,
+          players: players ?? BelotePlayers(),
+          isEnded: isEnded ?? false,
+          settings: settings ??
+              CoincheBeloteGameSetting(
+                maxPoint: Const.defaultMaxPoints,
+                addContractToScore: true,
+              ),
+        );
 
   factory CoincheBelote.fromJSON(Map<String, dynamic>? json, String id) {
     return CoincheBelote(

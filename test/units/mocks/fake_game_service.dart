@@ -1,4 +1,5 @@
 import 'package:carg/models/game/game.dart';
+import 'package:carg/models/game/setting/game_setting.dart';
 import 'package:carg/models/players/players.dart';
 import 'package:carg/services/game/abstract_game_service.dart';
 import 'package:carg/services/player/abstract_player_service.dart';
@@ -12,7 +13,7 @@ class FakeGameService extends AbstractGameService {
       required AbstractTeamService teamService});
 
   @override
-  Future<Game<Players>> createGameWithPlayerList(
+  Future<Game<Players, GameSetting>> createGameWithPlayerList(
       List<String?> playerListForOrder,
       List<String?> playerListForTeam,
       DateTime? startingDate) {
@@ -20,7 +21,7 @@ class FakeGameService extends AbstractGameService {
   }
 
   @override
-  Future<void> endAGame(Game<Players> game, DateTime? endingDate) {
+  Future<void> endAGame(Game<Players, GameSetting> game, DateTime? endingDate) {
     throw UnimplementedError();
   }
 }

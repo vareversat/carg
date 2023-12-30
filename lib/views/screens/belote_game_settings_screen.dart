@@ -14,8 +14,7 @@ class BeloteGameSettingsScreen extends StatelessWidget {
   final String title;
   final TextEditingController _contractTextController = TextEditingController();
 
-  BeloteGameSettingsScreen({Key? key, required this.game, required this.title})
-      : super(key: key);
+  BeloteGameSettingsScreen({super.key, required this.game, required this.title});
 
   @override
   Widget build(BuildContext context) {

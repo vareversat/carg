@@ -8,7 +8,6 @@ import 'package:carg/models/game/tarot.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/screens/belote_game_settings_screen.dart';
-import 'package:carg/views/screens/player_picker_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 

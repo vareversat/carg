@@ -7,6 +7,7 @@ import 'dart:async' as _i9;
 
 import 'package:carg/models/carg_object.dart' as _i3;
 import 'package:carg/models/game/game.dart' as _i10;
+import 'package:carg/models/game/setting/game_setting.dart' as _i12;
 import 'package:carg/models/player.dart' as _i8;
 import 'package:carg/models/players/players.dart' as _i11;
 import 'package:carg/models/team.dart' as _i7;
@@ -15,9 +16,9 @@ import 'package:carg/repositories/player/abstract_player_repository.dart'
     as _i2;
 import 'package:carg/repositories/team/abstract_team_repository.dart' as _i5;
 import 'package:carg/services/player/abstract_player_service.dart' as _i6;
-import 'package:carg/services/team/abstract_team_service.dart' as _i13;
+import 'package:carg/services/team/abstract_team_service.dart' as _i14;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mockito/src/dummies.dart' as _i12;
+import 'package:mockito/src/dummies.dart' as _i13;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -116,7 +117,7 @@ class MockAbstractPlayerService extends _i1.Mock
   @override
   _i9.Future<void> incrementPlayedGamesByOne(
     String? playerId,
-    _i10.Game<_i11.Players>? game,
+    _i10.Game<_i11.Players, _i12.GameSetting>? game,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -133,7 +134,7 @@ class MockAbstractPlayerService extends _i1.Mock
   @override
   _i9.Future<void> incrementWonGamesByOne(
     String? playerId,
-    _i10.Game<_i11.Players>? game,
+    _i10.Game<_i11.Players, _i12.GameSetting>? game,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -220,7 +221,7 @@ class MockAbstractPlayerService extends _i1.Mock
           #create,
           [t],
         ),
-        returnValue: _i9.Future<String>.value(_i12.dummyValue<String>(
+        returnValue: _i9.Future<String>.value(_i13.dummyValue<String>(
           this,
           Invocation.method(
             #create,
@@ -234,7 +235,7 @@ class MockAbstractPlayerService extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockAbstractTeamService extends _i1.Mock
-    implements _i13.AbstractTeamService {
+    implements _i14.AbstractTeamService {
   MockAbstractTeamService() {
     _i1.throwOnMissingStub(this);
   }
@@ -301,7 +302,7 @@ class MockAbstractTeamService extends _i1.Mock
   @override
   _i9.Future<_i7.Team> incrementPlayedGamesByOne(
     String? id,
-    _i10.Game<_i11.Players>? game,
+    _i10.Game<_i11.Players, _i12.GameSetting>? game,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -326,7 +327,7 @@ class MockAbstractTeamService extends _i1.Mock
   @override
   _i9.Future<_i7.Team> incrementWonGamesByOne(
     String? id,
-    _i10.Game<_i11.Players>? game,
+    _i10.Game<_i11.Players, _i12.GameSetting>? game,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -392,7 +393,7 @@ class MockAbstractTeamService extends _i1.Mock
           #create,
           [t],
         ),
-        returnValue: _i9.Future<String>.value(_i12.dummyValue<String>(
+        returnValue: _i9.Future<String>.value(_i13.dummyValue<String>(
           this,
           Invocation.method(
             #create,

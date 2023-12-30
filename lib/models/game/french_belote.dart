@@ -1,5 +1,7 @@
+import 'package:carg/const.dart';
 import 'package:carg/models/game/belote_game.dart';
 import 'package:carg/models/game/game_type.dart';
+import 'package:carg/models/game/setting/french_belote_game_setting.dart';
 import 'package:carg/models/players/belote_players.dart';
 
 class FrenchBelote extends Belote {
@@ -11,12 +13,20 @@ class FrenchBelote extends Belote {
       super.winner,
       bool? isEnded,
       BelotePlayers? players,
-      super.notes})
+      super.notes,
+      FrenchBeloteGameSetting? settings})
       : super(
-            gameType: gameType ?? GameType.BELOTE,
-            players: players ?? BelotePlayers(),
-            startingDate: startingDate ?? DateTime.now(),
-            isEnded: isEnded ?? false);
+          gameType: gameType ?? GameType.BELOTE,
+          players: players ?? BelotePlayers(),
+          startingDate: startingDate ?? DateTime.now(),
+          isEnded: isEnded ?? false,
+          settings: settings ??
+              FrenchBeloteGameSetting(
+                maxPoint: Const.defaultMaxPoints,
+                addContractToScore: true,
+              ),
+        );
+
 
   factory FrenchBelote.fromJSON(Map<String, dynamic>? json, String id) {
     return FrenchBelote(

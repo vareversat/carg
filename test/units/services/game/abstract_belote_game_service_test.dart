@@ -1,51 +1,18 @@
 import 'package:carg/exceptions/service_exception.dart';
-import 'package:carg/models/game/belote_game.dart';
 import 'package:carg/models/players/belote_players.dart';
-import 'package:carg/models/score/belote_score.dart';
 import 'package:carg/models/team.dart';
 import 'package:carg/repositories/game/abstract_belote_game_repository.dart';
-import 'package:carg/services/game/abstract_belote_game_service.dart';
 import 'package:carg/services/impl/team_service.dart';
 import 'package:carg/services/score/abstract_belote_score_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
+import '../../mocks/fake_belote_game.dart';
+import '../../mocks/fake_belote_game_setting.dart';
+import '../../mocks/fake_belote_score.dart';
+import '../../mocks/fake_belote_score_service.dart';
 import 'abstract_belote_game_service_test.mocks.dart';
-
-class FakeBeloteGame extends Belote {
-  FakeBeloteGame(String? id, DateTime startingDate, BelotePlayers players)
-      : super(players: players, id: id, startingDate: startingDate);
-}
-
-class FakeBeloteScore extends BeloteScore {
-  FakeBeloteScore(
-      {required super.usTotalPoints, required super.themTotalPoints});
-}
-
-class FakeBeloteGameService extends AbstractBeloteGameService {
-  FakeBeloteGameService(
-      {required super.beloteScoreService,
-      required super.beloteGameRepository,
-      required super.teamService});
-
-  @override
-  Future<Belote<BelotePlayers>> generateNewGame(Team us, Team them,
-      List<String?>? playerListForOrder, DateTime? startingDate) async {
-    try {
-      var belote = FakeBeloteGame(
-          null,
-          startingDate!,
-          BelotePlayers(
-              us: us.id, them: them.id, playerList: playerListForOrder));
-      belote.id = await beloteGameRepository.create(belote);
-      return belote;
-    } on Exception catch (e) {
-      throw ServiceException(
-          'Error while generating a new game : ${e.toString()}');
-    }
-  }
-}
 
 @GenerateMocks(
     [AbstractBeloteScoreService, AbstractBeloteGameRepository, TeamService])
@@ -66,8 +33,10 @@ void main() {
   final players =
       BelotePlayers(us: teamUs.id, them: teamThem.id, playerList: playerIds);
 
-  final game = FakeBeloteGame(uid, date, players);
-  final gameNoId = FakeBeloteGame(null, date, players);
+  final game = FakeBeloteGame(uid, date, players,
+      FakeBeloteGameSetting(maxPoint: 1000, addContractToScore: true));
+  final gameNoId = FakeBeloteGame(null, date, players,
+      FakeBeloteGameSetting(maxPoint: 1000, addContractToScore: true));
 
   group('AbstractBeloteGameService', () {
     group('End a game', () {
