@@ -50,7 +50,8 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
       MaterialPageRoute(
         builder: (context) => AddBeloteRoundScreen(
           beloteGame: widget.beloteGame,
-          beloteRound: widget.roundService.getNewRound() as BeloteRound?,
+          beloteRound: widget.roundService
+              .getNewRound(widget.beloteGame.settings) as BeloteRound?,
           roundService: CorrectInstance.ofRoundService(widget.beloteGame),
         ),
       ),

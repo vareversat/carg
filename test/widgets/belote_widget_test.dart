@@ -2,6 +2,7 @@ import 'package:carg/models/game/belote_game.dart';
 import 'package:carg/models/game/coinche_belote.dart';
 import 'package:carg/models/game/contree_belote.dart';
 import 'package:carg/models/game/french_belote.dart';
+import 'package:carg/models/game/setting/game_setting.dart';
 import 'package:carg/models/player.dart';
 import 'package:carg/models/players/belote_players.dart';
 import 'package:carg/models/score/coinche_belote_score.dart';
@@ -41,7 +42,7 @@ Widget testableWidget(Belote beloteGame) => localizedTestableWidget(
           playerService: mockAbstractPlayerService),
     );
 
-Object getNewRound() => {};
+Object getNewRound(GameSetting? settings) => {};
 
 @GenerateMocks([
   AbstractBeloteGameService,

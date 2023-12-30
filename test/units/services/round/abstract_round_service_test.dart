@@ -1,3 +1,4 @@
+import 'package:carg/models/game/setting/game_setting.dart';
 import 'package:carg/models/score/round/belote_round.dart';
 import 'package:carg/models/score/round/round.dart';
 import 'package:carg/services/round/abstract_round_service.dart';
@@ -15,7 +16,7 @@ class FakeRoundService extends AbstractRoundService {
       : super(abstractScoreService: abstractScoreService);
 
   @override
-  BeloteRound getNewRound() {
+  BeloteRound getNewRound(GameSetting? settings) {
     throw UnimplementedError();
   }
 

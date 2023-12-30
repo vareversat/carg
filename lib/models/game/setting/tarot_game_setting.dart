@@ -5,4 +5,11 @@ class TarotGameSetting extends GameSetting {
     required super.maxPoint,
     required super.isInfinite,
   });
+
+  factory TarotGameSetting.fromJSON(Map<String, dynamic>? json) {
+    return TarotGameSetting(
+      maxPoint: json?['max_point'],
+      isInfinite: json?['is_infinite'],
+    );
+  }
 }

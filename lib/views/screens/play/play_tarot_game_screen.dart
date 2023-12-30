@@ -46,8 +46,10 @@ class _PlayTarotGameScreenState extends State<PlayTarotGameScreen> {
       MaterialPageRoute(
         builder: (context) => AddTarotRoundScreen(
             tarotRound: TarotRound(
+              settings: widget.tarotGame.settings,
               players: TarotRoundPlayers(
-                  playerList: widget.tarotGame.players!.playerList),
+                playerList: widget.tarotGame.players!.playerList,
+              ),
             ),
             isEditing: false,
             tarotGame: widget.tarotGame),

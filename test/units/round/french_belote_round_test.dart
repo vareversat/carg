@@ -1,8 +1,12 @@
+import 'package:carg/models/game/setting/french_belote_game_setting.dart';
 import 'package:carg/models/score/misc/belote_team_enum.dart';
 import 'package:carg/models/score/round/french_belote_round.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  final gameSettingAddToContract = FrenchBeloteGameSetting(
+      maxPoint: 1000, isInfinite: false, addContractToScore: true);
+
   group('BeloteRound', () {
     test('Is contract fulfilled', () {
       final beloteRound = FrenchBeloteRound();
@@ -10,7 +14,9 @@ void main() {
     });
 
     test('Compute score - fulfilled', () {
-      final beloteRound = FrenchBeloteRound();
+      final beloteRound = FrenchBeloteRound(
+        settings: gameSettingAddToContract,
+      );
       beloteRound.taker = BeloteTeamEnum.US;
       beloteRound.defender = BeloteTeamEnum.THEM;
       beloteRound.dixDeDer = BeloteTeamEnum.US;
@@ -23,7 +29,9 @@ void main() {
     });
 
     test('Compute score - fulfilled - BeloteRebelote - US', () {
-      final beloteRound = FrenchBeloteRound();
+      final beloteRound = FrenchBeloteRound(
+        settings: gameSettingAddToContract,
+      );
       beloteRound.taker = BeloteTeamEnum.US;
       beloteRound.defender = BeloteTeamEnum.THEM;
       beloteRound.dixDeDer = BeloteTeamEnum.US;
@@ -36,7 +44,9 @@ void main() {
     });
 
     test('Compute score - not fulfilled - BeloteRebelote - THEM', () {
-      final beloteRound = FrenchBeloteRound();
+      final beloteRound = FrenchBeloteRound(
+        settings: gameSettingAddToContract,
+      );
       beloteRound.taker = BeloteTeamEnum.US;
       beloteRound.dixDeDer = BeloteTeamEnum.US;
       beloteRound.defender = BeloteTeamEnum.THEM;
@@ -49,7 +59,9 @@ void main() {
     });
 
     test('Compute score - fulfilled - Dix de Der - US', () {
-      final beloteRound = FrenchBeloteRound();
+      final beloteRound = FrenchBeloteRound(
+        settings: gameSettingAddToContract,
+      );
       beloteRound.taker = BeloteTeamEnum.US;
       beloteRound.dixDeDer = BeloteTeamEnum.US;
       beloteRound.defender = BeloteTeamEnum.THEM;
@@ -62,7 +74,9 @@ void main() {
     });
 
     test('Compute score - fulfilled - Dix de Der - THEM', () {
-      final beloteRound = FrenchBeloteRound();
+      final beloteRound = FrenchBeloteRound(
+        settings: gameSettingAddToContract,
+      );
       beloteRound.taker = BeloteTeamEnum.US;
       beloteRound.defender = BeloteTeamEnum.THEM;
       beloteRound.dixDeDer = BeloteTeamEnum.THEM;
@@ -75,7 +89,9 @@ void main() {
     });
 
     test('Compute score - failed', () {
-      final beloteRound = FrenchBeloteRound();
+      final beloteRound = FrenchBeloteRound(
+        settings: gameSettingAddToContract,
+      );
       beloteRound.taker = BeloteTeamEnum.THEM;
       beloteRound.defender = BeloteTeamEnum.US;
       beloteRound.dixDeDer = BeloteTeamEnum.US;

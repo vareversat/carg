@@ -29,14 +29,20 @@ class ContreeBelote extends Belote {
 
   factory ContreeBelote.fromJSON(Map<String, dynamic>? json, String id) {
     return ContreeBelote(
-        id: id,
-        startingDate: DateTime.parse(json?['starting_date']),
-        endingDate: json?['ending_date'] != null
-            ? DateTime.parse(json?['ending_date'])
-            : null,
-        isEnded: json?['is_ended'],
-        players: BelotePlayers.fromJSON(json?['players']),
-        winner: json?['winners'],
-        notes: json?['notes']);
+      id: id,
+      startingDate: DateTime.parse(json?['starting_date']),
+      endingDate: json?['ending_date'] != null
+          ? DateTime.parse(json?['ending_date'])
+          : null,
+      isEnded: json?['is_ended'],
+      players: BelotePlayers.fromJSON(json?['players']),
+      winner: json?['winners'],
+      notes: json?['notes'],
+      settings: json?['settings'] != null
+          ? ContreeBeloteGameSetting.fromJSON(
+              json?['settings'],
+            )
+          : null,
+    );
   }
 }

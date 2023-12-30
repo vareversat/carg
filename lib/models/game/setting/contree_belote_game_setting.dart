@@ -6,4 +6,11 @@ class ContreeBeloteGameSetting extends BeloteGameSetting {
     required super.isInfinite,
     required super.addContractToScore,
   });
+
+  factory ContreeBeloteGameSetting.fromJSON(Map<String, dynamic>? json) {
+    return ContreeBeloteGameSetting(
+        maxPoint: json?['max_point'],
+        isInfinite: json?['is_infinite'],
+        addContractToScore: json?['add_contract_to_score']);
+  }
 }

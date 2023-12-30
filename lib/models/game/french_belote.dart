@@ -31,14 +31,20 @@ class FrenchBelote extends Belote {
 
   factory FrenchBelote.fromJSON(Map<String, dynamic>? json, String id) {
     return FrenchBelote(
-        id: id,
-        startingDate: DateTime.parse(json?['starting_date']),
-        endingDate: json?['ending_date'] != null
-            ? DateTime.parse(json?['ending_date'])
-            : null,
-        isEnded: json?['is_ended'],
-        players: BelotePlayers.fromJSON(json?['players']),
-        winner: json?['winners'],
-        notes: json?['notes']);
+      id: id,
+      startingDate: DateTime.parse(json?['starting_date']),
+      endingDate: json?['ending_date'] != null
+          ? DateTime.parse(json?['ending_date'])
+          : null,
+      isEnded: json?['is_ended'],
+      players: BelotePlayers.fromJSON(json?['players']),
+      winner: json?['winners'],
+      notes: json?['notes'],
+      settings: json?['settings'] != null
+          ? FrenchBeloteGameSetting.fromJSON(
+              json?['settings'],
+            )
+          : null,
+    );
   }
 }

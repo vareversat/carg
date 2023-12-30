@@ -1,11 +1,14 @@
 import 'package:carg/exceptions/service_exception.dart';
+import 'package:carg/models/game/setting/belote_game_setting.dart';
 import 'package:carg/models/score/belote_score.dart';
 import 'package:carg/models/score/round/belote_round.dart';
 import 'package:carg/services/round/abstract_round_service.dart';
 import 'package:carg/services/score/abstract_belote_score_service.dart';
 
-abstract class AbstractBeloteRoundService<T extends BeloteRound,
-    S extends BeloteScore> extends AbstractRoundService<T, S> {
+abstract class AbstractBeloteRoundService<
+    T extends BeloteRound,
+    S extends BeloteScore,
+    G extends BeloteGameSetting> extends AbstractRoundService<T, S, G> {
   final AbstractBeloteScoreService<S> scoreService;
 
   AbstractBeloteRoundService({required this.scoreService})
