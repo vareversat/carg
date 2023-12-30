@@ -17,4 +17,13 @@ abstract class BeloteGameSetting extends GameSetting {
     _addContractToScore = value;
     notifyListeners();
   }
+
+  @override
+  Map<String, dynamic> toJSON() {
+    var tmpJSON = super.toJSON();
+    tmpJSON.addAll({
+      'add_contract_to_score': addContractToScore,
+    });
+    return tmpJSON;
+  }
 }

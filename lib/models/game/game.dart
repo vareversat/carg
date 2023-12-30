@@ -40,7 +40,8 @@ abstract class Game<T extends Players, S extends GameSetting> extends CargObject
           : null,
       'is_ended': isEnded,
       'winners': winner,
-      'notes': notes
+      'notes': notes,
+      'settings': settings.toJSON()
     };
   }
 
@@ -53,7 +54,8 @@ abstract class Game<T extends Players, S extends GameSetting> extends CargObject
         'winner: $winner, \n'
         'players: $players, \n'
         'notes: $notes, \n'
-        'gameType: $gameType}';
+        'gameType: $gameType, \n'
+        'settings: $settings}';
   }
 
   @override

@@ -22,4 +22,16 @@ abstract class GameSetting with ChangeNotifier {
   bool get isInfinite => _isInfinite;
 
   int get maxPoint => _maxPoint;
+
+  Map<String, dynamic> toJSON() {
+    return {
+      'max_point': maxPoint,
+      'is_infinite': isInfinite,
+    };
+  }
+
+  @override
+  String toString() {
+    return 'GameSetting{_maxPoint: $_maxPoint, _isInfinite: $_isInfinite}';
+  }
 }
