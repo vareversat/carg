@@ -84,7 +84,7 @@ class _GameInfoDialogState extends State<GameInfoDialog> {
                         ),
                         Text(
                           AppLocalizations.of(context)!.yes,
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: const TextStyle(fontWeight: FontWeight.bold),
                         )
                       ],
                     )

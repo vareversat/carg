@@ -127,7 +127,6 @@ class _PlayTarotGameScreenState extends State<PlayTarotGameScreen> {
   }
 
   bool _showLastRoundLayout(TarotScore score) {
-    print(score.totalPoints);
     if (widget.tarotGame.settings.isInfinite) {
       return false;
     } else {
