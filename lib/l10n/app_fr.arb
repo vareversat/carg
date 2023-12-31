@@ -107,6 +107,7 @@
   "newPhoneNumberValidate": "Nouveau numéro de téléphone validé avec succès !",
   "newPlayer": "Nouveau/nouvelle joueur/joueuse",
   "newRound": "Nouvelle manche",
+  "no": "Non",
   "noEmailProvided": "Pas d'email renseigné",
   "noGamesYet": "Pas encore de parties",
   "noName": "Sans nom",
@@ -228,5 +229,6 @@
   },
   "wonGames": "Parties gagnées",
   "wonGamesTotal": "Nombre total de parties remportées",
-  "winPercentage": "Pourcentages de victoires"
+  "winPercentage": "Pourcentages de victoires",
+  "yes": "Oui"
 }

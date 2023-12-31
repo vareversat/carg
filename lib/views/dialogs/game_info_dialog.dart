@@ -72,9 +72,9 @@ class _GameInfoDialogState extends State<GameInfoDialog> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text(
-                          "Non",
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                        Text(
+                          AppLocalizations.of(context)!.no,
+                          style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
                         Switch(
                           value: (widget.game.settings as BeloteGameSetting)
@@ -82,8 +82,8 @@ class _GameInfoDialogState extends State<GameInfoDialog> {
                           activeColor: Theme.of(context).primaryColor,
                           onChanged: (bool value) {},
                         ),
-                        const Text(
-                          "Oui",
+                        Text(
+                          AppLocalizations.of(context)!.yes,
                           style: TextStyle(fontWeight: FontWeight.bold),
                         )
                       ],

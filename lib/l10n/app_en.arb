@@ -107,6 +107,7 @@
   "newPhoneNumberValidate": "New phone number validated successfully!",
   "newPlayer": "New player",
   "newRound": "New round",
+  "no": "No",
   "noEmailProvided": "No email provided",
   "noGamesYet": "No games yet",
   "noName": "No name",
@@ -228,5 +229,6 @@
   },
   "wonGames": "Won games",
   "wonGamesTotal": "Total number of games won",
-  "winPercentage": "Win percentage"
+  "winPercentage": "Win percentage",
+  "yes": "Yes"
 }

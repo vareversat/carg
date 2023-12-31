@@ -179,10 +179,10 @@ class BeloteGameSettingsScreen extends StatelessWidget {
                               return Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  const Text(
-                                    "Non",
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
+                                  Text(
+                                    AppLocalizations.of(context)!.no,
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold),
                                   ),
                                   Switch(
                                     value: settingsData.addContractToScore,
@@ -191,10 +191,10 @@ class BeloteGameSettingsScreen extends StatelessWidget {
                                       settingsData.addContractToScore = value;
                                     },
                                   ),
-                                  const Text(
-                                    "Oui",
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
+                                  Text(
+                                    AppLocalizations.of(context)!.yes,
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold),
                                   )
                                 ],
                               );
