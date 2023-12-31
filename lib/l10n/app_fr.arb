@@ -171,6 +171,7 @@
   "startup": "Démarrage",
   "stop": "Arrêter",
   "sourceCode": "Code source",
+  "seeTheRules": "Voir les règles",
   "takerTitleBelote": "Preneurs",
   "takerTitleTarot": "{count,plural, other{Preneur} =0{Preneur et appelé}}",
   "@takerTitleTarot": {

@@ -171,6 +171,7 @@
   "startup": "Startup",
   "stop": "Stop",
   "sourceCode": "Source code",
+  "seeTheRules": "See the rules",
   "takerTitleBelote": "Takers",
   "takerTitleTarot": "{count,plural, other{Taker} =0{Taker and called player}}",
   "@takerTitleTarot": {
