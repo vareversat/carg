@@ -42,11 +42,13 @@ class _GameInfoDialogState extends State<GameInfoDialog> {
           ),
           widget.game.settings.isInfinite
               ? Icon(
+                  key: const ValueKey("infiniteIcon"),
                   FontAwesomeIcons.infinity,
                   size: 35,
                   color: Theme.of(context).primaryColor,
                 )
               : Text(
+                  key: const ValueKey("maxPointOption"),
                   widget.game.settings.maxPoint.toString(),
                   style: Theme.of(context)
                       .textTheme
@@ -55,6 +57,7 @@ class _GameInfoDialogState extends State<GameInfoDialog> {
                 ),
           (widget.game is Belote && widget.game is! FrenchBelote)
               ? Column(
+                  key: const ValueKey("addAnnouncementAndPointOption"),
                   children: [
                     const Padding(
                       padding: EdgeInsets.all(8.0),
