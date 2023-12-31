@@ -6,6 +6,7 @@ import 'package:carg/styles/properties.dart';
 import 'package:carg/views/screens/rules_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class GameInfoDialog extends StatefulWidget {
   final Game game;
@@ -39,15 +40,19 @@ class _GameInfoDialogState extends State<GameInfoDialog> {
           const SizedBox(
             height: 20,
           ),
-          Text(
-            widget.game.settings.isInfinite
-                ? "∞"
-                : widget.game.settings.maxPoint.toString(),
-            style: Theme.of(context)
-                .textTheme
-                .titleLarge!
-                .copyWith(fontWeight: FontWeight.bold),
-          ),
+          widget.game.settings.isInfinite
+              ? Icon(
+                  FontAwesomeIcons.infinity,
+                  size: 35,
+                  color: Theme.of(context).primaryColor,
+                )
+              : Text(
+                  widget.game.settings.maxPoint.toString(),
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleLarge!
+                      .copyWith(fontWeight: FontWeight.bold),
+                ),
           (widget.game is Belote && widget.game is! FrenchBelote)
               ? Column(
                   children: [
