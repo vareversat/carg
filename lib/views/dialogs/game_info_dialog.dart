@@ -59,7 +59,7 @@ class _GameInfoDialogState extends State<GameInfoDialog> {
                     const Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Divider(
-                        thickness: 3,
+                        thickness: 2,
                       ),
                     ),
                     Text(
@@ -67,7 +67,7 @@ class _GameInfoDialogState extends State<GameInfoDialog> {
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     const SizedBox(
-                      height: 20,
+                      height: 10,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
