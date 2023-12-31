@@ -53,6 +53,8 @@ void main() {
       addContractToScore: true,
     ),
   );
+  final settings = FakeBeloteGameSetting(
+      maxPoint: 1000, isInfinite: false, addContractToScore: true);
 
   group('AbstractBeloteGameService', () {
     group('End a game', () {
@@ -107,7 +109,7 @@ void main() {
             beloteGameRepository: mockBeloteGameRepository,
             teamService: mockTeamService);
         final finalGame = await beloteGameService.createGameWithPlayerList(
-            playerIdsOrder, playerIdsTeam, date);
+            playerIdsOrder, playerIdsTeam, date, settings);
         expect(finalGame, game);
       });
     });

@@ -6,7 +6,6 @@ import 'package:carg/models/team.dart';
 import 'package:carg/services/game/abstract_belote_game_service.dart';
 
 import 'fake_belote_game.dart';
-import 'fake_belote_game_setting.dart';
 
 class FakeBeloteGameService extends AbstractBeloteGameService {
   FakeBeloteGameService(
@@ -19,14 +18,14 @@ class FakeBeloteGameService extends AbstractBeloteGameService {
       Team us,
       Team them,
       List<String?>? playerListForOrder,
-      DateTime? startingDate) async {
+      DateTime? startingDate,
+      BeloteGameSetting settings) async {
     try {
       var belote = FakeBeloteGame(
         null,
         startingDate!,
         BelotePlayers(us: us.id, them: them.id, playerList: playerListForOrder),
-        FakeBeloteGameSetting(
-            maxPoint: 1000, isInfinite: false, addContractToScore: true),
+        settings,
       );
       belote.id = await beloteGameRepository.create(belote);
       return belote;

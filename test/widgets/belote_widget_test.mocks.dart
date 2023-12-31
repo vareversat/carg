@@ -204,8 +204,9 @@ class _FakeAbstractPlayerRepository_12 extends _i4.SmartFake
 /// See the documentation for Mockito's code generation for more information.
 class MockAbstractBeloteGameService<
         T extends _i1.Belote<_i2.BelotePlayers, _i3.BeloteGameSetting>,
-        P extends _i6.BeloteScore<_i7.BeloteRound>> extends _i4.Mock
-    implements _i26.AbstractBeloteGameService<T, P> {
+        P extends _i6.BeloteScore<_i7.BeloteRound>,
+        S extends _i3.BeloteGameSetting> extends _i4.Mock
+    implements _i26.AbstractBeloteGameService<T, P, S> {
   MockAbstractBeloteGameService() {
     _i4.throwOnMissingStub(this);
   }
@@ -288,6 +289,7 @@ class MockAbstractBeloteGameService<
     List<String?>? playerListForOrder,
     List<String?>? playerListForTeam,
     DateTime? startingDate,
+    S? settings,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -296,6 +298,7 @@ class MockAbstractBeloteGameService<
             playerListForOrder,
             playerListForTeam,
             startingDate,
+            settings,
           ],
         ),
         returnValue: _i27.ifNotNull(
@@ -307,6 +310,7 @@ class MockAbstractBeloteGameService<
                     playerListForOrder,
                     playerListForTeam,
                     startingDate,
+                    settings,
                   ],
                 ),
               ),
@@ -320,6 +324,7 @@ class MockAbstractBeloteGameService<
                   playerListForOrder,
                   playerListForTeam,
                   startingDate,
+                  settings,
                 ],
               ),
             ),
@@ -331,6 +336,7 @@ class MockAbstractBeloteGameService<
     _i24.Team? them,
     List<String?>? playerListForOrder,
     DateTime? startingDate,
+    S? settings,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -340,6 +346,7 @@ class MockAbstractBeloteGameService<
             them,
             playerListForOrder,
             startingDate,
+            settings,
           ],
         ),
         returnValue: _i27.ifNotNull(
@@ -352,6 +359,7 @@ class MockAbstractBeloteGameService<
                     them,
                     playerListForOrder,
                     startingDate,
+                    settings,
                   ],
                 ),
               ),
@@ -366,6 +374,7 @@ class MockAbstractBeloteGameService<
                   them,
                   playerListForOrder,
                   startingDate,
+                  settings,
                 ],
               ),
             ),

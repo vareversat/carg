@@ -1,5 +1,6 @@
 import 'package:carg/exceptions/service_exception.dart';
 import 'package:carg/models/game/coinche_belote.dart';
+import 'package:carg/models/game/setting/coinche_belote_game_setting.dart';
 import 'package:carg/models/players/belote_players.dart';
 import 'package:carg/models/team.dart';
 import 'package:carg/repositories/game/abstract_coinche_belote_game_repository.dart';
@@ -23,10 +24,15 @@ class CoincheBeloteGameService extends AbstractCoincheBeloteGameService {
             teamService: teamService ?? TeamService());
 
   @override
-  Future<CoincheBelote> generateNewGame(Team us, Team them,
-      List<String?>? playerListForOrder, DateTime? startingDate) async {
+  Future<CoincheBelote> generateNewGame(
+      Team us,
+      Team them,
+      List<String?>? playerListForOrder,
+      DateTime? startingDate,
+      CoincheBeloteGameSetting settings) async {
     try {
       var coincheBelote = CoincheBelote(
+          settings: settings,
           startingDate: startingDate,
           players: BelotePlayers(
               us: us.id, them: them.id, playerList: playerListForOrder));

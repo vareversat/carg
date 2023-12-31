@@ -1,4 +1,5 @@
 import 'package:carg/models/game/french_belote.dart';
+import 'package:carg/models/game/setting/french_belote_game_setting.dart';
 import 'package:carg/models/players/belote_players.dart';
 import 'package:carg/models/team.dart';
 import 'package:carg/repositories/impl/game/french_belote_game_repository.dart';
@@ -35,6 +36,8 @@ void main() {
   final expectedGame =
       FrenchBelote(id: uid, players: players, startingDate: date);
   final expectedGameNoId = FrenchBelote(players: players, startingDate: date);
+  final settings = FrenchBeloteGameSetting(
+      maxPoint: 1000, isInfinite: false, addContractToScore: true);
 
   group('FrenchBeloteGameService', () {
     group('Generate a new game', () {
@@ -46,7 +49,7 @@ void main() {
             frenchBeloteGameRepository: mockFrenchBeloteGameRepository,
             teamService: mockTeamService);
         final game = await frenchBeloteGameService.generateNewGame(
-            teamUs, teamThem, playerIds, date);
+            teamUs, teamThem, playerIds, date, settings);
         expect(game, expectedGame);
       });
     });

@@ -8,8 +8,9 @@ import 'dart:async' as _i20;
 import 'package:carg/models/carg_object.dart' as _i12;
 import 'package:carg/models/game/game.dart' as _i5;
 import 'package:carg/models/game/setting/game_setting.dart' as _i7;
+import 'package:carg/models/game/setting/tarot_game_setting.dart' as _i21;
 import 'package:carg/models/game/tarot.dart' as _i14;
-import 'package:carg/models/player.dart' as _i22;
+import 'package:carg/models/player.dart' as _i23;
 import 'package:carg/models/players/players.dart' as _i6;
 import 'package:carg/models/score/round/round.dart' as _i10;
 import 'package:carg/models/score/score.dart' as _i9;
@@ -28,7 +29,7 @@ import 'package:carg/services/player/abstract_player_service.dart' as _i4;
 import 'package:carg/services/score/abstract_score_service.dart' as _i11;
 import 'package:carg/services/score/abstract_tarot_score_service.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mockito/src/dummies.dart' as _i21;
+import 'package:mockito/src/dummies.dart' as _i22;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -261,6 +262,7 @@ class MockAbstractTarotGameService extends _i1.Mock
     List<String?>? playerListForOrder,
     List<String?>? playerListForTeam,
     DateTime? startingDate,
+    _i21.TarotGameSetting? settings,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -269,6 +271,7 @@ class MockAbstractTarotGameService extends _i1.Mock
             playerListForOrder,
             playerListForTeam,
             startingDate,
+            settings,
           ],
         ),
         returnValue: _i20.Future<_i14.Tarot>.value(_FakeTarot_6(
@@ -279,6 +282,7 @@ class MockAbstractTarotGameService extends _i1.Mock
               playerListForOrder,
               playerListForTeam,
               startingDate,
+              settings,
             ],
           ),
         )),
@@ -307,7 +311,7 @@ class MockAbstractTarotGameService extends _i1.Mock
           #create,
           [t],
         ),
-        returnValue: _i20.Future<String>.value(_i21.dummyValue<String>(
+        returnValue: _i20.Future<String>.value(_i22.dummyValue<String>(
           this,
           Invocation.method(
             #create,
@@ -473,7 +477,7 @@ class MockAbstractTarotScoreService extends _i1.Mock
           #create,
           [t],
         ),
-        returnValue: _i20.Future<String>.value(_i21.dummyValue<String>(
+        returnValue: _i20.Future<String>.value(_i22.dummyValue<String>(
           this,
           Invocation.method(
             #create,
@@ -502,13 +506,13 @@ class MockAbstractPlayerService extends _i1.Mock
       ) as _i17.AbstractPlayerRepository);
 
   @override
-  _i13.BaseRepository<_i22.Player> get repository => (super.noSuchMethod(
+  _i13.BaseRepository<_i23.Player> get repository => (super.noSuchMethod(
         Invocation.getter(#repository),
-        returnValue: _FakeBaseRepository_5<_i22.Player>(
+        returnValue: _FakeBaseRepository_5<_i23.Player>(
           this,
           Invocation.getter(#repository),
         ),
-      ) as _i13.BaseRepository<_i22.Player>);
+      ) as _i13.BaseRepository<_i23.Player>);
 
   @override
   _i20.Future<void> incrementPlayedGamesByOne(
@@ -545,19 +549,19 @@ class MockAbstractPlayerService extends _i1.Mock
       ) as _i20.Future<void>);
 
   @override
-  _i20.Future<_i22.Player?> getPlayerOfUser(String? userId) =>
+  _i20.Future<_i23.Player?> getPlayerOfUser(String? userId) =>
       (super.noSuchMethod(
         Invocation.method(
           #getPlayerOfUser,
           [userId],
         ),
-        returnValue: _i20.Future<_i22.Player?>.value(),
-      ) as _i20.Future<_i22.Player?>);
+        returnValue: _i20.Future<_i23.Player?>.value(),
+      ) as _i20.Future<_i23.Player?>);
 
   @override
-  _i20.Future<List<_i22.Player>> searchPlayers({
+  _i20.Future<List<_i23.Player>> searchPlayers({
     String? query = r'',
-    _i22.Player? currentPlayer,
+    _i23.Player? currentPlayer,
     bool? myPlayers,
   }) =>
       (super.noSuchMethod(
@@ -570,8 +574,8 @@ class MockAbstractPlayerService extends _i1.Mock
             #myPlayers: myPlayers,
           },
         ),
-        returnValue: _i20.Future<List<_i22.Player>>.value(<_i22.Player>[]),
-      ) as _i20.Future<List<_i22.Player>>);
+        returnValue: _i20.Future<List<_i23.Player>>.value(<_i23.Player>[]),
+      ) as _i20.Future<List<_i23.Player>>);
 
   @override
   void resetLastPointedDocument() => super.noSuchMethod(
@@ -583,13 +587,13 @@ class MockAbstractPlayerService extends _i1.Mock
       );
 
   @override
-  _i20.Future<_i22.Player?> get(String? id) => (super.noSuchMethod(
+  _i20.Future<_i23.Player?> get(String? id) => (super.noSuchMethod(
         Invocation.method(
           #get,
           [id],
         ),
-        returnValue: _i20.Future<_i22.Player?>.value(),
-      ) as _i20.Future<_i22.Player?>);
+        returnValue: _i20.Future<_i23.Player?>.value(),
+      ) as _i20.Future<_i23.Player?>);
 
   @override
   _i20.Future<void> delete(String? id) => (super.noSuchMethod(
@@ -602,7 +606,7 @@ class MockAbstractPlayerService extends _i1.Mock
       ) as _i20.Future<void>);
 
   @override
-  _i20.Future<void> update(_i22.Player? t) => (super.noSuchMethod(
+  _i20.Future<void> update(_i23.Player? t) => (super.noSuchMethod(
         Invocation.method(
           #update,
           [t],
@@ -612,12 +616,12 @@ class MockAbstractPlayerService extends _i1.Mock
       ) as _i20.Future<void>);
 
   @override
-  _i20.Future<String> create(_i22.Player? t) => (super.noSuchMethod(
+  _i20.Future<String> create(_i23.Player? t) => (super.noSuchMethod(
         Invocation.method(
           #create,
           [t],
         ),
-        returnValue: _i20.Future<String>.value(_i21.dummyValue<String>(
+        returnValue: _i20.Future<String>.value(_i22.dummyValue<String>(
           this,
           Invocation.method(
             #create,

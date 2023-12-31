@@ -1,4 +1,5 @@
 import 'package:carg/exceptions/service_exception.dart';
+import 'package:carg/models/game/setting/tarot_game_setting.dart';
 import 'package:carg/models/game/tarot.dart';
 import 'package:carg/models/players/tarot_players.dart';
 import 'package:carg/models/score/misc/tarot_player_score.dart';
@@ -63,11 +64,15 @@ class TarotGameService extends AbstractTarotGameService {
   }
 
   @override
-  Future<Tarot> createGameWithPlayerList(List<String?> playerListForOrder,
-      List<String?> playerListForTeam, DateTime? startingDate) async {
+  Future<Tarot> createGameWithPlayerList(
+      List<String?> playerListForOrder,
+      List<String?> playerListForTeam,
+      DateTime? startingDate,
+      TarotGameSetting settings) async {
     try {
       var tarotGame = Tarot(
           isEnded: false,
+          settings: settings,
           startingDate: startingDate ?? DateTime.now(),
           players: TarotPlayers(playerList: playerListForTeam));
       tarotGame.id = await tarotGameRepository.create(tarotGame);

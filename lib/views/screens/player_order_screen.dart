@@ -46,9 +46,11 @@ class _PlayerOrderScreenState extends State<PlayerOrderScreen> {
     Dialogs.showLoadingDialog(
         context, _keyLoader, AppLocalizations.of(context)!.gameIsStarting);
     var gameTmp = (await widget.gameService.createGameWithPlayerList(
-        playerListForOrder.map((e) => e.id).toList(),
-        playerListForTeam.map((e) => e.id).toList(),
-        DateTime.now()));
+      playerListForOrder.map((e) => e.id).toList(),
+      playerListForTeam.map((e) => e.id).toList(),
+      DateTime.now(),
+      widget.game.settings,
+    ));
     setState(() {
       _newGame = gameTmp;
     });
@@ -143,7 +145,8 @@ class _PlayerOrderScreenState extends State<PlayerOrderScreen> {
                                       CorrectInstance.ofScoreService(_newGame!),
                                   roundService:
                                       CorrectInstance.ofRoundService(_newGame!),
-                                  beloteGame: _newGame as Belote<BelotePlayers, BeloteGameSetting>)
+                                  beloteGame: _newGame as Belote<BelotePlayers,
+                                      BeloteGameSetting>)
                               : PlayTarotGameScreen(
                                   tarotGame: _newGame as Tarot,
                                 ),

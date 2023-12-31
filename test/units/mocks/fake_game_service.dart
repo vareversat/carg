@@ -16,7 +16,8 @@ class FakeGameService extends AbstractGameService {
   Future<Game<Players, GameSetting>> createGameWithPlayerList(
       List<String?> playerListForOrder,
       List<String?> playerListForTeam,
-      DateTime? startingDate) {
+      DateTime? startingDate,
+      GameSetting settings) {
     throw UnimplementedError();
   }
 

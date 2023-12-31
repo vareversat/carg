@@ -1,5 +1,6 @@
 import 'package:carg/exceptions/service_exception.dart';
 import 'package:carg/models/game/belote_game.dart';
+import 'package:carg/models/game/setting/belote_game_setting.dart';
 import 'package:carg/models/score/belote_score.dart';
 import 'package:carg/models/team.dart';
 import 'package:carg/repositories/game/abstract_belote_game_repository.dart';
@@ -7,8 +8,10 @@ import 'package:carg/services/game/abstract_game_service.dart';
 import 'package:carg/services/score/abstract_belote_score_service.dart';
 import 'package:carg/services/team/abstract_team_service.dart';
 
-abstract class AbstractBeloteGameService<T extends Belote,
-    P extends BeloteScore> extends AbstractGameService<T, P> {
+abstract class AbstractBeloteGameService<
+    T extends Belote,
+    P extends BeloteScore,
+    S extends BeloteGameSetting> extends AbstractGameService<T, P, S> {
   final AbstractBeloteGameRepository<T> beloteGameRepository;
   final AbstractBeloteScoreService<P> beloteScoreService;
   final AbstractTeamService teamService;
@@ -58,15 +61,18 @@ abstract class AbstractBeloteGameService<T extends Belote,
   }
 
   @override
-  Future<T> createGameWithPlayerList(List<String?> playerListForOrder,
-      List<String?> playerListForTeam, DateTime? startingDate) async {
+  Future<T> createGameWithPlayerList(
+      List<String?> playerListForOrder,
+      List<String?> playerListForTeam,
+      DateTime? startingDate,
+      S settings) async {
     try {
       var usTeam = await teamService.getTeamByPlayers(
           playerListForTeam.sublist(0, 2).map((e) => e).toList());
       var themTeam = await teamService.getTeamByPlayers(
           playerListForTeam.sublist(2, 4).map((e) => e).toList());
       var game = await generateNewGame(
-          usTeam, themTeam, playerListForOrder, startingDate);
+          usTeam, themTeam, playerListForOrder, startingDate, settings);
       if (game.id != null) {
         await beloteScoreService.generateNewScore(game.id!);
         return game;
@@ -80,5 +86,5 @@ abstract class AbstractBeloteGameService<T extends Belote,
 
   /// Create a new Belote object with the correct type
   Future<T> generateNewGame(Team us, Team them,
-      List<String?>? playerListForOrder, DateTime? startingDate);
+      List<String?>? playerListForOrder, DateTime? startingDate, S settings);
 }

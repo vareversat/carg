@@ -1,4 +1,5 @@
 import 'package:carg/models/game/contree_belote.dart';
+import 'package:carg/models/game/setting/contree_belote_game_setting.dart';
 import 'package:carg/models/players/belote_players.dart';
 import 'package:carg/models/team.dart';
 import 'package:carg/repositories/impl/game/contree_belote_game_repository.dart';
@@ -35,6 +36,8 @@ void main() {
   final expectedGame =
       ContreeBelote(id: uid, players: players, startingDate: date);
   final expectedGameNoId = ContreeBelote(players: players, startingDate: date);
+  final settings = ContreeBeloteGameSetting(
+      maxPoint: 1000, isInfinite: false, addContractToScore: true);
 
   group('ContreeBeloteGameService', () {
     group('Generate a new game', () {
@@ -46,7 +49,7 @@ void main() {
             contreeBeloteGameRepository: mockContreeBeloteGameRepository,
             teamService: mockTeamService);
         final game = await contreeBeloteGameService.generateNewGame(
-            teamUs, teamThem, playerIds, date);
+            teamUs, teamThem, playerIds, date, settings);
         expect(game, expectedGame);
       });
     });

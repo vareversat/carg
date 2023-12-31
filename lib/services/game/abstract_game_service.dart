@@ -1,13 +1,14 @@
 import 'package:carg/exceptions/service_exception.dart';
 import 'package:carg/models/game/game.dart';
+import 'package:carg/models/game/setting/game_setting.dart';
 import 'package:carg/models/score/score.dart';
 import 'package:carg/repositories/game/abstract_game_repository.dart';
 import 'package:carg/services/base_abstract_service.dart';
 import 'package:carg/services/score/abstract_score_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-abstract class AbstractGameService<T extends Game, Q extends Score>
-    extends BaseAbstractService<T> {
+abstract class AbstractGameService<T extends Game, Q extends Score,
+    S extends GameSetting> extends BaseAbstractService<T> {
   final AbstractGameRepository<T> gameRepository;
   final AbstractScoreService<Q> scoreService;
 
@@ -64,7 +65,7 @@ abstract class AbstractGameService<T extends Game, Q extends Score>
   /// [playerListForTeam] is used to create the teams od the game
   /// Return the new game
   Future<T> createGameWithPlayerList(List<String?> playerListForOrder,
-      List<String?> playerListForTeam, DateTime? startingDate);
+      List<String?> playerListForTeam, DateTime? startingDate, S settings);
 
   /// End a [game]
   Future<void> endAGame(T game, DateTime? endingDate);
