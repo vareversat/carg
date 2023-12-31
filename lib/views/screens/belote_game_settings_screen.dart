@@ -1,5 +1,6 @@
 import 'package:carg/helpers/custom_route.dart';
 import 'package:carg/models/game/belote_game.dart';
+import 'package:carg/models/game/french_belote.dart';
 import 'package:carg/models/game/game.dart';
 import 'package:carg/models/game/game_type.dart';
 import 'package:carg/models/game/setting/belote_game_setting.dart';
@@ -155,7 +156,7 @@ class BeloteGameSettingsScreen extends StatelessWidget {
                     }),
                   ),
                 ),
-                game is Belote
+                (game is Belote && game is! FrenchBelote)
                     ? Column(
                         children: [
                           const Padding(

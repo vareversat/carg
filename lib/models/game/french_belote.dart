@@ -24,7 +24,8 @@ class FrenchBelote extends Belote {
               FrenchBeloteGameSetting(
                 maxPoint: Const.defaultMaxPoints,
                 isInfinite: false,
-                addContractToScore: false,
+                addContractToScore:
+                    true, // Must be true whereas the score computation is broken
               ),
         );
 
