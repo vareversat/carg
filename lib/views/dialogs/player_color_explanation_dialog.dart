@@ -9,8 +9,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class PlayerColorExplanationDialog extends StatelessWidget {
   final bool isAdmin;
 
-  const PlayerColorExplanationDialog({Key? key, required this.isAdmin})
-      : super(key: key);
+  const PlayerColorExplanationDialog({super.key, required this.isAdmin});
 
   @override
   Widget build(BuildContext context) {

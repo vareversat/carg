@@ -9,15 +9,10 @@ import 'base_repository_test.mocks.dart';
 
 class FakeBaseRepository extends BaseRepository {
   FakeBaseRepository(
-      {required String database,
-      required String environment,
-      required FirebaseFirestore provider,
-      DocumentSnapshot? lastFetchGameDocument})
-      : super(
-            database: database,
-            environment: environment,
-            provider: provider,
-            lastFetchGameDocument: lastFetchGameDocument);
+      {required super.database,
+      required super.environment,
+      required super.provider,
+      super.lastFetchGameDocument});
 
   @override
   Future<CargObject?> get(String id) {
@@ -26,7 +21,7 @@ class FakeBaseRepository extends BaseRepository {
 }
 
 class FakeCargObject extends CargObject {
-  FakeCargObject({String? id}) : super(id: id);
+  FakeCargObject({super.id});
 
   @override
   Map<String, dynamic> toJSON() {

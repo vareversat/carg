@@ -26,7 +26,7 @@ class PlayTarotGameScreen extends StatefulWidget {
   final tarotRoundService = TarotRoundService();
   final tarotScoreService = TarotScoreService();
 
-  PlayTarotGameScreen({Key? key, required this.tarotGame}) : super(key: key);
+  PlayTarotGameScreen({super.key, required this.tarotGame});
 
   @override
   State<StatefulWidget> createState() {
@@ -65,7 +65,7 @@ class _PlayTarotGameScreenState extends State<PlayTarotGameScreen> {
               },
           message: AppLocalizations.of(context)!.messageDeleteGame,
           title: AppLocalizations.of(context)!.warning,
-          color: Theme.of(context).errorColor),
+          color: Theme.of(context).colorScheme.error),
     );
   }
 
@@ -81,7 +81,7 @@ class _PlayTarotGameScreenState extends State<PlayTarotGameScreen> {
         },
         message: AppLocalizations.of(context)!.messageStopGame,
         title: AppLocalizations.of(context)!.warning,
-        color: Theme.of(context).errorColor,
+        color: Theme.of(context).colorScheme.error,
       ),
     );
   }
@@ -110,7 +110,7 @@ class _PlayTarotGameScreenState extends State<PlayTarotGameScreen> {
           showCancelButton: false,
           message: AppLocalizations.of(context)!.messageNoRound,
           title: AppLocalizations.of(context)!.error,
-          color: Theme.of(context).errorColor,
+          color: Theme.of(context).colorScheme.error,
         ),
       );
     }

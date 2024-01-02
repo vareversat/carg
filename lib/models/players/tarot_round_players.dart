@@ -8,8 +8,7 @@ class TarotRoundPlayers extends Players {
   String? calledPlayer;
 
   TarotRoundPlayers(
-      {this.attackPlayer, this.calledPlayer, List<dynamic>? playerList})
-      : super(playerList: playerList);
+      {this.attackPlayer, this.calledPlayer, List<dynamic>? super.playerList});
 
   bool isPlayerSelected(String? playerId) {
     return attackPlayer == playerId || calledPlayer == playerId;

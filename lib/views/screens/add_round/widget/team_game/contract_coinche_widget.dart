@@ -12,7 +12,7 @@ import 'package:provider/provider.dart';
 class ContractCoincheWidget extends StatelessWidget {
   final CoincheBeloteRound? coincheRound;
 
-  const ContractCoincheWidget({Key? key, this.coincheRound}) : super(key: key);
+  const ContractCoincheWidget({super.key, this.coincheRound});
 
   @override
   Widget build(BuildContext context) {
@@ -137,14 +137,15 @@ class _ContractTypeWidget extends StatelessWidget {
                         checkmarkColor: Theme.of(context).cardColor,
                         selected: roundData.contractType == contractType,
                         selectedColor: Theme.of(context).primaryColor,
+                        labelStyle: TextStyle(
+                          color: roundData.contractType == contractType
+                              ? Theme.of(context).colorScheme.onPrimary
+                              : Theme.of(context).colorScheme.onBackground,
+                        ),
                         onPressed: () =>
                             {roundData.contractType = contractType},
                         label: Text(
                           contractType.name(context),
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Theme.of(context).cardColor,
-                          ),
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
@@ -187,12 +188,15 @@ class _ContractNameWidget extends StatelessWidget {
                         checkmarkColor: Theme.of(context).cardColor,
                         selected: roundData.contractName == contractName,
                         selectedColor: Theme.of(context).primaryColor,
+                        labelStyle: TextStyle(
+                          color: roundData.contractName == contractName
+                              ? Theme.of(context).colorScheme.onPrimary
+                              : Theme.of(context).colorScheme.onBackground,
+                        ),
                         onPressed: () =>
                             {roundData.contractName = contractName},
                         label: Text(
                           contractName.name,
-                          style: TextStyle(
-                              fontSize: 20, color: Theme.of(context).cardColor),
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),

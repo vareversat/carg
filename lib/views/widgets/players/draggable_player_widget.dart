@@ -6,8 +6,7 @@ class DraggablePlayerWidget extends StatelessWidget {
   final int index;
 
   const DraggablePlayerWidget(
-      {Key? key, required this.player, required this.index})
-      : super(key: key);
+      {super.key, required this.player, required this.index});
 
   @override
   Widget build(BuildContext context) {

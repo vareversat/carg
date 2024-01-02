@@ -32,15 +32,18 @@ class AddTarotRoundScreen extends StatelessWidget {
   }
 
   AddTarotRoundScreen(
-      {Key? key, this.tarotGame, this.tarotRound, this.isEditing})
-      : super(key: key);
+      {super.key, this.tarotGame, this.tarotRound, this.isEditing});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+          backgroundColor: Theme.of(context).primaryColor,
+          foregroundColor: Theme.of(context).colorScheme.onPrimary,
           leading: IconButton(
-            icon: const Icon(Icons.cancel),
+            icon: const Icon(
+              Icons.cancel,
+            ),
             onPressed: () => Navigator.pop(context),
           ),
           title: const ScreenTitleWidget()),
@@ -74,7 +77,6 @@ class AddTarotRoundScreen extends StatelessWidget {
                                     showLoading: false,
                                     selectedColor: playerData.getSelectedColor(
                                         player, context),
-                                    size: 20,
                                     playerService: PlayerService(),
                                     onTap: () =>
                                         playerData.onSelectedPlayer2(player),

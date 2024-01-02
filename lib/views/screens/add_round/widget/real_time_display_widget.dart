@@ -5,8 +5,7 @@ import 'package:provider/provider.dart';
 class RealTimeDisplayWidget extends StatelessWidget {
   final Round round;
 
-  const RealTimeDisplayWidget({Key? key, required this.round})
-      : super(key: key);
+  const RealTimeDisplayWidget({super.key, required this.round});
 
   @override
   Widget build(BuildContext context) {

@@ -30,14 +30,13 @@ class BeloteWidget extends StatelessWidget {
   late final AbstractPlayerService playerService;
 
   BeloteWidget(
-      {Key? key,
+      {super.key,
       required this.beloteGame,
       gameService,
       scoreService,
       teamService,
       roundService,
-      playerService})
-      : super(key: key) {
+      playerService}) {
     this.gameService = gameService ?? CorrectInstance.ofGameService(beloteGame);
     this.scoreService =
         scoreService ?? CorrectInstance.ofScoreService(beloteGame);
@@ -227,7 +226,7 @@ class _ButtonRowWidget extends StatelessWidget {
           key: const ValueKey('deleteButton'),
           style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all<Color>(
-                  Theme.of(context).errorColor),
+                  Theme.of(context).colorScheme.error),
               foregroundColor:
                   MaterialStateProperty.all<Color>(Theme.of(context).cardColor),
               shape: MaterialStateProperty.all<OutlinedBorder>(

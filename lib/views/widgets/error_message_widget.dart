@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class ErrorMessageWidget extends StatelessWidget {
   final String? message;
 
-  const ErrorMessageWidget({Key? key, this.message}) : super(key: key);
+  const ErrorMessageWidget({super.key, this.message});
 
   @override
   Widget build(BuildContext context) {
@@ -11,9 +11,9 @@ class ErrorMessageWidget extends StatelessWidget {
         child: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Row(
+        const Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[
+          children: <Widget>[
             Icon(Icons.smartphone),
             Text('-----'),
             Icon(Icons.close),

@@ -4,23 +4,19 @@ import 'package:carg/models/players/tarot_players.dart';
 
 class Tarot extends Game<TarotPlayers> {
   Tarot(
-      {String? id,
+      {super.id,
       DateTime? startingDate,
-      DateTime? endingDate,
-      String? winner,
+      super.endingDate,
+      super.winner,
       bool? isEnded,
       TarotPlayers? players,
-      String? notes,
+      super.notes,
       GameType? gameType})
       : super(
-            id: id,
             gameType: gameType ?? GameType.TAROT,
             players: players ?? TarotPlayers(),
-            endingDate: endingDate,
             startingDate: startingDate ?? DateTime.now(),
-            isEnded: isEnded ?? false,
-            winner: winner,
-            notes: notes);
+            isEnded: isEnded ?? false);
 
   @override
   Map<String, dynamic> toJSON() {
@@ -41,13 +37,4 @@ class Tarot extends Game<TarotPlayers> {
         players: TarotPlayers.fromJSON(json?['players']),
         notes: json?['notes']);
   }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        super == other && other is Tarot && runtimeType == other.runtimeType;
-  }
-
-  @override
-  int get hashCode => super.hashCode;
 }

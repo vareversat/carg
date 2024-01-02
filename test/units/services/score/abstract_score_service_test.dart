@@ -1,6 +1,4 @@
 import 'package:carg/exceptions/service_exception.dart';
-import 'package:carg/models/score/round/round.dart';
-import 'package:carg/models/score/score.dart';
 import 'package:carg/repositories/score/abstract_score_repository.dart';
 import 'package:carg/services/score/abstract_score_service.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -12,8 +10,7 @@ import 'abstract_score_service_test.mocks.dart';
 
 class FakeScoreService extends AbstractScoreService {
   FakeScoreService(
-      {required AbstractScoreRepository<Score<Round>> scoreRepository})
-      : super(scoreRepository: scoreRepository);
+      {required super.scoreRepository});
 }
 
 @GenerateMocks([

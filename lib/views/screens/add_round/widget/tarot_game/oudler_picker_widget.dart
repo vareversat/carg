@@ -8,8 +8,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class OudlerPickerWidget extends StatelessWidget {
   final TarotRound tarotRound;
 
-  const OudlerPickerWidget({Key? key, required this.tarotRound})
-      : super(key: key);
+  const OudlerPickerWidget({super.key, required this.tarotRound});
 
   @override
   Widget build(BuildContext context) {

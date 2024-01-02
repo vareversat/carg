@@ -13,15 +13,14 @@ abstract class Game<T extends Players> extends CargObject {
   late GameType gameType;
 
   Game(
-      {String? id,
+      {super.id,
       gameType,
       this.players,
       this.endingDate,
       this.winner,
       startingDate,
       isEnded,
-      this.notes})
-      : super(id: id) {
+      this.notes}) {
     this.gameType = gameType ?? GameType.UNDEFINE;
     this.startingDate = startingDate ?? DateTime.now();
     this.isEnded = isEnded ?? false;

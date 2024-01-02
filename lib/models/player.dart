@@ -69,7 +69,7 @@ class Player extends CargPlayerObject with ChangeNotifier {
   }
 
   Player(
-      {String? id,
+      {super.id,
       List<GameStats>? gameStatsList,
       this.firstName,
       this.lastName,
@@ -82,7 +82,7 @@ class Player extends CargPlayerObject with ChangeNotifier {
       testing,
       admin,
       required this.owned})
-      : super(id: id, gameStatsList: gameStatsList) {
+      : super(gameStatsList: gameStatsList) {
     this.testing = testing ?? false;
     this.admin = admin ?? false;
     this.gameStatsList = gameStatsList ?? [];

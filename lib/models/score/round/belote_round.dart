@@ -23,7 +23,7 @@ abstract class BeloteRound extends Round {
   late int _themTrickScore;
 
   BeloteRound(
-      {index,
+      {super.index,
       cardColor,
       contractFulfilled,
       dixDeDer,
@@ -33,8 +33,7 @@ abstract class BeloteRound extends Round {
       defenderScore,
       usTrickScore,
       themTrickScore,
-      defender})
-      : super(index: index) {
+      defender}) {
     _taker = taker ?? BeloteTeamEnum.US;
     _defender = defender ?? BeloteTeamEnum.THEM;
     _cardColor = cardColor ?? CardColor.HEART;

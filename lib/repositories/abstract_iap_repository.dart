@@ -1,13 +1,11 @@
 import 'package:carg/models/iap/purchase/purchase.dart';
 import 'package:carg/repositories/base_repository.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 abstract class AbstractIAPRepository extends BaseRepository<Purchase> {
   AbstractIAPRepository(
-      {required String database,
-      required String environment,
-      required FirebaseFirestore provider})
-      : super(database: database, environment: environment, provider: provider);
+      {required super.database,
+      required super.environment,
+      required super.provider});
 
   /// Get a purchase by user ID
   /// If no team exists, return null

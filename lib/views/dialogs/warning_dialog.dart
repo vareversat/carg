@@ -11,14 +11,13 @@ class WarningDialog extends StatefulWidget {
   final String? onConfirmButtonMessage;
 
   const WarningDialog(
-      {Key? key,
+      {super.key,
       required this.message,
       required this.title,
       required this.onConfirm,
       this.color,
       this.showCancelButton = true,
-      this.onConfirmButtonMessage})
-      : super(key: key);
+      this.onConfirmButtonMessage});
 
   @override
   State<StatefulWidget> createState() {
@@ -56,7 +55,7 @@ class _WarningDialogState extends State<WarningDialog> {
       actionsPadding: const EdgeInsets.fromLTRB(0, 0, 20, 10),
       title: Container(
         decoration: BoxDecoration(
-            color: widget.color ?? Theme.of(context).errorColor,
+            color: widget.color ?? Theme.of(context).colorScheme.error,
             borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(15.0),
                 topRight: Radius.circular(15.0))),
@@ -79,7 +78,7 @@ class _WarningDialogState extends State<WarningDialog> {
           ElevatedButton.icon(
               style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all<Color>(
-                      widget.color ?? Theme.of(context).errorColor),
+                      widget.color ?? Theme.of(context).colorScheme.error),
                   foregroundColor: MaterialStateProperty.all<Color>(
                       Theme.of(context).cardColor),
                   shape: MaterialStateProperty.all<OutlinedBorder>(
@@ -98,7 +97,7 @@ class _WarningDialogState extends State<WarningDialog> {
                 backgroundColor: MaterialStateProperty.all<Color>(
                     Theme.of(context).cardColor),
                 foregroundColor: MaterialStateProperty.all<Color>(
-                    widget.color ?? Theme.of(context).errorColor),
+                    widget.color ?? Theme.of(context).colorScheme.error),
                 shape: MaterialStateProperty.all<OutlinedBorder>(
                     RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(

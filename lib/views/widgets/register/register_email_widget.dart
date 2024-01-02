@@ -18,10 +18,9 @@ class RegisterEmailWidget extends StatefulWidget {
   final FirebaseDynamicLinks linkProvider;
 
   const RegisterEmailWidget(
-      {Key? key,
+      {super.key,
       required this.credentialVerificationType,
-      required this.linkProvider})
-      : super(key: key);
+      required this.linkProvider});
 
   @override
   State<StatefulWidget> createState() {

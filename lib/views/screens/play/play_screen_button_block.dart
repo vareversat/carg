@@ -10,13 +10,12 @@ class PlayScreenButtonBlock extends StatelessWidget {
   final Function addNotes;
 
   const PlayScreenButtonBlock(
-      {Key? key,
+      {super.key,
       required this.deleteLastRound,
       required this.editLastRound,
       required this.endGame,
       required this.addNewRound,
-      required this.addNotes})
-      : super(key: key);
+      required this.addNotes});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +27,7 @@ class PlayScreenButtonBlock extends StatelessWidget {
         RawMaterialButton(
           onPressed: () async => {deleteLastRound()},
           elevation: 2.0,
-          fillColor: Theme.of(context).errorColor,
+          fillColor: Theme.of(context).colorScheme.error,
           textStyle: TextStyle(color: Theme.of(context).cardColor),
           padding: const EdgeInsets.all(15.0),
           shape: const CircleBorder(),
@@ -64,7 +63,7 @@ class PlayScreenButtonBlock extends StatelessWidget {
         RawMaterialButton(
           onPressed: () async => {endGame()},
           elevation: 2.0,
-          fillColor: Theme.of(context).errorColor,
+          fillColor: Theme.of(context).colorScheme.error,
           textStyle: TextStyle(color: Theme.of(context).cardColor),
           padding: const EdgeInsets.all(15.0),
           shape: const CircleBorder(),

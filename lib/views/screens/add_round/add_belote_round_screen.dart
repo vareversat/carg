@@ -22,12 +22,11 @@ class AddBeloteRoundScreen extends StatelessWidget {
   final AbstractRoundService roundService;
 
   const AddBeloteRoundScreen(
-      {Key? key,
+      {super.key,
       this.beloteGame,
       required this.beloteRound,
       this.isEditing = false,
-      required this.roundService})
-      : super(key: key);
+      required this.roundService});
 
   void _setupRound() async {
     if (isEditing) {
@@ -42,8 +41,12 @@ class AddBeloteRoundScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+          backgroundColor: Theme.of(context).primaryColor,
+          foregroundColor: Theme.of(context).colorScheme.onPrimary,
           leading: IconButton(
-            icon: const Icon(Icons.cancel),
+            icon: const Icon(
+              Icons.cancel,
+            ),
             onPressed: () => Navigator.pop(context),
           ),
           title: const ScreenTitleWidget()),

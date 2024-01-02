@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class GameModePickerScreen extends StatelessWidget {
-  const GameModePickerScreen({Key? key}) : super(key: key);
+  const GameModePickerScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,24 +20,25 @@ class GameModePickerScreen extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
         child: AppBar(
-          leading: IconButton(
-            icon: const Icon(
-              Icons.close,
-            ),
-            onPressed: () => Navigator.pop(
-              context,
-            ),
-          ),
-          title: Hero(
-            tag: 'game_screen_title',
-            child: Text(
-              AppLocalizations.of(context)!.newGame,
-              style: CustomTextStyle.screenHeadLine1(
+            backgroundColor: Theme.of(context).primaryColor,
+            foregroundColor: Theme.of(context).colorScheme.onPrimary,
+            leading: IconButton(
+              icon: const Icon(
+                Icons.close,
+              ),
+              onPressed: () => Navigator.pop(
                 context,
               ),
             ),
-          ),
-        ),
+            title: Hero(
+              tag: 'game_screen_title',
+              child: Text(
+                AppLocalizations.of(context)!.newGame,
+                style: CustomTextStyle.screenHeadLine1(
+                  context,
+                ),
+              ),
+            )),
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),

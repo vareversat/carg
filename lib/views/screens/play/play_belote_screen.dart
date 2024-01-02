@@ -29,12 +29,11 @@ class PlayBeloteScreen extends StatefulWidget {
   final AbstractRoundService roundService;
 
   const PlayBeloteScreen(
-      {Key? key,
+      {super.key,
       required this.beloteGame,
       required this.gameService,
       required this.scoreService,
-      required this.roundService})
-      : super(key: key);
+      required this.roundService});
 
   @override
   State<StatefulWidget> createState() {
@@ -68,7 +67,7 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
         },
         message: AppLocalizations.of(context)!.messageDeleteLasRound,
         title: AppLocalizations.of(context)!.warning,
-        color: Theme.of(context).errorColor,
+        color: Theme.of(context).colorScheme.error,
       ),
     );
   }
@@ -84,7 +83,7 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
         },
         message: AppLocalizations.of(context)!.messageStopGame,
         title: AppLocalizations.of(context)!.warning,
-        color: Theme.of(context).errorColor,
+        color: Theme.of(context).colorScheme.error,
       ),
     );
   }
@@ -113,7 +112,7 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
           showCancelButton: false,
           message: AppLocalizations.of(context)!.messageNoRound,
           title: AppLocalizations.of(context)!.error,
-          color: Theme.of(context).errorColor,
+          color: Theme.of(context).colorScheme.error,
         ),
       );
     }
@@ -321,10 +320,10 @@ class _RoundDisplay extends StatelessWidget {
         else
           Container(),
         if (round!.beloteRebelote == team)
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 5),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 5),
             child: Row(
-              children: const [
+              children: [
                 FaIcon(FontAwesomeIcons.crown, size: 10),
                 Text('|'),
                 FaIcon(FontAwesomeIcons.chessQueen, size: 10)

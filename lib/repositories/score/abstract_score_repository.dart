@@ -6,15 +6,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 abstract class AbstractScoreRepository<T extends Score>
     extends BaseRepository<T> {
   AbstractScoreRepository(
-      {required String database,
-      required String environment,
-      required FirebaseFirestore provider,
-      DocumentSnapshot? lastFetchGameDocument})
-      : super(
-            database: database,
-            environment: environment,
-            provider: provider,
-            lastFetchGameDocument: lastFetchGameDocument);
+      {required super.database,
+      required super.environment,
+      required super.provider,
+      super.lastFetchGameDocument});
 
   /// Get a score by a [gameId]
   /// Return a score or null if not found

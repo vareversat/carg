@@ -10,12 +10,14 @@ import 'package:url_launcher/url_launcher_string.dart';
 class RulesScreen extends StatelessWidget {
   final GameType gameType;
 
-  const RulesScreen({Key? key, required this.gameType}) : super(key: key);
+  const RulesScreen({super.key, required this.gameType});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: Theme.of(context).primaryColor,
+          foregroundColor: Theme.of(context).colorScheme.onPrimary,
           centerTitle: true,
           title: Text(
             '${gameType.name} - Règles',

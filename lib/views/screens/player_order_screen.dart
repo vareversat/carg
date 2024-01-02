@@ -23,12 +23,11 @@ class PlayerOrderScreen extends StatefulWidget {
   final AbstractGameService gameService;
 
   const PlayerOrderScreen(
-      {Key? key,
+      {super.key,
       required this.playerList,
       required this.game,
       required this.title,
-      required this.gameService})
-      : super(key: key);
+      required this.gameService});
 
   @override
   State<StatefulWidget> createState() {
@@ -72,6 +71,8 @@ class _PlayerOrderScreenState extends State<PlayerOrderScreen> {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
         child: AppBar(
+          backgroundColor: Theme.of(context).primaryColor,
+          foregroundColor: Theme.of(context).colorScheme.onPrimary,
           title: Text(widget.title,
               style: CustomTextStyle.screenHeadLine1(context)),
         ),
