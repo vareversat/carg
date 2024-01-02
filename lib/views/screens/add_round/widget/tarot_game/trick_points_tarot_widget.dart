@@ -7,8 +7,7 @@ import 'package:provider/provider.dart';
 class TrickPointsTarotWidget extends StatelessWidget {
   final TarotRound tarotRound;
 
-  const TrickPointsTarotWidget({Key? key, required this.tarotRound})
-      : super(key: key);
+  const TrickPointsTarotWidget({super.key, required this.tarotRound});
 
   @override
   Widget build(BuildContext context) {

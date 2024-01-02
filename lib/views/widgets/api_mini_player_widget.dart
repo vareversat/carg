@@ -17,7 +17,7 @@ class APIMiniPlayerWidget extends StatelessWidget {
   final AbstractPlayerService playerService;
 
   const APIMiniPlayerWidget(
-      {Key? key,
+      {super.key,
       required this.playerId,
       required this.displayImage,
       required this.playerService,
@@ -26,8 +26,7 @@ class APIMiniPlayerWidget extends StatelessWidget {
       this.isSelected = false,
       this.onTap,
       this.selectedColor,
-      this.additionalText = ''})
-      : super(key: key);
+      this.additionalText = ''});
 
   Future _showEditPlayerDialog(BuildContext context, Player? player) async {
     if (player != null) {
@@ -96,7 +95,7 @@ class APIMiniPlayerWidget extends StatelessWidget {
                 child: InputChip(
                     avatar: Container(
                         decoration: BoxDecoration(
-                      color: Theme.of(context).errorColor,
+                      color: Theme.of(context).colorScheme.error,
                       shape: BoxShape.circle,
                     )),
                     label: Text(

@@ -16,7 +16,7 @@ import 'package:provider/provider.dart';
 class WelcomeScreen extends StatefulWidget {
   static const routeName = '/welcome';
 
-  const WelcomeScreen({Key? key}) : super(key: key);
+  const WelcomeScreen({super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -191,7 +191,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                                 icon: const Icon(Icons.close),
                                 style: ButtonStyle(
                                     backgroundColor: MaterialStateProperty.all<Color>(
-                                        Theme.of(context).errorColor),
+                                        Theme.of(context).colorScheme.error),
                                     foregroundColor:
                                         MaterialStateProperty.all<Color>(
                                             Theme.of(context).cardColor),
@@ -200,7 +200,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                                             side: BorderSide(
                                                 width: 2,
                                                 color: Theme.of(context)
-                                                    .errorColor),
+                                                    .colorScheme.error),
                                             borderRadius: BorderRadius.circular(
                                                 CustomProperties.borderRadius)))),
                                 onPressed: () async {

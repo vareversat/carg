@@ -3,22 +3,15 @@ import 'package:carg/models/score/round/coinche_belote_round.dart';
 
 class CoincheBeloteScore extends BeloteScore<CoincheBeloteRound> {
   CoincheBeloteScore(
-      {String? id,
-      List<CoincheBeloteRound>? rounds,
+      {super.id,
+      List<CoincheBeloteRound>? super.rounds,
       int? usTotalPoints,
       int? themTotalPoints,
-      String? game})
+      super.game})
       : super(
-            id: id,
-            rounds: rounds,
             usTotalPoints: usTotalPoints ?? 0,
-            themTotalPoints: themTotalPoints ?? 0,
-            game: game);
+            themTotalPoints: themTotalPoints ?? 0);
 
-  @override
-  Map<String, dynamic> toJSON() {
-    return super.toJSON();
-  }
 
   factory CoincheBeloteScore.fromJSON(Map<String, dynamic>? json, String id) {
     return CoincheBeloteScore(

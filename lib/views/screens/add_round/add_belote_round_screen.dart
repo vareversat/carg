@@ -22,12 +22,11 @@ class AddBeloteRoundScreen extends StatelessWidget {
   final AbstractRoundService roundService;
 
   const AddBeloteRoundScreen(
-      {Key? key,
+      {super.key,
       this.beloteGame,
       required this.beloteRound,
       this.isEditing = false,
-      required this.roundService})
-      : super(key: key);
+      required this.roundService});
 
   void _setupRound() async {
     if (isEditing) {

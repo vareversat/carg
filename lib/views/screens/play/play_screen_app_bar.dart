@@ -9,7 +9,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class PlayScreenAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Game game;
 
-  const PlayScreenAppBar({Key? key, required this.game}) : super(key: key);
+  const PlayScreenAppBar({super.key, required this.game});
 
   @override
   Widget build(BuildContext context) {

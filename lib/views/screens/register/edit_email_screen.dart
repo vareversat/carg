@@ -8,7 +8,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/svg.dart';
 
 class EditEmailScreen extends StatelessWidget {
-  const EditEmailScreen({Key? key}) : super(key: key);
+  const EditEmailScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

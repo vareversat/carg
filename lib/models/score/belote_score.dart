@@ -9,12 +9,11 @@ abstract class BeloteScore<T extends BeloteRound> extends Score<T> {
   String? game;
 
   BeloteScore(
-      {id,
+      {super.id,
       rounds,
       required this.usTotalPoints,
       required this.themTotalPoints,
-      this.game})
-      : super(id: id) {
+      this.game}) {
     this.rounds = rounds ?? <T>[];
   }
 

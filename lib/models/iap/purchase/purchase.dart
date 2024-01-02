@@ -11,14 +11,14 @@ abstract class Purchase extends CargObject {
   final ProductTypeEnum type;
 
   Purchase({
-    String? id,
+    super.id,
     required this.iapSource,
     required this.orderId,
     required this.productId,
     required this.userId,
     required this.purchaseDate,
     required this.type,
-  }) : super(id: id);
+  });
 
   @override
   Map<String, dynamic> toJSON() {

@@ -14,8 +14,7 @@ class TarotPerkWidget extends StatelessWidget {
   final TarotRound tarotRound;
   final Tarot? tarotGame;
 
-  const TarotPerkWidget({Key? key, required this.tarotRound, this.tarotGame})
-      : super(key: key);
+  const TarotPerkWidget({super.key, required this.tarotRound, this.tarotGame});
 
   @override
   Widget build(BuildContext context) {

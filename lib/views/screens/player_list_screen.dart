@@ -17,8 +17,7 @@ class PlayerListScreen extends StatefulWidget {
   final AbstractTeamService teamService;
 
   const PlayerListScreen(
-      {Key? key, required this.playerService, required this.teamService})
-      : super(key: key);
+      {super.key, required this.playerService, required this.teamService});
 
   @override
   State<StatefulWidget> createState() {

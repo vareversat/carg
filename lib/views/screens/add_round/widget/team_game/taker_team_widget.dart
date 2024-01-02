@@ -8,8 +8,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class TakerTeamWidget extends StatelessWidget {
   final BeloteRound beloteRound;
 
-  const TakerTeamWidget({Key? key, required this.beloteRound})
-      : super(key: key);
+  const TakerTeamWidget({super.key, required this.beloteRound});
 
   @override
   Widget build(BuildContext context) {

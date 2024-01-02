@@ -27,7 +27,7 @@ void main() async {
 }
 
 class Carg extends StatefulWidget {
-  const Carg({Key? key}) : super(key: key);
+  const Carg({super.key});
 
   @override
   State<StatefulWidget> createState() {

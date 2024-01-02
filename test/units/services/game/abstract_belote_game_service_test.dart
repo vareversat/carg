@@ -2,13 +2,11 @@ import 'package:carg/exceptions/service_exception.dart';
 import 'package:carg/models/game/belote_game.dart';
 import 'package:carg/models/players/belote_players.dart';
 import 'package:carg/models/score/belote_score.dart';
-import 'package:carg/models/score/round/belote_round.dart';
 import 'package:carg/models/team.dart';
 import 'package:carg/repositories/game/abstract_belote_game_repository.dart';
 import 'package:carg/services/game/abstract_belote_game_service.dart';
 import 'package:carg/services/impl/team_service.dart';
 import 'package:carg/services/score/abstract_belote_score_service.dart';
-import 'package:carg/services/team/abstract_team_service.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -18,34 +16,18 @@ import 'abstract_belote_game_service_test.mocks.dart';
 class FakeBeloteGame extends Belote {
   FakeBeloteGame(String? id, DateTime startingDate, BelotePlayers players)
       : super(players: players, id: id, startingDate: startingDate);
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      super == other &&
-          other is FakeBeloteGame &&
-          runtimeType == other.runtimeType;
-
-  @override
-  int get hashCode => super.hashCode;
 }
 
 class FakeBeloteScore extends BeloteScore {
-  FakeBeloteScore({required int usTotalPoints, required int themTotalPoints})
-      : super(usTotalPoints: usTotalPoints, themTotalPoints: themTotalPoints);
+  FakeBeloteScore(
+      {required super.usTotalPoints, required super.themTotalPoints});
 }
 
 class FakeBeloteGameService extends AbstractBeloteGameService {
   FakeBeloteGameService(
-      {required AbstractBeloteScoreService<BeloteScore<BeloteRound>>
-          beloteScoreService,
-      required AbstractBeloteGameRepository<Belote<BelotePlayers>>
-          beloteGameRepository,
-      required AbstractTeamService teamService})
-      : super(
-            beloteScoreService: beloteScoreService,
-            beloteGameRepository: beloteGameRepository,
-            teamService: teamService);
+      {required super.beloteScoreService,
+      required super.beloteGameRepository,
+      required super.teamService});
 
   @override
   Future<Belote<BelotePlayers>> generateNewGame(Team us, Team them,

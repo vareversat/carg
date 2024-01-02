@@ -8,7 +8,7 @@ class NextPlayerWidget extends StatelessWidget {
   final String? playerId;
   final PlayerService playerService = PlayerService();
 
-  NextPlayerWidget({Key? key, required this.playerId}) : super(key: key);
+  NextPlayerWidget({super.key, required this.playerId});
 
   @override
   Widget build(BuildContext context) {

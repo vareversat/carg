@@ -5,7 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
 class ChangeLogScreen extends StatelessWidget {
-  const ChangeLogScreen({Key? key}) : super(key: key);
+  const ChangeLogScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

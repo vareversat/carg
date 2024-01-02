@@ -32,7 +32,7 @@ class TarotRound extends Round {
   TarotRoundPlayers? players;
 
   TarotRound({
-    int? index,
+    super.index,
     double? attackScore,
     double? defenseScore,
     double? attackTrickPoints,
@@ -46,7 +46,7 @@ class TarotRound extends Round {
     TarotTeam? smallToTheEnd,
     List<TarotPlayerScore>? playerPoints,
     this.players,
-  }) : super(index: index) {
+  }) {
     this.attackScore = attackScore ?? 0;
     this.defenseScore = defenseScore ?? 0;
     this.playerPoints = playerPoints ?? <TarotPlayerScore>[];

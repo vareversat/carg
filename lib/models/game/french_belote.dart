@@ -4,28 +4,20 @@ import 'package:carg/models/players/belote_players.dart';
 
 class FrenchBelote extends Belote {
   FrenchBelote(
-      {String? id,
+      {super.id,
       GameType? gameType,
       DateTime? startingDate,
-      DateTime? endingDate,
-      String? winner,
+      super.endingDate,
+      super.winner,
       bool? isEnded,
       BelotePlayers? players,
-      String? notes})
+      super.notes})
       : super(
-            id: id,
             gameType: gameType ?? GameType.BELOTE,
             players: players ?? BelotePlayers(),
-            endingDate: endingDate,
             startingDate: startingDate ?? DateTime.now(),
-            isEnded: isEnded ?? false,
-            winner: winner,
-            notes: notes);
+            isEnded: isEnded ?? false);
 
-  @override
-  Map<String, dynamic> toJSON() {
-    return super.toJSON();
-  }
 
   factory FrenchBelote.fromJSON(Map<String, dynamic>? json, String id) {
     return FrenchBelote(

@@ -12,7 +12,7 @@ import 'package:provider/provider.dart';
 class ContractCoincheWidget extends StatelessWidget {
   final CoincheBeloteRound? coincheRound;
 
-  const ContractCoincheWidget({Key? key, this.coincheRound}) : super(key: key);
+  const ContractCoincheWidget({super.key, this.coincheRound});
 
   @override
   Widget build(BuildContext context) {

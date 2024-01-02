@@ -18,7 +18,7 @@ class CargAboutDialog extends StatelessWidget {
         child: SvgPicture.asset(Const.svgLogoPath),
       ));
 
-  CargAboutDialog({Key? key}) : super(key: key);
+  CargAboutDialog({super.key});
 
   void _launchURL(String url, BuildContext context) async {
     if (await canLaunchUrlString(url)) {
@@ -60,20 +60,20 @@ class CargAboutDialog extends StatelessWidget {
                             Text(snapshot.data!.appName,
                                 style: Theme.of(context)
                                     .textTheme
-                                    .headline5!
+                                    .headlineSmall!
                                     .copyWith(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 30)),
                             Text(
                                 ' | v${snapshot.data!.version} (${snapshot.data!.buildNumber})',
-                                style: Theme.of(context).textTheme.bodyText2),
+                                style: Theme.of(context).textTheme.bodyMedium),
                           ],
                         ),
                         const SizedBox(height: 10),
                         Text(_legalLease,
                             style: Theme.of(context)
                                 .textTheme
-                                .caption!
+                                .bodySmall!
                                 .copyWith(fontSize: 15)),
                       ],
                     ),

@@ -18,8 +18,7 @@ class SettingsScreen extends StatefulWidget {
   final PlayerService playerService;
 
   const SettingsScreen(
-      {Key? key, required this.player, required this.playerService})
-      : super(key: key);
+      {super.key, required this.player, required this.playerService});
 
   @override
   State<StatefulWidget> createState() {
@@ -172,7 +171,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                           !playerData.useGravatarProfilePicture
                                               ? Theme.of(context)
                                                   .textTheme
-                                                  .bodyText2!
+                                                  .bodyMedium!
                                                   .color
                                               : Colors.grey),
                                   onChanged: (value) {

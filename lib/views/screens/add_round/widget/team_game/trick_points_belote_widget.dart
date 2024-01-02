@@ -8,8 +8,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class TrickPointsBeloteWidget extends StatefulWidget {
   final BeloteRound round;
 
-  const TrickPointsBeloteWidget({Key? key, required this.round})
-      : super(key: key);
+  const TrickPointsBeloteWidget({super.key, required this.round});
 
   @override
   State<StatefulWidget> createState() {

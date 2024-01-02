@@ -18,7 +18,7 @@ import 'package:syncfusion_flutter_gauges/gauges.dart';
 class UserScreen extends StatefulWidget {
   static const routeName = '/user';
 
-  const UserScreen({Key? key}) : super(key: key);
+  const UserScreen({super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -199,7 +199,7 @@ class _UserScreenState extends State<UserScreen>
                                       '-- ${AppLocalizations.of(context)!.winPercentage} --',
                                       style: Theme.of(context)
                                           .textTheme
-                                          .bodyText2!
+                                          .bodyMedium!
                                           .copyWith(
                                               fontStyle: FontStyle.italic)),
                                 ),
@@ -262,7 +262,7 @@ class _StatGauge extends StatelessWidget {
       child: SfRadialGauge(
         title: GaugeTitle(
           text: gameStats!.gameType.name,
-          textStyle: Theme.of(context).textTheme.bodyText2!.copyWith(
+          textStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
                 fontWeight: FontWeight.bold,
               ),
         ),
@@ -318,13 +318,13 @@ class _StatCircularChart extends StatelessWidget {
   Widget build(BuildContext context) {
     return SfCircularChart(
         tooltipBehavior: TooltipBehavior(
-            enable: true, textStyle: Theme.of(context).textTheme.bodyText1!),
+            enable: true, textStyle: Theme.of(context).textTheme.bodyMedium!),
         title: ChartTitle(
             text: '-- ${AppLocalizations.of(context)!.gameDistribution} --',
             alignment: ChartAlignment.center,
             textStyle: Theme.of(context)
                 .textTheme
-                .bodyText2!
+                .bodyMedium!
                 .copyWith(fontStyle: FontStyle.italic)),
         series: <CircularSeries>[
           DoughnutSeries<GameStats, String?>(
@@ -338,7 +338,7 @@ class _StatCircularChart extends StatelessWidget {
         legend: Legend(
             iconHeight: 20,
             iconWidth: 20,
-            textStyle: Theme.of(context).textTheme.bodyText2!,
+            textStyle: Theme.of(context).textTheme.bodyMedium!,
             position: LegendPosition.left,
             isVisible: true,
             toggleSeriesVisibility: true));

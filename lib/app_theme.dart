@@ -30,8 +30,8 @@ class AppTheme {
   static ThemeData _buildTheme() {
     final ThemeData base = ThemeData(
       textTheme: const TextTheme(
-        bodyText1: TextStyle(fontSize: 18, color: Colors.white),
-        bodyText2: TextStyle(fontSize: 18),
+        bodyLarge: TextStyle(fontSize: 18, color: Colors.white),
+        bodyMedium: TextStyle(fontSize: 18),
       ),
       brightness: Brightness.light,
       primarySwatch: mcgpalette0,

@@ -22,12 +22,11 @@ class TarotWidget extends StatelessWidget {
   late final AbstractPlayerService playerService;
 
   TarotWidget(
-      {Key? key,
+      {super.key,
       required this.tarotGame,
       gameService,
       scoreService,
-      playerService})
-      : super(key: key) {
+      playerService}) {
     this.gameService = gameService ?? CorrectInstance.ofGameService(tarotGame);
     this.scoreService =
         scoreService ?? CorrectInstance.ofScoreService(tarotGame);
@@ -145,7 +144,7 @@ class _ButtonRowWidget extends StatelessWidget {
         ElevatedButton.icon(
           style: ButtonStyle(
             backgroundColor:
-                MaterialStateProperty.all<Color>(Theme.of(context).errorColor),
+                MaterialStateProperty.all<Color>(Theme.of(context).colorScheme.error),
             foregroundColor:
                 MaterialStateProperty.all<Color>(Theme.of(context).cardColor),
             shape: MaterialStateProperty.all<OutlinedBorder>(

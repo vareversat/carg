@@ -14,11 +14,10 @@ class TeamStatWidget extends StatelessWidget {
   final AbstractTeamService teamService;
 
   const TeamStatWidget(
-      {Key? key,
+      {super.key,
       required this.team,
       required this.playerService,
-      required this.teamService})
-      : super(key: key);
+      required this.teamService});
 
   Future _showStatDialog(BuildContext context) async {
     await showDialog(

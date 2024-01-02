@@ -6,8 +6,7 @@ import 'package:collection/collection.dart';
 abstract class CargPlayerObject extends CargObject {
   late List<GameStats>? gameStatsList;
 
-  CargPlayerObject({String? id, List<GameStats>? gameStatsList})
-      : super(id: id) {
+  CargPlayerObject({super.id, List<GameStats>? gameStatsList}) {
     this.gameStatsList = gameStatsList ?? <GameStats>[];
   }
 

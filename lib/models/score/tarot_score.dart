@@ -8,12 +8,11 @@ class TarotScore extends Score<TarotRound> {
   late List<TarotPlayerScore> totalPoints;
 
   TarotScore(
-      {id,
+      {super.id,
       this.game,
       List<TarotRound>? rounds,
       List<TarotPlayerScore>? totalPoints,
-      List<String?>? players})
-      : super(id: id) {
+      List<String?>? players}) {
     this.totalPoints = totalPoints ?? <TarotPlayerScore>[];
     this.rounds = rounds ?? <TarotRound>[];
     for (var player in players ?? []) {

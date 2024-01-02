@@ -18,11 +18,10 @@ class TeamStatDialog extends StatelessWidget {
   final TextEditingController textEditingController = TextEditingController();
 
   TeamStatDialog(
-      {Key? key,
+      {super.key,
       required this.team,
       required this.playerService,
-      required this.teamService})
-      : super(key: key);
+      required this.teamService});
 
   Future<void> _saveTeam(BuildContext context) async {
     try {
@@ -125,7 +124,7 @@ class TeamStatDialog extends StatelessWidget {
                                   Text(stat.gameType.name,
                                       style: Theme.of(context)
                                           .textTheme
-                                          .bodyText2!
+                                          .bodyMedium!
                                           .copyWith(
                                               fontWeight: FontWeight.bold)),
                                   Text(

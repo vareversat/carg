@@ -10,7 +10,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 class RulesScreen extends StatelessWidget {
   final GameType gameType;
 
-  const RulesScreen({Key? key, required this.gameType}) : super(key: key);
+  const RulesScreen({super.key, required this.gameType});
 
   @override
   Widget build(BuildContext context) {

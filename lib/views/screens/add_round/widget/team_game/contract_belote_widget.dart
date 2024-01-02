@@ -8,8 +8,7 @@ import 'package:provider/provider.dart';
 class ContractBeloteWidget extends StatelessWidget {
   final FrenchBeloteRound frenchBeloteRound;
 
-  const ContractBeloteWidget({Key? key, required this.frenchBeloteRound})
-      : super(key: key);
+  const ContractBeloteWidget({super.key, required this.frenchBeloteRound});
 
   @override
   Widget build(BuildContext context) {

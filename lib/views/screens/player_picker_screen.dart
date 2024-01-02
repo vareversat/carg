@@ -19,8 +19,7 @@ class PlayerPickerScreen extends StatefulWidget {
   final Game? game;
   final String? title;
 
-  const PlayerPickerScreen({Key? key, required this.game, required this.title})
-      : super(key: key);
+  const PlayerPickerScreen({super.key, required this.game, required this.title});
 
   @override
   State<StatefulWidget> createState() {

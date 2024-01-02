@@ -9,8 +9,7 @@ class NotesDialog extends StatefulWidget {
   final Game game;
   final AbstractGameService gameService;
 
-  const NotesDialog({Key? key, required this.game, required this.gameService})
-      : super(key: key);
+  const NotesDialog({super.key, required this.game, required this.gameService});
 
   @override
   State<StatefulWidget> createState() {

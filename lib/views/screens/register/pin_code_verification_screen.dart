@@ -18,11 +18,10 @@ class PinCodeVerificationScreen extends StatefulWidget {
   final CredentialVerificationType credentialVerificationType;
 
   const PinCodeVerificationScreen(
-      {Key? key,
+      {super.key,
       required this.phoneNumber,
       required this.verificationId,
-      required this.credentialVerificationType})
-      : super(key: key);
+      required this.credentialVerificationType});
 
   @override
   State<StatefulWidget> createState() {

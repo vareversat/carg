@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class GameModePickerScreen extends StatelessWidget {
-  const GameModePickerScreen({Key? key}) : super(key: key);
+  const GameModePickerScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

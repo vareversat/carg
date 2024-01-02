@@ -32,8 +32,7 @@ class AddTarotRoundScreen extends StatelessWidget {
   }
 
   AddTarotRoundScreen(
-      {Key? key, this.tarotGame, this.tarotRound, this.isEditing})
-      : super(key: key);
+      {super.key, this.tarotGame, this.tarotRound, this.isEditing});
 
   @override
   Widget build(BuildContext context) {

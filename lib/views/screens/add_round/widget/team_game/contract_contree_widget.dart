@@ -12,8 +12,7 @@ import 'package:provider/provider.dart';
 class ContractContreeWidget extends StatelessWidget {
   final ContreeBeloteRound contreeRound;
 
-  const ContractContreeWidget({Key? key, required this.contreeRound})
-      : super(key: key);
+  const ContractContreeWidget({super.key, required this.contreeRound});
 
   @override
   Widget build(BuildContext context) {

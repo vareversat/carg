@@ -1,4 +1,5 @@
 import 'dart:io' show Platform;
+
 import 'package:carg/exceptions/custom_exception.dart';
 import 'package:carg/services/auth/auth_service.dart';
 import 'package:carg/styles/properties.dart';
@@ -13,8 +14,7 @@ class RegisterPhoneWidget extends StatefulWidget {
   final CredentialVerificationType credentialVerificationType;
 
   const RegisterPhoneWidget(
-      {Key? key, required this.credentialVerificationType})
-      : super(key: key);
+      {super.key, required this.credentialVerificationType});
 
   @override
   State<StatefulWidget> createState() {
@@ -294,7 +294,7 @@ class PhoneRegistrationData with ChangeNotifier {
   String? get phoneNumber => _phoneNumber;
 
   set phoneNumber(String? value) {
-    _phoneNumber = FlutterLibphonenumber().formatNumberSync(value!,
+    _phoneNumber = formatNumberSync(value!,
         country: country!,
         removeCountryCodeFromResult: false,
         phoneNumberFormat: PhoneNumberFormat.national);
@@ -328,14 +328,13 @@ class PhoneRegistrationData with ChangeNotifier {
   }
 
   Future<Map<String, CountryWithPhoneCode>> getAllRegions() async {
-    await FlutterLibphonenumber().init();
-    return FlutterLibphonenumber().getAllSupportedRegions();
+    await init();
+    return getAllSupportedRegions();
   }
 
   Future<String> formatPhoneNumberToE164() async {
     try {
-      var result = await FlutterLibphonenumber()
-          .parse(phoneNumber!, region: country!.countryCode);
+      var result = await parse(phoneNumber!, region: country!.countryCode);
       return result['e164'];
     } on PlatformException {
       throw CustomException('invalid-phone-number');

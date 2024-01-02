@@ -8,8 +8,7 @@ import 'package:provider/provider.dart';
 class ContractTarotWidget extends StatelessWidget {
   final TarotRound tarotRound;
 
-  const ContractTarotWidget({Key? key, required this.tarotRound})
-      : super(key: key);
+  const ContractTarotWidget({super.key, required this.tarotRound});
 
   @override
   Widget build(BuildContext context) {

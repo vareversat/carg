@@ -5,29 +5,17 @@ import 'package:enum_to_string/enum_to_string.dart';
 
 class FrenchBeloteRound extends BeloteRound {
   FrenchBeloteRound(
-      {int? index,
-      CardColor? cardColor,
-      bool? contractFulfilled,
-      BeloteTeamEnum? dixDeDer,
-      BeloteTeamEnum? beloteRebelote,
-      BeloteTeamEnum? taker,
-      BeloteTeamEnum? defender,
-      int? takerScore,
-      int? defenderScore,
-      int? usTrickScore,
-      int? themTrickScore})
-      : super(
-            index: index,
-            cardColor: cardColor,
-            contractFulfilled: contractFulfilled,
-            dixDeDer: dixDeDer,
-            beloteRebelote: beloteRebelote,
-            taker: taker,
-            defender: defender,
-            takerScore: takerScore,
-            defenderScore: defenderScore,
-            usTrickScore: usTrickScore,
-            themTrickScore: themTrickScore);
+      {super.index,
+      CardColor? super.cardColor,
+      bool? super.contractFulfilled,
+      BeloteTeamEnum? super.dixDeDer,
+      BeloteTeamEnum? super.beloteRebelote,
+      BeloteTeamEnum? super.taker,
+      BeloteTeamEnum? super.defender,
+      int? super.takerScore,
+      int? super.defenderScore,
+      int? super.usTrickScore,
+      int? super.themTrickScore});
 
   @override
   void computeRound() {
