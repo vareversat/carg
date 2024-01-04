@@ -71,6 +71,7 @@ class _PlayerOrderScreenState extends State<PlayerOrderScreen> {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
         child: AppBar(
+          backgroundColor: Theme.of(context).primaryColor,
           title: Text(widget.title,
               style: CustomTextStyle.screenHeadLine1(context)),
         ),

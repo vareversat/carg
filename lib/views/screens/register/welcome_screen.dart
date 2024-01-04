@@ -200,7 +200,8 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                                             side: BorderSide(
                                                 width: 2,
                                                 color: Theme.of(context)
-                                                    .colorScheme.error),
+                                                    .colorScheme
+                                                    .error),
                                             borderRadius: BorderRadius.circular(
                                                 CustomProperties.borderRadius)))),
                                 onPressed: () async {

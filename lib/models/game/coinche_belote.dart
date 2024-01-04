@@ -17,7 +17,6 @@ class CoincheBelote extends Belote {
             players: players ?? BelotePlayers(),
             isEnded: isEnded ?? false);
 
-
   factory CoincheBelote.fromJSON(Map<String, dynamic>? json, String id) {
     return CoincheBelote(
         id: id,

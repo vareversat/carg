@@ -70,7 +70,7 @@ class _CargState extends State<Carg> {
                       ModalRoute.of(context)!.settings.arguments as int? ?? 0)
             },
             title: 'Carg',
-            theme: AppTheme.theme,
+            theme: AppTheme.lightTheme,
             home: FutureBuilder<bool>(
                 future: auth.isAlreadyLogin(),
                 builder: (context, authResult) {

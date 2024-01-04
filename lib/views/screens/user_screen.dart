@@ -98,6 +98,7 @@ class _UserScreenState extends State<UserScreen>
             return CustomScrollView(
               slivers: [
                 SliverAppBar(
+                  backgroundColor: Theme.of(context).primaryColor,
                   automaticallyImplyLeading: false,
                   forceElevated: true,
                   expandedHeight: 200,
@@ -170,6 +171,7 @@ class _UserScreenState extends State<UserScreen>
               builder: (context, player, _) => CustomScrollView(
                 slivers: [
                   SliverAppBar(
+                    backgroundColor: Theme.of(context).primaryColor,
                     automaticallyImplyLeading: false,
                     floating: true,
                     pinned: true,

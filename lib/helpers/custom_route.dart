@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CustomRouteBottomToTop<T> extends MaterialPageRoute<T> {
-  CustomRouteBottomToTop(
-      {required super.builder, super.settings});
+  CustomRouteBottomToTop({required super.builder, super.settings});
 
   @override
   Widget buildTransitions(BuildContext context, Animation<double> animation,
@@ -21,8 +20,7 @@ class CustomRouteBottomToTop<T> extends MaterialPageRoute<T> {
 }
 
 class CustomRouteLeftToRight<T> extends MaterialPageRoute<T> {
-  CustomRouteLeftToRight(
-      {required super.builder, super.settings});
+  CustomRouteLeftToRight({required super.builder, super.settings});
 
   @override
   Widget buildTransitions(BuildContext context, Animation<double> animation,

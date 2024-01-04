@@ -19,7 +19,8 @@ class PlayerPickerScreen extends StatefulWidget {
   final Game? game;
   final String? title;
 
-  const PlayerPickerScreen({super.key, required this.game, required this.title});
+  const PlayerPickerScreen(
+      {super.key, required this.game, required this.title});
 
   @override
   State<StatefulWidget> createState() {
@@ -57,6 +58,7 @@ class _PlayerPickerScreenState extends State<PlayerPickerScreen> {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
         child: AppBar(
+          backgroundColor: Theme.of(context).primaryColor,
           title: Text(widget.title!,
               style: CustomTextStyle.screenHeadLine1(context)),
         ),

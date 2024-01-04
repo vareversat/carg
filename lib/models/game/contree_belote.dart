@@ -17,7 +17,6 @@ class ContreeBelote extends Belote {
             players: players ?? BelotePlayers(),
             isEnded: isEnded ?? false);
 
-
   factory ContreeBelote.fromJSON(Map<String, dynamic>? json, String id) {
     return ContreeBelote(
         id: id,

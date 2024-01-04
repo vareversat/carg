@@ -9,8 +9,8 @@ import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/screens/game_mode_picker_screen.dart';
 import 'package:carg/views/tabs/game_list_tab.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class GameListScreen extends StatelessWidget {
   const GameListScreen({super.key});
@@ -23,6 +23,7 @@ class GameListScreen extends StatelessWidget {
             appBar: PreferredSize(
               preferredSize: const Size.fromHeight(100),
               child: AppBar(
+                backgroundColor: Theme.of(context).primaryColor,
                 automaticallyImplyLeading: false,
                 title: Hero(
                   tag: 'game_screen_title',
@@ -33,14 +34,18 @@ class GameListScreen extends StatelessWidget {
                           style: CustomTextStyle.screenHeadLine1(context)),
                       ElevatedButton.icon(
                           style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all<Color>(
-                                  Theme.of(context).cardColor),
-                              foregroundColor: MaterialStateProperty.all<Color>(
-                                  Theme.of(context).primaryColor),
-                              shape: MaterialStateProperty.all<OutlinedBorder>(
-                                  RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(
-                                          CustomProperties.borderRadius)))),
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                Theme.of(context).cardColor),
+                            foregroundColor: MaterialStateProperty.all<Color>(
+                                Theme.of(context).primaryColor),
+                            shape: MaterialStateProperty.all<OutlinedBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                  CustomProperties.borderRadius,
+                                ),
+                              ),
+                            ),
+                          ),
                           onPressed: () async => Navigator.push(
                                 context,
                                 CustomRouteFade(
@@ -61,17 +66,37 @@ class GameListScreen extends StatelessWidget {
                   indicatorSize: TabBarIndicatorSize.tab,
                   tabs: [
                     Tab(
-                        child: Text(GameType.COINCHE.name,
-                            style: const TextStyle(fontSize: 15))),
+                      child: Text(
+                        GameType.COINCHE.name,
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onPrimary,
+                        ),
+                      ),
+                    ),
                     Tab(
-                        child: Text(GameType.BELOTE.name,
-                            style: const TextStyle(fontSize: 15))),
+                      child: Text(
+                        GameType.BELOTE.name,
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onPrimary,
+                        ),
+                      ),
+                    ),
                     Tab(
-                        child: Text(GameType.CONTREE.name,
-                            style: const TextStyle(fontSize: 15))),
+                      child: Text(
+                        GameType.CONTREE.name,
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onPrimary,
+                        ),
+                      ),
+                    ),
                     Tab(
-                        child: Text(GameType.TAROT.name,
-                            style: const TextStyle(fontSize: 15)))
+                      child: Text(
+                        GameType.TAROT.name,
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onPrimary,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),

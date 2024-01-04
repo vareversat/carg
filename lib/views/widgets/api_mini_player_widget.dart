@@ -2,8 +2,8 @@ import 'package:carg/models/player.dart';
 import 'package:carg/services/player/abstract_player_service.dart';
 import 'package:carg/views/dialogs/player_info_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class APIMiniPlayerWidget extends StatelessWidget {
   final String? playerId;
@@ -60,31 +60,34 @@ class APIMiniPlayerWidget extends StatelessWidget {
         }
         if (snapshot.hasData) {
           child = Material(
-            child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 2),
-                child: InputChip(
-                    selected: isSelected,
-                    selectedColor: selectedColor ??
-                        Theme.of(context).colorScheme.secondary,
-                    onPressed: onTap as void Function()? ??
-                        () => {_showEditPlayerDialog(context, snapshot.data)},
-                    avatar:
-                        (snapshot.data!.profilePicture != '' && displayImage)
-                            ? Container(
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                      width: 2,
-                                      color: Theme.of(context).primaryColor,
-                                    ),
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                        image: NetworkImage(
-                                            snapshot.data!.profilePicture))),
-                              )
-                            : null,
-                    label: Text(snapshot.data!.userName + additionalText,
-                        style: TextStyle(fontSize: size),
-                        overflow: TextOverflow.ellipsis))),
+            child: InputChip(
+              selected: isSelected,
+              selectedColor:
+                  selectedColor ?? Theme.of(context).colorScheme.secondary,
+              onPressed: onTap as void Function()? ??
+                  () => {_showEditPlayerDialog(context, snapshot.data)},
+              avatar: (snapshot.data!.profilePicture != '' && displayImage)
+                  ? Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          image: NetworkImage(
+                            snapshot.data!.profilePicture,
+                          ),
+                        ),
+                      ),
+                    )
+                  : null,
+              label: Text(
+                snapshot.data!.userName + additionalText,
+                style: TextStyle(fontSize: size),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
           );
         }
         if (!snapshot.hasData &&

@@ -72,7 +72,6 @@ class TarotWidget extends StatelessWidget {
                             key: ValueKey('apiminiplayerwidget-$playerId'),
                             playerId: playerId,
                             displayImage: true,
-                            size: 20,
                             playerService: playerService,
                             additionalText:
                                 ' | ${snapshot.data!.getScoreOf(playerId).score.round().toString()}',
@@ -143,8 +142,8 @@ class _ButtonRowWidget extends StatelessWidget {
           Container(),
         ElevatedButton.icon(
           style: ButtonStyle(
-            backgroundColor:
-                MaterialStateProperty.all<Color>(Theme.of(context).colorScheme.error),
+            backgroundColor: MaterialStateProperty.all<Color>(
+                Theme.of(context).colorScheme.error),
             foregroundColor:
                 MaterialStateProperty.all<Color>(Theme.of(context).cardColor),
             shape: MaterialStateProperty.all<OutlinedBorder>(

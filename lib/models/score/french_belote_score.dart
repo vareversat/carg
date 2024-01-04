@@ -12,7 +12,6 @@ class FrenchBeloteScore extends BeloteScore<FrenchBeloteRound> {
             usTotalPoints: usTotalPoints ?? 0,
             themTotalPoints: themTotalPoints ?? 0);
 
-
   factory FrenchBeloteScore.fromJSON(Map<String, dynamic>? json, String id) {
     return FrenchBeloteScore(
         id: id,

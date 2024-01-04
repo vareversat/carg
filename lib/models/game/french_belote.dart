@@ -18,7 +18,6 @@ class FrenchBelote extends Belote {
             startingDate: startingDate ?? DateTime.now(),
             isEnded: isEnded ?? false);
 
-
   factory FrenchBelote.fromJSON(Map<String, dynamic>? json, String id) {
     return FrenchBelote(
         id: id,

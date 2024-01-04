@@ -42,9 +42,7 @@ class TrickPointsTarotWidget extends StatelessWidget {
                     min: 0,
                     max: TarotRound.maxTrickPoints,
                     divisions: TarotRound.maxTrickPoints.toInt(),
-                    label:
-                        '${AppLocalizations.of(context)!.attack} : ${roundData.attackTrickPoints.round().toString()} '
-                        '\n${AppLocalizations.of(context)!.defense} : ${(roundData.defenseTrickPoints.round()).toString()}',
+                    inactiveColor: Theme.of(context).colorScheme.secondary,
                     onChanged: (double value) {
                       roundData.attackTrickPoints = value.roundToDouble();
                     },

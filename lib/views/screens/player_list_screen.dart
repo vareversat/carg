@@ -9,8 +9,8 @@ import 'package:carg/views/helpers/info_snackbar.dart';
 import 'package:carg/views/tabs/player_list_tab.dart';
 import 'package:carg/views/tabs/team_list_tab.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
 class PlayerListScreen extends StatefulWidget {
   final AbstractPlayerService playerService;
@@ -42,6 +42,7 @@ class _PlayerListScreenState extends State<PlayerListScreen> {
             appBar: PreferredSize(
               preferredSize: const Size.fromHeight(100),
               child: AppBar(
+                backgroundColor: Theme.of(context).primaryColor,
                 actions: [
                   PopupMenuButton<String>(
                       key: const ValueKey('playerListPopupMenuButton'),
@@ -99,17 +100,32 @@ class _PlayerListScreenState extends State<PlayerListScreen> {
                   indicatorSize: TabBarIndicatorSize.tab,
                   tabs: [
                     Tab(
-                        key: const ValueKey('playerListTab'),
-                        child: Text(AppLocalizations.of(context)!.player(2),
-                            style: const TextStyle(fontSize: 15))),
+                      key: const ValueKey('playerListTab'),
+                      child: Text(
+                        AppLocalizations.of(context)!.player(2),
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onPrimary,
+                        ),
+                      ),
+                    ),
                     Tab(
-                        key: const ValueKey('ownedPlayerListTab'),
-                        child: Text(AppLocalizations.of(context)!.myPlayers,
-                            style: const TextStyle(fontSize: 15))),
+                      key: const ValueKey('ownedPlayerListTab'),
+                      child: Text(
+                        AppLocalizations.of(context)!.myPlayers,
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onPrimary,
+                        ),
+                      ),
+                    ),
                     Tab(
-                        key: const ValueKey('playerListTeam'),
-                        child: Text(AppLocalizations.of(context)!.myTeams,
-                            style: const TextStyle(fontSize: 15))),
+                      key: const ValueKey('playerListTeam'),
+                      child: Text(
+                        AppLocalizations.of(context)!.myTeams,
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onPrimary,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),

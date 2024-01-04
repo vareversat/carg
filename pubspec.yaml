@@ -26,6 +26,7 @@ dependencies:
   flutter_secure_storage: ^9.0.0
   flutter_libphonenumber: ^2.2.1
   font_awesome_flutter: ^10.0.0
+  google_fonts: ^6.0.0
   http: ^1.1.2
   intl: ^0.18.1
   in_app_purchase: ^3.0.7

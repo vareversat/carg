@@ -41,8 +41,12 @@ class AddBeloteRoundScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+          backgroundColor: Theme.of(context).primaryColor,
           leading: IconButton(
-            icon: const Icon(Icons.cancel),
+            icon: Icon(
+              Icons.cancel,
+              color: Theme.of(context).colorScheme.onPrimary,
+            ),
             onPressed: () => Navigator.pop(context),
           ),
           title: const ScreenTitleWidget()),
