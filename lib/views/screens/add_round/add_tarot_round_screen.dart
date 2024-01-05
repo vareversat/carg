@@ -41,7 +41,7 @@ class AddTarotRoundScreen extends StatelessWidget {
           backgroundColor: Theme.of(context).primaryColor,
           foregroundColor: Theme.of(context).colorScheme.onPrimary,
           leading: IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.cancel,
             ),
             onPressed: () => Navigator.pop(context),

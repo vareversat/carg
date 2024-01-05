@@ -19,7 +19,7 @@ class PlayScreenAppBar extends StatelessWidget implements PreferredSizeWidget {
       toolbarHeight: 80,
       actions: [
         IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.help,
           ),
           onPressed: () => Navigator.push(
