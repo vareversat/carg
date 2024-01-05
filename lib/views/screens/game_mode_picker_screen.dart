@@ -21,6 +21,7 @@ class GameModePickerScreen extends StatelessWidget {
         preferredSize: const Size.fromHeight(60),
         child: AppBar(
             backgroundColor: Theme.of(context).primaryColor,
+            foregroundColor: Theme.of(context).colorScheme.onPrimary,
             leading: IconButton(
               icon: const Icon(
                 Icons.close,

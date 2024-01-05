@@ -17,6 +17,7 @@ class RulesScreen extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).primaryColor,
+          foregroundColor: Theme.of(context).colorScheme.onPrimary,
           centerTitle: true,
           title: Text(
             '${gameType.name} - Règles',

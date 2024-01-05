@@ -38,9 +38,13 @@ class Carg extends StatefulWidget {
 class _CargState extends State<Carg> {
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-        statusBarBrightness: Brightness.light,
-        statusBarColor: Colors.transparent));
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        systemStatusBarContrastEnforced: false,
+        statusBarIconBrightness: Brightness.light,
+      ),
+    );
     return MultiProvider(
       providers: <SingleChildWidget>[
         ChangeNotifierProvider.value(value: AuthService())

@@ -392,13 +392,14 @@ class _PlayerUsernameAndProfilePictureWidget extends StatelessWidget {
             ),
           ),
         ),
-        Center(
-          child: Text(
-            player!.userName,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(fontSize: 25),
-            textAlign: TextAlign.center,
-          ),
+        Text(
+          player!.userName,
+          overflow: TextOverflow.ellipsis,
+          style: Theme.of(context)
+              .textTheme
+              .titleLarge
+              ?.copyWith(color: Theme.of(context).colorScheme.onPrimary),
+          textAlign: TextAlign.center,
         )
       ],
     );

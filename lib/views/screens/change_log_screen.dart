@@ -12,6 +12,7 @@ class ChangeLogScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
+        foregroundColor: Theme.of(context).colorScheme.onPrimary,
         title: Text(
           AppLocalizations.of(context)!.changelog,
         ),

@@ -24,6 +24,7 @@ class GameListScreen extends StatelessWidget {
               preferredSize: const Size.fromHeight(100),
               child: AppBar(
                 backgroundColor: Theme.of(context).primaryColor,
+                foregroundColor: Theme.of(context).colorScheme.onPrimary,
                 automaticallyImplyLeading: false,
                 title: Hero(
                   tag: 'game_screen_title',

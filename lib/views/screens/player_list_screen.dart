@@ -43,6 +43,7 @@ class _PlayerListScreenState extends State<PlayerListScreen> {
               preferredSize: const Size.fromHeight(100),
               child: AppBar(
                 backgroundColor: Theme.of(context).primaryColor,
+                foregroundColor: Theme.of(context).colorScheme.onPrimary,
                 actions: [
                   PopupMenuButton<String>(
                       key: const ValueKey('playerListPopupMenuButton'),

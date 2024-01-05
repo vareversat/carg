@@ -39,10 +39,10 @@ class AddTarotRoundScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Theme.of(context).primaryColor,
+          foregroundColor: Theme.of(context).colorScheme.onPrimary,
           leading: IconButton(
             icon: Icon(
               Icons.cancel,
-              color: Theme.of(context).colorScheme.onPrimary,
             ),
             onPressed: () => Navigator.pop(context),
           ),

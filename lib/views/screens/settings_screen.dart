@@ -60,6 +60,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
+        foregroundColor: Theme.of(context).colorScheme.onPrimary,
         automaticallyImplyLeading: false,
         leading: IconButton(
             icon: const Icon(Icons.close),

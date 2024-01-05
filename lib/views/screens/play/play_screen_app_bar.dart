@@ -15,12 +15,12 @@ class PlayScreenAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: Theme.of(context).primaryColor,
+      foregroundColor: Theme.of(context).colorScheme.onPrimary,
       toolbarHeight: 80,
       actions: [
         IconButton(
           icon: Icon(
             Icons.help,
-            color: Theme.of(context).colorScheme.onPrimary,
           ),
           onPressed: () => Navigator.push(
             context,
