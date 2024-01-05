@@ -49,4 +49,4 @@ jobs:
           cd ./firebase_functions
           firebase deploy --only functions
         env:
-          GOOGLE_APPLICATION_CREDENTIALS: ${{ vars.GOOGLE_APPLICATION_CREDENTIALS }}
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ github.workspace }}/${{ vars.GOOGLE_APPLICATION_CREDENTIALS }}
