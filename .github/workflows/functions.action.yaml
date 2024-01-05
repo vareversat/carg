@@ -43,10 +43,6 @@ jobs:
           cd firebase_functions/functions
           npm run lint
           npm run build
-      - name: 'Decrypt secret configuration'
-        run: ./.github/scripts/decrypt_secret.sh
-        env:
-          PASSPHRASE: ${{ secrets.PASSPHRASE }}
       - name: 'Deploy functions'
         if: ${{ inputs.deploy == true }}
         run: |
