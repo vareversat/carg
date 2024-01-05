@@ -17,6 +17,8 @@ gpg --batch --yes --decrypt --pinentry-mode loopback --passphrase="$PASSPHRASE" 
 gpg --batch --yes --decrypt --pinentry-mode loopback --passphrase="$PASSPHRASE" --output "$GITHUB_WORKSPACE"/firebase_functions/functions/src/assets/backup-service-key.json "$GITHUB_WORKSPACE"/encrypted_config/backup-service-key.json.gpg
 # Decrypt fastlane-key.json.gpg
 gpg --batch --yes --decrypt --pinentry-mode loopback --passphrase="$PASSPHRASE" --output "$GITHUB_WORKSPACE"/android/fastlane/fastlane-key.json "$GITHUB_WORKSPACE"/encrypted_config/fastlane-key.json.gpg
+# Decrypt firebase-service-account.json.gpg
+gpg --batch --yes --decrypt --pinentry-mode loopback --passphrase="$PASSPHRASE" --output "$GITHUB_WORKSPACE"/firebase_functions/firebase-service-account.json "$GITHUB_WORKSPACE"/encrypted_config/firebase-service-account.json.gpg
 # Decrypt key_password.txt.gpg
 tmp_key_password=$(gpg --quiet --batch --yes --decrypt --passphrase="$PASSPHRASE" "$GITHUB_WORKSPACE"/encrypted_config/key_password.txt.gpg)
 
