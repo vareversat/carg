@@ -72,24 +72,27 @@ class _GameInfoDialogState extends State<GameInfoDialog> {
                     const SizedBox(
                       height: 10,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          AppLocalizations.of(context)!.no,
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        Switch(
-                          value: (widget.game.settings as BeloteGameSetting)
-                              .addContractToScore,
-                          activeColor: Theme.of(context).primaryColor,
-                          onChanged: (bool value) {},
-                        ),
-                        Text(
-                          AppLocalizations.of(context)!.yes,
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                        )
-                      ],
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 50),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text(
+                            AppLocalizations.of(context)!.no,
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          Switch(
+                            value: (widget.game.settings as BeloteGameSetting)
+                                .addContractToScore,
+                            activeColor: Theme.of(context).primaryColor,
+                            onChanged: (bool value) {},
+                          ),
+                          Text(
+                            AppLocalizations.of(context)!.yes,
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          )
+                        ],
+                      ),
                     )
                   ],
                 )

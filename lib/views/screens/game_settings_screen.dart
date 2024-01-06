@@ -28,6 +28,8 @@ class BeloteGameSettingsScreen extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
         child: AppBar(
+          foregroundColor: Theme.of(context).colorScheme.onPrimary,
+          backgroundColor: Theme.of(context).primaryColor,
           title: Text(title, style: CustomTextStyle.screenHeadLine1(context)),
         ),
       ),
@@ -176,27 +178,34 @@ class BeloteGameSettingsScreen extends StatelessWidget {
                             value: (game?.settings as BeloteGameSetting),
                             child: Consumer<BeloteGameSetting>(
                                 builder: (context, settingsData, child) {
-                              return Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    AppLocalizations.of(context)!.no,
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Switch(
-                                    value: settingsData.addContractToScore,
-                                    activeColor: Theme.of(context).primaryColor,
-                                    onChanged: (bool value) {
-                                      settingsData.addContractToScore = value;
-                                    },
-                                  ),
-                                  Text(
-                                    AppLocalizations.of(context)!.yes,
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold),
-                                  )
-                                ],
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 120,
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Text(
+                                      AppLocalizations.of(context)!.no,
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Switch(
+                                      value: settingsData.addContractToScore,
+                                      activeColor:
+                                          Theme.of(context).primaryColor,
+                                      onChanged: (bool value) {
+                                        settingsData.addContractToScore = value;
+                                      },
+                                    ),
+                                    Text(
+                                      AppLocalizations.of(context)!.yes,
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    )
+                                  ],
+                                ),
                               );
                             }),
                           ),
@@ -223,42 +232,47 @@ class BeloteGameSettingsScreen extends StatelessWidget {
             child: SizedBox(
               width: double.infinity,
               height: 50,
-              child: Directionality(
-                textDirection: TextDirection.rtl,
-                child: ElevatedButton.icon(
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(
-                      Theme.of(context).primaryColor,
-                    ),
-                    foregroundColor: MaterialStateProperty.all<Color>(
-                      Theme.of(context).cardColor,
-                    ),
-                    shape: MaterialStateProperty.all<OutlinedBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                          CustomProperties.borderRadius,
-                        ),
+              child: ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(
+                    Theme.of(context).primaryColor,
+                  ),
+                  foregroundColor: MaterialStateProperty.all<Color>(
+                    Theme.of(context).cardColor,
+                  ),
+                  shape: MaterialStateProperty.all<OutlinedBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                        CustomProperties.borderRadius,
                       ),
                     ),
                   ),
-                  onPressed: () async => {
-                    Navigator.of(context).push(
-                      CustomRouteLeftToRight(
-                        builder: (context) => PlayerPickerScreen(
-                            game: game, title: game!.gameType.name),
+                ),
+                onPressed: () async => {
+                  Navigator.of(context).push(
+                    CustomRouteLeftToRight(
+                      builder: (context) => PlayerPickerScreen(
+                          game: game, title: game!.gameType.name),
+                    ),
+                  )
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      AppLocalizations.of(context)!.playerSelection,
+                      style: const TextStyle(
+                        fontSize: 23,
                       ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    const Icon(
+                      Icons.arrow_right_alt_outlined,
+                      size: 30,
                     )
-                  },
-                  label: Text(
-                    AppLocalizations.of(context)!.playerSelection,
-                    style: const TextStyle(
-                      fontSize: 23,
-                    ),
-                  ),
-                  icon: const Icon(
-                    Icons.arrow_right_alt,
-                    size: 30,
-                  ),
+                  ],
                 ),
               ),
             ),
