@@ -10,12 +10,4 @@ class FakeBeloteGame extends Belote {
             id: id,
             startingDate: startingDate,
             settings: settings);
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      super == other &&
-          other is FakeBeloteGame &&
-          runtimeType == other.runtimeType;
-
 }
