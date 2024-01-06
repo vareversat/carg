@@ -29,7 +29,6 @@ class FrenchBelote extends Belote {
               ),
         );
 
-
   factory FrenchBelote.fromJSON(Map<String, dynamic>? json, String id) {
     return FrenchBelote(
       id: id,

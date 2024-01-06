@@ -11,7 +11,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class GameInfoDialog extends StatefulWidget {
   final Game game;
 
-  const GameInfoDialog({Key? key, required this.game}) : super(key: key);
+  const GameInfoDialog({super.key, required this.game});
 
   @override
   State<StatefulWidget> createState() {

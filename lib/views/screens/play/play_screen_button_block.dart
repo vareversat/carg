@@ -118,7 +118,7 @@ class PlayScreenButtonBlock extends StatelessWidget {
                         key: const ValueKey("endGameButton"),
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all<Color>(
-                              Theme.of(context).errorColor),
+                              Theme.of(context).colorScheme.error),
                           foregroundColor: MaterialStateProperty.all<Color>(
                               Theme.of(context).cardColor),
                           shape: MaterialStateProperty.all<OutlinedBorder>(

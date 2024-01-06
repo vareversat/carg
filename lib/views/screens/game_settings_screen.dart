@@ -19,7 +19,8 @@ class BeloteGameSettingsScreen extends StatelessWidget {
   final String title;
   final TextEditingController _contractTextController = TextEditingController();
 
-  BeloteGameSettingsScreen({super.key, required this.game, required this.title});
+  BeloteGameSettingsScreen(
+      {super.key, required this.game, required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -86,8 +87,7 @@ class BeloteGameSettingsScreen extends StatelessWidget {
                                         controller: _contractTextController,
                                         enabled: !settingsData.isInfinite,
                                         keyboardType: TextInputType.number,
-                                        inputFormatters: const <
-                                            TextInputFormatter>[],
+                                        inputFormatters: const <TextInputFormatter>[],
                                         onSubmitted: (String value) => {
                                           settingsData.maxPoint =
                                               int.parse(value),
