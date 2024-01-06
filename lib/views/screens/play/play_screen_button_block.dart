@@ -131,7 +131,7 @@ class PlayScreenButtonBlock extends StatelessWidget {
                         onPressed: () => {endGame()},
                         icon: const Icon(Icons.stop, size: 30),
                         label: Text(
-                          AppLocalizations.of(context)!.newRound,
+                          AppLocalizations.of(context)!.stop,
                           style: const TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 23),
                         ),
