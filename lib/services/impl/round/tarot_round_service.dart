@@ -1,4 +1,5 @@
 import 'package:carg/exceptions/service_exception.dart';
+import 'package:carg/models/game/setting/tarot_game_setting.dart';
 import 'package:carg/models/score/round/tarot_round.dart';
 import 'package:carg/services/impl/score/tarot_score_service.dart';
 import 'package:carg/services/round/abstract_tarot_round_service.dart';
@@ -9,7 +10,7 @@ class TarotRoundService extends AbstractTarotRoundService {
       : super(tarotScoreService: tarotScoreService ?? TarotScoreService());
 
   @override
-  TarotRound getNewRound() {
+  TarotRound getNewRound(TarotGameSetting settings) {
     return TarotRound();
   }
 

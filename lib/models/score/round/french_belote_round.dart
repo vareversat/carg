@@ -4,30 +4,26 @@ import 'package:carg/models/score/round/belote_round.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 
 class FrenchBeloteRound extends BeloteRound {
-  FrenchBeloteRound(
-      {super.index,
-      CardColor? super.cardColor,
-      bool? super.contractFulfilled,
-      BeloteTeamEnum? super.dixDeDer,
-      BeloteTeamEnum? super.beloteRebelote,
-      BeloteTeamEnum? super.taker,
-      BeloteTeamEnum? super.defender,
-      int? super.takerScore,
-      int? super.defenderScore,
-      int? super.usTrickScore,
-      int? super.themTrickScore});
+  FrenchBeloteRound({
+    super.index,
+    super.cardColor,
+    super.contractFulfilled,
+    super.dixDeDer,
+    super.beloteRebelote,
+    super.taker,
+    super.defender,
+    super.takerScore,
+    super.defenderScore,
+    super.usTrickScore,
+    super.themTrickScore,
+    super.settings,
+  });
 
   @override
   void computeRound() {
-    var takerTrickPoints = getTrickPointsOfTeam(taker);
-    var defenderTrickPoints = getTrickPointsOfTeam(defender);
     if (contractFulfilled) {
-      takerScore = roundScore(takerTrickPoints +
-          getDixDeDerOfTeam(taker) +
-          getBeloteRebeloteOfTeam(taker));
-      defenderScore = roundScore(defenderTrickPoints +
-          getDixDeDerOfTeam(defender) +
-          getBeloteRebeloteOfTeam(defender));
+      takerScore = roundScore(getTotalPointsOfTeam(taker));
+      defenderScore = roundScore(getTotalPointsOfTeam(defender));
     } else {
       takerScore = roundScore(getBeloteRebeloteOfTeam(taker));
       defenderScore = roundScore(
@@ -44,18 +40,6 @@ class FrenchBeloteRound extends BeloteRound {
         getTrickPointsOfTeam(defender) +
             getDixDeDerOfTeam(defender) +
             getBeloteRebeloteOfTeam(defender);
-  }
-
-  @override
-  int getTrickPointsOfTeam(BeloteTeamEnum? team) {
-    switch (team) {
-      case BeloteTeamEnum.US:
-        return usTrickScore;
-      case BeloteTeamEnum.THEM:
-        return themTrickScore;
-      case null:
-        return 0;
-    }
   }
 
   factory FrenchBeloteRound.fromJSON(Map<String, dynamic> json) {

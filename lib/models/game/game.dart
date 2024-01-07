@@ -1,9 +1,12 @@
 import 'package:carg/models/carg_object.dart';
 import 'package:carg/models/game/game_type.dart';
+import 'package:carg/models/game/setting/game_setting.dart';
 import 'package:carg/models/players/players.dart';
+import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 
-abstract class Game<T extends Players> extends CargObject {
+abstract class Game<T extends Players, S extends GameSetting> extends CargObject
+    with ChangeNotifier {
   late DateTime startingDate;
   late bool isEnded;
   DateTime? endingDate;
@@ -11,6 +14,7 @@ abstract class Game<T extends Players> extends CargObject {
   T? players;
   String? notes;
   late GameType gameType;
+  S settings;
 
   Game(
       {super.id,
@@ -20,7 +24,8 @@ abstract class Game<T extends Players> extends CargObject {
       this.winner,
       startingDate,
       isEnded,
-      this.notes}) {
+      this.notes,
+      required this.settings}) {
     this.gameType = gameType ?? GameType.UNDEFINE;
     this.startingDate = startingDate ?? DateTime.now();
     this.isEnded = isEnded ?? false;
@@ -35,7 +40,8 @@ abstract class Game<T extends Players> extends CargObject {
           : null,
       'is_ended': isEnded,
       'winners': winner,
-      'notes': notes
+      'notes': notes,
+      'settings': settings.toJSON()
     };
   }
 
@@ -48,7 +54,8 @@ abstract class Game<T extends Players> extends CargObject {
         'winner: $winner, \n'
         'players: $players, \n'
         'notes: $notes, \n'
-        'gameType: $gameType}';
+        'gameType: $gameType, \n'
+        'settings: $settings}';
   }
 
   @override

@@ -3,16 +3,17 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i8;
+import 'dart:async' as _i9;
 
-import 'package:carg/models/carg_object.dart' as _i5;
+import 'package:carg/models/carg_object.dart' as _i6;
+import 'package:carg/models/game/setting/game_setting.dart' as _i3;
 import 'package:carg/models/score/round/round.dart' as _i2;
 import 'package:carg/models/score/score.dart' as _i1;
-import 'package:carg/repositories/base_repository.dart' as _i6;
-import 'package:carg/repositories/score/abstract_score_repository.dart' as _i4;
-import 'package:carg/services/score/abstract_score_service.dart' as _i7;
-import 'package:mockito/mockito.dart' as _i3;
-import 'package:mockito/src/dummies.dart' as _i9;
+import 'package:carg/repositories/base_repository.dart' as _i7;
+import 'package:carg/repositories/score/abstract_score_repository.dart' as _i5;
+import 'package:carg/services/score/abstract_score_service.dart' as _i8;
+import 'package:mockito/mockito.dart' as _i4;
+import 'package:mockito/src/dummies.dart' as _i10;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -27,8 +28,9 @@ import 'package:mockito/src/dummies.dart' as _i9;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
-class _FakeAbstractScoreRepository_0<T1 extends _i1.Score<_i2.Round>>
-    extends _i3.SmartFake implements _i4.AbstractScoreRepository<T1> {
+class _FakeAbstractScoreRepository_0<
+        T1 extends _i1.Score<_i2.Round<_i3.GameSetting>>> extends _i4.SmartFake
+    implements _i5.AbstractScoreRepository<T1> {
   _FakeAbstractScoreRepository_0(
     Object parent,
     Invocation parentInvocation,
@@ -38,8 +40,8 @@ class _FakeAbstractScoreRepository_0<T1 extends _i1.Score<_i2.Round>>
         );
 }
 
-class _FakeBaseRepository_1<T1 extends _i5.CargObject> extends _i3.SmartFake
-    implements _i6.BaseRepository<T1> {
+class _FakeBaseRepository_1<T1 extends _i6.CargObject> extends _i4.SmartFake
+    implements _i7.BaseRepository<T1> {
   _FakeBaseRepository_1(
     Object parent,
     Invocation parentInvocation,
@@ -52,58 +54,59 @@ class _FakeBaseRepository_1<T1 extends _i5.CargObject> extends _i3.SmartFake
 /// A class which mocks [AbstractScoreService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockAbstractScoreService<T extends _i1.Score<_i2.Round>> extends _i3.Mock
-    implements _i7.AbstractScoreService<T> {
+class MockAbstractScoreService<T extends _i1.Score<_i2.Round<_i3.GameSetting>>>
+    extends _i4.Mock implements _i8.AbstractScoreService<T> {
   MockAbstractScoreService() {
-    _i3.throwOnMissingStub(this);
+    _i4.throwOnMissingStub(this);
   }
 
   @override
-  _i4.AbstractScoreRepository<T> get scoreRepository => (super.noSuchMethod(
+  _i5.AbstractScoreRepository<T> get scoreRepository => (super.noSuchMethod(
         Invocation.getter(#scoreRepository),
         returnValue: _FakeAbstractScoreRepository_0<T>(
           this,
           Invocation.getter(#scoreRepository),
         ),
-      ) as _i4.AbstractScoreRepository<T>);
+      ) as _i5.AbstractScoreRepository<T>);
 
   @override
-  _i6.BaseRepository<_i1.Score<_i2.Round>> get repository =>
+  _i7.BaseRepository<_i1.Score<_i2.Round<_i3.GameSetting>>> get repository =>
       (super.noSuchMethod(
         Invocation.getter(#repository),
-        returnValue: _FakeBaseRepository_1<_i1.Score<_i2.Round>>(
+        returnValue:
+            _FakeBaseRepository_1<_i1.Score<_i2.Round<_i3.GameSetting>>>(
           this,
           Invocation.getter(#repository),
         ),
-      ) as _i6.BaseRepository<_i1.Score<_i2.Round>>);
+      ) as _i7.BaseRepository<_i1.Score<_i2.Round<_i3.GameSetting>>>);
 
   @override
-  _i8.Future<T?> getScoreByGame(String? gameId) => (super.noSuchMethod(
+  _i9.Future<T?> getScoreByGame(String? gameId) => (super.noSuchMethod(
         Invocation.method(
           #getScoreByGame,
           [gameId],
         ),
-        returnValue: _i8.Future<T?>.value(),
-      ) as _i8.Future<T?>);
+        returnValue: _i9.Future<T?>.value(),
+      ) as _i9.Future<T?>);
 
   @override
-  _i8.Stream<T?> getScoreByGameStream(String? gameId) => (super.noSuchMethod(
+  _i9.Stream<T?> getScoreByGameStream(String? gameId) => (super.noSuchMethod(
         Invocation.method(
           #getScoreByGameStream,
           [gameId],
         ),
-        returnValue: _i8.Stream<T?>.empty(),
-      ) as _i8.Stream<T?>);
+        returnValue: _i9.Stream<T?>.empty(),
+      ) as _i9.Stream<T?>);
 
   @override
-  _i8.Future<void> deleteScoreByGame(String? gameId) => (super.noSuchMethod(
+  _i9.Future<void> deleteScoreByGame(String? gameId) => (super.noSuchMethod(
         Invocation.method(
           #deleteScoreByGame,
           [gameId],
         ),
-        returnValue: _i8.Future<void>.value(),
-        returnValueForMissingStub: _i8.Future<void>.value(),
-      ) as _i8.Future<void>);
+        returnValue: _i9.Future<void>.value(),
+        returnValueForMissingStub: _i9.Future<void>.value(),
+      ) as _i9.Future<void>);
 
   @override
   void resetLastPointedDocument() => super.noSuchMethod(
@@ -115,46 +118,49 @@ class MockAbstractScoreService<T extends _i1.Score<_i2.Round>> extends _i3.Mock
       );
 
   @override
-  _i8.Future<_i1.Score<_i2.Round>?> get(String? id) => (super.noSuchMethod(
+  _i9.Future<_i1.Score<_i2.Round<_i3.GameSetting>>?> get(String? id) =>
+      (super.noSuchMethod(
         Invocation.method(
           #get,
           [id],
         ),
-        returnValue: _i8.Future<_i1.Score<_i2.Round>?>.value(),
-      ) as _i8.Future<_i1.Score<_i2.Round>?>);
+        returnValue: _i9.Future<_i1.Score<_i2.Round<_i3.GameSetting>>?>.value(),
+      ) as _i9.Future<_i1.Score<_i2.Round<_i3.GameSetting>>?>);
 
   @override
-  _i8.Future<void> delete(String? id) => (super.noSuchMethod(
+  _i9.Future<void> delete(String? id) => (super.noSuchMethod(
         Invocation.method(
           #delete,
           [id],
         ),
-        returnValue: _i8.Future<void>.value(),
-        returnValueForMissingStub: _i8.Future<void>.value(),
-      ) as _i8.Future<void>);
+        returnValue: _i9.Future<void>.value(),
+        returnValueForMissingStub: _i9.Future<void>.value(),
+      ) as _i9.Future<void>);
 
   @override
-  _i8.Future<void> update(_i1.Score<_i2.Round>? t) => (super.noSuchMethod(
+  _i9.Future<void> update(_i1.Score<_i2.Round<_i3.GameSetting>>? t) =>
+      (super.noSuchMethod(
         Invocation.method(
           #update,
           [t],
         ),
-        returnValue: _i8.Future<void>.value(),
-        returnValueForMissingStub: _i8.Future<void>.value(),
-      ) as _i8.Future<void>);
+        returnValue: _i9.Future<void>.value(),
+        returnValueForMissingStub: _i9.Future<void>.value(),
+      ) as _i9.Future<void>);
 
   @override
-  _i8.Future<String> create(_i1.Score<_i2.Round>? t) => (super.noSuchMethod(
+  _i9.Future<String> create(_i1.Score<_i2.Round<_i3.GameSetting>>? t) =>
+      (super.noSuchMethod(
         Invocation.method(
           #create,
           [t],
         ),
-        returnValue: _i8.Future<String>.value(_i9.dummyValue<String>(
+        returnValue: _i9.Future<String>.value(_i10.dummyValue<String>(
           this,
           Invocation.method(
             #create,
             [t],
           ),
         )),
-      ) as _i8.Future<String>);
+      ) as _i9.Future<String>);
 }

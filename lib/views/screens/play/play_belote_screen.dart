@@ -50,7 +50,8 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
       MaterialPageRoute(
         builder: (context) => AddBeloteRoundScreen(
           beloteGame: widget.beloteGame,
-          beloteRound: widget.roundService.getNewRound() as BeloteRound?,
+          beloteRound: widget.roundService
+              .getNewRound(widget.beloteGame.settings) as BeloteRound?,
           roundService: CorrectInstance.ofRoundService(widget.beloteGame),
         ),
       ),
@@ -123,6 +124,15 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
         context: context,
         builder: (BuildContext context) => NotesDialog(
             game: widget.beloteGame, gameService: widget.gameService));
+  }
+
+  bool _showLastRoundLayout(BeloteScore score) {
+    if (widget.beloteGame.settings.isInfinite) {
+      return false;
+    } else {
+      return widget.beloteGame.settings.maxPoint <= score.themTotalPoints ||
+          widget.beloteGame.settings.maxPoint <= score.usTotalPoints;
+    }
   }
 
   _PlayBeloteScreenState();
@@ -219,10 +229,50 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
                             ),
                           ),
                           if (!widget.beloteGame.isEnded)
-                            NextPlayerWidget(
-                                playerId:
-                                    widget.beloteGame.players!.playerList![
-                                        snapshot.data!.rounds.length % 4]!),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: NextPlayerWidget(
+                                  playerId:
+                                      widget.beloteGame.players!.playerList![
+                                          snapshot.data!.rounds.length % 4]!),
+                            ),
+                          if (!widget.beloteGame.isEnded)
+                            PlayScreenButtonBlock(
+                              deleteLastRound: _deleteLastRound,
+                              editLastRound: _editLastRound,
+                              endGame: _endGame,
+                              addNewRound: _addNewRound,
+                              addNotes: _addNotes,
+                              lastRoundLayout:
+                                  _showLastRoundLayout(snapshot.data!),
+                            )
+                          else if (widget.beloteGame.notes != null)
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                                margin: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 4),
+                                elevation: 2,
+                                color: Colors.white,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        '${AppLocalizations.of(context)!.messageDeleteLasRound} : ',
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      const Divider(color: Colors.transparent),
+                                      Text(widget.beloteGame.notes!),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            )
                         ],
                       );
                     } else {
@@ -236,38 +286,6 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
                       ) as Stream<BeloteScore<BeloteRound>?>?),
             ),
           ),
-          if (!widget.beloteGame.isEnded)
-            PlayScreenButtonBlock(
-                deleteLastRound: _deleteLastRound,
-                editLastRound: _editLastRound,
-                endGame: _endGame,
-                addNewRound: _addNewRound,
-                addNotes: _addNotes)
-          else if (widget.beloteGame.notes != null)
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                elevation: 2,
-                color: Colors.white,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      Text(
-                        '${AppLocalizations.of(context)!.messageDeleteLasRound} : ',
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      const Divider(color: Colors.transparent),
-                      Text(widget.beloteGame.notes!),
-                    ],
-                  ),
-                ),
-              ),
-            )
         ],
       ),
     );

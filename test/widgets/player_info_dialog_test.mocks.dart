@@ -4,16 +4,17 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i8;
-import 'dart:ui' as _i13;
+import 'dart:ui' as _i14;
 
 import 'package:carg/models/carg_object.dart' as _i3;
 import 'package:carg/models/game/game.dart' as _i10;
+import 'package:carg/models/game/setting/game_setting.dart' as _i12;
 import 'package:carg/models/player.dart' as _i7;
 import 'package:carg/models/players/players.dart' as _i11;
 import 'package:carg/repositories/base_repository.dart' as _i4;
 import 'package:carg/repositories/player/abstract_player_repository.dart'
     as _i2;
-import 'package:carg/services/auth/auth_service.dart' as _i12;
+import 'package:carg/services/auth/auth_service.dart' as _i13;
 import 'package:carg/services/impl/player_service.dart' as _i6;
 import 'package:flutter/material.dart' as _i5;
 import 'package:mockito/mockito.dart' as _i1;
@@ -112,7 +113,7 @@ class MockPlayerService extends _i1.Mock implements _i6.PlayerService {
   @override
   _i8.Future<void> incrementPlayedGamesByOne(
     String? playerId,
-    _i10.Game<_i11.Players>? game,
+    _i10.Game<_i11.Players, _i12.GameSetting>? game,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -129,7 +130,7 @@ class MockPlayerService extends _i1.Mock implements _i6.PlayerService {
   @override
   _i8.Future<void> incrementWonGamesByOne(
     String? playerId,
-    _i10.Game<_i11.Players>? game,
+    _i10.Game<_i11.Players, _i12.GameSetting>? game,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -214,7 +215,7 @@ class MockPlayerService extends _i1.Mock implements _i6.PlayerService {
 /// A class which mocks [AuthService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockAuthService extends _i1.Mock implements _i12.AuthService {
+class MockAuthService extends _i1.Mock implements _i13.AuthService {
   MockAuthService() {
     _i1.throwOnMissingStub(this);
   }
@@ -343,7 +344,7 @@ class MockAuthService extends _i1.Mock implements _i12.AuthService {
   _i8.Future<dynamic> sendPhoneVerificationCode(
     String? phoneNumber,
     _i5.BuildContext? context,
-    _i12.CredentialVerificationType? credentialVerificationType,
+    _i13.CredentialVerificationType? credentialVerificationType,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -420,7 +421,7 @@ class MockAuthService extends _i1.Mock implements _i12.AuthService {
       ) as _i8.Future<bool>);
 
   @override
-  void addListener(_i13.VoidCallback? listener) => super.noSuchMethod(
+  void addListener(_i14.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,
           [listener],
@@ -429,7 +430,7 @@ class MockAuthService extends _i1.Mock implements _i12.AuthService {
       );
 
   @override
-  void removeListener(_i13.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(_i14.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #removeListener,
           [listener],

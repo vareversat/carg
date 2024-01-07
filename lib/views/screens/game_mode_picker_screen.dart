@@ -7,7 +7,7 @@ import 'package:carg/models/game/game_type.dart';
 import 'package:carg/models/game/tarot.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/styles/text_style.dart';
-import 'package:carg/views/screens/player_picker_screen.dart';
+import 'package:carg/views/screens/game_settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -110,7 +110,7 @@ class _GameModeButton extends StatelessWidget {
             Navigator.of(context).push(
               CustomRouteLeftToRight(
                 builder: (context) =>
-                    PlayerPickerScreen(game: game, title: game!.gameType.name),
+                    GameSettingsScreen(game: game, title: game!.gameType.name),
               ),
             )
           },

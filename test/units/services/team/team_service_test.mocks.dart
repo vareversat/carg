@@ -7,6 +7,7 @@ import 'dart:async' as _i9;
 
 import 'package:carg/models/carg_object.dart' as _i5;
 import 'package:carg/models/game/game.dart' as _i12;
+import 'package:carg/models/game/setting/game_setting.dart' as _i14;
 import 'package:carg/models/player.dart' as _i11;
 import 'package:carg/models/players/players.dart' as _i13;
 import 'package:carg/models/team.dart' as _i3;
@@ -306,7 +307,7 @@ class MockPlayerService extends _i1.Mock implements _i10.PlayerService {
   @override
   _i9.Future<void> incrementPlayedGamesByOne(
     String? playerId,
-    _i12.Game<_i13.Players>? game,
+    _i12.Game<_i13.Players, _i14.GameSetting>? game,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -323,7 +324,7 @@ class MockPlayerService extends _i1.Mock implements _i10.PlayerService {
   @override
   _i9.Future<void> incrementWonGamesByOne(
     String? playerId,
-    _i12.Game<_i13.Players>? game,
+    _i12.Game<_i13.Players, _i14.GameSetting>? game,
   ) =>
       (super.noSuchMethod(
         Invocation.method(

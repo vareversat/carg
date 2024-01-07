@@ -4,10 +4,11 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i10;
-import 'dart:ui' as _i15;
+import 'dart:ui' as _i16;
 
 import 'package:carg/models/carg_object.dart' as _i3;
 import 'package:carg/models/game/game.dart' as _i11;
+import 'package:carg/models/game/setting/game_setting.dart' as _i13;
 import 'package:carg/models/player.dart' as _i9;
 import 'package:carg/models/players/players.dart' as _i12;
 import 'package:carg/models/team.dart' as _i7;
@@ -15,12 +16,12 @@ import 'package:carg/repositories/base_repository.dart' as _i4;
 import 'package:carg/repositories/player/abstract_player_repository.dart'
     as _i2;
 import 'package:carg/repositories/team/abstract_team_repository.dart' as _i5;
-import 'package:carg/services/auth/auth_service.dart' as _i16;
+import 'package:carg/services/auth/auth_service.dart' as _i17;
 import 'package:carg/services/player/abstract_player_service.dart' as _i6;
-import 'package:carg/services/team/abstract_team_service.dart' as _i14;
+import 'package:carg/services/team/abstract_team_service.dart' as _i15;
 import 'package:flutter/material.dart' as _i8;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mockito/src/dummies.dart' as _i13;
+import 'package:mockito/src/dummies.dart' as _i14;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -168,7 +169,7 @@ class MockAbstractPlayerService extends _i1.Mock
   @override
   _i10.Future<void> incrementPlayedGamesByOne(
     String? playerId,
-    _i11.Game<_i12.Players>? game,
+    _i11.Game<_i12.Players, _i13.GameSetting>? game,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -185,7 +186,7 @@ class MockAbstractPlayerService extends _i1.Mock
   @override
   _i10.Future<void> incrementWonGamesByOne(
     String? playerId,
-    _i11.Game<_i12.Players>? game,
+    _i11.Game<_i12.Players, _i13.GameSetting>? game,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -272,7 +273,7 @@ class MockAbstractPlayerService extends _i1.Mock
           #create,
           [t],
         ),
-        returnValue: _i10.Future<String>.value(_i13.dummyValue<String>(
+        returnValue: _i10.Future<String>.value(_i14.dummyValue<String>(
           this,
           Invocation.method(
             #create,
@@ -286,7 +287,7 @@ class MockAbstractPlayerService extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockAbstractTeamService extends _i1.Mock
-    implements _i14.AbstractTeamService {
+    implements _i15.AbstractTeamService {
   MockAbstractTeamService() {
     _i1.throwOnMissingStub(this);
   }
@@ -353,7 +354,7 @@ class MockAbstractTeamService extends _i1.Mock
   @override
   _i10.Future<_i7.Team> incrementPlayedGamesByOne(
     String? id,
-    _i11.Game<_i12.Players>? game,
+    _i11.Game<_i12.Players, _i13.GameSetting>? game,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -378,7 +379,7 @@ class MockAbstractTeamService extends _i1.Mock
   @override
   _i10.Future<_i7.Team> incrementWonGamesByOne(
     String? id,
-    _i11.Game<_i12.Players>? game,
+    _i11.Game<_i12.Players, _i13.GameSetting>? game,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -444,7 +445,7 @@ class MockAbstractTeamService extends _i1.Mock
           #create,
           [t],
         ),
-        returnValue: _i10.Future<String>.value(_i13.dummyValue<String>(
+        returnValue: _i10.Future<String>.value(_i14.dummyValue<String>(
           this,
           Invocation.method(
             #create,
@@ -466,7 +467,7 @@ class MockTextEditingController extends _i1.Mock
   @override
   String get text => (super.noSuchMethod(
         Invocation.getter(#text),
-        returnValue: _i13.dummyValue<String>(
+        returnValue: _i14.dummyValue<String>(
           this,
           Invocation.getter(#text),
         ),
@@ -582,7 +583,7 @@ class MockTextEditingController extends _i1.Mock
       ) as bool);
 
   @override
-  void addListener(_i15.VoidCallback? listener) => super.noSuchMethod(
+  void addListener(_i16.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,
           [listener],
@@ -591,7 +592,7 @@ class MockTextEditingController extends _i1.Mock
       );
 
   @override
-  void removeListener(_i15.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(_i16.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #removeListener,
           [listener],
@@ -621,7 +622,7 @@ class MockTextEditingController extends _i1.Mock
 /// A class which mocks [AuthService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockAuthService extends _i1.Mock implements _i16.AuthService {
+class MockAuthService extends _i1.Mock implements _i17.AuthService {
   MockAuthService() {
     _i1.throwOnMissingStub(this);
   }
@@ -644,7 +645,7 @@ class MockAuthService extends _i1.Mock implements _i16.AuthService {
           #googleLogIn,
           [],
         ),
-        returnValue: _i10.Future<String>.value(_i13.dummyValue<String>(
+        returnValue: _i10.Future<String>.value(_i14.dummyValue<String>(
           this,
           Invocation.method(
             #googleLogIn,
@@ -677,7 +678,7 @@ class MockAuthService extends _i1.Mock implements _i16.AuthService {
             link,
           ],
         ),
-        returnValue: _i10.Future<String>.value(_i13.dummyValue<String>(
+        returnValue: _i10.Future<String>.value(_i14.dummyValue<String>(
           this,
           Invocation.method(
             #signInWithEmailLink,
@@ -702,7 +703,7 @@ class MockAuthService extends _i1.Mock implements _i16.AuthService {
             verificationId,
           ],
         ),
-        returnValue: _i10.Future<String>.value(_i13.dummyValue<String>(
+        returnValue: _i10.Future<String>.value(_i14.dummyValue<String>(
           this,
           Invocation.method(
             #validatePhoneNumber,
@@ -750,7 +751,7 @@ class MockAuthService extends _i1.Mock implements _i16.AuthService {
   _i10.Future<dynamic> sendPhoneVerificationCode(
     String? phoneNumber,
     _i8.BuildContext? context,
-    _i16.CredentialVerificationType? credentialVerificationType,
+    _i17.CredentialVerificationType? credentialVerificationType,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -827,7 +828,7 @@ class MockAuthService extends _i1.Mock implements _i16.AuthService {
       ) as _i10.Future<bool>);
 
   @override
-  void addListener(_i15.VoidCallback? listener) => super.noSuchMethod(
+  void addListener(_i16.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,
           [listener],
@@ -836,7 +837,7 @@ class MockAuthService extends _i1.Mock implements _i16.AuthService {
       );
 
   @override
-  void removeListener(_i15.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(_i16.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #removeListener,
           [listener],

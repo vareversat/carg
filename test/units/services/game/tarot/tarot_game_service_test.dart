@@ -1,4 +1,5 @@
 import 'package:carg/exceptions/service_exception.dart';
+import 'package:carg/models/game/setting/tarot_game_setting.dart';
 import 'package:carg/models/game/tarot.dart';
 import 'package:carg/models/players/tarot_players.dart';
 import 'package:carg/models/score/misc/tarot_player_score.dart';
@@ -41,6 +42,7 @@ void main() {
       players: TarotPlayers(playerList: ['p1', 'p2']));
   final gameNoId = Tarot(
       startingDate: date, players: TarotPlayers(playerList: ['p1', 'p2']));
+  final settings = TarotGameSetting(maxPoint: 1000, isInfinite: false);
 
   setUp(() {
     reset(mockTarotScoreService);
@@ -97,7 +99,8 @@ void main() {
             tarotGameRepository: mockTarotGameRepository,
             playerService: mockPlayerService);
 
-        await tarotGameService.createGameWithPlayerList(players, players, date);
+        await tarotGameService.createGameWithPlayerList(
+            players, players, date, settings);
         verify(mockTarotGameRepository.create(game)).called(1);
         verify(mockTarotScoreService.create(score)).called(1);
       });

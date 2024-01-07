@@ -1,10 +1,11 @@
+import 'package:carg/models/game/setting/belote_game_setting.dart';
 import 'package:carg/models/score/misc/belote_team_enum.dart';
 import 'package:carg/models/score/misc/card_color.dart';
 import 'package:carg/models/score/round/round.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/widgets.dart';
 
-abstract class BeloteRound extends Round {
+abstract class BeloteRound extends Round<BeloteGameSetting> {
   static const int beloteRebeloteBonus = 20;
   static const int dixDeDerBonus = 10;
   static const int totalTrickScore = 152;
@@ -24,6 +25,7 @@ abstract class BeloteRound extends Round {
 
   BeloteRound(
       {super.index,
+      super.settings,
       cardColor,
       contractFulfilled,
       dixDeDer,
@@ -108,7 +110,27 @@ abstract class BeloteRound extends Round {
     notifyListeners();
   }
 
-  int getTrickPointsOfTeam(BeloteTeamEnum team);
+  int getTrickPointsOfTeam(BeloteTeamEnum? team) {
+    switch (team) {
+      case BeloteTeamEnum.US:
+        return usTrickScore;
+      case BeloteTeamEnum.THEM:
+        return themTrickScore;
+      case null:
+        return 0;
+    }
+  }
+
+  int getTotalPointsOfTeam(BeloteTeamEnum team) {
+    // Check the settings to check the score computation
+    if (settings != null && settings!.sumTrickPointsAndContract) {
+      return getTrickPointsOfTeam(team) +
+          getDixDeDerOfTeam(team) +
+          getBeloteRebeloteOfTeam(team);
+    } else {
+      return getDixDeDerOfTeam(team) + getBeloteRebeloteOfTeam(team);
+    }
+  }
 
   int getBeloteRebeloteOfTeam(BeloteTeamEnum? team) {
     return team == _beloteRebelote ? beloteRebeloteBonus : 0;

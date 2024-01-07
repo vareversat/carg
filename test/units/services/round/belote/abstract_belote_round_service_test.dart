@@ -1,3 +1,4 @@
+import 'package:carg/models/game/setting/game_setting.dart';
 import 'package:carg/models/score/french_belote_score.dart';
 import 'package:carg/models/score/misc/belote_team_enum.dart';
 import 'package:carg/models/score/round/belote_round.dart';
@@ -15,7 +16,7 @@ class FakeBeloteRoundService extends AbstractBeloteRoundService {
       {required super.scoreService});
 
   @override
-  BeloteRound getNewRound() {
+  BeloteRound getNewRound(GameSetting? settings) {
     throw UnimplementedError();
   }
 }

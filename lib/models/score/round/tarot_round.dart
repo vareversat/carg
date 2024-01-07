@@ -1,3 +1,4 @@
+import 'package:carg/models/game/setting/tarot_game_setting.dart';
 import 'package:carg/models/players/tarot_round_players.dart';
 import 'package:carg/models/score/misc/tarot_chelem.dart';
 import 'package:carg/models/score/misc/tarot_contract.dart';
@@ -12,7 +13,7 @@ import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class TarotRound extends Round {
+class TarotRound extends Round<TarotGameSetting> {
   static const double maxTrickPoints = 91;
   static const double victoryBonus = 25;
   static const double smallToTheEndBonus = 10;
@@ -45,6 +46,7 @@ class TarotRound extends Round {
     TarotChelem? chelem,
     TarotTeam? smallToTheEnd,
     List<TarotPlayerScore>? playerPoints,
+    super.settings,
     this.players,
   }) {
     this.attackScore = attackScore ?? 0;

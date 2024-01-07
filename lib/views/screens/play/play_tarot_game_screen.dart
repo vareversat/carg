@@ -46,8 +46,10 @@ class _PlayTarotGameScreenState extends State<PlayTarotGameScreen> {
       MaterialPageRoute(
         builder: (context) => AddTarotRoundScreen(
             tarotRound: TarotRound(
+              settings: widget.tarotGame.settings,
               players: TarotRoundPlayers(
-                  playerList: widget.tarotGame.players!.playerList),
+                playerList: widget.tarotGame.players!.playerList,
+              ),
             ),
             isEditing: false,
             tarotGame: widget.tarotGame),
@@ -122,6 +124,16 @@ class _PlayTarotGameScreenState extends State<PlayTarotGameScreen> {
         builder: (BuildContext context) => NotesDialog(
             game: widget.tarotGame,
             gameService: CorrectInstance.ofGameService(widget.tarotGame)));
+  }
+
+  bool _showLastRoundLayout(TarotScore score) {
+    if (widget.tarotGame.settings.isInfinite) {
+      return false;
+    } else {
+      var totalPoints = score.totalPoints;
+      totalPoints.sort((b, a) => a.score.compareTo(b.score));
+      return widget.tarotGame.settings.maxPoint <= totalPoints[0].score;
+    }
   }
 
   @override
@@ -220,11 +232,48 @@ class _PlayTarotGameScreenState extends State<PlayTarotGameScreen> {
                         ),
                       ),
                       if (!widget.tarotGame.isEnded)
-                        NextPlayerWidget(
-                            playerId: widget.tarotGame.players!.playerList![
-                                snapshot.data!.rounds.length %
-                                    widget.tarotGame.players!.playerList!
-                                        .length]!),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: NextPlayerWidget(
+                              playerId: widget.tarotGame.players!.playerList![
+                                  snapshot.data!.rounds.length %
+                                      widget.tarotGame.players!.playerList!
+                                          .length]!),
+                        ),
+                      if (!widget.tarotGame.isEnded)
+                        PlayScreenButtonBlock(
+                          deleteLastRound: _deleteLastRound,
+                          editLastRound: _editLastRound,
+                          endGame: _endGame,
+                          addNewRound: _addNewRound,
+                          addNotes: _addNotes,
+                          lastRoundLayout: _showLastRoundLayout(snapshot.data!),
+                        )
+                      else if (widget.tarotGame.notes != null)
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Card(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0)),
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 4),
+                            elevation: 2,
+                            color: Colors.white,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                children: [
+                                  Text(
+                                      '${AppLocalizations.of(context)!.gameNotes} : ',
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold)),
+                                  const Divider(color: Colors.transparent),
+                                  Text(widget.tarotGame.notes!),
+                                ],
+                              ),
+                            ),
+                          ),
+                        )
                     ],
                   );
                 },
@@ -233,35 +282,6 @@ class _PlayTarotGameScreenState extends State<PlayTarotGameScreen> {
               ),
             ),
           ),
-          if (!widget.tarotGame.isEnded)
-            PlayScreenButtonBlock(
-                deleteLastRound: _deleteLastRound,
-                editLastRound: _editLastRound,
-                endGame: _endGame,
-                addNewRound: _addNewRound,
-                addNotes: _addNotes)
-          else if (widget.tarotGame.notes != null)
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Card(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0)),
-                margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                elevation: 2,
-                color: Colors.white,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      Text('${AppLocalizations.of(context)!.gameNotes} : ',
-                          style: const TextStyle(fontWeight: FontWeight.bold)),
-                      const Divider(color: Colors.transparent),
-                      Text(widget.tarotGame.notes!),
-                    ],
-                  ),
-                ),
-              ),
-            )
         ],
       ),
     );

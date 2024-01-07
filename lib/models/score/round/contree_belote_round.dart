@@ -12,16 +12,17 @@ class ContreeBeloteRound extends BeloteRound {
 
   ContreeBeloteRound(
       {super.index,
-      CardColor? super.cardColor,
-      bool? super.contractFulfilled,
-      BeloteTeamEnum? super.dixDeDer,
-      BeloteTeamEnum? super.beloteRebelote,
-      BeloteTeamEnum? super.taker,
-      BeloteTeamEnum? super.defender,
-      int? super.takerScore,
-      int? super.defenderScore,
-      int? super.usTrickScore,
-      int? super.themTrickScore,
+      super.cardColor,
+      super.contractFulfilled,
+      super.dixDeDer,
+      super.beloteRebelote,
+      super.taker,
+      super.defender,
+      super.takerScore,
+      super.defenderScore,
+      super.usTrickScore,
+      super.themTrickScore,
+      super.settings,
       int? contract,
       ContreeBeloteContractName? contractName,
       BeloteContractType? contractType}) {
@@ -72,18 +73,12 @@ class ContreeBeloteRound extends BeloteRound {
 
   @override
   void computeRound() {
-    var takerTrickPoints = getTrickPointsOfTeam(taker);
-    var defenderTrickPoints = getTrickPointsOfTeam(defender);
     if (contractFulfilled) {
-      var takerScoreTmp = takerTrickPoints +
-          getDixDeDerOfTeam(taker) +
-          getBeloteRebeloteOfTeam(taker) +
-          contract;
+      var takerScoreTmp = getTotalPointsOfTeam(taker) + contract;
+      var defenderScoreTmp = getTotalPointsOfTeam(defender);
       takerScore = roundScore(
           contractType.bonus(takerScoreTmp) * contractName.multiplier);
-      defenderScore = roundScore(defenderTrickPoints +
-          getDixDeDerOfTeam(defender) +
-          getBeloteRebeloteOfTeam(defender));
+      defenderScore = roundScore(defenderScoreTmp);
     } else {
       var defenderScoreTmp = BeloteRound.totalScore +
           contractType.bonus(contract) +
@@ -94,18 +89,6 @@ class ContreeBeloteRound extends BeloteRound {
       defenderScore = roundScore(defenderScoreTmp * contractName.multiplier);
     }
     notifyListeners();
-  }
-
-  @override
-  int getTrickPointsOfTeam(BeloteTeamEnum? team) {
-    switch (team) {
-      case BeloteTeamEnum.US:
-        return usTrickScore;
-      case BeloteTeamEnum.THEM:
-        return themTrickScore;
-      case null:
-        return 0;
-    }
   }
 
   @override

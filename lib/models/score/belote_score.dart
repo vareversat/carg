@@ -22,6 +22,7 @@ abstract class BeloteScore<T extends BeloteRound> extends Score<T> {
     usTotalPoints -= getPointsOfRound(BeloteTeamEnum.US, getLastRound());
     themTotalPoints -= getPointsOfRound(BeloteTeamEnum.THEM, getLastRound());
     _setLastRound(round);
+    notifyListeners();
     return this;
   }
 
@@ -30,6 +31,7 @@ abstract class BeloteScore<T extends BeloteRound> extends Score<T> {
     usTotalPoints -= getPointsOfRound(BeloteTeamEnum.US, getLastRound());
     themTotalPoints -= getPointsOfRound(BeloteTeamEnum.THEM, getLastRound());
     rounds.removeLast();
+    notifyListeners();
     return this;
   }
 
@@ -51,6 +53,7 @@ abstract class BeloteScore<T extends BeloteRound> extends Score<T> {
     themTotalPoints += getPointsOfRound(BeloteTeamEnum.THEM, round);
     round.index = rounds.length;
     rounds.add(round);
+    notifyListeners();
   }
 
   void _setLastRound(T round) {
