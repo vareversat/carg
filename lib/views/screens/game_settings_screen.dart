@@ -21,6 +21,10 @@ class GameSettingsScreen extends StatelessWidget {
 
   GameSettingsScreen({super.key, required this.game, required this.title});
 
+  int sanitizeMaxContractValue(String value) {
+    return int.tryParse(value)?.abs() ?? 0;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,6 +86,13 @@ class GameSettingsScreen extends StatelessWidget {
                                         key: const ValueKey(
                                             'maxPointsTextFieldValue'),
                                         textAlign: TextAlign.center,
+                                        decoration: const InputDecoration(
+                                          border: InputBorder.none,
+                                          focusedBorder: InputBorder.none,
+                                          enabledBorder: InputBorder.none,
+                                          errorBorder: InputBorder.none,
+                                          disabledBorder: InputBorder.none,
+                                        ),
                                         style: const TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 40),
@@ -91,7 +102,7 @@ class GameSettingsScreen extends StatelessWidget {
                                         inputFormatters: const <TextInputFormatter>[],
                                         onSubmitted: (String value) => {
                                           settingsData.maxPoint =
-                                              int.parse(value),
+                                              sanitizeMaxContractValue(value),
                                         },
                                       ),
                               ),
