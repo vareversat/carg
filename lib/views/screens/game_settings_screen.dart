@@ -169,7 +169,7 @@ class GameSettingsScreen extends StatelessWidget {
                             child: Center(
                               child: Text(
                                 AppLocalizations.of(context)!
-                                    .addAnnouncementAndPointDone,
+                                    .addContractAndPointDone,
                               ),
                             ),
                           ),
@@ -177,48 +177,58 @@ class GameSettingsScreen extends StatelessWidget {
                             value: (game?.settings as BeloteGameSetting),
                             child: Consumer<BeloteGameSetting>(
                                 builder: (context, settingsData, child) {
-                              return Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 120,
-                                ),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Text(
-                                      AppLocalizations.of(context)!.no,
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold),
+                              return Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 120,
                                     ),
-                                    Switch(
-                                      value: settingsData.addContractToScore,
-                                      activeColor:
-                                          Theme.of(context).primaryColor,
-                                      onChanged: (bool value) {
-                                        settingsData.addContractToScore = value;
-                                      },
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        Text(
+                                          AppLocalizations.of(context)!.no,
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Switch(
+                                          value:
+                                              settingsData.addContractToScore,
+                                          activeColor:
+                                              Theme.of(context).primaryColor,
+                                          onChanged: (bool value) {
+                                            settingsData.addContractToScore =
+                                                value;
+                                          },
+                                        ),
+                                        Text(
+                                          AppLocalizations.of(context)!.yes,
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        )
+                                      ],
                                     ),
-                                    Text(
-                                      AppLocalizations.of(context)!.yes,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20.0),
+                                    child: Text(
+                                      settingsData.addContractToScore
+                                          ? AppLocalizations.of(context)!
+                                              .addContractAndPointDoneYesExample
+                                          : AppLocalizations.of(context)!
+                                              .addContractAndPointDoneNoExample,
+                                      textAlign: TextAlign.center,
                                       style: const TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    )
-                                  ],
-                                ),
+                                        fontStyle: FontStyle.italic,
+                                        fontSize: 15,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               );
                             }),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 20.0),
-                            child: Text(
-                              "Exemple : L'attaque annonce 110 points. Elle remporte en faisant un total de 125.\n "
-                              "L'attaque marque donc 130 + 110 = 240 et la défense 40",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontStyle: FontStyle.italic,
-                                fontSize: 15,
-                              ),
-                            ),
                           ),
                         ],
                       )

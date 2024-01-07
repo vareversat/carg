@@ -1,6 +1,8 @@
 {
   "about": "About",
-  "addAnnouncementAndPointDone": "Add announcement and points done",
+  "addContractAndPointDone": "Add announcement and points done",
+  "addContractAndPointDoneYesExample": "Example: The attack team announces 110 points. She wins with a total of 125.\n  The attack therefore scores 130 + 110 = 240 and the defense 40",
+  "addContractAndPointDoneNoExample": "Example: The attack team announces 110 points. She wins with a total of 125.\n  The attack therefore scores 110 and the defense 0",
   "admin": "Admin",
   "appDescription": "The application to record your games of Belote, Coinche, Contrée and Tarot!",
   "attack": "Attack",

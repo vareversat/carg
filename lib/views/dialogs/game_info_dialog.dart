@@ -66,7 +66,7 @@ class _GameInfoDialogState extends State<GameInfoDialog> {
                       ),
                     ),
                     Text(
-                      AppLocalizations.of(context)!.addAnnouncementAndPointDone,
+                      AppLocalizations.of(context)!.addContractAndPointDone,
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     const SizedBox(

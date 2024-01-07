@@ -1,6 +1,8 @@
 {
   "about": "À propos",
-  "addAnnouncementAndPointDone": "Additionner annonce et points fait",
+  "addContractAndPointDone": "Additionner annonce et points fait",
+  "addContractAndPointDoneYesExample": "Exemple : L'attaque annonce 110 points. Elle remporte en faisant un total de 125.\n L'attaque marque donc 130 + 110 = 240 et la défense 40",
+  "addContractAndPointDoneNoExample": "Exemple : L'attaque annonce 110 points. Elle remporte en faisant un total de 125.\n L'attaque marque donc 110 et la défense 0",
   "admin": "Admin",
   "appDescription": "L'application pour enregistrer vos parties de Belote, Coinche, Contrée et Tarot !",
   "attack": "Attaque",
