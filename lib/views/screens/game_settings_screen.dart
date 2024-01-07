@@ -14,13 +14,12 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
-class BeloteGameSettingsScreen extends StatelessWidget {
+class GameSettingsScreen extends StatelessWidget {
   final Game? game;
   final String title;
   final TextEditingController _contractTextController = TextEditingController();
 
-  BeloteGameSettingsScreen(
-      {super.key, required this.game, required this.title});
+  GameSettingsScreen({super.key, required this.game, required this.title});
 
   @override
   Widget build(BuildContext context) {
