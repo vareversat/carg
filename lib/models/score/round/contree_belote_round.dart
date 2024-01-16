@@ -1,4 +1,5 @@
 import 'package:carg/models/score/misc/belote_contract_type.dart';
+import 'package:carg/models/score/misc/belote_special_round.dart';
 import 'package:carg/models/score/misc/belote_team_enum.dart';
 import 'package:carg/models/score/misc/card_color.dart';
 import 'package:carg/models/score/misc/contree_belote_contract_name.dart';
@@ -25,7 +26,9 @@ class ContreeBeloteRound extends BeloteRound {
       super.settings,
       int? contract,
       ContreeBeloteContractName? contractName,
-      BeloteContractType? contractType}) {
+      BeloteContractType? contractType,
+      super.beloteSpecialRound,
+      super.beloteSpecialRoundPlayer}) {
     _contract = contract ?? 0;
     _contractName = contractName ?? ContreeBeloteContractName.NORMAL;
     _contractType = contractType ?? BeloteContractType.NORMAL;
@@ -102,6 +105,14 @@ class ContreeBeloteRound extends BeloteRound {
     return tmpJSON;
   }
 
+  factory ContreeBeloteRound.specialRound(
+      BeloteSpecialRound beloteSpecialRound, String playerID) {
+    return ContreeBeloteRound(
+        defenderScore: 0,
+        beloteSpecialRound: beloteSpecialRound,
+        beloteSpecialRoundPlayer: playerID);
+  }
+
   factory ContreeBeloteRound.fromJSON(Map<String, dynamic> json) {
     return ContreeBeloteRound(
         index: json['index'],
@@ -123,7 +134,10 @@ class ContreeBeloteRound extends BeloteRound {
         contractName: EnumToString.fromString(
             ContreeBeloteContractName.values, json['contract_name']),
         contractType: EnumToString.fromString(
-            BeloteContractType.values, json['contract_type'] ?? ''));
+            BeloteContractType.values, json['contract_type'] ?? ''),
+        beloteSpecialRound: EnumToString.fromString(
+            BeloteSpecialRound.values, json['belote_special_round'] ?? ''),
+        beloteSpecialRoundPlayer: json['belote_special_round_player']);
   }
 
   static List<ContreeBeloteRound> fromJSONList(List<dynamic> jsonList) {

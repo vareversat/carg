@@ -1,4 +1,5 @@
 import 'package:carg/models/game/setting/belote_game_setting.dart';
+import 'package:carg/models/score/misc/belote_special_round.dart';
 import 'package:carg/models/score/misc/belote_team_enum.dart';
 import 'package:carg/models/score/misc/card_color.dart';
 import 'package:carg/models/score/round/round.dart';
@@ -11,6 +12,8 @@ abstract class BeloteRound extends Round<BeloteGameSetting> {
   static const int totalTrickScore = 152;
   static const int totalScore =
       BeloteRound.totalTrickScore + BeloteRound.dixDeDerBonus;
+  BeloteSpecialRound? beloteSpecialRound;
+  String? beloteSpecialRoundPlayer;
 
   late CardColor _cardColor;
   late bool contractFulfilled;
@@ -35,7 +38,9 @@ abstract class BeloteRound extends Round<BeloteGameSetting> {
       defenderScore,
       usTrickScore,
       themTrickScore,
-      defender}) {
+      defender,
+      this.beloteSpecialRound,
+      this.beloteSpecialRoundPlayer}) {
     _taker = taker ?? BeloteTeamEnum.US;
     _defender = defender ?? BeloteTeamEnum.THEM;
     _cardColor = cardColor ?? CardColor.HEART;
@@ -110,6 +115,18 @@ abstract class BeloteRound extends Round<BeloteGameSetting> {
     notifyListeners();
   }
 
+  String specialRoundToString() {
+    if (beloteSpecialRound == null) {
+      return "This is not a special round";
+    } else {
+      return beloteSpecialRound!.name();
+    }
+  }
+
+  bool isSpecialRound() {
+    return beloteSpecialRound != null;
+  }
+
   int getTrickPointsOfTeam(BeloteTeamEnum? team) {
     switch (team) {
       case BeloteTeamEnum.US:
@@ -168,6 +185,10 @@ abstract class BeloteRound extends Round<BeloteGameSetting> {
       'defender_score': defenderScore,
       'us_trick_score': usTrickScore,
       'them_trick_score': themTrickScore,
+      'belote_special_round': beloteSpecialRound != null
+          ? EnumToString.convertToString(beloteSpecialRound)
+          : null,
+      'belote_special_round_player': beloteSpecialRoundPlayer,
     };
   }
 }

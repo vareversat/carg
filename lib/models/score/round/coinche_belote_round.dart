@@ -1,4 +1,5 @@
 import 'package:carg/models/score/misc/belote_contract_type.dart';
+import 'package:carg/models/score/misc/belote_special_round.dart';
 import 'package:carg/models/score/misc/belote_team_enum.dart';
 import 'package:carg/models/score/misc/card_color.dart';
 import 'package:carg/models/score/misc/coinche_belote_contract_name.dart';
@@ -25,7 +26,9 @@ class CoincheBeloteRound<CoincheBeloteGameSetting> extends BeloteRound {
       super.settings,
       contract,
       CoincheBeloteContractName? contractName,
-      BeloteContractType? contractType}) {
+      BeloteContractType? contractType,
+      super.beloteSpecialRound,
+      super.beloteSpecialRoundPlayer}) {
     _contract = contract ?? 0;
     _contractName = contractName ?? CoincheBeloteContractName.NORMAL;
     _contractType = contractType ?? BeloteContractType.NORMAL;
@@ -102,6 +105,14 @@ class CoincheBeloteRound<CoincheBeloteGameSetting> extends BeloteRound {
     return tmpJSON;
   }
 
+  factory CoincheBeloteRound.specialRound(
+      BeloteSpecialRound beloteSpecialRound, String playerID) {
+    return CoincheBeloteRound(
+        defenderScore: 0,
+        beloteSpecialRound: beloteSpecialRound,
+        beloteSpecialRoundPlayer: playerID);
+  }
+
   factory CoincheBeloteRound.fromJSON(Map<String, dynamic> json) {
     return CoincheBeloteRound(
         index: json['index'],
@@ -123,7 +134,10 @@ class CoincheBeloteRound<CoincheBeloteGameSetting> extends BeloteRound {
         contractName: EnumToString.fromString(
             CoincheBeloteContractName.values, json['contract_name']),
         contractType: EnumToString.fromString(
-            BeloteContractType.values, json['contract_type'] ?? ''));
+            BeloteContractType.values, json['contract_type'] ?? ''),
+        beloteSpecialRound: EnumToString.fromString(
+            BeloteSpecialRound.values, json['belote_special_round'] ?? ''),
+        beloteSpecialRoundPlayer: json['belote_special_round_player']);
   }
 
   static List<CoincheBeloteRound> fromJSONList(List<dynamic> jsonList) {

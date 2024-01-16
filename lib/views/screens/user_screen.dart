@@ -171,6 +171,15 @@ class _UserScreenState extends State<UserScreen>
               builder: (context, player, _) => CustomScrollView(
                 slivers: [
                   SliverAppBar(
+                    shape: const ContinuousRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        bottomLeft:
+                            Radius.circular(CustomProperties.borderRadius * 5),
+                        bottomRight: Radius.circular(
+                          CustomProperties.borderRadius * 5,
+                        ),
+                      ),
+                    ),
                     backgroundColor: Theme.of(context).primaryColor,
                     automaticallyImplyLeading: false,
                     floating: true,
@@ -191,42 +200,61 @@ class _UserScreenState extends State<UserScreen>
                     delegate: SliverChildListDelegate(
                       [
                         _player!.gameStatsList!.isNotEmpty
-                            ? Column(children: [
-                                _StatCircularChart(
-                                    gameStatsList: _player!.gameStatsList),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 30),
-                                  child: Text(
+                            ? Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 15),
+                                    child: Text(
                                       '-- ${AppLocalizations.of(context)!.winPercentage} --',
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyMedium!
                                           .copyWith(
-                                              fontStyle: FontStyle.italic)),
-                                ),
-                                _WonPlayedWidget(player: _player),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 30),
-                                  child: Wrap(
-                                      runSpacing: 20,
-                                      spacing: 80,
-                                      alignment: WrapAlignment.spaceEvenly,
-                                      children: _player!.gameStatsList!
-                                          .map(
-                                            (stat) => ConstrainedBox(
+                                            fontStyle: FontStyle.italic,
+                                          ),
+                                    ),
+                                  ),
+                                  _WonPlayedWidget(player: _player),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 30),
+                                    child: Wrap(
+                                        runSpacing: 20,
+                                        spacing: 80,
+                                        alignment: WrapAlignment.spaceEvenly,
+                                        children: _player!.gameStatsList!
+                                            .map(
+                                              (stat) => ConstrainedBox(
                                                 constraints:
                                                     const BoxConstraints(
                                                         maxWidth: 160,
                                                         maxHeight: 160),
                                                 child: _StatGauge(
-                                                    gameStats: stat)),
-                                          )
-                                          .toList()
-                                          .cast<Widget>()),
-                                )
-                              ])
+                                                  gameStats: stat,
+                                                ),
+                                              ),
+                                            )
+                                            .toList()
+                                            .cast<Widget>()),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 15),
+                                    child: Text(
+                                      '-- ${AppLocalizations.of(context)!.gameDistribution} --',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium!
+                                          .copyWith(
+                                            fontStyle: FontStyle.italic,
+                                          ),
+                                    ),
+                                  ),
+                                  _StatCircularChart(
+                                      gameStatsList: _player!.gameStatsList),
+                                ],
+                              )
                             : Center(
                                 child: Padding(
                                   padding: const EdgeInsets.all(30),
@@ -319,31 +347,26 @@ class _StatCircularChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SfCircularChart(
-        tooltipBehavior: TooltipBehavior(
-            enable: true, textStyle: Theme.of(context).textTheme.bodyMedium!),
-        title: ChartTitle(
-            text: '-- ${AppLocalizations.of(context)!.gameDistribution} --',
-            alignment: ChartAlignment.center,
-            textStyle: Theme.of(context)
-                .textTheme
-                .bodyMedium!
-                .copyWith(fontStyle: FontStyle.italic)),
-        series: <CircularSeries>[
-          DoughnutSeries<GameStats, String?>(
-            radius: '110%',
-            innerRadius: '60%',
-            dataSource: gameStatsList!,
-            xValueMapper: (GameStats data, _) => data.gameType.name,
-            yValueMapper: (GameStats data, _) => data.playedGames,
-          )
-        ],
-        legend: Legend(
-            iconHeight: 20,
-            iconWidth: 20,
-            textStyle: Theme.of(context).textTheme.bodyMedium!,
-            position: LegendPosition.left,
-            isVisible: true,
-            toggleSeriesVisibility: true));
+      tooltipBehavior:
+          TooltipBehavior(enable: true, color: Theme.of(context).primaryColor),
+      series: <CircularSeries>[
+        DoughnutSeries<GameStats, String?>(
+          radius: '60%',
+          innerRadius: '20%',
+          dataSource: gameStatsList!,
+          xValueMapper: (GameStats data, _) => data.gameType.name,
+          yValueMapper: (GameStats data, _) => data.playedGames,
+        )
+      ],
+      legend: Legend(
+        iconHeight: 20,
+        iconWidth: 20,
+        textStyle: Theme.of(context).textTheme.bodyMedium!,
+        position: LegendPosition.right,
+        isVisible: true,
+        toggleSeriesVisibility: true,
+      ),
+    );
   }
 }
 
@@ -418,7 +441,7 @@ class _AppBarTitle extends StatelessWidget {
       children: [
         Text(AppLocalizations.of(context)!.profileTitle,
             style: CustomTextStyle.screenHeadLine1(context)),
-        ElevatedButton.icon(
+        FilledButton(
           style: ButtonStyle(
             backgroundColor:
                 MaterialStateProperty.all<Color>(Theme.of(context).cardColor),
@@ -433,10 +456,9 @@ class _AppBarTitle extends StatelessWidget {
             ),
           ),
           onPressed: () async => await onPressEdit(),
-          label: Text(AppLocalizations.of(context)!.settings),
-          icon: const Icon(
-            FontAwesomeIcons.gears,
-            size: 13,
+          child: const Icon(
+            Icons.settings,
+            size: 20,
           ),
         ),
       ],
@@ -451,39 +473,73 @@ class _WonPlayedWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-      Flexible(
-          child: Column(children: [
-        const Icon(FontAwesomeIcons.trophy, size: 20),
-        Padding(
-            padding: const EdgeInsets.all(5.0),
-            child: Text(player!.totalWonGames().toString(),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        Flexible(
+          child: Column(
+            children: [
+              const Icon(FontAwesomeIcons.trophy, size: 20),
+              Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Text(
+                  player!.totalWonGames().toString(),
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              Text(
+                AppLocalizations.of(context)!.victories,
                 style: const TextStyle(
-                    fontSize: 20, fontWeight: FontWeight.bold))),
-        Text(AppLocalizations.of(context)!.victories,
-            style: const TextStyle(fontSize: 20))
-      ])),
-      Container(
-        decoration: BoxDecoration(
+                  fontSize: 20,
+                ),
+              )
+            ],
+          ),
+        ),
+        Container(
+          decoration: BoxDecoration(
             border: Border(
-                bottom: BorderSide(
-          color: Theme.of(context).primaryColor,
-          width: 6,
-        ))),
-        child: Text('${player!.totalWinPercentage()} %',
-            style: const TextStyle(fontSize: 35, fontWeight: FontWeight.bold)),
-      ),
-      Flexible(
-          child: Column(children: [
-        const Icon(FontAwesomeIcons.gamepad, size: 20),
-        Padding(
-            padding: const EdgeInsets.all(5.0),
-            child: Text(player!.totalPlayedGames().toString(),
+              bottom: BorderSide(
+                color: Theme.of(context).primaryColor,
+                width: 6,
+              ),
+            ),
+          ),
+          child: Text(
+            '${player!.totalWinPercentage()} %',
+            style: const TextStyle(
+              fontSize: 35,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        Flexible(
+          child: Column(
+            children: [
+              const Icon(FontAwesomeIcons.gamepad, size: 20),
+              Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Text(
+                  player!.totalPlayedGames().toString(),
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              Text(
+                AppLocalizations.of(context)!.games,
                 style: const TextStyle(
-                    fontSize: 20, fontWeight: FontWeight.bold))),
-        Text(AppLocalizations.of(context)!.games,
-            style: const TextStyle(fontSize: 20))
-      ]))
-    ]);
+                  fontSize: 20,
+                ),
+              )
+            ],
+          ),
+        )
+      ],
+    );
   }
 }

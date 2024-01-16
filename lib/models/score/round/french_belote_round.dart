@@ -1,3 +1,4 @@
+import 'package:carg/models/score/misc/belote_special_round.dart';
 import 'package:carg/models/score/misc/belote_team_enum.dart';
 import 'package:carg/models/score/misc/card_color.dart';
 import 'package:carg/models/score/round/belote_round.dart';
@@ -17,6 +18,8 @@ class FrenchBeloteRound extends BeloteRound {
     super.usTrickScore,
     super.themTrickScore,
     super.settings,
+    super.beloteSpecialRound,
+    super.beloteSpecialRoundPlayer,
   });
 
   @override
@@ -42,6 +45,14 @@ class FrenchBeloteRound extends BeloteRound {
             getBeloteRebeloteOfTeam(defender);
   }
 
+  factory FrenchBeloteRound.specialRound(
+      BeloteSpecialRound beloteSpecialRound, String playerID) {
+    return FrenchBeloteRound(
+        defenderScore: 0,
+        beloteSpecialRound: beloteSpecialRound,
+        beloteSpecialRoundPlayer: playerID);
+  }
+
   factory FrenchBeloteRound.fromJSON(Map<String, dynamic> json) {
     return FrenchBeloteRound(
         index: json['index'],
@@ -58,7 +69,10 @@ class FrenchBeloteRound extends BeloteRound {
         takerScore: json['taker_score'],
         defenderScore: json['defender_score'],
         usTrickScore: json['us_trick_score'],
-        themTrickScore: json['them_trick_score']);
+        themTrickScore: json['them_trick_score'],
+        beloteSpecialRound: EnumToString.fromString(
+            BeloteSpecialRound.values, json['belote_special_round'] ?? ''),
+        beloteSpecialRoundPlayer: json['belote_special_round_player']);
   }
 
   static List<FrenchBeloteRound> fromJSONList(List<dynamic> jsonList) {

@@ -31,34 +31,37 @@ class GameListScreen extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(AppLocalizations.of(context)!.games,
-                          style: CustomTextStyle.screenHeadLine1(context)),
-                      ElevatedButton.icon(
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(
-                                Theme.of(context).cardColor),
-                            foregroundColor: MaterialStateProperty.all<Color>(
-                                Theme.of(context).primaryColor),
-                            shape: MaterialStateProperty.all<OutlinedBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                  CustomProperties.borderRadius,
-                                ),
+                      Text(
+                        AppLocalizations.of(context)!.games,
+                        style: CustomTextStyle.screenHeadLine1(
+                          context,
+                        ),
+                      ),
+                      FilledButton(
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              Theme.of(context).cardColor),
+                          foregroundColor: MaterialStateProperty.all<Color>(
+                              Theme.of(context).primaryColor),
+                          shape: MaterialStateProperty.all<OutlinedBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                CustomProperties.borderRadius,
                               ),
                             ),
                           ),
-                          onPressed: () async => Navigator.push(
-                                context,
-                                CustomRouteFade(
-                                  builder: (context) =>
-                                      const GameModePickerScreen(),
-                                ),
-                              ),
-                          label: Text(
-                            AppLocalizations.of(context)!.newGame,
+                        ),
+                        onPressed: () async => Navigator.push(
+                          context,
+                          CustomRouteFade(
+                            builder: (context) => const GameModePickerScreen(),
                           ),
-                          icon: const FaIcon(FontAwesomeIcons.circlePlus,
-                              size: 15))
+                        ),
+                        child: const FaIcon(
+                          FontAwesomeIcons.circlePlus,
+                          size: 15,
+                        ),
+                      )
                     ],
                   ),
                 ),

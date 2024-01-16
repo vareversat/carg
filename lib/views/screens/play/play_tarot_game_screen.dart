@@ -247,6 +247,7 @@ class _PlayTarotGameScreenState extends State<PlayTarotGameScreen> {
                           endGame: _endGame,
                           addNewRound: _addNewRound,
                           addNotes: _addNotes,
+                          addNewSpecialRound: null,
                           lastRoundLayout: _showLastRoundLayout(snapshot.data!),
                         )
                       else if (widget.tarotGame.notes != null)

@@ -47,123 +47,139 @@ class AddTarotRoundScreen extends StatelessWidget {
             onPressed: () => Navigator.pop(context),
           ),
           title: const ScreenTitleWidget()),
-      body: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Column(
-          children: [
-            Flexible(
-              child: ListView(
-                children: [
-                  Column(
-                    children: [
-                      SectionTitleWidget(
-                        title: AppLocalizations.of(context)!.takerTitleTarot(
-                            tarotRound!.players!.playerList!.length % 5),
-                      ),
-                      ChangeNotifierProvider.value(
-                        value: tarotRound!.players!,
-                        child: Consumer<TarotRoundPlayers>(
-                          builder: (context, playerData, _) => Wrap(
-                            alignment: WrapAlignment.center,
-                            spacing: 10,
-                            children: playerData.playerList!
-                                .map(
-                                  (player) => APIMiniPlayerWidget(
-                                    isSelected:
-                                        playerData.isPlayerSelected(player),
-                                    playerId: player,
-                                    displayImage:
-                                        !playerData.isPlayerSelected(player),
-                                    showLoading: false,
-                                    selectedColor: playerData.getSelectedColor(
-                                        player, context),
-                                    playerService: PlayerService(),
-                                    onTap: () =>
-                                        playerData.onSelectedPlayer2(player),
-                                  ),
-                                )
-                                .toList()
-                                .cast<Widget>(),
-                          ),
+      body: Column(
+        children: [
+          Flexible(
+            child: ListView(
+              children: [
+                Column(
+                  children: [
+                    SectionTitleWidget(
+                      title: AppLocalizations.of(context)!.takerTitleTarot(
+                          tarotRound!.players!.playerList!.length % 5),
+                    ),
+                    ChangeNotifierProvider.value(
+                      value: tarotRound!.players!,
+                      child: Consumer<TarotRoundPlayers>(
+                        builder: (context, playerData, _) => Wrap(
+                          alignment: WrapAlignment.center,
+                          spacing: 10,
+                          children: playerData.playerList!
+                              .map(
+                                (player) => APIMiniPlayerWidget(
+                                  isSelected:
+                                      playerData.isPlayerSelected(player),
+                                  playerId: player,
+                                  displayImage:
+                                      !playerData.isPlayerSelected(player),
+                                  showLoading: false,
+                                  selectedColor: playerData.getSelectedColor(
+                                      player, context),
+                                  playerService: PlayerService(),
+                                  onTap: () =>
+                                      playerData.onSelectedPlayer2(player),
+                                ),
+                              )
+                              .toList()
+                              .cast<Widget>(),
                         ),
                       ),
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      const Divider(),
-                      ContractTarotWidget(
-                        tarotRound: tarotRound!,
-                      ),
-                      const Divider(),
-                      OudlerPickerWidget(
-                        tarotRound: tarotRound!,
-                      ),
-                      const Divider(),
-                      TrickPointsTarotWidget(
-                        tarotRound: tarotRound!,
-                      ),
-                      const Divider(),
-                      TarotPerkWidget(
-                        tarotRound: tarotRound!,
-                        tarotGame: tarotGame,
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      RealTimeDisplayWidget(
-                        round: tarotRound!,
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+                    ),
+                  ],
+                ),
+                Column(
+                  children: [
+                    const Divider(),
+                    ContractTarotWidget(
+                      tarotRound: tarotRound!,
+                    ),
+                    const Divider(),
+                    OudlerPickerWidget(
+                      tarotRound: tarotRound!,
+                    ),
+                    const Divider(),
+                    TrickPointsTarotWidget(
+                      tarotRound: tarotRound!,
+                    ),
+                    const Divider(),
+                    TarotPerkWidget(
+                      tarotRound: tarotRound!,
+                      tarotGame: tarotGame,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                  ],
+                ),
+              ],
             ),
-            Center(
-              child: SizedBox(
-                width: double.infinity,
-                height: 50,
-                child: Directionality(
-                  textDirection: TextDirection.rtl,
-                  child: ElevatedButton.icon(
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                        Theme.of(context).primaryColor,
-                      ),
-                      foregroundColor: MaterialStateProperty.all<Color>(
-                        Theme.of(context).cardColor,
-                      ),
-                      shape: MaterialStateProperty.all<OutlinedBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                            CustomProperties.borderRadius,
-                          ),
-                        ),
-                      ),
-                    ),
-                    onPressed: () => {
-                      _setupRound(),
-                      Navigator.pop(context),
-                    },
-                    label: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        AppLocalizations.of(context)!.validate,
-                        style: const TextStyle(
-                          fontSize: 23,
-                        ),
-                      ),
-                    ),
-                    icon: const Icon(Icons.check, size: 30),
-                  ),
+          ),
+          Container(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            decoration: BoxDecoration(
+              color: Theme.of(context).primaryColor,
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(
+                  CustomProperties.borderRadius,
+                ),
+                topRight: Radius.circular(
+                  CustomProperties.borderRadius,
                 ),
               ),
-            )
-          ],
-        ),
+            ),
+            child: Column(
+              children: [
+                RealTimeDisplayWidget(
+                  round: tarotRound!,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Center(
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: 50,
+                    child: Directionality(
+                      textDirection: TextDirection.rtl,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: ElevatedButton.icon(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                Theme.of(context).colorScheme.onPrimary),
+                            foregroundColor: MaterialStateProperty.all<Color>(
+                                Theme.of(context).primaryColor),
+                            shape: MaterialStateProperty.all<OutlinedBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                  CustomProperties.borderRadius,
+                                ),
+                              ),
+                            ),
+                          ),
+                          onPressed: () => {
+                            _setupRound(),
+                            Navigator.pop(context),
+                          },
+                          label: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              AppLocalizations.of(context)!.validate,
+                              style: const TextStyle(
+                                fontSize: 23,
+                              ),
+                            ),
+                          ),
+                          icon: const Icon(Icons.check, size: 30),
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

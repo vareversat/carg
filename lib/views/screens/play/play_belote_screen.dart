@@ -1,6 +1,7 @@
 import 'package:carg/helpers/correct_instance.dart';
 import 'package:carg/models/game/belote_game.dart';
 import 'package:carg/models/score/belote_score.dart';
+import 'package:carg/models/score/misc/belote_special_round.dart';
 import 'package:carg/models/score/misc/belote_team_enum.dart';
 import 'package:carg/models/score/misc/card_color.dart';
 import 'package:carg/models/score/round/belote_round.dart';
@@ -9,7 +10,9 @@ import 'package:carg/services/impl/player_service.dart';
 import 'package:carg/services/impl/team_service.dart';
 import 'package:carg/services/round/abstract_round_service.dart';
 import 'package:carg/services/score/abstract_score_service.dart';
+import 'package:carg/styles/properties.dart';
 import 'package:carg/views/dialogs/notes_dialog.dart';
+import 'package:carg/views/dialogs/special_roud_dialog.dart';
 import 'package:carg/views/dialogs/warning_dialog.dart';
 import 'package:carg/views/screens/add_round/add_belote_round_screen.dart';
 import 'package:carg/views/screens/home_screen.dart';
@@ -54,6 +57,18 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
               .getNewRound(widget.beloteGame.settings) as BeloteRound?,
           roundService: CorrectInstance.ofRoundService(widget.beloteGame),
         ),
+      ),
+    );
+  }
+
+  void _addNewSpecialRound() async {
+    await showDialog(
+      context: context,
+      builder: (BuildContext context) => SpecialRoundDialog(
+        beloteGame: widget.beloteGame,
+        beloteRound: widget.roundService.getNewRound(widget.beloteGame.settings)
+            as BeloteRound?,
+        roundService: CorrectInstance.ofRoundService(widget.beloteGame),
       ),
     );
   }
@@ -170,8 +185,13 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
             child: Container(
               padding: const EdgeInsets.all(10),
               decoration: const BoxDecoration(
-                  border:
-                      Border(top: BorderSide(color: Colors.black, width: 1))),
+                border: Border(
+                  top: BorderSide(
+                    color: Colors.black,
+                    width: 1,
+                  ),
+                ),
+              ),
               child: StreamBuilder<BeloteScore?>(
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
@@ -204,21 +224,29 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
                                         MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
                                       Flexible(
-                                          flex: 3,
-                                          child: _RoundDisplay(
-                                              round:
-                                                  snapshot.data!.rounds[index],
-                                              team: BeloteTeamEnum.US)),
-                                      Flexible(
-                                        child: Text(
-                                          snapshot.data!.rounds[index].cardColor
-                                              .symbol,
-                                          style: const TextStyle(fontSize: 15),
+                                        flex: 5,
+                                        child: _RoundDisplayWidget(
+                                          round: snapshot.data!.rounds[index],
+                                          team: BeloteTeamEnum.US,
                                         ),
                                       ),
+                                      if (snapshot.data!.rounds[index]
+                                          .isSpecialRound())
+                                        _SpecialRoundDisplayWidget(
+                                            round: snapshot.data!.rounds[index])
+                                      else
+                                        Flexible(
+                                          child: Text(
+                                            snapshot.data!.rounds[index]
+                                                .cardColor.symbol
+                                                .toString(),
+                                            style:
+                                                const TextStyle(fontSize: 17),
+                                          ),
+                                        ),
                                       Flexible(
-                                        flex: 3,
-                                        child: _RoundDisplay(
+                                        flex: 5,
+                                        child: _RoundDisplayWidget(
                                             round: snapshot.data!.rounds[index],
                                             team: BeloteTeamEnum.THEM),
                                       )
@@ -239,10 +267,15 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
                           if (!widget.beloteGame.isEnded)
                             PlayScreenButtonBlock(
                               deleteLastRound: _deleteLastRound,
-                              editLastRound: _editLastRound,
+                              editLastRound: snapshot.data!.rounds.isNotEmpty &&
+                                      !snapshot.data!.rounds.last
+                                          .isSpecialRound()
+                                  ? _editLastRound
+                                  : null,
                               endGame: _endGame,
                               addNewRound: _addNewRound,
                               addNotes: _addNotes,
+                              addNewSpecialRound: _addNewSpecialRound,
                               lastRoundLayout:
                                   _showLastRoundLayout(snapshot.data!),
                             )
@@ -262,7 +295,7 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
                                   child: Column(
                                     children: [
                                       Text(
-                                        '${AppLocalizations.of(context)!.messageDeleteLasRound} : ',
+                                        '${AppLocalizations.of(context)!.gameNotes} : ',
                                         style: const TextStyle(
                                             fontWeight: FontWeight.bold),
                                       ),
@@ -292,11 +325,43 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
   }
 }
 
-class _RoundDisplay extends StatelessWidget {
+class _SpecialRoundDisplayWidget extends StatelessWidget {
+  final BeloteRound round;
+
+  _SpecialRoundDisplayWidget({required this.round})
+      : assert(round.isSpecialRound());
+
+  @override
+  Widget build(BuildContext context) {
+    return Flexible(
+      flex: 6,
+      child: Container(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 6,
+          vertical: 3,
+        ),
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.horizontal(
+            right: Radius.circular(CustomProperties.borderRadius),
+            left: Radius.circular(CustomProperties.borderRadius),
+          ),
+          color: round.beloteSpecialRound!.color(context),
+        ),
+        child: Text(
+          round.specialRoundToString(),
+          style: TextStyle(
+              fontSize: 13, color: Theme.of(context).colorScheme.onPrimary),
+        ),
+      ),
+    );
+  }
+}
+
+class _RoundDisplayWidget extends StatelessWidget {
   final BeloteRound? round;
   final BeloteTeamEnum? team;
 
-  const _RoundDisplay({this.round, this.team});
+  const _RoundDisplayWidget({this.round, this.team});
 
   int? _getScore(BeloteRound teamGameRound, BeloteTeamEnum? teamGameEnum) {
     if (teamGameEnum == teamGameRound.taker) {
@@ -309,47 +374,112 @@ class _RoundDisplay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       textDirection:
           team == BeloteTeamEnum.US ? TextDirection.ltr : TextDirection.rtl,
       children: [
         Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 5),
-            child: Text(_getScore(round!, team).toString(),
-                style: const TextStyle(
-                    fontSize: 22, fontWeight: FontWeight.bold))),
-        if (round!.taker == team)
-          if (round!.contractFulfilled)
-            const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 5),
-                child: FaIcon(FontAwesomeIcons.solidCircleCheck,
-                    size: 10, color: Colors.green))
-          else
-            const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 5),
-                child: FaIcon(FontAwesomeIcons.solidCircleXmark,
-                    size: 10, color: Colors.red))
-        else
-          Container(),
-        if (round!.dixDeDer == team)
-          const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 5),
-              child: Text('+10', style: TextStyle(fontSize: 15)))
-        else
-          Container(),
-        if (round!.beloteRebelote == team)
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 5),
-            child: Row(
-              children: [
-                FaIcon(FontAwesomeIcons.crown, size: 10),
-                Text('|'),
-                FaIcon(FontAwesomeIcons.chessQueen, size: 10)
-              ],
+          padding: const EdgeInsets.symmetric(horizontal: 5),
+          child: Text(
+            _getScore(round!, team).toString(),
+            style: const TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
             ),
-          )
-        else
-          Container()
+          ),
+        ),
+        if (!round!.isSpecialRound())
+          Row(
+            textDirection: team == BeloteTeamEnum.US
+                ? TextDirection.ltr
+                : TextDirection.rtl,
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 5,
+                  vertical: 2,
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.horizontal(
+                    right: Radius.circular(CustomProperties.borderRadius),
+                    left: Radius.circular(CustomProperties.borderRadius),
+                  ),
+                  color: Theme.of(context).primaryColor,
+                ),
+                child: Row(
+                  textDirection: team == BeloteTeamEnum.US
+                      ? TextDirection.ltr
+                      : TextDirection.rtl,
+                  children: [
+                    if (round!.dixDeDer == team)
+                      Text(
+                        '+10',
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: Theme.of(context).colorScheme.onPrimary,
+                        ),
+                      )
+                    else
+                      const SizedBox.shrink(),
+                    if (round!.beloteRebelote == team)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 5),
+                        child: Row(
+                          children: [
+                            FaIcon(
+                              FontAwesomeIcons.crown,
+                              size: 10,
+                              color: Theme.of(context).colorScheme.onPrimary,
+                            ),
+                            Text(
+                              '|',
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.onPrimary,
+                              ),
+                            ),
+                            FaIcon(
+                              FontAwesomeIcons.chessQueen,
+                              size: 10,
+                              color: Theme.of(context).colorScheme.onPrimary,
+                            )
+                          ],
+                        ),
+                      )
+                    else
+                      const SizedBox.shrink(),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                width: 10,
+              ),
+              if (!round!.isSpecialRound())
+                Row(
+                  textDirection: team == BeloteTeamEnum.US
+                      ? TextDirection.ltr
+                      : TextDirection.rtl,
+                  children: [
+                    if (round!.taker == team)
+                      if (round!.contractFulfilled)
+                        const FaIcon(
+                          FontAwesomeIcons.solidCircleCheck,
+                          size: 12,
+                          color: Colors.green,
+                        )
+                      else
+                        const FaIcon(
+                          FontAwesomeIcons.solidCircleXmark,
+                          size: 12,
+                          color: Colors.red,
+                        )
+                    else
+                      const SizedBox(
+                        width: 12,
+                      ),
+                  ],
+                ),
+            ],
+          ),
       ],
     );
   }
@@ -364,7 +494,7 @@ class _TotalPointsWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       totalPoints.toString(),
-      style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+      style: const TextStyle(fontSize: 33, fontWeight: FontWeight.bold),
     );
   }
 }

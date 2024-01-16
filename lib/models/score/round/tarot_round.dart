@@ -231,7 +231,7 @@ class TarotRound extends Round<TarotGameSetting> {
           '| ${AppLocalizations.of(context)!.tarotDefenders} : ${defenseScore.toStringAsFixed(1)}';
     } else {
       return '${AppLocalizations.of(context)!.tarotAttackers} : ${(attackScore.round() * (2 / 3)).toStringAsFixed(1)} '
-          '| ${AppLocalizations.of(context)!.tarotCalled} ${(attackScore * (1 / 3)).toStringAsFixed(1)} '
+          '| ${AppLocalizations.of(context)!.tarotCalled} : ${(attackScore * (1 / 3)).toStringAsFixed(1)} '
           '| ${AppLocalizations.of(context)!.tarotDefenders} : ${defenseScore.toStringAsFixed(1)}';
     }
   }
