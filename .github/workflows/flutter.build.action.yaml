@@ -33,7 +33,7 @@ jobs:
       - name: 'Check secret configuration'
         run: ./.github/scripts/check_secrets_decryption.sh
       - name: 'Set up JAVA'
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: '11.x'
