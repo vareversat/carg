@@ -13,7 +13,7 @@ class ContractTarotWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
-      value: tarotRound..computeRound(),
+      value: tarotRound,
       child: Consumer<TarotRound>(
         builder: (context, roundData, _) => Column(
           children: [
