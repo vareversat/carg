@@ -2,6 +2,8 @@ name: Default workflow
 
 on:
   push:
+    paths-ignore:
+      - 'firebase_functions/**'
     branches-ignore:
       - main
       - dev
@@ -13,15 +15,8 @@ jobs:
       flutter_version: '3.16.5'
     secrets:
       passphrase: ${{ secrets.PASSPHRASE }}
-  functions:
-    uses: ./.github/workflows/functions.action.yaml
-    with:
-      deploy: false
-    secrets:
-      passphrase: ${{ secrets.PASSPHRASE }}
-      firebase_token: ${{ secrets.FIREBASE_TOKEN }}
   flutter-build:
-    needs: [flutter-test-analyze]
+    needs: [ flutter-test-analyze ]
     uses: ./.github/workflows/flutter.build.action.yaml
     with:
       flutter_version: '3.16.5'

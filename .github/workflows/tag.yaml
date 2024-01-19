@@ -13,7 +13,7 @@ jobs:
     secrets:
       passphrase: ${{ secrets.PASSPHRASE }}
   flutter-build:
-    needs: [flutter-test-analyze]
+    needs: [ flutter-test-analyze ]
     uses: ./.github/workflows/flutter.build.action.yaml
     with:
       flutter_version: '3.16.5'
@@ -21,7 +21,7 @@ jobs:
     secrets:
       passphrase: ${{ secrets.PASSPHRASE }}
   fastlane:
-    needs: [flutter-build]
+    needs: [ flutter-build ]
     uses: ./.github/workflows/fastlane.action.yaml
     with:
       lane: 'beta'
