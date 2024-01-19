@@ -2,6 +2,8 @@ name: Dev workflow
 
 on:
   push:
+    paths-ignore:
+      - 'page/**'
     branches:
       - dev
 
@@ -19,8 +21,6 @@ jobs:
     secrets:
       passphrase: ${{ secrets.PASSPHRASE }}
       firebase_token: ${{ secrets.FIREBASE_TOKEN }}
-  page:
-    uses: ./.github/workflows/pages.deploy.yaml
   flutter-build:
     needs: [flutter-test-analyze]
     uses: ./.github/workflows/flutter.build.action.yaml
