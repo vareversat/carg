@@ -63,4 +63,11 @@ else
   exit 1
 fi
 
+if [ -s "$GITHUB_WORKSPACE"/firebase_functions/firebase-service-account.json ]; then
+  echo "firebase-service-account.json ✅"
+else
+  echo "firebase-service-account.json is empty ❌"
+  exit 1
+fi
+
 exit 0

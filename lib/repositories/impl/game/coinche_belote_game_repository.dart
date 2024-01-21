@@ -9,14 +9,13 @@ class CoincheBeloteGameRepository extends AbstractCoincheBeloteGameRepository {
       {String? database,
       String? environment,
       FirebaseFirestore? provider,
-      DocumentSnapshot? lastFetchGameDocument})
+      super.lastFetchGameDocument})
       : super(
             database: database ?? Const.coincheBeloteGameDB,
             environment: environment ??
                 const String.fromEnvironment(Const.dartVarEnv,
                     defaultValue: Const.defaultEnv),
-            provider: provider ?? FirebaseFirestore.instance,
-            lastFetchGameDocument: lastFetchGameDocument);
+            provider: provider ?? FirebaseFirestore.instance);
 
   @override
   Future<CoincheBelote?> get(String id) async {

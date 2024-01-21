@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 class GameTitleWidget extends StatelessWidget {
   final Game? game;
 
-  const GameTitleWidget({Key? key, this.game}) : super(key: key);
+  const GameTitleWidget({super.key, this.game});
 
   @override
   Widget build(BuildContext context) {

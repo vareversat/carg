@@ -10,14 +10,13 @@ class Team extends CargPlayerObject {
   List<dynamic>? games;
 
   Team(
-      {String? id,
+      {super.id,
       this.playedGames = 0,
       this.wonGames = 0,
       this.name,
       this.players,
-      List<GameStats>? gameStatsList,
-      this.games})
-      : super(id: id, gameStatsList: gameStatsList);
+      super.gameStatsList,
+      this.games});
 
   factory Team.fromJSON(Map<String, dynamic>? json, String id) {
     return Team(

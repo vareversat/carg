@@ -1,25 +1,19 @@
 import 'package:carg/models/game/game.dart';
+import 'package:carg/models/game/setting/belote_game_setting.dart';
 import 'package:carg/models/players/belote_players.dart';
 
-abstract class Belote<T extends BelotePlayers> extends Game<T> {
+abstract class Belote<T extends BelotePlayers, S extends BeloteGameSetting>
+    extends Game<T, S> {
   Belote(
-      {id,
-      gameType,
-      startingDate,
-      endingDate,
-      winner,
-      isEnded,
-      notes,
-      T? players})
-      : super(
-            id: id,
-            gameType: gameType,
-            endingDate: endingDate,
-            players: players,
-            startingDate: startingDate,
-            winner: winner,
-            isEnded: isEnded,
-            notes: notes);
+      {super.id,
+      super.gameType,
+      super.startingDate,
+      super.endingDate,
+      super.winner,
+      super.isEnded,
+      super.notes,
+      super.players,
+      required super.settings});
 
   @override
   Map<String, dynamic> toJSON() {

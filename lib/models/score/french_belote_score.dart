@@ -3,22 +3,14 @@ import 'package:carg/models/score/round/french_belote_round.dart';
 
 class FrenchBeloteScore extends BeloteScore<FrenchBeloteRound> {
   FrenchBeloteScore(
-      {String? id,
-      List<FrenchBeloteRound>? rounds,
+      {super.id,
+      List<FrenchBeloteRound>? super.rounds,
       int? usTotalPoints,
       int? themTotalPoints,
-      String? game})
+      super.game})
       : super(
-            id: id,
-            rounds: rounds,
             usTotalPoints: usTotalPoints ?? 0,
-            themTotalPoints: themTotalPoints ?? 0,
-            game: game);
-
-  @override
-  Map<String, dynamic> toJSON() {
-    return super.toJSON();
-  }
+            themTotalPoints: themTotalPoints ?? 0);
 
   factory FrenchBeloteScore.fromJSON(Map<String, dynamic>? json, String id) {
     return FrenchBeloteScore(

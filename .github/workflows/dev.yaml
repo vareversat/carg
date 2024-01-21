@@ -2,6 +2,9 @@ name: Dev workflow
 
 on:
   push:
+    paths-ignore:
+      - 'page/**'
+      - 'firebase_functions/**'
     branches:
       - dev
 
@@ -9,23 +12,14 @@ jobs:
   flutter-test-analyze:
     uses: ./.github/workflows/flutter.analyze-test.action.yaml
     with:
-      flutter_version: '3.3.9'
+      flutter_version: '3.16.5'
     secrets:
       passphrase: ${{ secrets.PASSPHRASE }}
-  functions:
-    uses: ./.github/workflows/functions.action.yaml
-    with:
-      deploy: true
-    secrets:
-      passphrase: ${{ secrets.PASSPHRASE }}
-      firebase_token: ${{ secrets.FIREBASE_TOKEN }}
-  page:
-    uses: ./.github/workflows/pages.deploy.yaml
   flutter-build:
-    needs: [flutter-test-analyze]
+    needs: [ flutter-test-analyze ]
     uses: ./.github/workflows/flutter.build.action.yaml
     with:
-      flutter_version: '3.3.9'
+      flutter_version: '3.16.5'
       android_output: 'aab'
     secrets:
       passphrase: ${{ secrets.PASSPHRASE }}

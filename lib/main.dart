@@ -18,14 +18,16 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await FirebaseAppCheck.instance.activate(
-    webRecaptchaSiteKey: 'recaptcha-v3-site-key',
+    webProvider: ReCaptchaV3Provider('recaptcha-v3-site-key'),
+    androidProvider: AndroidProvider.debug,
+    appleProvider: AppleProvider.appAttest,
   );
   await MobileAds.instance.initialize();
   runApp(const Carg());
 }
 
 class Carg extends StatefulWidget {
-  const Carg({Key? key}) : super(key: key);
+  const Carg({super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -36,9 +38,13 @@ class Carg extends StatefulWidget {
 class _CargState extends State<Carg> {
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-        statusBarBrightness: Brightness.light,
-        statusBarColor: Colors.transparent));
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        systemStatusBarContrastEnforced: false,
+        statusBarIconBrightness: Brightness.light,
+      ),
+    );
     return MultiProvider(
       providers: <SingleChildWidget>[
         ChangeNotifierProvider.value(value: AuthService())
@@ -68,7 +74,7 @@ class _CargState extends State<Carg> {
                       ModalRoute.of(context)!.settings.arguments as int? ?? 0)
             },
             title: 'Carg',
-            theme: AppTheme.theme,
+            theme: AppTheme.lightTheme,
             home: FutureBuilder<bool>(
                 future: auth.isAlreadyLogin(),
                 builder: (context, authResult) {

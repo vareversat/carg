@@ -9,12 +9,11 @@ abstract class BeloteScore<T extends BeloteRound> extends Score<T> {
   String? game;
 
   BeloteScore(
-      {id,
+      {super.id,
       rounds,
       required this.usTotalPoints,
       required this.themTotalPoints,
-      this.game})
-      : super(id: id) {
+      this.game}) {
     this.rounds = rounds ?? <T>[];
   }
 
@@ -23,6 +22,7 @@ abstract class BeloteScore<T extends BeloteRound> extends Score<T> {
     usTotalPoints -= getPointsOfRound(BeloteTeamEnum.US, getLastRound());
     themTotalPoints -= getPointsOfRound(BeloteTeamEnum.THEM, getLastRound());
     _setLastRound(round);
+    notifyListeners();
     return this;
   }
 
@@ -31,6 +31,7 @@ abstract class BeloteScore<T extends BeloteRound> extends Score<T> {
     usTotalPoints -= getPointsOfRound(BeloteTeamEnum.US, getLastRound());
     themTotalPoints -= getPointsOfRound(BeloteTeamEnum.THEM, getLastRound());
     rounds.removeLast();
+    notifyListeners();
     return this;
   }
 
@@ -52,6 +53,7 @@ abstract class BeloteScore<T extends BeloteRound> extends Score<T> {
     themTotalPoints += getPointsOfRound(BeloteTeamEnum.THEM, round);
     round.index = rounds.length;
     rounds.add(round);
+    notifyListeners();
   }
 
   void _setLastRound(T round) {

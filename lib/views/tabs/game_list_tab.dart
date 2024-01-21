@@ -17,8 +17,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class GameListTabWidget extends StatefulWidget {
   final AbstractGameService gameService;
 
-  const GameListTabWidget({Key? key, required this.gameService})
-      : super(key: key);
+  const GameListTabWidget({super.key, required this.gameService});
 
   @override
   State<StatefulWidget> createState() {

@@ -7,7 +7,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 
 class AdBannerWidget extends StatefulWidget {
-  const AdBannerWidget({Key? key}) : super(key: key);
+  const AdBannerWidget({super.key});
 
   @override
   State<StatefulWidget> createState() {

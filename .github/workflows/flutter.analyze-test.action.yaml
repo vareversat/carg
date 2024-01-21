@@ -19,9 +19,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout source code'
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: 'Setup flutter action'
-        uses: subosito/flutter-action@v2.8.0
+        uses: subosito/flutter-action@v2.12.0
         with:
           flutter-version: ${{ inputs.flutter_version }}
       - name: 'Flutter analyze'
@@ -31,19 +31,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout source code'
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: 'Setup flutter action'
-        uses: subosito/flutter-action@v2.8.0
+        uses: subosito/flutter-action@v2.12.0
         with:
           flutter-version: ${{ inputs.flutter_version }}
       - name: 'Flutter format'
-        run: flutter format lib --set-exit-if-changed
+        run: dart format lib --set-exit-if-changed
   test:
     name: 'Test'
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout source code'
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: 'Decrypt secret configuration'
         run: ./.github/scripts/decrypt_secret.sh
         env:
@@ -51,13 +51,13 @@ jobs:
       - name: 'Check secret configuration'
         run: ./.github/scripts/check_secrets_decryption.sh
       - name: 'Setup flutter action'
-        uses: subosito/flutter-action@v2.8.0
+        uses: subosito/flutter-action@v2.12.0
         with:
           flutter-version: ${{ inputs.flutter_version }}
       - name: 'Flutter test (with coverage)'
         run: flutter test --coverage --test-randomize-ordering-seed random
       - name: 'Upload coverage report'
-        uses: codecov/codecov-action@v3.1.1
+        uses: codecov/codecov-action@eaaf4bedf32dbdc6b720b63067d99c4d77d6047d # v3.1.4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           directory: ./coverage/

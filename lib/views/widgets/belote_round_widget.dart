@@ -7,9 +7,9 @@ class BeloteRoundWidget extends StatefulWidget {
   final String beloteGameId;
 
   const BeloteRoundWidget({
-    Key? key,
+    super.key,
     required this.beloteGameId,
-  }) : super(key: key);
+  });
 
   @override
   State<StatefulWidget> createState() {

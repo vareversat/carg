@@ -12,12 +12,11 @@ class TeamWidget extends StatefulWidget {
   final AbstractPlayerService playerService;
 
   const TeamWidget(
-      {Key? key,
+      {super.key,
       required this.teamId,
       required this.title,
       required this.teamService,
-      required this.playerService})
-      : super(key: key);
+      required this.playerService});
 
   @override
   State<StatefulWidget> createState() {

@@ -8,7 +8,7 @@ class SubscriptionPurchase extends Purchase {
   final DateTime expiryDate;
 
   SubscriptionPurchase({
-    String? id,
+    super.id,
     required super.iapSource,
     required super.orderId,
     required super.productId,
@@ -17,7 +17,7 @@ class SubscriptionPurchase extends Purchase {
     required this.status,
     required this.expiryDate,
     super.type = ProductTypeEnum.subscription,
-  }) : super(id: id);
+  });
 
   @override
   Map<String, dynamic> toJSON() {

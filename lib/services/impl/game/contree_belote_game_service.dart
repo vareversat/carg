@@ -1,5 +1,6 @@
 import 'package:carg/exceptions/service_exception.dart';
 import 'package:carg/models/game/contree_belote.dart';
+import 'package:carg/models/game/setting/contree_belote_game_setting.dart';
 import 'package:carg/models/players/belote_players.dart';
 import 'package:carg/models/team.dart';
 import 'package:carg/repositories/game/abstract_contree_belote_game_repository.dart';
@@ -23,10 +24,15 @@ class ContreeBeloteGameService extends AbstractContreeBeloteGameService {
             teamService: teamService ?? TeamService());
 
   @override
-  Future<ContreeBelote> generateNewGame(Team us, Team them,
-      List<String?>? playerListForOrder, DateTime? startingDate) async {
+  Future<ContreeBelote> generateNewGame(
+      Team us,
+      Team them,
+      List<String?>? playerListForOrder,
+      DateTime? startingDate,
+      ContreeBeloteGameSetting settings) async {
     try {
       var contreeBelote = ContreeBelote(
+          settings: settings,
           startingDate: startingDate,
           players: BelotePlayers(
               us: us.id, them: them.id, playerList: playerListForOrder));

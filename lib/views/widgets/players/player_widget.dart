@@ -10,8 +10,7 @@ class PlayerWidget extends StatelessWidget {
   final Player player;
   final Function? onTap;
 
-  const PlayerWidget({Key? key, required this.player, this.onTap})
-      : super(key: key);
+  const PlayerWidget({super.key, required this.player, this.onTap});
 
   Future _showEditPlayerDialog(BuildContext context) async {
     var result = await showDialog(

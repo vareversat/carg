@@ -8,24 +8,25 @@ import 'package:provider/provider.dart';
 class ContractTarotWidget extends StatelessWidget {
   final TarotRound tarotRound;
 
-  const ContractTarotWidget({Key? key, required this.tarotRound})
-      : super(key: key);
+  const ContractTarotWidget({super.key, required this.tarotRound});
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
-      value: tarotRound..computeRound(),
+      value: tarotRound,
       child: Consumer<TarotRound>(
         builder: (context, roundData, _) => Column(
           children: [
             SectionTitleWidget(title: AppLocalizations.of(context)!.contract),
             DropdownButton<TarotContract>(
               value: roundData.contract,
+              itemHeight: 70,
               items: TarotContract.values.map((TarotContract value) {
                 return DropdownMenuItem<TarotContract>(
                   value: value,
                   child: Text(
-                    '${value.name(context)} \nx${value.multiplayer}',
+                    '${value.name(context)} \n x${value.multiplayer}',
+                    overflow: TextOverflow.ellipsis,
                   ),
                 );
               }).toList(),

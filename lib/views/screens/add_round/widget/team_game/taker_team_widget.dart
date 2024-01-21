@@ -2,14 +2,13 @@ import 'package:carg/models/score/misc/belote_team_enum.dart';
 import 'package:carg/models/score/round/belote_round.dart';
 import 'package:carg/views/screens/add_round/widget/section_title_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
 class TakerTeamWidget extends StatelessWidget {
   final BeloteRound beloteRound;
 
-  const TakerTeamWidget({Key? key, required this.beloteRound})
-      : super(key: key);
+  const TakerTeamWidget({super.key, required this.beloteRound});
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +33,6 @@ class TakerTeamWidget extends StatelessWidget {
                   },
                   label: Text(
                     BeloteTeamEnum.US.name(context),
-                    style: const TextStyle(fontSize: 20),
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
@@ -49,9 +47,7 @@ class TakerTeamWidget extends StatelessWidget {
                   },
                   label: Text(
                     BeloteTeamEnum.THEM.name(context),
-                    style: const TextStyle(
-                      fontSize: 20,
-                    ),
+                    style: const TextStyle(),
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),

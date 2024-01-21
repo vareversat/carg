@@ -9,7 +9,7 @@
 </p>
 <p align="center">
   <a href="https://codecov.io/gh/vareversat/carg/"><img src="https://img.shields.io/codecov/c/github/vareversat/carg?logo=codecov&style=for-the-badge&token=sA4XbJ7O5Z"></a>
-  <a href="https://github.com/vareversat/carg/actions"><img src="https://img.shields.io/github/workflow/status/vareversat/carg/Flutter%20-%20CI%20(firebase%20app%20distribution)?logo=github&style=for-the-badge"></a>
+  <a href="https://github.com/vareversat/carg/actions"><img src="https://img.shields.io/github/actions/workflow/status/vareversat/carg/dev.yaml?logo=github&style=for-the-badge"></a>
   <a href="https://github.com/vareversat/carg/releases"><img src="https://img.shields.io/github/v/tag/vareversat/carg?label=version&logo=git&logoColor=white&style=for-the-badge"></a>
   <a href="https://github.com/vareversat/carg/blob/dev/LICENSE.md"><img src="https://img.shields.io/github/license/vareversat/carg?style=for-the-badge"></a>
 </p>

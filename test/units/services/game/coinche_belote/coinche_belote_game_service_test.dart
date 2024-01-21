@@ -1,4 +1,5 @@
 import 'package:carg/models/game/coinche_belote.dart';
+import 'package:carg/models/game/setting/coinche_belote_game_setting.dart';
 import 'package:carg/models/players/belote_players.dart';
 import 'package:carg/models/team.dart';
 import 'package:carg/repositories/impl/game/coinche_belote_game_repository.dart';
@@ -35,6 +36,8 @@ void main() {
   final expectedGame =
       CoincheBelote(id: uid, players: players, startingDate: date);
   final expectedGameNoId = CoincheBelote(players: players, startingDate: date);
+  final settings = CoincheBeloteGameSetting(
+      maxPoint: 1000, isInfinite: false, sumTrickPointsAndContract: true);
 
   group('CoincheBeloteGameService', () {
     group('Generate a new game', () {
@@ -46,7 +49,7 @@ void main() {
             coincheBeloteGameRepository: mockCoincheBeloteGameRepository,
             teamService: mockTeamService);
         final game = await coincheBeloteGameService.generateNewGame(
-            teamUs, teamThem, playerIds, date);
+            teamUs, teamThem, playerIds, date, settings);
         expect(game, expectedGame);
       });
     });

@@ -13,8 +13,7 @@ class PlayerListTab extends StatefulWidget {
   final AbstractPlayerService playerService;
   final bool? myPlayers;
 
-  const PlayerListTab({Key? key, required this.playerService, this.myPlayers})
-      : super(key: key);
+  const PlayerListTab({super.key, required this.playerService, this.myPlayers});
 
   @override
   State<StatefulWidget> createState() {

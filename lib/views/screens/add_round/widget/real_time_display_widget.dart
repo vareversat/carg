@@ -5,24 +5,20 @@ import 'package:provider/provider.dart';
 class RealTimeDisplayWidget extends StatelessWidget {
   final Round round;
 
-  const RealTimeDisplayWidget({Key? key, required this.round})
-      : super(key: key);
+  const RealTimeDisplayWidget({super.key, required this.round});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: ChangeNotifierProvider.value(
-        value: round,
-        child: Consumer<Round>(
-          builder: (context, roundData, child) => Center(
-            child: Text(
-              roundData.realTimeDisplay(context),
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 23,
-              ),
+    return ChangeNotifierProvider.value(
+      value: round,
+      child: Consumer<Round>(
+        builder: (context, roundData, child) => Center(
+          child: Text(
+            roundData.realTimeDisplay(context),
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onPrimary,
+              fontSize: 23,
             ),
           ),
         ),

@@ -7,12 +7,12 @@ import 'package:carg/models/game/game_type.dart';
 import 'package:carg/models/game/tarot.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/styles/text_style.dart';
-import 'package:carg/views/screens/player_picker_screen.dart';
+import 'package:carg/views/screens/game_settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class GameModePickerScreen extends StatelessWidget {
-  const GameModePickerScreen({Key? key}) : super(key: key);
+  const GameModePickerScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,24 +20,25 @@ class GameModePickerScreen extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
         child: AppBar(
-          leading: IconButton(
-            icon: const Icon(
-              Icons.close,
-            ),
-            onPressed: () => Navigator.pop(
-              context,
-            ),
-          ),
-          title: Hero(
-            tag: 'game_screen_title',
-            child: Text(
-              AppLocalizations.of(context)!.newGame,
-              style: CustomTextStyle.screenHeadLine1(
+            backgroundColor: Theme.of(context).primaryColor,
+            foregroundColor: Theme.of(context).colorScheme.onPrimary,
+            leading: IconButton(
+              icon: const Icon(
+                Icons.close,
+              ),
+              onPressed: () => Navigator.pop(
                 context,
               ),
             ),
-          ),
-        ),
+            title: Hero(
+              tag: 'game_screen_title',
+              child: Text(
+                AppLocalizations.of(context)!.newGame,
+                style: CustomTextStyle.screenHeadLine1(
+                  context,
+                ),
+              ),
+            )),
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
@@ -109,7 +110,7 @@ class _GameModeButton extends StatelessWidget {
             Navigator.of(context).push(
               CustomRouteLeftToRight(
                 builder: (context) =>
-                    PlayerPickerScreen(game: game, title: game!.gameType.name),
+                    GameSettingsScreen(game: game, title: game!.gameType.name),
               ),
             )
           },

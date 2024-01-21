@@ -1,45 +1,32 @@
+import 'package:carg/models/score/misc/belote_special_round.dart';
 import 'package:carg/models/score/misc/belote_team_enum.dart';
 import 'package:carg/models/score/misc/card_color.dart';
 import 'package:carg/models/score/round/belote_round.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 
 class FrenchBeloteRound extends BeloteRound {
-  FrenchBeloteRound(
-      {int? index,
-      CardColor? cardColor,
-      bool? contractFulfilled,
-      BeloteTeamEnum? dixDeDer,
-      BeloteTeamEnum? beloteRebelote,
-      BeloteTeamEnum? taker,
-      BeloteTeamEnum? defender,
-      int? takerScore,
-      int? defenderScore,
-      int? usTrickScore,
-      int? themTrickScore})
-      : super(
-            index: index,
-            cardColor: cardColor,
-            contractFulfilled: contractFulfilled,
-            dixDeDer: dixDeDer,
-            beloteRebelote: beloteRebelote,
-            taker: taker,
-            defender: defender,
-            takerScore: takerScore,
-            defenderScore: defenderScore,
-            usTrickScore: usTrickScore,
-            themTrickScore: themTrickScore);
+  FrenchBeloteRound({
+    super.index,
+    super.cardColor,
+    super.contractFulfilled,
+    super.dixDeDer,
+    super.beloteRebelote,
+    super.taker,
+    super.defender,
+    super.takerScore,
+    super.defenderScore,
+    super.usTrickScore,
+    super.themTrickScore,
+    super.settings,
+    super.beloteSpecialRound,
+    super.beloteSpecialRoundPlayer,
+  });
 
   @override
   void computeRound() {
-    var takerTrickPoints = getTrickPointsOfTeam(taker);
-    var defenderTrickPoints = getTrickPointsOfTeam(defender);
     if (contractFulfilled) {
-      takerScore = roundScore(takerTrickPoints +
-          getDixDeDerOfTeam(taker) +
-          getBeloteRebeloteOfTeam(taker));
-      defenderScore = roundScore(defenderTrickPoints +
-          getDixDeDerOfTeam(defender) +
-          getBeloteRebeloteOfTeam(defender));
+      takerScore = roundScore(getTotalPointsOfTeam(taker));
+      defenderScore = roundScore(getTotalPointsOfTeam(defender));
     } else {
       takerScore = roundScore(getBeloteRebeloteOfTeam(taker));
       defenderScore = roundScore(
@@ -58,16 +45,12 @@ class FrenchBeloteRound extends BeloteRound {
             getBeloteRebeloteOfTeam(defender);
   }
 
-  @override
-  int getTrickPointsOfTeam(BeloteTeamEnum? team) {
-    switch (team) {
-      case BeloteTeamEnum.US:
-        return usTrickScore;
-      case BeloteTeamEnum.THEM:
-        return themTrickScore;
-      case null:
-        return 0;
-    }
+  factory FrenchBeloteRound.specialRound(
+      BeloteSpecialRound beloteSpecialRound, String playerID) {
+    return FrenchBeloteRound(
+        defenderScore: 0,
+        beloteSpecialRound: beloteSpecialRound,
+        beloteSpecialRoundPlayer: playerID);
   }
 
   factory FrenchBeloteRound.fromJSON(Map<String, dynamic> json) {
@@ -86,7 +69,10 @@ class FrenchBeloteRound extends BeloteRound {
         takerScore: json['taker_score'],
         defenderScore: json['defender_score'],
         usTrickScore: json['us_trick_score'],
-        themTrickScore: json['them_trick_score']);
+        themTrickScore: json['them_trick_score'],
+        beloteSpecialRound: EnumToString.fromString(
+            BeloteSpecialRound.values, json['belote_special_round'] ?? ''),
+        beloteSpecialRoundPlayer: json['belote_special_round_player']);
   }
 
   static List<FrenchBeloteRound> fromJSONList(List<dynamic> jsonList) {

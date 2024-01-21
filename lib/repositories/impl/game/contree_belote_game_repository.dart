@@ -9,14 +9,13 @@ class ContreeBeloteGameRepository extends AbstractContreeBeloteGameRepository {
       {String? database,
       String? environment,
       FirebaseFirestore? provider,
-      DocumentSnapshot? lastFetchGameDocument})
+      super.lastFetchGameDocument})
       : super(
             database: database ?? Const.contreeBeloteGameDB,
             environment: environment ??
                 const String.fromEnvironment(Const.dartVarEnv,
                     defaultValue: Const.defaultEnv),
-            provider: provider ?? FirebaseFirestore.instance,
-            lastFetchGameDocument: lastFetchGameDocument);
+            provider: provider ?? FirebaseFirestore.instance);
 
   @override
   Future<ContreeBelote?> get(String id) async {

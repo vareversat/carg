@@ -1,3 +1,16 @@
+# **v1.9.0** :
+
+- *Fix* :
+  - Various fixes and performances improvements
+- *Features* :
+  - Add an account deletion request page (https://carg.vareversat.fr/delete-account/)
+  - You can now customize your games !
+  - You can now use special rounds during a belote game !
+- *Dev* :
+  - Upgrade to Flutter 3.16.5
+  - Multiple dependency upgrades
+
+***
 # **v1.8.0** :
 
 - *Fix* :

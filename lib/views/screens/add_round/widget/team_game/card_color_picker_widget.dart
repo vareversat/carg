@@ -6,8 +6,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class CardColorPickerWidget extends StatelessWidget {
   final BeloteRound? beloteRound;
 
-  const CardColorPickerWidget({Key? key, required this.beloteRound})
-      : super(key: key);
+  const CardColorPickerWidget({super.key, required this.beloteRound});
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +35,6 @@ class CardColorPickerWidget extends StatelessWidget {
                         onPressed: () => {beloteRound?.cardColor = cardColor},
                         label: Text(
                           cardColor.symbol,
-                          style: TextStyle(
-                              fontSize: 20, color: Theme.of(context).cardColor),
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),

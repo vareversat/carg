@@ -8,12 +8,11 @@ class TarotScore extends Score<TarotRound> {
   late List<TarotPlayerScore> totalPoints;
 
   TarotScore(
-      {id,
+      {super.id,
       this.game,
       List<TarotRound>? rounds,
       List<TarotPlayerScore>? totalPoints,
-      List<String?>? players})
-      : super(id: id) {
+      List<String?>? players}) {
     this.totalPoints = totalPoints ?? <TarotPlayerScore>[];
     this.rounds = rounds ?? <TarotRound>[];
     for (var player in players ?? []) {
@@ -64,6 +63,7 @@ class TarotScore extends Score<TarotRound> {
           .score -= playerScore.score;
     }
     rounds.removeLast();
+    notifyListeners();
   }
 
   void addRound(TarotRound round) {
@@ -75,11 +75,13 @@ class TarotScore extends Score<TarotRound> {
           .score += playerScore.score;
     }
     rounds.add(round);
+    notifyListeners();
   }
 
   @override
   TarotScore deleteLastRound() {
     removeRound(getLastRound());
+    notifyListeners();
     return this;
   }
 
@@ -87,6 +89,8 @@ class TarotScore extends Score<TarotRound> {
   TarotScore replaceLastRound(TarotRound round) {
     removeRound(getLastRound());
     addRound(round);
+    notifyListeners();
+    notifyListeners();
     return this;
   }
 }

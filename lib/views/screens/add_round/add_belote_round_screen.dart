@@ -22,12 +22,11 @@ class AddBeloteRoundScreen extends StatelessWidget {
   final AbstractRoundService roundService;
 
   const AddBeloteRoundScreen(
-      {Key? key,
+      {super.key,
       this.beloteGame,
       required this.beloteRound,
       this.isEditing = false,
-      required this.roundService})
-      : super(key: key);
+      required this.roundService});
 
   void _setupRound() async {
     if (isEditing) {
@@ -42,73 +41,102 @@ class AddBeloteRoundScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          leading: IconButton(
-            icon: const Icon(Icons.cancel),
-            onPressed: () => Navigator.pop(context),
+        backgroundColor: Theme.of(context).primaryColor,
+        foregroundColor: Theme.of(context).colorScheme.onPrimary,
+        leading: IconButton(
+          icon: const Icon(
+            Icons.cancel,
           ),
-          title: const ScreenTitleWidget()),
-      body: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Column(
-          children: [
-            Flexible(
-              child: ListView(
-                children: [
-                  TakerTeamWidget(beloteRound: beloteRound!),
-                  const Divider(),
-                  TrickPointsBeloteWidget(round: beloteRound!),
-                  const Divider(),
-                  if (beloteRound! is CoincheBeloteRound)
-                    ContractCoincheWidget(
-                        coincheRound: beloteRound! as CoincheBeloteRound)
-                  else if (beloteRound! is FrenchBeloteRound)
-                    ContractBeloteWidget(
-                        frenchBeloteRound: beloteRound! as FrenchBeloteRound)
-                  else if (beloteRound! is ContreeBeloteRound)
-                    ContractContreeWidget(
-                        contreeRound: beloteRound! as ContreeBeloteRound),
-                ],
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: const ScreenTitleWidget(),
+      ),
+      body: Column(
+        children: [
+          Flexible(
+            child: ListView(
+              children: [
+                TakerTeamWidget(beloteRound: beloteRound!),
+                const Divider(),
+                if (beloteRound! is CoincheBeloteRound)
+                  ContractCoincheWidget(
+                      coincheRound: beloteRound! as CoincheBeloteRound)
+                else if (beloteRound! is FrenchBeloteRound)
+                  ContractBeloteWidget(
+                      frenchBeloteRound: beloteRound! as FrenchBeloteRound)
+                else if (beloteRound! is ContreeBeloteRound)
+                  ContractContreeWidget(
+                      contreeRound: beloteRound! as ContreeBeloteRound),
+                const Divider(),
+                TrickPointsBeloteWidget(round: beloteRound!),
+                const SizedBox(
+                  height: 15,
+                ),
+              ],
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            decoration: BoxDecoration(
+              color: Theme.of(context).primaryColor,
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(
+                  CustomProperties.borderRadius,
+                ),
+                topRight: Radius.circular(
+                  CustomProperties.borderRadius,
+                ),
               ),
             ),
-            Column(
+            child: Column(
               children: [
                 RealTimeDisplayWidget(round: beloteRound!),
+                const SizedBox(
+                  height: 10,
+                ),
                 Center(
                   child: SizedBox(
                     width: double.infinity,
                     height: 50,
                     child: Directionality(
                       textDirection: TextDirection.rtl,
-                      child: ElevatedButton.icon(
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                              Theme.of(context).primaryColor),
-                          foregroundColor: MaterialStateProperty.all<Color>(
-                              Theme.of(context).cardColor),
-                          shape: MaterialStateProperty.all<OutlinedBorder>(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                CustomProperties.borderRadius,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: ElevatedButton.icon(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                Theme.of(context).colorScheme.onPrimary),
+                            foregroundColor: MaterialStateProperty.all<Color>(
+                                Theme.of(context).primaryColor),
+                            shape: MaterialStateProperty.all<OutlinedBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                  CustomProperties.borderRadius,
+                                ),
                               ),
                             ),
                           ),
+                          onPressed: () =>
+                              {_setupRound(), Navigator.pop(context)},
+                          label: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              AppLocalizations.of(context)!.validate,
+                              style: const TextStyle(
+                                fontSize: 23,
+                              ),
+                            ),
+                          ),
+                          icon: const Icon(Icons.check, size: 30),
                         ),
-                        onPressed: () =>
-                            {_setupRound(), Navigator.pop(context)},
-                        label: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(AppLocalizations.of(context)!.validate,
-                              style: const TextStyle(fontSize: 23)),
-                        ),
-                        icon: const Icon(Icons.check, size: 30),
                       ),
                     ),
                   ),
                 ),
               ],
-            )
-          ],
-        ),
+            ),
+          )
+        ],
       ),
     );
   }

@@ -3,6 +3,7 @@ import 'package:carg/helpers/custom_route.dart';
 import 'package:carg/models/game/belote_game.dart';
 import 'package:carg/models/game/game.dart';
 import 'package:carg/models/game/game_type.dart';
+import 'package:carg/models/game/setting/belote_game_setting.dart';
 import 'package:carg/models/game/tarot.dart';
 import 'package:carg/models/player.dart';
 import 'package:carg/models/players/belote_players.dart';
@@ -23,12 +24,11 @@ class PlayerOrderScreen extends StatefulWidget {
   final AbstractGameService gameService;
 
   const PlayerOrderScreen(
-      {Key? key,
+      {super.key,
       required this.playerList,
       required this.game,
       required this.title,
-      required this.gameService})
-      : super(key: key);
+      required this.gameService});
 
   @override
   State<StatefulWidget> createState() {
@@ -46,9 +46,11 @@ class _PlayerOrderScreenState extends State<PlayerOrderScreen> {
     Dialogs.showLoadingDialog(
         context, _keyLoader, AppLocalizations.of(context)!.gameIsStarting);
     var gameTmp = (await widget.gameService.createGameWithPlayerList(
-        playerListForOrder.map((e) => e.id).toList(),
-        playerListForTeam.map((e) => e.id).toList(),
-        DateTime.now()));
+      playerListForOrder.map((e) => e.id).toList(),
+      playerListForTeam.map((e) => e.id).toList(),
+      DateTime.now(),
+      widget.game.settings,
+    ));
     setState(() {
       _newGame = gameTmp;
     });
@@ -72,6 +74,8 @@ class _PlayerOrderScreenState extends State<PlayerOrderScreen> {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
         child: AppBar(
+          backgroundColor: Theme.of(context).primaryColor,
+          foregroundColor: Theme.of(context).colorScheme.onPrimary,
           title: Text(widget.title,
               style: CustomTextStyle.screenHeadLine1(context)),
         ),
@@ -141,7 +145,8 @@ class _PlayerOrderScreenState extends State<PlayerOrderScreen> {
                                       CorrectInstance.ofScoreService(_newGame!),
                                   roundService:
                                       CorrectInstance.ofRoundService(_newGame!),
-                                  beloteGame: _newGame as Belote<BelotePlayers>)
+                                  beloteGame: _newGame as Belote<BelotePlayers,
+                                      BeloteGameSetting>)
                               : PlayTarotGameScreen(
                                   tarotGame: _newGame as Tarot,
                                 ),

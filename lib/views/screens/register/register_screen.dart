@@ -18,8 +18,7 @@ class RegisterScreen extends StatefulWidget {
   static const String routeName = '/register';
   late final FirebaseDynamicLinks linkProvider;
 
-  RegisterScreen({Key? key, FirebaseDynamicLinks? linkProvider})
-      : super(key: key) {
+  RegisterScreen({super.key, FirebaseDynamicLinks? linkProvider}) {
     this.linkProvider = linkProvider ?? FirebaseDynamicLinks.instance;
   }
 

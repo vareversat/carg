@@ -1,0 +1,18 @@
+name: Default workflow
+
+on:
+  push:
+    paths:
+      - 'firebase_functions/**'
+    branches-ignore:
+      - main
+      - dev
+
+jobs:
+  functions:
+    uses: ./.github/workflows/functions.action.yaml
+    with:
+      deploy: false
+    secrets:
+      passphrase: ${{ secrets.PASSPHRASE }}
+      firebase_token: ${{ secrets.FIREBASE_TOKEN }}

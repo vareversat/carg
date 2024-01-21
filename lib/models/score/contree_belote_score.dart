@@ -3,22 +3,14 @@ import 'package:carg/models/score/round/contree_belote_round.dart';
 
 class ContreeBeloteScore extends BeloteScore<ContreeBeloteRound> {
   ContreeBeloteScore(
-      {String? id,
-      List<ContreeBeloteRound>? rounds,
+      {super.id,
+      List<ContreeBeloteRound>? super.rounds,
       int? usTotalPoints,
       int? themTotalPoints,
-      String? game})
+      super.game})
       : super(
-            id: id,
-            rounds: rounds,
             usTotalPoints: usTotalPoints ?? 0,
-            themTotalPoints: themTotalPoints ?? 0,
-            game: game);
-
-  @override
-  Map<String, dynamic> toJSON() {
-    return super.toJSON();
-  }
+            themTotalPoints: themTotalPoints ?? 0);
 
   factory ContreeBeloteScore.fromJSON(Map<String, dynamic>? json, String id) {
     return ContreeBeloteScore(

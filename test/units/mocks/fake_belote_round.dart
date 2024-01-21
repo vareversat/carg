@@ -6,7 +6,7 @@ class FakeBeloteRound extends BeloteRound {
   void computeRound() {}
 
   @override
-  int getTrickPointsOfTeam(BeloteTeamEnum team) {
+  int getTrickPointsOfTeam(BeloteTeamEnum? team) {
     if (team == BeloteTeamEnum.THEM) {
       return 90;
     } else {

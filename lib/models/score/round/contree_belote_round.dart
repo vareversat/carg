@@ -1,4 +1,5 @@
 import 'package:carg/models/score/misc/belote_contract_type.dart';
+import 'package:carg/models/score/misc/belote_special_round.dart';
 import 'package:carg/models/score/misc/belote_team_enum.dart';
 import 'package:carg/models/score/misc/card_color.dart';
 import 'package:carg/models/score/misc/contree_belote_contract_name.dart';
@@ -11,32 +12,23 @@ class ContreeBeloteRound extends BeloteRound {
   late BeloteContractType _contractType;
 
   ContreeBeloteRound(
-      {int? index,
-      CardColor? cardColor,
-      bool? contractFulfilled,
-      BeloteTeamEnum? dixDeDer,
-      BeloteTeamEnum? beloteRebelote,
-      BeloteTeamEnum? taker,
-      BeloteTeamEnum? defender,
-      int? takerScore,
-      int? defenderScore,
-      int? usTrickScore,
-      int? themTrickScore,
+      {super.index,
+      super.cardColor,
+      super.contractFulfilled,
+      super.dixDeDer,
+      super.beloteRebelote,
+      super.taker,
+      super.defender,
+      super.takerScore,
+      super.defenderScore,
+      super.usTrickScore,
+      super.themTrickScore,
+      super.settings,
       int? contract,
       ContreeBeloteContractName? contractName,
-      BeloteContractType? contractType})
-      : super(
-            index: index,
-            cardColor: cardColor,
-            contractFulfilled: contractFulfilled,
-            dixDeDer: dixDeDer,
-            beloteRebelote: beloteRebelote,
-            taker: taker,
-            takerScore: takerScore,
-            defenderScore: defenderScore,
-            usTrickScore: usTrickScore,
-            themTrickScore: themTrickScore,
-            defender: defender) {
+      BeloteContractType? contractType,
+      super.beloteSpecialRound,
+      super.beloteSpecialRoundPlayer}) {
     _contract = contract ?? 0;
     _contractName = contractName ?? ContreeBeloteContractName.NORMAL;
     _contractType = contractType ?? BeloteContractType.NORMAL;
@@ -84,18 +76,12 @@ class ContreeBeloteRound extends BeloteRound {
 
   @override
   void computeRound() {
-    var takerTrickPoints = getTrickPointsOfTeam(taker);
-    var defenderTrickPoints = getTrickPointsOfTeam(defender);
     if (contractFulfilled) {
-      var takerScoreTmp = takerTrickPoints +
-          getDixDeDerOfTeam(taker) +
-          getBeloteRebeloteOfTeam(taker) +
-          contract;
+      var takerScoreTmp = getTotalPointsOfTeam(taker) + contract;
+      var defenderScoreTmp = getTotalPointsOfTeam(defender);
       takerScore = roundScore(
           contractType.bonus(takerScoreTmp) * contractName.multiplier);
-      defenderScore = roundScore(defenderTrickPoints +
-          getDixDeDerOfTeam(defender) +
-          getBeloteRebeloteOfTeam(defender));
+      defenderScore = roundScore(defenderScoreTmp);
     } else {
       var defenderScoreTmp = BeloteRound.totalScore +
           contractType.bonus(contract) +
@@ -109,18 +95,6 @@ class ContreeBeloteRound extends BeloteRound {
   }
 
   @override
-  int getTrickPointsOfTeam(BeloteTeamEnum? team) {
-    switch (team) {
-      case BeloteTeamEnum.US:
-        return usTrickScore;
-      case BeloteTeamEnum.THEM:
-        return themTrickScore;
-      case null:
-        return 0;
-    }
-  }
-
-  @override
   Map<String, dynamic> toJSON() {
     var tmpJSON = super.toJSON();
     tmpJSON.addAll({
@@ -129,6 +103,14 @@ class ContreeBeloteRound extends BeloteRound {
       'contract_type': EnumToString.convertToString(contractType)
     });
     return tmpJSON;
+  }
+
+  factory ContreeBeloteRound.specialRound(
+      BeloteSpecialRound beloteSpecialRound, String playerID) {
+    return ContreeBeloteRound(
+        defenderScore: 0,
+        beloteSpecialRound: beloteSpecialRound,
+        beloteSpecialRoundPlayer: playerID);
   }
 
   factory ContreeBeloteRound.fromJSON(Map<String, dynamic> json) {
@@ -152,7 +134,10 @@ class ContreeBeloteRound extends BeloteRound {
         contractName: EnumToString.fromString(
             ContreeBeloteContractName.values, json['contract_name']),
         contractType: EnumToString.fromString(
-            BeloteContractType.values, json['contract_type'] ?? ''));
+            BeloteContractType.values, json['contract_type'] ?? ''),
+        beloteSpecialRound: EnumToString.fromString(
+            BeloteSpecialRound.values, json['belote_special_round'] ?? ''),
+        beloteSpecialRoundPlayer: json['belote_special_round_player']);
   }
 
   static List<ContreeBeloteRound> fromJSONList(List<dynamic> jsonList) {

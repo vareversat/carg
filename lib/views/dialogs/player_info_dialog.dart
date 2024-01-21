@@ -17,11 +17,10 @@ class PlayerInfoDialog extends StatelessWidget {
   final bool isNewPlayer;
 
   const PlayerInfoDialog(
-      {Key? key,
+      {super.key,
       required this.player,
       required this.playerService,
-      required this.isNewPlayer})
-      : super(key: key);
+      required this.isNewPlayer});
 
   String _getTitle(BuildContext context) {
     if (isNewPlayer) {
@@ -46,7 +45,7 @@ class PlayerInfoDialog extends StatelessWidget {
   }
 
   Future _copyId(BuildContext context) async {
-    await Clipboard.setData(ClipboardData(text: player.id));
+    await Clipboard.setData(ClipboardData(text: player.id!));
     InfoSnackBar.showSnackBar(context, AppLocalizations.of(context)!.idCopied);
   }
 

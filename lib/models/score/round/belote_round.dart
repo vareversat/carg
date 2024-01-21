@@ -1,15 +1,19 @@
+import 'package:carg/models/game/setting/belote_game_setting.dart';
+import 'package:carg/models/score/misc/belote_special_round.dart';
 import 'package:carg/models/score/misc/belote_team_enum.dart';
 import 'package:carg/models/score/misc/card_color.dart';
 import 'package:carg/models/score/round/round.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/widgets.dart';
 
-abstract class BeloteRound extends Round {
+abstract class BeloteRound extends Round<BeloteGameSetting> {
   static const int beloteRebeloteBonus = 20;
   static const int dixDeDerBonus = 10;
   static const int totalTrickScore = 152;
   static const int totalScore =
       BeloteRound.totalTrickScore + BeloteRound.dixDeDerBonus;
+  BeloteSpecialRound? beloteSpecialRound;
+  String? beloteSpecialRoundPlayer;
 
   late CardColor _cardColor;
   late bool contractFulfilled;
@@ -23,7 +27,8 @@ abstract class BeloteRound extends Round {
   late int _themTrickScore;
 
   BeloteRound(
-      {index,
+      {super.index,
+      super.settings,
       cardColor,
       contractFulfilled,
       dixDeDer,
@@ -33,8 +38,9 @@ abstract class BeloteRound extends Round {
       defenderScore,
       usTrickScore,
       themTrickScore,
-      defender})
-      : super(index: index) {
+      defender,
+      this.beloteSpecialRound,
+      this.beloteSpecialRoundPlayer}) {
     _taker = taker ?? BeloteTeamEnum.US;
     _defender = defender ?? BeloteTeamEnum.THEM;
     _cardColor = cardColor ?? CardColor.HEART;
@@ -109,7 +115,39 @@ abstract class BeloteRound extends Round {
     notifyListeners();
   }
 
-  int getTrickPointsOfTeam(BeloteTeamEnum team);
+  String specialRoundToString() {
+    if (beloteSpecialRound == null) {
+      return "This is not a special round";
+    } else {
+      return beloteSpecialRound!.name();
+    }
+  }
+
+  bool isSpecialRound() {
+    return beloteSpecialRound != null;
+  }
+
+  int getTrickPointsOfTeam(BeloteTeamEnum? team) {
+    switch (team) {
+      case BeloteTeamEnum.US:
+        return usTrickScore;
+      case BeloteTeamEnum.THEM:
+        return themTrickScore;
+      case null:
+        return 0;
+    }
+  }
+
+  int getTotalPointsOfTeam(BeloteTeamEnum team) {
+    // Check the settings to check the score computation
+    if (settings != null && settings!.sumTrickPointsAndContract) {
+      return getTrickPointsOfTeam(team) +
+          getDixDeDerOfTeam(team) +
+          getBeloteRebeloteOfTeam(team);
+    } else {
+      return getDixDeDerOfTeam(team) + getBeloteRebeloteOfTeam(team);
+    }
+  }
 
   int getBeloteRebeloteOfTeam(BeloteTeamEnum? team) {
     return team == _beloteRebelote ? beloteRebeloteBonus : 0;
@@ -147,6 +185,10 @@ abstract class BeloteRound extends Round {
       'defender_score': defenderScore,
       'us_trick_score': usTrickScore,
       'them_trick_score': themTrickScore,
+      'belote_special_round': beloteSpecialRound != null
+          ? EnumToString.convertToString(beloteSpecialRound)
+          : null,
+      'belote_special_round_player': beloteSpecialRoundPlayer,
     };
   }
 }

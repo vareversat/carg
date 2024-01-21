@@ -12,7 +12,7 @@ class HomeScreen extends StatefulWidget {
   static const routeName = '/home';
   final int requestedIndex;
 
-  const HomeScreen({Key? key, required this.requestedIndex}) : super(key: key);
+  const HomeScreen({super.key, required this.requestedIndex});
 
   @override
   State<StatefulWidget> createState() {

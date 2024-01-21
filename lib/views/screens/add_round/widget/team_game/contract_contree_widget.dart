@@ -1,6 +1,7 @@
 import 'package:carg/models/score/misc/belote_contract_type.dart';
 import 'package:carg/models/score/misc/contree_belote_contract_name.dart';
 import 'package:carg/models/score/round/contree_belote_round.dart';
+import 'package:carg/styles/properties.dart';
 import 'package:carg/views/screens/add_round/widget/section_title_widget.dart';
 import 'package:carg/views/screens/add_round/widget/team_game/card_color_picker_widget.dart';
 import 'package:flutter/material.dart';
@@ -12,8 +13,7 @@ import 'package:provider/provider.dart';
 class ContractContreeWidget extends StatelessWidget {
   final ContreeBeloteRound contreeRound;
 
-  const ContractContreeWidget({Key? key, required this.contreeRound})
-      : super(key: key);
+  const ContractContreeWidget({super.key, required this.contreeRound});
 
   @override
   Widget build(BuildContext context) {
@@ -30,14 +30,23 @@ class ContractContreeWidget extends StatelessWidget {
                   const SizedBox(height: 15),
                   Column(
                     children: [
-                      _ContractValueTextFieldWidget(
-                        contreeBeloteRound: roundData,
-                      ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      _ContractTypeWidget(
-                        roundData: roundData,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Flexible(
+                            child: _ContractValueTextFieldWidget(
+                              contreeBeloteRound: roundData,
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          Flexible(
+                            child: _ContractTypeWidget(
+                              roundData: roundData,
+                            ),
+                          ),
+                        ],
                       ),
                       const SizedBox(
                         height: 15,
@@ -72,27 +81,10 @@ class _ContractValueTextFieldWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _contractTextController.text = contreeBeloteRound.contract.toString();
-    return Row(
+    return Column(
       key: const ValueKey('contractValueTextFieldWidget'),
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        SizedBox(
-          width: 100,
-          child: TextField(
-            key: const ValueKey('contractValueTextFieldValue'),
-            textAlign: TextAlign.center,
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 40),
-            controller: _contractTextController,
-            enabled: !(contreeBeloteRound.contractType ==
-                    BeloteContractType.CAPOT ||
-                contreeBeloteRound.contractType == BeloteContractType.GENERALE),
-            keyboardType: TextInputType.number,
-            inputFormatters: const <TextInputFormatter>[],
-            onSubmitted: (String value) => {
-              contreeBeloteRound.contract = int.parse(value),
-            },
-          ),
-        ),
         AnimatedSize(
           curve: Curves.ease,
           duration: const Duration(milliseconds: 500),
@@ -108,6 +100,31 @@ class _ContractValueTextFieldWidget extends StatelessWidget {
               : const SizedBox(
                   key: ValueKey('noLockWidget'),
                 ),
+        ),
+        SizedBox(
+          width: 100,
+          child: TextField(
+            decoration: InputDecoration(
+              fillColor: Colors.white,
+              border: OutlineInputBorder(
+                borderRadius:
+                    BorderRadius.circular(CustomProperties.borderRadius),
+                borderSide: const BorderSide(),
+              ),
+            ),
+            key: const ValueKey('contractValueTextFieldValue'),
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 40),
+            controller: _contractTextController,
+            enabled: !(contreeBeloteRound.contractType ==
+                    BeloteContractType.CAPOT ||
+                contreeBeloteRound.contractType == BeloteContractType.GENERALE),
+            keyboardType: TextInputType.number,
+            inputFormatters: const <TextInputFormatter>[],
+            onSubmitted: (String value) => {
+              contreeBeloteRound.contract = int.parse(value),
+            },
+          ),
         ),
       ],
     );
@@ -140,12 +157,15 @@ class _ContractTypeWidget extends StatelessWidget {
                         checkmarkColor: Theme.of(context).cardColor,
                         selected: roundData.contractType == contractType,
                         selectedColor: Theme.of(context).primaryColor,
+                        labelStyle: TextStyle(
+                          color: roundData.contractType == contractType
+                              ? Theme.of(context).colorScheme.onPrimary
+                              : Theme.of(context).colorScheme.onBackground,
+                        ),
                         onPressed: () =>
                             {roundData.contractType = contractType},
                         label: Text(
                           contractType.name(context),
-                          style: TextStyle(
-                              fontSize: 20, color: Theme.of(context).cardColor),
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
@@ -188,12 +208,15 @@ class _ContractNameWidget extends StatelessWidget {
                         checkmarkColor: Theme.of(context).cardColor,
                         selected: roundData.contractName == contractName,
                         selectedColor: Theme.of(context).primaryColor,
+                        labelStyle: TextStyle(
+                          color: roundData.contractName == contractName
+                              ? Theme.of(context).colorScheme.onPrimary
+                              : Theme.of(context).colorScheme.onBackground,
+                        ),
                         onPressed: () =>
                             {roundData.contractName = contractName},
                         label: Text(
                           contractName.name,
-                          style: TextStyle(
-                              fontSize: 20, color: Theme.of(context).cardColor),
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),

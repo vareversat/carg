@@ -15,8 +15,7 @@ class TeamListTab extends StatefulWidget {
   final AbstractPlayerService playerService;
 
   const TeamListTab(
-      {Key? key, required this.teamService, required this.playerService})
-      : super(key: key);
+      {super.key, required this.teamService, required this.playerService});
 
   @override
   State<StatefulWidget> createState() {

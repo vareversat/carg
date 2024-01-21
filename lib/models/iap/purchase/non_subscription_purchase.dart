@@ -8,7 +8,7 @@ class NonSubscriptionPurchase extends Purchase {
   final NonSubscriptionStatusEnum status;
 
   NonSubscriptionPurchase({
-    String? id,
+    super.id,
     required super.iapSource,
     required super.orderId,
     required super.productId,
@@ -16,7 +16,7 @@ class NonSubscriptionPurchase extends Purchase {
     required super.purchaseDate,
     required this.status,
     super.type = ProductTypeEnum.nonSubscription,
-  }) : super(id: id);
+  });
 
   @override
   Map<String, dynamic> toJSON() {

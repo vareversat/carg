@@ -9,14 +9,13 @@ class FrenchBeloteGameRepository extends AbstractFrenchBeloteGameRepository {
       {String? database,
       String? environment,
       FirebaseFirestore? provider,
-      DocumentSnapshot? lastFetchGameDocument})
+      super.lastFetchGameDocument})
       : super(
             database: database ?? Const.frenchBeloteGameDB,
             environment: environment ??
                 const String.fromEnvironment(Const.dartVarEnv,
                     defaultValue: Const.defaultEnv),
-            provider: provider ?? FirebaseFirestore.instance,
-            lastFetchGameDocument: lastFetchGameDocument);
+            provider: provider ?? FirebaseFirestore.instance);
 
   @override
   Future<FrenchBelote?> get(String id) async {
