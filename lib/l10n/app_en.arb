@@ -163,6 +163,7 @@
   "settings": "Settings",
   "signInAndUp": "Sign In & Sing Up",
   "signOut": "Sing out",
+  "share": "Share",
   "startedOn": "Started on {date} at {hour}",
   "@startedOn": {
     "placeholders": {

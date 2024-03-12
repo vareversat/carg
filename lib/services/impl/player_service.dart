@@ -91,4 +91,32 @@ class PlayerService extends AbstractPlayerService {
       throw ServiceException('Error during the index search : ${e.toString()}');
     }
   }
+
+  @override
+  Future<void> sharePlayer({Player? player, List<String>? users}) async {
+    if (player == null || users == null) {
+      throw ServiceException('Please provide a player and an user list');
+    }
+    try {
+      player.sharedWith?.addAll(users);
+      await playerRepository.update(player);
+    } on RepositoryException catch (e) {
+      throw throw ServiceException(
+          'Impossible to modify the player ${player.id} : ${e.message}');
+    }
+  }
+
+  @override
+  Future<void> unSharePlayer({Player? player}) async {
+    if (player == null) {
+      throw ServiceException('Please provide a player and an user list');
+    }
+    try {
+      player.sharedWith?.clear();
+      await playerRepository.update(player);
+    } on RepositoryException catch (e) {
+      throw throw ServiceException(
+          'Impossible to modify the player ${player.id} : ${e.message}');
+    }
+  }
 }
