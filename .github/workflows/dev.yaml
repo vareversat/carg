@@ -13,20 +13,17 @@ jobs:
     uses: ./.github/workflows/flutter.analyze-test.action.yaml
     with:
       flutter_version: '3.16.5'
-    secrets:
-      passphrase: ${{ secrets.PASSPHRASE }}
+    secrets: inherit
   flutter-build:
     needs: [ flutter-test-analyze ]
     uses: ./.github/workflows/flutter.build.action.yaml
     with:
       flutter_version: '3.16.5'
       android_output: 'aab'
-    secrets:
-      passphrase: ${{ secrets.PASSPHRASE }}
+    secrets: inherit
   fastlane-dry-run:
     needs: [ flutter-build ]
     uses: ./.github/workflows/fastlane.action.yaml
     with:
       lane: 'dry_run'
-    secrets:
-      passphrase: ${{ secrets.PASSPHRASE }}
+    secrets: inherit
