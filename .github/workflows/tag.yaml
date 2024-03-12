@@ -13,7 +13,7 @@ jobs:
   flutter-test-analyze:
     uses: ./.github/workflows/flutter.analyze-test.action.yaml
     with:
-      flutter_version: '3.22.2'
+      flutter_version: '3.16.5'
     secrets: inherit
   flutter-build:
     needs: [ flutter-test-analyze ]
