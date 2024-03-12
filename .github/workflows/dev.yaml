@@ -8,6 +8,10 @@ on:
     branches:
       - dev
 
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   flutter-test-analyze:
     uses: ./.github/workflows/flutter.analyze-test.action.yaml
