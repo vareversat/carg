@@ -16,13 +16,13 @@ jobs:
   flutter-test-analyze:
     uses: ./.github/workflows/flutter.analyze-test.action.yaml
     with:
-      flutter_version: '3.16.5'
+      flutter_version: '3.19.3'
     secrets: inherit
   flutter-build:
     needs: [ flutter-test-analyze ]
     uses: ./.github/workflows/flutter.build.action.yaml
     with:
-      flutter_version: '3.22.2'
+      flutter_version: '3.19.3'
       android_output: 'aab'
     secrets: inherit
   fastlane-dry-run:
