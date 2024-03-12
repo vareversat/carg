@@ -71,9 +71,9 @@ class _GameListTabWidgetState extends State<GameListTabWidget> {
   Widget build(BuildContext context) {
     return RefreshIndicator(
       onRefresh: () => Future.sync(
-        () => {
-          widget.gameService.resetLastPointedDocument(),
-          _pagingController.refresh()
+        () {
+          widget.gameService.resetLastPointedDocument();
+          _pagingController.refresh();
         },
       ),
       backgroundColor: Theme.of(context).primaryColor,
