@@ -22,14 +22,14 @@ import 'package:carg/services/impl/score/tarot_score_service.dart';
 
 class CorrectInstance {
   static ofGameService(Game game) {
-    switch (game.runtimeType) {
-      case FrenchBelote:
+    switch (game) {
+      case FrenchBelote _:
         return FrenchBeloteGameService();
-      case CoincheBelote:
+      case CoincheBelote _:
         return CoincheBeloteGameService();
-      case ContreeBelote:
+      case ContreeBelote _:
         return ContreeBeloteGameService();
-      case Tarot:
+      case Tarot _:
         return TarotGameService();
       default:
         throw Exception(
@@ -38,14 +38,14 @@ class CorrectInstance {
   }
 
   static ofRoundService(Game game) {
-    switch (game.runtimeType) {
-      case FrenchBelote:
+    switch (game) {
+      case FrenchBelote _:
         return FrenchBeloteRoundService();
-      case CoincheBelote:
+      case CoincheBelote _:
         return CoincheBeloteRoundService();
-      case ContreeBelote:
+      case ContreeBelote _:
         return ContreeBeloteRoundService();
-      case Tarot:
+      case Tarot _:
         return TarotRoundService();
       default:
         throw Exception(
@@ -54,14 +54,14 @@ class CorrectInstance {
   }
 
   static ofScoreService(Game game) {
-    switch (game.runtimeType) {
-      case FrenchBelote:
+    switch (game) {
+      case FrenchBelote _:
         return FrenchBeloteScoreService();
-      case CoincheBelote:
+      case CoincheBelote _:
         return CoincheBeloteScoreService();
-      case ContreeBelote:
+      case ContreeBelote _:
         return ContreeBeloteScoreService();
-      case Tarot:
+      case Tarot _:
         return TarotScoreService();
       default:
         throw Exception(
@@ -71,12 +71,12 @@ class CorrectInstance {
 
   static ofSpecialRound(
       Game game, BeloteSpecialRound beloteSpecialRound, String playerID) {
-    switch (game.runtimeType) {
-      case FrenchBelote:
+    switch (game) {
+      case FrenchBelote _:
         return FrenchBeloteRound.specialRound(beloteSpecialRound, playerID);
-      case CoincheBelote:
+      case CoincheBelote _:
         return CoincheBeloteRound.specialRound(beloteSpecialRound, playerID);
-      case ContreeBelote:
+      case ContreeBelote _:
         return ContreeBeloteRound.specialRound(beloteSpecialRound, playerID);
       default:
         throw Exception(
