@@ -22,7 +22,6 @@ class PlayerListTab extends StatefulWidget {
 }
 
 class _PlayerListTabWidget extends State<PlayerListTab> {
-  String? _errorMessage;
   String searchQuery = '';
   late bool isAdmin;
   final TextEditingController textEditingController = TextEditingController();
@@ -98,7 +97,7 @@ class _PlayerListTabWidget extends State<PlayerListTab> {
                 }
                 if (snapshot.connectionState == ConnectionState.none ||
                     snapshot.data == null) {
-                  return ErrorMessageWidget(message: _errorMessage);
+                  return ErrorMessageWidget(message: snapshot.error.toString());
                 }
                 if (snapshot.data!.isEmpty) {
                   return Center(

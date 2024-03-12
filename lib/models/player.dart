@@ -19,6 +19,7 @@ class Player extends CargPlayerObject with ChangeNotifier {
   late String _profilePicture;
   late bool _selected;
   late bool _useGravatarProfilePicture;
+  late List<dynamic> _sharedWith;
   static const String defaultProfilePicture =
       'https://firebasestorage.googleapis.com/v0/b/carg-d3732.appspot.com/o/carg_logo.png?alt=media&token=861511da-db26-4216-8ee6-29b20c0a6852';
 
@@ -32,6 +33,27 @@ class Player extends CargPlayerObject with ChangeNotifier {
       emailHash = md5.convert(utf8.encode(value)).toString();
     }
     _gravatarProfilePicture = 'https://gravatar.com/avatar/$emailHash?s=200';
+  }
+
+  void sharePlayer(Player? player) {
+    if (player != null && player.linkedUserId != null) {
+      if (!sharedWith.contains(player.linkedUserId)) {
+        player.selected = true;
+        sharedWith.add(player.linkedUserId!);
+        notifyListeners();
+      } else if (sharedWith.contains(player.linkedUserId)) {
+        player.selected = false;
+        sharedWith.remove(player.linkedUserId!);
+        notifyListeners();
+      }
+    }
+  }
+
+  List<dynamic> get sharedWith => _sharedWith;
+
+  set sharedWith(List<dynamic> value) {
+    _sharedWith = value;
+    notifyListeners();
   }
 
   bool get useGravatarProfilePicture => _useGravatarProfilePicture;
@@ -74,6 +96,7 @@ class Player extends CargPlayerObject with ChangeNotifier {
       this.firstName,
       this.lastName,
       this.ownedBy,
+      sharedWith,
       userName,
       profilePicture,
       this.linkedUserId,
@@ -89,6 +112,7 @@ class Player extends CargPlayerObject with ChangeNotifier {
     _profilePicture = profilePicture ?? defaultProfilePicture;
     _userName = userName ?? '';
     _selected = false;
+    _sharedWith = sharedWith ?? [];
     _useGravatarProfilePicture = useGravatarProfilePicture ?? false;
     _gravatarProfilePicture = gravatarProfilePicture;
   }
@@ -113,6 +137,7 @@ class Player extends CargPlayerObject with ChangeNotifier {
         linkedUserId: json?['linked_user_id'],
         profilePicture: json?['profile_picture'],
         ownedBy: json?['owned_by'],
+        sharedWith: json?['shared_with'],
         useGravatarProfilePicture:
             json?['use_gravatar_profile_picture'] ?? false,
         gravatarProfilePicture: json?['gravatar_profile_picture'],
@@ -133,6 +158,7 @@ class Player extends CargPlayerObject with ChangeNotifier {
       'use_gravatar_profile_picture': useGravatarProfilePicture,
       'linked_user_id': linkedUserId,
       'owned_by': ownedBy,
+      'shared_with': sharedWith,
       'owned': owned,
       'testing': testing,
       'admin': admin

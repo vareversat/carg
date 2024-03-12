@@ -25,4 +25,12 @@ abstract class AbstractPlayerService extends BaseAbstractService<Player> {
   /// Return the player or null if not found
   Future<List<Player>> searchPlayers(
       {String query = '', Player? currentPlayer, bool? myPlayers});
+
+  /// Share a player with other users
+  Future<void> sharePlayer(
+      {Player? player, List<String>? users});
+
+  /// Remove all users with you shared the player
+  Future<void> unSharePlayer(
+      {Player? player});
 }
