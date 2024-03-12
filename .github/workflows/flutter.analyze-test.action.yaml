@@ -53,7 +53,7 @@ jobs:
       - name: 'Flutter test (with coverage)'
         run: flutter test --coverage --test-randomize-ordering-seed random
       - name: 'Upload coverage report'
-        uses: codecov/codecov-action@eaaf4bedf32dbdc6b720b63067d99c4d77d6047d # v3.1.4
+        uses: codecov/codecov-action@v4.1.0
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           directory: ./coverage/
