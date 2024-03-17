@@ -37,7 +37,7 @@ jobs:
         env:
           BUNDLE_GEMFILE: 'android/Gemfile'
       - name: 'Fastlane deploy ${{ inputs.lane }} lane'
-        uses: maierj/fastlane-action@v3.0.0
+        uses: maierj/fastlane-action@v3.1.0
         with:
           lane: ${{ inputs.lane }}
           subdirectory: 'android'
