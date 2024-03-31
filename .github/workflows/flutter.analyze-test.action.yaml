@@ -59,7 +59,7 @@ jobs:
           flutter config --no-cli-animations
           flutter test --coverage --test-randomize-ordering-seed random
       - name: 'Upload coverage report'
-        uses: codecov/codecov-action@v4.1.0
+        uses: codecov/codecov-action@v4.1.1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           directory: ./coverage/
