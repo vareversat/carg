@@ -17,7 +17,7 @@
     "@google-cloud/firestore": "6.8.0",
     "algoliasearch": "4.22.1",
     "firebase-admin": "11.11.1",
-    "firebase-functions": "4.8.1"
+    "firebase-functions": "4.8.2"
   },
   "devDependencies": {
     "firebase-functions-test": "3.1.1",
