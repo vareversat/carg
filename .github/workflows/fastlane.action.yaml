@@ -44,6 +44,6 @@ jobs:
       - name: 'Generate Github release'
         # Only run on new tag
         if: startsWith(github.ref, 'refs/tags/')
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           body_path: ${{ env.CHANGELOG_PATH }}
