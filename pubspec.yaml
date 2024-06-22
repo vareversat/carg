@@ -17,7 +17,7 @@ dependencies:
   firebase_dynamic_links: ^5.0.0
   firebase_app_check: ^0.2.0
   google_sign_in: ^6.0.0
-  google_mobile_ads: ^4.0.0
+  google_mobile_ads: ^5.0.0
   cupertino_icons: ^1.0.2
   enum_to_string: ^2.0.1
   flutter_markdown: ^0.7.0
