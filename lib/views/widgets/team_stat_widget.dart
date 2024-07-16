@@ -34,15 +34,14 @@ class TeamStatWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 15),
       child: ElevatedButton(
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all<Color>(
+          backgroundColor: WidgetStateProperty.all<Color>(
               Theme.of(context).colorScheme.secondary),
-          foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
-          shape: MaterialStateProperty.all<OutlinedBorder>(
-              RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.circular(CustomProperties.borderRadius),
-                  side: BorderSide.none)),
-          padding: MaterialStateProperty.all<EdgeInsetsGeometry?>(
+          foregroundColor: WidgetStateProperty.all<Color>(Colors.black),
+          shape: WidgetStateProperty.all<OutlinedBorder>(RoundedRectangleBorder(
+              borderRadius:
+                  BorderRadius.circular(CustomProperties.borderRadius),
+              side: BorderSide.none)),
+          padding: WidgetStateProperty.all<EdgeInsetsGeometry?>(
             const EdgeInsets.only(
               right: 0,
               left: 0,

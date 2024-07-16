@@ -76,12 +76,12 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                                       icon: const Icon(Icons.add),
                                       style: ButtonStyle(
                                         backgroundColor:
-                                            MaterialStateProperty.all<Color>(
+                                            WidgetStateProperty.all<Color>(
                                                 Theme.of(context).primaryColor),
                                         foregroundColor:
-                                            MaterialStateProperty.all<Color>(
+                                            WidgetStateProperty.all<Color>(
                                                 Theme.of(context).cardColor),
-                                        shape: MaterialStateProperty.all<
+                                        shape: WidgetStateProperty.all<
                                             OutlinedBorder>(
                                           RoundedRectangleBorder(
                                             side: BorderSide(
@@ -132,16 +132,14 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                                           icon: const Icon(Icons.link),
                                           style: ButtonStyle(
                                             backgroundColor:
-                                                MaterialStateProperty.all<
-                                                        Color>(
+                                                WidgetStateProperty.all<Color>(
                                                     Theme.of(context)
                                                         .primaryColor),
                                             foregroundColor:
-                                                MaterialStateProperty.all<
-                                                        Color>(
+                                                WidgetStateProperty.all<Color>(
                                                     Theme.of(context)
                                                         .cardColor),
-                                            shape: MaterialStateProperty.all<
+                                            shape: WidgetStateProperty.all<
                                                 OutlinedBorder>(
                                               RoundedRectangleBorder(
                                                 side: BorderSide(
@@ -190,12 +188,12 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                             ? ElevatedButton.icon(
                                 icon: const Icon(Icons.close),
                                 style: ButtonStyle(
-                                    backgroundColor: MaterialStateProperty.all<Color>(
+                                    backgroundColor: WidgetStateProperty.all<Color>(
                                         Theme.of(context).colorScheme.error),
                                     foregroundColor:
-                                        MaterialStateProperty.all<Color>(
+                                        WidgetStateProperty.all<Color>(
                                             Theme.of(context).cardColor),
-                                    shape: MaterialStateProperty.all<OutlinedBorder>(
+                                    shape: WidgetStateProperty.all<OutlinedBorder>(
                                         RoundedRectangleBorder(
                                             side: BorderSide(
                                                 width: 2,
@@ -218,14 +216,14 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                             : ElevatedButton.icon(
                                 icon: const Icon(Icons.arrow_back),
                                 style: ButtonStyle(
-                                    backgroundColor: MaterialStateProperty.all<Color>(
+                                    backgroundColor: WidgetStateProperty.all<Color>(
                                         Theme.of(context)
                                             .colorScheme
                                             .secondary),
                                     foregroundColor:
-                                        MaterialStateProperty.all<Color>(
+                                        WidgetStateProperty.all<Color>(
                                             Theme.of(context).cardColor),
-                                    shape: MaterialStateProperty.all<OutlinedBorder>(
+                                    shape: WidgetStateProperty.all<OutlinedBorder>(
                                         RoundedRectangleBorder(
                                             side: BorderSide(
                                                 width: 2,
@@ -370,11 +368,11 @@ class _EnterUsernameWidget extends StatelessWidget {
         ElevatedButton.icon(
             icon: const Icon(Icons.check),
             style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(
+                backgroundColor: WidgetStateProperty.all<Color>(
                     Theme.of(context).primaryColor),
-                foregroundColor: MaterialStateProperty.all<Color>(
-                    Theme.of(context).cardColor),
-                shape: MaterialStateProperty.all<OutlinedBorder>(
+                foregroundColor:
+                    WidgetStateProperty.all<Color>(Theme.of(context).cardColor),
+                shape: WidgetStateProperty.all<OutlinedBorder>(
                     RoundedRectangleBorder(
                         side: BorderSide(
                             width: 2, color: Theme.of(context).primaryColor),
@@ -482,11 +480,11 @@ class _LinkPlayerWidget extends StatelessWidget {
             ElevatedButton.icon(
                 icon: const Icon(Icons.check),
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(
+                  backgroundColor: WidgetStateProperty.all<Color>(
                       Theme.of(context).primaryColor),
-                  foregroundColor: MaterialStateProperty.all<Color>(
+                  foregroundColor: WidgetStateProperty.all<Color>(
                       Theme.of(context).cardColor),
-                  shape: MaterialStateProperty.all<OutlinedBorder>(
+                  shape: WidgetStateProperty.all<OutlinedBorder>(
                     RoundedRectangleBorder(
                       side: BorderSide(
                           width: 2, color: Theme.of(context).primaryColor),

@@ -120,11 +120,11 @@ class _PlayerOrderScreenState extends State<PlayerOrderScreen> {
                 textDirection: TextDirection.rtl,
                 child: ElevatedButton.icon(
                   style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(
+                    backgroundColor: WidgetStateProperty.all<Color>(
                         Theme.of(context).primaryColor),
-                    foregroundColor: MaterialStateProperty.all<Color>(
+                    foregroundColor: WidgetStateProperty.all<Color>(
                         Theme.of(context).cardColor),
-                    shape: MaterialStateProperty.all<OutlinedBorder>(
+                    shape: WidgetStateProperty.all<OutlinedBorder>(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
                           CustomProperties.borderRadius,

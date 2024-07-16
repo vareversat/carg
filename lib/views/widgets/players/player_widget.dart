@@ -32,10 +32,10 @@ class PlayerWidget extends StatelessWidget {
             onPressed: () =>
                 onTap == null ? _showEditPlayerDialog(context) : onTap!(),
             style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(
-                    Theme.of(context).cardColor),
-                foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
-                shape: MaterialStateProperty.all<OutlinedBorder>(
+                backgroundColor:
+                    WidgetStateProperty.all<Color>(Theme.of(context).cardColor),
+                foregroundColor: WidgetStateProperty.all<Color>(Colors.black),
+                shape: WidgetStateProperty.all<OutlinedBorder>(
                     RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
                             CustomProperties.borderRadius),
@@ -43,7 +43,7 @@ class PlayerWidget extends StatelessWidget {
                             ? BorderSide(
                                 width: 2, color: player.getSideColor(context))
                             : BorderSide.none)),
-                padding: MaterialStateProperty.all<EdgeInsetsGeometry?>(
+                padding: WidgetStateProperty.all<EdgeInsetsGeometry?>(
                     const EdgeInsets.only(right: 0, left: 15))),
             child: SizedBox(
                 height: 60,

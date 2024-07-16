@@ -32,7 +32,7 @@ class PlayScreenButtonBlock extends StatelessWidget {
         ElevatedButton(
           onPressed: () async => {deleteLastRound()},
           style: ButtonStyle(
-            shape: MaterialStateProperty.all<OutlinedBorder>(
+            shape: WidgetStateProperty.all<OutlinedBorder>(
               RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(
                   CustomProperties.borderRadius,
@@ -48,7 +48,7 @@ class PlayScreenButtonBlock extends StatelessWidget {
         ElevatedButton(
           onPressed: editLastRound,
           style: ButtonStyle(
-            shape: MaterialStateProperty.all<OutlinedBorder>(
+            shape: WidgetStateProperty.all<OutlinedBorder>(
               RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(
                   CustomProperties.borderRadius,
@@ -64,7 +64,7 @@ class PlayScreenButtonBlock extends StatelessWidget {
         ElevatedButton(
           onPressed: () async => {addNotes()},
           style: ButtonStyle(
-            shape: MaterialStateProperty.all<OutlinedBorder>(
+            shape: WidgetStateProperty.all<OutlinedBorder>(
               RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(
                   CustomProperties.borderRadius,
@@ -84,7 +84,7 @@ class PlayScreenButtonBlock extends StatelessWidget {
               ? ElevatedButton(
                   onPressed: () async => {endGame()},
                   style: ButtonStyle(
-                    shape: MaterialStateProperty.all<OutlinedBorder>(
+                    shape: WidgetStateProperty.all<OutlinedBorder>(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
                           CustomProperties.borderRadius,
@@ -124,11 +124,11 @@ class PlayScreenButtonBlock extends StatelessWidget {
                           ElevatedButton(
                             key: const ValueKey("addRoundButton"),
                             style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all<Color>(
+                              backgroundColor: WidgetStateProperty.all<Color>(
                                   Theme.of(context).primaryColor),
-                              foregroundColor: MaterialStateProperty.all<Color>(
+                              foregroundColor: WidgetStateProperty.all<Color>(
                                   Theme.of(context).cardColor),
-                              shape: MaterialStateProperty.all<OutlinedBorder>(
+                              shape: WidgetStateProperty.all<OutlinedBorder>(
                                 RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(
                                       CustomProperties.borderRadius),
@@ -150,11 +150,11 @@ class PlayScreenButtonBlock extends StatelessWidget {
                     : ElevatedButton.icon(
                         key: const ValueKey("endGameButton"),
                         style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(
+                          backgroundColor: WidgetStateProperty.all<Color>(
                               Theme.of(context).colorScheme.error),
-                          foregroundColor: MaterialStateProperty.all<Color>(
+                          foregroundColor: WidgetStateProperty.all<Color>(
                               Theme.of(context).cardColor),
-                          shape: MaterialStateProperty.all<OutlinedBorder>(
+                          shape: WidgetStateProperty.all<OutlinedBorder>(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(
                                   CustomProperties.borderRadius),

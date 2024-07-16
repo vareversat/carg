@@ -57,11 +57,11 @@ class _RemoveAdsListTileState extends State<RemoveAdsListTile> {
         children: <Widget>[
           TextButton(
             style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(
+                backgroundColor: WidgetStateProperty.all<Color>(
                     Theme.of(context).primaryColor),
-                foregroundColor: MaterialStateProperty.all<Color>(
-                    Theme.of(context).cardColor),
-                shape: MaterialStateProperty.all<OutlinedBorder>(
+                foregroundColor:
+                    WidgetStateProperty.all<Color>(Theme.of(context).cardColor),
+                shape: WidgetStateProperty.all<OutlinedBorder>(
                     RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
                             CustomProperties.borderRadius)))),
@@ -73,11 +73,11 @@ class _RemoveAdsListTileState extends State<RemoveAdsListTile> {
           ),
           TextButton(
             style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(
+                backgroundColor: WidgetStateProperty.all<Color>(
                     Theme.of(context).primaryColor),
-                foregroundColor: MaterialStateProperty.all<Color>(
-                    Theme.of(context).cardColor),
-                shape: MaterialStateProperty.all<OutlinedBorder>(
+                foregroundColor:
+                    WidgetStateProperty.all<Color>(Theme.of(context).cardColor),
+                shape: WidgetStateProperty.all<OutlinedBorder>(
                     RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
                             CustomProperties.borderRadius)))),
