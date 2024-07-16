@@ -6,7 +6,7 @@ version: 1.10.0
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
-  flutter: '3.19.3'
+  flutter: '3.22.2'
 
 dependencies:
   cloud_firestore: ^5.1.0
@@ -17,7 +17,7 @@ dependencies:
   firebase_dynamic_links: ^6.0.3
   firebase_app_check: ^0.3.0+3
   google_sign_in: ^6.0.0
-  google_mobile_ads: ^5.0.0
+  google_mobile_ads: ^5.1.0
   cupertino_icons: ^1.0.2
   enum_to_string: ^2.0.1
   flutter_markdown: ^0.7.0
