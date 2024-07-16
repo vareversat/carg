@@ -39,11 +39,11 @@ class GameListScreen extends StatelessWidget {
                       ),
                       FilledButton(
                         style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(
+                          backgroundColor: WidgetStateProperty.all<Color>(
                               Theme.of(context).cardColor),
-                          foregroundColor: MaterialStateProperty.all<Color>(
+                          foregroundColor: WidgetStateProperty.all<Color>(
                               Theme.of(context).primaryColor),
-                          shape: MaterialStateProperty.all<OutlinedBorder>(
+                          shape: WidgetStateProperty.all<OutlinedBorder>(
                             RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(
                                 CustomProperties.borderRadius,

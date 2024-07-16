@@ -94,9 +94,9 @@ class TeamStatDialog extends StatelessWidget {
             Flexible(
               child: ElevatedButton(
                 style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(
+                    backgroundColor: WidgetStateProperty.all<Color>(
                         Theme.of(context).cardColor),
-                    shape: MaterialStateProperty.all<OutlinedBorder>(
+                    shape: WidgetStateProperty.all<OutlinedBorder>(
                         RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(
                                 CustomProperties.borderRadius)))),
@@ -179,10 +179,10 @@ class TeamStatDialog extends StatelessWidget {
         ElevatedButton.icon(
           key: const ValueKey('closeButton'),
           style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
-              foregroundColor: MaterialStateProperty.all<Color>(
+              backgroundColor: WidgetStateProperty.all<Color>(Colors.white),
+              foregroundColor: WidgetStateProperty.all<Color>(
                   Theme.of(context).primaryColor),
-              shape: MaterialStateProperty.all<OutlinedBorder>(
+              shape: WidgetStateProperty.all<OutlinedBorder>(
                   RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(
                           CustomProperties.borderRadius)))),

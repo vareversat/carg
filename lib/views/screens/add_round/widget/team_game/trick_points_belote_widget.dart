@@ -136,7 +136,7 @@ class _BeloteRebeloteWidget extends StatelessWidget {
           labelStyle: TextStyle(
             color: round?.beloteRebelote == BeloteTeamEnum.US
                 ? Theme.of(context).colorScheme.onPrimary
-                : Theme.of(context).colorScheme.onBackground,
+                : Theme.of(context).colorScheme.onSurface,
           ),
           onPressed: () => {
             if (round?.beloteRebelote != BeloteTeamEnum.US)
@@ -158,7 +158,7 @@ class _BeloteRebeloteWidget extends StatelessWidget {
           labelStyle: TextStyle(
             color: round?.beloteRebelote == BeloteTeamEnum.THEM
                 ? Theme.of(context).colorScheme.onPrimary
-                : Theme.of(context).colorScheme.onBackground,
+                : Theme.of(context).colorScheme.onSurface,
           ),
           onPressed: () => {
             if (round?.beloteRebelote != BeloteTeamEnum.THEM)
@@ -195,7 +195,7 @@ class _DixDeDerWidget extends StatelessWidget {
           labelStyle: TextStyle(
             color: round?.dixDeDer == BeloteTeamEnum.US
                 ? Theme.of(context).colorScheme.onPrimary
-                : Theme.of(context).colorScheme.onBackground,
+                : Theme.of(context).colorScheme.onSurface,
           ),
           label: Text(
             BeloteTeamEnum.US.name(context),
@@ -212,7 +212,7 @@ class _DixDeDerWidget extends StatelessWidget {
           labelStyle: TextStyle(
             color: round?.dixDeDer == BeloteTeamEnum.THEM
                 ? Theme.of(context).colorScheme.onPrimary
-                : Theme.of(context).colorScheme.onBackground,
+                : Theme.of(context).colorScheme.onSurface,
           ),
           label: Text(
             BeloteTeamEnum.THEM.name(context),

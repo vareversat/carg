@@ -63,11 +63,11 @@ class _NotesDialogState extends State<NotesDialog> {
       actions: <Widget>[
         ElevatedButton.icon(
           style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(
+            backgroundColor: WidgetStateProperty.all<Color>(
                 Theme.of(context).colorScheme.secondary),
             foregroundColor:
-                MaterialStateProperty.all<Color>(Theme.of(context).cardColor),
-            shape: MaterialStateProperty.all<OutlinedBorder>(
+                WidgetStateProperty.all<Color>(Theme.of(context).cardColor),
+            shape: WidgetStateProperty.all<OutlinedBorder>(
               RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(
                   CustomProperties.borderRadius,
@@ -89,10 +89,10 @@ class _NotesDialogState extends State<NotesDialog> {
         ElevatedButton.icon(
           style: ButtonStyle(
             backgroundColor:
-                MaterialStateProperty.all<Color>(Theme.of(context).cardColor),
-            foregroundColor: MaterialStateProperty.all<Color>(
+                WidgetStateProperty.all<Color>(Theme.of(context).cardColor),
+            foregroundColor: WidgetStateProperty.all<Color>(
                 Theme.of(context).colorScheme.secondary),
-            shape: MaterialStateProperty.all<OutlinedBorder>(
+            shape: WidgetStateProperty.all<OutlinedBorder>(
               RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(
                   CustomProperties.borderRadius,

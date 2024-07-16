@@ -104,17 +104,17 @@ class _RegisterScreenState extends State<RegisterScreen>
                                     key: const ValueKey('emailButton'),
                                     icon: const Icon(Icons.mail_outline),
                                     style: ButtonStyle(
-                                        backgroundColor: MaterialStateProperty.all<Color>(
+                                        backgroundColor: WidgetStateProperty.all<Color>(
                                             registerData.selectedRegisterMethod
                                                     is _EmailRegisterMethod
                                                 ? Theme.of(context).primaryColor
                                                 : Theme.of(context).cardColor),
-                                        foregroundColor: MaterialStateProperty.all<Color>(registerData
+                                        foregroundColor: WidgetStateProperty.all<Color>(registerData
                                                     .selectedRegisterMethod
                                                 is _EmailRegisterMethod
                                             ? Theme.of(context).cardColor
                                             : Theme.of(context).primaryColor),
-                                        shape: MaterialStateProperty.all<OutlinedBorder>(
+                                        shape: WidgetStateProperty.all<OutlinedBorder>(
                                             RoundedRectangleBorder(
                                                 side: BorderSide(width: 2, color: Theme.of(context).primaryColor),
                                                 borderRadius: BorderRadius.circular(CustomProperties.borderRadius)))),
@@ -144,17 +144,17 @@ class _RegisterScreenState extends State<RegisterScreen>
                                     key: const ValueKey('phoneButton'),
                                     icon: const Icon(Icons.phone),
                                     style: ButtonStyle(
-                                        backgroundColor: MaterialStateProperty.all<Color>(
+                                        backgroundColor: WidgetStateProperty.all<Color>(
                                             registerData.selectedRegisterMethod
                                                     is _PhoneRegisterMethod
                                                 ? Theme.of(context).primaryColor
                                                 : Theme.of(context).cardColor),
-                                        foregroundColor: MaterialStateProperty.all<Color>(registerData
+                                        foregroundColor: WidgetStateProperty.all<Color>(registerData
                                                     .selectedRegisterMethod
                                                 is _PhoneRegisterMethod
                                             ? Theme.of(context).cardColor
                                             : Theme.of(context).primaryColor),
-                                        shape: MaterialStateProperty.all<OutlinedBorder>(
+                                        shape: WidgetStateProperty.all<OutlinedBorder>(
                                             RoundedRectangleBorder(
                                                 side: BorderSide(width: 2, color: Theme.of(context).primaryColor),
                                                 borderRadius: BorderRadius.circular(CustomProperties.borderRadius)))),
@@ -183,17 +183,17 @@ class _RegisterScreenState extends State<RegisterScreen>
                                     icon: const FaIcon(FontAwesomeIcons.google,
                                         size: 22),
                                     style: ButtonStyle(
-                                        backgroundColor: MaterialStateProperty.all<Color>(
-                                            registerData.selectedRegisterMethod is _GoogleRegisterMethod
-                                                ? Theme.of(context).primaryColor
-                                                : Theme.of(context).cardColor),
-                                        foregroundColor: MaterialStateProperty.all<Color>(
+                                        backgroundColor: WidgetStateProperty.all<Color>(
                                             registerData.selectedRegisterMethod
                                                     is _GoogleRegisterMethod
-                                                ? Theme.of(context).cardColor
-                                                : Theme.of(context)
-                                                    .primaryColor),
-                                        shape: MaterialStateProperty.all<OutlinedBorder>(
+                                                ? Theme.of(context).primaryColor
+                                                : Theme.of(context).cardColor),
+                                        foregroundColor: WidgetStateProperty.all<Color>(registerData
+                                                    .selectedRegisterMethod
+                                                is _GoogleRegisterMethod
+                                            ? Theme.of(context).cardColor
+                                            : Theme.of(context).primaryColor),
+                                        shape: WidgetStateProperty.all<OutlinedBorder>(
                                             RoundedRectangleBorder(
                                                 side: BorderSide(width: 2, color: Theme.of(context).primaryColor),
                                                 borderRadius: BorderRadius.circular(CustomProperties.borderRadius)))),

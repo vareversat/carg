@@ -81,11 +81,11 @@ class _WarningDialogState extends State<WarningDialog> {
         else
           ElevatedButton.icon(
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(
+                backgroundColor: WidgetStateProperty.all<Color>(
                     widget.color ?? Theme.of(context).colorScheme.error),
-                foregroundColor: MaterialStateProperty.all<Color>(
-                    Theme.of(context).cardColor),
-                shape: MaterialStateProperty.all<OutlinedBorder>(
+                foregroundColor:
+                    WidgetStateProperty.all<Color>(Theme.of(context).cardColor),
+                shape: WidgetStateProperty.all<OutlinedBorder>(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(
                       CustomProperties.borderRadius,
@@ -103,10 +103,10 @@ class _WarningDialogState extends State<WarningDialog> {
           ElevatedButton.icon(
             style: ButtonStyle(
               backgroundColor:
-                  MaterialStateProperty.all<Color>(Theme.of(context).cardColor),
-              foregroundColor: MaterialStateProperty.all<Color>(
+                  WidgetStateProperty.all<Color>(Theme.of(context).cardColor),
+              foregroundColor: WidgetStateProperty.all<Color>(
                   widget.color ?? Theme.of(context).colorScheme.error),
-              shape: MaterialStateProperty.all<OutlinedBorder>(
+              shape: WidgetStateProperty.all<OutlinedBorder>(
                 RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(
                     CustomProperties.borderRadius,

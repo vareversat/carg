@@ -108,10 +108,10 @@ class _ButtonRowWidget extends StatelessWidget {
         if (!tarotGame.isEnded)
           ElevatedButton.icon(
             style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all<Color>(Colors.black),
+              backgroundColor: WidgetStateProperty.all<Color>(Colors.black),
               foregroundColor:
-                  MaterialStateProperty.all<Color>(Theme.of(context).cardColor),
-              shape: MaterialStateProperty.all<OutlinedBorder>(
+                  WidgetStateProperty.all<Color>(Theme.of(context).cardColor),
+              shape: WidgetStateProperty.all<OutlinedBorder>(
                 RoundedRectangleBorder(
                   borderRadius:
                       BorderRadius.circular(CustomProperties.borderRadius),
@@ -142,11 +142,11 @@ class _ButtonRowWidget extends StatelessWidget {
           Container(),
         ElevatedButton.icon(
           style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(
+            backgroundColor: WidgetStateProperty.all<Color>(
                 Theme.of(context).colorScheme.error),
             foregroundColor:
-                MaterialStateProperty.all<Color>(Theme.of(context).cardColor),
-            shape: MaterialStateProperty.all<OutlinedBorder>(
+                WidgetStateProperty.all<Color>(Theme.of(context).cardColor),
+            shape: WidgetStateProperty.all<OutlinedBorder>(
               RoundedRectangleBorder(
                 borderRadius:
                     BorderRadius.circular(CustomProperties.borderRadius),
@@ -168,11 +168,11 @@ class _ButtonRowWidget extends StatelessWidget {
         if (!tarotGame.isEnded)
           ElevatedButton.icon(
             style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all<Color>(
+              backgroundColor: WidgetStateProperty.all<Color>(
                   Theme.of(context).primaryColor),
               foregroundColor:
-                  MaterialStateProperty.all<Color>(Theme.of(context).cardColor),
-              shape: MaterialStateProperty.all<OutlinedBorder>(
+                  WidgetStateProperty.all<Color>(Theme.of(context).cardColor),
+              shape: WidgetStateProperty.all<OutlinedBorder>(
                 RoundedRectangleBorder(
                   borderRadius:
                       BorderRadius.circular(CustomProperties.borderRadius),
@@ -197,11 +197,11 @@ class _ButtonRowWidget extends StatelessWidget {
         else
           ElevatedButton(
             style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all<Color>(
+              backgroundColor: WidgetStateProperty.all<Color>(
                   Theme.of(context).primaryColor),
               foregroundColor:
-                  MaterialStateProperty.all<Color>(Theme.of(context).cardColor),
-              shape: MaterialStateProperty.all<OutlinedBorder>(
+                  WidgetStateProperty.all<Color>(Theme.of(context).cardColor),
+              shape: WidgetStateProperty.all<OutlinedBorder>(
                 RoundedRectangleBorder(
                   borderRadius:
                       BorderRadius.circular(CustomProperties.borderRadius),
