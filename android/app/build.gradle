@@ -43,7 +43,7 @@ android {
     // https://github.com/acoutts/flutter_libphonenumber/issues/45
     project(':flutter_libphonenumber_android').afterEvaluate {
         project(':flutter_libphonenumber_android').android {
-            compileSdkVersion 30
+            compileSdkVersion 34
             compileOptions {
                 sourceCompatibility JavaVersion.VERSION_17
                 targetCompatibility JavaVersion.VERSION_17
