@@ -25,6 +25,7 @@ abstract class BeloteRound extends Round<BeloteGameSetting> {
   late int _defenderScore;
   late int _usTrickScore;
   late int _themTrickScore;
+  late String _scoreExplanation;
 
   BeloteRound(
       {super.index,
@@ -50,6 +51,14 @@ abstract class BeloteRound extends Round<BeloteGameSetting> {
     _themTrickScore = themTrickScore ?? totalTrickScore;
     _takerScore = takerScore ?? 0;
     _defenderScore = defenderScore ?? totalTrickScore;
+    _scoreExplanation = "";
+  }
+
+  String get scoreExplanation => _scoreExplanation;
+
+  set scoreExplanation(String value) {
+    _scoreExplanation = value;
+    notifyListeners();
   }
 
   int get usTrickScore => _usTrickScore;
@@ -141,10 +150,16 @@ abstract class BeloteRound extends Round<BeloteGameSetting> {
   int getTotalPointsOfTeam(BeloteTeamEnum team) {
     // Check the settings to check the score computation
     if (settings != null && settings!.sumTrickPointsAndContract) {
+      // Used to display explanation about the displayed score
+      scoreExplanation = "$team : ${getTrickPointsOfTeam(team)} + ${getDixDeDerOfTeam(team)} + ${getBeloteRebeloteOfTeam(team)} ======= ";
+      print(scoreExplanation);
       return getTrickPointsOfTeam(team) +
           getDixDeDerOfTeam(team) +
           getBeloteRebeloteOfTeam(team);
     } else {
+      // Used to display explanation about the displayed score
+      scoreExplanation += "$team : ${getDixDeDerOfTeam(team)} + ${getBeloteRebeloteOfTeam(team)} ======= ";
+      print(scoreExplanation);
       return getDixDeDerOfTeam(team) + getBeloteRebeloteOfTeam(team);
     }
   }
@@ -167,7 +182,12 @@ abstract class BeloteRound extends Round<BeloteGameSetting> {
 
   @override
   String realTimeDisplay(BuildContext context) {
-    return '${taker.name(context)} : ${takerScore.toString()} | ${defender.name(context)} : ${defenderScore.toString()}';
+    return '${taker.name(context)}  ${takerScore.toString()}    |   ${defenderScore.toString()}  ${defender.name(context)}';
+  }
+
+  @override
+  String realTimeInfoDisplay(BuildContext context) {
+    return scoreExplanation;
   }
 
   Map<String, dynamic> toJSON() {

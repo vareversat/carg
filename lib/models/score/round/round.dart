@@ -9,5 +9,7 @@ abstract class Round<S extends GameSetting> with ChangeNotifier {
 
   String realTimeDisplay(BuildContext context);
 
+  String realTimeInfoDisplay(BuildContext context);
+
   Round({this.index, this.settings});
 }
