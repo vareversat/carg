@@ -117,20 +117,17 @@ class GameSettingsScreen extends StatelessWidget {
                                     !settingsData.isInfinite
                               },
                               style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all<Color>(
+                                backgroundColor: WidgetStateProperty.all<Color>(
                                   settingsData.isInfinite
                                       ? Theme.of(context).cardColor
                                       : Theme.of(context).primaryColor,
                                 ),
-                                foregroundColor:
-                                    MaterialStateProperty.all<Color>(
+                                foregroundColor: WidgetStateProperty.all<Color>(
                                   settingsData.isInfinite
                                       ? Theme.of(context).primaryColor
                                       : Theme.of(context).cardColor,
                                 ),
-                                shape:
-                                    MaterialStateProperty.all<OutlinedBorder>(
+                                shape: WidgetStateProperty.all<OutlinedBorder>(
                                   RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(
                                       CustomProperties.borderRadius,
@@ -255,13 +252,13 @@ class GameSettingsScreen extends StatelessWidget {
               height: 50,
               child: ElevatedButton(
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(
+                  backgroundColor: WidgetStateProperty.all<Color>(
                     Theme.of(context).primaryColor,
                   ),
-                  foregroundColor: MaterialStateProperty.all<Color>(
+                  foregroundColor: WidgetStateProperty.all<Color>(
                     Theme.of(context).cardColor,
                   ),
-                  shape: MaterialStateProperty.all<OutlinedBorder>(
+                  shape: WidgetStateProperty.all<OutlinedBorder>(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(
                         CustomProperties.borderRadius,

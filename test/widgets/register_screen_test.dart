@@ -64,7 +64,7 @@ void main() {
               .style!
               .backgroundColor
               .toString(),
-          MaterialStateProperty.all<Color>(Theme.of(context).primaryColor)
+          WidgetStateProperty.all<Color>(Theme.of(context).primaryColor)
               .toString());
 
       expect(
@@ -73,7 +73,7 @@ void main() {
               .style!
               .backgroundColor
               .toString(),
-          MaterialStateProperty.all<Color>(Theme.of(context).cardColor)
+          WidgetStateProperty.all<Color>(Theme.of(context).cardColor)
               .toString());
 
       expect(
@@ -83,7 +83,7 @@ void main() {
               .style!
               .backgroundColor
               .toString(),
-          MaterialStateProperty.all<Color>(Theme.of(context).cardColor)
+          WidgetStateProperty.all<Color>(Theme.of(context).cardColor)
               .toString());
     });
 
@@ -112,7 +112,7 @@ void main() {
               .style!
               .backgroundColor
               .toString(),
-          MaterialStateProperty.all<Color>(Theme.of(context).cardColor)
+          WidgetStateProperty.all<Color>(Theme.of(context).cardColor)
               .toString());
 
       expect(
@@ -121,7 +121,7 @@ void main() {
               .style!
               .backgroundColor
               .toString(),
-          MaterialStateProperty.all<Color>(Theme.of(context).primaryColor)
+          WidgetStateProperty.all<Color>(Theme.of(context).primaryColor)
               .toString());
 
       expect(
@@ -131,7 +131,7 @@ void main() {
               .style!
               .backgroundColor
               .toString(),
-          MaterialStateProperty.all<Color>(Theme.of(context).cardColor)
+          WidgetStateProperty.all<Color>(Theme.of(context).cardColor)
               .toString());
     });
   });

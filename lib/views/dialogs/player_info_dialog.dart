@@ -81,10 +81,10 @@ class PlayerInfoDialog extends StatelessWidget {
                   key: const ValueKey('copyIDButton'),
                   style: ButtonStyle(
                       backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.white),
-                      foregroundColor: MaterialStateProperty.all<Color>(
+                          WidgetStateProperty.all<Color>(Colors.white),
+                      foregroundColor: WidgetStateProperty.all<Color>(
                           player.getSideColor(context)),
-                      shape: MaterialStateProperty.all<OutlinedBorder>(
+                      shape: WidgetStateProperty.all<OutlinedBorder>(
                           RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(
                                   CustomProperties.borderRadius)))),
@@ -236,11 +236,11 @@ class PlayerInfoDialog extends StatelessWidget {
           ElevatedButton.icon(
               key: const ValueKey('saveButton'),
               style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(
+                  backgroundColor: WidgetStateProperty.all<Color>(
                       player.getSideColor(context)),
-                  foregroundColor: MaterialStateProperty.all<Color>(
+                  foregroundColor: WidgetStateProperty.all<Color>(
                       Theme.of(context).cardColor),
-                  shape: MaterialStateProperty.all<OutlinedBorder>(
+                  shape: WidgetStateProperty.all<OutlinedBorder>(
                       RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(
                               CustomProperties.borderRadius)))),
@@ -251,10 +251,10 @@ class PlayerInfoDialog extends StatelessWidget {
           ElevatedButton.icon(
             key: const ValueKey('closeButton'),
             style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
-                foregroundColor: MaterialStateProperty.all<Color>(
+                backgroundColor: WidgetStateProperty.all<Color>(Colors.white),
+                foregroundColor: WidgetStateProperty.all<Color>(
                     player.getSideColor(context)),
-                shape: MaterialStateProperty.all<OutlinedBorder>(
+                shape: WidgetStateProperty.all<OutlinedBorder>(
                     RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
                             CustomProperties.borderRadius)))),

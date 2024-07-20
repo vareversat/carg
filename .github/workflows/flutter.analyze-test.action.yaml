@@ -7,10 +7,6 @@ on:
         description: 'The Flutter used (ex: 2.5.1)'
         required: true
         type: string
-    secrets:
-      passphrase:
-        description: 'The passphrase to decrypt the configuration'
-        required: true
 
 
 jobs:
@@ -21,11 +17,14 @@ jobs:
       - name: 'Checkout source code'
         uses: actions/checkout@v4
       - name: 'Setup flutter action'
-        uses: subosito/flutter-action@v2.12.0
+        uses: subosito/flutter-action@v2.16.0
         with:
           flutter-version: ${{ inputs.flutter_version }}
       - name: 'Flutter analyze'
-        run: flutter analyze
+        run: |
+          flutter config --no-analytics
+          flutter config --no-cli-animations
+          flutter analyze
   format:
     name: 'Format'
     runs-on: ubuntu-latest
@@ -33,7 +32,7 @@ jobs:
       - name: 'Checkout source code'
         uses: actions/checkout@v4
       - name: 'Setup flutter action'
-        uses: subosito/flutter-action@v2.12.0
+        uses: subosito/flutter-action@v2.16.0
         with:
           flutter-version: ${{ inputs.flutter_version }}
       - name: 'Flutter format'
@@ -47,17 +46,20 @@ jobs:
       - name: 'Decrypt secret configuration'
         run: ./.github/scripts/decrypt_secret.sh
         env:
-          PASSPHRASE: ${{ secrets.passphrase }}
+          PASSPHRASE: ${{ secrets.PASSPHRASE }}
       - name: 'Check secret configuration'
         run: ./.github/scripts/check_secrets_decryption.sh
       - name: 'Setup flutter action'
-        uses: subosito/flutter-action@v2.12.0
+        uses: subosito/flutter-action@v2.16.0
         with:
           flutter-version: ${{ inputs.flutter_version }}
       - name: 'Flutter test (with coverage)'
-        run: flutter test --coverage --test-randomize-ordering-seed random
+        run: |
+          flutter config --no-analytics
+          flutter config --no-cli-animations
+          flutter test --coverage --test-randomize-ordering-seed random
       - name: 'Upload coverage report'
-        uses: codecov/codecov-action@eaaf4bedf32dbdc6b720b63067d99c4d77d6047d # v3.1.4
+        uses: codecov/codecov-action@v4.5.0
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           directory: ./coverage/

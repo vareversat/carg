@@ -11,10 +11,6 @@ on:
         description: 'Android build file type output (apk or abb)'
         required: true
         type: string
-    secrets:
-      passphrase:
-        description: 'The passphrase to decrypt the configuration'
-        required: true
 
 
 jobs:
@@ -29,22 +25,25 @@ jobs:
       - name: 'Decrypt secret configuration'
         run: ./.github/scripts/decrypt_secret.sh
         env:
-          PASSPHRASE: ${{ secrets.passphrase }}
+          PASSPHRASE: ${{ secrets.PASSPHRASE }}
       - name: 'Check secret configuration'
         run: ./.github/scripts/check_secrets_decryption.sh
       - name: 'Set up JAVA'
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
-          java-version: '11.x'
+          java-version: '17.x'
       - name: 'Setup Flutter'
-        uses: subosito/flutter-action@v2.12.0
+        uses: subosito/flutter-action@v2.16.0
         with:
           flutter-version: ${{ inputs.flutter_version }}
       - name: 'Build Android APK'
         if: ${{ inputs.android_output == 'apk' }}
         # Build APK version of the app
-        run: flutter build apk --split-per-abi
+        run:  |
+          flutter config --no-analytics
+          flutter config --no-cli-animations
+          flutter build apk --split-per-abi
       - name: 'Save APK'
         if: ${{ inputs.android_output == 'apk' }}
         uses: actions/upload-artifact@v4
@@ -60,7 +59,10 @@ jobs:
           echo "This build is tagged as $BUILD_NUMBER on $GITHUB_REF"
       - name: 'Build Android App Bundle'
         if: ${{ inputs.android_output == 'aab' }}
-        run: flutter build appbundle --dart-define=FLAVOR=prod --build-number="$BUILD_NUMBER"
+        run:  |
+          flutter config --no-analytics
+          flutter config --no-cli-animations
+          flutter build appbundle --dart-define=FLAVOR=prod --build-number="$BUILD_NUMBER"
         env:
           BUILD_NUMBER: ${{ env.BUILD_NUMBER }}
       - name: 'Save AAB'
@@ -78,7 +80,7 @@ jobs:
       - name: 'Decrypt secret configuration'
         run: ./.github/scripts/decrypt_secret.sh
         env:
-          PASSPHRASE: ${{ secrets.passphrase }}
+          PASSPHRASE: ${{ secrets.PASSPHRASE }}
       - name: 'Check secret configuration'
         run: ./.github/scripts/check_secrets_decryption.sh
       - name: '🥺'
@@ -92,7 +94,7 @@ jobs:
       - name: 'Decrypt secret configuration'
         run: ./.github/scripts/decrypt_secret.sh
         env:
-          PASSPHRASE: ${{ secrets.passphrase }}
+          PASSPHRASE: ${{ secrets.PASSPHRASE }}
       - name: 'Check secret configuration'
         run: ./.github/scripts/check_secrets_decryption.sh
       - name: '🥺'

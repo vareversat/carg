@@ -92,11 +92,10 @@ class CargAboutDialog extends StatelessWidget {
                 key: const ValueKey('sourceCodeButton'),
                 onPressed: () => _launchURL(Const.githubLink, context),
                 style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.black),
-                  foregroundColor: MaterialStateProperty.all<Color>(
+                  backgroundColor: WidgetStateProperty.all<Color>(Colors.black),
+                  foregroundColor: WidgetStateProperty.all<Color>(
                       Theme.of(context).cardColor),
-                  shape: MaterialStateProperty.all<OutlinedBorder>(
+                  shape: WidgetStateProperty.all<OutlinedBorder>(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(
                         CustomProperties.borderRadius,
@@ -116,11 +115,11 @@ class CargAboutDialog extends StatelessWidget {
                 )),
             ElevatedButton.icon(
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(
+                backgroundColor: WidgetStateProperty.all<Color>(
                     Theme.of(context).colorScheme.secondary),
-                foregroundColor: MaterialStateProperty.all<Color>(
-                    Theme.of(context).cardColor),
-                shape: MaterialStateProperty.all<OutlinedBorder>(
+                foregroundColor:
+                    WidgetStateProperty.all<Color>(Theme.of(context).cardColor),
+                shape: WidgetStateProperty.all<OutlinedBorder>(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(
                       CustomProperties.borderRadius,
@@ -147,11 +146,11 @@ class CargAboutDialog extends StatelessWidget {
             ),
             ElevatedButton.icon(
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(
+                  backgroundColor: WidgetStateProperty.all<Color>(
                       Theme.of(context).primaryColor),
-                  foregroundColor: MaterialStateProperty.all<Color>(
+                  foregroundColor: WidgetStateProperty.all<Color>(
                       Theme.of(context).cardColor),
-                  shape: MaterialStateProperty.all<OutlinedBorder>(
+                  shape: WidgetStateProperty.all<OutlinedBorder>(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(
                         CustomProperties.borderRadius,
@@ -188,10 +187,10 @@ class CargAboutDialog extends StatelessWidget {
                 onPressed: () => _launchURL(Const.privacyInfoLink, context),
                 style: ButtonStyle(
                   backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.blueAccent),
-                  foregroundColor: MaterialStateProperty.all<Color>(
+                      WidgetStateProperty.all<Color>(Colors.blueAccent),
+                  foregroundColor: WidgetStateProperty.all<Color>(
                       Theme.of(context).cardColor),
-                  shape: MaterialStateProperty.all<OutlinedBorder>(
+                  shape: WidgetStateProperty.all<OutlinedBorder>(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(
                         CustomProperties.borderRadius,
@@ -209,10 +208,10 @@ class CargAboutDialog extends StatelessWidget {
           actions: <Widget>[
             ElevatedButton.icon(
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
-                foregroundColor: MaterialStateProperty.all<Color>(
+                backgroundColor: WidgetStateProperty.all<Color>(Colors.white),
+                foregroundColor: WidgetStateProperty.all<Color>(
                     Theme.of(context).primaryColor),
-                shape: MaterialStateProperty.all<OutlinedBorder>(
+                shape: WidgetStateProperty.all<OutlinedBorder>(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(
                       CustomProperties.borderRadius,

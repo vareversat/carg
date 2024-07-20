@@ -7,13 +7,6 @@ on:
         description: 'Whether or not deploy the Firebase function'
         required: true
         type: boolean
-    secrets:
-      passphrase:
-        description: 'The passphrase to decrypt the configuration'
-        required: true
-      firebase_token:
-        description: 'Token used by firebase login'
-        required: true
 
 jobs:
   build_deploy:
@@ -29,7 +22,7 @@ jobs:
       - name: 'Check secret configuration'
         run: ./.github/scripts/check_secrets_decryption.sh
       - name: 'Setup Node / NPM'
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '20.x'
       - run: npm install -g firebase-tools
@@ -49,4 +42,4 @@ jobs:
           cd ./firebase_functions
           firebase deploy --only functions
         env:
-          GOOGLE_APPLICATION_CREDENTIALS: '${{ github.workspace }}/${{ vars.GOOGLE_APPLICATION_CREDENTIALS }}'
+          GOOGLE_APPLICATION_CREDENTIALS: '${{ github.workspace }}/${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}'

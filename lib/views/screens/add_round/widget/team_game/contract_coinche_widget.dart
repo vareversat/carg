@@ -155,7 +155,7 @@ class _ContractTypeWidget extends StatelessWidget {
                         labelStyle: TextStyle(
                           color: roundData.contractType == contractType
                               ? Theme.of(context).colorScheme.onPrimary
-                              : Theme.of(context).colorScheme.onBackground,
+                              : Theme.of(context).colorScheme.onSurface,
                         ),
                         onPressed: () =>
                             {roundData.contractType = contractType},
@@ -206,7 +206,7 @@ class _ContractNameWidget extends StatelessWidget {
                         labelStyle: TextStyle(
                           color: roundData.contractName == contractName
                               ? Theme.of(context).colorScheme.onPrimary
-                              : Theme.of(context).colorScheme.onBackground,
+                              : Theme.of(context).colorScheme.onSurface,
                         ),
                         onPressed: () =>
                             {roundData.contractName = contractName},

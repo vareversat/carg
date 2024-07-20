@@ -12,14 +12,12 @@ jobs:
   flutter-test-analyze:
     uses: ./.github/workflows/flutter.analyze-test.action.yaml
     with:
-      flutter_version: '3.16.5'
-    secrets:
-      passphrase: ${{ secrets.PASSPHRASE }}
+      flutter_version: '3.22.2'
+    secrets: inherit
   flutter-build:
     needs: [ flutter-test-analyze ]
     uses: ./.github/workflows/flutter.build.action.yaml
     with:
-      flutter_version: '3.16.5'
+      flutter_version: '3.22.2'
       android_output: 'apk'
-    secrets:
-      passphrase: ${{ secrets.PASSPHRASE }}
+    secrets: inherit

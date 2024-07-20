@@ -67,9 +67,9 @@ class _TeamListTabWidget extends State<TeamListTab> {
   Widget build(BuildContext context) {
     return RefreshIndicator(
       onRefresh: () => Future.sync(
-        () => {
-          widget.teamService.resetLastPointedDocument(),
-          _pagingController.refresh()
+        () {
+          widget.teamService.resetLastPointedDocument();
+          _pagingController.refresh();
         },
       ),
       backgroundColor: Theme.of(context).primaryColor,

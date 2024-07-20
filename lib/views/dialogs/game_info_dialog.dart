@@ -103,11 +103,11 @@ class _GameInfoDialogState extends State<GameInfoDialog> {
       actions: <Widget>[
         ElevatedButton(
           style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(
-                Theme.of(context).primaryColor),
+            backgroundColor:
+                WidgetStateProperty.all<Color>(Theme.of(context).primaryColor),
             foregroundColor:
-                MaterialStateProperty.all<Color>(Theme.of(context).cardColor),
-            shape: MaterialStateProperty.all<OutlinedBorder>(
+                WidgetStateProperty.all<Color>(Theme.of(context).cardColor),
+            shape: WidgetStateProperty.all<OutlinedBorder>(
               RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(
                   CustomProperties.borderRadius,

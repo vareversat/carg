@@ -212,6 +212,24 @@ class MockFirebaseFirestore extends _i1.Mock implements _i4.FirebaseFirestore {
       );
 
   @override
+  String get databaseId => (super.noSuchMethod(
+        Invocation.getter(#databaseId),
+        returnValue: _i6.dummyValue<String>(
+          this,
+          Invocation.getter(#databaseId),
+        ),
+      ) as String);
+
+  @override
+  set databaseId(String? _databaseId) => super.noSuchMethod(
+        Invocation.setter(
+          #databaseId,
+          _databaseId,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
   set settings(_i3.Settings? settings) => super.noSuchMethod(
         Invocation.setter(
           #settings,
@@ -309,6 +327,7 @@ class MockFirebaseFirestore extends _i1.Mock implements _i4.FirebaseFirestore {
     String? host,
     int? port, {
     bool? sslEnabled = false,
+    bool? automaticHostMapping = true,
   }) =>
       super.noSuchMethod(
         Invocation.method(
@@ -317,7 +336,10 @@ class MockFirebaseFirestore extends _i1.Mock implements _i4.FirebaseFirestore {
             host,
             port,
           ],
-          {#sslEnabled: sslEnabled},
+          {
+            #sslEnabled: sslEnabled,
+            #automaticHostMapping: automaticHostMapping,
+          },
         ),
         returnValueForMissingStub: null,
       );
@@ -741,13 +763,18 @@ class MockCollectionReference<T extends Object?> extends _i1.Mock
       ) as _i4.Query<T>);
 
   @override
-  _i5.Stream<_i4.QuerySnapshot<T>> snapshots(
-          {bool? includeMetadataChanges = false}) =>
+  _i5.Stream<_i4.QuerySnapshot<T>> snapshots({
+    bool? includeMetadataChanges = false,
+    _i3.ListenSource? source = _i3.ListenSource.defaultSource,
+  }) =>
       (super.noSuchMethod(
         Invocation.method(
           #snapshots,
           [],
-          {#includeMetadataChanges: includeMetadataChanges},
+          {
+            #includeMetadataChanges: includeMetadataChanges,
+            #source: source,
+          },
         ),
         returnValue: _i5.Stream<_i4.QuerySnapshot<T>>.empty(),
       ) as _i5.Stream<_i4.QuerySnapshot<T>>);
@@ -906,6 +933,115 @@ class MockCollectionReference<T extends Object?> extends _i1.Mock
           ),
         ),
       ) as _i4.AggregateQuery);
+
+  @override
+  _i4.AggregateQuery aggregate(
+    _i3.AggregateField? aggregateField1, [
+    _i3.AggregateField? aggregateField2,
+    _i3.AggregateField? aggregateField3,
+    _i3.AggregateField? aggregateField4,
+    _i3.AggregateField? aggregateField5,
+    _i3.AggregateField? aggregateField6,
+    _i3.AggregateField? aggregateField7,
+    _i3.AggregateField? aggregateField8,
+    _i3.AggregateField? aggregateField9,
+    _i3.AggregateField? aggregateField10,
+    _i3.AggregateField? aggregateField11,
+    _i3.AggregateField? aggregateField12,
+    _i3.AggregateField? aggregateField13,
+    _i3.AggregateField? aggregateField14,
+    _i3.AggregateField? aggregateField15,
+    _i3.AggregateField? aggregateField16,
+    _i3.AggregateField? aggregateField17,
+    _i3.AggregateField? aggregateField18,
+    _i3.AggregateField? aggregateField19,
+    _i3.AggregateField? aggregateField20,
+    _i3.AggregateField? aggregateField21,
+    _i3.AggregateField? aggregateField22,
+    _i3.AggregateField? aggregateField23,
+    _i3.AggregateField? aggregateField24,
+    _i3.AggregateField? aggregateField25,
+    _i3.AggregateField? aggregateField26,
+    _i3.AggregateField? aggregateField27,
+    _i3.AggregateField? aggregateField28,
+    _i3.AggregateField? aggregateField29,
+    _i3.AggregateField? aggregateField30,
+  ]) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #aggregate,
+          [
+            aggregateField1,
+            aggregateField2,
+            aggregateField3,
+            aggregateField4,
+            aggregateField5,
+            aggregateField6,
+            aggregateField7,
+            aggregateField8,
+            aggregateField9,
+            aggregateField10,
+            aggregateField11,
+            aggregateField12,
+            aggregateField13,
+            aggregateField14,
+            aggregateField15,
+            aggregateField16,
+            aggregateField17,
+            aggregateField18,
+            aggregateField19,
+            aggregateField20,
+            aggregateField21,
+            aggregateField22,
+            aggregateField23,
+            aggregateField24,
+            aggregateField25,
+            aggregateField26,
+            aggregateField27,
+            aggregateField28,
+            aggregateField29,
+            aggregateField30,
+          ],
+        ),
+        returnValue: _FakeAggregateQuery_10(
+          this,
+          Invocation.method(
+            #aggregate,
+            [
+              aggregateField1,
+              aggregateField2,
+              aggregateField3,
+              aggregateField4,
+              aggregateField5,
+              aggregateField6,
+              aggregateField7,
+              aggregateField8,
+              aggregateField9,
+              aggregateField10,
+              aggregateField11,
+              aggregateField12,
+              aggregateField13,
+              aggregateField14,
+              aggregateField15,
+              aggregateField16,
+              aggregateField17,
+              aggregateField18,
+              aggregateField19,
+              aggregateField20,
+              aggregateField21,
+              aggregateField22,
+              aggregateField23,
+              aggregateField24,
+              aggregateField25,
+              aggregateField26,
+              aggregateField27,
+              aggregateField28,
+              aggregateField29,
+              aggregateField30,
+            ],
+          ),
+        ),
+      ) as _i4.AggregateQuery);
 }
 
 /// A class which mocks [DocumentReference].
@@ -1009,13 +1145,18 @@ class MockDocumentReference<T extends Object?> extends _i1.Mock
       ) as _i5.Future<_i4.DocumentSnapshot<T>>);
 
   @override
-  _i5.Stream<_i4.DocumentSnapshot<T>> snapshots(
-          {bool? includeMetadataChanges = false}) =>
+  _i5.Stream<_i4.DocumentSnapshot<T>> snapshots({
+    bool? includeMetadataChanges = false,
+    _i3.ListenSource? source = _i3.ListenSource.defaultSource,
+  }) =>
       (super.noSuchMethod(
         Invocation.method(
           #snapshots,
           [],
-          {#includeMetadataChanges: includeMetadataChanges},
+          {
+            #includeMetadataChanges: includeMetadataChanges,
+            #source: source,
+          },
         ),
         returnValue: _i5.Stream<_i4.DocumentSnapshot<T>>.empty(),
       ) as _i5.Stream<_i4.DocumentSnapshot<T>>);
@@ -1292,13 +1433,18 @@ class MockQuery<T extends Object?> extends _i1.Mock implements _i4.Query<T> {
       ) as _i4.Query<T>);
 
   @override
-  _i5.Stream<_i4.QuerySnapshot<T>> snapshots(
-          {bool? includeMetadataChanges = false}) =>
+  _i5.Stream<_i4.QuerySnapshot<T>> snapshots({
+    bool? includeMetadataChanges = false,
+    _i3.ListenSource? source = _i3.ListenSource.defaultSource,
+  }) =>
       (super.noSuchMethod(
         Invocation.method(
           #snapshots,
           [],
-          {#includeMetadataChanges: includeMetadataChanges},
+          {
+            #includeMetadataChanges: includeMetadataChanges,
+            #source: source,
+          },
         ),
         returnValue: _i5.Stream<_i4.QuerySnapshot<T>>.empty(),
       ) as _i5.Stream<_i4.QuerySnapshot<T>>);
@@ -1481,6 +1627,115 @@ class MockQuery<T extends Object?> extends _i1.Mock implements _i4.Query<T> {
           Invocation.method(
             #count,
             [],
+          ),
+        ),
+      ) as _i4.AggregateQuery);
+
+  @override
+  _i4.AggregateQuery aggregate(
+    _i3.AggregateField? aggregateField1, [
+    _i3.AggregateField? aggregateField2,
+    _i3.AggregateField? aggregateField3,
+    _i3.AggregateField? aggregateField4,
+    _i3.AggregateField? aggregateField5,
+    _i3.AggregateField? aggregateField6,
+    _i3.AggregateField? aggregateField7,
+    _i3.AggregateField? aggregateField8,
+    _i3.AggregateField? aggregateField9,
+    _i3.AggregateField? aggregateField10,
+    _i3.AggregateField? aggregateField11,
+    _i3.AggregateField? aggregateField12,
+    _i3.AggregateField? aggregateField13,
+    _i3.AggregateField? aggregateField14,
+    _i3.AggregateField? aggregateField15,
+    _i3.AggregateField? aggregateField16,
+    _i3.AggregateField? aggregateField17,
+    _i3.AggregateField? aggregateField18,
+    _i3.AggregateField? aggregateField19,
+    _i3.AggregateField? aggregateField20,
+    _i3.AggregateField? aggregateField21,
+    _i3.AggregateField? aggregateField22,
+    _i3.AggregateField? aggregateField23,
+    _i3.AggregateField? aggregateField24,
+    _i3.AggregateField? aggregateField25,
+    _i3.AggregateField? aggregateField26,
+    _i3.AggregateField? aggregateField27,
+    _i3.AggregateField? aggregateField28,
+    _i3.AggregateField? aggregateField29,
+    _i3.AggregateField? aggregateField30,
+  ]) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #aggregate,
+          [
+            aggregateField1,
+            aggregateField2,
+            aggregateField3,
+            aggregateField4,
+            aggregateField5,
+            aggregateField6,
+            aggregateField7,
+            aggregateField8,
+            aggregateField9,
+            aggregateField10,
+            aggregateField11,
+            aggregateField12,
+            aggregateField13,
+            aggregateField14,
+            aggregateField15,
+            aggregateField16,
+            aggregateField17,
+            aggregateField18,
+            aggregateField19,
+            aggregateField20,
+            aggregateField21,
+            aggregateField22,
+            aggregateField23,
+            aggregateField24,
+            aggregateField25,
+            aggregateField26,
+            aggregateField27,
+            aggregateField28,
+            aggregateField29,
+            aggregateField30,
+          ],
+        ),
+        returnValue: _FakeAggregateQuery_10(
+          this,
+          Invocation.method(
+            #aggregate,
+            [
+              aggregateField1,
+              aggregateField2,
+              aggregateField3,
+              aggregateField4,
+              aggregateField5,
+              aggregateField6,
+              aggregateField7,
+              aggregateField8,
+              aggregateField9,
+              aggregateField10,
+              aggregateField11,
+              aggregateField12,
+              aggregateField13,
+              aggregateField14,
+              aggregateField15,
+              aggregateField16,
+              aggregateField17,
+              aggregateField18,
+              aggregateField19,
+              aggregateField20,
+              aggregateField21,
+              aggregateField22,
+              aggregateField23,
+              aggregateField24,
+              aggregateField25,
+              aggregateField26,
+              aggregateField27,
+              aggregateField28,
+              aggregateField29,
+              aggregateField30,
+            ],
           ),
         ),
       ) as _i4.AggregateQuery);

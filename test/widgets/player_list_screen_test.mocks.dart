@@ -573,16 +573,6 @@ class MockTextEditingController extends _i1.Mock
       );
 
   @override
-  bool isSelectionWithinTextBounds(_i8.TextSelection? selection) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #isSelectionWithinTextBounds,
-          [selection],
-        ),
-        returnValue: false,
-      ) as bool);
-
-  @override
   void addListener(_i16.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,

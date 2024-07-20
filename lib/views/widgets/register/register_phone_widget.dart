@@ -139,12 +139,13 @@ class _RegisterPhoneWidgetState extends State<RegisterPhoneWidget>
                             ? const CircularProgressIndicator(strokeWidth: 5)
                             : ElevatedButton(
                                 style: ButtonStyle(
-                                    backgroundColor: MaterialStateProperty.all<Color>(
-                                        Theme.of(context).cardColor),
+                                    backgroundColor:
+                                        WidgetStateProperty.all<Color>(
+                                            Theme.of(context).cardColor),
                                     foregroundColor:
-                                        MaterialStateProperty.all<Color>(
+                                        WidgetStateProperty.all<Color>(
                                             Theme.of(context).primaryColor),
-                                    shape: MaterialStateProperty.all<OutlinedBorder>(
+                                    shape: WidgetStateProperty.all<OutlinedBorder>(
                                         RoundedRectangleBorder(
                                             side: BorderSide(
                                                 width: 2,

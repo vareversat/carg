@@ -8,25 +8,26 @@ on:
     branches:
       - dev
 
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   flutter-test-analyze:
     uses: ./.github/workflows/flutter.analyze-test.action.yaml
     with:
-      flutter_version: '3.16.5'
-    secrets:
-      passphrase: ${{ secrets.PASSPHRASE }}
+      flutter_version: '3.22.2'
+    secrets: inherit
   flutter-build:
     needs: [ flutter-test-analyze ]
     uses: ./.github/workflows/flutter.build.action.yaml
     with:
-      flutter_version: '3.16.5'
+      flutter_version: '3.22.2'
       android_output: 'aab'
-    secrets:
-      passphrase: ${{ secrets.PASSPHRASE }}
+    secrets: inherit
   fastlane-dry-run:
     needs: [ flutter-build ]
     uses: ./.github/workflows/fastlane.action.yaml
     with:
       lane: 'dry_run'
-    secrets:
-      passphrase: ${{ secrets.PASSPHRASE }}
+    secrets: inherit
