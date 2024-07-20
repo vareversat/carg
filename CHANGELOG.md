@@ -1,3 +1,10 @@
+# **v1.10.0** :
+
+- *Dev* :
+  - Upgrade to Flutter 3.22.2
+  - Multiple dependency upgrades
+
+***
 # **v1.9.0** :
 
 - *Fix* :
