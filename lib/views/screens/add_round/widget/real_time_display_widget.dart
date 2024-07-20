@@ -1,4 +1,5 @@
 import 'package:carg/models/score/round/round.dart';
+import 'package:carg/views/dialogs/score_info_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -13,13 +14,29 @@ class RealTimeDisplayWidget extends StatelessWidget {
       value: round,
       child: Consumer<Round>(
         builder: (context, roundData, child) => Center(
-          child: Text(
-            roundData.realTimeDisplay(context),
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.onPrimary,
-              fontSize: 23,
-            ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                roundData.realTimeDisplay(context),
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onPrimary,
+                  fontSize: 23,
+                ),
+              ),
+              IconButton(
+                icon: Icon(
+                  Icons.info,
+                  color: Theme.of(context).colorScheme.onPrimary,
+                ),
+                onPressed: () async => await showDialog(
+                  context: context,
+                  builder: (BuildContext context) =>
+                      ScoreInfoDialog(round: round),
+                ),
+              ),
+            ],
           ),
         ),
       ),

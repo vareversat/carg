@@ -76,6 +76,7 @@ class CoincheBeloteRound<CoincheBeloteGameSetting> extends BeloteRound {
 
   @override
   void computeRound() {
+    print('YOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO ///');
     if (contractFulfilled) {
       var takerScoreTmp = getTotalPointsOfTeam(taker) + contract;
       var defenderScoreTmp = getTotalPointsOfTeam(defender);

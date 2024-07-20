@@ -236,6 +236,11 @@ class TarotRound extends Round<TarotGameSetting> {
     }
   }
 
+  @override
+  String realTimeInfoDisplay(BuildContext context) {
+    return "hey yo";
+  }
+
   Map<String, dynamic> toJSON() {
     return {
       'index': index,
