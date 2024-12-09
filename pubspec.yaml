@@ -6,7 +6,7 @@ version: 1.10.0
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
-  flutter: '3.22.2'
+  flutter: '3.24.5'
 
 dependencies:
   cloud_firestore: ^5.1.0
@@ -33,8 +33,8 @@ dependencies:
   package_info_plus : ^8.0.0
   provider: ^6.0.0
   url_launcher: ^6.0.2
-  syncfusion_flutter_charts: ^26.1.42
-  syncfusion_flutter_gauges: ^26.1.42
+  syncfusion_flutter_charts: ^27.2.5
+  syncfusion_flutter_gauges: ^27.2.5
   infinite_scroll_pagination: ^4.0.0
   flutter:
     sdk: flutter
@@ -49,13 +49,13 @@ dependencies:
 
 
 dev_dependencies:
-  flutter_launcher_icons: ^0.14.0
+  flutter_launcher_icons: ^0.14.2
   flutter_test:
     sdk: flutter
   mockito: ^5.0.0
   network_image_mock: ^2.0.1
   build_runner: ^2.1.2
-  flutter_lints: ^4.0.0
+  flutter_lints: ^5.0.0
   flutter_gen_runner: ^5.6.0
 
 
