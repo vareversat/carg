@@ -7,7 +7,7 @@ import 'package:carg/services/score/abstract_tarot_score_service.dart';
 
 class TarotRoundService extends AbstractTarotRoundService {
   TarotRoundService({AbstractTarotScoreService? tarotScoreService})
-      : super(tarotScoreService: tarotScoreService ?? TarotScoreService());
+    : super(tarotScoreService: tarotScoreService ?? TarotScoreService());
 
   @override
   TarotRound getNewRound(TarotGameSetting settings) {

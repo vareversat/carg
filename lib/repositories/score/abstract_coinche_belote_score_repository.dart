@@ -3,9 +3,10 @@ import 'package:carg/repositories/score/abstract_belote_score_repository.dart';
 
 abstract class AbstractCoincheBeloteScoreRepository
     extends AbstractBeloteScoreRepository<CoincheBeloteScore> {
-  AbstractCoincheBeloteScoreRepository(
-      {required super.database,
-      required super.environment,
-      required super.provider,
-      super.lastFetchGameDocument});
+  AbstractCoincheBeloteScoreRepository({
+    required super.database,
+    required super.environment,
+    required super.provider,
+    super.lastFetchGameDocument,
+  });
 }

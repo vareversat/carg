@@ -11,6 +11,7 @@
 
 # Android
 GeneratedPluginRegistrant.java
+/android/app/.cxx
 
 # IntelliJ related
 *.iml

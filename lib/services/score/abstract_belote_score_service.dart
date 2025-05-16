@@ -7,7 +7,7 @@ abstract class AbstractBeloteScoreService<T extends BeloteScore>
   final AbstractBeloteScoreRepository<T> beloteScoreRepository;
 
   AbstractBeloteScoreService({required this.beloteScoreRepository})
-      : super(scoreRepository: beloteScoreRepository);
+    : super(scoreRepository: beloteScoreRepository);
 
   Future<T?> generateNewScore(String gameId);
 }

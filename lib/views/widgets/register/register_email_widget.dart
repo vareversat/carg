@@ -9,7 +9,7 @@ import 'package:carg/views/dialogs/dialogs.dart';
 import 'package:carg/views/helpers/info_snackbar.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:carg/l10n/app_localizations.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 
@@ -17,10 +17,11 @@ class RegisterEmailWidget extends StatefulWidget {
   final CredentialVerificationType credentialVerificationType;
   final FirebaseDynamicLinks linkProvider;
 
-  const RegisterEmailWidget(
-      {super.key,
-      required this.credentialVerificationType,
-      required this.linkProvider});
+  const RegisterEmailWidget({
+    super.key,
+    required this.credentialVerificationType,
+    required this.linkProvider,
+  });
 
   @override
   State<StatefulWidget> createState() {
@@ -32,8 +33,9 @@ class _RegisterEmailWidgetState extends State<RegisterEmailWidget>
     with WidgetsBindingObserver {
   bool _emailSending = false;
 
-  final _store =
-      StorageService(flutterSecureStorage: const FlutterSecureStorage());
+  final _store = StorageService(
+    flutterSecureStorage: const FlutterSecureStorage(),
+  );
   final GlobalKey<State> _keyLoader = GlobalKey<State>();
 
   Future<dynamic> _signInWithEmailAndLink(String email) async {
@@ -44,15 +46,24 @@ class _RegisterEmailWidgetState extends State<RegisterEmailWidget>
       });
       if (widget.credentialVerificationType ==
           CredentialVerificationType.CREATE) {
-        await Provider.of<AuthService>(context, listen: false)
-            .sendSignInWithEmailLink(email);
+        await Provider.of<AuthService>(
+          context,
+          listen: false,
+        ).sendSignInWithEmailLink(email);
         InfoSnackBar.showSnackBar(
-            context, AppLocalizations.of(context)!.emailSent);
+          context,
+          AppLocalizations.of(context)!.emailSent,
+        );
       } else {
-        await Provider.of<AuthService>(context, listen: false)
-            .changeEmail(email);
-        Dialogs.showMessageDialog(context, _keyLoader,
-            AppLocalizations.of(context)!.emailSentAndSignOut);
+        await Provider.of<AuthService>(
+          context,
+          listen: false,
+        ).changeEmail(email);
+        Dialogs.showMessageDialog(
+          context,
+          _keyLoader,
+          AppLocalizations.of(context)!.emailSentAndSignOut,
+        );
         await Future.delayed(const Duration(seconds: 2));
         Navigator.of(_keyLoader.currentContext!, rootNavigator: true).pop();
         await Provider.of<AuthService>(context, listen: false).signOut(context);
@@ -81,16 +92,21 @@ class _RegisterEmailWidgetState extends State<RegisterEmailWidget>
       developer.log('Link : $link', name: 'carg.dynamic-link');
       developer.log('Email : $email', name: 'carg.dynamic-link');
       try {
-        await Provider.of<AuthService>(context, listen: false)
-            .signInWithEmailLink(email!, link);
+        await Provider.of<AuthService>(
+          context,
+          listen: false,
+        ).signInWithEmailLink(email!, link);
         developer.log('Sing in : OK', name: 'carg.dynamic-link');
         Dialogs.showLoadingDialog(context, _keyLoader, 'Connexion');
         await Navigator.pushReplacement(
           context,
           CustomRouteFade(
-            builder: (context) =>
-                Provider.of<AuthService>(context, listen: false)
-                    .getCorrectLandingScreen(),
+            builder:
+                (context) =>
+                    Provider.of<AuthService>(
+                      context,
+                      listen: false,
+                    ).getCorrectLandingScreen(),
           ),
         );
       } on CustomException catch (e) {
@@ -107,8 +123,10 @@ class _RegisterEmailWidgetState extends State<RegisterEmailWidget>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
-      developer.log('Call from didChangeAppLifecycleState',
-          name: 'carg.dynamic-link');
+      developer.log(
+        'Call from didChangeAppLifecycleState',
+        name: 'carg.dynamic-link',
+      );
       _retrieveDynamicLink();
     }
   }
@@ -136,15 +154,17 @@ class _RegisterEmailWidgetState extends State<RegisterEmailWidget>
           Row(
             children: [
               AnimatedSize(
-                  key: const ValueKey('placeholderPhoneContainer'),
-                  curve: Curves.ease,
-                  duration: const Duration(milliseconds: 200),
-                  child: _emailSending
-                      ? const Padding(
+                key: const ValueKey('placeholderPhoneContainer'),
+                curve: Curves.ease,
+                duration: const Duration(milliseconds: 200),
+                child:
+                    _emailSending
+                        ? const Padding(
                           padding: EdgeInsets.only(right: 15),
                           child: CircularProgressIndicator(strokeWidth: 5),
                         )
-                      : const SizedBox(width: 0)),
+                        : const SizedBox(width: 0),
+              ),
               Flexible(
                 child: TextField(
                   textInputAction: TextInputAction.go,
@@ -163,24 +183,27 @@ class _RegisterEmailWidgetState extends State<RegisterEmailWidget>
                     ),
                     fillColor: Theme.of(context).primaryColor,
                     disabledBorder: OutlineInputBorder(
-                      borderRadius:
-                          BorderRadius.circular(CustomProperties.borderRadius),
+                      borderRadius: BorderRadius.circular(
+                        CustomProperties.borderRadius,
+                      ),
                       borderSide: const BorderSide(
                         color: Colors.grey,
                         width: 2.0,
                       ),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderRadius:
-                          BorderRadius.circular(CustomProperties.borderRadius),
+                      borderRadius: BorderRadius.circular(
+                        CustomProperties.borderRadius,
+                      ),
                       borderSide: BorderSide(
                         color: Theme.of(context).primaryColor,
                         width: 2.0,
                       ),
                     ),
                     enabledBorder: OutlineInputBorder(
-                      borderRadius:
-                          BorderRadius.circular(CustomProperties.borderRadius),
+                      borderRadius: BorderRadius.circular(
+                        CustomProperties.borderRadius,
+                      ),
                       borderSide: BorderSide(
                         color: Theme.of(context).primaryColor,
                         width: 2.0,
@@ -194,15 +217,13 @@ class _RegisterEmailWidgetState extends State<RegisterEmailWidget>
           const SizedBox(height: 8),
           widget.credentialVerificationType == CredentialVerificationType.CREATE
               ? Text(
-                  AppLocalizations.of(context)!.emailSentWithLink,
-                  style: const TextStyle(
-                    fontStyle: FontStyle.italic,
-                    fontSize: 13,
-                  ),
-                )
-              : const SizedBox(
-                  height: 10,
-                )
+                AppLocalizations.of(context)!.emailSentWithLink,
+                style: const TextStyle(
+                  fontStyle: FontStyle.italic,
+                  fontSize: 13,
+                ),
+              )
+              : const SizedBox(height: 10),
         ],
       ),
     );

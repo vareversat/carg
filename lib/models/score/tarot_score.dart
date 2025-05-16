@@ -7,12 +7,13 @@ class TarotScore extends Score<TarotRound> {
   late List<TarotRound> rounds;
   late List<TarotPlayerScore> totalPoints;
 
-  TarotScore(
-      {super.id,
-      this.game,
-      List<TarotRound>? rounds,
-      List<TarotPlayerScore>? totalPoints,
-      List<String?>? players}) {
+  TarotScore({
+    super.id,
+    this.game,
+    List<TarotRound>? rounds,
+    List<TarotPlayerScore>? totalPoints,
+    List<String?>? players,
+  }) {
     this.totalPoints = totalPoints ?? <TarotPlayerScore>[];
     this.rounds = rounds ?? <TarotRound>[];
     for (var player in players ?? []) {
@@ -25,7 +26,7 @@ class TarotScore extends Score<TarotRound> {
     return {
       'game': game,
       'rounds': rounds.map((e) => e.toJSON()).toList(),
-      'player_total_points': totalPoints.map((e) => e.toJSON()).toList()
+      'player_total_points': totalPoints.map((e) => e.toJSON()).toList(),
     };
   }
 
@@ -35,14 +36,17 @@ class TarotScore extends Score<TarotRound> {
 
   factory TarotScore.fromJSON(Map<String, dynamic>? json, String id) {
     return TarotScore(
-        id: id,
-        game: json?['game'],
-        rounds: json?['rounds'] != null
-            ? TarotRound.fromJSONList(json?['rounds'])
-            : <TarotRound>[],
-        totalPoints: json?['player_total_points'] != null
-            ? TarotPlayerScore.fromJSONList(json?['player_total_points'])
-            : <TarotPlayerScore>[]);
+      id: id,
+      game: json?['game'],
+      rounds:
+          json?['rounds'] != null
+              ? TarotRound.fromJSONList(json?['rounds'])
+              : <TarotRound>[],
+      totalPoints:
+          json?['player_total_points'] != null
+              ? TarotPlayerScore.fromJSONList(json?['player_total_points'])
+              : <TarotPlayerScore>[],
+    );
   }
 
   @override

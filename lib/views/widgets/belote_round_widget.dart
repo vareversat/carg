@@ -1,15 +1,12 @@
 import 'package:carg/models/score/french_belote_score.dart';
 import 'package:carg/services/impl/score/french_belote_score_service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:carg/l10n/app_localizations.dart';
 
 class BeloteRoundWidget extends StatefulWidget {
   final String beloteGameId;
 
-  const BeloteRoundWidget({
-    super.key,
-    required this.beloteGameId,
-  });
+  const BeloteRoundWidget({super.key, required this.beloteGameId});
 
   @override
   State<StatefulWidget> createState() {
@@ -31,7 +28,9 @@ class _BeloteRoundWidgetState extends State<BeloteRoundWidget> {
         }
         if (snapshot.connectionState == ConnectionState.none) {
           return Container(
-              alignment: Alignment.center, child: const Icon(Icons.error));
+            alignment: Alignment.center,
+            child: const Icon(Icons.error),
+          );
         }
         if (snapshot.data != null) {
           return Column(
@@ -47,28 +46,31 @@ class _BeloteRoundWidgetState extends State<BeloteRoundWidget> {
                   children: <Widget>[
                     Flexible(
                       child: ListView.builder(
-                          itemCount: snapshot.data!.rounds.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Row(
-                              children: <Widget>[
-                                Flexible(
-                                  child: Center(
-                                    child: Text(snapshot
-                                        .data!.rounds[index].takerScore
-                                        .toString()),
+                        itemCount: snapshot.data!.rounds.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Row(
+                            children: <Widget>[
+                              Flexible(
+                                child: Center(
+                                  child: Text(
+                                    snapshot.data!.rounds[index].takerScore
+                                        .toString(),
                                   ),
                                 ),
-                                Flexible(
-                                  child: Center(
-                                    child: Text(snapshot
-                                        .data!.rounds[index].defenderScore
-                                        .toString()),
+                              ),
+                              Flexible(
+                                child: Center(
+                                  child: Text(
+                                    snapshot.data!.rounds[index].defenderScore
+                                        .toString(),
                                   ),
-                                )
-                              ],
-                            );
-                          }),
-                    )
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -82,17 +84,21 @@ class _BeloteRoundWidgetState extends State<BeloteRoundWidget> {
                         children: <Widget>[
                           Flexible(
                             child: Center(
-                                child: Text(
-                                    snapshot.data!.usTotalPoints.toString())),
+                              child: Text(
+                                snapshot.data!.usTotalPoints.toString(),
+                              ),
+                            ),
                           ),
                           Flexible(
                             child: Center(
-                                child: Text(
-                                    snapshot.data!.themTotalPoints.toString())),
-                          )
+                              child: Text(
+                                snapshot.data!.themTotalPoints.toString(),
+                              ),
+                            ),
+                          ),
                         ],
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),

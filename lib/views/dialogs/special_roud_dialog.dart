@@ -20,7 +20,10 @@ class SpecialRoundDialog extends StatelessWidget {
 
   void createRound(BeloteSpecialRound beloteSpecialRound) async {
     var specialRound = CorrectInstance.ofSpecialRound(
-        beloteGame!, beloteSpecialRound, "playerID");
+      beloteGame!,
+      beloteSpecialRound,
+      "playerID",
+    );
     await roundService.addRoundToGame(beloteGame!.id, specialRound);
   }
 
@@ -38,65 +41,71 @@ class SpecialRoundDialog extends StatelessWidget {
           ElevatedButton(
             style: ButtonStyle(
               backgroundColor: WidgetStateProperty.all<Color>(
-                  Theme.of(context).primaryColor),
-              foregroundColor:
-                  WidgetStateProperty.all<Color>(Theme.of(context).cardColor),
+                Theme.of(context).primaryColor,
+              ),
+              foregroundColor: WidgetStateProperty.all<Color>(
+                Theme.of(context).cardColor,
+              ),
               shape: WidgetStateProperty.all<OutlinedBorder>(
                 RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.circular(CustomProperties.borderRadius),
+                  borderRadius: BorderRadius.circular(
+                    CustomProperties.borderRadius,
+                  ),
                 ),
               ),
             ),
-            onPressed: () => {
-              createRound(BeloteSpecialRound.misere),
-              Navigator.pop(context)
-            },
-            child: const Text(
-              "Misère",
-            ),
+            onPressed:
+                () => {
+                  createRound(BeloteSpecialRound.misere),
+                  Navigator.pop(context),
+                },
+            child: const Text("Misère"),
           ),
           ElevatedButton(
             style: ButtonStyle(
               backgroundColor: WidgetStateProperty.all<Color>(
-                  Theme.of(context).primaryColor),
-              foregroundColor:
-                  WidgetStateProperty.all<Color>(Theme.of(context).cardColor),
+                Theme.of(context).primaryColor,
+              ),
+              foregroundColor: WidgetStateProperty.all<Color>(
+                Theme.of(context).cardColor,
+              ),
               shape: WidgetStateProperty.all<OutlinedBorder>(
                 RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.circular(CustomProperties.borderRadius),
+                  borderRadius: BorderRadius.circular(
+                    CustomProperties.borderRadius,
+                  ),
                 ),
               ),
             ),
-            onPressed: () => {
-              createRound(BeloteSpecialRound.fausseDonne),
-              Navigator.pop(context)
-            },
-            child: const Text(
-              "Fausse donne",
-            ),
+            onPressed:
+                () => {
+                  createRound(BeloteSpecialRound.fausseDonne),
+                  Navigator.pop(context),
+                },
+            child: const Text("Fausse donne"),
           ),
           ElevatedButton(
             style: ButtonStyle(
               backgroundColor: WidgetStateProperty.all<Color>(
-                  Theme.of(context).colorScheme.error),
-              foregroundColor:
-                  WidgetStateProperty.all<Color>(Theme.of(context).cardColor),
+                Theme.of(context).colorScheme.error,
+              ),
+              foregroundColor: WidgetStateProperty.all<Color>(
+                Theme.of(context).cardColor,
+              ),
               shape: WidgetStateProperty.all<OutlinedBorder>(
                 RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.circular(CustomProperties.borderRadius),
+                  borderRadius: BorderRadius.circular(
+                    CustomProperties.borderRadius,
+                  ),
                 ),
               ),
             ),
-            onPressed: () => {
-              createRound(BeloteSpecialRound.foulPlay),
-              Navigator.pop(context)
-            },
-            child: const Text(
-              "Faute de jeu",
-            ),
+            onPressed:
+                () => {
+                  createRound(BeloteSpecialRound.foulPlay),
+                  Navigator.pop(context),
+                },
+            child: const Text("Faute de jeu"),
           ),
         ],
       ),

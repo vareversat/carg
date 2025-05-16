@@ -5,17 +5,21 @@ import 'package:carg/repositories/player/abstract_player_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class PlayerRepository extends AbstractPlayerRepository {
-  PlayerRepository(
-      {String? database,
-      String? environment,
-      FirebaseFirestore? provider,
-      super.lastFetchGameDocument})
-      : super(
-            database: database ?? Const.playerDB,
-            environment: environment ??
-                const String.fromEnvironment(Const.dartVarEnv,
-                    defaultValue: Const.defaultEnv),
-            provider: provider ?? FirebaseFirestore.instance);
+  PlayerRepository({
+    String? database,
+    String? environment,
+    FirebaseFirestore? provider,
+    super.lastFetchGameDocument,
+  }) : super(
+         database: database ?? Const.playerDB,
+         environment:
+             environment ??
+             const String.fromEnvironment(
+               Const.dartVarEnv,
+               defaultValue: Const.defaultEnv,
+             ),
+         provider: provider ?? FirebaseFirestore.instance,
+       );
 
   @override
   Future<Player?> get(String id) async {
@@ -35,13 +39,16 @@ class PlayerRepository extends AbstractPlayerRepository {
   @override
   Future<Player?> getPlayerOfUser(String userId) async {
     try {
-      var querySnapshot = await provider
-          .collection(connectionString)
-          .where('linked_user_id', isEqualTo: userId)
-          .get();
+      var querySnapshot =
+          await provider
+              .collection(connectionString)
+              .where('linked_user_id', isEqualTo: userId)
+              .get();
       if (querySnapshot.docs.isNotEmpty) {
         return Player.fromJSON(
-            querySnapshot.docs.first.data(), querySnapshot.docs.first.id);
+          querySnapshot.docs.first.data(),
+          querySnapshot.docs.first.id,
+        );
       }
       return null;
     } on FirebaseException catch (e) {

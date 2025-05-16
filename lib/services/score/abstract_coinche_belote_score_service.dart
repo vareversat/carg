@@ -4,8 +4,7 @@ import 'package:carg/services/score/abstract_belote_score_service.dart';
 
 abstract class AbstractCoincheBeloteScoreService
     extends AbstractBeloteScoreService<CoincheBeloteScore> {
-  AbstractCoincheBeloteScoreService(
-      {required AbstractCoincheBeloteScoreRepository
-          coincheBeloteScoreRepository})
-      : super(beloteScoreRepository: coincheBeloteScoreRepository);
+  AbstractCoincheBeloteScoreService({
+    required AbstractCoincheBeloteScoreRepository coincheBeloteScoreRepository,
+  }) : super(beloteScoreRepository: coincheBeloteScoreRepository);
 }

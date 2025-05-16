@@ -16,16 +16,17 @@ abstract class Game<T extends Players, S extends GameSetting> extends CargObject
   late GameType gameType;
   S settings;
 
-  Game(
-      {super.id,
-      gameType,
-      this.players,
-      this.endingDate,
-      this.winner,
-      startingDate,
-      isEnded,
-      this.notes,
-      required this.settings}) {
+  Game({
+    super.id,
+    gameType,
+    this.players,
+    this.endingDate,
+    this.winner,
+    startingDate,
+    isEnded,
+    this.notes,
+    required this.settings,
+  }) {
     this.gameType = gameType ?? GameType.UNDEFINE;
     this.startingDate = startingDate ?? DateTime.now();
     this.isEnded = isEnded ?? false;
@@ -35,13 +36,14 @@ abstract class Game<T extends Players, S extends GameSetting> extends CargObject
   Map<String, dynamic> toJSON() {
     return {
       'starting_date': DateFormat('yyyy-MM-ddTHH:mm:ss').format(startingDate),
-      'ending_date': endingDate != null
-          ? DateFormat('yyyy-MM-ddTHH:mm:ss').format(endingDate!)
-          : null,
+      'ending_date':
+          endingDate != null
+              ? DateFormat('yyyy-MM-ddTHH:mm:ss').format(endingDate!)
+              : null,
       'is_ended': isEnded,
       'winners': winner,
       'notes': notes,
-      'settings': settings.toJSON()
+      'settings': settings.toJSON(),
     };
   }
 

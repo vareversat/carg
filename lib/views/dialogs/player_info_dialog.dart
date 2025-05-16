@@ -9,18 +9,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:carg/l10n/app_localizations.dart';
 
 class PlayerInfoDialog extends StatelessWidget {
   final Player player;
   final AbstractPlayerService playerService;
   final bool isNewPlayer;
 
-  const PlayerInfoDialog(
-      {super.key,
-      required this.player,
-      required this.playerService,
-      required this.isNewPlayer});
+  const PlayerInfoDialog({
+    super.key,
+    required this.player,
+    required this.playerService,
+    required this.isNewPlayer,
+  });
 
   String _getTitle(BuildContext context) {
     if (isNewPlayer) {
@@ -59,10 +60,12 @@ class PlayerInfoDialog extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       title: Container(
         decoration: BoxDecoration(
-            color: player.getSideColor(context),
-            borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(15.0),
-                topRight: Radius.circular(15.0))),
+          color: player.getSideColor(context),
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(15.0),
+            topRight: Radius.circular(15.0),
+          ),
+        ),
         padding: const EdgeInsets.fromLTRB(20, 20, 20, 15),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -80,188 +83,254 @@ class PlayerInfoDialog extends StatelessWidget {
                 child: ElevatedButton.icon(
                   key: const ValueKey('copyIDButton'),
                   style: ButtonStyle(
-                      backgroundColor:
-                          WidgetStateProperty.all<Color>(Colors.white),
-                      foregroundColor: WidgetStateProperty.all<Color>(
-                          player.getSideColor(context)),
-                      shape: WidgetStateProperty.all<OutlinedBorder>(
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(
-                                  CustomProperties.borderRadius)))),
+                    backgroundColor: WidgetStateProperty.all<Color>(
+                      Colors.white,
+                    ),
+                    foregroundColor: WidgetStateProperty.all<Color>(
+                      player.getSideColor(context),
+                    ),
+                    shape: WidgetStateProperty.all<OutlinedBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                          CustomProperties.borderRadius,
+                        ),
+                      ),
+                    ),
+                  ),
                   onPressed: () async => {await _copyId(context)},
                   icon: const Icon(Icons.copy),
                   label: Text(AppLocalizations.of(context)!.copyId),
                 ),
-              )
+              ),
           ],
         ),
       ),
       content: ChangeNotifierProvider.value(
         value: player,
-        child: ListBody(children: [
-          Row(
-            children: <Widget>[
-              Consumer<Player>(
-                builder: (context, playerData, _) => Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 15, 15, 15),
-                  child: Container(
-                      width: 60,
-                      height: 60,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                              width: 2, color: player.getSideColor(context)),
-                          image: DecorationImage(
+        child: ListBody(
+          children: [
+            Row(
+              children: <Widget>[
+                Consumer<Player>(
+                  builder:
+                      (context, playerData, _) => Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 15, 15, 15),
+                        child: Container(
+                          width: 60,
+                          height: 60,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              width: 2,
+                              color: player.getSideColor(context),
+                            ),
+                            image: DecorationImage(
                               fit: BoxFit.fill,
-                              image: NetworkImage(playerData.profilePicture)))),
+                              image: NetworkImage(playerData.profilePicture),
+                            ),
+                          ),
+                        ),
+                      ),
                 ),
-              ),
-              Flexible(
-                flex: 2,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: Consumer<Player>(
-                    builder: (context, playerData, _) => TextFormField(
-                        key: const ValueKey('usernameTextField'),
-                        initialValue: playerData.userName,
-                        enabled: playerData.owned,
-                        style: const TextStyle(
-                            fontSize: 25, fontWeight: FontWeight.bold),
-                        maxLines: null,
-                        onChanged: (value) => playerData.userName = value,
-                        decoration: InputDecoration(
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: player.getSideColor(context),
-                                  width: 2),
+                Flexible(
+                  flex: 2,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: Consumer<Player>(
+                      builder:
+                          (context, playerData, _) => TextFormField(
+                            key: const ValueKey('usernameTextField'),
+                            initialValue: playerData.userName,
+                            enabled: playerData.owned,
+                            style: const TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold,
                             ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(
+                            maxLines: null,
+                            onChanged: (value) => playerData.userName = value,
+                            decoration: InputDecoration(
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
                                   color: player.getSideColor(context),
-                                  width: 2),
-                            ),
-                            disabledBorder: InputBorder.none,
-                            labelStyle:
-                                TextStyle(color: player.getSideColor(context)),
-                            hintStyle: TextStyle(
+                                  width: 2,
+                                ),
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: player.getSideColor(context),
+                                  width: 2,
+                                ),
+                              ),
+                              disabledBorder: InputBorder.none,
+                              labelStyle: TextStyle(
+                                color: player.getSideColor(context),
+                              ),
+                              hintStyle: TextStyle(
                                 fontSize: 25,
-                                color: Theme.of(context).hintColor),
-                            labelText: playerData.owned && isNewPlayer
-                                ? AppLocalizations.of(context)!.username
-                                : null)),
+                                color: Theme.of(context).hintColor,
+                              ),
+                              labelText:
+                                  playerData.owned && isNewPlayer
+                                      ? AppLocalizations.of(context)!.username
+                                      : null,
+                            ),
+                          ),
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          if (isNewPlayer)
-            Consumer<Player>(
-              builder: (context, playerData, _) => TextFormField(
-                  key: const ValueKey('profilePictureTextField'),
-                  initialValue: playerData.profilePicture,
-                  enabled: playerData.owned,
-                  onChanged: (value) => playerData.profilePicture = value,
-                  style: const TextStyle(fontSize: 20),
-                  maxLines: null,
-                  decoration: InputDecoration(
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                            color: player.getSideColor(context), width: 2),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                            color: player.getSideColor(context), width: 2),
-                      ),
-                      labelStyle:
-                          TextStyle(color: player.getSideColor(context)),
-                      hintStyle: TextStyle(
-                          fontSize: 15, color: Theme.of(context).hintColor),
-                      labelText: AppLocalizations.of(context)!.profilePicture)),
+              ],
             ),
-          if (player.gameStatsList!.isNotEmpty)
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 8.0, horizontal: 20),
-              child: Column(
-                // MamEntry : For testing purpose
-                children: player.gameStatsList!
-                    .asMap()
-                    .map(
-                      (i, stat) => MapEntry(
-                          i,
-                          Row(
-                            key: ValueKey('stat-$i-${stat.gameType.name}'),
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              SizedBox(
-                                  width: 100,
-                                  child: Text('${stat.gameType.name} : ',
-                                      overflow: TextOverflow.ellipsis,
-                                      style: const TextStyle(fontSize: 22))),
-                              const Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 5.0),
-                                child: Icon(FontAwesomeIcons.trophy, size: 15),
-                              ),
-                              Text(
-                                ' ${stat.wonGames}',
-                                style: const TextStyle(fontSize: 20),
-                              ),
-                              const Text(
-                                ' - ',
-                                style: TextStyle(fontSize: 20),
-                              ),
-                              Text(
-                                '${stat.playedGames} ',
-                                style: const TextStyle(fontSize: 20),
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 5.0),
-                                child: Icon(FontAwesomeIcons.gamepad, size: 15),
-                              )
-                            ],
-                          )),
-                    )
-                    .values
-                    .toList()
-                    .cast<Widget>(),
+            if (isNewPlayer)
+              Consumer<Player>(
+                builder:
+                    (context, playerData, _) => TextFormField(
+                      key: const ValueKey('profilePictureTextField'),
+                      initialValue: playerData.profilePicture,
+                      enabled: playerData.owned,
+                      onChanged: (value) => playerData.profilePicture = value,
+                      style: const TextStyle(fontSize: 20),
+                      maxLines: null,
+                      decoration: InputDecoration(
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: player.getSideColor(context),
+                            width: 2,
+                          ),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: player.getSideColor(context),
+                            width: 2,
+                          ),
+                        ),
+                        labelStyle: TextStyle(
+                          color: player.getSideColor(context),
+                        ),
+                        hintStyle: TextStyle(
+                          fontSize: 15,
+                          color: Theme.of(context).hintColor,
+                        ),
+                        labelText: AppLocalizations.of(context)!.profilePicture,
+                      ),
+                    ),
               ),
-            )
-          else if (!isNewPlayer)
-            Text(AppLocalizations.of(context)!.noStatisticYet,
-                key: const ValueKey('noStatsText'), textAlign: TextAlign.center)
-        ]),
+            if (player.gameStatsList!.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 8.0,
+                  horizontal: 20,
+                ),
+                child: Column(
+                  // MamEntry : For testing purpose
+                  children:
+                      player.gameStatsList!
+                          .asMap()
+                          .map(
+                            (i, stat) => MapEntry(
+                              i,
+                              Row(
+                                key: ValueKey('stat-$i-${stat.gameType.name}'),
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  SizedBox(
+                                    width: 100,
+                                    child: Text(
+                                      '${stat.gameType.name} : ',
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(fontSize: 22),
+                                    ),
+                                  ),
+                                  const Padding(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 5.0,
+                                    ),
+                                    child: Icon(
+                                      FontAwesomeIcons.trophy,
+                                      size: 15,
+                                    ),
+                                  ),
+                                  Text(
+                                    ' ${stat.wonGames}',
+                                    style: const TextStyle(fontSize: 20),
+                                  ),
+                                  const Text(
+                                    ' - ',
+                                    style: TextStyle(fontSize: 20),
+                                  ),
+                                  Text(
+                                    '${stat.playedGames} ',
+                                    style: const TextStyle(fontSize: 20),
+                                  ),
+                                  const Padding(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 5.0,
+                                    ),
+                                    child: Icon(
+                                      FontAwesomeIcons.gamepad,
+                                      size: 15,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                          .values
+                          .toList()
+                          .cast<Widget>(),
+                ),
+              )
+            else if (!isNewPlayer)
+              Text(
+                AppLocalizations.of(context)!.noStatisticYet,
+                key: const ValueKey('noStatsText'),
+                textAlign: TextAlign.center,
+              ),
+          ],
+        ),
       ),
       actions: <Widget>[
         if (player.owned)
           ElevatedButton.icon(
-              key: const ValueKey('saveButton'),
-              style: ButtonStyle(
-                  backgroundColor: WidgetStateProperty.all<Color>(
-                      player.getSideColor(context)),
-                  foregroundColor: WidgetStateProperty.all<Color>(
-                      Theme.of(context).cardColor),
-                  shape: WidgetStateProperty.all<OutlinedBorder>(
-                      RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                              CustomProperties.borderRadius)))),
-              onPressed: () async => await _savePlayer(context),
-              label: Text(MaterialLocalizations.of(context).saveButtonLabel),
-              icon: const Icon(Icons.check))
+            key: const ValueKey('saveButton'),
+            style: ButtonStyle(
+              backgroundColor: WidgetStateProperty.all<Color>(
+                player.getSideColor(context),
+              ),
+              foregroundColor: WidgetStateProperty.all<Color>(
+                Theme.of(context).cardColor,
+              ),
+              shape: WidgetStateProperty.all<OutlinedBorder>(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(
+                    CustomProperties.borderRadius,
+                  ),
+                ),
+              ),
+            ),
+            onPressed: () async => await _savePlayer(context),
+            label: Text(MaterialLocalizations.of(context).saveButtonLabel),
+            icon: const Icon(Icons.check),
+          )
         else
           ElevatedButton.icon(
             key: const ValueKey('closeButton'),
             style: ButtonStyle(
-                backgroundColor: WidgetStateProperty.all<Color>(Colors.white),
-                foregroundColor: WidgetStateProperty.all<Color>(
-                    player.getSideColor(context)),
-                shape: WidgetStateProperty.all<OutlinedBorder>(
-                    RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                            CustomProperties.borderRadius)))),
+              backgroundColor: WidgetStateProperty.all<Color>(Colors.white),
+              foregroundColor: WidgetStateProperty.all<Color>(
+                player.getSideColor(context),
+              ),
+              shape: WidgetStateProperty.all<OutlinedBorder>(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(
+                    CustomProperties.borderRadius,
+                  ),
+                ),
+              ),
+            ),
             onPressed: () => Navigator.pop(context),
             icon: const Icon(Icons.close),
             label: Text(MaterialLocalizations.of(context).closeButtonLabel),
-          )
+          ),
       ],
       scrollable: true,
     );

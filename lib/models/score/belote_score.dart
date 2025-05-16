@@ -8,12 +8,13 @@ abstract class BeloteScore<T extends BeloteRound> extends Score<T> {
   int themTotalPoints;
   String? game;
 
-  BeloteScore(
-      {super.id,
-      rounds,
-      required this.usTotalPoints,
-      required this.themTotalPoints,
-      this.game}) {
+  BeloteScore({
+    super.id,
+    rounds,
+    required this.usTotalPoints,
+    required this.themTotalPoints,
+    this.game,
+  }) {
     this.rounds = rounds ?? <T>[];
   }
 
@@ -68,7 +69,7 @@ abstract class BeloteScore<T extends BeloteRound> extends Score<T> {
       'rounds': rounds.map((round) => round.toJSON()).toList(),
       'us_total_points': usTotalPoints,
       'them_total_points': themTotalPoints,
-      'game': game
+      'game': game,
     };
   }
 }

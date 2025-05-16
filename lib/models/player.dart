@@ -68,21 +68,21 @@ class Player extends CargPlayerObject with ChangeNotifier {
     notifyListeners();
   }
 
-  Player(
-      {super.id,
-      List<GameStats>? gameStatsList,
-      this.firstName,
-      this.lastName,
-      this.ownedBy,
-      userName,
-      profilePicture,
-      this.linkedUserId,
-      useGravatarProfilePicture,
-      gravatarProfilePicture,
-      testing,
-      admin,
-      required this.owned})
-      : super(gameStatsList: gameStatsList) {
+  Player({
+    super.id,
+    List<GameStats>? gameStatsList,
+    this.firstName,
+    this.lastName,
+    this.ownedBy,
+    userName,
+    profilePicture,
+    this.linkedUserId,
+    useGravatarProfilePicture,
+    gravatarProfilePicture,
+    testing,
+    admin,
+    required this.owned,
+  }) : super(gameStatsList: gameStatsList) {
     this.testing = testing ?? false;
     this.admin = admin ?? false;
     this.gameStatsList = gameStatsList ?? [];
@@ -105,20 +105,20 @@ class Player extends CargPlayerObject with ChangeNotifier {
 
   factory Player.fromJSON(Map<String?, dynamic>? json, String id) {
     return Player(
-        id: id,
-        gameStatsList: GameStats.fromJSONList(json?['game_stats']),
-        firstName: json?['first_name'],
-        lastName: json?['last_name'],
-        userName: json?['user_name'],
-        linkedUserId: json?['linked_user_id'],
-        profilePicture: json?['profile_picture'],
-        ownedBy: json?['owned_by'],
-        useGravatarProfilePicture:
-            json?['use_gravatar_profile_picture'] ?? false,
-        gravatarProfilePicture: json?['gravatar_profile_picture'],
-        owned: json?['owned'] ?? true,
-        testing: json?['testing'] ?? false,
-        admin: json?['admin'] ?? false);
+      id: id,
+      gameStatsList: GameStats.fromJSONList(json?['game_stats']),
+      firstName: json?['first_name'],
+      lastName: json?['last_name'],
+      userName: json?['user_name'],
+      linkedUserId: json?['linked_user_id'],
+      profilePicture: json?['profile_picture'],
+      ownedBy: json?['owned_by'],
+      useGravatarProfilePicture: json?['use_gravatar_profile_picture'] ?? false,
+      gravatarProfilePicture: json?['gravatar_profile_picture'],
+      owned: json?['owned'] ?? true,
+      testing: json?['testing'] ?? false,
+      admin: json?['admin'] ?? false,
+    );
   }
 
   @override
@@ -135,7 +135,7 @@ class Player extends CargPlayerObject with ChangeNotifier {
       'owned_by': ownedBy,
       'owned': owned,
       'testing': testing,
-      'admin': admin
+      'admin': admin,
     };
   }
 

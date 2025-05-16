@@ -7,5 +7,5 @@ abstract class AbstractTarotScoreService
   final AbstractTarotScoreRepository tarotScoreRepository;
 
   AbstractTarotScoreService({required this.tarotScoreRepository})
-      : super(scoreRepository: tarotScoreRepository);
+    : super(scoreRepository: tarotScoreRepository);
 }

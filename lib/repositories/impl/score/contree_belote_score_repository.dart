@@ -6,14 +6,20 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ContreeBeloteScoreRepository
     extends AbstractContreeBeloteScoreRepository {
-  ContreeBeloteScoreRepository(
-      {String? database, String? environment, FirebaseFirestore? provider})
-      : super(
-            database: database ?? Const.contreeBeloteScoreDB,
-            environment: environment ??
-                const String.fromEnvironment(Const.dartVarEnv,
-                    defaultValue: Const.defaultEnv),
-            provider: provider ?? FirebaseFirestore.instance);
+  ContreeBeloteScoreRepository({
+    String? database,
+    String? environment,
+    FirebaseFirestore? provider,
+  }) : super(
+         database: database ?? Const.contreeBeloteScoreDB,
+         environment:
+             environment ??
+             const String.fromEnvironment(
+               Const.dartVarEnv,
+               defaultValue: Const.defaultEnv,
+             ),
+         provider: provider ?? FirebaseFirestore.instance,
+       );
 
   @override
   Future<ContreeBeloteScore?> get(String id) async {
@@ -21,7 +27,9 @@ class ContreeBeloteScoreRepository
         await provider.collection(connectionString).doc(id).get();
     if (querySnapshot.data() != null) {
       return ContreeBeloteScore.fromJSON(
-          querySnapshot.data(), querySnapshot.id);
+        querySnapshot.data(),
+        querySnapshot.id,
+      );
     } else {
       return null;
     }
@@ -30,13 +38,16 @@ class ContreeBeloteScoreRepository
   @override
   Future<ContreeBeloteScore?> getScoreByGame(String? gameId) async {
     try {
-      var querySnapshot = await provider
-          .collection(connectionString)
-          .where('game', isEqualTo: gameId)
-          .get();
+      var querySnapshot =
+          await provider
+              .collection(connectionString)
+              .where('game', isEqualTo: gameId)
+              .get();
       if (querySnapshot.docs.isNotEmpty) {
         return ContreeBeloteScore.fromJSON(
-            querySnapshot.docs.first.data(), querySnapshot.docs.first.id);
+          querySnapshot.docs.first.data(),
+          querySnapshot.docs.first.id,
+        );
       }
       return null;
     } on FirebaseException catch (e) {
@@ -52,10 +63,12 @@ class ContreeBeloteScoreRepository
           .where('game', isEqualTo: gameId)
           .snapshots()
           .map((event) {
-        final Map<dynamic, dynamic> value = event.docs[0].data();
-        return ContreeBeloteScore.fromJSON(
-            value as Map<String, dynamic>?, event.docs[0].id);
-      });
+            final Map<dynamic, dynamic> value = event.docs[0].data();
+            return ContreeBeloteScore.fromJSON(
+              value as Map<String, dynamic>?,
+              event.docs[0].id,
+            );
+          });
     } on FirebaseException catch (e) {
       throw RepositoryException(e.message!);
     }

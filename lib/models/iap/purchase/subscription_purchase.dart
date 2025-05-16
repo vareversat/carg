@@ -31,16 +31,20 @@ class SubscriptionPurchase extends Purchase {
 
   factory SubscriptionPurchase.fromJSON(Map<String, dynamic>? json, String id) {
     return SubscriptionPurchase(
-        id: id,
-        iapSource: json?['iap_source'],
-        orderId: json?['order_id'],
-        productId: json?['product_id'],
-        userId: json?['userId'],
-        purchaseDate: DateTime.parse(json?['purchase_date']),
-        type: EnumToString.fromString(ProductTypeEnum.values, json?['type'])!,
-        status: EnumToString.fromString(
-            SubscriptionStatusEnum.values, json?['status'])!,
-        expiryDate: DateTime.parse(json?['expiry_date']));
+      id: id,
+      iapSource: json?['iap_source'],
+      orderId: json?['order_id'],
+      productId: json?['product_id'],
+      userId: json?['userId'],
+      purchaseDate: DateTime.parse(json?['purchase_date']),
+      type: EnumToString.fromString(ProductTypeEnum.values, json?['type'])!,
+      status:
+          EnumToString.fromString(
+            SubscriptionStatusEnum.values,
+            json?['status'],
+          )!,
+      expiryDate: DateTime.parse(json?['expiry_date']),
+    );
   }
 
   @override

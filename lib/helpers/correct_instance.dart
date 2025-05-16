@@ -33,7 +33,8 @@ class CorrectInstance {
         return TarotGameService();
       default:
         throw Exception(
-            '${game.runtimeType.toString()} does not have any registered game service');
+          '${game.runtimeType.toString()} does not have any registered game service',
+        );
     }
   }
 
@@ -49,7 +50,8 @@ class CorrectInstance {
         return TarotRoundService();
       default:
         throw Exception(
-            '${game.runtimeType.toString()} does not have any registered round service');
+          '${game.runtimeType.toString()} does not have any registered round service',
+        );
     }
   }
 
@@ -65,12 +67,16 @@ class CorrectInstance {
         return TarotScoreService();
       default:
         throw Exception(
-            '${game.runtimeType.toString()} does not have any registered score service');
+          '${game.runtimeType.toString()} does not have any registered score service',
+        );
     }
   }
 
   static ofSpecialRound(
-      Game game, BeloteSpecialRound beloteSpecialRound, String playerID) {
+    Game game,
+    BeloteSpecialRound beloteSpecialRound,
+    String playerID,
+  ) {
     switch (game) {
       case FrenchBelote _:
         return FrenchBeloteRound.specialRound(beloteSpecialRound, playerID);
@@ -80,7 +86,8 @@ class CorrectInstance {
         return ContreeBeloteRound.specialRound(beloteSpecialRound, playerID);
       default:
         throw Exception(
-            '${game.runtimeType.toString()} does not have any registered special round');
+          '${game.runtimeType.toString()} does not have any registered special round',
+        );
     }
   }
 }

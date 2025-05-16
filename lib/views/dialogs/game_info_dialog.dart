@@ -5,7 +5,7 @@ import 'package:carg/models/game/setting/belote_game_setting.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/views/screens/rules_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:carg/l10n/app_localizations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class GameInfoDialog extends StatefulWidget {
@@ -37,76 +37,72 @@ class _GameInfoDialogState extends State<GameInfoDialog> {
             AppLocalizations.of(context)!.numberOfPointToReach,
             style: Theme.of(context).textTheme.titleMedium,
           ),
-          const SizedBox(
-            height: 20,
-          ),
+          const SizedBox(height: 20),
           widget.game.settings.isInfinite
               ? Icon(
-                  key: const ValueKey("infiniteIcon"),
-                  FontAwesomeIcons.infinity,
-                  size: 35,
-                  color: Theme.of(context).primaryColor,
-                )
+                key: const ValueKey("infiniteIcon"),
+                FontAwesomeIcons.infinity,
+                size: 35,
+                color: Theme.of(context).primaryColor,
+              )
               : Text(
-                  key: const ValueKey("maxPointOption"),
-                  widget.game.settings.maxPoint.toString(),
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleLarge!
-                      .copyWith(fontWeight: FontWeight.bold),
-                ),
+                key: const ValueKey("maxPointOption"),
+                widget.game.settings.maxPoint.toString(),
+                style: Theme.of(
+                  context,
+                ).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.bold),
+              ),
           (widget.game is Belote && widget.game is! FrenchBelote)
               ? Column(
-                  key: const ValueKey("addAnnouncementAndPointOption"),
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Divider(
-                        thickness: 2,
-                      ),
+                key: const ValueKey("addAnnouncementAndPointOption"),
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Divider(thickness: 2),
+                  ),
+                  Text(
+                    AppLocalizations.of(context)!.sumTrickPointsAndContract,
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  const SizedBox(height: 10),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 50),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text(
+                          AppLocalizations.of(context)!.no,
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Switch(
+                          value:
+                              (widget.game.settings as BeloteGameSetting)
+                                  .sumTrickPointsAndContract,
+                          activeColor: Theme.of(context).primaryColor,
+                          onChanged: (bool value) {},
+                        ),
+                        Text(
+                          AppLocalizations.of(context)!.yes,
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ],
                     ),
-                    Text(
-                      AppLocalizations.of(context)!.sumTrickPointsAndContract,
-                      style: Theme.of(context).textTheme.titleMedium,
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 50),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Text(
-                            AppLocalizations.of(context)!.no,
-                            style: const TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          Switch(
-                            value: (widget.game.settings as BeloteGameSetting)
-                                .sumTrickPointsAndContract,
-                            activeColor: Theme.of(context).primaryColor,
-                            onChanged: (bool value) {},
-                          ),
-                          Text(
-                            AppLocalizations.of(context)!.yes,
-                            style: const TextStyle(fontWeight: FontWeight.bold),
-                          )
-                        ],
-                      ),
-                    )
-                  ],
-                )
-              : const SizedBox.shrink()
+                  ),
+                ],
+              )
+              : const SizedBox.shrink(),
         ],
       ),
       actionsAlignment: MainAxisAlignment.center,
       actions: <Widget>[
         ElevatedButton(
           style: ButtonStyle(
-            backgroundColor:
-                WidgetStateProperty.all<Color>(Theme.of(context).primaryColor),
-            foregroundColor:
-                WidgetStateProperty.all<Color>(Theme.of(context).cardColor),
+            backgroundColor: WidgetStateProperty.all<Color>(
+              Theme.of(context).primaryColor,
+            ),
+            foregroundColor: WidgetStateProperty.all<Color>(
+              Theme.of(context).cardColor,
+            ),
             shape: WidgetStateProperty.all<OutlinedBorder>(
               RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(
@@ -115,15 +111,15 @@ class _GameInfoDialogState extends State<GameInfoDialog> {
               ),
             ),
           ),
-          onPressed: () => Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => RulesScreen(gameType: widget.game.gameType),
-            ),
-          ),
-          child: Text(
-            AppLocalizations.of(context)!.seeTheRules,
-          ),
-        )
+          onPressed:
+              () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder:
+                      (context) => RulesScreen(gameType: widget.game.gameType),
+                ),
+              ),
+          child: Text(AppLocalizations.of(context)!.seeTheRules),
+        ),
       ],
     );
   }

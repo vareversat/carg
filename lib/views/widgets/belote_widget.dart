@@ -18,7 +18,7 @@ import 'package:carg/views/screens/play/play_belote_screen.dart';
 import 'package:carg/views/widgets/register/game_title_widget.dart';
 import 'package:carg/views/widgets/team_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:carg/l10n/app_localizations.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class BeloteWidget extends StatelessWidget {
@@ -29,14 +29,15 @@ class BeloteWidget extends StatelessWidget {
   late final AbstractBeloteRoundService roundService;
   late final AbstractPlayerService playerService;
 
-  BeloteWidget(
-      {super.key,
-      required this.beloteGame,
-      gameService,
-      scoreService,
-      teamService,
-      roundService,
-      playerService}) {
+  BeloteWidget({
+    super.key,
+    required this.beloteGame,
+    gameService,
+    scoreService,
+    teamService,
+    roundService,
+    playerService,
+  }) {
     this.gameService = gameService ?? CorrectInstance.ofGameService(beloteGame);
     this.scoreService =
         scoreService ?? CorrectInstance.ofScoreService(beloteGame);
@@ -55,7 +56,9 @@ class BeloteWidget extends StatelessWidget {
       color: Colors.white,
       child: ExpansionTile(
         title: GameTitleWidget(
-            key: const ValueKey('expansionTileTitle'), game: beloteGame),
+          key: const ValueKey('expansionTileTitle'),
+          game: beloteGame,
+        ),
         children: <Widget>[
           Column(
             children: [
@@ -64,34 +67,38 @@ class BeloteWidget extends StatelessWidget {
                 children: [
                   Flexible(
                     child: TeamWidget(
-                        key: const ValueKey('teamWidget-US'),
-                        teamId: beloteGame.players!.us,
-                        title: AppLocalizations.of(context)!.us,
-                        teamService: teamService,
-                        playerService: playerService),
+                      key: const ValueKey('teamWidget-US'),
+                      teamId: beloteGame.players!.us,
+                      title: AppLocalizations.of(context)!.us,
+                      teamService: teamService,
+                      playerService: playerService,
+                    ),
                   ),
                   Flexible(
                     child: TeamWidget(
-                        key: const ValueKey('teamWidget-THEM'),
-                        teamId: beloteGame.players!.them,
-                        title: AppLocalizations.of(context)!.them,
-                        teamService: teamService,
-                        playerService: playerService),
+                      key: const ValueKey('teamWidget-THEM'),
+                      teamId: beloteGame.players!.them,
+                      title: AppLocalizations.of(context)!.them,
+                      teamService: teamService,
+                      playerService: playerService,
+                    ),
                   ),
                 ],
               ),
               _ShowScoreWidget(
-                  beloteGame: beloteGame,
-                  gameService: gameService,
-                  scoreService: scoreService),
+                beloteGame: beloteGame,
+                gameService: gameService,
+                scoreService: scoreService,
+              ),
               const Divider(height: 10, thickness: 2),
               _ButtonRowWidget(
-                  beloteGame: beloteGame,
-                  gameService: gameService,
-                  scoreService: scoreService,
-                  roundService: roundService),
+                beloteGame: beloteGame,
+                gameService: gameService,
+                scoreService: scoreService,
+                roundService: roundService,
+              ),
             ],
-          )
+          ),
         ],
       ),
     );
@@ -103,10 +110,11 @@ class _ShowScoreWidget extends StatefulWidget {
   final AbstractGameService gameService;
   final AbstractScoreService scoreService;
 
-  const _ShowScoreWidget(
-      {required this.beloteGame,
-      required this.gameService,
-      required this.scoreService});
+  const _ShowScoreWidget({
+    required this.beloteGame,
+    required this.gameService,
+    required this.scoreService,
+  });
 
   @override
   State<StatefulWidget> createState() {
@@ -115,8 +123,6 @@ class _ShowScoreWidget extends StatefulWidget {
 }
 
 class _ShowScoreWidgetState extends State<_ShowScoreWidget> {
-  late String _errorMessage = '';
-
   _ShowScoreWidgetState();
 
   @override
@@ -126,47 +132,51 @@ class _ShowScoreWidgetState extends State<_ShowScoreWidget> {
         Container(
           padding: const EdgeInsets.all(10),
           child: FutureBuilder<BeloteScore?>(
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
-                    child: SpinKitThreeBounce(
-                      size: 30,
-                      itemBuilder: (BuildContext context, int index) {
-                        return DecoratedBox(
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.secondary,
-                          ),
-                        );
-                      },
-                    ),
-                  );
-                }
-                if (snapshot.hasData &&
-                    snapshot.connectionState == ConnectionState.done) {
-                  return Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        Text(
-                          snapshot.data!.usTotalPoints.toString(),
-                          key: const ValueKey('usTotalPointsText'),
-                          style: const TextStyle(
-                              fontSize: 25, fontWeight: FontWeight.bold),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(
+                  child: SpinKitThreeBounce(
+                    size: 30,
+                    itemBuilder: (BuildContext context, int index) {
+                      return DecoratedBox(
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.secondary,
                         ),
-                        Text(
-                          snapshot.data!.themTotalPoints.toString(),
-                          key: const ValueKey('themTotalPointsText'),
-                          style: const TextStyle(
-                              fontSize: 25, fontWeight: FontWeight.bold),
-                        )
-                      ]);
-                }
-                return Center(child: Text(_errorMessage));
-              },
-              future: widget.scoreService
-                      .getScoreByGame(widget.beloteGame.id)
-                      // ignore: return_of_invalid_type_from_catch_error
-                      .catchError((error) => {_errorMessage = error.toString()})
-                  as Future<BeloteScore?>),
+                      );
+                    },
+                  ),
+                );
+              }
+              if (snapshot.hasData &&
+                  snapshot.connectionState == ConnectionState.done) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    Text(
+                      snapshot.data!.usTotalPoints.toString(),
+                      key: const ValueKey('usTotalPointsText'),
+                      style: const TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      snapshot.data!.themTotalPoints.toString(),
+                      key: const ValueKey('themTotalPointsText'),
+                      style: const TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                );
+              }
+              return Center(child: Text(snapshot.error.toString()));
+            },
+            future:
+                widget.scoreService.getScoreByGame(widget.beloteGame.id)
+                    as Future<BeloteScore?>,
+          ),
         ),
       ],
     );
@@ -179,11 +189,12 @@ class _ButtonRowWidget extends StatelessWidget {
   final AbstractScoreService scoreService;
   final AbstractRoundService roundService;
 
-  const _ButtonRowWidget(
-      {required this.beloteGame,
-      required this.gameService,
-      required this.scoreService,
-      required this.roundService});
+  const _ButtonRowWidget({
+    required this.beloteGame,
+    required this.gameService,
+    required this.scoreService,
+    required this.roundService,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -195,29 +206,39 @@ class _ButtonRowWidget extends StatelessWidget {
           ElevatedButton.icon(
             key: const ValueKey('stopButton'),
             style: ButtonStyle(
-                backgroundColor: WidgetStateProperty.all<Color>(Colors.black),
-                foregroundColor:
-                    WidgetStateProperty.all<Color>(Theme.of(context).cardColor),
-                shape: WidgetStateProperty.all<OutlinedBorder>(
-                    RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                            CustomProperties.borderRadius)))),
-            onPressed: () async => {
-              await showDialog(
-                context: context,
-                builder: (BuildContext context) => WarningDialog(
-                    onConfirm: () async => {
-                          await gameService.endAGame(
-                              beloteGame, DateTime.now()),
-                        },
-                    message: AppLocalizations.of(context)!.messageStopGame,
-                    title: AppLocalizations.of(context)!.warning,
-                    color: Colors.black),
+              backgroundColor: WidgetStateProperty.all<Color>(Colors.black),
+              foregroundColor: WidgetStateProperty.all<Color>(
+                Theme.of(context).cardColor,
               ),
-            },
-            label: Text(
-              AppLocalizations.of(context)!.stop,
+              shape: WidgetStateProperty.all<OutlinedBorder>(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(
+                    CustomProperties.borderRadius,
+                  ),
+                ),
+              ),
             ),
+            onPressed:
+                () async => {
+                  await showDialog(
+                    context: context,
+                    builder:
+                        (BuildContext context) => WarningDialog(
+                          onConfirm:
+                              () async => {
+                                await gameService.endAGame(
+                                  beloteGame,
+                                  DateTime.now(),
+                                ),
+                              },
+                          message:
+                              AppLocalizations.of(context)!.messageStopGame,
+                          title: AppLocalizations.of(context)!.warning,
+                          color: Colors.black,
+                        ),
+                  ),
+                },
+            label: Text(AppLocalizations.of(context)!.stop),
             icon: const Icon(Icons.stop),
           )
         else
@@ -225,23 +246,34 @@ class _ButtonRowWidget extends StatelessWidget {
         ElevatedButton.icon(
           key: const ValueKey('deleteButton'),
           style: ButtonStyle(
-              backgroundColor: WidgetStateProperty.all<Color>(
-                  Theme.of(context).colorScheme.error),
-              foregroundColor:
-                  WidgetStateProperty.all<Color>(Theme.of(context).cardColor),
-              shape: WidgetStateProperty.all<OutlinedBorder>(
-                  RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(
-                          CustomProperties.borderRadius)))),
-          onPressed: () async => {
-            await showDialog(
-              context: context,
-              builder: (BuildContext context) => WarningDialog(
-                  onConfirm: () => {gameService.deleteGame(beloteGame.id)},
-                  message: AppLocalizations.of(context)!.messageDeleteGame,
-                  title: AppLocalizations.of(context)!.delete),
+            backgroundColor: WidgetStateProperty.all<Color>(
+              Theme.of(context).colorScheme.error,
             ),
-          },
+            foregroundColor: WidgetStateProperty.all<Color>(
+              Theme.of(context).cardColor,
+            ),
+            shape: WidgetStateProperty.all<OutlinedBorder>(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(
+                  CustomProperties.borderRadius,
+                ),
+              ),
+            ),
+          ),
+          onPressed:
+              () async => {
+                await showDialog(
+                  context: context,
+                  builder:
+                      (BuildContext context) => WarningDialog(
+                        onConfirm:
+                            () => {gameService.deleteGame(beloteGame.id)},
+                        message:
+                            AppLocalizations.of(context)!.messageDeleteGame,
+                        title: AppLocalizations.of(context)!.delete,
+                      ),
+                ),
+              },
           label: Text(MaterialLocalizations.of(context).deleteButtonTooltip),
           icon: const Icon(Icons.delete_forever),
         ),
@@ -250,32 +282,35 @@ class _ButtonRowWidget extends StatelessWidget {
             key: const ValueKey('continueButton'),
             style: ButtonStyle(
               backgroundColor: WidgetStateProperty.all<Color>(
-                  Theme.of(context).primaryColor),
-              foregroundColor:
-                  WidgetStateProperty.all<Color>(Theme.of(context).cardColor),
+                Theme.of(context).primaryColor,
+              ),
+              foregroundColor: WidgetStateProperty.all<Color>(
+                Theme.of(context).cardColor,
+              ),
               shape: WidgetStateProperty.all<OutlinedBorder>(
                 RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.circular(CustomProperties.borderRadius),
-                ),
-              ),
-            ),
-            onPressed: () async => {
-              Navigator.push(
-                context,
-                CustomRouteFade(
-                  builder: (context) => PlayBeloteScreen(
-                    beloteGame: beloteGame,
-                    gameService: gameService,
-                    scoreService: scoreService,
-                    roundService: roundService,
+                  borderRadius: BorderRadius.circular(
+                    CustomProperties.borderRadius,
                   ),
                 ),
               ),
-            },
-            label: Text(
-              MaterialLocalizations.of(context).continueButtonLabel,
             ),
+            onPressed:
+                () async => {
+                  Navigator.push(
+                    context,
+                    CustomRouteFade(
+                      builder:
+                          (context) => PlayBeloteScreen(
+                            beloteGame: beloteGame,
+                            gameService: gameService,
+                            scoreService: scoreService,
+                            roundService: roundService,
+                          ),
+                    ),
+                  ),
+                },
+            label: Text(MaterialLocalizations.of(context).continueButtonLabel),
             icon: const Icon(Icons.play_arrow),
           )
         else
@@ -283,29 +318,34 @@ class _ButtonRowWidget extends StatelessWidget {
             key: const ValueKey('showScoreButton'),
             style: ButtonStyle(
               backgroundColor: WidgetStateProperty.all<Color>(
-                  Theme.of(context).primaryColor),
-              foregroundColor:
-                  WidgetStateProperty.all<Color>(Theme.of(context).cardColor),
+                Theme.of(context).primaryColor,
+              ),
+              foregroundColor: WidgetStateProperty.all<Color>(
+                Theme.of(context).cardColor,
+              ),
               shape: WidgetStateProperty.all<OutlinedBorder>(
                 RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.circular(CustomProperties.borderRadius),
+                  borderRadius: BorderRadius.circular(
+                    CustomProperties.borderRadius,
+                  ),
                 ),
               ),
             ),
-            onPressed: () async => {
-              Navigator.push(
-                context,
-                CustomRouteFade(
-                  builder: (context) => PlayBeloteScreen(
-                    beloteGame: beloteGame,
-                    gameService: gameService,
-                    scoreService: scoreService,
-                    roundService: roundService,
+            onPressed:
+                () async => {
+                  Navigator.push(
+                    context,
+                    CustomRouteFade(
+                      builder:
+                          (context) => PlayBeloteScreen(
+                            beloteGame: beloteGame,
+                            gameService: gameService,
+                            scoreService: scoreService,
+                            roundService: roundService,
+                          ),
+                    ),
                   ),
-                ),
-              )
-            },
+                },
             child: Text(AppLocalizations.of(context)!.checkScores),
           ),
       ],

@@ -12,9 +12,12 @@ class ViewHelper {
     }
 
     final stream = profilePicture.image.resolve(ImageConfiguration.empty);
-    stream.addListener(ImageStreamListener(
+    stream.addListener(
+      ImageStreamListener(
         (ImageInfo image, bool synchronousCall) {},
-        onError: onErrorListener));
+        onError: onErrorListener,
+      ),
+    );
 
     return profilePicture;
   }

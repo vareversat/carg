@@ -12,7 +12,7 @@ import 'package:carg/views/screens/play/play_tarot_game_screen.dart';
 import 'package:carg/views/widgets/api_mini_player_widget.dart';
 import 'package:carg/views/widgets/register/game_title_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:carg/l10n/app_localizations.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class TarotWidget extends StatelessWidget {
@@ -21,12 +21,13 @@ class TarotWidget extends StatelessWidget {
   late final AbstractTarotScoreService scoreService;
   late final AbstractPlayerService playerService;
 
-  TarotWidget(
-      {super.key,
-      required this.tarotGame,
-      gameService,
-      scoreService,
-      playerService}) {
+  TarotWidget({
+    super.key,
+    required this.tarotGame,
+    gameService,
+    scoreService,
+    playerService,
+  }) {
     this.gameService = gameService ?? CorrectInstance.ofGameService(tarotGame);
     this.scoreService =
         scoreService ?? CorrectInstance.ofScoreService(tarotGame);
@@ -42,49 +43,52 @@ class TarotWidget extends StatelessWidget {
       color: Colors.white,
       child: ExpansionTile(
         title: GameTitleWidget(
-            key: const ValueKey('expansionTileTitle'), game: tarotGame),
+          key: const ValueKey('expansionTileTitle'),
+          game: tarotGame,
+        ),
         children: <Widget>[
           FutureBuilder<TarotScore?>(
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
-                    child: SpinKitThreeBounce(
-                      size: 30,
-                      itemBuilder: (BuildContext context, int index) {
-                        return DecoratedBox(
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.secondary,
-                          ),
-                        );
-                      },
-                    ),
-                  );
-                }
-                if (snapshot.hasData &&
-                    snapshot.connectionState == ConnectionState.done) {
-                  return Wrap(
-                    key: const ValueKey('apiminiplayerwidget'),
-                    alignment: WrapAlignment.center,
-                    spacing: 2,
-                    children: tarotGame.players!.playerList!
-                        .map(
-                          (playerId) => APIMiniPlayerWidget(
-                            key: ValueKey('apiminiplayerwidget-$playerId'),
-                            playerId: playerId,
-                            displayImage: true,
-                            playerService: playerService,
-                            additionalText:
-                                ' | ${snapshot.data!.getScoreOf(playerId).score.round().toString()}',
-                          ),
-                        )
-                        .toList()
-                        .cast<Widget>(),
-                  );
-                }
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(
-                    child: Text('Error: ${snapshot.error.toString()}'));
-              },
-              future: scoreService.getScoreByGame(tarotGame.id)),
+                  child: SpinKitThreeBounce(
+                    size: 30,
+                    itemBuilder: (BuildContext context, int index) {
+                      return DecoratedBox(
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.secondary,
+                        ),
+                      );
+                    },
+                  ),
+                );
+              }
+              if (snapshot.hasData &&
+                  snapshot.connectionState == ConnectionState.done) {
+                return Wrap(
+                  key: const ValueKey('apiminiplayerwidget'),
+                  alignment: WrapAlignment.center,
+                  spacing: 2,
+                  children:
+                      tarotGame.players!.playerList!
+                          .map(
+                            (playerId) => APIMiniPlayerWidget(
+                              key: ValueKey('apiminiplayerwidget-$playerId'),
+                              playerId: playerId,
+                              displayImage: true,
+                              playerService: playerService,
+                              additionalText:
+                                  ' | ${snapshot.data!.getScoreOf(playerId).score.round().toString()}',
+                            ),
+                          )
+                          .toList()
+                          .cast<Widget>(),
+                );
+              }
+              return Center(child: Text('Error: ${snapshot.error.toString()}'));
+            },
+            future: scoreService.getScoreByGame(tarotGame.id),
+          ),
           const Divider(height: 10, thickness: 2),
           _ButtonRowWidget(tarotGame: tarotGame, gameService: gameService),
         ],
@@ -109,33 +113,38 @@ class _ButtonRowWidget extends StatelessWidget {
           ElevatedButton.icon(
             style: ButtonStyle(
               backgroundColor: WidgetStateProperty.all<Color>(Colors.black),
-              foregroundColor:
-                  WidgetStateProperty.all<Color>(Theme.of(context).cardColor),
+              foregroundColor: WidgetStateProperty.all<Color>(
+                Theme.of(context).cardColor,
+              ),
               shape: WidgetStateProperty.all<OutlinedBorder>(
                 RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.circular(CustomProperties.borderRadius),
+                  borderRadius: BorderRadius.circular(
+                    CustomProperties.borderRadius,
+                  ),
                 ),
               ),
             ),
-            onPressed: () async => {
-              await showDialog(
-                context: context,
-                builder: (BuildContext context) => WarningDialog(
-                    onConfirm: () async => {
-                          await gameService.endAGame(
-                            tarotGame,
-                            DateTime.now(),
-                          ),
-                        },
-                    message: AppLocalizations.of(context)!.messageStopGame,
-                    title: AppLocalizations.of(context)!.warning,
-                    color: Colors.black),
-              )
-            },
-            label: Text(
-              AppLocalizations.of(context)!.stop,
-            ),
+            onPressed:
+                () async => {
+                  await showDialog(
+                    context: context,
+                    builder:
+                        (BuildContext context) => WarningDialog(
+                          onConfirm:
+                              () async => {
+                                await gameService.endAGame(
+                                  tarotGame,
+                                  DateTime.now(),
+                                ),
+                              },
+                          message:
+                              AppLocalizations.of(context)!.messageStopGame,
+                          title: AppLocalizations.of(context)!.warning,
+                          color: Colors.black,
+                        ),
+                  ),
+                },
+            label: Text(AppLocalizations.of(context)!.stop),
             icon: const Icon(Icons.stop),
           )
         else
@@ -143,25 +152,32 @@ class _ButtonRowWidget extends StatelessWidget {
         ElevatedButton.icon(
           style: ButtonStyle(
             backgroundColor: WidgetStateProperty.all<Color>(
-                Theme.of(context).colorScheme.error),
-            foregroundColor:
-                WidgetStateProperty.all<Color>(Theme.of(context).cardColor),
+              Theme.of(context).colorScheme.error,
+            ),
+            foregroundColor: WidgetStateProperty.all<Color>(
+              Theme.of(context).cardColor,
+            ),
             shape: WidgetStateProperty.all<OutlinedBorder>(
               RoundedRectangleBorder(
-                borderRadius:
-                    BorderRadius.circular(CustomProperties.borderRadius),
+                borderRadius: BorderRadius.circular(
+                  CustomProperties.borderRadius,
+                ),
               ),
             ),
           ),
-          onPressed: () async => {
-            await showDialog(
-              context: context,
-              builder: (BuildContext context) => WarningDialog(
-                  onConfirm: () => {gameService.deleteGame(tarotGame.id)},
-                  message: AppLocalizations.of(context)!.messageDeleteGame,
-                  title: AppLocalizations.of(context)!.delete),
-            )
-          },
+          onPressed:
+              () async => {
+                await showDialog(
+                  context: context,
+                  builder:
+                      (BuildContext context) => WarningDialog(
+                        onConfirm: () => {gameService.deleteGame(tarotGame.id)},
+                        message:
+                            AppLocalizations.of(context)!.messageDeleteGame,
+                        title: AppLocalizations.of(context)!.delete,
+                      ),
+                ),
+              },
           label: Text(MaterialLocalizations.of(context).deleteButtonTooltip),
           icon: const Icon(Icons.delete_forever),
         ),
@@ -169,55 +185,61 @@ class _ButtonRowWidget extends StatelessWidget {
           ElevatedButton.icon(
             style: ButtonStyle(
               backgroundColor: WidgetStateProperty.all<Color>(
-                  Theme.of(context).primaryColor),
-              foregroundColor:
-                  WidgetStateProperty.all<Color>(Theme.of(context).cardColor),
+                Theme.of(context).primaryColor,
+              ),
+              foregroundColor: WidgetStateProperty.all<Color>(
+                Theme.of(context).cardColor,
+              ),
               shape: WidgetStateProperty.all<OutlinedBorder>(
                 RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.circular(CustomProperties.borderRadius),
+                  borderRadius: BorderRadius.circular(
+                    CustomProperties.borderRadius,
+                  ),
                 ),
               ),
             ),
-            onPressed: () async => {
-              Navigator.push(
-                context,
-                CustomRouteFade(
-                  builder: (context) => PlayTarotGameScreen(
-                    tarotGame: tarotGame,
+            onPressed:
+                () async => {
+                  Navigator.push(
+                    context,
+                    CustomRouteFade(
+                      builder:
+                          (context) =>
+                              PlayTarotGameScreen(tarotGame: tarotGame),
+                    ),
                   ),
-                ),
-              )
-            },
-            label: Text(
-              MaterialLocalizations.of(context).continueButtonLabel,
-            ),
+                },
+            label: Text(MaterialLocalizations.of(context).continueButtonLabel),
             icon: const Icon(Icons.play_arrow),
           )
         else
           ElevatedButton(
             style: ButtonStyle(
               backgroundColor: WidgetStateProperty.all<Color>(
-                  Theme.of(context).primaryColor),
-              foregroundColor:
-                  WidgetStateProperty.all<Color>(Theme.of(context).cardColor),
+                Theme.of(context).primaryColor,
+              ),
+              foregroundColor: WidgetStateProperty.all<Color>(
+                Theme.of(context).cardColor,
+              ),
               shape: WidgetStateProperty.all<OutlinedBorder>(
                 RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.circular(CustomProperties.borderRadius),
+                  borderRadius: BorderRadius.circular(
+                    CustomProperties.borderRadius,
+                  ),
                 ),
               ),
             ),
-            onPressed: () async => {
-              Navigator.push(
-                context,
-                CustomRouteFade(
-                  builder: (context) => PlayTarotGameScreen(
-                    tarotGame: tarotGame,
+            onPressed:
+                () async => {
+                  Navigator.push(
+                    context,
+                    CustomRouteFade(
+                      builder:
+                          (context) =>
+                              PlayTarotGameScreen(tarotGame: tarotGame),
+                    ),
                   ),
-                ),
-              )
-            },
+                },
             child: Text(AppLocalizations.of(context)!.checkScores),
           ),
       ],

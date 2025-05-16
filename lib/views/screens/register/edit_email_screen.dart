@@ -4,7 +4,7 @@ import 'package:carg/views/widgets/register/register_email_widget.dart';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:carg/l10n/app_localizations.dart';
 import 'package:flutter_svg/svg.dart';
 
 class EditEmailScreen extends StatelessWidget {
@@ -22,9 +22,7 @@ class EditEmailScreen extends StatelessWidget {
                 const SizedBox(height: 30),
                 SizedBox(
                   height: 150,
-                  child: SvgPicture.asset(
-                    Const.svgLogoPath,
-                  ),
+                  child: SvgPicture.asset(Const.svgLogoPath),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(35),

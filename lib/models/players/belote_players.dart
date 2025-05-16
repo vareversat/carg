@@ -1,14 +1,14 @@
 import 'package:carg/models/player.dart';
 import 'package:carg/models/players/players.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:carg/l10n/app_localizations.dart';
 
 class BelotePlayers extends Players {
   String? us;
   String? them;
 
   BelotePlayers({this.us, this.them, List<dynamic>? super.playerList})
-      : super.prefilledList();
+    : super.prefilledList();
 
   @override
   void onSelectedPlayer(Player player) {
@@ -88,6 +88,9 @@ class BelotePlayers extends Players {
 
   factory BelotePlayers.fromJSON(Map<String, dynamic> json) {
     return BelotePlayers(
-        us: json['us'], them: json['them'], playerList: json['player_list']);
+      us: json['us'],
+      them: json['them'],
+      playerList: json['player_list'],
+    );
   }
 }

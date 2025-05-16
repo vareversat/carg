@@ -13,7 +13,7 @@ import 'package:carg/views/screens/add_round/widget/tarot_game/tarot_perk_widget
 import 'package:carg/views/screens/add_round/widget/tarot_game/trick_points_tarot_widget.dart';
 import 'package:carg/views/widgets/api_mini_player_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:carg/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 class AddTarotRoundScreen extends StatelessWidget {
@@ -25,28 +25,33 @@ class AddTarotRoundScreen extends StatelessWidget {
   void _setupRound() async {
     if (isEditing!) {
       await tarotRoundService.editLastRoundOfScoreByGameId(
-          tarotGame!.id, tarotRound);
+        tarotGame!.id,
+        tarotRound,
+      );
     } else {
       await tarotRoundService.addRoundToGame(tarotGame!.id, tarotRound);
     }
   }
 
-  AddTarotRoundScreen(
-      {super.key, this.tarotGame, this.tarotRound, this.isEditing});
+  AddTarotRoundScreen({
+    super.key,
+    this.tarotGame,
+    this.tarotRound,
+    this.isEditing,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Theme.of(context).primaryColor,
-          foregroundColor: Theme.of(context).colorScheme.onPrimary,
-          leading: IconButton(
-            icon: const Icon(
-              Icons.cancel,
-            ),
-            onPressed: () => Navigator.pop(context),
-          ),
-          title: const ScreenTitleWidget()),
+        backgroundColor: Theme.of(context).primaryColor,
+        foregroundColor: Theme.of(context).colorScheme.onPrimary,
+        leading: IconButton(
+          icon: const Icon(Icons.cancel),
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: const ScreenTitleWidget(),
+      ),
       body: Column(
         children: [
           Flexible(
@@ -56,33 +61,42 @@ class AddTarotRoundScreen extends StatelessWidget {
                   children: [
                     SectionTitleWidget(
                       title: AppLocalizations.of(context)!.takerTitleTarot(
-                          tarotRound!.players!.playerList!.length % 5),
+                        tarotRound!.players!.playerList!.length % 5,
+                      ),
                     ),
                     ChangeNotifierProvider.value(
                       value: tarotRound!.players!,
                       child: Consumer<TarotRoundPlayers>(
-                        builder: (context, playerData, _) => Wrap(
-                          alignment: WrapAlignment.center,
-                          spacing: 10,
-                          children: playerData.playerList!
-                              .map(
-                                (player) => APIMiniPlayerWidget(
-                                  isSelected:
-                                      playerData.isPlayerSelected(player),
-                                  playerId: player,
-                                  displayImage:
-                                      !playerData.isPlayerSelected(player),
-                                  showLoading: false,
-                                  selectedColor: playerData.getSelectedColor(
-                                      player, context),
-                                  playerService: PlayerService(),
-                                  onTap: () =>
-                                      playerData.onSelectedPlayer2(player),
-                                ),
-                              )
-                              .toList()
-                              .cast<Widget>(),
-                        ),
+                        builder:
+                            (context, playerData, _) => Wrap(
+                              alignment: WrapAlignment.center,
+                              spacing: 10,
+                              children:
+                                  playerData.playerList!
+                                      .map(
+                                        (player) => APIMiniPlayerWidget(
+                                          isSelected: playerData
+                                              .isPlayerSelected(player),
+                                          playerId: player,
+                                          displayImage:
+                                              !playerData.isPlayerSelected(
+                                                player,
+                                              ),
+                                          showLoading: false,
+                                          selectedColor: playerData
+                                              .getSelectedColor(
+                                                player,
+                                                context,
+                                              ),
+                                          playerService: PlayerService(),
+                                          onTap:
+                                              () => playerData
+                                                  .onSelectedPlayer2(player),
+                                        ),
+                                      )
+                                      .toList()
+                                      .cast<Widget>(),
+                            ),
                       ),
                     ),
                   ],
@@ -90,25 +104,17 @@ class AddTarotRoundScreen extends StatelessWidget {
                 Column(
                   children: [
                     const Divider(),
-                    ContractTarotWidget(
-                      tarotRound: tarotRound!,
-                    ),
+                    ContractTarotWidget(tarotRound: tarotRound!),
                     const Divider(),
-                    OudlerPickerWidget(
-                      tarotRound: tarotRound!,
-                    ),
+                    OudlerPickerWidget(tarotRound: tarotRound!),
                     const Divider(),
-                    TrickPointsTarotWidget(
-                      tarotRound: tarotRound!,
-                    ),
+                    TrickPointsTarotWidget(tarotRound: tarotRound!),
                     const Divider(),
                     TarotPerkWidget(
                       tarotRound: tarotRound!,
                       tarotGame: tarotGame,
                     ),
-                    const SizedBox(
-                      height: 20,
-                    ),
+                    const SizedBox(height: 20),
                   ],
                 ),
               ],
@@ -119,22 +125,14 @@ class AddTarotRoundScreen extends StatelessWidget {
             decoration: BoxDecoration(
               color: Theme.of(context).primaryColor,
               borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(
-                  CustomProperties.borderRadius,
-                ),
-                topRight: Radius.circular(
-                  CustomProperties.borderRadius,
-                ),
+                topLeft: Radius.circular(CustomProperties.borderRadius),
+                topRight: Radius.circular(CustomProperties.borderRadius),
               ),
             ),
             child: Column(
               children: [
-                RealTimeDisplayWidget(
-                  round: tarotRound!,
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
+                RealTimeDisplayWidget(round: tarotRound!),
+                const SizedBox(height: 10),
                 Center(
                   child: SizedBox(
                     width: double.infinity,
@@ -146,9 +144,11 @@ class AddTarotRoundScreen extends StatelessWidget {
                         child: ElevatedButton.icon(
                           style: ButtonStyle(
                             backgroundColor: WidgetStateProperty.all<Color>(
-                                Theme.of(context).colorScheme.onPrimary),
+                              Theme.of(context).colorScheme.onPrimary,
+                            ),
                             foregroundColor: WidgetStateProperty.all<Color>(
-                                Theme.of(context).primaryColor),
+                              Theme.of(context).primaryColor,
+                            ),
                             shape: WidgetStateProperty.all<OutlinedBorder>(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(
@@ -157,17 +157,13 @@ class AddTarotRoundScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                          onPressed: () => {
-                            _setupRound(),
-                            Navigator.pop(context),
-                          },
+                          onPressed:
+                              () => {_setupRound(), Navigator.pop(context)},
                           label: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
                               AppLocalizations.of(context)!.validate,
-                              style: const TextStyle(
-                                fontSize: 23,
-                              ),
+                              style: const TextStyle(fontSize: 23),
                             ),
                           ),
                           icon: const Icon(Icons.check, size: 30),
@@ -175,7 +171,7 @@ class AddTarotRoundScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ),
