@@ -36,7 +36,8 @@ abstract class BaseAbstractService<T extends CargObject> {
   Future<void> update(T? t) async {
     if (t == null || t.id == null) {
       throw ServiceException(
-          'Error : Please provide an object with an ID for the update');
+        'Error : Please provide an object with an ID for the update',
+      );
     }
     developer.log('[$T] Document ${t.id} updated');
     return await repository.update(t);

@@ -6,13 +6,15 @@ import 'package:carg/services/round/abstract_round_service.dart';
 import 'package:carg/services/score/abstract_belote_score_service.dart';
 
 abstract class AbstractBeloteRoundService<
-    T extends BeloteRound,
-    S extends BeloteScore,
-    G extends BeloteGameSetting> extends AbstractRoundService<T, S, G> {
+  T extends BeloteRound,
+  S extends BeloteScore,
+  G extends BeloteGameSetting
+>
+    extends AbstractRoundService<T, S, G> {
   final AbstractBeloteScoreService<S> scoreService;
 
   AbstractBeloteRoundService({required this.scoreService})
-      : super(abstractScoreService: scoreService);
+    : super(abstractScoreService: scoreService);
 
   @override
   Future<void> addRoundToGame(String? gameId, T? round) async {

@@ -1,5 +1,5 @@
 // ignore_for_file: constant_identifier_names
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:carg/l10n/app_localizations.dart';
 
 import 'package:flutter/material.dart';
 
@@ -18,7 +18,8 @@ extension GameTypeExtension on GameType? {
         return 'Contrée';
       case GameType.UNDEFINE:
         throw Exception(
-            'Name not defined for game type ${GameType.UNDEFINE.name}');
+          'Name not defined for game type ${GameType.UNDEFINE.name}',
+        );
       case null:
         throw Exception('GameType not defined for null');
     }
@@ -36,7 +37,8 @@ extension GameTypeExtension on GameType? {
         return AppLocalizations.of(context)!.gameAnticlockwiseDirection;
       case GameType.UNDEFINE:
         throw Exception(
-            'Direction not defined for game type ${GameType.UNDEFINE.name}');
+          'Direction not defined for game type ${GameType.UNDEFINE.name}',
+        );
       case null:
         throw Exception('Direction not defined for null');
     }
@@ -54,7 +56,8 @@ extension GameTypeExtension on GameType? {
         return 'contree_belote_rules.md';
       case GameType.UNDEFINE:
         throw Exception(
-            'Rules not defined for game type ${GameType.UNDEFINE.name}');
+          'Rules not defined for game type ${GameType.UNDEFINE.name}',
+        );
       case null:
         throw Exception('Rules not defined for null');
     }

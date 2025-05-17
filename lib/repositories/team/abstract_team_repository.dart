@@ -2,11 +2,12 @@ import 'package:carg/models/team.dart';
 import 'package:carg/repositories/base_repository.dart';
 
 abstract class AbstractTeamRepository extends BaseRepository<Team> {
-  AbstractTeamRepository(
-      {required super.database,
-      required super.environment,
-      required super.provider,
-      super.lastFetchGameDocument});
+  AbstractTeamRepository({
+    required super.database,
+    required super.environment,
+    required super.provider,
+    super.lastFetchGameDocument,
+  });
 
   /// Get a team by a list of [playerIds]
   /// If no team exists, return null

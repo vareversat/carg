@@ -2,7 +2,7 @@ import 'package:carg/const.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/views/screens/change_log_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:carg/l10n/app_localizations.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -11,12 +11,13 @@ import 'package:url_launcher/url_launcher_string.dart';
 class CargAboutDialog extends StatelessWidget {
   final String _legalLease = '© ${DateTime.now().year} - Valentin REVERSAT';
   final Widget _iconWidget = Padding(
-      padding: const EdgeInsets.all(5),
-      child: SizedBox(
-        height: 60,
-        width: 60,
-        child: SvgPicture.asset(Const.svgLogoPath),
-      ));
+    padding: const EdgeInsets.all(5),
+    child: SizedBox(
+      height: 60,
+      width: 60,
+      child: SvgPicture.asset(Const.svgLogoPath),
+    ),
+  );
 
   CargAboutDialog({super.key});
 
@@ -56,24 +57,28 @@ class CargAboutDialog extends StatelessWidget {
                     children: <Widget>[
                       Row(
                         children: [
-                          Text(snapshot.data!.appName,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headlineSmall!
-                                  .copyWith(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 30)),
                           Text(
-                              ' | v${snapshot.data!.version} (${snapshot.data!.buildNumber})',
-                              style: Theme.of(context).textTheme.bodyMedium),
+                            snapshot.data!.appName,
+                            style: Theme.of(
+                              context,
+                            ).textTheme.headlineSmall!.copyWith(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 30,
+                            ),
+                          ),
+                          Text(
+                            ' | v${snapshot.data!.version} (${snapshot.data!.buildNumber})',
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
                         ],
                       ),
                       const SizedBox(height: 10),
-                      Text(_legalLease,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall!
-                              .copyWith(fontSize: 15)),
+                      Text(
+                        _legalLease,
+                        style: Theme.of(
+                          context,
+                        ).textTheme.bodySmall!.copyWith(fontSize: 15),
+                      ),
                     ],
                   ),
                 ),
@@ -81,20 +86,22 @@ class CargAboutDialog extends StatelessWidget {
             ],
           ),
           shape: RoundedRectangleBorder(
-              borderRadius:
-                  BorderRadius.circular(CustomProperties.borderRadius)),
-          content: ListBody(children: <Widget>[
-            Text(
-              '${AppLocalizations.of(context)!.appDescription}\n',
-              style: const TextStyle(fontSize: 18),
-            ),
-            ElevatedButton.icon(
+            borderRadius: BorderRadius.circular(CustomProperties.borderRadius),
+          ),
+          content: ListBody(
+            children: <Widget>[
+              Text(
+                '${AppLocalizations.of(context)!.appDescription}\n',
+                style: const TextStyle(fontSize: 18),
+              ),
+              ElevatedButton.icon(
                 key: const ValueKey('sourceCodeButton'),
                 onPressed: () => _launchURL(Const.githubLink, context),
                 style: ButtonStyle(
                   backgroundColor: WidgetStateProperty.all<Color>(Colors.black),
                   foregroundColor: WidgetStateProperty.all<Color>(
-                      Theme.of(context).cardColor),
+                    Theme.of(context).cardColor,
+                  ),
                   shape: WidgetStateProperty.all<OutlinedBorder>(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(
@@ -105,51 +112,47 @@ class CargAboutDialog extends StatelessWidget {
                 ),
                 label: Text(
                   AppLocalizations.of(context)!.sourceCode,
-                  style: const TextStyle(
-                    fontSize: 18,
-                  ),
+                  style: const TextStyle(fontSize: 18),
                 ),
-                icon: const Icon(
-                  FontAwesomeIcons.github,
-                  size: 20,
-                )),
-            ElevatedButton.icon(
-              style: ButtonStyle(
-                backgroundColor: WidgetStateProperty.all<Color>(
-                    Theme.of(context).colorScheme.secondary),
-                foregroundColor:
-                    WidgetStateProperty.all<Color>(Theme.of(context).cardColor),
-                shape: WidgetStateProperty.all<OutlinedBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(
-                      CustomProperties.borderRadius,
+                icon: const Icon(FontAwesomeIcons.github, size: 20),
+              ),
+              ElevatedButton.icon(
+                style: ButtonStyle(
+                  backgroundColor: WidgetStateProperty.all<Color>(
+                    Theme.of(context).colorScheme.secondary,
+                  ),
+                  foregroundColor: WidgetStateProperty.all<Color>(
+                    Theme.of(context).cardColor,
+                  ),
+                  shape: WidgetStateProperty.all<OutlinedBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                        CustomProperties.borderRadius,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const ChangeLogScreen(),
+                onPressed:
+                    () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ChangeLogScreen(),
+                      ),
+                    ),
+                label: Text(
+                  AppLocalizations.of(context)!.changelog,
+                  style: const TextStyle(fontSize: 18),
                 ),
+                icon: const Icon(FontAwesomeIcons.fileCode, size: 20),
               ),
-              label: Text(
-                AppLocalizations.of(context)!.changelog,
-                style: const TextStyle(
-                  fontSize: 18,
-                ),
-              ),
-              icon: const Icon(
-                FontAwesomeIcons.fileCode,
-                size: 20,
-              ),
-            ),
-            ElevatedButton.icon(
+              ElevatedButton.icon(
                 style: ButtonStyle(
                   backgroundColor: WidgetStateProperty.all<Color>(
-                      Theme.of(context).primaryColor),
+                    Theme.of(context).primaryColor,
+                  ),
                   foregroundColor: WidgetStateProperty.all<Color>(
-                      Theme.of(context).cardColor),
+                    Theme.of(context).cardColor,
+                  ),
                   shape: WidgetStateProperty.all<OutlinedBorder>(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(
@@ -170,26 +173,23 @@ class CargAboutDialog extends StatelessWidget {
                 },
                 label: Text(
                   MaterialLocalizations.of(context).viewLicensesButtonLabel[0] +
-                      MaterialLocalizations.of(context)
-                          .viewLicensesButtonLabel
-                          .substring(1)
-                          .toLowerCase(),
-                  style: const TextStyle(
-                    fontSize: 18,
-                  ),
+                      MaterialLocalizations.of(
+                        context,
+                      ).viewLicensesButtonLabel.substring(1).toLowerCase(),
+                  style: const TextStyle(fontSize: 18),
                 ),
-                icon: const Icon(
-                  FontAwesomeIcons.fileLines,
-                  size: 20,
-                )),
-            ElevatedButton.icon(
+                icon: const Icon(FontAwesomeIcons.fileLines, size: 20),
+              ),
+              ElevatedButton.icon(
                 key: const ValueKey('privacyButton'),
                 onPressed: () => _launchURL(Const.privacyInfoLink, context),
                 style: ButtonStyle(
-                  backgroundColor:
-                      WidgetStateProperty.all<Color>(Colors.blueAccent),
+                  backgroundColor: WidgetStateProperty.all<Color>(
+                    Colors.blueAccent,
+                  ),
                   foregroundColor: WidgetStateProperty.all<Color>(
-                      Theme.of(context).cardColor),
+                    Theme.of(context).cardColor,
+                  ),
                   shape: WidgetStateProperty.all<OutlinedBorder>(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(
@@ -198,19 +198,21 @@ class CargAboutDialog extends StatelessWidget {
                     ),
                   ),
                 ),
-                label: Text(AppLocalizations.of(context)!.privacyPolicy,
-                    style: const TextStyle(fontSize: 18)),
-                icon: const Icon(
-                  FontAwesomeIcons.userShield,
-                  size: 20,
-                ))
-          ]),
+                label: Text(
+                  AppLocalizations.of(context)!.privacyPolicy,
+                  style: const TextStyle(fontSize: 18),
+                ),
+                icon: const Icon(FontAwesomeIcons.userShield, size: 20),
+              ),
+            ],
+          ),
           actions: <Widget>[
             ElevatedButton.icon(
               style: ButtonStyle(
                 backgroundColor: WidgetStateProperty.all<Color>(Colors.white),
                 foregroundColor: WidgetStateProperty.all<Color>(
-                    Theme.of(context).primaryColor),
+                  Theme.of(context).primaryColor,
+                ),
                 shape: WidgetStateProperty.all<OutlinedBorder>(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(
@@ -221,10 +223,8 @@ class CargAboutDialog extends StatelessWidget {
               ),
               onPressed: () => {Navigator.pop(context)},
               icon: const Icon(Icons.close),
-              label: Text(
-                MaterialLocalizations.of(context).closeButtonLabel,
-              ),
-            )
+              label: Text(MaterialLocalizations.of(context).closeButtonLabel),
+            ),
           ],
           scrollable: true,
         );

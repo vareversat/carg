@@ -36,7 +36,7 @@ jobs:
         with:
           flutter-version: ${{ inputs.flutter_version }}
       - name: 'Flutter format'
-        run: dart format lib --set-exit-if-changed
+        run: dart format lib --language-version latest --set-exit-if-changed
   test:
     name: 'Test'
     runs-on: ubuntu-latest

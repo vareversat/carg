@@ -11,7 +11,7 @@ import 'package:carg/models/score/round/round.dart';
 import 'package:carg/models/score/tarot_score.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:carg/l10n/app_localizations.dart';
 
 class TarotRound extends Round<TarotGameSetting> {
   static const double maxTrickPoints = 91;
@@ -207,14 +207,17 @@ class TarotRound extends Round<TarotGameSetting> {
     var calledPlayerScore = attackScore * (1 / 3);
     for (var player in players!.playerList!) {
       if (players!.attackPlayer == player) {
-        playerPoints!
-            .add(TarotPlayerScore(player: player, score: realAttackScore));
+        playerPoints!.add(
+          TarotPlayerScore(player: player, score: realAttackScore),
+        );
       } else if (players!.calledPlayer == player) {
-        playerPoints!
-            .add(TarotPlayerScore(player: player, score: calledPlayerScore));
+        playerPoints!.add(
+          TarotPlayerScore(player: player, score: calledPlayerScore),
+        );
       } else {
-        playerPoints!
-            .add(TarotPlayerScore(player: player, score: defenseScore));
+        playerPoints!.add(
+          TarotPlayerScore(player: player, score: defenseScore),
+        );
       }
     }
     index = tarotScore.rounds.length;
@@ -248,11 +251,12 @@ class TarotRound extends Round<TarotGameSetting> {
       'contract': EnumToString.convertToString(contract),
       'bonus': bonus != null ? EnumToString.convertToString(bonus) : null,
       'handful': handful != null ? EnumToString.convertToString(handful) : null,
-      'small_to_the_end': smallToTheEndTeam != null
-          ? EnumToString.convertToString(smallToTheEndTeam)
-          : null,
+      'small_to_the_end':
+          smallToTheEndTeam != null
+              ? EnumToString.convertToString(smallToTheEndTeam)
+              : null,
       'chelem': chelem != null ? EnumToString.convertToString(chelem) : null,
-      'player_points': playerPoints!.map((e) => e.toJSON()).toList()
+      'player_points': playerPoints!.map((e) => e.toJSON()).toList(),
     };
   }
 
@@ -268,10 +272,14 @@ class TarotRound extends Round<TarotGameSetting> {
       oudler: EnumToString.fromString(TarotOudler.values, json['oudler']),
       contract: EnumToString.fromString(TarotContract.values, json['contract']),
       bonus: EnumToString.fromString(TarotBonus.values, json['bonus'] ?? ''),
-      handful:
-          EnumToString.fromString(TarotHandful.values, json['handful'] ?? ''),
+      handful: EnumToString.fromString(
+        TarotHandful.values,
+        json['handful'] ?? '',
+      ),
       smallToTheEnd: EnumToString.fromString(
-          TarotTeam.values, json['small_to_the_end'] ?? ''),
+        TarotTeam.values,
+        json['small_to_the_end'] ?? '',
+      ),
       chelem: EnumToString.fromString(TarotChelem.values, json['chelem'] ?? ''),
     );
   }

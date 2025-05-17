@@ -9,7 +9,7 @@ import 'package:carg/styles/properties.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/screens/game_settings_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:carg/l10n/app_localizations.dart';
 
 class GameModePickerScreen extends StatelessWidget {
   const GameModePickerScreen({super.key});
@@ -20,25 +20,20 @@ class GameModePickerScreen extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
         child: AppBar(
-            backgroundColor: Theme.of(context).primaryColor,
-            foregroundColor: Theme.of(context).colorScheme.onPrimary,
-            leading: IconButton(
-              icon: const Icon(
-                Icons.close,
-              ),
-              onPressed: () => Navigator.pop(
-                context,
-              ),
+          backgroundColor: Theme.of(context).primaryColor,
+          foregroundColor: Theme.of(context).colorScheme.onPrimary,
+          leading: IconButton(
+            icon: const Icon(Icons.close),
+            onPressed: () => Navigator.pop(context),
+          ),
+          title: Hero(
+            tag: 'game_screen_title',
+            child: Text(
+              AppLocalizations.of(context)!.newGame,
+              style: CustomTextStyle.screenHeadLine1(context),
             ),
-            title: Hero(
-              tag: 'game_screen_title',
-              child: Text(
-                AppLocalizations.of(context)!.newGame,
-                style: CustomTextStyle.screenHeadLine1(
-                  context,
-                ),
-              ),
-            )),
+          ),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
@@ -46,27 +41,23 @@ class GameModePickerScreen extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text(AppLocalizations.of(context)!.gameSelection,
-                  style: const TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.bold)),
+              child: Text(
+                AppLocalizations.of(context)!.gameSelection,
+                style: const TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 8.0),
               child: Center(
                 child: Column(
                   children: <Widget>[
-                    _GameModeButton(
-                      game: CoincheBelote(),
-                    ),
-                    _GameModeButton(
-                      game: FrenchBelote(),
-                    ),
-                    _GameModeButton(
-                      game: ContreeBelote(),
-                    ),
-                    _GameModeButton(
-                      game: Tarot(),
-                    )
+                    _GameModeButton(game: CoincheBelote()),
+                    _GameModeButton(game: FrenchBelote()),
+                    _GameModeButton(game: ContreeBelote()),
+                    _GameModeButton(game: Tarot()),
                     //_GameModeButton(game: TarotGame())
                   ],
                 ),
@@ -101,19 +92,24 @@ class _GameModeButton extends StatelessWidget {
             ),
             shape: WidgetStateProperty.all<OutlinedBorder>(
               RoundedRectangleBorder(
-                borderRadius:
-                    BorderRadius.circular(CustomProperties.borderRadius),
+                borderRadius: BorderRadius.circular(
+                  CustomProperties.borderRadius,
+                ),
               ),
             ),
           ),
-          onPressed: () => {
-            Navigator.of(context).push(
-              CustomRouteLeftToRight(
-                builder: (context) =>
-                    GameSettingsScreen(game: game, title: game!.gameType.name),
-              ),
-            )
-          },
+          onPressed:
+              () => {
+                Navigator.of(context).push(
+                  CustomRouteLeftToRight(
+                    builder:
+                        (context) => GameSettingsScreen(
+                          game: game,
+                          title: game!.gameType.name,
+                        ),
+                  ),
+                ),
+              },
           child: Text(
             game!.gameType.name,
             style: const TextStyle(fontSize: 25),

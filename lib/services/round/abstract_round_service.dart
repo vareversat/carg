@@ -4,8 +4,11 @@ import 'package:carg/models/score/round/round.dart';
 import 'package:carg/models/score/score.dart';
 import 'package:carg/services/score/abstract_score_service.dart';
 
-abstract class AbstractRoundService<T extends Round, S extends Score,
-    G extends GameSetting> {
+abstract class AbstractRoundService<
+  T extends Round,
+  S extends Score,
+  G extends GameSetting
+> {
   final AbstractScoreService<S> abstractScoreService;
 
   AbstractRoundService({required this.abstractScoreService});

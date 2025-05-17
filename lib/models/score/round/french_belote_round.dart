@@ -30,7 +30,8 @@ class FrenchBeloteRound extends BeloteRound {
     } else {
       takerScore = roundScore(getBeloteRebeloteOfTeam(taker));
       defenderScore = roundScore(
-          BeloteRound.totalScore + getBeloteRebeloteOfTeam(defender));
+        BeloteRound.totalScore + getBeloteRebeloteOfTeam(defender),
+      );
     }
     notifyListeners();
   }
@@ -46,33 +47,44 @@ class FrenchBeloteRound extends BeloteRound {
   }
 
   factory FrenchBeloteRound.specialRound(
-      BeloteSpecialRound beloteSpecialRound, String playerID) {
+    BeloteSpecialRound beloteSpecialRound,
+    String playerID,
+  ) {
     return FrenchBeloteRound(
-        defenderScore: 0,
-        beloteSpecialRound: beloteSpecialRound,
-        beloteSpecialRoundPlayer: playerID);
+      defenderScore: 0,
+      beloteSpecialRound: beloteSpecialRound,
+      beloteSpecialRoundPlayer: playerID,
+    );
   }
 
   factory FrenchBeloteRound.fromJSON(Map<String, dynamic> json) {
     return FrenchBeloteRound(
-        index: json['index'],
-        cardColor:
-            EnumToString.fromString(CardColor.values, json['card_color']),
-        dixDeDer:
-            EnumToString.fromString(BeloteTeamEnum.values, json['dix_de_der']),
-        beloteRebelote: EnumToString.fromString(
-            BeloteTeamEnum.values, json['belote_rebelote'] ?? ''),
-        contractFulfilled: json['contract_fulfilled'],
-        taker: EnumToString.fromString(BeloteTeamEnum.values, json['taker']),
-        defender:
-            EnumToString.fromString(BeloteTeamEnum.values, json['defender']),
-        takerScore: json['taker_score'],
-        defenderScore: json['defender_score'],
-        usTrickScore: json['us_trick_score'],
-        themTrickScore: json['them_trick_score'],
-        beloteSpecialRound: EnumToString.fromString(
-            BeloteSpecialRound.values, json['belote_special_round'] ?? ''),
-        beloteSpecialRoundPlayer: json['belote_special_round_player']);
+      index: json['index'],
+      cardColor: EnumToString.fromString(CardColor.values, json['card_color']),
+      dixDeDer: EnumToString.fromString(
+        BeloteTeamEnum.values,
+        json['dix_de_der'],
+      ),
+      beloteRebelote: EnumToString.fromString(
+        BeloteTeamEnum.values,
+        json['belote_rebelote'] ?? '',
+      ),
+      contractFulfilled: json['contract_fulfilled'],
+      taker: EnumToString.fromString(BeloteTeamEnum.values, json['taker']),
+      defender: EnumToString.fromString(
+        BeloteTeamEnum.values,
+        json['defender'],
+      ),
+      takerScore: json['taker_score'],
+      defenderScore: json['defender_score'],
+      usTrickScore: json['us_trick_score'],
+      themTrickScore: json['them_trick_score'],
+      beloteSpecialRound: EnumToString.fromString(
+        BeloteSpecialRound.values,
+        json['belote_special_round'] ?? '',
+      ),
+      beloteSpecialRoundPlayer: json['belote_special_round_player'],
+    );
   }
 
   static List<FrenchBeloteRound> fromJSONList(List<dynamic> jsonList) {

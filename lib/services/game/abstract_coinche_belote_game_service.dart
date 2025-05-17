@@ -6,13 +6,18 @@ import 'package:carg/services/game/abstract_belote_game_service.dart';
 import 'package:carg/services/score/abstract_coinche_belote_score_service.dart';
 
 abstract class AbstractCoincheBeloteGameService
-    extends AbstractBeloteGameService<CoincheBelote, CoincheBeloteScore,
-        CoincheBeloteGameSetting> {
-  AbstractCoincheBeloteGameService(
-      {required AbstractCoincheBeloteGameRepository coincheBeloteGameRepository,
-      required AbstractCoincheBeloteScoreService coincheBeloteScoreService,
-      required super.teamService})
-      : super(
-            beloteGameRepository: coincheBeloteGameRepository,
-            beloteScoreService: coincheBeloteScoreService);
+    extends
+        AbstractBeloteGameService<
+          CoincheBelote,
+          CoincheBeloteScore,
+          CoincheBeloteGameSetting
+        > {
+  AbstractCoincheBeloteGameService({
+    required AbstractCoincheBeloteGameRepository coincheBeloteGameRepository,
+    required AbstractCoincheBeloteScoreService coincheBeloteScoreService,
+    required super.teamService,
+  }) : super(
+         beloteGameRepository: coincheBeloteGameRepository,
+         beloteScoreService: coincheBeloteScoreService,
+       );
 }

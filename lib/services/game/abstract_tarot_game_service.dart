@@ -12,11 +12,12 @@ abstract class AbstractTarotGameService
   final AbstractTarotGameRepository tarotGameRepository;
   final AbstractPlayerService playerService;
 
-  AbstractTarotGameService(
-      {required this.tarotScoreService,
-      required this.tarotGameRepository,
-      required this.playerService})
-      : super(
-            gameRepository: tarotGameRepository,
-            scoreService: tarotScoreService);
+  AbstractTarotGameService({
+    required this.tarotScoreService,
+    required this.tarotGameRepository,
+    required this.playerService,
+  }) : super(
+         gameRepository: tarotGameRepository,
+         scoreService: tarotScoreService,
+       );
 }

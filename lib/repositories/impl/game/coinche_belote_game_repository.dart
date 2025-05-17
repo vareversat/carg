@@ -5,17 +5,21 @@ import 'package:carg/repositories/game/abstract_coinche_belote_game_repository.d
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CoincheBeloteGameRepository extends AbstractCoincheBeloteGameRepository {
-  CoincheBeloteGameRepository(
-      {String? database,
-      String? environment,
-      FirebaseFirestore? provider,
-      super.lastFetchGameDocument})
-      : super(
-            database: database ?? Const.coincheBeloteGameDB,
-            environment: environment ??
-                const String.fromEnvironment(Const.dartVarEnv,
-                    defaultValue: Const.defaultEnv),
-            provider: provider ?? FirebaseFirestore.instance);
+  CoincheBeloteGameRepository({
+    String? database,
+    String? environment,
+    FirebaseFirestore? provider,
+    super.lastFetchGameDocument,
+  }) : super(
+         database: database ?? Const.coincheBeloteGameDB,
+         environment:
+             environment ??
+             const String.fromEnvironment(
+               Const.dartVarEnv,
+               defaultValue: Const.defaultEnv,
+             ),
+         provider: provider ?? FirebaseFirestore.instance,
+       );
 
   @override
   Future<CoincheBelote?> get(String id) async {
@@ -34,25 +38,29 @@ class CoincheBeloteGameRepository extends AbstractCoincheBeloteGameRepository {
 
   @override
   Future<List<CoincheBelote>> getAllGamesOfPlayer(
-      String playerId, int pageSize) async {
+    String playerId,
+    int pageSize,
+  ) async {
     try {
       var games = <CoincheBelote>[];
       QuerySnapshot<Map<String, dynamic>> querySnapshot;
       if (lastFetchGameDocument != null) {
-        querySnapshot = await provider
-            .collection(connectionString)
-            .where('players.player_list', arrayContains: playerId)
-            .orderBy('starting_date', descending: true)
-            .startAfterDocument(lastFetchGameDocument!)
-            .limit(pageSize)
-            .get();
+        querySnapshot =
+            await provider
+                .collection(connectionString)
+                .where('players.player_list', arrayContains: playerId)
+                .orderBy('starting_date', descending: true)
+                .startAfterDocument(lastFetchGameDocument!)
+                .limit(pageSize)
+                .get();
       } else {
-        querySnapshot = await provider
-            .collection(connectionString)
-            .where('players.player_list', arrayContains: playerId)
-            .orderBy('starting_date', descending: true)
-            .limit(pageSize)
-            .get();
+        querySnapshot =
+            await provider
+                .collection(connectionString)
+                .where('players.player_list', arrayContains: playerId)
+                .orderBy('starting_date', descending: true)
+                .limit(pageSize)
+                .get();
       }
       if (querySnapshot.docs.isEmpty) {
         return games;

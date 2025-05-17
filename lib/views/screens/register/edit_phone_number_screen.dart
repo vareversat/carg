@@ -3,7 +3,7 @@ import 'package:carg/services/auth/auth_service.dart';
 import 'package:carg/views/widgets/register/register_phone_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:carg/l10n/app_localizations.dart';
 import 'package:flutter_svg/svg.dart';
 
 class EditPhoneNumberScreen extends StatelessWidget {
@@ -21,9 +21,7 @@ class EditPhoneNumberScreen extends StatelessWidget {
                 const SizedBox(height: 30),
                 SizedBox(
                   height: 150,
-                  child: SvgPicture.asset(
-                    Const.svgLogoPath,
-                  ),
+                  child: SvgPicture.asset(Const.svgLogoPath),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(35),
@@ -38,7 +36,7 @@ class EditPhoneNumberScreen extends StatelessWidget {
                 ),
                 const RegisterPhoneWidget(
                   credentialVerificationType: CredentialVerificationType.EDIT,
-                )
+                ),
               ],
             ),
           ),
