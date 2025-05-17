@@ -7,19 +7,21 @@ import 'package:carg/repositories/score/abstract_contree_belote_score_repository
 import 'package:carg/services/score/abstract_contree_belote_score_service.dart';
 
 class ContreeBeloteScoreService extends AbstractContreeBeloteScoreService {
-  ContreeBeloteScoreService(
-      {AbstractContreeBeloteScoreRepository? contreeBeloteScoreRepository})
-      : super(
-            contreeBeloteScoreRepository:
-                contreeBeloteScoreRepository ?? ContreeBeloteScoreRepository());
+  ContreeBeloteScoreService({
+    AbstractContreeBeloteScoreRepository? contreeBeloteScoreRepository,
+  }) : super(
+         contreeBeloteScoreRepository:
+             contreeBeloteScoreRepository ?? ContreeBeloteScoreRepository(),
+       );
 
   @override
   Future<ContreeBeloteScore?> generateNewScore(String gameId) async {
     var coincheScore = ContreeBeloteScore(
-        usTotalPoints: 0,
-        themTotalPoints: 0,
-        game: gameId,
-        rounds: <ContreeBeloteRound>[]);
+      usTotalPoints: 0,
+      themTotalPoints: 0,
+      game: gameId,
+      rounds: <ContreeBeloteRound>[],
+    );
     try {
       await beloteScoreRepository.create(coincheScore);
     } on RepositoryException catch (e) {

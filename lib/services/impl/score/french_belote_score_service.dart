@@ -7,19 +7,21 @@ import 'package:carg/repositories/score/abstract_french_belote_score_repository.
 import 'package:carg/services/score/abstract_french_belote_score_service.dart';
 
 class FrenchBeloteScoreService extends AbstractFrenchBeloteScoreService {
-  FrenchBeloteScoreService(
-      {AbstractFrenchBeloteScoreRepository? frenchBeloteScoreRepository})
-      : super(
-            frenchBeloteScoreRepository:
-                frenchBeloteScoreRepository ?? FrenchBeloteScoreRepository());
+  FrenchBeloteScoreService({
+    AbstractFrenchBeloteScoreRepository? frenchBeloteScoreRepository,
+  }) : super(
+         frenchBeloteScoreRepository:
+             frenchBeloteScoreRepository ?? FrenchBeloteScoreRepository(),
+       );
 
   @override
   Future<FrenchBeloteScore?> generateNewScore(String gameId) async {
     var coincheScore = FrenchBeloteScore(
-        usTotalPoints: 0,
-        themTotalPoints: 0,
-        game: gameId,
-        rounds: <FrenchBeloteRound>[]);
+      usTotalPoints: 0,
+      themTotalPoints: 0,
+      game: gameId,
+      rounds: <FrenchBeloteRound>[],
+    );
     try {
       await beloteScoreRepository.create(coincheScore);
     } on RepositoryException catch (e) {

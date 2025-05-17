@@ -9,24 +9,26 @@ class Team extends CargPlayerObject {
   List<dynamic>? players;
   List<dynamic>? games;
 
-  Team(
-      {super.id,
-      this.playedGames = 0,
-      this.wonGames = 0,
-      this.name,
-      this.players,
-      super.gameStatsList,
-      this.games});
+  Team({
+    super.id,
+    this.playedGames = 0,
+    this.wonGames = 0,
+    this.name,
+    this.players,
+    super.gameStatsList,
+    this.games,
+  });
 
   factory Team.fromJSON(Map<String, dynamic>? json, String id) {
     return Team(
-        id: id,
-        playedGames: json?['played_games'],
-        wonGames: json?['won_games'] ?? 0,
-        name: json?['name'],
-        players: json?['players'],
-        gameStatsList: GameStats.fromJSONList(json?['game_stats']),
-        games: json?['games']);
+      id: id,
+      playedGames: json?['played_games'],
+      wonGames: json?['won_games'] ?? 0,
+      name: json?['name'],
+      players: json?['players'],
+      gameStatsList: GameStats.fromJSONList(json?['game_stats']),
+      games: json?['games'],
+    );
   }
 
   @override
@@ -37,7 +39,7 @@ class Team extends CargPlayerObject {
       'won_games': wonGames,
       'name': name,
       'players': players,
-      'games': games
+      'games': games,
     };
   }
 

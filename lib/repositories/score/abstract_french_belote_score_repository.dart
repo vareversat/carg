@@ -3,9 +3,10 @@ import 'package:carg/repositories/score/abstract_belote_score_repository.dart';
 
 abstract class AbstractFrenchBeloteScoreRepository
     extends AbstractBeloteScoreRepository<FrenchBeloteScore> {
-  AbstractFrenchBeloteScoreRepository(
-      {required super.database,
-      required super.environment,
-      required super.provider,
-      super.lastFetchGameDocument});
+  AbstractFrenchBeloteScoreRepository({
+    required super.database,
+    required super.environment,
+    required super.provider,
+    super.lastFetchGameDocument,
+  });
 }

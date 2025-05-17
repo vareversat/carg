@@ -8,9 +8,10 @@ abstract class AbstractTeamService extends BaseAbstractService<Team> {
   final AbstractTeamRepository teamRepository;
   final AbstractPlayerService playerService;
 
-  AbstractTeamService(
-      {required this.teamRepository, required this.playerService})
-      : super(repository: teamRepository);
+  AbstractTeamService({
+    required this.teamRepository,
+    required this.playerService,
+  }) : super(repository: teamRepository);
 
   /// Get all the paginated teams of a player via his/her/them [playerId]
   /// Return the list of Games

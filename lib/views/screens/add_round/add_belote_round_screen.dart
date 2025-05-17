@@ -13,7 +13,7 @@ import 'package:carg/views/screens/add_round/widget/team_game/contract_contree_w
 import 'package:carg/views/screens/add_round/widget/team_game/taker_team_widget.dart';
 import 'package:carg/views/screens/add_round/widget/team_game/trick_points_belote_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:carg/l10n/app_localizations.dart';
 
 class AddBeloteRoundScreen extends StatelessWidget {
   final Belote? beloteGame;
@@ -21,17 +21,20 @@ class AddBeloteRoundScreen extends StatelessWidget {
   final bool isEditing;
   final AbstractRoundService roundService;
 
-  const AddBeloteRoundScreen(
-      {super.key,
-      this.beloteGame,
-      required this.beloteRound,
-      this.isEditing = false,
-      required this.roundService});
+  const AddBeloteRoundScreen({
+    super.key,
+    this.beloteGame,
+    required this.beloteRound,
+    this.isEditing = false,
+    required this.roundService,
+  });
 
   void _setupRound() async {
     if (isEditing) {
       await roundService.editLastRoundOfScoreByGameId(
-          beloteGame!.id, beloteRound);
+        beloteGame!.id,
+        beloteRound,
+      );
     } else {
       await roundService.addRoundToGame(beloteGame!.id, beloteRound);
     }
@@ -44,9 +47,7 @@ class AddBeloteRoundScreen extends StatelessWidget {
         backgroundColor: Theme.of(context).primaryColor,
         foregroundColor: Theme.of(context).colorScheme.onPrimary,
         leading: IconButton(
-          icon: const Icon(
-            Icons.cancel,
-          ),
+          icon: const Icon(Icons.cancel),
           onPressed: () => Navigator.pop(context),
         ),
         title: const ScreenTitleWidget(),
@@ -60,18 +61,19 @@ class AddBeloteRoundScreen extends StatelessWidget {
                 const Divider(),
                 if (beloteRound! is CoincheBeloteRound)
                   ContractCoincheWidget(
-                      coincheRound: beloteRound! as CoincheBeloteRound)
+                    coincheRound: beloteRound! as CoincheBeloteRound,
+                  )
                 else if (beloteRound! is FrenchBeloteRound)
                   ContractBeloteWidget(
-                      frenchBeloteRound: beloteRound! as FrenchBeloteRound)
+                    frenchBeloteRound: beloteRound! as FrenchBeloteRound,
+                  )
                 else if (beloteRound! is ContreeBeloteRound)
                   ContractContreeWidget(
-                      contreeRound: beloteRound! as ContreeBeloteRound),
+                    contreeRound: beloteRound! as ContreeBeloteRound,
+                  ),
                 const Divider(),
                 TrickPointsBeloteWidget(round: beloteRound!),
-                const SizedBox(
-                  height: 15,
-                ),
+                const SizedBox(height: 15),
               ],
             ),
           ),
@@ -80,20 +82,14 @@ class AddBeloteRoundScreen extends StatelessWidget {
             decoration: BoxDecoration(
               color: Theme.of(context).primaryColor,
               borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(
-                  CustomProperties.borderRadius,
-                ),
-                topRight: Radius.circular(
-                  CustomProperties.borderRadius,
-                ),
+                topLeft: Radius.circular(CustomProperties.borderRadius),
+                topRight: Radius.circular(CustomProperties.borderRadius),
               ),
             ),
             child: Column(
               children: [
                 RealTimeDisplayWidget(round: beloteRound!),
-                const SizedBox(
-                  height: 10,
-                ),
+                const SizedBox(height: 10),
                 Center(
                   child: SizedBox(
                     width: double.infinity,
@@ -105,9 +101,11 @@ class AddBeloteRoundScreen extends StatelessWidget {
                         child: ElevatedButton.icon(
                           style: ButtonStyle(
                             backgroundColor: WidgetStateProperty.all<Color>(
-                                Theme.of(context).colorScheme.onPrimary),
+                              Theme.of(context).colorScheme.onPrimary,
+                            ),
                             foregroundColor: WidgetStateProperty.all<Color>(
-                                Theme.of(context).primaryColor),
+                              Theme.of(context).primaryColor,
+                            ),
                             shape: WidgetStateProperty.all<OutlinedBorder>(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(
@@ -116,15 +114,13 @@ class AddBeloteRoundScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                          onPressed: () =>
-                              {_setupRound(), Navigator.pop(context)},
+                          onPressed:
+                              () => {_setupRound(), Navigator.pop(context)},
                           label: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
                               AppLocalizations.of(context)!.validate,
-                              style: const TextStyle(
-                                fontSize: 23,
-                              ),
+                              style: const TextStyle(fontSize: 23),
                             ),
                           ),
                           icon: const Icon(Icons.check, size: 30),
@@ -135,7 +131,7 @@ class AddBeloteRoundScreen extends StatelessWidget {
                 ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );

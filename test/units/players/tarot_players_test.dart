@@ -3,7 +3,7 @@ import 'package:carg/models/players/tarot_players.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:carg/l10n/app_localizations.dart';
 
 // testWidgets is used instead on test because we need a valid context to test these widgets
 void main() {

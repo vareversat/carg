@@ -6,7 +6,7 @@ import 'package:carg/views/screens/user_screen.dart';
 import 'package:carg/views/widgets/nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:carg/l10n/app_localizations.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home';
@@ -27,7 +27,9 @@ class _HomeScreenState extends State<HomeScreen> {
     const UserScreen(),
     const GameListScreen(),
     PlayerListScreen(
-        teamService: TeamService(), playerService: PlayerService()),
+      teamService: TeamService(),
+      playerService: PlayerService(),
+    ),
   ];
 
   _HomeScreenState(this._currentIndex);
@@ -41,9 +43,10 @@ class _HomeScreenState extends State<HomeScreen> {
         showElevation: true,
         itemCornerRadius: 8,
         curve: Curves.decelerate,
-        onItemSelected: (index) => setState(() {
-          _currentIndex = index;
-        }),
+        onItemSelected:
+            (index) => setState(() {
+              _currentIndex = index;
+            }),
         items: [
           BottomNavyBarItem(
             icon: const Icon(Icons.account_circle),

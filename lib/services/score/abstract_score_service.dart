@@ -9,7 +9,7 @@ abstract class AbstractScoreService<T extends Score>
   final AbstractScoreRepository<T> scoreRepository;
 
   AbstractScoreService({required this.scoreRepository})
-      : super(repository: scoreRepository);
+    : super(repository: scoreRepository);
 
   /// Get a score by a [gameId]
   /// Return a score or null if not found
@@ -22,7 +22,8 @@ abstract class AbstractScoreService<T extends Score>
       return score;
     } on RepositoryException catch (e) {
       throw ServiceException(
-          'Error on getting the score by game ID [$gameId] : ${e.message}');
+        'Error on getting the score by game ID [$gameId] : ${e.message}',
+      );
     }
   }
 
@@ -37,7 +38,8 @@ abstract class AbstractScoreService<T extends Score>
       return scoreStream;
     } on RepositoryException catch (e) {
       throw ServiceException(
-          'Error on streaming the score by game ID [$gameId] : ${e.message}');
+        'Error on streaming the score by game ID [$gameId] : ${e.message}',
+      );
     }
   }
 
@@ -50,7 +52,8 @@ abstract class AbstractScoreService<T extends Score>
       await scoreRepository.deleteScoreByGame(gameId);
     } on RepositoryException catch (e) {
       throw ServiceException(
-          'Error on deleting a score by game ID [$gameId] : ${e.message}');
+        'Error on deleting a score by game ID [$gameId] : ${e.message}',
+      );
     }
   }
 }

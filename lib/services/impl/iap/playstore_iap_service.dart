@@ -22,20 +22,22 @@ class PlayStoreIAPService extends AbstractIAPService {
   late final ap.AndroidPublisherApi androidPublisher;
   late final AbstractIAPRepository iapRepository;
 
-  PlayStoreIAPService(
-      {ap.AndroidPublisherApi? androidPublisher,
-      AbstractIAPRepository? iapRepository}) {
+  PlayStoreIAPService({
+    ap.AndroidPublisherApi? androidPublisher,
+    AbstractIAPRepository? iapRepository,
+  }) {
     this.iapRepository = iapRepository ?? IAPRepository();
     this.androidPublisher =
         androidPublisher ?? ap.AndroidPublisherApi(Client());
   }
 
   Future<ap.AndroidPublisherApi?> _getApiPublisherAccess() async {
-    final googleApiConfig = jsonDecode(await rootBundle.loadString(
-      Const.googleApiKey,
-    ));
-    final credentials =
-        auth.ServiceAccountCredentials.fromJson(googleApiConfig);
+    final googleApiConfig = jsonDecode(
+      await rootBundle.loadString(Const.googleApiKey),
+    );
+    final credentials = auth.ServiceAccountCredentials.fromJson(
+      googleApiConfig,
+    );
     const scopes = [ap.AndroidPublisherApi.androidpublisherScope];
     var client = await auth.clientViaServiceAccount(credentials, scopes);
     return ap.AndroidPublisherApi(client);
@@ -51,10 +53,11 @@ class PlayStoreIAPService extends AbstractIAPService {
   }
 
   @override
-  Future<bool> handleNonSubscription(
-      {required String? userId,
-      required ProductData productData,
-      required String token}) async {
+  Future<bool> handleNonSubscription({
+    required String? userId,
+    required ProductData productData,
+    required String token,
+  }) async {
     try {
       // Verify purchase with Google
       var apiPublisherAccess = await _getApiPublisherAccess();
@@ -62,16 +65,21 @@ class PlayStoreIAPService extends AbstractIAPService {
         return false;
       }
       // Fetch the purchase
-      var productPurchases = await apiPublisherAccess.purchases.products
-          .get(Const.packageId, productData.productId, token);
+      var productPurchases = await apiPublisherAccess.purchases.products.get(
+        Const.packageId,
+        productData.productId,
+        token,
+      );
       developer.log('Google API call : OK', name: 'carg.iap-playstore');
       purchaseStatus += "\nValidation auprès de Google effectuée ✔️";
       notifyListeners();
 
       // Make sure an order id exists
       if (productPurchases.orderId == null) {
-        developer.log('Could not handle purchase without order id',
-            name: 'carg.iap-playstore');
+        developer.log(
+          'Could not handle purchase without order id',
+          name: 'carg.iap-playstore',
+        );
         return false;
       }
 
@@ -103,14 +111,17 @@ class PlayStoreIAPService extends AbstractIAPService {
       return true;
     } on ap.DetailedApiRequestError catch (e) {
       developer.log(
-          'Error on handle NonSubscription: $e\n'
-          'JSON: ${e.jsonResponse}',
-          name: 'carg.iap-playstore');
+        'Error on handle NonSubscription: $e\n'
+        'JSON: ${e.jsonResponse}',
+        name: 'carg.iap-playstore',
+      );
       purchaseStatus += "\nErreur durant le traitement ❌";
       throw IAPException('Error on handle NonSubscription : ${e.jsonResponse}');
     } catch (e) {
-      developer.log('Error on handle NonSubscription: $e\n',
-          name: 'carg.iap-playstore');
+      developer.log(
+        'Error on handle NonSubscription: $e\n',
+        name: 'carg.iap-playstore',
+      );
       purchaseStatus += "\nErreur durant le traitement ❌";
       throw IAPException('Error on handle NonSubscription : ${e.toString()}');
     }
@@ -127,9 +138,10 @@ class PlayStoreIAPService extends AbstractIAPService {
     required String token,
   }) async {
     developer.log(
-        'GooglePlayPurchaseHandler.handleSubscription'
-        '($userId, ${productData.productId}, ${token.substring(0, 5)}...)',
-        name: 'carg.iap-playstore');
+      'GooglePlayPurchaseHandler.handleSubscription'
+      '($userId, ${productData.productId}, ${token.substring(0, 5)}...)',
+      name: 'carg.iap-playstore',
+    );
 
     try {
       // Verify purchase with Google
@@ -143,8 +155,10 @@ class PlayStoreIAPService extends AbstractIAPService {
 
       // Make sure an order id exists
       if (productPurchases.orderId == null) {
-        developer.log('Could not handle purchase without order id',
-            name: 'carg.iap-playstore');
+        developer.log(
+          'Could not handle purchase without order id',
+          name: 'carg.iap-playstore',
+        );
         return false;
       }
       final orderId = _extractOrderId(productPurchases.orderId!);
@@ -173,13 +187,16 @@ class PlayStoreIAPService extends AbstractIAPService {
       return true;
     } on ap.DetailedApiRequestError catch (e) {
       developer.log(
-          'Error on handle Subscription: $e\n'
-          'JSON: ${e.jsonResponse}',
-          name: 'carg.iap-playstore');
+        'Error on handle Subscription: $e\n'
+        'JSON: ${e.jsonResponse}',
+        name: 'carg.iap-playstore',
+      );
       throw IAPException('Error on handle Subscription : ${e.jsonResponse}');
     } catch (e) {
-      developer.log('Error on handle NonSubscription: $e\n',
-          name: 'carg.iap-playstore');
+      developer.log(
+        'Error on handle NonSubscription: $e\n',
+        name: 'carg.iap-playstore',
+      );
       throw IAPException('Error on handle Subscription : ${e.toString()}');
     }
   }

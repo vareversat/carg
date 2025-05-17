@@ -5,17 +5,21 @@ import 'package:carg/repositories/game/abstract_tarot_game_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class TarotGameRepository extends AbstractTarotGameRepository {
-  TarotGameRepository(
-      {String? database,
-      String? environment,
-      FirebaseFirestore? provider,
-      super.lastFetchGameDocument})
-      : super(
-            database: database ?? Const.tarotGameDB,
-            environment: environment ??
-                const String.fromEnvironment(Const.dartVarEnv,
-                    defaultValue: Const.defaultEnv),
-            provider: provider ?? FirebaseFirestore.instance);
+  TarotGameRepository({
+    String? database,
+    String? environment,
+    FirebaseFirestore? provider,
+    super.lastFetchGameDocument,
+  }) : super(
+         database: database ?? Const.tarotGameDB,
+         environment:
+             environment ??
+             const String.fromEnvironment(
+               Const.dartVarEnv,
+               defaultValue: Const.defaultEnv,
+             ),
+         provider: provider ?? FirebaseFirestore.instance,
+       );
 
   @override
   Future<Tarot?> get(String id) async {
@@ -38,20 +42,22 @@ class TarotGameRepository extends AbstractTarotGameRepository {
       var games = <Tarot>[];
       QuerySnapshot<Map<String, dynamic>> querySnapshot;
       if (lastFetchGameDocument != null) {
-        querySnapshot = await provider
-            .collection(connectionString)
-            .where('players.player_list', arrayContains: playerId)
-            .orderBy('starting_date', descending: true)
-            .startAfterDocument(lastFetchGameDocument!)
-            .limit(pageSize)
-            .get();
+        querySnapshot =
+            await provider
+                .collection(connectionString)
+                .where('players.player_list', arrayContains: playerId)
+                .orderBy('starting_date', descending: true)
+                .startAfterDocument(lastFetchGameDocument!)
+                .limit(pageSize)
+                .get();
       } else {
-        querySnapshot = await provider
-            .collection(connectionString)
-            .where('players.player_list', arrayContains: playerId)
-            .orderBy('starting_date', descending: true)
-            .limit(pageSize)
-            .get();
+        querySnapshot =
+            await provider
+                .collection(connectionString)
+                .where('players.player_list', arrayContains: playerId)
+                .orderBy('starting_date', descending: true)
+                .limit(pageSize)
+                .get();
       }
       if (querySnapshot.docs.isEmpty) {
         return games;

@@ -6,7 +6,7 @@ import 'package:carg/views/widgets/ad_banner_widget.dart';
 import 'package:carg/views/widgets/error_message_widget.dart';
 import 'package:carg/views/widgets/players/player_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:carg/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 class PlayerListTab extends StatefulWidget {
@@ -60,15 +60,18 @@ class _PlayerListTabWidget extends State<PlayerListTab> {
                 SizedBox(
                   width: deviceSize.width * 0.5,
                   child: TextFormField(
-                      onFieldSubmitted: (term) => _searchPlayer(),
-                      controller: textEditingController,
-                      textInputAction: TextInputAction.search,
-                      style: const TextStyle(
-                          fontSize: 25, fontWeight: FontWeight.bold),
-                      decoration: InputDecoration(
-                        enabledBorder: InputBorder.none,
-                        labelText: '${AppLocalizations.of(context)!.search}...',
-                      )),
+                    onFieldSubmitted: (term) => _searchPlayer(),
+                    controller: textEditingController,
+                    textInputAction: TextInputAction.search,
+                    style: const TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    decoration: InputDecoration(
+                      enabledBorder: InputBorder.none,
+                      labelText: '${AppLocalizations.of(context)!.search}...',
+                    ),
+                  ),
                 ),
                 MaterialButton(
                   key: const ValueKey('resetSearchButton'),
@@ -79,17 +82,11 @@ class _PlayerListTabWidget extends State<PlayerListTab> {
                   shape: const CircleBorder(),
                   child: const Icon(Icons.close),
                 ),
-                SizedBox(
-                  width: 50,
-                  child: Image.asset(Const.algoliaLogo),
-                ),
+                SizedBox(width: 50, child: Image.asset(Const.algoliaLogo)),
               ],
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.all(4.0),
-            child: AdBannerWidget(),
-          ),
+          const Padding(padding: EdgeInsets.all(4.0), child: AdBannerWidget()),
           Flexible(
             child: FutureBuilder<List<Player>>(
               builder: (context, snapshot) {
@@ -106,33 +103,40 @@ class _PlayerListTabWidget extends State<PlayerListTab> {
                       key: const ValueKey('noPlayersMessage'),
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Text('${AppLocalizations.of(context)!.noPlayerYet} ',
-                            style: const TextStyle(fontSize: 18)),
+                        Text(
+                          '${AppLocalizations.of(context)!.noPlayerYet} ',
+                          style: const TextStyle(fontSize: 18),
+                        ),
                         const Icon(Icons.person),
                       ],
                     ),
                   );
                 }
                 return ListView.builder(
-                    padding: const EdgeInsets.all(10),
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return ChangeNotifierProvider.value(
-                        value: snapshot.data![index],
-                        child: Consumer<Player>(
-                          builder: (context, playerData, child) => PlayerWidget(
-                            player: playerData,
-                            key: ValueKey("playerWidget-$index"),
-                          ),
-                        ),
-                      );
-                    });
+                  padding: const EdgeInsets.all(10),
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return ChangeNotifierProvider.value(
+                      value: snapshot.data![index],
+                      child: Consumer<Player>(
+                        builder:
+                            (context, playerData, child) => PlayerWidget(
+                              player: playerData,
+                              key: ValueKey("playerWidget-$index"),
+                            ),
+                      ),
+                    );
+                  },
+                );
               },
               future: widget.playerService.searchPlayers(
                 query: searchQuery,
                 myPlayers: widget.myPlayers,
-                currentPlayer: Provider.of<AuthService>(context, listen: false)
-                    .getPlayer(),
+                currentPlayer:
+                    Provider.of<AuthService>(
+                      context,
+                      listen: false,
+                    ).getPlayer(),
               ),
             ),
           ),

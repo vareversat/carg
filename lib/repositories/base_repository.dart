@@ -9,11 +9,12 @@ abstract class BaseRepository<T extends CargObject> {
   final FirebaseFirestore provider;
   late final String connectionString;
 
-  BaseRepository(
-      {required this.database,
-      required this.environment,
-      required this.provider,
-      this.lastFetchGameDocument}) {
+  BaseRepository({
+    required this.database,
+    required this.environment,
+    required this.provider,
+    this.lastFetchGameDocument,
+  }) {
     connectionString = '$database-$environment';
   }
 
@@ -35,10 +36,9 @@ abstract class BaseRepository<T extends CargObject> {
   /// Take a [T] and return nothing
   Future<void> updateField(String id, String fieldName, dynamic value) async {
     try {
-      await provider
-          .collection(connectionString)
-          .doc(id)
-          .update({fieldName: value});
+      await provider.collection(connectionString).doc(id).update({
+        fieldName: value,
+      });
     } on FirebaseException catch (e) {
       throw RepositoryException(e.message!);
     }
@@ -71,8 +71,9 @@ abstract class BaseRepository<T extends CargObject> {
   /// Take a [T] and return the ID of the new document
   Future<String> create(T t) async {
     try {
-      var documentReference =
-          await provider.collection(connectionString).add(t.toJSON());
+      var documentReference = await provider
+          .collection(connectionString)
+          .add(t.toJSON());
       return documentReference.id;
     } on FirebaseException catch (e) {
       throw RepositoryException(e.message!);

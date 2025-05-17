@@ -1,6 +1,6 @@
 // ignore_for_file: constant_identifier_names
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:carg/l10n/app_localizations.dart';
 
 enum CardColor { HEART, DIAMOND, CLUB, SPADE, ALL_TRUMP, NO_TRUMP }
 

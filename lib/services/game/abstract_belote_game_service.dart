@@ -9,20 +9,23 @@ import 'package:carg/services/score/abstract_belote_score_service.dart';
 import 'package:carg/services/team/abstract_team_service.dart';
 
 abstract class AbstractBeloteGameService<
-    T extends Belote,
-    P extends BeloteScore,
-    S extends BeloteGameSetting> extends AbstractGameService<T, P, S> {
+  T extends Belote,
+  P extends BeloteScore,
+  S extends BeloteGameSetting
+>
+    extends AbstractGameService<T, P, S> {
   final AbstractBeloteGameRepository<T> beloteGameRepository;
   final AbstractBeloteScoreService<P> beloteScoreService;
   final AbstractTeamService teamService;
 
-  AbstractBeloteGameService(
-      {required this.beloteScoreService,
-      required this.beloteGameRepository,
-      required this.teamService})
-      : super(
-            gameRepository: beloteGameRepository,
-            scoreService: beloteScoreService);
+  AbstractBeloteGameService({
+    required this.beloteScoreService,
+    required this.beloteGameRepository,
+    required this.teamService,
+  }) : super(
+         gameRepository: beloteGameRepository,
+         scoreService: beloteScoreService,
+       );
 
   @override
   Future<void> endAGame(T? game, DateTime? endingDate) async {
@@ -35,10 +38,14 @@ abstract class AbstractBeloteGameService<
       if (score != null) {
         if (score.themTotalPoints > score.usTotalPoints) {
           winners = await teamService.incrementWonGamesByOne(
-              game.players!.them, game);
+            game.players!.them,
+            game,
+          );
         } else if (score.themTotalPoints < score.usTotalPoints) {
-          winners =
-              await teamService.incrementWonGamesByOne(game.players!.us, game);
+          winners = await teamService.incrementWonGamesByOne(
+            game.players!.us,
+            game,
+          );
         } else {
           throw ServiceException('TIE. Please play another round');
         }
@@ -47,32 +54,42 @@ abstract class AbstractBeloteGameService<
         final updatePart = {
           'is_ended': true,
           'ending_date': (endingDate ?? DateTime.now()).toString(),
-          'winners': winners.id
+          'winners': winners.id,
         };
         await beloteGameRepository.partialUpdate(game, updatePart);
       } else {
         throw ServiceException(
-            'Error while ending the Game ${game.id} : no score linked to this game');
+          'Error while ending the Game ${game.id} : no score linked to this game',
+        );
       }
     } on Exception catch (e) {
       throw ServiceException(
-          'Error while ending the Game ${game.id} : ${e.toString()}');
+        'Error while ending the Game ${game.id} : ${e.toString()}',
+      );
     }
   }
 
   @override
   Future<T> createGameWithPlayerList(
-      List<String?> playerListForOrder,
-      List<String?> playerListForTeam,
-      DateTime? startingDate,
-      S settings) async {
+    List<String?> playerListForOrder,
+    List<String?> playerListForTeam,
+    DateTime? startingDate,
+    S settings,
+  ) async {
     try {
       var usTeam = await teamService.getTeamByPlayers(
-          playerListForTeam.sublist(0, 2).map((e) => e).toList());
+        playerListForTeam.sublist(0, 2).map((e) => e).toList(),
+      );
       var themTeam = await teamService.getTeamByPlayers(
-          playerListForTeam.sublist(2, 4).map((e) => e).toList());
+        playerListForTeam.sublist(2, 4).map((e) => e).toList(),
+      );
       var game = await generateNewGame(
-          usTeam, themTeam, playerListForOrder, startingDate, settings);
+        usTeam,
+        themTeam,
+        playerListForOrder,
+        startingDate,
+        settings,
+      );
       if (game.id != null) {
         await beloteScoreService.generateNewScore(game.id!);
         return game;
@@ -85,6 +102,11 @@ abstract class AbstractBeloteGameService<
   }
 
   /// Create a new Belote object with the correct type
-  Future<T> generateNewGame(Team us, Team them,
-      List<String?>? playerListForOrder, DateTime? startingDate, S settings);
+  Future<T> generateNewGame(
+    Team us,
+    Team them,
+    List<String?>? playerListForOrder,
+    DateTime? startingDate,
+    S settings,
+  );
 }
