@@ -43,7 +43,7 @@ jobs:
     secrets: inherit
 
   release:
-    needs: [ fastlane ]
+    needs: [ flutter-publish ]
     uses: vareversat/github-actions/.github/workflows/global.release.yml@v1.4.0
     with:
       prerelease_suffix: 'beta'
