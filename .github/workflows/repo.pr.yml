@@ -1,0 +1,13 @@
+name: Workflow - Label PR
+
+on:
+  - pull_request_target
+
+concurrency:
+  group: ci-${{ github.ref }}-pr
+  cancel-in-progress: true
+
+jobs:
+  pr:
+    uses: vareversat/github-actions/.github/workflows/global.labeler.yml@v1.4.0
+    secrets: inherit
