@@ -30,7 +30,7 @@ jobs:
       - name: 'Generate changelog'
         run: ./.github/scripts/generate_changelog.sh
       - name: 'Setup Ruby'
-        uses: ruby/setup-ruby@v1.204.0
+        uses: ruby/setup-ruby@v1.241.0
         with:
           ruby-version: '3.3.6'
           bundler-cache: true
