@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'firebase_functions/**'
+      - 'firebase_functions/functions/**'
       - '.github/workflows/repo.push-functions.yml'
 
 concurrency:
