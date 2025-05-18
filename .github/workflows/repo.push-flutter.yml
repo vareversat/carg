@@ -4,6 +4,8 @@ on:
   push:
     paths-ignore:
       - 'firebase_functions/**'
+      - 'firebase_functions/functions/**'
+      - '.github/workflows/repo.push-functions.yml'
       - 'page/**'
 
 concurrency:
