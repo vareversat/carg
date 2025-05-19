@@ -2,6 +2,8 @@ name: Workflow - Lint, Test and Build Flutter project
 
 on:
   push:
+    branches-ignore:
+      - 'refs/tags/*'
     paths-ignore:
       - 'firebase_functions/**'
       - 'firebase_functions/functions/**'

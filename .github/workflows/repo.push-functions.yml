@@ -2,6 +2,8 @@ name: Workflow - Lint Firebase functions
 
 on:
   push:
+    branches-ignore:
+      - 'refs/tags/*'
     paths:
       - 'firebase_functions/**'
       - 'firebase_functions/functions/**'
