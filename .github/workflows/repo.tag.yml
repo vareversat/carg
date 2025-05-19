@@ -11,7 +11,7 @@ concurrency:
 
 jobs:
   flutter-build:
-    uses: vareversat/github-actions/.github/workflows/flutter.build.yml@v1.4.1
+    uses: vareversat/github-actions/.github/workflows/flutter.build.yml@v1.5.0
     with:
       flutter_version: '3.29.3'
       flutter_flavor: 'prod'
@@ -21,22 +21,23 @@ jobs:
     secrets: inherit
 
   fastlane-lane:
-    uses: vareversat/github-actions/.github/workflows/fastlane.lane.yml@v1.4.1
+    uses: vareversat/github-actions/.github/workflows/fastlane.lane.yml@v1.5.0
     with:
       prerelease_suffix: 'beta'
   firebase-publish:
-    uses: vareversat/github-actions/.github/workflows/firebase.function.publish.yml@v1.4.1
+    uses: vareversat/github-actions/.github/workflows/firebase.function.publish.yml@v1.5.0
     with:
+      function_urls: 'https://console.cloud.google.com/run?deploymentType=function&inv=1&invt=Abx0uQ&project=carg-d3732'
       node_version: '22.x'
       function_path: 'firebase_functions'
     secrets: inherit
   page-publish:
-    uses: vareversat/github-actions/.github/workflows/global.page.yml@v1.4.1
+    uses: vareversat/github-actions/.github/workflows/global.page.yml@v1.5.0
     with:
       path: 'page'
   flutter-publish:
-    needs: [ flutter-build ]
-    uses: vareversat/github-actions/.github/workflows/flutter.publish.yml@v1.4.1
+    needs: [ flutter-build, fastlane-lane ]
+    uses: vareversat/github-actions/.github/workflows/flutter.publish.yml@v1.5.0
     with:
       lane: ${{ needs.fastlane-lane.outputs.lane }}
       url: 'https://play.google.com/console/u/0/developers/5699287307345981322/app/4972786398063514472/app-dashboard'
@@ -44,6 +45,6 @@ jobs:
 
   release:
     needs: [ flutter-publish ]
-    uses: vareversat/github-actions/.github/workflows/global.release.yml@v1.4.1
+    uses: vareversat/github-actions/.github/workflows/global.release.yml@v1.5.0
     with:
       prerelease_suffix: 'beta'
