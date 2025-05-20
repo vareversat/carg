@@ -9,5 +9,5 @@ concurrency:
 
 jobs:
   pr:
-    uses: vareversat/github-actions/.github/workflows/global.labeler.yml@v1.5.0
+    uses: vareversat/github-actions/.github/workflows/global.labeler.yml@v1.5.1
     secrets: inherit
