@@ -11,7 +11,7 @@
         "digest",
         "rollback"
       ],
-      "schedule": ["0 12 * * *"],
+      "schedule": ["* 12 * * *"],
       "timezone": "Europe/Paris",
       "automerge": true,
       "assigneesFromCodeOwners": false,
@@ -23,7 +23,7 @@
       "matchUpdateTypes": [
         "major"
       ],
-      "schedule": ["0 12 * * *"],
+      "schedule": ["* 12 * * *"],
       "timezone": "Europe/Paris",
       "automerge": false,
       "assigneesFromCodeOwners": true,
