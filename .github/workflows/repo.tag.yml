@@ -40,7 +40,7 @@ jobs:
     uses: vareversat/github-actions/.github/workflows/flutter.publish.yml@v1.5.2
     with:
       lane: ${{ needs.fastlane-lane.outputs.lane }}
-      url: 'https://play.google.com/console/u/0/developers/5699287307345981322/app/4972786398063514472/app-dashboard'
+      url: 'https://play.google.com/console/u/0/developers/5699287307345981322/app/4976228446948711700/app-dashboard'
     secrets: inherit
 
   release:
