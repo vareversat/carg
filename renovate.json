@@ -1,5 +1,5 @@
 {
-  "baseBranches": ["dev"],
+  "baseBranches": ["main"],
   "packageRules": [
     {
       "description": "Disables the creation of branches/PRs for any minor/patch updates etc. of Renovate bot",
