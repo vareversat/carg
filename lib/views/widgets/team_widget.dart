@@ -11,12 +11,13 @@ class TeamWidget extends StatefulWidget {
   final AbstractTeamService teamService;
   final AbstractPlayerService playerService;
 
-  const TeamWidget(
-      {super.key,
-      required this.teamId,
-      required this.title,
-      required this.teamService,
-      required this.playerService});
+  const TeamWidget({
+    super.key,
+    required this.teamId,
+    required this.title,
+    required this.teamService,
+    required this.playerService,
+  });
 
   @override
   State<StatefulWidget> createState() {
@@ -29,26 +30,32 @@ class _TeamWidgetState extends State<TeamWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: <Widget>[
-      Text(widget.title,
+    return Column(
+      children: <Widget>[
+        Text(
+          widget.title,
           key: const ValueKey('textTitleWidget'),
-          style: CustomTextStyle.boldAndItalic(context)),
-      FutureBuilder<Team?>(
+          style: CustomTextStyle.boldAndItalic(context),
+        ),
+        FutureBuilder<Team?>(
           builder: (context, snapshot) {
             if (snapshot.hasData &&
                 snapshot.connectionState == ConnectionState.done) {
               return ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: snapshot.data!.players!.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return APIMiniPlayerWidget(
-                        key: ValueKey(
-                            'apiminiplayerwidget-${snapshot.data!.players![index]}'),
-                        playerId: snapshot.data!.players![index],
-                        displayImage: true,
-                        playerService: widget.playerService);
-                  });
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: snapshot.data!.players!.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return APIMiniPlayerWidget(
+                    key: ValueKey(
+                      'apiminiplayerwidget-${snapshot.data!.players![index]}',
+                    ),
+                    playerId: snapshot.data!.players![index],
+                    displayImage: true,
+                    playerService: widget.playerService,
+                  );
+                },
+              );
             }
             return Center(child: Text(_errorMessage));
           },
@@ -56,7 +63,9 @@ class _TeamWidgetState extends State<TeamWidget> {
           future: widget.teamService
               .get(widget.teamId)
               // ignore: return_of_invalid_type_from_catch_error
-              .catchError((error) => {_errorMessage = error.toString()}))
-    ]);
+              .catchError((error) => {_errorMessage = error.toString()}),
+        ),
+      ],
+    );
   }
 }

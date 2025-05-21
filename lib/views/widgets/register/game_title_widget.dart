@@ -1,6 +1,6 @@
 import 'package:carg/models/game/game.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:carg/l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 
 class GameTitleWidget extends StatelessWidget {
@@ -17,12 +17,10 @@ class GameTitleWidget extends StatelessWidget {
           Flexible(
             flex: 2,
             child: Text(
-              DateFormat.yMMMMd(Localizations.localeOf(context).languageCode)
-                  .format(game!.startingDate),
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-              ),
+              DateFormat.yMMMMd(
+                Localizations.localeOf(context).languageCode,
+              ).format(game!.startingDate),
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
             ),
           ),
           Flexible(
@@ -30,9 +28,10 @@ class GameTitleWidget extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(80.0),
               child: Container(
-                color: game!.isEnded
-                    ? Theme.of(context).primaryColor
-                    : Theme.of(context).colorScheme.secondary,
+                color:
+                    game!.isEnded
+                        ? Theme.of(context).primaryColor
+                        : Theme.of(context).colorScheme.secondary,
                 height: 30,
                 child: Center(
                   child: Text(
@@ -40,9 +39,10 @@ class GameTitleWidget extends StatelessWidget {
                         ? AppLocalizations.of(context)!.ended
                         : AppLocalizations.of(context)!.inProgress,
                     style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).cardColor,
-                        fontSize: 15),
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).cardColor,
+                      fontSize: 15,
+                    ),
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),

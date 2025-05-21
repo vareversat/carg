@@ -3,7 +3,7 @@ import 'package:carg/services/game/abstract_game_service.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:carg/l10n/app_localizations.dart';
 
 class NotesDialog extends StatefulWidget {
   final Game game;
@@ -64,9 +64,11 @@ class _NotesDialogState extends State<NotesDialog> {
         ElevatedButton.icon(
           style: ButtonStyle(
             backgroundColor: WidgetStateProperty.all<Color>(
-                Theme.of(context).colorScheme.secondary),
-            foregroundColor:
-                WidgetStateProperty.all<Color>(Theme.of(context).cardColor),
+              Theme.of(context).colorScheme.secondary,
+            ),
+            foregroundColor: WidgetStateProperty.all<Color>(
+              Theme.of(context).cardColor,
+            ),
             shape: WidgetStateProperty.all<OutlinedBorder>(
               RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(
@@ -75,23 +77,22 @@ class _NotesDialogState extends State<NotesDialog> {
               ),
             ),
           ),
-          onPressed: () async => {
-            await widget.gameService.update(widget.game),
-            Navigator.pop(context)
-          },
-          label: Text(
-            MaterialLocalizations.of(context).okButtonLabel,
-          ),
-          icon: const Icon(
-            Icons.check,
-          ),
+          onPressed:
+              () async => {
+                await widget.gameService.update(widget.game),
+                Navigator.pop(context),
+              },
+          label: Text(MaterialLocalizations.of(context).okButtonLabel),
+          icon: const Icon(Icons.check),
         ),
         ElevatedButton.icon(
           style: ButtonStyle(
-            backgroundColor:
-                WidgetStateProperty.all<Color>(Theme.of(context).cardColor),
+            backgroundColor: WidgetStateProperty.all<Color>(
+              Theme.of(context).cardColor,
+            ),
             foregroundColor: WidgetStateProperty.all<Color>(
-                Theme.of(context).colorScheme.secondary),
+              Theme.of(context).colorScheme.secondary,
+            ),
             shape: WidgetStateProperty.all<OutlinedBorder>(
               RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(
@@ -102,10 +103,8 @@ class _NotesDialogState extends State<NotesDialog> {
           ),
           onPressed: () => {Navigator.pop(context)},
           icon: const Icon(Icons.close),
-          label: Text(
-            MaterialLocalizations.of(context).cancelButtonLabel,
-          ),
-        )
+          label: Text(MaterialLocalizations.of(context).cancelButtonLabel),
+        ),
       ],
     );
   }

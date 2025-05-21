@@ -6,16 +6,18 @@ class GameStats {
   int wonGames;
   int playedGames;
 
-  GameStats(
-      {required this.gameType,
-      required this.wonGames,
-      required this.playedGames});
+  GameStats({
+    required this.gameType,
+    required this.wonGames,
+    required this.playedGames,
+  });
 
   factory GameStats.fromJSON(Map<String, dynamic> json) {
     return GameStats(
-        gameType: EnumToString.fromString(GameType.values, json['game_type'])!,
-        wonGames: json['won_games'],
-        playedGames: json['played_games']);
+      gameType: EnumToString.fromString(GameType.values, json['game_type'])!,
+      wonGames: json['won_games'],
+      playedGames: json['played_games'],
+    );
   }
 
   double winPercentage() {

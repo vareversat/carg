@@ -9,7 +9,7 @@ import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/screens/settings_screen.dart';
 import 'package:carg/views/widgets/error_message_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:carg/l10n/app_localizations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -39,10 +39,11 @@ class _UserScreenState extends State<UserScreen>
       await Navigator.push(
         context,
         CustomRouteFade(
-          builder: (context) => SettingsScreen(
-            player: _player!,
-            playerService: PlayerService(),
-          ),
+          builder:
+              (context) => SettingsScreen(
+                player: _player!,
+                playerService: PlayerService(),
+              ),
         ),
       );
     }
@@ -60,18 +61,13 @@ class _UserScreenState extends State<UserScreen>
   void initState() {
     _animationController = AnimationController(
       vsync: this,
-      duration: const Duration(
-        milliseconds: 1100,
-      ),
+      duration: const Duration(milliseconds: 1100),
     );
     _opacityAnimation = Tween<Offset>(
       begin: const Offset(0.0, -1.0),
       end: const Offset(0.0, 0.0),
     ).animate(
-      CurvedAnimation(
-        parent: _animationController,
-        curve: Curves.ease,
-      ),
+      CurvedAnimation(parent: _animationController, curve: Curves.ease),
     );
     _animationController.forward();
     super.initState();
@@ -88,11 +84,16 @@ class _UserScreenState extends State<UserScreen>
     return Scaffold(
       body: FutureBuilder<Player?>(
         future: _playerService
-            .getPlayerOfUser(Provider.of<AuthService>(context, listen: false)
-                .getConnectedUserId())
+            .getPlayerOfUser(
+              Provider.of<AuthService>(
+                context,
+                listen: false,
+              ).getConnectedUserId(),
+            )
             .catchError(
-                // ignore: return_of_invalid_type_from_catch_error
-                (onError) => {_errorMessage = onError.toString()}),
+              // ignore: return_of_invalid_type_from_catch_error
+              (onError) => {_errorMessage = onError.toString()},
+            ),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return CustomScrollView(
@@ -103,14 +104,12 @@ class _UserScreenState extends State<UserScreen>
                   forceElevated: true,
                   expandedHeight: 200,
                   collapsedHeight: 140,
-                  title: _AppBarTitle(
-                    onPressEdit: _showSettingsScreen,
-                  ),
+                  title: _AppBarTitle(onPressEdit: _showSettingsScreen),
                   flexibleSpace: const FlexibleSpaceBar(
                     centerTitle: true,
                     title: Text(''),
                   ),
-                )
+                ),
               ],
             );
           }
@@ -120,14 +119,18 @@ class _UserScreenState extends State<UserScreen>
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ErrorMessageWidget(
-                    message: _errorMessage ??
-                        AppLocalizations.of(context)!.youDontHaveAnyPlayer),
+                  message:
+                      _errorMessage ??
+                      AppLocalizations.of(context)!.youDontHaveAnyPlayer,
+                ),
                 ElevatedButton.icon(
                   style: ButtonStyle(
                     backgroundColor: WidgetStateProperty.all<Color>(
-                        Theme.of(context).primaryColor),
+                      Theme.of(context).primaryColor,
+                    ),
                     foregroundColor: WidgetStateProperty.all<Color>(
-                        Theme.of(context).cardColor),
+                      Theme.of(context).cardColor,
+                    ),
                     shape: WidgetStateProperty.all<OutlinedBorder>(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
@@ -139,13 +142,9 @@ class _UserScreenState extends State<UserScreen>
                   onPressed: () async => _signOut(),
                   label: Text(
                     AppLocalizations.of(context)!.connection,
-                    style: const TextStyle(
-                      fontSize: 14,
-                    ),
+                    style: const TextStyle(fontSize: 14),
                   ),
-                  icon: const Icon(
-                    Icons.arrow_back,
-                  ),
+                  icon: const Icon(Icons.arrow_back),
                 ),
               ],
             );
@@ -153,114 +152,120 @@ class _UserScreenState extends State<UserScreen>
           if (snapshot.data == null) {
             return Center(
               child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      AppLocalizations.of(context)!.noPlayerYet,
-                      style: const TextStyle(
-                        fontSize: 18,
-                      ),
-                    )
-                  ]),
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    AppLocalizations.of(context)!.noPlayerYet,
+                    style: const TextStyle(fontSize: 18),
+                  ),
+                ],
+              ),
             );
           }
           _player = snapshot.data;
           return ChangeNotifierProvider.value(
             value: _player!,
             child: Consumer<Player>(
-              builder: (context, player, _) => CustomScrollView(
-                slivers: [
-                  SliverAppBar(
-                    shape: const ContinuousRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                        bottomLeft:
-                            Radius.circular(CustomProperties.borderRadius * 5),
-                        bottomRight: Radius.circular(
-                          CustomProperties.borderRadius * 5,
+              builder:
+                  (context, player, _) => CustomScrollView(
+                    slivers: [
+                      SliverAppBar(
+                        shape: const ContinuousRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(
+                              CustomProperties.borderRadius * 5,
+                            ),
+                            bottomRight: Radius.circular(
+                              CustomProperties.borderRadius * 5,
+                            ),
+                          ),
+                        ),
+                        backgroundColor: Theme.of(context).primaryColor,
+                        automaticallyImplyLeading: false,
+                        floating: true,
+                        pinned: true,
+                        forceElevated: true,
+                        expandedHeight: 200,
+                        collapsedHeight: 140,
+                        title: _AppBarTitle(onPressEdit: _showSettingsScreen),
+                        flexibleSpace: FlexibleSpaceBar(
+                          centerTitle: true,
+                          title: _PlayerUsernameAndProfilePictureWidget(
+                            player: _player,
+                            animation: _opacityAnimation,
+                          ),
                         ),
                       ),
-                    ),
-                    backgroundColor: Theme.of(context).primaryColor,
-                    automaticallyImplyLeading: false,
-                    floating: true,
-                    pinned: true,
-                    forceElevated: true,
-                    expandedHeight: 200,
-                    collapsedHeight: 140,
-                    title: _AppBarTitle(
-                      onPressEdit: _showSettingsScreen,
-                    ),
-                    flexibleSpace: FlexibleSpaceBar(
-                      centerTitle: true,
-                      title: _PlayerUsernameAndProfilePictureWidget(
-                          player: _player, animation: _opacityAnimation),
-                    ),
-                  ),
-                  SliverList(
-                    delegate: SliverChildListDelegate(
-                      [
-                        _player!.gameStatsList!.isNotEmpty
-                            ? Column(
+                      SliverList(
+                        delegate: SliverChildListDelegate([
+                          _player!.gameStatsList!.isNotEmpty
+                              ? Column(
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
-                                        vertical: 15),
+                                      vertical: 15,
+                                    ),
                                     child: Text(
                                       '-- ${AppLocalizations.of(context)!.winPercentage} --',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium!
-                                          .copyWith(
-                                            fontStyle: FontStyle.italic,
-                                          ),
+                                      style: Theme.of(
+                                        context,
+                                      ).textTheme.bodyMedium!.copyWith(
+                                        fontStyle: FontStyle.italic,
+                                      ),
                                     ),
                                   ),
                                   _WonPlayedWidget(player: _player),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
-                                        vertical: 30),
+                                      vertical: 30,
+                                    ),
                                     child: Wrap(
-                                        runSpacing: 20,
-                                        spacing: 80,
-                                        alignment: WrapAlignment.spaceEvenly,
-                                        children: _player!.gameStatsList!
-                                            .map(
-                                              (stat) => ConstrainedBox(
-                                                constraints:
-                                                    const BoxConstraints(
+                                      runSpacing: 20,
+                                      spacing: 80,
+                                      alignment: WrapAlignment.spaceEvenly,
+                                      children:
+                                          _player!.gameStatsList!
+                                              .map(
+                                                (stat) => ConstrainedBox(
+                                                  constraints:
+                                                      const BoxConstraints(
                                                         maxWidth: 160,
-                                                        maxHeight: 160),
-                                                child: _StatGauge(
-                                                  gameStats: stat,
+                                                        maxHeight: 160,
+                                                      ),
+                                                  child: _StatGauge(
+                                                    gameStats: stat,
+                                                  ),
                                                 ),
-                                              ),
-                                            )
-                                            .toList()
-                                            .cast<Widget>()),
+                                              )
+                                              .toList()
+                                              .cast<Widget>(),
+                                    ),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
-                                        vertical: 15),
+                                      vertical: 15,
+                                    ),
                                     child: Text(
                                       '-- ${AppLocalizations.of(context)!.gameDistribution} --',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium!
-                                          .copyWith(
-                                            fontStyle: FontStyle.italic,
-                                          ),
+                                      style: Theme.of(
+                                        context,
+                                      ).textTheme.bodyMedium!.copyWith(
+                                        fontStyle: FontStyle.italic,
+                                      ),
                                     ),
                                   ),
                                   _StatCircularChart(
-                                      gameStatsList: _player!.gameStatsList),
+                                    gameStatsList: _player!.gameStatsList,
+                                  ),
                                 ],
                               )
-                            : Center(
+                              : Center(
                                 child: Padding(
                                   padding: const EdgeInsets.all(30),
                                   child: Text(
-                                    AppLocalizations.of(context)!
-                                        .noStatisticYet,
+                                    AppLocalizations.of(
+                                      context,
+                                    )!.noStatisticYet,
                                     style: const TextStyle(
                                       fontSize: 25,
                                       fontStyle: FontStyle.italic,
@@ -268,11 +273,10 @@ class _UserScreenState extends State<UserScreen>
                                   ),
                                 ),
                               ),
-                      ],
-                    ),
+                        ]),
+                      ),
+                    ],
                   ),
-                ],
-              ),
             ),
           );
         },
@@ -292,28 +296,32 @@ class _StatGauge extends StatelessWidget {
       child: SfRadialGauge(
         title: GaugeTitle(
           text: gameStats!.gameType.name,
-          textStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+          textStyle: Theme.of(
+            context,
+          ).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold),
         ),
         axes: <RadialAxis>[
           RadialAxis(
             annotations: <GaugeAnnotation>[
               GaugeAnnotation(
-                  axisValue: 50,
-                  positionFactor: 0,
-                  widget: Text(
-                    '${gameStats!.winPercentage().toString()}%',
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 22),
-                  )),
+                axisValue: 50,
+                positionFactor: 0,
+                widget: Text(
+                  '${gameStats!.winPercentage().toString()}%',
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 22,
+                  ),
+                ),
+              ),
               GaugeAnnotation(
-                  axisValue: 50,
-                  positionFactor: 0.3,
-                  widget: Text(
-                    '${gameStats!.wonGames} | ${gameStats!.playedGames}',
-                    style: const TextStyle(fontSize: 15),
-                  ))
+                axisValue: 50,
+                positionFactor: 0.3,
+                widget: Text(
+                  '${gameStats!.wonGames} | ${gameStats!.playedGames}',
+                  style: const TextStyle(fontSize: 15),
+                ),
+              ),
             ],
             startAngle: 270,
             endAngle: 270,
@@ -322,9 +330,10 @@ class _StatGauge extends StatelessWidget {
             showTicks: false,
             ranges: <GaugeRange>[
               GaugeRange(
-                  startValue: 0,
-                  endValue: gameStats!.winPercentage(),
-                  color: Theme.of(context).primaryColor),
+                startValue: 0,
+                endValue: gameStats!.winPercentage(),
+                color: Theme.of(context).primaryColor,
+              ),
               GaugeRange(
                 startValue: gameStats!.winPercentage(),
                 endValue: 100,
@@ -347,8 +356,10 @@ class _StatCircularChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SfCircularChart(
-      tooltipBehavior:
-          TooltipBehavior(enable: true, color: Theme.of(context).primaryColor),
+      tooltipBehavior: TooltipBehavior(
+        enable: true,
+        color: Theme.of(context).primaryColor,
+      ),
       series: <CircularSeries>[
         DoughnutSeries<GameStats, String?>(
           radius: '60%',
@@ -356,7 +367,7 @@ class _StatCircularChart extends StatelessWidget {
           dataSource: gameStatsList!,
           xValueMapper: (GameStats data, _) => data.gameType.name,
           yValueMapper: (GameStats data, _) => data.playedGames,
-        )
+        ),
       ],
       legend: Legend(
         iconHeight: 20,
@@ -382,8 +393,10 @@ class _PlayerUsernameAndProfilePictureWidget extends StatelessWidget {
     }
   }
 
-  const _PlayerUsernameAndProfilePictureWidget(
-      {this.player, required this.animation});
+  const _PlayerUsernameAndProfilePictureWidget({
+    this.player,
+    required this.animation,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -406,9 +419,7 @@ class _PlayerUsernameAndProfilePictureWidget extends StatelessWidget {
                   ),
                   image: DecorationImage(
                     fit: BoxFit.fill,
-                    image: NetworkImage(
-                      player!.profilePicture,
-                    ),
+                    image: NetworkImage(player!.profilePicture),
                   ),
                 ),
               ),
@@ -418,12 +429,11 @@ class _PlayerUsernameAndProfilePictureWidget extends StatelessWidget {
         Text(
           player!.userName,
           overflow: TextOverflow.ellipsis,
-          style: Theme.of(context)
-              .textTheme
-              .titleLarge
-              ?.copyWith(color: Theme.of(context).colorScheme.onPrimary),
+          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+            color: Theme.of(context).colorScheme.onPrimary,
+          ),
           textAlign: TextAlign.center,
-        )
+        ),
       ],
     );
   }
@@ -439,14 +449,18 @@ class _AppBarTitle extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(AppLocalizations.of(context)!.profileTitle,
-            style: CustomTextStyle.screenHeadLine1(context)),
+        Text(
+          AppLocalizations.of(context)!.profileTitle,
+          style: CustomTextStyle.screenHeadLine1(context),
+        ),
         FilledButton(
           style: ButtonStyle(
-            backgroundColor:
-                WidgetStateProperty.all<Color>(Theme.of(context).cardColor),
-            foregroundColor:
-                WidgetStateProperty.all<Color>(Theme.of(context).primaryColor),
+            backgroundColor: WidgetStateProperty.all<Color>(
+              Theme.of(context).cardColor,
+            ),
+            foregroundColor: WidgetStateProperty.all<Color>(
+              Theme.of(context).primaryColor,
+            ),
             shape: WidgetStateProperty.all<OutlinedBorder>(
               RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(
@@ -456,10 +470,7 @@ class _AppBarTitle extends StatelessWidget {
             ),
           ),
           onPressed: () async => await onPressEdit(),
-          child: const Icon(
-            Icons.settings,
-            size: 20,
-          ),
+          child: const Icon(Icons.settings, size: 20),
         ),
       ],
     );
@@ -492,10 +503,8 @@ class _WonPlayedWidget extends StatelessWidget {
               ),
               Text(
                 AppLocalizations.of(context)!.victories,
-                style: const TextStyle(
-                  fontSize: 20,
-                ),
-              )
+                style: const TextStyle(fontSize: 20),
+              ),
             ],
           ),
         ),
@@ -510,10 +519,7 @@ class _WonPlayedWidget extends StatelessWidget {
           ),
           child: Text(
             '${player!.totalWinPercentage()} %',
-            style: const TextStyle(
-              fontSize: 35,
-              fontWeight: FontWeight.bold,
-            ),
+            style: const TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
           ),
         ),
         Flexible(
@@ -532,13 +538,11 @@ class _WonPlayedWidget extends StatelessWidget {
               ),
               Text(
                 AppLocalizations.of(context)!.games,
-                style: const TextStyle(
-                  fontSize: 20,
-                ),
-              )
+                style: const TextStyle(fontSize: 20),
+              ),
             ],
           ),
-        )
+        ),
       ],
     );
   }

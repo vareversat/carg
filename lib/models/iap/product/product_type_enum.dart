@@ -1,4 +1,1 @@
-enum ProductTypeEnum {
-  subscription,
-  nonSubscription,
-}
+enum ProductTypeEnum { subscription, nonSubscription }

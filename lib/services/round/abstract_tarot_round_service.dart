@@ -9,5 +9,5 @@ abstract class AbstractTarotRoundService
   final AbstractTarotScoreService tarotScoreService;
 
   AbstractTarotRoundService({required this.tarotScoreService})
-      : super(abstractScoreService: tarotScoreService);
+    : super(abstractScoreService: tarotScoreService);
 }

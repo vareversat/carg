@@ -12,8 +12,9 @@ abstract class CargPlayerObject extends CargObject {
 
   void incrementPlayedGamesByOne(Game game) {
     GameStats stat;
-    var index = gameStatsList!
-        .indexWhere((element) => element.gameType.name == game.gameType.name);
+    var index = gameStatsList!.indexWhere(
+      (element) => element.gameType.name == game.gameType.name,
+    );
     if (index == -1) {
       stat = GameStats(gameType: game.gameType, wonGames: 0, playedGames: 1);
       gameStatsList!.add(stat);
@@ -27,8 +28,9 @@ abstract class CargPlayerObject extends CargObject {
 
   void incrementWonGamesByOne(Game game) {
     GameStats stat;
-    var index = gameStatsList!
-        .indexWhere((element) => element.gameType.name == game.gameType.name);
+    var index = gameStatsList!.indexWhere(
+      (element) => element.gameType.name == game.gameType.name,
+    );
     if (index == -1) {
       stat = GameStats(gameType: game.gameType, wonGames: 1, playedGames: 0);
       gameStatsList!.add(stat);
@@ -42,7 +44,8 @@ abstract class CargPlayerObject extends CargObject {
 
   double totalWinPercentage() {
     return double.parse(
-        ((totalWonGames() * 100) / totalPlayedGames()).toStringAsFixed(1));
+      ((totalWonGames() * 100) / totalPlayedGames()).toStringAsFixed(1),
+    );
   }
 
   int totalWonGames() {

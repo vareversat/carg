@@ -1,6 +1,6 @@
 import 'package:carg/styles/text_style.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:carg/l10n/app_localizations.dart';
 
 class ScreenTitleWidget extends StatelessWidget {
   const ScreenTitleWidget({super.key});

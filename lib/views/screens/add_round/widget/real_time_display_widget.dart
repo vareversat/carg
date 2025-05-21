@@ -12,16 +12,17 @@ class RealTimeDisplayWidget extends StatelessWidget {
     return ChangeNotifierProvider.value(
       value: round,
       child: Consumer<Round>(
-        builder: (context, roundData, child) => Center(
-          child: Text(
-            roundData.realTimeDisplay(context),
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.onPrimary,
-              fontSize: 23,
+        builder:
+            (context, roundData, child) => Center(
+              child: Text(
+                roundData.realTimeDisplay(context),
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onPrimary,
+                  fontSize: 23,
+                ),
+              ),
             ),
-          ),
-        ),
       ),
     );
   }

@@ -21,25 +21,29 @@ class NonSubscriptionPurchase extends Purchase {
   @override
   Map<String, dynamic> toJSON() {
     final json = super.toJSON();
-    json.addAll({
-      'status': status.name,
-    });
+    json.addAll({'status': status.name});
     return json;
   }
 
   factory NonSubscriptionPurchase.fromJSON(
-      Map<String, dynamic>? json, String id) {
+    Map<String, dynamic>? json,
+    String id,
+  ) {
     return NonSubscriptionPurchase(
-        id: id,
-        iapSource:
-            EnumToString.fromString(IAPSourceEnum.values, json?['iap_source'])!,
-        orderId: json?['order_id'],
-        productId: json?['product_id'],
-        userId: json?['user_id'],
-        purchaseDate: DateTime.parse(json?['purchase_date']),
-        type: EnumToString.fromString(ProductTypeEnum.values, json?['type'])!,
-        status: EnumToString.fromString(
-            NonSubscriptionStatusEnum.values, json?['status'])!);
+      id: id,
+      iapSource:
+          EnumToString.fromString(IAPSourceEnum.values, json?['iap_source'])!,
+      orderId: json?['order_id'],
+      productId: json?['product_id'],
+      userId: json?['user_id'],
+      purchaseDate: DateTime.parse(json?['purchase_date']),
+      type: EnumToString.fromString(ProductTypeEnum.values, json?['type'])!,
+      status:
+          EnumToString.fromString(
+            NonSubscriptionStatusEnum.values,
+            json?['status'],
+          )!,
+    );
   }
 
   @override

@@ -6,7 +6,7 @@ version: 1.10.0
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
-  flutter: '3.22.2'
+  flutter: '3.29.3'
 
 dependencies:
   cloud_firestore: ^5.1.0
@@ -17,7 +17,7 @@ dependencies:
   firebase_dynamic_links: ^6.0.3
   firebase_app_check: ^0.3.0+3
   google_sign_in: ^6.0.0
-  google_mobile_ads: ^5.1.0
+  google_mobile_ads: ^6.0.0
   cupertino_icons: ^1.0.2
   enum_to_string: ^2.0.1
   flutter_markdown: ^0.7.0
@@ -33,9 +33,9 @@ dependencies:
   package_info_plus : ^8.0.0
   provider: ^6.0.0
   url_launcher: ^6.0.2
-  syncfusion_flutter_charts: ^26.1.42
-  syncfusion_flutter_gauges: ^26.1.42
-  infinite_scroll_pagination: ^4.0.0
+  syncfusion_flutter_charts: ^29.2.4
+  syncfusion_flutter_gauges: ^29.2.4
+  infinite_scroll_pagination: ^5.0.0
   flutter:
     sdk: flutter
   flutter_localizations:
@@ -44,23 +44,22 @@ dependencies:
   collection: ^1.15.0
   crypto: ^3.0.2
   markdown: ^7.0.0
-  googleapis: ^13.1.0
-  googleapis_auth: ^1.3.1
+  googleapis: ^14.0.0
+  googleapis_auth: ^2.0.0
 
 
 dev_dependencies:
-  flutter_launcher_icons: ^0.13.1
+  flutter_launcher_icons: ^0.14.2
   flutter_test:
     sdk: flutter
   mockito: ^5.0.0
   network_image_mock: ^2.0.1
   build_runner: ^2.1.2
-  flutter_lints: ^4.0.0
+  flutter_lints: ^5.0.0
   flutter_gen_runner: ^5.6.0
 
 
 flutter:
-  generate: true
   uses-material-design: true
   fonts:
     - family: Josefin
@@ -76,12 +75,12 @@ flutter:
     - assets/rules/
     - CHANGELOG.md
 
-flutter_icons:
-  ios: true
+flutter_launcher_icons:
   android: true
-  remove_alpha_ios: true
-  image_path_ios: assets/images/card_game_icon.png
-  image_path_android: assets/images/card_game_icon.png
+  image_path: assets/images/card_game_icon.png
+  adaptive_icon_monochrome: assets/images/card_game_icon_mono.png
+  adaptive_icon_foreground: assets/images/card_game_icon.png
+  adaptive_icon_background: "#FFFFFF"
 
 module:
   androidX: true

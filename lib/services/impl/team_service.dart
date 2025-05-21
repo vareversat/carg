@@ -9,12 +9,13 @@ import 'package:carg/services/player/abstract_player_service.dart';
 import 'package:carg/services/team/abstract_team_service.dart';
 
 class TeamService extends AbstractTeamService {
-  TeamService(
-      {AbstractTeamRepository? teamRepository,
-      AbstractPlayerService? playerService})
-      : super(
-            teamRepository: teamRepository ?? TeamRepository(),
-            playerService: playerService ?? PlayerService());
+  TeamService({
+    AbstractTeamRepository? teamRepository,
+    AbstractPlayerService? playerService,
+  }) : super(
+         teamRepository: teamRepository ?? TeamRepository(),
+         playerService: playerService ?? PlayerService(),
+       );
 
   @override
   Future<Team> getTeamByPlayers(List<String?>? playerIds) async {
@@ -84,7 +85,8 @@ class TeamService extends AbstractTeamService {
       return teams;
     } on RepositoryException catch (e) {
       throw ServiceException(
-          'Error during the team fetching : ${e.toString()}');
+        'Error during the team fetching : ${e.toString()}',
+      );
     }
   }
 }

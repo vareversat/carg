@@ -6,8 +6,10 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
 class AlgoliaHelper {
-  static const String flavor =
-      String.fromEnvironment('FLAVOR', defaultValue: 'dev');
+  static const String flavor = String.fromEnvironment(
+    'FLAVOR',
+    defaultValue: 'dev',
+  );
 
   static String apiKey = '';
   static String appID = '';
@@ -19,9 +21,7 @@ class AlgoliaHelper {
   static Future<AlgoliaHelper> create() async {
     var component = AlgoliaHelper._create();
     final algoliaConfig = jsonDecode(
-      await rootBundle.loadString(
-        Const.algoliaConfigPath,
-      ),
+      await rootBundle.loadString(Const.algoliaConfigPath),
     );
     appID = algoliaConfig['app_id'].toString();
     apiKey = algoliaConfig['api_key'].toString();
@@ -59,9 +59,7 @@ class AlgoliaHelper {
   }
 
   Future<List<dynamic>> search(String query) async {
-    final params = {
-      'query': query,
-    };
+    final params = {'query': query};
     final uri = Uri.https(url, path, params);
 
     final response = await http.get(uri, headers: _header);
@@ -69,16 +67,17 @@ class AlgoliaHelper {
     return body['hits'];
   }
 
-  Future<List<dynamic>> filter(
-      {required String query,
-      required Player currentPlayer,
-      bool? myPlayers}) async {
-    var filters =
-        getAlgoliaFilter(currentPlayer.admin, currentPlayer.id, myPlayers);
-    final params = {
-      'query': query,
-      'filters': filters,
-    };
+  Future<List<dynamic>> filter({
+    required String query,
+    required Player currentPlayer,
+    bool? myPlayers,
+  }) async {
+    var filters = getAlgoliaFilter(
+      currentPlayer.admin,
+      currentPlayer.id,
+      myPlayers,
+    );
+    final params = {'query': query, 'filters': filters};
     final uri = Uri.https(url, '$path/browse', params);
 
     final response = await http.get(uri, headers: _header);

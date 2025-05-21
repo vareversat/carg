@@ -7,7 +7,7 @@ abstract class AbstractPlayerService extends BaseAbstractService<Player> {
   final AbstractPlayerRepository playerRepository;
 
   AbstractPlayerService({required this.playerRepository})
-      : super(repository: playerRepository);
+    : super(repository: playerRepository);
 
   /// Increment the number of played games by 1
   /// Take the [playerId] and the [game]
@@ -23,6 +23,9 @@ abstract class AbstractPlayerService extends BaseAbstractService<Player> {
 
   /// Search players into the index
   /// Return the player or null if not found
-  Future<List<Player>> searchPlayers(
-      {String query = '', Player? currentPlayer, bool? myPlayers});
+  Future<List<Player>> searchPlayers({
+    String query = '',
+    Player? currentPlayer,
+    bool? myPlayers,
+  });
 }

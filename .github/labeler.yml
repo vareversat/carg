@@ -1,0 +1,27 @@
+# File changes
+doc:
+  - changed-files:
+      - any-glob-to-any-file: '**/*.md'
+flutter:
+  - changed-files:
+      - any-glob-to-any-file: 'lib/**'
+functions:
+  - changed-files:
+      - any-glob-to-any-file: 'firebase_functions/**'
+android:
+  - changed-files:
+      - any-glob-to-any-file: 'android/**'
+page:
+  - changed-files:
+      - any-glob-to-any-file: 'page/**'
+ci:
+  - changed-files:
+      - any-glob-to-any-file: '.github/**'
+
+# Branch names
+enhancement:
+  - head-branch: ['feat']
+bug:
+  - head-branch: ['fix']
+chore:
+  - head-branch: ['chore']

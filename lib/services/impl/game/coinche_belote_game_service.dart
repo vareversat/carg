@@ -12,35 +12,42 @@ import 'package:carg/services/score/abstract_coinche_belote_score_service.dart';
 import 'package:carg/services/team/abstract_team_service.dart';
 
 class CoincheBeloteGameService extends AbstractCoincheBeloteGameService {
-  CoincheBeloteGameService(
-      {AbstractCoincheBeloteScoreService? coincheBeloteScoreService,
-      AbstractCoincheBeloteGameRepository? coincheBeloteGameRepository,
-      AbstractTeamService? teamService})
-      : super(
-            coincheBeloteScoreService:
-                coincheBeloteScoreService ?? CoincheBeloteScoreService(),
-            coincheBeloteGameRepository:
-                coincheBeloteGameRepository ?? CoincheBeloteGameRepository(),
-            teamService: teamService ?? TeamService());
+  CoincheBeloteGameService({
+    AbstractCoincheBeloteScoreService? coincheBeloteScoreService,
+    AbstractCoincheBeloteGameRepository? coincheBeloteGameRepository,
+    AbstractTeamService? teamService,
+  }) : super(
+         coincheBeloteScoreService:
+             coincheBeloteScoreService ?? CoincheBeloteScoreService(),
+         coincheBeloteGameRepository:
+             coincheBeloteGameRepository ?? CoincheBeloteGameRepository(),
+         teamService: teamService ?? TeamService(),
+       );
 
   @override
   Future<CoincheBelote> generateNewGame(
-      Team us,
-      Team them,
-      List<String?>? playerListForOrder,
-      DateTime? startingDate,
-      CoincheBeloteGameSetting settings) async {
+    Team us,
+    Team them,
+    List<String?>? playerListForOrder,
+    DateTime? startingDate,
+    CoincheBeloteGameSetting settings,
+  ) async {
     try {
       var coincheBelote = CoincheBelote(
-          settings: settings,
-          startingDate: startingDate,
-          players: BelotePlayers(
-              us: us.id, them: them.id, playerList: playerListForOrder));
+        settings: settings,
+        startingDate: startingDate,
+        players: BelotePlayers(
+          us: us.id,
+          them: them.id,
+          playerList: playerListForOrder,
+        ),
+      );
       coincheBelote.id = await beloteGameRepository.create(coincheBelote);
       return coincheBelote;
     } on Exception catch (e) {
       throw ServiceException(
-          'Error while generating a new game : ${e.toString()}');
+        'Error while generating a new game : ${e.toString()}',
+      );
     }
   }
 }

@@ -9,7 +9,7 @@ import 'package:carg/services/player/abstract_player_service.dart';
 
 class PlayerService extends AbstractPlayerService {
   PlayerService({AbstractPlayerRepository? playerRepository})
-      : super(playerRepository: playerRepository ?? PlayerRepository());
+    : super(playerRepository: playerRepository ?? PlayerRepository());
 
   @override
   Future<String> create(Player? t) async {
@@ -29,13 +29,15 @@ class PlayerService extends AbstractPlayerService {
       var player = await playerRepository.get(playerId);
       if (player == null) {
         throw ServiceException(
-            'The player you are trying to modify does not exist');
+          'The player you are trying to modify does not exist',
+        );
       }
       player.incrementPlayedGamesByOne(game);
       await playerRepository.update(player);
     } on RepositoryException catch (e) {
       throw throw ServiceException(
-          'Impossible to modify the player $playerId : ${e.message}');
+        'Impossible to modify the player $playerId : ${e.message}',
+      );
     }
   }
 
@@ -48,13 +50,15 @@ class PlayerService extends AbstractPlayerService {
       var player = await playerRepository.get(playerId);
       if (player == null) {
         throw ServiceException(
-            'The player you are trying to modify does not exist');
+          'The player you are trying to modify does not exist',
+        );
       }
       player.incrementWonGamesByOne(game);
       await playerRepository.update(player);
     } on RepositoryException catch (e) {
       throw ServiceException(
-          'Impossible to modify the player $playerId : ${e.message}');
+        'Impossible to modify the player $playerId : ${e.message}',
+      );
     }
   }
 
@@ -67,22 +71,30 @@ class PlayerService extends AbstractPlayerService {
       return playerRepository.getPlayerOfUser(userId);
     } on RepositoryException catch (e) {
       throw ServiceException(
-          'Impossible to get the player of the user $userId : ${e.message}');
+        'Impossible to get the player of the user $userId : ${e.message}',
+      );
     }
   }
 
   @override
-  Future<List<Player>> searchPlayers(
-      {String query = '', Player? currentPlayer, bool? myPlayers}) async {
+  Future<List<Player>> searchPlayers({
+    String query = '',
+    Player? currentPlayer,
+    bool? myPlayers,
+  }) async {
     var algoliaHelper = await AlgoliaHelper.create();
     if (currentPlayer == null) {
       throw throw ServiceException(
-          'You have to specify the current user to search into the index');
+        'You have to specify the current user to search into the index',
+      );
     }
     try {
       var players = <Player>[];
       var snapshot = await algoliaHelper.filter(
-          query: query, currentPlayer: currentPlayer, myPlayers: myPlayers);
+        query: query,
+        currentPlayer: currentPlayer,
+        myPlayers: myPlayers,
+      );
       for (var doc in snapshot) {
         players.add(Player.fromJSON(doc, doc['objectID']));
       }

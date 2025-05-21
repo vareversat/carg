@@ -18,7 +18,8 @@ abstract class AbstractIAPService with ChangeNotifier {
       return AppStoreIAPService();
     } else {
       throw Exception(
-          'Cannot get the correct IAP service from this source : $source');
+        'Cannot get the correct IAP service from this source : $source',
+      );
     }
   }
 

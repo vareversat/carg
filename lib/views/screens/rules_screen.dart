@@ -15,41 +15,44 @@ class RulesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).primaryColor,
-          foregroundColor: Theme.of(context).colorScheme.onPrimary,
-          centerTitle: true,
-          title: Text(
-            '${gameType.name} - Règles',
-            style: CustomTextStyle.screenHeadLine1(context),
-          ),
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).primaryColor,
+        foregroundColor: Theme.of(context).colorScheme.onPrimary,
+        centerTitle: true,
+        title: Text(
+          '${gameType.name} - Règles',
+          style: CustomTextStyle.screenHeadLine1(context),
         ),
-        body: FutureBuilder(
-            future: rootBundle.loadString('assets/rules/${gameType.rulesFile}'),
-            builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-              if (snapshot.hasData) {
-                return Markdown(
-                  onTapLink: (text, url, title) {
-                    Future.delayed(const Duration(seconds: 1)).then((value) =>
-                        launchUrlString(url!,
-                            mode: LaunchMode.externalApplication));
-                    InfoSnackBar.showSnackBar(context, 'Overture de $text...');
-                  },
-                  data: snapshot.data!,
-                  selectable: true,
-                  extensionSet: md.ExtensionSet(
-                    md.ExtensionSet.gitHubFlavored.blockSyntaxes,
-                    [
-                      md.EmojiSyntax(),
-                      md.LinkSyntax(),
-                      ...md.ExtensionSet.gitHubWeb.inlineSyntaxes
-                    ],
+      ),
+      body: FutureBuilder(
+        future: rootBundle.loadString('assets/rules/${gameType.rulesFile}'),
+        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+          if (snapshot.hasData) {
+            return Markdown(
+              onTapLink: (text, url, title) {
+                Future.delayed(const Duration(seconds: 1)).then(
+                  (value) => launchUrlString(
+                    url!,
+                    mode: LaunchMode.externalApplication,
                   ),
                 );
-              }
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }));
+                InfoSnackBar.showSnackBar(context, 'Overture de $text...');
+              },
+              data: snapshot.data!,
+              selectable: true,
+              extensionSet: md.ExtensionSet(
+                md.ExtensionSet.gitHubFlavored.blockSyntaxes,
+                [
+                  md.EmojiSyntax(),
+                  md.LinkSyntax(),
+                  ...md.ExtensionSet.gitHubWeb.inlineSyntaxes,
+                ],
+              ),
+            );
+          }
+          return const Center(child: CircularProgressIndicator());
+        },
+      ),
+    );
   }
 }

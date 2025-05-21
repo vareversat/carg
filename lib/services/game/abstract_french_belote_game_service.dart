@@ -6,13 +6,18 @@ import 'package:carg/services/game/abstract_belote_game_service.dart';
 import 'package:carg/services/score/abstract_french_belote_score_service.dart';
 
 abstract class AbstractFrenchBeloteGameService
-    extends AbstractBeloteGameService<FrenchBelote, FrenchBeloteScore,
-        FrenchBeloteGameSetting> {
-  AbstractFrenchBeloteGameService(
-      {required AbstractFrenchBeloteScoreService frenchBeloteScoreService,
-      required AbstractFrenchBeloteGameRepository frenchBeloteGameRepository,
-      required super.teamService})
-      : super(
-            beloteGameRepository: frenchBeloteGameRepository,
-            beloteScoreService: frenchBeloteScoreService);
+    extends
+        AbstractBeloteGameService<
+          FrenchBelote,
+          FrenchBeloteScore,
+          FrenchBeloteGameSetting
+        > {
+  AbstractFrenchBeloteGameService({
+    required AbstractFrenchBeloteScoreService frenchBeloteScoreService,
+    required AbstractFrenchBeloteGameRepository frenchBeloteGameRepository,
+    required super.teamService,
+  }) : super(
+         beloteGameRepository: frenchBeloteGameRepository,
+         beloteScoreService: frenchBeloteScoreService,
+       );
 }

@@ -21,18 +21,24 @@ class _AdBannerWidgetState extends State<AdBannerWidget> {
 
   void _createBannerAd() {
     _bannerAd = BannerAd(
-        adUnitId: AdHelper.bannerAdUnitId(context),
-        size: AdSize.banner,
-        request: const AdRequest(),
-        listener: BannerAdListener(onAdLoaded: (ad) {
+      adUnitId: AdHelper.bannerAdUnitId(context),
+      size: AdSize.banner,
+      request: const AdRequest(),
+      listener: BannerAdListener(
+        onAdLoaded: (ad) {
           setState(() {
             _ad = ad;
           });
-        }, onAdFailedToLoad: (ad, error) {
-          developer.log('Enable to load the ad : ${error.message}',
-              name: 'carg.ad-banner');
+        },
+        onAdFailedToLoad: (ad, error) {
+          developer.log(
+            'Enable to load the ad : ${error.message}',
+            name: 'carg.ad-banner',
+          );
           _ad?.dispose();
-        }));
+        },
+      ),
+    );
     _bannerAd.load();
   }
 

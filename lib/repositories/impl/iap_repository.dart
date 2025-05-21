@@ -9,17 +9,26 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 
 class IAPRepository extends AbstractIAPRepository {
-  IAPRepository(
-      {String? database, String? environment, FirebaseFirestore? provider})
-      : super(
-            database: database ?? Const.purchaseDB,
-            environment: environment ??
-                const String.fromEnvironment(Const.dartVarEnv,
-                    defaultValue: Const.defaultEnv),
-            provider: provider ?? FirebaseFirestore.instance);
+  IAPRepository({
+    String? database,
+    String? environment,
+    FirebaseFirestore? provider,
+  }) : super(
+         database: database ?? Const.purchaseDB,
+         environment:
+             environment ??
+             const String.fromEnvironment(
+               Const.dartVarEnv,
+               defaultValue: Const.defaultEnv,
+             ),
+         provider: provider ?? FirebaseFirestore.instance,
+       );
 
   Purchase? _buildWithCorrectInstance(
-      ProductTypeEnum? type, Map<String, dynamic>? data, String id) {
+    ProductTypeEnum? type,
+    Map<String, dynamic>? data,
+    String id,
+  ) {
     switch (type) {
       case ProductTypeEnum.nonSubscription:
         return NonSubscriptionPurchase.fromJSON(data, id);
@@ -37,9 +46,14 @@ class IAPRepository extends AbstractIAPRepository {
           await provider.collection(connectionString).doc(id).get();
       if (querySnapshot.data() != null) {
         var type = EnumToString.fromString(
-            ProductTypeEnum.values, querySnapshot.data()!['type']);
+          ProductTypeEnum.values,
+          querySnapshot.data()!['type'],
+        );
         return _buildWithCorrectInstance(
-            type, querySnapshot.data(), querySnapshot.id);
+          type,
+          querySnapshot.data(),
+          querySnapshot.id,
+        );
       } else {
         return null;
       }
@@ -51,15 +65,21 @@ class IAPRepository extends AbstractIAPRepository {
   @override
   Future<Purchase?> getByUserId(String userId) async {
     try {
-      var querySnapshot = await provider
-          .collection(connectionString)
-          .where('user_id', isEqualTo: userId)
-          .get();
+      var querySnapshot =
+          await provider
+              .collection(connectionString)
+              .where('user_id', isEqualTo: userId)
+              .get();
       if (querySnapshot.docs.isNotEmpty) {
         var type = EnumToString.fromString(
-            ProductTypeEnum.values, querySnapshot.docs.first.data()['type']);
+          ProductTypeEnum.values,
+          querySnapshot.docs.first.data()['type'],
+        );
         return _buildWithCorrectInstance(
-            type, querySnapshot.docs.first.data(), querySnapshot.docs.first.id);
+          type,
+          querySnapshot.docs.first.data(),
+          querySnapshot.docs.first.id,
+        );
       }
       return null;
     } on FirebaseException catch (e) {

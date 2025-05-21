@@ -1,8 +1,4 @@
-enum NonSubscriptionStatusEnum {
-  purchased,
-  cancelled,
-  pending,
-}
+enum NonSubscriptionStatusEnum { purchased, cancelled, pending }
 
 NonSubscriptionStatusEnum nonSubscriptionStatusFrom(int? state) {
   switch (state) {

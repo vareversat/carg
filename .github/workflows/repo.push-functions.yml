@@ -1,0 +1,22 @@
+name: Workflow - Lint Firebase functions
+
+on:
+  push:
+    branches-ignore:
+      - 'refs/tags/*'
+    paths:
+      - 'firebase_functions/**'
+      - 'firebase_functions/functions/**'
+      - '.github/workflows/repo.push-functions.yml'
+
+concurrency:
+  group: ci-${{ github.ref }}-push-functions
+  cancel-in-progress: true
+
+jobs:
+  firebase-lint:
+    uses: vareversat/github-actions/.github/workflows/firebase.function.lint.yml@v1.5.2
+    with:
+      node_version: '22.x'
+      function_path: 'firebase_functions'
+    secrets: inherit

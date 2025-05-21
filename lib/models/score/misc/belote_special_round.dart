@@ -11,8 +11,6 @@ extension BeloteSpecialRoundExtension on BeloteSpecialRound {
         return "Fausse donne";
       case BeloteSpecialRound.foulPlay:
         return "Faute de jeu";
-      default:
-        return '';
     }
   }
 
@@ -24,8 +22,6 @@ extension BeloteSpecialRoundExtension on BeloteSpecialRound {
         return Theme.of(context).primaryColor;
       case BeloteSpecialRound.foulPlay:
         return Theme.of(context).colorScheme.error;
-      default:
-        return Theme.of(context).primaryColor;
     }
   }
 }

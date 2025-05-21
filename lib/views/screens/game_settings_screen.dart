@@ -10,7 +10,7 @@ import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/screens/player_picker_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:carg/l10n/app_localizations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -43,10 +43,7 @@ class GameSettingsScreen extends StatelessWidget {
             padding: const EdgeInsets.all(15.0),
             child: Text(
               AppLocalizations.of(context)!.gameSettings,
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ),
           Flexible(
@@ -65,126 +62,142 @@ class GameSettingsScreen extends StatelessWidget {
                   child: ChangeNotifierProvider.value(
                     value: game?.settings,
                     child: Consumer<GameSetting>(
-                        builder: (context, settingsData, child) {
-                      _contractTextController.text =
-                          settingsData.maxPoint.toString();
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          Flexible(
-                            child: AnimatedSize(
-                              curve: Curves.ease,
-                              duration: const Duration(milliseconds: 500),
-                              child: Center(
-                                child: settingsData.isInfinite
-                                    ? Icon(
-                                        FontAwesomeIcons.infinity,
-                                        color: Theme.of(context).primaryColor,
-                                        size: 50,
-                                      )
-                                    : TextField(
-                                        key: const ValueKey(
-                                            'maxPointsTextFieldValue'),
-                                        textAlign: TextAlign.center,
-                                        decoration: const InputDecoration(
-                                          border: InputBorder.none,
-                                          focusedBorder: InputBorder.none,
-                                          enabledBorder: InputBorder.none,
-                                          errorBorder: InputBorder.none,
-                                          disabledBorder: InputBorder.none,
-                                        ),
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 40),
-                                        controller: _contractTextController,
-                                        enabled: !settingsData.isInfinite,
-                                        keyboardType: TextInputType.number,
-                                        inputFormatters: const <TextInputFormatter>[],
-                                        onSubmitted: (String value) => {
-                                          settingsData.maxPoint =
-                                              sanitizeMaxContractValue(value),
-                                        },
+                      builder: (context, settingsData, child) {
+                        _contractTextController.text =
+                            settingsData.maxPoint.toString();
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Flexible(
+                              child: AnimatedSize(
+                                curve: Curves.ease,
+                                duration: const Duration(milliseconds: 500),
+                                child: Center(
+                                  child:
+                                      settingsData.isInfinite
+                                          ? Icon(
+                                            FontAwesomeIcons.infinity,
+                                            color:
+                                                Theme.of(context).primaryColor,
+                                            size: 50,
+                                          )
+                                          : TextField(
+                                            key: const ValueKey(
+                                              'maxPointsTextFieldValue',
+                                            ),
+                                            textAlign: TextAlign.center,
+                                            decoration: const InputDecoration(
+                                              border: InputBorder.none,
+                                              focusedBorder: InputBorder.none,
+                                              enabledBorder: InputBorder.none,
+                                              errorBorder: InputBorder.none,
+                                              disabledBorder: InputBorder.none,
+                                            ),
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 40,
+                                            ),
+                                            controller: _contractTextController,
+                                            enabled: !settingsData.isInfinite,
+                                            keyboardType: TextInputType.number,
+                                            inputFormatters:
+                                                const <TextInputFormatter>[],
+                                            onSubmitted:
+                                                (String value) => {
+                                                  settingsData.maxPoint =
+                                                      sanitizeMaxContractValue(
+                                                        value,
+                                                      ),
+                                                },
+                                          ),
+                                ),
+                              ),
+                            ),
+                            Flexible(
+                              flex: 2,
+                              child: ElevatedButton.icon(
+                                key: const ValueKey('infinitePoints'),
+                                onPressed:
+                                    () => {
+                                      settingsData.isInfinite =
+                                          !settingsData.isInfinite,
+                                    },
+                                style: ButtonStyle(
+                                  backgroundColor:
+                                      WidgetStateProperty.all<Color>(
+                                        settingsData.isInfinite
+                                            ? Theme.of(context).cardColor
+                                            : Theme.of(context).primaryColor,
                                       ),
-                              ),
-                            ),
-                          ),
-                          Flexible(
-                            flex: 2,
-                            child: ElevatedButton.icon(
-                              key: const ValueKey('infinitePoints'),
-                              onPressed: () => {
-                                settingsData.isInfinite =
-                                    !settingsData.isInfinite
-                              },
-                              style: ButtonStyle(
-                                backgroundColor: WidgetStateProperty.all<Color>(
-                                  settingsData.isInfinite
-                                      ? Theme.of(context).cardColor
-                                      : Theme.of(context).primaryColor,
+                                  foregroundColor:
+                                      WidgetStateProperty.all<Color>(
+                                        settingsData.isInfinite
+                                            ? Theme.of(context).primaryColor
+                                            : Theme.of(context).cardColor,
+                                      ),
+                                  shape:
+                                      WidgetStateProperty.all<OutlinedBorder>(
+                                        RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            CustomProperties.borderRadius,
+                                          ),
+                                          side: BorderSide(
+                                            color:
+                                                settingsData.isInfinite
+                                                    ? Theme.of(
+                                                      context,
+                                                    ).primaryColor
+                                                    : Colors.transparent,
+                                          ),
+                                        ),
+                                      ),
                                 ),
-                                foregroundColor: WidgetStateProperty.all<Color>(
-                                  settingsData.isInfinite
-                                      ? Theme.of(context).primaryColor
-                                      : Theme.of(context).cardColor,
-                                ),
-                                shape: WidgetStateProperty.all<OutlinedBorder>(
-                                  RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(
-                                      CustomProperties.borderRadius,
-                                    ),
-                                    side: BorderSide(
-                                      color: settingsData.isInfinite
-                                          ? Theme.of(context).primaryColor
-                                          : Colors.transparent,
-                                    ),
+                                label: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    AppLocalizations.of(context)!.infinite,
+                                    style: const TextStyle(fontSize: 18),
                                   ),
                                 ),
+                                icon:
+                                    settingsData.isInfinite
+                                        ? const Icon(
+                                          Icons.cancel_outlined,
+                                          size: 20,
+                                        )
+                                        : const Icon(
+                                          FontAwesomeIcons.check,
+                                          size: 20,
+                                        ),
                               ),
-                              label: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  AppLocalizations.of(context)!.infinite,
-                                  style: const TextStyle(
-                                    fontSize: 18,
-                                  ),
-                                ),
-                              ),
-                              icon: settingsData.isInfinite
-                                  ? const Icon(
-                                      Icons.cancel_outlined,
-                                      size: 20,
-                                    )
-                                  : const Icon(
-                                      FontAwesomeIcons.check,
-                                      size: 20,
-                                    ),
                             ),
-                          ),
-                        ],
-                      );
-                    }),
+                          ],
+                        );
+                      },
+                    ),
                   ),
                 ),
                 (game is Belote && game is! FrenchBelote)
                     ? Column(
-                        children: [
-                          const Padding(
-                            padding: EdgeInsets.all(8.0),
-                            child: Divider(),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child: Center(
-                              child: Text(
-                                AppLocalizations.of(context)!
-                                    .sumTrickPointsAndContract,
-                              ),
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Divider(),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: Center(
+                            child: Text(
+                              AppLocalizations.of(
+                                context,
+                              )!.sumTrickPointsAndContract,
                             ),
                           ),
-                          ChangeNotifierProvider.value(
-                            value: (game?.settings as BeloteGameSetting),
-                            child: Consumer<BeloteGameSetting>(
-                                builder: (context, settingsData, child) {
+                        ),
+                        ChangeNotifierProvider.value(
+                          value: (game?.settings as BeloteGameSetting),
+                          child: Consumer<BeloteGameSetting>(
+                            builder: (context, settingsData, child) {
                               return Column(
                                 children: [
                                   Padding(
@@ -198,11 +211,13 @@ class GameSettingsScreen extends StatelessWidget {
                                         Text(
                                           AppLocalizations.of(context)!.no,
                                           style: const TextStyle(
-                                              fontWeight: FontWeight.bold),
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                         ),
                                         Switch(
-                                          value: settingsData
-                                              .sumTrickPointsAndContract,
+                                          value:
+                                              settingsData
+                                                  .sumTrickPointsAndContract,
                                           activeColor:
                                               Theme.of(context).primaryColor,
                                           onChanged: (bool value) {
@@ -214,20 +229,24 @@ class GameSettingsScreen extends StatelessWidget {
                                         Text(
                                           AppLocalizations.of(context)!.yes,
                                           style: const TextStyle(
-                                              fontWeight: FontWeight.bold),
-                                        )
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
                                       ],
                                     ),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
-                                        horizontal: 20.0),
+                                      horizontal: 20.0,
+                                    ),
                                     child: Text(
                                       settingsData.sumTrickPointsAndContract
-                                          ? AppLocalizations.of(context)!
-                                              .sumTrickPointsAndContractYesExample
-                                          : AppLocalizations.of(context)!
-                                              .sumTrickPointsAndContractNoExample,
+                                          ? AppLocalizations.of(
+                                            context,
+                                          )!.sumTrickPointsAndContractYesExample
+                                          : AppLocalizations.of(
+                                            context,
+                                          )!.sumTrickPointsAndContractNoExample,
                                       textAlign: TextAlign.center,
                                       style: const TextStyle(
                                         fontStyle: FontStyle.italic,
@@ -237,10 +256,11 @@ class GameSettingsScreen extends StatelessWidget {
                                   ),
                                 ],
                               );
-                            }),
+                            },
                           ),
-                        ],
-                      )
+                        ),
+                      ],
+                    )
                     : const SizedBox.shrink(),
               ],
             ),
@@ -266,35 +286,32 @@ class GameSettingsScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                onPressed: () async => {
-                  Navigator.of(context).push(
-                    CustomRouteLeftToRight(
-                      builder: (context) => PlayerPickerScreen(
-                          game: game, title: game!.gameType.name),
-                    ),
-                  )
-                },
+                onPressed:
+                    () async => {
+                      Navigator.of(context).push(
+                        CustomRouteLeftToRight(
+                          builder:
+                              (context) => PlayerPickerScreen(
+                                game: game,
+                                title: game!.gameType.name,
+                              ),
+                        ),
+                      ),
+                    },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       AppLocalizations.of(context)!.playerSelection,
-                      style: const TextStyle(
-                        fontSize: 23,
-                      ),
+                      style: const TextStyle(fontSize: 23),
                     ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    const Icon(
-                      Icons.arrow_right_alt_outlined,
-                      size: 30,
-                    )
+                    const SizedBox(width: 10),
+                    const Icon(Icons.arrow_right_alt_outlined, size: 30),
                   ],
                 ),
               ),
             ),
-          )
+          ),
         ],
       ),
     );
