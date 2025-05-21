@@ -15,33 +15,39 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  release-info:
+    uses: vareversat/github-actions/.github/workflows/global.release.info.yml@v1.6.0
+
   flutter-analyze:
-    uses: vareversat/github-actions/.github/workflows/flutter.analyze.yml@v1.5.2
+    uses: vareversat/github-actions/.github/workflows/flutter.analyze.yml@v1.6.0
     with:
       flutter_version: '3.29.3'
     secrets: inherit
   flutter-format:
-    uses: vareversat/github-actions/.github/workflows/flutter.format.yml@v1.5.2
+    uses: vareversat/github-actions/.github/workflows/flutter.format.yml@v1.6.0
     with:
       flutter_version: '3.29.3'
     secrets: inherit
   flutter-test:
-    uses: vareversat/github-actions/.github/workflows/flutter.test.yml@v1.5.2
+    uses: vareversat/github-actions/.github/workflows/flutter.test.yml@v1.6.0
     with:
       flutter_version: '3.29.3'
     secrets: inherit
   flutter-build:
-    uses: vareversat/github-actions/.github/workflows/flutter.build.yml@v1.5.2
+    uses: vareversat/github-actions/.github/workflows/flutter.build.yml@v1.6.0
+    needs: [ release-info ]
     with:
       flutter_version: '3.29.3'
       java_version: '17.x'
       flutter_flavor: 'prod'
       build_android_aab: 'true'
+      build_name: ${{ needs.release-info.outputs.version_name }}
+      build_number: ${{ needs.release-info.outputs.revision_name }}
     secrets: inherit
 
   fastlane-publish:
     needs: [ flutter-analyze, flutter-format, flutter-test, flutter-build ]
-    uses: vareversat/github-actions/.github/workflows/flutter.publish.yml@v1.5.2
+    uses: vareversat/github-actions/.github/workflows/flutter.publish.yml@v1.6.0
     with:
       lane: 'dry_run'
       url: 'https://play.google.com/console/u/0/developers/5699287307345981322/app/4976228446948711700/app-dashboard'
