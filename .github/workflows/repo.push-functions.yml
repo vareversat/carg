@@ -15,7 +15,7 @@ concurrency:
 
 jobs:
   firebase-lint:
-    uses: vareversat/github-actions/.github/workflows/firebase.function.lint.yml@v1.5.2
+    uses: vareversat/github-actions/.github/workflows/firebase.function.lint.yml@v1.6.0
     with:
       node_version: '22.x'
       function_path: 'firebase_functions'
