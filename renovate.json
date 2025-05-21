@@ -11,7 +11,8 @@
         "digest",
         "rollback"
       ],
-      "schedule": ["after 2pm on sunday"],
+      "schedule": ["0 12 * * *"],
+      "timezone": "Europe/Paris",
       "automerge": true,
       "assigneesFromCodeOwners": false,
       "commitMessageTopic": "{{depName}}"
@@ -22,7 +23,8 @@
       "matchUpdateTypes": [
         "major"
       ],
-      "schedule": ["after 2pm on sunday"],
+      "schedule": ["0 12 * * *"],
+      "timezone": "Europe/Paris",
       "automerge": false,
       "assigneesFromCodeOwners": true,
       "commitMessageTopic": "{{depName}}"
