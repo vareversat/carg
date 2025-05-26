@@ -1,6 +1,5 @@
 import 'package:carg/const.dart';
 import 'package:carg/styles/properties.dart';
-import 'package:carg/views/screens/change_log_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:carg/l10n/app_localizations.dart';
 import 'package:flutter_svg/svg.dart';
@@ -133,12 +132,15 @@ class CargAboutDialog extends StatelessWidget {
                   ),
                 ),
                 onPressed:
-                    () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const ChangeLogScreen(),
+                    () => {
+                      launchUrlString(
+                        Const.releaseUrl.replaceAll(
+                          '%',
+                          snapshot.data!.version,
+                        ),
+                        mode: LaunchMode.externalApplication,
                       ),
-                    ),
+                    },
                 label: Text(
                   AppLocalizations.of(context)!.changelog,
                   style: const TextStyle(fontSize: 18),
