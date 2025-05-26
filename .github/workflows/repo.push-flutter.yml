@@ -17,6 +17,8 @@ concurrency:
 jobs:
   release-info:
     uses: vareversat/github-actions/.github/workflows/global.release.info.yml@v1.6.1
+    with:
+      revision_type: 'date'
 
   flutter-analyze:
     uses: vareversat/github-actions/.github/workflows/flutter.analyze.yml@v1.6.1
