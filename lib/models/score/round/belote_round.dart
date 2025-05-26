@@ -139,27 +139,12 @@ abstract class BeloteRound extends Round<BeloteGameSetting> {
     }
   }
 
-  int getTotalPointsOfTeam(BeloteTeamEnum team) {
-    // Check the settings to check the score computation
-    if (settings != null && settings!.sumTrickPointsAndContract) {
-      return getTrickPointsOfTeam(team) +
-          getDixDeDerOfTeam(team) +
-          getBeloteRebeloteOfTeam(team);
-    } else {
-      return getDixDeDerOfTeam(team) + getBeloteRebeloteOfTeam(team);
-    }
-  }
-
   int getBeloteRebeloteOfTeam(BeloteTeamEnum? team) {
     return team == _beloteRebelote ? beloteRebeloteBonus : 0;
   }
 
   int getDixDeDerOfTeam(BeloteTeamEnum? team) {
-    if (team == dixDeDer) {
-      return BeloteRound.dixDeDerBonus;
-    } else {
-      return 0;
-    }
+    return team == dixDeDer ? BeloteRound.dixDeDerBonus : 0;
   }
 
   int roundScore(int trickPoints) {
@@ -169,6 +154,17 @@ abstract class BeloteRound extends Round<BeloteGameSetting> {
   @override
   String realTimeDisplay(BuildContext context) {
     return '${taker.name(context)} : ${takerScore.toString()} | ${defender.name(context)} : ${defenderScore.toString()}';
+  }
+
+  int computeDefenderRound();
+
+  int computeTakerRound();
+
+  @override
+  void computeRound() {
+    takerScore = computeTakerRound();
+    defenderScore = computeDefenderRound();
+    notifyListeners();
   }
 
   Map<String, dynamic> toJSON() {

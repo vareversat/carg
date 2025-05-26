@@ -50,7 +50,7 @@ void main() {
       contreeRound.contractName = ContreeBeloteContractName.NORMAL;
       contreeRound.contractType = BeloteContractType.NORMAL;
       contreeRound.contract = 90;
-      expect(contreeRound.takerScore, 100);
+      expect(contreeRound.takerScore, 90);
       expect(contreeRound.defenderScore, 0);
     });
 
@@ -84,7 +84,7 @@ void main() {
       contreeRound.contractType = BeloteContractType.NORMAL;
       contreeRound.contract = 100;
       expect(contreeRound.contractFulfilled, true);
-      expect(contreeRound.takerScore, 110);
+      expect(contreeRound.takerScore, 100);
       expect(contreeRound.defenderScore, 0);
     });
 
@@ -156,7 +156,7 @@ void main() {
       expect(contreeRound.defenderScore, 60);
     });
 
-    test('Compute score - Contract - Contré', () {
+    test('Compute score - Contract - Contre', () {
       final contreeRound = ContreeBeloteRound(
           taker: BeloteTeamEnum.US,
           defender: BeloteTeamEnum.THEM,
@@ -168,6 +168,7 @@ void main() {
       contreeRound.contractName = ContreeBeloteContractName.CONTRE;
       contreeRound.contractType = BeloteContractType.NORMAL;
       contreeRound.contract = 100;
+      expect(contreeRound.contractFulfilled, true);
       expect(contreeRound.takerScore, 440);
       expect(contreeRound.defenderScore, 50);
     });
@@ -204,7 +205,7 @@ void main() {
       contreeRound.contract = 100;
       expect(contreeRound.contractFulfilled, false);
       expect(contreeRound.takerScore, 0);
-      expect(contreeRound.defenderScore, 270);
+      expect(contreeRound.defenderScore, 370);
     });
 
     test('Compute score - fulfilled - Dix de Der - US - Capot', () {
@@ -245,8 +246,8 @@ void main() {
       contreeRound.contractType = BeloteContractType.CAPOT;
       expect(contreeRound.contractFulfilled, false);
       expect(contreeRound.contract, 162);
-      expect(contreeRound.takerScore, 10);
-      expect(contreeRound.defenderScore, 410);
+      expect(contreeRound.takerScore, 0);
+      expect(contreeRound.defenderScore, 420);
     });
 
     test('Compute score - fulfilled - Dix de Der - US - Generale', () {
@@ -287,7 +288,7 @@ void main() {
       contreeRound.contractType = BeloteContractType.FAILED_GENERALE;
       expect(contreeRound.contractFulfilled, false);
       expect(contreeRound.contract, 162);
-      expect(contreeRound.takerScore, 10);
+      expect(contreeRound.takerScore, 0);
       expect(contreeRound.defenderScore, 660);
     });
   });

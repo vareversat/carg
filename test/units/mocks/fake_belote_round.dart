@@ -13,4 +13,14 @@ class FakeBeloteRound extends BeloteRound {
       return 20;
     }
   }
+
+  @override
+  int computeDefenderRound() {
+    return 10;
+  }
+
+  @override
+  int computeTakerRound() {
+    return 10;
+  }
 }

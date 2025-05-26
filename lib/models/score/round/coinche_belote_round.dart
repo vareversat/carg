@@ -78,26 +78,42 @@ class CoincheBeloteRound<CoincheBeloteGameSetting> extends BeloteRound {
   }
 
   @override
-  void computeRound() {
-    if (contractFulfilled) {
-      var takerScoreTmp = getTotalPointsOfTeam(taker) + contract;
-      var defenderScoreTmp = getTotalPointsOfTeam(defender);
-      takerScore = roundScore(
-        contractType.bonus(takerScoreTmp) * contractName.multiplier,
-      );
-      defenderScore = roundScore(defenderScoreTmp);
+  int computeDefenderRound() {
+    int score = getBeloteRebeloteOfTeam(defender);
+    if (!contractFulfilled) {
+      if (settings != null && settings!.sumTrickPointsAndContract) {
+        score +=
+            BeloteRound.totalScore +
+            contractType.bonus(contract) +
+            getTrickPointsOfTeam(defender);
+      } else {
+        score += contract;
+      }
     } else {
-      var defenderScoreTmp =
-          BeloteRound.totalScore +
-          contractType.bonus(contract) +
-          getBeloteRebeloteOfTeam(defender) +
-          getDixDeDerOfTeam(defender);
-      takerScore = roundScore(
-        getBeloteRebeloteOfTeam(taker) + getDixDeDerOfTeam(taker),
-      );
-      defenderScore = roundScore(defenderScoreTmp * contractName.multiplier);
+      if (settings != null && settings!.sumTrickPointsAndContract) {
+        score += getTrickPointsOfTeam(defender) + getDixDeDerOfTeam(defender);
+      }
     }
-    notifyListeners();
+    return roundScore(
+      score * (!contractFulfilled ? contractName.multiplier : 1),
+    );
+  }
+
+  @override
+  int computeTakerRound() {
+    int score = getBeloteRebeloteOfTeam(taker);
+    if (contractFulfilled) {
+      if (settings != null && settings!.sumTrickPointsAndContract) {
+        score +=
+            contract + getTrickPointsOfTeam(taker) + getDixDeDerOfTeam(taker);
+      } else {
+        score += contract;
+      }
+      score = contractType.bonus(score);
+    }
+    return roundScore(
+      score * (contractFulfilled ? contractName.multiplier : 1),
+    );
   }
 
   @override

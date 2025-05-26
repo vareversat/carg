@@ -23,17 +23,23 @@ class FrenchBeloteRound extends BeloteRound {
   });
 
   @override
-  void computeRound() {
-    if (contractFulfilled) {
-      takerScore = roundScore(getTotalPointsOfTeam(taker));
-      defenderScore = roundScore(getTotalPointsOfTeam(defender));
+  int computeDefenderRound() {
+    int score = getBeloteRebeloteOfTeam(defender);
+    if (!contractFulfilled) {
+      score += BeloteRound.totalScore;
     } else {
-      takerScore = roundScore(getBeloteRebeloteOfTeam(taker));
-      defenderScore = roundScore(
-        BeloteRound.totalScore + getBeloteRebeloteOfTeam(defender),
-      );
+      score += getDixDeDerOfTeam(defender) + getTrickPointsOfTeam(defender);
     }
-    notifyListeners();
+    return roundScore(score);
+  }
+
+  @override
+  int computeTakerRound() {
+    int score = getBeloteRebeloteOfTeam(taker);
+    if (contractFulfilled) {
+      score += getDixDeDerOfTeam(taker) + getTrickPointsOfTeam(taker);
+    }
+    return roundScore(score);
   }
 
   @override
