@@ -1,12 +1,13 @@
 import 'package:carg/models/game/belote_game.dart';
 import 'package:carg/models/game/french_belote.dart';
 import 'package:carg/models/game/game.dart';
+import 'package:carg/models/game/game_type.dart';
 import 'package:carg/models/game/setting/belote_game_setting.dart';
 import 'package:carg/styles/properties.dart';
-import 'package:carg/views/screens/rules_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:carg/l10n/app_localizations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class GameInfoDialog extends StatefulWidget {
   final Game game;
@@ -112,12 +113,12 @@ class _GameInfoDialogState extends State<GameInfoDialog> {
             ),
           ),
           onPressed:
-              () => Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder:
-                      (context) => RulesScreen(gameType: widget.game.gameType),
+              () => {
+                launchUrlString(
+                  widget.game.gameType.ruleUrl,
+                  mode: LaunchMode.inAppBrowserView,
                 ),
-              ),
+              },
           child: Text(AppLocalizations.of(context)!.seeTheRules),
         ),
       ],

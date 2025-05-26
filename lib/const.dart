@@ -14,6 +14,8 @@ class Const {
   /// Link
   static const String githubLink = 'https://github.com/vareversat/carg';
   static const String privacyInfoLink = 'https://carg.vareversat.fr/privacy';
+  static const String releaseUrl =
+      'https://github.com/vareversat/carg/releases/tag/v%';
 
   /// Package id
   static const String packageId = 'fr.vareversat.carg';
