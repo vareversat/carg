@@ -112,8 +112,9 @@ class TeamStatDialog extends StatelessWidget {
                   ),
                 ),
                 key: const ValueKey('editNameButton'),
-                onPressed:
-                    () => {FocusScope.of(context).requestFocus(focusNode)},
+                onPressed: () => {
+                  FocusScope.of(context).requestFocus(focusNode),
+                },
                 child: Icon(Icons.edit, color: Theme.of(context).primaryColor),
               ),
             ),
@@ -123,50 +124,45 @@ class TeamStatDialog extends StatelessWidget {
       content: Column(
         children: [
           Column(
-            children:
-                team.gameStatsList!
-                    .map(
-                      (stat) => Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Flexible(
-                              child: Column(
-                                children: [
-                                  Text(
-                                    stat.gameType.name,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium!
-                                        .copyWith(fontWeight: FontWeight.bold),
-                                  ),
-                                  Text(
-                                    AppLocalizations.of(
-                                      context,
-                                    )!.victoryPercentage(
-                                      stat.winPercentage().toString(),
-                                    ),
-                                    style: const TextStyle(fontSize: 18),
-                                  ),
-                                ],
+            children: team.gameStatsList!
+                .map(
+                  (stat) => Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Flexible(
+                          child: Column(
+                            children: [
+                              Text(
+                                stat.gameType.name,
+                                style: Theme.of(context).textTheme.bodyMedium!
+                                    .copyWith(fontWeight: FontWeight.bold),
                               ),
-                            ),
-                            Flexible(
-                              child: ConstrainedBox(
-                                constraints: const BoxConstraints(
-                                  maxHeight: 120,
-                                  maxWidth: 120,
+                              Text(
+                                AppLocalizations.of(context)!.victoryPercentage(
+                                  stat.winPercentage().toString(),
                                 ),
-                                child: _StatGauge(gameStats: stat),
+                                style: const TextStyle(fontSize: 18),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                    )
-                    .toList()
-                    .cast<Widget>(),
+                        Flexible(
+                          child: ConstrainedBox(
+                            constraints: const BoxConstraints(
+                              maxHeight: 120,
+                              maxWidth: 120,
+                            ),
+                            child: _StatGauge(gameStats: stat),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+                .toList()
+                .cast<Widget>(),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,

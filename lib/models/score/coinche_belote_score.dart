@@ -16,10 +16,9 @@ class CoincheBeloteScore extends BeloteScore<CoincheBeloteRound> {
   factory CoincheBeloteScore.fromJSON(Map<String, dynamic>? json, String id) {
     return CoincheBeloteScore(
       id: id,
-      rounds:
-          json?['rounds'] != null
-              ? CoincheBeloteRound.fromJSONList(json?['rounds'])
-              : [],
+      rounds: json?['rounds'] != null
+          ? CoincheBeloteRound.fromJSONList(json?['rounds'])
+          : [],
       usTotalPoints: json?['us_total_points'],
       themTotalPoints: json?['them_total_points'],
       game: json?['game'],

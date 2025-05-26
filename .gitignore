@@ -9,9 +9,12 @@
 .history
 .svn/
 
+# iOS
+**/ios/Flutter/ephemeral
+
 # Android
 GeneratedPluginRegistrant.java
-/android/app/.cxx
+**/.cxx/
 
 # IntelliJ related
 *.iml

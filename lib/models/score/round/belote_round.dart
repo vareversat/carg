@@ -172,10 +172,9 @@ abstract class BeloteRound extends Round<BeloteGameSetting> {
       'index': index,
       'card_color': EnumToString.convertToString(cardColor),
       'dix_de_der': EnumToString.convertToString(dixDeDer),
-      'belote_rebelote':
-          beloteRebelote != null
-              ? EnumToString.convertToString(beloteRebelote)
-              : null,
+      'belote_rebelote': beloteRebelote != null
+          ? EnumToString.convertToString(beloteRebelote)
+          : null,
       'contract_fulfilled': contractFulfilled,
       'taker': EnumToString.convertToString(taker),
       'defender': EnumToString.convertToString(defender),
@@ -183,10 +182,9 @@ abstract class BeloteRound extends Round<BeloteGameSetting> {
       'defender_score': defenderScore,
       'us_trick_score': usTrickScore,
       'them_trick_score': themTrickScore,
-      'belote_special_round':
-          beloteSpecialRound != null
-              ? EnumToString.convertToString(beloteSpecialRound)
-              : null,
+      'belote_special_round': beloteSpecialRound != null
+          ? EnumToString.convertToString(beloteSpecialRound)
+          : null,
       'belote_special_round_player': beloteSpecialRoundPlayer,
     };
   }

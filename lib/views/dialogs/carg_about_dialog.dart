@@ -58,12 +58,11 @@ class CargAboutDialog extends StatelessWidget {
                         children: [
                           Text(
                             snapshot.data!.appName,
-                            style: Theme.of(
-                              context,
-                            ).textTheme.headlineSmall!.copyWith(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 30,
-                            ),
+                            style: Theme.of(context).textTheme.headlineSmall!
+                                .copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 30,
+                                ),
                           ),
                           Text(
                             ' | v${snapshot.data!.version} (${snapshot.data!.buildNumber})',
@@ -131,16 +130,12 @@ class CargAboutDialog extends StatelessWidget {
                     ),
                   ),
                 ),
-                onPressed:
-                    () => {
-                      launchUrlString(
-                        Const.releaseUrl.replaceAll(
-                          '%',
-                          snapshot.data!.version,
-                        ),
-                        mode: LaunchMode.externalApplication,
-                      ),
-                    },
+                onPressed: () => {
+                  launchUrlString(
+                    Const.releaseUrl.replaceAll('%', snapshot.data!.version),
+                    mode: LaunchMode.externalApplication,
+                  ),
+                },
                 label: Text(
                   AppLocalizations.of(context)!.changelog,
                   style: const TextStyle(fontSize: 18),

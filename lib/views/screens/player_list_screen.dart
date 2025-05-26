@@ -50,55 +50,52 @@ class _PlayerListScreenState extends State<PlayerListScreen> {
             actions: [
               PopupMenuButton<String>(
                 key: const ValueKey('playerListPopupMenuButton'),
-                itemBuilder:
-                    (context) => [
-                      PopupMenuItem(
-                        key: const ValueKey('addPlayerPopupMenuItem'),
-                        child: Text(
-                          AppLocalizations.of(context)!.newPlayer,
-                          style: const TextStyle(fontSize: 14),
-                        ),
-                        onTap: () async {
-                          Future.delayed(const Duration(seconds: 0), () async {
-                            var result = await showDialog(
-                              context: context,
-                              builder:
-                                  (BuildContext context) => PlayerInfoDialog(
-                                    key: const ValueKey('addPlayerDialog'),
-                                    player: Player(owned: true),
-                                    playerService: widget.playerService,
-                                    isNewPlayer: true,
-                                  ),
-                            );
-                            if (result != null) {
-                              InfoSnackBar.showSnackBar(context, result);
-                            }
-                          });
-                        },
-                      ),
-                      PopupMenuItem(
-                        key: const ValueKey('showInformationPopupMenuItem'),
-                        child: Text(
-                          AppLocalizations.of(context)!.information,
-                          style: const TextStyle(fontSize: 14),
-                        ),
-                        onTap: () async {
-                          Future.delayed(const Duration(seconds: 0), () async {
-                            await showDialog(
-                              context: context,
-                              builder:
-                                  (BuildContext context) =>
-                                      PlayerColorExplanationDialog(
-                                        key: const ValueKey(
-                                          'playerColorExplanationDialog',
-                                        ),
-                                        isAdmin: isAdmin,
-                                      ),
-                            );
-                          });
-                        },
-                      ),
-                    ],
+                itemBuilder: (context) => [
+                  PopupMenuItem(
+                    key: const ValueKey('addPlayerPopupMenuItem'),
+                    child: Text(
+                      AppLocalizations.of(context)!.newPlayer,
+                      style: const TextStyle(fontSize: 14),
+                    ),
+                    onTap: () async {
+                      Future.delayed(const Duration(seconds: 0), () async {
+                        var result = await showDialog(
+                          context: context,
+                          builder: (BuildContext context) => PlayerInfoDialog(
+                            key: const ValueKey('addPlayerDialog'),
+                            player: Player(owned: true),
+                            playerService: widget.playerService,
+                            isNewPlayer: true,
+                          ),
+                        );
+                        if (result != null) {
+                          InfoSnackBar.showSnackBar(context, result);
+                        }
+                      });
+                    },
+                  ),
+                  PopupMenuItem(
+                    key: const ValueKey('showInformationPopupMenuItem'),
+                    child: Text(
+                      AppLocalizations.of(context)!.information,
+                      style: const TextStyle(fontSize: 14),
+                    ),
+                    onTap: () async {
+                      Future.delayed(const Duration(seconds: 0), () async {
+                        await showDialog(
+                          context: context,
+                          builder: (BuildContext context) =>
+                              PlayerColorExplanationDialog(
+                                key: const ValueKey(
+                                  'playerColorExplanationDialog',
+                                ),
+                                isAdmin: isAdmin,
+                              ),
+                        );
+                      });
+                    },
+                  ),
+                ],
               ),
             ],
             automaticallyImplyLeading: false,

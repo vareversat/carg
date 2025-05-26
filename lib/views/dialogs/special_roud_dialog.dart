@@ -54,11 +54,10 @@ class SpecialRoundDialog extends StatelessWidget {
                 ),
               ),
             ),
-            onPressed:
-                () => {
-                  createRound(BeloteSpecialRound.misere),
-                  Navigator.pop(context),
-                },
+            onPressed: () => {
+              createRound(BeloteSpecialRound.misere),
+              Navigator.pop(context),
+            },
             child: const Text("Misère"),
           ),
           ElevatedButton(
@@ -77,11 +76,10 @@ class SpecialRoundDialog extends StatelessWidget {
                 ),
               ),
             ),
-            onPressed:
-                () => {
-                  createRound(BeloteSpecialRound.fausseDonne),
-                  Navigator.pop(context),
-                },
+            onPressed: () => {
+              createRound(BeloteSpecialRound.fausseDonne),
+              Navigator.pop(context),
+            },
             child: const Text("Fausse donne"),
           ),
           ElevatedButton(
@@ -100,11 +98,10 @@ class SpecialRoundDialog extends StatelessWidget {
                 ),
               ),
             ),
-            onPressed:
-                () => {
-                  createRound(BeloteSpecialRound.foulPlay),
-                  Navigator.pop(context),
-                },
+            onPressed: () => {
+              createRound(BeloteSpecialRound.foulPlay),
+              Navigator.pop(context),
+            },
             child: const Text("Faute de jeu"),
           ),
         ],

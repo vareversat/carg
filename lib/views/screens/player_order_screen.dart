@@ -103,23 +103,22 @@ class _PlayerOrderScreenState extends State<PlayerOrderScreen> {
             Flexible(
               child: ReorderableListView(
                 onReorder: _onReorder,
-                children:
-                    playerListForOrder
-                        .asMap()
-                        .map(
-                          (i, player) => MapEntry(
-                            i,
-                            Container(
-                              key: ValueKey(player),
-                              child: DraggablePlayerWidget(
-                                player: player,
-                                index: i,
-                              ),
-                            ),
+                children: playerListForOrder
+                    .asMap()
+                    .map(
+                      (i, player) => MapEntry(
+                        i,
+                        Container(
+                          key: ValueKey(player),
+                          child: DraggablePlayerWidget(
+                            player: player,
+                            index: i,
                           ),
-                        )
-                        .values
-                        .toList(),
+                        ),
+                      ),
+                    )
+                    .values
+                    .toList(),
               ),
             ),
             Padding(
@@ -154,39 +153,33 @@ class _PlayerOrderScreenState extends State<PlayerOrderScreen> {
                       ),
                     ),
                   ),
-                  onPressed:
-                      () async => {
-                        await _createGame(),
-                        Navigator.pushAndRemoveUntil(
-                          context,
-                          CustomRouteFade(
-                            builder:
-                                (context) =>
-                                    _newGame!.gameType != GameType.TAROT
-                                        ? PlayBeloteScreen(
-                                          gameService: widget.gameService,
-                                          scoreService:
-                                              CorrectInstance.ofScoreService(
-                                                _newGame!,
-                                              ),
-                                          roundService:
-                                              CorrectInstance.ofRoundService(
-                                                _newGame!,
-                                              ),
-                                          beloteGame:
-                                              _newGame
-                                                  as Belote<
-                                                    BelotePlayers,
-                                                    BeloteGameSetting
-                                                  >,
-                                        )
-                                        : PlayTarotGameScreen(
-                                          tarotGame: _newGame as Tarot,
-                                        ),
-                          ),
-                          ModalRoute.withName('/'),
-                        ),
-                      },
+                  onPressed: () async => {
+                    await _createGame(),
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      CustomRouteFade(
+                        builder: (context) =>
+                            _newGame!.gameType != GameType.TAROT
+                            ? PlayBeloteScreen(
+                                gameService: widget.gameService,
+                                scoreService: CorrectInstance.ofScoreService(
+                                  _newGame!,
+                                ),
+                                roundService: CorrectInstance.ofRoundService(
+                                  _newGame!,
+                                ),
+                                beloteGame:
+                                    _newGame
+                                        as Belote<
+                                          BelotePlayers,
+                                          BeloteGameSetting
+                                        >,
+                              )
+                            : PlayTarotGameScreen(tarotGame: _newGame as Tarot),
+                      ),
+                      ModalRoute.withName('/'),
+                    ),
+                  },
                   label: Text(
                     AppLocalizations.of(context)!.startTheGame,
                     style: const TextStyle(fontSize: 23),

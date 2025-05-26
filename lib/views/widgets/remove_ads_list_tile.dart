@@ -33,11 +33,10 @@ class _RemoveAdsListTileState extends State<RemoveAdsListTile> {
       iapImplementation = AbstractIAPService.init(
         purchaseDetails.verificationData.source,
       );
-      final userId =
-          Provider.of<AuthService>(
-            context,
-            listen: false,
-          ).getConnectedUserId()!;
+      final userId = Provider.of<AuthService>(
+        context,
+        listen: false,
+      ).getConnectedUserId()!;
       final token = purchaseDetails.verificationData.serverVerificationData;
       final productData = ProductData(
         purchaseDetails.productID,
@@ -58,100 +57,87 @@ class _RemoveAdsListTileState extends State<RemoveAdsListTile> {
     return showDialog(
       context: context,
       barrierDismissible: false,
-      builder:
-          (BuildContext context) => SimpleDialog(
-            contentPadding: const EdgeInsets.all(24),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(
-                CustomProperties.borderRadius,
+      builder: (BuildContext context) => SimpleDialog(
+        contentPadding: const EdgeInsets.all(24),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(CustomProperties.borderRadius),
+        ),
+        children: <Widget>[
+          TextButton(
+            style: ButtonStyle(
+              backgroundColor: WidgetStateProperty.all<Color>(
+                Theme.of(context).primaryColor,
+              ),
+              foregroundColor: WidgetStateProperty.all<Color>(
+                Theme.of(context).cardColor,
+              ),
+              shape: WidgetStateProperty.all<OutlinedBorder>(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(
+                    CustomProperties.borderRadius,
+                  ),
+                ),
+              ),
+            ),
+            onPressed: () async => {
+              _buy(context),
+              Navigator.of(context).pop(true),
+            },
+            child: Text(
+              AppLocalizations.of(context)!.buy,
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+          ),
+          TextButton(
+            style: ButtonStyle(
+              backgroundColor: WidgetStateProperty.all<Color>(
+                Theme.of(context).primaryColor,
+              ),
+              foregroundColor: WidgetStateProperty.all<Color>(
+                Theme.of(context).cardColor,
+              ),
+              shape: WidgetStateProperty.all<OutlinedBorder>(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(
+                    CustomProperties.borderRadius,
+                  ),
+                ),
               ),
             ),
-            children: <Widget>[
-              TextButton(
-                style: ButtonStyle(
-                  backgroundColor: WidgetStateProperty.all<Color>(
-                    Theme.of(context).primaryColor,
-                  ),
-                  foregroundColor: WidgetStateProperty.all<Color>(
-                    Theme.of(context).cardColor,
-                  ),
-                  shape: WidgetStateProperty.all<OutlinedBorder>(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(
-                        CustomProperties.borderRadius,
-                      ),
-                    ),
-                  ),
-                ),
-                onPressed:
-                    () async => {
-                      _buy(context),
-                      Navigator.of(context).pop(true),
-                    },
-                child: Text(
-                  AppLocalizations.of(context)!.buy,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              TextButton(
-                style: ButtonStyle(
-                  backgroundColor: WidgetStateProperty.all<Color>(
-                    Theme.of(context).primaryColor,
-                  ),
-                  foregroundColor: WidgetStateProperty.all<Color>(
-                    Theme.of(context).cardColor,
-                  ),
-                  shape: WidgetStateProperty.all<OutlinedBorder>(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(
-                        CustomProperties.borderRadius,
-                      ),
-                    ),
-                  ),
-                ),
-                onPressed:
-                    () async => {
-                      _restorePurchase(),
-                      Navigator.of(context).pop(true),
-                    },
-                child: Text(
-                  AppLocalizations.of(context)!.restoreMyPurchase,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ],
+            onPressed: () async => {
+              _restorePurchase(),
+              Navigator.of(context).pop(true),
+            },
+            child: Text(
+              AppLocalizations.of(context)!.restoreMyPurchase,
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
           ),
+        ],
+      ),
     );
   }
 
   Future<dynamic> _purchaseStatusDialog(BuildContext context) {
     return showDialog(
       context: context,
-      builder:
-          (BuildContext context) => ChangeNotifierProvider.value(
-            value: iapImplementation,
-            child: Consumer<AbstractIAPService>(
-              builder:
-                  (context, iapImplementationData, _) => SimpleDialog(
-                    contentPadding: const EdgeInsets.all(24),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    children: <Widget>[
-                      Text(
-                        iapImplementationData.purchaseStatus,
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
+      builder: (BuildContext context) => ChangeNotifierProvider.value(
+        value: iapImplementation,
+        child: Consumer<AbstractIAPService>(
+          builder: (context, iapImplementationData, _) => SimpleDialog(
+            contentPadding: const EdgeInsets.all(24),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
             ),
+            children: <Widget>[
+              Text(
+                iapImplementationData.purchaseStatus,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+            ],
           ),
+        ),
+      ),
     );
   }
 

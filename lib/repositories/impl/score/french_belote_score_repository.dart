@@ -22,8 +22,10 @@ class FrenchBeloteScoreRepository extends AbstractFrenchBeloteScoreRepository {
 
   @override
   Future<FrenchBeloteScore?> get(String id) async {
-    var querySnapshot =
-        await provider.collection(connectionString).doc(id).get();
+    var querySnapshot = await provider
+        .collection(connectionString)
+        .doc(id)
+        .get();
     if (querySnapshot.data() != null) {
       return FrenchBeloteScore.fromJSON(querySnapshot.data(), querySnapshot.id);
     } else {
@@ -34,11 +36,10 @@ class FrenchBeloteScoreRepository extends AbstractFrenchBeloteScoreRepository {
   @override
   Future<FrenchBeloteScore?> getScoreByGame(String? gameId) async {
     try {
-      var querySnapshot =
-          await provider
-              .collection(connectionString)
-              .where('game', isEqualTo: gameId)
-              .get();
+      var querySnapshot = await provider
+          .collection(connectionString)
+          .where('game', isEqualTo: gameId)
+          .get();
       if (querySnapshot.docs.isNotEmpty) {
         return FrenchBeloteScore.fromJSON(
           querySnapshot.docs.first.data(),

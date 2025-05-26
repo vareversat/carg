@@ -30,10 +30,9 @@ class NavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bgColor =
-        (backgroundColor == null)
-            ? Theme.of(context).cardColor
-            : backgroundColor;
+    final bgColor = (backgroundColor == null)
+        ? Theme.of(context).cardColor
+        : backgroundColor;
 
     return Container(
       decoration: BoxDecoration(
@@ -50,22 +49,21 @@ class NavBar extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
           child: Row(
             mainAxisAlignment: mainAxisAlignment,
-            children:
-                items.map((item) {
-                  var index = items.indexOf(item);
-                  return GestureDetector(
-                    onTap: () => onItemSelected(index),
-                    child: _ItemWidget(
-                      item: item,
-                      iconSize: iconSize,
-                      isSelected: index == selectedIndex,
-                      backgroundColor: bgColor!,
-                      itemCornerRadius: itemCornerRadius,
-                      animationDuration: animationDuration,
-                      curve: curve,
-                    ),
-                  );
-                }).toList(),
+            children: items.map((item) {
+              var index = items.indexOf(item);
+              return GestureDetector(
+                onTap: () => onItemSelected(index),
+                child: _ItemWidget(
+                  item: item,
+                  iconSize: iconSize,
+                  isSelected: index == selectedIndex,
+                  backgroundColor: bgColor!,
+                  itemCornerRadius: itemCornerRadius,
+                  animationDuration: animationDuration,
+                  curve: curve,
+                ),
+              );
+            }).toList(),
           ),
         ),
       ),
@@ -100,10 +98,9 @@ class _ItemWidget extends StatelessWidget {
       duration: animationDuration,
       curve: curve,
       decoration: BoxDecoration(
-        color:
-            isSelected
-                ? item.activeColor.withValues(alpha: 0.2)
-                : backgroundColor,
+        color: isSelected
+            ? item.activeColor.withValues(alpha: 0.2)
+            : backgroundColor,
         borderRadius: BorderRadius.circular(itemCornerRadius),
       ),
       child: Container(
@@ -117,10 +114,9 @@ class _ItemWidget extends StatelessWidget {
             IconTheme(
               data: IconThemeData(
                 size: iconSize,
-                color:
-                    isSelected
-                        ? item.activeColor.withValues(alpha: 1)
-                        : item.inactiveColor ?? item.activeColor,
+                color: isSelected
+                    ? item.activeColor.withValues(alpha: 1)
+                    : item.inactiveColor ?? item.activeColor,
               ),
               child: item.icon,
             ),

@@ -23,8 +23,10 @@ class ContreeBeloteScoreRepository
 
   @override
   Future<ContreeBeloteScore?> get(String id) async {
-    var querySnapshot =
-        await provider.collection(connectionString).doc(id).get();
+    var querySnapshot = await provider
+        .collection(connectionString)
+        .doc(id)
+        .get();
     if (querySnapshot.data() != null) {
       return ContreeBeloteScore.fromJSON(
         querySnapshot.data(),
@@ -38,11 +40,10 @@ class ContreeBeloteScoreRepository
   @override
   Future<ContreeBeloteScore?> getScoreByGame(String? gameId) async {
     try {
-      var querySnapshot =
-          await provider
-              .collection(connectionString)
-              .where('game', isEqualTo: gameId)
-              .get();
+      var querySnapshot = await provider
+          .collection(connectionString)
+          .where('game', isEqualTo: gameId)
+          .get();
       if (querySnapshot.docs.isNotEmpty) {
         return ContreeBeloteScore.fromJSON(
           querySnapshot.docs.first.data(),

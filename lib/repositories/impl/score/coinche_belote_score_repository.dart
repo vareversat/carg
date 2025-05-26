@@ -23,8 +23,10 @@ class CoincheBeloteScoreRepository
 
   @override
   Future<CoincheBeloteScore?> get(String id) async {
-    var querySnapshot =
-        await provider.collection(connectionString).doc(id).get();
+    var querySnapshot = await provider
+        .collection(connectionString)
+        .doc(id)
+        .get();
     if (querySnapshot.data() != null) {
       return CoincheBeloteScore.fromJSON(
         querySnapshot.data(),
@@ -38,11 +40,10 @@ class CoincheBeloteScoreRepository
   @override
   Future<CoincheBeloteScore?> getScoreByGame(String gameId) async {
     try {
-      var querySnapshot =
-          await provider
-              .collection(connectionString)
-              .where('game', isEqualTo: gameId)
-              .get();
+      var querySnapshot = await provider
+          .collection(connectionString)
+          .where('game', isEqualTo: gameId)
+          .get();
       if (querySnapshot.docs.isNotEmpty) {
         return CoincheBeloteScore.fromJSON(
           querySnapshot.docs.first.data(),

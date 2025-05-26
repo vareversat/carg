@@ -44,10 +44,9 @@ class NextPlayerWidget extends StatelessWidget {
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
               TextSpan(
-                text:
-                    AppLocalizations.of(
-                      context,
-                    )!.messagePlayerDistributeCardsSecondPart,
+                text: AppLocalizations.of(
+                  context,
+                )!.messagePlayerDistributeCardsSecondPart,
               ),
             ],
           ),

@@ -38,11 +38,10 @@ class SubscriptionPurchase extends Purchase {
       userId: json?['userId'],
       purchaseDate: DateTime.parse(json?['purchase_date']),
       type: EnumToString.fromString(ProductTypeEnum.values, json?['type'])!,
-      status:
-          EnumToString.fromString(
-            SubscriptionStatusEnum.values,
-            json?['status'],
-          )!,
+      status: EnumToString.fromString(
+        SubscriptionStatusEnum.values,
+        json?['status'],
+      )!,
       expiryDate: DateTime.parse(json?['expiry_date']),
     );
   }

@@ -36,10 +36,9 @@ abstract class Game<T extends Players, S extends GameSetting> extends CargObject
   Map<String, dynamic> toJSON() {
     return {
       'starting_date': DateFormat('yyyy-MM-ddTHH:mm:ss').format(startingDate),
-      'ending_date':
-          endingDate != null
-              ? DateFormat('yyyy-MM-ddTHH:mm:ss').format(endingDate!)
-              : null,
+      'ending_date': endingDate != null
+          ? DateFormat('yyyy-MM-ddTHH:mm:ss').format(endingDate!)
+          : null,
       'is_ended': isEnded,
       'winners': winner,
       'notes': notes,

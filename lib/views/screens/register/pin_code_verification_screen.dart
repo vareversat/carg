@@ -80,12 +80,10 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
         await Navigator.pushReplacement(
           context,
           CustomRouteFade(
-            builder:
-                (context) =>
-                    Provider.of<AuthService>(
-                      context,
-                      listen: false,
-                    ).getCorrectLandingScreen(),
+            builder: (context) => Provider.of<AuthService>(
+              context,
+              listen: false,
+            ).getCorrectLandingScreen(),
           ),
         );
       } else {
@@ -110,12 +108,10 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
         await Navigator.pushReplacement(
           context,
           CustomRouteFade(
-            builder:
-                (context) =>
-                    Provider.of<AuthService>(
-                      context,
-                      listen: false,
-                    ).getCorrectLandingScreen(),
+            builder: (context) => Provider.of<AuthService>(
+              context,
+              listen: false,
+            ).getCorrectLandingScreen(),
           ),
         );
       }
@@ -212,8 +208,9 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                       selectedFillColor: Theme.of(context).primaryColor,
                       activeColor: Theme.of(context).primaryColor,
                       inactiveColor: Theme.of(context).colorScheme.secondary,
-                      inactiveFillColor:
-                          Theme.of(context).colorScheme.secondary,
+                      inactiveFillColor: Theme.of(
+                        context,
+                      ).colorScheme.secondary,
                       activeFillColor: Colors.white,
                     ),
                     cursorColor: Colors.white,

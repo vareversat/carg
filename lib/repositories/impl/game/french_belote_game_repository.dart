@@ -24,8 +24,10 @@ class FrenchBeloteGameRepository extends AbstractFrenchBeloteGameRepository {
   @override
   Future<FrenchBelote?> get(String id) async {
     try {
-      var querySnapshot =
-          await provider.collection(connectionString).doc(id).get();
+      var querySnapshot = await provider
+          .collection(connectionString)
+          .doc(id)
+          .get();
       if (querySnapshot.data() != null) {
         return FrenchBelote.fromJSON(querySnapshot.data(), querySnapshot.id);
       } else {
@@ -45,22 +47,20 @@ class FrenchBeloteGameRepository extends AbstractFrenchBeloteGameRepository {
       var games = <FrenchBelote>[];
       QuerySnapshot<Map<String, dynamic>> querySnapshot;
       if (lastFetchGameDocument != null) {
-        querySnapshot =
-            await provider
-                .collection(connectionString)
-                .where('players.player_list', arrayContains: playerId)
-                .orderBy('starting_date', descending: true)
-                .startAfterDocument(lastFetchGameDocument!)
-                .limit(pageSize)
-                .get();
+        querySnapshot = await provider
+            .collection(connectionString)
+            .where('players.player_list', arrayContains: playerId)
+            .orderBy('starting_date', descending: true)
+            .startAfterDocument(lastFetchGameDocument!)
+            .limit(pageSize)
+            .get();
       } else {
-        querySnapshot =
-            await provider
-                .collection(connectionString)
-                .where('players.player_list', arrayContains: playerId)
-                .orderBy('starting_date', descending: true)
-                .limit(pageSize)
-                .get();
+        querySnapshot = await provider
+            .collection(connectionString)
+            .where('players.player_list', arrayContains: playerId)
+            .orderBy('starting_date', descending: true)
+            .limit(pageSize)
+            .get();
       }
       if (querySnapshot.docs.isEmpty) {
         return games;

@@ -50,57 +50,54 @@ class _CargState extends State<Carg> {
         ChangeNotifierProvider.value(value: AuthService()),
       ],
       child: Consumer<AuthService>(
-        builder:
-            (context, auth, _) => MaterialApp(
-              localizationsDelegates: const [
-                AppLocalizations.delegate,
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
-              ],
-              localeResolutionCallback: (deviceLocale, supportedLocales) {
-                for (var locale in supportedLocales) {
-                  if (locale.languageCode == deviceLocale!.languageCode) {
-                    return deviceLocale;
-                  }
-                }
-                return const Locale('en', '');
-              },
-              supportedLocales: const [Locale('en', ''), Locale('fr', '')],
-              routes: {
-                UserScreen.routeName: (context) => const UserScreen(),
-                RegisterScreen.routeName: (context) => RegisterScreen(),
-                HomeScreen.routeName:
-                    (context) => HomeScreen(
-                      requestedIndex:
-                          ModalRoute.of(context)!.settings.arguments as int? ??
-                          0,
-                    ),
-              },
-              title: 'Carg',
-              theme: AppTheme.lightTheme,
-              home: FutureBuilder<bool>(
-                future: auth.isAlreadyLogin(),
-                builder: (context, authResult) {
-                  if (authResult.connectionState == ConnectionState.waiting) {
-                    return const SplashScreen();
-                  }
-                  if (authResult.connectionState == ConnectionState.done) {
-                    if (authResult.data == null || !authResult.data!) {
-                      // User is not logged
-                      return RegisterScreen();
-                    } else if (authResult.data != null && authResult.data!) {
-                      // User is already logged
-                      return Provider.of<AuthService>(
-                        context,
-                        listen: false,
-                      ).getCorrectLandingScreen();
-                    }
-                  }
-                  return Container();
-                },
-              ),
+        builder: (context, auth, _) => MaterialApp(
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          localeResolutionCallback: (deviceLocale, supportedLocales) {
+            for (var locale in supportedLocales) {
+              if (locale.languageCode == deviceLocale!.languageCode) {
+                return deviceLocale;
+              }
+            }
+            return const Locale('en', '');
+          },
+          supportedLocales: const [Locale('en', ''), Locale('fr', '')],
+          routes: {
+            UserScreen.routeName: (context) => const UserScreen(),
+            RegisterScreen.routeName: (context) => RegisterScreen(),
+            HomeScreen.routeName: (context) => HomeScreen(
+              requestedIndex:
+                  ModalRoute.of(context)!.settings.arguments as int? ?? 0,
             ),
+          },
+          title: 'Carg',
+          theme: AppTheme.lightTheme,
+          home: FutureBuilder<bool>(
+            future: auth.isAlreadyLogin(),
+            builder: (context, authResult) {
+              if (authResult.connectionState == ConnectionState.waiting) {
+                return const SplashScreen();
+              }
+              if (authResult.connectionState == ConnectionState.done) {
+                if (authResult.data == null || !authResult.data!) {
+                  // User is not logged
+                  return RegisterScreen();
+                } else if (authResult.data != null && authResult.data!) {
+                  // User is already logged
+                  return Provider.of<AuthService>(
+                    context,
+                    listen: false,
+                  ).getCorrectLandingScreen();
+                }
+              }
+              return Container();
+            },
+          ),
+        ),
       ),
     );
   }

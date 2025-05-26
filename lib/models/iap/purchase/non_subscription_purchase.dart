@@ -31,18 +31,19 @@ class NonSubscriptionPurchase extends Purchase {
   ) {
     return NonSubscriptionPurchase(
       id: id,
-      iapSource:
-          EnumToString.fromString(IAPSourceEnum.values, json?['iap_source'])!,
+      iapSource: EnumToString.fromString(
+        IAPSourceEnum.values,
+        json?['iap_source'],
+      )!,
       orderId: json?['order_id'],
       productId: json?['product_id'],
       userId: json?['user_id'],
       purchaseDate: DateTime.parse(json?['purchase_date']),
       type: EnumToString.fromString(ProductTypeEnum.values, json?['type'])!,
-      status:
-          EnumToString.fromString(
-            NonSubscriptionStatusEnum.values,
-            json?['status'],
-          )!,
+      status: EnumToString.fromString(
+        NonSubscriptionStatusEnum.values,
+        json?['status'],
+      )!,
     );
   }
 

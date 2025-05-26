@@ -119,11 +119,10 @@ class _PlayerListTabWidget extends State<PlayerListTab> {
                     return ChangeNotifierProvider.value(
                       value: snapshot.data![index],
                       child: Consumer<Player>(
-                        builder:
-                            (context, playerData, child) => PlayerWidget(
-                              player: playerData,
-                              key: ValueKey("playerWidget-$index"),
-                            ),
+                        builder: (context, playerData, child) => PlayerWidget(
+                          player: playerData,
+                          key: ValueKey("playerWidget-$index"),
+                        ),
                       ),
                     );
                   },
@@ -132,11 +131,10 @@ class _PlayerListTabWidget extends State<PlayerListTab> {
               future: widget.playerService.searchPlayers(
                 query: searchQuery,
                 myPlayers: widget.myPlayers,
-                currentPlayer:
-                    Provider.of<AuthService>(
-                      context,
-                      listen: false,
-                    ).getPlayer(),
+                currentPlayer: Provider.of<AuthService>(
+                  context,
+                  listen: false,
+                ).getPlayer(),
               ),
             ),
           ),

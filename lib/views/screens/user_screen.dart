@@ -39,11 +39,8 @@ class _UserScreenState extends State<UserScreen>
       await Navigator.push(
         context,
         CustomRouteFade(
-          builder:
-              (context) => SettingsScreen(
-                player: _player!,
-                playerService: PlayerService(),
-              ),
+          builder: (context) =>
+              SettingsScreen(player: _player!, playerService: PlayerService()),
         ),
       );
     }
@@ -63,12 +60,13 @@ class _UserScreenState extends State<UserScreen>
       vsync: this,
       duration: const Duration(milliseconds: 1100),
     );
-    _opacityAnimation = Tween<Offset>(
-      begin: const Offset(0.0, -1.0),
-      end: const Offset(0.0, 0.0),
-    ).animate(
-      CurvedAnimation(parent: _animationController, curve: Curves.ease),
-    );
+    _opacityAnimation =
+        Tween<Offset>(
+          begin: const Offset(0.0, -1.0),
+          end: const Offset(0.0, 0.0),
+        ).animate(
+          CurvedAnimation(parent: _animationController, curve: Curves.ease),
+        );
     _animationController.forward();
     super.initState();
   }
@@ -166,117 +164,108 @@ class _UserScreenState extends State<UserScreen>
           return ChangeNotifierProvider.value(
             value: _player!,
             child: Consumer<Player>(
-              builder:
-                  (context, player, _) => CustomScrollView(
-                    slivers: [
-                      SliverAppBar(
-                        shape: const ContinuousRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(
-                              CustomProperties.borderRadius * 5,
-                            ),
-                            bottomRight: Radius.circular(
-                              CustomProperties.borderRadius * 5,
-                            ),
-                          ),
+              builder: (context, player, _) => CustomScrollView(
+                slivers: [
+                  SliverAppBar(
+                    shape: const ContinuousRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(
+                          CustomProperties.borderRadius * 5,
                         ),
-                        backgroundColor: Theme.of(context).primaryColor,
-                        automaticallyImplyLeading: false,
-                        floating: true,
-                        pinned: true,
-                        forceElevated: true,
-                        expandedHeight: 200,
-                        collapsedHeight: 140,
-                        title: _AppBarTitle(onPressEdit: _showSettingsScreen),
-                        flexibleSpace: FlexibleSpaceBar(
-                          centerTitle: true,
-                          title: _PlayerUsernameAndProfilePictureWidget(
-                            player: _player,
-                            animation: _opacityAnimation,
-                          ),
+                        bottomRight: Radius.circular(
+                          CustomProperties.borderRadius * 5,
                         ),
                       ),
-                      SliverList(
-                        delegate: SliverChildListDelegate([
-                          _player!.gameStatsList!.isNotEmpty
-                              ? Column(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                      vertical: 15,
-                                    ),
-                                    child: Text(
-                                      '-- ${AppLocalizations.of(context)!.winPercentage} --',
-                                      style: Theme.of(
-                                        context,
-                                      ).textTheme.bodyMedium!.copyWith(
-                                        fontStyle: FontStyle.italic,
-                                      ),
-                                    ),
+                    ),
+                    backgroundColor: Theme.of(context).primaryColor,
+                    automaticallyImplyLeading: false,
+                    floating: true,
+                    pinned: true,
+                    forceElevated: true,
+                    expandedHeight: 200,
+                    collapsedHeight: 140,
+                    title: _AppBarTitle(onPressEdit: _showSettingsScreen),
+                    flexibleSpace: FlexibleSpaceBar(
+                      centerTitle: true,
+                      title: _PlayerUsernameAndProfilePictureWidget(
+                        player: _player,
+                        animation: _opacityAnimation,
+                      ),
+                    ),
+                  ),
+                  SliverList(
+                    delegate: SliverChildListDelegate([
+                      _player!.gameStatsList!.isNotEmpty
+                          ? Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 15,
                                   ),
-                                  _WonPlayedWidget(player: _player),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                      vertical: 30,
-                                    ),
-                                    child: Wrap(
-                                      runSpacing: 20,
-                                      spacing: 80,
-                                      alignment: WrapAlignment.spaceEvenly,
-                                      children:
-                                          _player!.gameStatsList!
-                                              .map(
-                                                (stat) => ConstrainedBox(
-                                                  constraints:
-                                                      const BoxConstraints(
-                                                        maxWidth: 160,
-                                                        maxHeight: 160,
-                                                      ),
-                                                  child: _StatGauge(
-                                                    gameStats: stat,
-                                                  ),
-                                                ),
-                                              )
-                                              .toList()
-                                              .cast<Widget>(),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                      vertical: 15,
-                                    ),
-                                    child: Text(
-                                      '-- ${AppLocalizations.of(context)!.gameDistribution} --',
-                                      style: Theme.of(
-                                        context,
-                                      ).textTheme.bodyMedium!.copyWith(
-                                        fontStyle: FontStyle.italic,
-                                      ),
-                                    ),
-                                  ),
-                                  _StatCircularChart(
-                                    gameStatsList: _player!.gameStatsList,
-                                  ),
-                                ],
-                              )
-                              : Center(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(30),
                                   child: Text(
-                                    AppLocalizations.of(
-                                      context,
-                                    )!.noStatisticYet,
-                                    style: const TextStyle(
-                                      fontSize: 25,
-                                      fontStyle: FontStyle.italic,
-                                    ),
+                                    '-- ${AppLocalizations.of(context)!.winPercentage} --',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(fontStyle: FontStyle.italic),
+                                  ),
+                                ),
+                                _WonPlayedWidget(player: _player),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 30,
+                                  ),
+                                  child: Wrap(
+                                    runSpacing: 20,
+                                    spacing: 80,
+                                    alignment: WrapAlignment.spaceEvenly,
+                                    children: _player!.gameStatsList!
+                                        .map(
+                                          (stat) => ConstrainedBox(
+                                            constraints: const BoxConstraints(
+                                              maxWidth: 160,
+                                              maxHeight: 160,
+                                            ),
+                                            child: _StatGauge(gameStats: stat),
+                                          ),
+                                        )
+                                        .toList()
+                                        .cast<Widget>(),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 15,
+                                  ),
+                                  child: Text(
+                                    '-- ${AppLocalizations.of(context)!.gameDistribution} --',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(fontStyle: FontStyle.italic),
+                                  ),
+                                ),
+                                _StatCircularChart(
+                                  gameStatsList: _player!.gameStatsList,
+                                ),
+                              ],
+                            )
+                          : Center(
+                              child: Padding(
+                                padding: const EdgeInsets.all(30),
+                                child: Text(
+                                  AppLocalizations.of(context)!.noStatisticYet,
+                                  style: const TextStyle(
+                                    fontSize: 25,
+                                    fontStyle: FontStyle.italic,
                                   ),
                                 ),
                               ),
-                        ]),
-                      ),
-                    ],
+                            ),
+                    ]),
                   ),
+                ],
+              ),
             ),
           );
         },

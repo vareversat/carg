@@ -63,44 +63,105 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Consumer<_AccountCreationData>(
-                    builder:
-                        (context, registerData, _) => Column(
-                          children: [
-                            AnimatedSize(
-                              curve: Curves.ease,
-                              duration: const Duration(milliseconds: 500),
-                              child:
-                                  registerData.selectedCreationMethod
-                                          is _NoneMethod
-                                      ? Column(
-                                        children: [
-                                          ElevatedButton.icon(
-                                            icon: const Icon(Icons.add),
-                                            style: ButtonStyle(
-                                              backgroundColor:
-                                                  WidgetStateProperty.all<
-                                                    Color
-                                                  >(
-                                                    Theme.of(
-                                                      context,
-                                                    ).primaryColor,
-                                                  ),
-                                              foregroundColor:
-                                                  WidgetStateProperty.all<
-                                                    Color
-                                                  >(
-                                                    Theme.of(context).cardColor,
-                                                  ),
-                                              shape: WidgetStateProperty.all<
+                    builder: (context, registerData, _) => Column(
+                      children: [
+                        AnimatedSize(
+                          curve: Curves.ease,
+                          duration: const Duration(milliseconds: 500),
+                          child:
+                              registerData.selectedCreationMethod is _NoneMethod
+                              ? Column(
+                                  children: [
+                                    ElevatedButton.icon(
+                                      icon: const Icon(Icons.add),
+                                      style: ButtonStyle(
+                                        backgroundColor:
+                                            WidgetStateProperty.all<Color>(
+                                              Theme.of(context).primaryColor,
+                                            ),
+                                        foregroundColor:
+                                            WidgetStateProperty.all<Color>(
+                                              Theme.of(context).cardColor,
+                                            ),
+                                        shape:
+                                            WidgetStateProperty.all<
+                                              OutlinedBorder
+                                            >(
+                                              RoundedRectangleBorder(
+                                                side: BorderSide(
+                                                  width: 2,
+                                                  color: Theme.of(
+                                                    context,
+                                                  ).primaryColor,
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                      CustomProperties
+                                                          .borderRadius,
+                                                    ),
+                                              ),
+                                            ),
+                                      ),
+                                      onPressed: () {
+                                        registerData.selectedCreationMethod =
+                                            _CreatePlayerMethod(context);
+                                      },
+                                      label: Text(
+                                        AppLocalizations.of(
+                                          context,
+                                        )!.createNewPlayer,
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      width: 300,
+                                      height: 40,
+                                      padding: const EdgeInsets.only(top: 8.0),
+                                      child: Text(
+                                        AppLocalizations.of(
+                                          context,
+                                        )!.messageCreatePlayer,
+                                        style: const TextStyle(
+                                          fontSize: 15,
+                                          fontStyle: FontStyle.italic,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 20),
+                                    Text(
+                                      AppLocalizations.of(context)!.or,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 20),
+                                    SizedBox(
+                                      width: 250,
+                                      height: 40,
+                                      child: ElevatedButton.icon(
+                                        icon: const Icon(Icons.link),
+                                        style: ButtonStyle(
+                                          backgroundColor:
+                                              WidgetStateProperty.all<Color>(
+                                                Theme.of(context).primaryColor,
+                                              ),
+                                          foregroundColor:
+                                              WidgetStateProperty.all<Color>(
+                                                Theme.of(context).cardColor,
+                                              ),
+                                          shape:
+                                              WidgetStateProperty.all<
                                                 OutlinedBorder
                                               >(
                                                 RoundedRectangleBorder(
                                                   side: BorderSide(
                                                     width: 2,
-                                                    color:
-                                                        Theme.of(
-                                                          context,
-                                                        ).primaryColor,
+                                                    color: Theme.of(
+                                                      context,
+                                                    ).primaryColor,
                                                   ),
                                                   borderRadius:
                                                       BorderRadius.circular(
@@ -109,208 +170,124 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                                                       ),
                                                 ),
                                               ),
-                                            ),
-                                            onPressed: () {
-                                              registerData
-                                                      .selectedCreationMethod =
-                                                  _CreatePlayerMethod(context);
-                                            },
-                                            label: Text(
-                                              AppLocalizations.of(
-                                                context,
-                                              )!.createNewPlayer,
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            width: 300,
-                                            height: 40,
-                                            padding: const EdgeInsets.only(
-                                              top: 8.0,
-                                            ),
-                                            child: Text(
-                                              AppLocalizations.of(
-                                                context,
-                                              )!.messageCreatePlayer,
-                                              style: const TextStyle(
-                                                fontSize: 15,
-                                                fontStyle: FontStyle.italic,
-                                              ),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          ),
-                                          const SizedBox(height: 20),
-                                          Text(
-                                            AppLocalizations.of(context)!.or,
-                                            style: const TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          const SizedBox(height: 20),
-                                          SizedBox(
-                                            width: 250,
-                                            height: 40,
-                                            child: ElevatedButton.icon(
-                                              icon: const Icon(Icons.link),
-                                              style: ButtonStyle(
-                                                backgroundColor:
-                                                    WidgetStateProperty.all<
-                                                      Color
-                                                    >(
-                                                      Theme.of(
-                                                        context,
-                                                      ).primaryColor,
-                                                    ),
-                                                foregroundColor:
-                                                    WidgetStateProperty.all<
-                                                      Color
-                                                    >(
-                                                      Theme.of(
-                                                        context,
-                                                      ).cardColor,
-                                                    ),
-                                                shape: WidgetStateProperty.all<
-                                                  OutlinedBorder
-                                                >(
-                                                  RoundedRectangleBorder(
-                                                    side: BorderSide(
-                                                      width: 2,
-                                                      color:
-                                                          Theme.of(
-                                                            context,
-                                                          ).primaryColor,
-                                                    ),
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                          CustomProperties
-                                                              .borderRadius,
-                                                        ),
-                                                  ),
-                                                ),
-                                              ),
-                                              onPressed: () {
-                                                registerData
-                                                        .selectedCreationMethod =
-                                                    _LinkPlayerMethod(context);
-                                              },
-                                              label: Text(
-                                                AppLocalizations.of(
-                                                  context,
-                                                )!.linkPlayer,
-                                                textAlign: TextAlign.center,
-                                                style: const TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            padding: const EdgeInsets.only(
-                                              top: 8.0,
-                                            ),
-                                            width: 300,
-                                            child: Text(
-                                              AppLocalizations.of(
-                                                context,
-                                              )!.messageLinkPlayer,
-                                              style: const TextStyle(
-                                                fontSize: 15,
-                                                fontStyle: FontStyle.italic,
-                                              ),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          ),
-                                        ],
-                                      )
-                                      : registerData
-                                          .selectedCreationMethod
-                                          .accountCreationWidget,
-                            ),
-                            const SizedBox(height: 30),
-                            registerData.selectedCreationMethod is _NoneMethod
-                                ? ElevatedButton.icon(
-                                  icon: const Icon(Icons.close),
-                                  style: ButtonStyle(
-                                    backgroundColor:
-                                        WidgetStateProperty.all<Color>(
-                                          Theme.of(context).colorScheme.error,
                                         ),
-                                    foregroundColor:
-                                        WidgetStateProperty.all<Color>(
-                                          Theme.of(context).cardColor,
-                                        ),
-                                    shape:
-                                        WidgetStateProperty.all<OutlinedBorder>(
-                                          RoundedRectangleBorder(
-                                            side: BorderSide(
-                                              width: 2,
-                                              color:
-                                                  Theme.of(
-                                                    context,
-                                                  ).colorScheme.error,
-                                            ),
-                                            borderRadius: BorderRadius.circular(
-                                              CustomProperties.borderRadius,
-                                            ),
+                                        onPressed: () {
+                                          registerData.selectedCreationMethod =
+                                              _LinkPlayerMethod(context);
+                                        },
+                                        label: Text(
+                                          AppLocalizations.of(
+                                            context,
+                                          )!.linkPlayer,
+                                          textAlign: TextAlign.center,
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
                                           ),
                                         ),
-                                  ),
-                                  onPressed: () async {
-                                    await Provider.of<AuthService>(
-                                      context,
-                                      listen: false,
-                                    ).signOut(context);
-                                  },
-                                  label: Text(
-                                    AppLocalizations.of(context)!.leave,
-                                    textAlign: TextAlign.center,
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
+                                      ),
                                     ),
-                                  ),
+                                    Container(
+                                      padding: const EdgeInsets.only(top: 8.0),
+                                      width: 300,
+                                      child: Text(
+                                        AppLocalizations.of(
+                                          context,
+                                        )!.messageLinkPlayer,
+                                        style: const TextStyle(
+                                          fontSize: 15,
+                                          fontStyle: FontStyle.italic,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                  ],
                                 )
-                                : ElevatedButton.icon(
-                                  icon: const Icon(Icons.arrow_back),
-                                  style: ButtonStyle(
-                                    backgroundColor: WidgetStateProperty.all<
-                                      Color
-                                    >(Theme.of(context).colorScheme.secondary),
-                                    foregroundColor:
-                                        WidgetStateProperty.all<Color>(
-                                          Theme.of(context).cardColor,
-                                        ),
-                                    shape:
-                                        WidgetStateProperty.all<OutlinedBorder>(
-                                          RoundedRectangleBorder(
-                                            side: BorderSide(
-                                              width: 2,
-                                              color:
-                                                  Theme.of(
-                                                    context,
-                                                  ).colorScheme.secondary,
-                                            ),
-                                            borderRadius: BorderRadius.circular(
-                                              CustomProperties.borderRadius,
-                                            ),
+                              : registerData
+                                    .selectedCreationMethod
+                                    .accountCreationWidget,
+                        ),
+                        const SizedBox(height: 30),
+                        registerData.selectedCreationMethod is _NoneMethod
+                            ? ElevatedButton.icon(
+                                icon: const Icon(Icons.close),
+                                style: ButtonStyle(
+                                  backgroundColor:
+                                      WidgetStateProperty.all<Color>(
+                                        Theme.of(context).colorScheme.error,
+                                      ),
+                                  foregroundColor:
+                                      WidgetStateProperty.all<Color>(
+                                        Theme.of(context).cardColor,
+                                      ),
+                                  shape:
+                                      WidgetStateProperty.all<OutlinedBorder>(
+                                        RoundedRectangleBorder(
+                                          side: BorderSide(
+                                            width: 2,
+                                            color: Theme.of(
+                                              context,
+                                            ).colorScheme.error,
+                                          ),
+                                          borderRadius: BorderRadius.circular(
+                                            CustomProperties.borderRadius,
                                           ),
                                         ),
-                                  ),
-                                  onPressed: () async {
-                                    registerData.selectedCreationMethod =
-                                        _NoneMethod();
-                                  },
-                                  label: Text(
-                                    AppLocalizations.of(context)!.back,
-                                    textAlign: TextAlign.center,
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                      ),
+                                ),
+                                onPressed: () async {
+                                  await Provider.of<AuthService>(
+                                    context,
+                                    listen: false,
+                                  ).signOut(context);
+                                },
+                                label: Text(
+                                  AppLocalizations.of(context)!.leave,
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                          ],
-                        ),
+                              )
+                            : ElevatedButton.icon(
+                                icon: const Icon(Icons.arrow_back),
+                                style: ButtonStyle(
+                                  backgroundColor:
+                                      WidgetStateProperty.all<Color>(
+                                        Theme.of(context).colorScheme.secondary,
+                                      ),
+                                  foregroundColor:
+                                      WidgetStateProperty.all<Color>(
+                                        Theme.of(context).cardColor,
+                                      ),
+                                  shape:
+                                      WidgetStateProperty.all<OutlinedBorder>(
+                                        RoundedRectangleBorder(
+                                          side: BorderSide(
+                                            width: 2,
+                                            color: Theme.of(
+                                              context,
+                                            ).colorScheme.secondary,
+                                          ),
+                                          borderRadius: BorderRadius.circular(
+                                            CustomProperties.borderRadius,
+                                          ),
+                                        ),
+                                      ),
+                                ),
+                                onPressed: () async {
+                                  registerData.selectedCreationMethod =
+                                      _NoneMethod();
+                                },
+                                label: Text(
+                                  AppLocalizations.of(context)!.back,
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -369,8 +346,10 @@ class _EnterUsernameWidget extends StatelessWidget {
       '${AppLocalizations.of(context)!.messagePlayerCreation}...',
     );
     try {
-      var userId =
-          Provider.of<AuthService>(context, listen: false).getConnectedUserId();
+      var userId = Provider.of<AuthService>(
+        context,
+        listen: false,
+      ).getConnectedUserId();
       var player = Player(
         userName: _usernameTextController.text,
         linkedUserId: userId,
@@ -480,8 +459,10 @@ class _LinkPlayerWidget extends StatelessWidget {
   Future<void> _linkPlayer() async {
     FocusManager.instance.primaryFocus?.unfocus();
     try {
-      var userId =
-          Provider.of<AuthService>(context, listen: false).getConnectedUserId();
+      var userId = Provider.of<AuthService>(
+        context,
+        listen: false,
+      ).getConnectedUserId();
       var player = await _playerService.get(_idTextController.text);
       if (player != null) {
         if (player.owned == false) {

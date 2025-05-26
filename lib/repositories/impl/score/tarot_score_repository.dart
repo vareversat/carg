@@ -23,8 +23,10 @@ class TarotScoreRepository extends AbstractTarotScoreRepository {
   @override
   Future<TarotScore?> get(String id) async {
     try {
-      var querySnapshot =
-          await provider.collection(connectionString).doc(id).get();
+      var querySnapshot = await provider
+          .collection(connectionString)
+          .doc(id)
+          .get();
       if (querySnapshot.data() != null) {
         return TarotScore.fromJSON(querySnapshot.data(), querySnapshot.id);
       } else {
@@ -38,11 +40,10 @@ class TarotScoreRepository extends AbstractTarotScoreRepository {
   @override
   Future<TarotScore?> getScoreByGame(String? gameId) async {
     try {
-      var querySnapshot =
-          await provider
-              .collection(connectionString)
-              .where('game', isEqualTo: gameId)
-              .get();
+      var querySnapshot = await provider
+          .collection(connectionString)
+          .where('game', isEqualTo: gameId)
+          .get();
       if (querySnapshot.docs.isNotEmpty) {
         return TarotScore.fromJSON(
           querySnapshot.docs.first.data(),

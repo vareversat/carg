@@ -23,8 +23,10 @@ class TeamRepository extends AbstractTeamRepository {
 
   @override
   Future<Team?> get(String id) async {
-    var querySnapshot =
-        await provider.collection(connectionString).doc(id).get();
+    var querySnapshot = await provider
+        .collection(connectionString)
+        .doc(id)
+        .get();
     if (querySnapshot.data() != null) {
       return Team.fromJSON(querySnapshot.data(), querySnapshot.id);
     } else {
@@ -38,20 +40,18 @@ class TeamRepository extends AbstractTeamRepository {
       var teams = <Team>[];
       QuerySnapshot<Map<String, dynamic>> querySnapshot;
       if (lastFetchGameDocument != null) {
-        querySnapshot =
-            await provider
-                .collection(connectionString)
-                .where('players', arrayContains: playerId)
-                .startAfterDocument(lastFetchGameDocument!)
-                .limit(pageSize)
-                .get();
+        querySnapshot = await provider
+            .collection(connectionString)
+            .where('players', arrayContains: playerId)
+            .startAfterDocument(lastFetchGameDocument!)
+            .limit(pageSize)
+            .get();
       } else {
-        querySnapshot =
-            await provider
-                .collection(connectionString)
-                .where('players', arrayContains: playerId)
-                .limit(pageSize)
-                .get();
+        querySnapshot = await provider
+            .collection(connectionString)
+            .where('players', arrayContains: playerId)
+            .limit(pageSize)
+            .get();
       }
       if (querySnapshot.docs.isEmpty) {
         return teams;
@@ -69,11 +69,10 @@ class TeamRepository extends AbstractTeamRepository {
   @override
   Future<Team?> getTeamByPlayers(List<String?> playerIds) async {
     playerIds.sort();
-    var querySnapshot =
-        await provider
-            .collection(connectionString)
-            .where('players', isEqualTo: playerIds)
-            .get();
+    var querySnapshot = await provider
+        .collection(connectionString)
+        .where('players', isEqualTo: playerIds)
+        .get();
     if (querySnapshot.docs.isNotEmpty) {
       return Team.fromJSON(
         querySnapshot.docs.first.data(),

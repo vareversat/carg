@@ -40,8 +40,9 @@ class AuthService with ChangeNotifier {
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
-      _connectedUser =
-          (await FirebaseAuth.instance.signInWithCredential(credential)).user;
+      _connectedUser = (await FirebaseAuth.instance.signInWithCredential(
+        credential,
+      )).user;
       _player = await _playerService.getPlayerOfUser(_connectedUser!.uid);
       _expiryDate = (await _connectedUser!.getIdTokenResult()).expirationTime;
       await _connectedUser!.getIdTokenResult(true);
@@ -149,12 +150,11 @@ class AuthService with ChangeNotifier {
       (verificationId, forceResendingToken) => Navigator.push(
         context,
         CustomRouteLeftToRight(
-          builder:
-              (context) => PinCodeVerificationScreen(
-                phoneNumber: phoneNumber,
-                verificationId: verificationId,
-                credentialVerificationType: credentialVerificationType,
-              ),
+          builder: (context) => PinCodeVerificationScreen(
+            phoneNumber: phoneNumber,
+            verificationId: verificationId,
+            credentialVerificationType: credentialVerificationType,
+          ),
         ),
       ),
       (credentials) => InfoSnackBar.showErrorSnackBar(

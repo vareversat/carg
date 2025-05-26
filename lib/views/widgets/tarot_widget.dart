@@ -69,20 +69,19 @@ class TarotWidget extends StatelessWidget {
                   key: const ValueKey('apiminiplayerwidget'),
                   alignment: WrapAlignment.center,
                   spacing: 2,
-                  children:
-                      tarotGame.players!.playerList!
-                          .map(
-                            (playerId) => APIMiniPlayerWidget(
-                              key: ValueKey('apiminiplayerwidget-$playerId'),
-                              playerId: playerId,
-                              displayImage: true,
-                              playerService: playerService,
-                              additionalText:
-                                  ' | ${snapshot.data!.getScoreOf(playerId).score.round().toString()}',
-                            ),
-                          )
-                          .toList()
-                          .cast<Widget>(),
+                  children: tarotGame.players!.playerList!
+                      .map(
+                        (playerId) => APIMiniPlayerWidget(
+                          key: ValueKey('apiminiplayerwidget-$playerId'),
+                          playerId: playerId,
+                          displayImage: true,
+                          playerService: playerService,
+                          additionalText:
+                              ' | ${snapshot.data!.getScoreOf(playerId).score.round().toString()}',
+                        ),
+                      )
+                      .toList()
+                      .cast<Widget>(),
                 );
               }
               return Center(child: Text('Error: ${snapshot.error.toString()}'));
@@ -124,26 +123,19 @@ class _ButtonRowWidget extends StatelessWidget {
                 ),
               ),
             ),
-            onPressed:
-                () async => {
-                  await showDialog(
-                    context: context,
-                    builder:
-                        (BuildContext context) => WarningDialog(
-                          onConfirm:
-                              () async => {
-                                await gameService.endAGame(
-                                  tarotGame,
-                                  DateTime.now(),
-                                ),
-                              },
-                          message:
-                              AppLocalizations.of(context)!.messageStopGame,
-                          title: AppLocalizations.of(context)!.warning,
-                          color: Colors.black,
-                        ),
-                  ),
-                },
+            onPressed: () async => {
+              await showDialog(
+                context: context,
+                builder: (BuildContext context) => WarningDialog(
+                  onConfirm: () async => {
+                    await gameService.endAGame(tarotGame, DateTime.now()),
+                  },
+                  message: AppLocalizations.of(context)!.messageStopGame,
+                  title: AppLocalizations.of(context)!.warning,
+                  color: Colors.black,
+                ),
+              ),
+            },
             label: Text(AppLocalizations.of(context)!.stop),
             icon: const Icon(Icons.stop),
           )
@@ -165,19 +157,16 @@ class _ButtonRowWidget extends StatelessWidget {
               ),
             ),
           ),
-          onPressed:
-              () async => {
-                await showDialog(
-                  context: context,
-                  builder:
-                      (BuildContext context) => WarningDialog(
-                        onConfirm: () => {gameService.deleteGame(tarotGame.id)},
-                        message:
-                            AppLocalizations.of(context)!.messageDeleteGame,
-                        title: AppLocalizations.of(context)!.delete,
-                      ),
-                ),
-              },
+          onPressed: () async => {
+            await showDialog(
+              context: context,
+              builder: (BuildContext context) => WarningDialog(
+                onConfirm: () => {gameService.deleteGame(tarotGame.id)},
+                message: AppLocalizations.of(context)!.messageDeleteGame,
+                title: AppLocalizations.of(context)!.delete,
+              ),
+            ),
+          },
           label: Text(MaterialLocalizations.of(context).deleteButtonTooltip),
           icon: const Icon(Icons.delete_forever),
         ),
@@ -198,17 +187,15 @@ class _ButtonRowWidget extends StatelessWidget {
                 ),
               ),
             ),
-            onPressed:
-                () async => {
-                  Navigator.push(
-                    context,
-                    CustomRouteFade(
-                      builder:
-                          (context) =>
-                              PlayTarotGameScreen(tarotGame: tarotGame),
-                    ),
-                  ),
-                },
+            onPressed: () async => {
+              Navigator.push(
+                context,
+                CustomRouteFade(
+                  builder: (context) =>
+                      PlayTarotGameScreen(tarotGame: tarotGame),
+                ),
+              ),
+            },
             label: Text(MaterialLocalizations.of(context).continueButtonLabel),
             icon: const Icon(Icons.play_arrow),
           )
@@ -229,17 +216,15 @@ class _ButtonRowWidget extends StatelessWidget {
                 ),
               ),
             ),
-            onPressed:
-                () async => {
-                  Navigator.push(
-                    context,
-                    CustomRouteFade(
-                      builder:
-                          (context) =>
-                              PlayTarotGameScreen(tarotGame: tarotGame),
-                    ),
-                  ),
-                },
+            onPressed: () async => {
+              Navigator.push(
+                context,
+                CustomRouteFade(
+                  builder: (context) =>
+                      PlayTarotGameScreen(tarotGame: tarotGame),
+                ),
+              ),
+            },
             child: Text(AppLocalizations.of(context)!.checkScores),
           ),
       ],

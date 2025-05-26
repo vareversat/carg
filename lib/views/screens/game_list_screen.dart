@@ -51,13 +51,12 @@ class GameListScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    onPressed:
-                        () async => Navigator.push(
-                          context,
-                          CustomRouteFade(
-                            builder: (context) => const GameModePickerScreen(),
-                          ),
-                        ),
+                    onPressed: () async => Navigator.push(
+                      context,
+                      CustomRouteFade(
+                        builder: (context) => const GameModePickerScreen(),
+                      ),
+                    ),
                     child: const FaIcon(FontAwesomeIcons.circlePlus, size: 15),
                   ),
                 ],
