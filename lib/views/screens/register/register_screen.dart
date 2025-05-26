@@ -4,9 +4,7 @@ import 'package:carg/helpers/custom_route.dart';
 import 'package:carg/services/auth/auth_service.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/views/helpers/info_snackbar.dart';
-import 'package:carg/views/widgets/register/register_email_widget.dart';
 import 'package:carg/views/widgets/register/register_phone_widget.dart';
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -16,11 +14,8 @@ import 'package:carg/l10n/app_localizations.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const String routeName = '/register';
-  late final FirebaseDynamicLinks linkProvider;
 
-  RegisterScreen({super.key, FirebaseDynamicLinks? linkProvider}) {
-    this.linkProvider = linkProvider ?? FirebaseDynamicLinks.instance;
-  }
+  const RegisterScreen({super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -97,9 +92,7 @@ class _RegisterScreenState extends State<RegisterScreen>
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: ChangeNotifierProvider.value(
-                    value: _RegisterData(
-                      _EmailRegisterMethod(linkProvider: widget.linkProvider),
-                    ),
+                    value: _RegisterData(_PhoneRegisterMethod()),
                     child: Consumer<_RegisterData>(
                       builder:
                           (context, registerData, _) => Column(
@@ -113,62 +106,6 @@ class _RegisterScreenState extends State<RegisterScreen>
                                         .selectedRegisterMethod
                                         .registrationWidget,
                               ),
-                              SizedBox(
-                                height: 45,
-                                width: double.infinity,
-                                child: ElevatedButton.icon(
-                                  key: const ValueKey('emailButton'),
-                                  icon: const Icon(Icons.mail_outline),
-                                  style: ButtonStyle(
-                                    backgroundColor:
-                                        WidgetStateProperty.all<Color>(
-                                          registerData.selectedRegisterMethod
-                                                  is _EmailRegisterMethod
-                                              ? Theme.of(context).primaryColor
-                                              : Theme.of(context).cardColor,
-                                        ),
-                                    foregroundColor:
-                                        WidgetStateProperty.all<Color>(
-                                          registerData.selectedRegisterMethod
-                                                  is _EmailRegisterMethod
-                                              ? Theme.of(context).cardColor
-                                              : Theme.of(context).primaryColor,
-                                        ),
-                                    shape: WidgetStateProperty.all<
-                                      OutlinedBorder
-                                    >(
-                                      RoundedRectangleBorder(
-                                        side: BorderSide(
-                                          width: 2,
-                                          color: Theme.of(context).primaryColor,
-                                        ),
-                                        borderRadius: BorderRadius.circular(
-                                          CustomProperties.borderRadius,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  onPressed: () {
-                                    registerData.selectedRegisterMethod =
-                                        _EmailRegisterMethod(
-                                          linkProvider: widget.linkProvider,
-                                        );
-                                  },
-                                  label: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      AppLocalizations.of(
-                                        context,
-                                      )!.continueWithEmail,
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(height: 10),
                               SizedBox(
                                 height: 45,
                                 width: double.infinity,
@@ -303,16 +240,6 @@ class _PhoneRegisterMethod extends RegisterMethod {
     : super(
         const RegisterPhoneWidget(
           credentialVerificationType: CredentialVerificationType.CREATE,
-        ),
-      );
-}
-
-class _EmailRegisterMethod extends RegisterMethod {
-  _EmailRegisterMethod({required FirebaseDynamicLinks linkProvider})
-    : super(
-        RegisterEmailWidget(
-          credentialVerificationType: CredentialVerificationType.CREATE,
-          linkProvider: linkProvider,
         ),
       );
 }

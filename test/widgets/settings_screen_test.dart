@@ -95,26 +95,12 @@ void main() {
   });
 
   group('Account', () {
-    testWidgets('Must display the email address', (WidgetTester tester) async {
-      await mockNetworkImagesFor(() => tester.pumpWidget(
-          testableWidget(authService, mockPlayerService, mockPlayer)));
-      expect(tester.widget<Text>(find.byKey(const ValueKey('emailText'))).data,
-          emailAddress);
-    });
 
     testWidgets('Must display the phone number', (WidgetTester tester) async {
       await mockNetworkImagesFor(() => tester.pumpWidget(
           testableWidget(authService, mockPlayerService, mockPlayer)));
       expect(tester.widget<Text>(find.byKey(const ValueKey('phoneText'))).data,
           telephoneNumber);
-    });
-
-    testWidgets('No email address', (WidgetTester tester) async {
-      when(authService.getConnectedUserEmail()).thenReturn(null);
-      await mockNetworkImagesFor(() => tester.pumpWidget(
-          testableWidget(authService, mockPlayerService, mockPlayer)));
-      expect(tester.widget<Text>(find.byKey(const ValueKey('emailText'))).data,
-          "Pas d'email renseigné");
     });
 
     testWidgets('No phone number', (WidgetTester tester) async {

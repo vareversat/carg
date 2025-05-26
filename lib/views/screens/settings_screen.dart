@@ -6,7 +6,6 @@ import 'package:carg/services/impl/player_service.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/dialogs/carg_about_dialog.dart';
 import 'package:carg/views/helpers/info_snackbar.dart';
-import 'package:carg/views/screens/register/edit_email_screen.dart';
 import 'package:carg/views/screens/register/edit_phone_number_screen.dart';
 import 'package:carg/views/widgets/remove_ads_list_tile.dart';
 import 'package:flutter/material.dart';
@@ -243,33 +242,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
               Column(
                 children: [
-                  ListTile(
-                    subtitle: Text(
-                      Provider.of<AuthService>(
-                            context,
-                            listen: false,
-                          ).getConnectedUserEmail() ??
-                          AppLocalizations.of(context)!.noEmailProvided,
-                      key: const ValueKey('emailText'),
-                      style: const TextStyle(
-                        fontSize: 15,
-                        fontStyle: FontStyle.italic,
-                      ),
-                    ),
-                    selected: true,
-                    leading: const Icon(Icons.mail_outline, size: 30),
-                    onTap:
-                        () => Navigator.push(
-                          context,
-                          CustomRouteLeftToRight(
-                            builder: (context) => const EditEmailScreen(),
-                          ),
-                        ),
-                    title: Text(
-                      AppLocalizations.of(context)!.changeMyEmail,
-                      style: const TextStyle(fontSize: 20),
-                    ),
-                  ),
                   ListTile(
                     subtitle: Text(
                       Provider.of<AuthService>(

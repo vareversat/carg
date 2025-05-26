@@ -153,20 +153,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get edition => 'Edition';
 
   @override
-  String get email => 'Email';
-
-  @override
-  String get emailSent => 'Login email sent';
-
-  @override
-  String get emailSentAndSignOut =>
-      'Validation link sent. You will be logged out';
-
-  @override
-  String get emailSentWithLink =>
-      'An email containing a connection link will be sent to you.';
-
-  @override
   String get ended => 'Ended';
 
   @override
@@ -319,9 +305,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get newGame => 'New game';
 
   @override
-  String get newEmail => 'New email address';
-
-  @override
   String get newPhoneNumber => 'New phone number';
 
   @override
@@ -336,9 +319,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get no => 'No';
-
-  @override
-  String get noEmailProvided => 'No email provided';
 
   @override
   String get noGamesYet => 'No games yet';
