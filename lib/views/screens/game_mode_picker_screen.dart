@@ -98,18 +98,14 @@ class _GameModeButton extends StatelessWidget {
               ),
             ),
           ),
-          onPressed:
-              () => {
-                Navigator.of(context).push(
-                  CustomRouteLeftToRight(
-                    builder:
-                        (context) => GameSettingsScreen(
-                          game: game,
-                          title: game!.gameType.name,
-                        ),
-                  ),
-                ),
-              },
+          onPressed: () => {
+            Navigator.of(context).push(
+              CustomRouteLeftToRight(
+                builder: (context) =>
+                    GameSettingsScreen(game: game, title: game!.gameType.name),
+              ),
+            ),
+          },
           child: Text(
             game!.gameType.name,
             style: const TextStyle(fontSize: 25),

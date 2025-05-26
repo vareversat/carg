@@ -15,50 +15,47 @@ class TakerTeamWidget extends StatelessWidget {
     return ChangeNotifierProvider.value(
       value: beloteRound,
       child: Consumer<BeloteRound>(
-        builder:
-            (context, roundData, child) => Column(
+        builder: (context, roundData, child) => Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            SectionTitleWidget(
+              title: AppLocalizations.of(context)!.takerTitleBelote,
+            ),
+            Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                SectionTitleWidget(
-                  title: AppLocalizations.of(context)!.takerTitleBelote,
+              children: [
+                InputChip(
+                  key: const ValueKey('takerTeamWidget-usPicker'),
+                  selected: beloteRound.taker == BeloteTeamEnum.US,
+                  selectedColor: Theme.of(context).colorScheme.secondary,
+                  onPressed: () => {
+                    beloteRound.taker = BeloteTeamEnum.US,
+                    beloteRound.defender = BeloteTeamEnum.THEM,
+                  },
+                  label: Text(
+                    BeloteTeamEnum.US.name(context),
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    InputChip(
-                      key: const ValueKey('takerTeamWidget-usPicker'),
-                      selected: beloteRound.taker == BeloteTeamEnum.US,
-                      selectedColor: Theme.of(context).colorScheme.secondary,
-                      onPressed:
-                          () => {
-                            beloteRound.taker = BeloteTeamEnum.US,
-                            beloteRound.defender = BeloteTeamEnum.THEM,
-                          },
-                      label: Text(
-                        BeloteTeamEnum.US.name(context),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    InputChip(
-                      key: const ValueKey('takerTeamWidget-themPicker'),
-                      selected: beloteRound.taker == BeloteTeamEnum.THEM,
-                      selectedColor: Theme.of(context).colorScheme.secondary,
-                      onPressed:
-                          () => {
-                            beloteRound.taker = BeloteTeamEnum.THEM,
-                            beloteRound.defender = BeloteTeamEnum.US,
-                          },
-                      label: Text(
-                        BeloteTeamEnum.THEM.name(context),
-                        style: const TextStyle(),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                  ],
+                const SizedBox(width: 10),
+                InputChip(
+                  key: const ValueKey('takerTeamWidget-themPicker'),
+                  selected: beloteRound.taker == BeloteTeamEnum.THEM,
+                  selectedColor: Theme.of(context).colorScheme.secondary,
+                  onPressed: () => {
+                    beloteRound.taker = BeloteTeamEnum.THEM,
+                    beloteRound.defender = BeloteTeamEnum.US,
+                  },
+                  label: Text(
+                    BeloteTeamEnum.THEM.name(context),
+                    style: const TextStyle(),
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ],
             ),
+          ],
+        ),
       ),
     );
   }

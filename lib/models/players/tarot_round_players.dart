@@ -34,8 +34,9 @@ class TarotRoundPlayers extends Players {
       if (attackPlayer == null && calledPlayer == null) {
         attackPlayer = (player != attackPlayer ? player : null);
       } else if (attackPlayer != null && calledPlayer == null) {
-        calledPlayer =
-            (player != calledPlayer && player != attackPlayer ? player : null);
+        calledPlayer = (player != calledPlayer && player != attackPlayer
+            ? player
+            : null);
         attackPlayer = (player == attackPlayer ? null : attackPlayer);
       } else if (attackPlayer != null && calledPlayer != null) {
         calledPlayer = (player != calledPlayer ? player : null);

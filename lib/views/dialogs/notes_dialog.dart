@@ -77,11 +77,10 @@ class _NotesDialogState extends State<NotesDialog> {
               ),
             ),
           ),
-          onPressed:
-              () async => {
-                await widget.gameService.update(widget.game),
-                Navigator.pop(context),
-              },
+          onPressed: () async => {
+            await widget.gameService.update(widget.game),
+            Navigator.pop(context),
+          },
           label: Text(MaterialLocalizations.of(context).okButtonLabel),
           icon: const Icon(Icons.check),
         ),

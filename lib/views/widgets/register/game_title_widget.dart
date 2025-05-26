@@ -28,10 +28,9 @@ class GameTitleWidget extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(80.0),
               child: Container(
-                color:
-                    game!.isEnded
-                        ? Theme.of(context).primaryColor
-                        : Theme.of(context).colorScheme.secondary,
+                color: game!.isEnded
+                    ? Theme.of(context).primaryColor
+                    : Theme.of(context).colorScheme.secondary,
                 height: 30,
                 child: Center(
                   child: Text(

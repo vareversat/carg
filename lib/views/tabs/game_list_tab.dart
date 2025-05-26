@@ -71,19 +71,20 @@ class _GameListTabWidgetState extends State<GameListTabWidget> {
   @override
   void initState() {
     widget.gameService.resetLastPointedDocument();
-    _playerId =
-        Provider.of<AuthService>(context, listen: false).getPlayerIdOfUser();
+    _playerId = Provider.of<AuthService>(
+      context,
+      listen: false,
+    ).getPlayerIdOfUser();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
-      onRefresh:
-          () => Future.sync(() {
-            widget.gameService.resetLastPointedDocument();
-            _reset();
-          }),
+      onRefresh: () => Future.sync(() {
+        widget.gameService.resetLastPointedDocument();
+        _reset();
+      }),
       backgroundColor: Theme.of(context).primaryColor,
       color: Theme.of(context).cardColor,
       displacement: 20,
@@ -97,50 +98,45 @@ class _GameListTabWidgetState extends State<GameListTabWidget> {
               fetchNextPage: _fetchNextPage,
               builderDelegate: PagedChildBuilderDelegate<Game>(
                 animateTransitions: true,
-                firstPageErrorIndicatorBuilder:
-                    (_) => Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Center(
-                          child: Text(
-                            AppLocalizations.of(context)!.errorLoadingPage,
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        ElevatedButton.icon(
-                          onPressed:
-                              () => {
-                                widget.gameService.resetLastPointedDocument(),
-                                _reset(),
-                              },
-                          icon: const Icon(Icons.refresh),
-                          label: Text(AppLocalizations.of(context)!.refresh),
-                        ),
-                      ],
+                firstPageErrorIndicatorBuilder: (_) => Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Center(
+                      child: Text(
+                        AppLocalizations.of(context)!.errorLoadingPage,
+                        textAlign: TextAlign.center,
+                      ),
                     ),
-                noItemsFoundIndicatorBuilder:
-                    (_) => Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Center(
-                          child: Text(AppLocalizations.of(context)!.noGamesYet),
-                        ),
-                        ElevatedButton.icon(
-                          onPressed:
-                              () => {
-                                widget.gameService.resetLastPointedDocument(),
-                                _reset(),
-                              },
-                          icon: const Icon(Icons.refresh),
-                          label: Text(AppLocalizations.of(context)!.refresh),
-                        ),
-                      ],
+                    ElevatedButton.icon(
+                      onPressed: () => {
+                        widget.gameService.resetLastPointedDocument(),
+                        _reset(),
+                      },
+                      icon: const Icon(Icons.refresh),
+                      label: Text(AppLocalizations.of(context)!.refresh),
                     ),
-                noMoreItemsIndicatorBuilder:
-                    (_) => const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Center(child: Text(Const.appBottomList)),
+                  ],
+                ),
+                noItemsFoundIndicatorBuilder: (_) => Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Center(
+                      child: Text(AppLocalizations.of(context)!.noGamesYet),
                     ),
+                    ElevatedButton.icon(
+                      onPressed: () => {
+                        widget.gameService.resetLastPointedDocument(),
+                        _reset(),
+                      },
+                      icon: const Icon(Icons.refresh),
+                      label: Text(AppLocalizations.of(context)!.refresh),
+                    ),
+                  ],
+                ),
+                noMoreItemsIndicatorBuilder: (_) => const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Center(child: Text(Const.appBottomList)),
+                ),
                 itemBuilder: (BuildContext context, Game game, int index) {
                   if (game.gameType != GameType.TAROT) {
                     return BeloteWidget(beloteGame: game as Belote);

@@ -16,10 +16,9 @@ class ContreeBeloteScore extends BeloteScore<ContreeBeloteRound> {
   factory ContreeBeloteScore.fromJSON(Map<String, dynamic>? json, String id) {
     return ContreeBeloteScore(
       id: id,
-      rounds:
-          json?['rounds'] != null
-              ? ContreeBeloteRound.fromJSONList(json?['rounds'])
-              : [],
+      rounds: json?['rounds'] != null
+          ? ContreeBeloteRound.fromJSONList(json?['rounds'])
+          : [],
       usTotalPoints: json?['us_total_points'],
       themTotalPoints: json?['them_total_points'],
       game: json?['game'],

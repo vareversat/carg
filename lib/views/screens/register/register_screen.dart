@@ -35,12 +35,10 @@ class _RegisterScreenState extends State<RegisterScreen>
       await Navigator.pushReplacement(
         context,
         CustomRouteFade(
-          builder:
-              (context) =>
-                  Provider.of<AuthService>(
-                    context,
-                    listen: false,
-                  ).getCorrectLandingScreen(),
+          builder: (context) => Provider.of<AuthService>(
+            context,
+            listen: false,
+          ).getCorrectLandingScreen(),
         ),
       );
     } on CustomException catch (e) {
@@ -94,129 +92,119 @@ class _RegisterScreenState extends State<RegisterScreen>
                   child: ChangeNotifierProvider.value(
                     value: _RegisterData(_PhoneRegisterMethod()),
                     child: Consumer<_RegisterData>(
-                      builder:
-                          (context, registerData, _) => Column(
-                            children: [
-                              AnimatedSize(
-                                key: const ValueKey('placeholderContainer'),
-                                curve: Curves.ease,
-                                duration: const Duration(milliseconds: 500),
-                                child:
-                                    registerData
-                                        .selectedRegisterMethod
-                                        .registrationWidget,
-                              ),
-                              SizedBox(
-                                height: 45,
-                                width: double.infinity,
-                                child: ElevatedButton.icon(
-                                  key: const ValueKey('phoneButton'),
-                                  icon: const Icon(Icons.phone),
-                                  style: ButtonStyle(
-                                    backgroundColor:
-                                        WidgetStateProperty.all<Color>(
-                                          registerData.selectedRegisterMethod
-                                                  is _PhoneRegisterMethod
-                                              ? Theme.of(context).primaryColor
-                                              : Theme.of(context).cardColor,
-                                        ),
-                                    foregroundColor:
-                                        WidgetStateProperty.all<Color>(
-                                          registerData.selectedRegisterMethod
-                                                  is _PhoneRegisterMethod
-                                              ? Theme.of(context).cardColor
-                                              : Theme.of(context).primaryColor,
-                                        ),
-                                    shape: WidgetStateProperty.all<
-                                      OutlinedBorder
-                                    >(
-                                      RoundedRectangleBorder(
-                                        side: BorderSide(
-                                          width: 2,
-                                          color: Theme.of(context).primaryColor,
-                                        ),
-                                        borderRadius: BorderRadius.circular(
-                                          CustomProperties.borderRadius,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  onPressed: () {
-                                    registerData.selectedRegisterMethod =
-                                        _PhoneRegisterMethod();
-                                  },
-                                  label: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      AppLocalizations.of(
-                                        context,
-                                      )!.continueWithPhone,
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(height: 10),
-                              SizedBox(
-                                height: 45,
-                                width: double.infinity,
-                                child: ElevatedButton.icon(
-                                  key: const ValueKey('googleButton'),
-                                  icon: const FaIcon(
-                                    FontAwesomeIcons.google,
-                                    size: 22,
-                                  ),
-                                  style: ButtonStyle(
-                                    backgroundColor:
-                                        WidgetStateProperty.all<Color>(
-                                          registerData.selectedRegisterMethod
-                                                  is _GoogleRegisterMethod
-                                              ? Theme.of(context).primaryColor
-                                              : Theme.of(context).cardColor,
-                                        ),
-                                    foregroundColor:
-                                        WidgetStateProperty.all<Color>(
-                                          registerData.selectedRegisterMethod
-                                                  is _GoogleRegisterMethod
-                                              ? Theme.of(context).cardColor
-                                              : Theme.of(context).primaryColor,
-                                        ),
-                                    shape: WidgetStateProperty.all<
-                                      OutlinedBorder
-                                    >(
-                                      RoundedRectangleBorder(
-                                        side: BorderSide(
-                                          width: 2,
-                                          color: Theme.of(context).primaryColor,
-                                        ),
-                                        borderRadius: BorderRadius.circular(
-                                          CustomProperties.borderRadius,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  onPressed: () async {
-                                    _googleSigIn(registerData, context);
-                                  },
-                                  label: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      AppLocalizations.of(
-                                        context,
-                                      )!.continueWithGoogle,
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
+                      builder: (context, registerData, _) => Column(
+                        children: [
+                          AnimatedSize(
+                            key: const ValueKey('placeholderContainer'),
+                            curve: Curves.ease,
+                            duration: const Duration(milliseconds: 500),
+                            child: registerData
+                                .selectedRegisterMethod
+                                .registrationWidget,
                           ),
+                          SizedBox(
+                            height: 45,
+                            width: double.infinity,
+                            child: ElevatedButton.icon(
+                              key: const ValueKey('phoneButton'),
+                              icon: const Icon(Icons.phone),
+                              style: ButtonStyle(
+                                backgroundColor: WidgetStateProperty.all<Color>(
+                                  registerData.selectedRegisterMethod
+                                          is _PhoneRegisterMethod
+                                      ? Theme.of(context).primaryColor
+                                      : Theme.of(context).cardColor,
+                                ),
+                                foregroundColor: WidgetStateProperty.all<Color>(
+                                  registerData.selectedRegisterMethod
+                                          is _PhoneRegisterMethod
+                                      ? Theme.of(context).cardColor
+                                      : Theme.of(context).primaryColor,
+                                ),
+                                shape: WidgetStateProperty.all<OutlinedBorder>(
+                                  RoundedRectangleBorder(
+                                    side: BorderSide(
+                                      width: 2,
+                                      color: Theme.of(context).primaryColor,
+                                    ),
+                                    borderRadius: BorderRadius.circular(
+                                      CustomProperties.borderRadius,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              onPressed: () {
+                                registerData.selectedRegisterMethod =
+                                    _PhoneRegisterMethod();
+                              },
+                              label: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  AppLocalizations.of(
+                                    context,
+                                  )!.continueWithPhone,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          SizedBox(
+                            height: 45,
+                            width: double.infinity,
+                            child: ElevatedButton.icon(
+                              key: const ValueKey('googleButton'),
+                              icon: const FaIcon(
+                                FontAwesomeIcons.google,
+                                size: 22,
+                              ),
+                              style: ButtonStyle(
+                                backgroundColor: WidgetStateProperty.all<Color>(
+                                  registerData.selectedRegisterMethod
+                                          is _GoogleRegisterMethod
+                                      ? Theme.of(context).primaryColor
+                                      : Theme.of(context).cardColor,
+                                ),
+                                foregroundColor: WidgetStateProperty.all<Color>(
+                                  registerData.selectedRegisterMethod
+                                          is _GoogleRegisterMethod
+                                      ? Theme.of(context).cardColor
+                                      : Theme.of(context).primaryColor,
+                                ),
+                                shape: WidgetStateProperty.all<OutlinedBorder>(
+                                  RoundedRectangleBorder(
+                                    side: BorderSide(
+                                      width: 2,
+                                      color: Theme.of(context).primaryColor,
+                                    ),
+                                    borderRadius: BorderRadius.circular(
+                                      CustomProperties.borderRadius,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              onPressed: () async {
+                                _googleSigIn(registerData, context);
+                              },
+                              label: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  AppLocalizations.of(
+                                    context,
+                                  )!.continueWithGoogle,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

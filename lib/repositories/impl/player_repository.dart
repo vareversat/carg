@@ -24,8 +24,10 @@ class PlayerRepository extends AbstractPlayerRepository {
   @override
   Future<Player?> get(String id) async {
     try {
-      var querySnapshot =
-          await provider.collection(connectionString).doc(id).get();
+      var querySnapshot = await provider
+          .collection(connectionString)
+          .doc(id)
+          .get();
       if (querySnapshot.data() != null) {
         return Player.fromJSON(querySnapshot.data(), querySnapshot.id);
       } else {
@@ -39,11 +41,10 @@ class PlayerRepository extends AbstractPlayerRepository {
   @override
   Future<Player?> getPlayerOfUser(String userId) async {
     try {
-      var querySnapshot =
-          await provider
-              .collection(connectionString)
-              .where('linked_user_id', isEqualTo: userId)
-              .get();
+      var querySnapshot = await provider
+          .collection(connectionString)
+          .where('linked_user_id', isEqualTo: userId)
+          .get();
       if (querySnapshot.docs.isNotEmpty) {
         return Player.fromJSON(
           querySnapshot.docs.first.data(),

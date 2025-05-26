@@ -15,12 +15,11 @@ class PlayerWidget extends StatelessWidget {
   Future _showEditPlayerDialog(BuildContext context) async {
     var result = await showDialog(
       context: context,
-      builder:
-          (BuildContext context) => PlayerInfoDialog(
-            player: player,
-            playerService: PlayerService(),
-            isNewPlayer: false,
-          ),
+      builder: (BuildContext context) => PlayerInfoDialog(
+        player: player,
+        playerService: PlayerService(),
+        isNewPlayer: false,
+      ),
     );
     if (result != null) {
       InfoSnackBar.showSnackBar(context, result);
@@ -32,8 +31,8 @@ class PlayerWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5.0),
       child: ElevatedButton(
-        onPressed:
-            () => onTap == null ? _showEditPlayerDialog(context) : onTap!(),
+        onPressed: () =>
+            onTap == null ? _showEditPlayerDialog(context) : onTap!(),
         style: ButtonStyle(
           backgroundColor: WidgetStateProperty.all<Color>(
             Theme.of(context).cardColor,
@@ -44,13 +43,9 @@ class PlayerWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(
                 CustomProperties.borderRadius,
               ),
-              side:
-                  player.selected
-                      ? BorderSide(
-                        width: 2,
-                        color: player.getSideColor(context),
-                      )
-                      : BorderSide.none,
+              side: player.selected
+                  ? BorderSide(width: 2, color: player.getSideColor(context))
+                  : BorderSide.none,
             ),
           ),
           padding: WidgetStateProperty.all<EdgeInsetsGeometry?>(
@@ -64,23 +59,26 @@ class PlayerWidget extends StatelessWidget {
             children: [
               player.profilePicture != ''
                   ? Padding(
-                    padding: const EdgeInsets.only(right: 8.0),
-                    child: Container(
-                      width: 40,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          width: 2,
-                          color: player.getSideColor(context),
-                        ),
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                          fit: BoxFit.fill,
-                          image: NetworkImage(player.profilePicture, scale: 1),
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: Container(
+                        width: 40,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            width: 2,
+                            color: player.getSideColor(context),
+                          ),
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                            fit: BoxFit.fill,
+                            image: NetworkImage(
+                              player.profilePicture,
+                              scale: 1,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  )
+                    )
                   : const SizedBox(),
               Flexible(
                 flex: 7,

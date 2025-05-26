@@ -24,26 +24,24 @@ class CardColorPickerWidget extends StatelessWidget {
               child: Wrap(
                 alignment: WrapAlignment.center,
                 spacing: 15,
-                children:
-                    CardColor.values
-                        .map(
-                          (cardColor) => InputChip(
-                            key: ValueKey(
-                              'cardColorInputChip-${cardColor.name(context)}',
-                            ),
-                            checkmarkColor: Theme.of(context).cardColor,
-                            selected: beloteRound?.cardColor == cardColor,
-                            selectedColor: Theme.of(context).primaryColor,
-                            onPressed:
-                                () => {beloteRound?.cardColor = cardColor},
-                            label: Text(
-                              cardColor.symbol,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                        )
-                        .toList()
-                        .cast<Widget>(),
+                children: CardColor.values
+                    .map(
+                      (cardColor) => InputChip(
+                        key: ValueKey(
+                          'cardColorInputChip-${cardColor.name(context)}',
+                        ),
+                        checkmarkColor: Theme.of(context).cardColor,
+                        selected: beloteRound?.cardColor == cardColor,
+                        selectedColor: Theme.of(context).primaryColor,
+                        onPressed: () => {beloteRound?.cardColor = cardColor},
+                        label: Text(
+                          cardColor.symbol,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    )
+                    .toList()
+                    .cast<Widget>(),
               ),
             ),
           ],

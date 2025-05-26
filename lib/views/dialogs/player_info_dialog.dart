@@ -35,8 +35,10 @@ class PlayerInfoDialog extends StatelessWidget {
 
   Future<void> _savePlayer(BuildContext context) async {
     if (isNewPlayer) {
-      player.ownedBy =
-          Provider.of<AuthService>(context, listen: false).getPlayerIdOfUser();
+      player.ownedBy = Provider.of<AuthService>(
+        context,
+        listen: false,
+      ).getPlayerIdOfUser();
       await playerService.create(player);
       Navigator.of(context).pop(AppLocalizations.of(context)!.playerCreated);
     } else {
@@ -112,69 +114,66 @@ class PlayerInfoDialog extends StatelessWidget {
             Row(
               children: <Widget>[
                 Consumer<Player>(
-                  builder:
-                      (context, playerData, _) => Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 15, 15, 15),
-                        child: Container(
-                          width: 60,
-                          height: 60,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              width: 2,
-                              color: player.getSideColor(context),
-                            ),
-                            image: DecorationImage(
-                              fit: BoxFit.fill,
-                              image: NetworkImage(playerData.profilePicture),
-                            ),
-                          ),
+                  builder: (context, playerData, _) => Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 15, 15, 15),
+                    child: Container(
+                      width: 60,
+                      height: 60,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          width: 2,
+                          color: player.getSideColor(context),
+                        ),
+                        image: DecorationImage(
+                          fit: BoxFit.fill,
+                          image: NetworkImage(playerData.profilePicture),
                         ),
                       ),
+                    ),
+                  ),
                 ),
                 Flexible(
                   flex: 2,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 10),
                     child: Consumer<Player>(
-                      builder:
-                          (context, playerData, _) => TextFormField(
-                            key: const ValueKey('usernameTextField'),
-                            initialValue: playerData.userName,
-                            enabled: playerData.owned,
-                            style: const TextStyle(
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            maxLines: null,
-                            onChanged: (value) => playerData.userName = value,
-                            decoration: InputDecoration(
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: player.getSideColor(context),
-                                  width: 2,
-                                ),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: player.getSideColor(context),
-                                  width: 2,
-                                ),
-                              ),
-                              disabledBorder: InputBorder.none,
-                              labelStyle: TextStyle(
-                                color: player.getSideColor(context),
-                              ),
-                              hintStyle: TextStyle(
-                                fontSize: 25,
-                                color: Theme.of(context).hintColor,
-                              ),
-                              labelText:
-                                  playerData.owned && isNewPlayer
-                                      ? AppLocalizations.of(context)!.username
-                                      : null,
+                      builder: (context, playerData, _) => TextFormField(
+                        key: const ValueKey('usernameTextField'),
+                        initialValue: playerData.userName,
+                        enabled: playerData.owned,
+                        style: const TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        maxLines: null,
+                        onChanged: (value) => playerData.userName = value,
+                        decoration: InputDecoration(
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: player.getSideColor(context),
+                              width: 2,
                             ),
                           ),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: player.getSideColor(context),
+                              width: 2,
+                            ),
+                          ),
+                          disabledBorder: InputBorder.none,
+                          labelStyle: TextStyle(
+                            color: player.getSideColor(context),
+                          ),
+                          hintStyle: TextStyle(
+                            fontSize: 25,
+                            color: Theme.of(context).hintColor,
+                          ),
+                          labelText: playerData.owned && isNewPlayer
+                              ? AppLocalizations.of(context)!.username
+                              : null,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -182,37 +181,34 @@ class PlayerInfoDialog extends StatelessWidget {
             ),
             if (isNewPlayer)
               Consumer<Player>(
-                builder:
-                    (context, playerData, _) => TextFormField(
-                      key: const ValueKey('profilePictureTextField'),
-                      initialValue: playerData.profilePicture,
-                      enabled: playerData.owned,
-                      onChanged: (value) => playerData.profilePicture = value,
-                      style: const TextStyle(fontSize: 20),
-                      maxLines: null,
-                      decoration: InputDecoration(
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: player.getSideColor(context),
-                            width: 2,
-                          ),
-                        ),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: player.getSideColor(context),
-                            width: 2,
-                          ),
-                        ),
-                        labelStyle: TextStyle(
-                          color: player.getSideColor(context),
-                        ),
-                        hintStyle: TextStyle(
-                          fontSize: 15,
-                          color: Theme.of(context).hintColor,
-                        ),
-                        labelText: AppLocalizations.of(context)!.profilePicture,
+                builder: (context, playerData, _) => TextFormField(
+                  key: const ValueKey('profilePictureTextField'),
+                  initialValue: playerData.profilePicture,
+                  enabled: playerData.owned,
+                  onChanged: (value) => playerData.profilePicture = value,
+                  style: const TextStyle(fontSize: 20),
+                  maxLines: null,
+                  decoration: InputDecoration(
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: player.getSideColor(context),
+                        width: 2,
                       ),
                     ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: player.getSideColor(context),
+                        width: 2,
+                      ),
+                    ),
+                    labelStyle: TextStyle(color: player.getSideColor(context)),
+                    hintStyle: TextStyle(
+                      fontSize: 15,
+                      color: Theme.of(context).hintColor,
+                    ),
+                    labelText: AppLocalizations.of(context)!.profilePicture,
+                  ),
+                ),
               ),
             if (player.gameStatsList!.isNotEmpty)
               Padding(
@@ -222,61 +218,47 @@ class PlayerInfoDialog extends StatelessWidget {
                 ),
                 child: Column(
                   // MamEntry : For testing purpose
-                  children:
-                      player.gameStatsList!
-                          .asMap()
-                          .map(
-                            (i, stat) => MapEntry(
-                              i,
-                              Row(
-                                key: ValueKey('stat-$i-${stat.gameType.name}'),
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  SizedBox(
-                                    width: 100,
-                                    child: Text(
-                                      '${stat.gameType.name} : ',
-                                      overflow: TextOverflow.ellipsis,
-                                      style: const TextStyle(fontSize: 22),
-                                    ),
-                                  ),
-                                  const Padding(
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: 5.0,
-                                    ),
-                                    child: Icon(
-                                      FontAwesomeIcons.trophy,
-                                      size: 15,
-                                    ),
-                                  ),
-                                  Text(
-                                    ' ${stat.wonGames}',
-                                    style: const TextStyle(fontSize: 20),
-                                  ),
-                                  const Text(
-                                    ' - ',
-                                    style: TextStyle(fontSize: 20),
-                                  ),
-                                  Text(
-                                    '${stat.playedGames} ',
-                                    style: const TextStyle(fontSize: 20),
-                                  ),
-                                  const Padding(
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: 5.0,
-                                    ),
-                                    child: Icon(
-                                      FontAwesomeIcons.gamepad,
-                                      size: 15,
-                                    ),
-                                  ),
-                                ],
+                  children: player.gameStatsList!
+                      .asMap()
+                      .map(
+                        (i, stat) => MapEntry(
+                          i,
+                          Row(
+                            key: ValueKey('stat-$i-${stat.gameType.name}'),
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              SizedBox(
+                                width: 100,
+                                child: Text(
+                                  '${stat.gameType.name} : ',
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(fontSize: 22),
+                                ),
                               ),
-                            ),
-                          )
-                          .values
-                          .toList()
-                          .cast<Widget>(),
+                              const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 5.0),
+                                child: Icon(FontAwesomeIcons.trophy, size: 15),
+                              ),
+                              Text(
+                                ' ${stat.wonGames}',
+                                style: const TextStyle(fontSize: 20),
+                              ),
+                              const Text(' - ', style: TextStyle(fontSize: 20)),
+                              Text(
+                                '${stat.playedGames} ',
+                                style: const TextStyle(fontSize: 20),
+                              ),
+                              const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 5.0),
+                                child: Icon(FontAwesomeIcons.gamepad, size: 15),
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                      .values
+                      .toList()
+                      .cast<Widget>(),
                 ),
               )
             else if (!isNewPlayer)

@@ -114,8 +114,10 @@ class AddBeloteRoundScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                          onPressed:
-                              () => {_setupRound(), Navigator.pop(context)},
+                          onPressed: () => {
+                            _setupRound(),
+                            Navigator.pop(context),
+                          },
                           label: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(

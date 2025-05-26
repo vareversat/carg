@@ -20,11 +20,10 @@ class PlayScreenAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         IconButton(
           icon: const Icon(Icons.info),
-          onPressed:
-              () async => await showDialog(
-                context: context,
-                builder: (BuildContext context) => GameInfoDialog(game: game),
-              ),
+          onPressed: () async => await showDialog(
+            context: context,
+            builder: (BuildContext context) => GameInfoDialog(game: game),
+          ),
         ),
       ],
       title: Column(

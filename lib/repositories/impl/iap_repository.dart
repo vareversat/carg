@@ -42,8 +42,10 @@ class IAPRepository extends AbstractIAPRepository {
   @override
   Future<Purchase?> get(String id) async {
     try {
-      var querySnapshot =
-          await provider.collection(connectionString).doc(id).get();
+      var querySnapshot = await provider
+          .collection(connectionString)
+          .doc(id)
+          .get();
       if (querySnapshot.data() != null) {
         var type = EnumToString.fromString(
           ProductTypeEnum.values,
@@ -65,11 +67,10 @@ class IAPRepository extends AbstractIAPRepository {
   @override
   Future<Purchase?> getByUserId(String userId) async {
     try {
-      var querySnapshot =
-          await provider
-              .collection(connectionString)
-              .where('user_id', isEqualTo: userId)
-              .get();
+      var querySnapshot = await provider
+          .collection(connectionString)
+          .where('user_id', isEqualTo: userId)
+          .get();
       if (querySnapshot.docs.isNotEmpty) {
         var type = EnumToString.fromString(
           ProductTypeEnum.values,

@@ -52,14 +52,13 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder:
-            (context) => AddBeloteRoundScreen(
-              beloteGame: widget.beloteGame,
-              beloteRound:
-                  widget.roundService.getNewRound(widget.beloteGame.settings)
-                      as BeloteRound?,
-              roundService: CorrectInstance.ofRoundService(widget.beloteGame),
-            ),
+        builder: (context) => AddBeloteRoundScreen(
+          beloteGame: widget.beloteGame,
+          beloteRound:
+              widget.roundService.getNewRound(widget.beloteGame.settings)
+                  as BeloteRound?,
+          roundService: CorrectInstance.ofRoundService(widget.beloteGame),
+        ),
       ),
     );
   }
@@ -67,54 +66,46 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
   void _addNewSpecialRound() async {
     await showDialog(
       context: context,
-      builder:
-          (BuildContext context) => SpecialRoundDialog(
-            beloteGame: widget.beloteGame,
-            beloteRound:
-                widget.roundService.getNewRound(widget.beloteGame.settings)
-                    as BeloteRound?,
-            roundService: CorrectInstance.ofRoundService(widget.beloteGame),
-          ),
+      builder: (BuildContext context) => SpecialRoundDialog(
+        beloteGame: widget.beloteGame,
+        beloteRound:
+            widget.roundService.getNewRound(widget.beloteGame.settings)
+                as BeloteRound?,
+        roundService: CorrectInstance.ofRoundService(widget.beloteGame),
+      ),
     );
   }
 
   void _deleteLastRound() async {
     await showDialog(
       context: context,
-      builder:
-          (BuildContext context) => WarningDialog(
-            onConfirm:
-                () async => {
-                  await widget.roundService.deleteLastRoundOfScoreByGameId(
-                    widget.beloteGame.id,
-                  ),
-                },
-            message: AppLocalizations.of(context)!.messageDeleteLasRound,
-            title: AppLocalizations.of(context)!.warning,
-            color: Theme.of(context).colorScheme.error,
+      builder: (BuildContext context) => WarningDialog(
+        onConfirm: () async => {
+          await widget.roundService.deleteLastRoundOfScoreByGameId(
+            widget.beloteGame.id,
           ),
+        },
+        message: AppLocalizations.of(context)!.messageDeleteLasRound,
+        title: AppLocalizations.of(context)!.warning,
+        color: Theme.of(context).colorScheme.error,
+      ),
     );
   }
 
   void _endGame() async {
     await showDialog(
       context: context,
-      builder:
-          (BuildContext context) => WarningDialog(
-            onConfirm:
-                () async => {
-                  await widget.gameService.endAGame(
-                    widget.beloteGame,
-                    DateTime.now(),
-                  ),
-                  await Navigator.of(
-                    context,
-                  ).pushReplacementNamed(HomeScreen.routeName, arguments: 1),
-                },
-            message: AppLocalizations.of(context)!.messageStopGame,
-            title: AppLocalizations.of(context)!.warning,
-            color: Theme.of(context).colorScheme.error,
-          ),
+      builder: (BuildContext context) => WarningDialog(
+        onConfirm: () async => {
+          await widget.gameService.endAGame(widget.beloteGame, DateTime.now()),
+          await Navigator.of(
+            context,
+          ).pushReplacementNamed(HomeScreen.routeName, arguments: 1),
+        },
+        message: AppLocalizations.of(context)!.messageStopGame,
+        title: AppLocalizations.of(context)!.warning,
+        color: Theme.of(context).colorScheme.error,
+      ),
     );
   }
 
@@ -129,26 +120,24 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
       await Navigator.push(
         context,
         MaterialPageRoute(
-          builder:
-              (context) => AddBeloteRoundScreen(
-                beloteGame: widget.beloteGame,
-                beloteRound: lastRound as BeloteRound,
-                roundService: CorrectInstance.ofRoundService(widget.beloteGame),
-                isEditing: true,
-              ),
+          builder: (context) => AddBeloteRoundScreen(
+            beloteGame: widget.beloteGame,
+            beloteRound: lastRound as BeloteRound,
+            roundService: CorrectInstance.ofRoundService(widget.beloteGame),
+            isEditing: true,
+          ),
         ),
       );
     } on StateError {
       await showDialog(
         context: context,
-        builder:
-            (BuildContext context) => WarningDialog(
-              onConfirm: () => {},
-              showCancelButton: false,
-              message: AppLocalizations.of(context)!.messageNoRound,
-              title: AppLocalizations.of(context)!.error,
-              color: Theme.of(context).colorScheme.error,
-            ),
+        builder: (BuildContext context) => WarningDialog(
+          onConfirm: () => {},
+          showCancelButton: false,
+          message: AppLocalizations.of(context)!.messageNoRound,
+          title: AppLocalizations.of(context)!.error,
+          color: Theme.of(context).colorScheme.error,
+        ),
       );
     }
   }
@@ -156,11 +145,8 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
   void _addNotes() async {
     await showDialog(
       context: context,
-      builder:
-          (BuildContext context) => NotesDialog(
-            game: widget.beloteGame,
-            gameService: widget.gameService,
-          ),
+      builder: (BuildContext context) =>
+          NotesDialog(game: widget.beloteGame, gameService: widget.gameService),
     );
   }
 
@@ -300,10 +286,9 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
                             deleteLastRound: _deleteLastRound,
                             editLastRound:
                                 snapshot.data!.rounds.isNotEmpty &&
-                                        !snapshot.data!.rounds.last
-                                            .isSpecialRound()
-                                    ? _editLastRound
-                                    : null,
+                                    !snapshot.data!.rounds.last.isSpecialRound()
+                                ? _editLastRound
+                                : null,
                             endGame: _endGame,
                             addNewRound: _addNewRound,
                             addNotes: _addNotes,
@@ -413,8 +398,9 @@ class _RoundDisplayWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      textDirection:
-          team == BeloteTeamEnum.US ? TextDirection.ltr : TextDirection.rtl,
+      textDirection: team == BeloteTeamEnum.US
+          ? TextDirection.ltr
+          : TextDirection.rtl,
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 5),
@@ -425,10 +411,9 @@ class _RoundDisplayWidget extends StatelessWidget {
         ),
         if (!round!.isSpecialRound())
           Row(
-            textDirection:
-                team == BeloteTeamEnum.US
-                    ? TextDirection.ltr
-                    : TextDirection.rtl,
+            textDirection: team == BeloteTeamEnum.US
+                ? TextDirection.ltr
+                : TextDirection.rtl,
             children: [
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
@@ -440,10 +425,9 @@ class _RoundDisplayWidget extends StatelessWidget {
                   color: Theme.of(context).primaryColor,
                 ),
                 child: Row(
-                  textDirection:
-                      team == BeloteTeamEnum.US
-                          ? TextDirection.ltr
-                          : TextDirection.rtl,
+                  textDirection: team == BeloteTeamEnum.US
+                      ? TextDirection.ltr
+                      : TextDirection.rtl,
                   children: [
                     if (round!.dixDeDer == team)
                       Text(
@@ -487,10 +471,9 @@ class _RoundDisplayWidget extends StatelessWidget {
               const SizedBox(width: 10),
               if (!round!.isSpecialRound())
                 Row(
-                  textDirection:
-                      team == BeloteTeamEnum.US
-                          ? TextDirection.ltr
-                          : TextDirection.rtl,
+                  textDirection: team == BeloteTeamEnum.US
+                      ? TextDirection.ltr
+                      : TextDirection.rtl,
                   children: [
                     if (round!.taker == team)
                       if (round!.contractFulfilled)

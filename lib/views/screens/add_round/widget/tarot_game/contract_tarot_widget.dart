@@ -15,31 +15,27 @@ class ContractTarotWidget extends StatelessWidget {
     return ChangeNotifierProvider.value(
       value: tarotRound,
       child: Consumer<TarotRound>(
-        builder:
-            (context, roundData, _) => Column(
-              children: [
-                SectionTitleWidget(
-                  title: AppLocalizations.of(context)!.contract,
-                ),
-                DropdownButton<TarotContract>(
-                  value: roundData.contract,
-                  itemHeight: 70,
-                  items:
-                      TarotContract.values.map((TarotContract value) {
-                        return DropdownMenuItem<TarotContract>(
-                          value: value,
-                          child: Text(
-                            '${value.name(context)} \n x${value.multiplayer}',
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        );
-                      }).toList(),
-                  onChanged: (TarotContract? val) {
-                    roundData.contract = val!;
-                  },
-                ),
-              ],
+        builder: (context, roundData, _) => Column(
+          children: [
+            SectionTitleWidget(title: AppLocalizations.of(context)!.contract),
+            DropdownButton<TarotContract>(
+              value: roundData.contract,
+              itemHeight: 70,
+              items: TarotContract.values.map((TarotContract value) {
+                return DropdownMenuItem<TarotContract>(
+                  value: value,
+                  child: Text(
+                    '${value.name(context)} \n x${value.multiplayer}',
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                );
+              }).toList(),
+              onChanged: (TarotContract? val) {
+                roundData.contract = val!;
+              },
             ),
+          ],
+        ),
       ),
     );
   }

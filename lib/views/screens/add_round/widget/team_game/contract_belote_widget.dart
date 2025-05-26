@@ -15,20 +15,17 @@ class ContractBeloteWidget extends StatelessWidget {
     return ChangeNotifierProvider.value(
       value: frenchBeloteRound,
       child: Consumer<FrenchBeloteRound>(
-        builder:
-            (context, roundData, child) => Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SectionTitleWidget(
-                  title: AppLocalizations.of(context)!.contract,
-                ),
-                const SizedBox(height: 15),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: CardColorPickerWidget(beloteRound: frenchBeloteRound),
-                ),
-              ],
+        builder: (context, roundData, child) => Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SectionTitleWidget(title: AppLocalizations.of(context)!.contract),
+            const SizedBox(height: 15),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: CardColorPickerWidget(beloteRound: frenchBeloteRound),
             ),
+          ],
+        ),
       ),
     );
   }

@@ -33,12 +33,11 @@ class APIMiniPlayerWidget extends StatelessWidget {
     if (player != null) {
       await showDialog(
         context: context,
-        builder:
-            (BuildContext context) => PlayerInfoDialog(
-              player: player,
-              playerService: playerService,
-              isNewPlayer: false,
-            ),
+        builder: (BuildContext context) => PlayerInfoDialog(
+          player: player,
+          playerService: playerService,
+          isNewPlayer: false,
+        ),
       );
     }
   }
@@ -51,19 +50,18 @@ class APIMiniPlayerWidget extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           child = Padding(
             padding: const EdgeInsets.symmetric(horizontal: 5),
-            child:
-                showLoading
-                    ? SpinKitThreeBounce(
-                      size: 20,
-                      itemBuilder: (BuildContext context, int index) {
-                        return DecoratedBox(
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.secondary,
-                          ),
-                        );
-                      },
-                    )
-                    : const SizedBox(),
+            child: showLoading
+                ? SpinKitThreeBounce(
+                    size: 20,
+                    itemBuilder: (BuildContext context, int index) {
+                      return DecoratedBox(
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.secondary,
+                        ),
+                      );
+                    },
+                  )
+                : const SizedBox(),
           );
         }
         if (snapshot.hasData) {
@@ -75,21 +73,20 @@ class APIMiniPlayerWidget extends StatelessWidget {
               onPressed:
                   onTap as void Function()? ??
                   () => {_showEditPlayerDialog(context, snapshot.data)},
-              avatar:
-                  (snapshot.data!.profilePicture != '' && displayImage)
-                      ? Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            width: 1,
-                            color: Theme.of(context).primaryColor,
-                          ),
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                            image: NetworkImage(snapshot.data!.profilePicture),
-                          ),
+              avatar: (snapshot.data!.profilePicture != '' && displayImage)
+                  ? Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1,
+                          color: Theme.of(context).primaryColor,
                         ),
-                      )
-                      : null,
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          image: NetworkImage(snapshot.data!.profilePicture),
+                        ),
+                      ),
+                    )
+                  : null,
               label: Text(
                 snapshot.data!.userName + additionalText,
                 style: TextStyle(fontSize: size),

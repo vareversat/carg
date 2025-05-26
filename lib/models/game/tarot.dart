@@ -39,18 +39,16 @@ class Tarot extends Game<TarotPlayers, TarotGameSetting> {
     return Tarot(
       id: id,
       startingDate: DateTime.parse(json?['starting_date']),
-      endingDate:
-          json?['ending_date'] != null
-              ? DateTime.parse(json?['ending_date'])
-              : null,
+      endingDate: json?['ending_date'] != null
+          ? DateTime.parse(json?['ending_date'])
+          : null,
       isEnded: json?['is_ended'],
       winner: json?['winner'],
       players: TarotPlayers.fromJSON(json?['players']),
       notes: json?['notes'],
-      settings:
-          json?['settings'] != null
-              ? TarotGameSetting.fromJSON(json?['settings'])
-              : null,
+      settings: json?['settings'] != null
+          ? TarotGameSetting.fromJSON(json?['settings'])
+          : null,
     );
   }
 }

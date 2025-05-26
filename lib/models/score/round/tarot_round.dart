@@ -202,8 +202,9 @@ class TarotRound extends Round<TarotGameSetting> {
 
   void computePlayerPoints(TarotScore tarotScore) {
     playerPoints = [];
-    var realAttackScore =
-        players!.playerList!.length <= 4 ? attackScore : attackScore * (2 / 3);
+    var realAttackScore = players!.playerList!.length <= 4
+        ? attackScore
+        : attackScore * (2 / 3);
     var calledPlayerScore = attackScore * (1 / 3);
     for (var player in players!.playerList!) {
       if (players!.attackPlayer == player) {
@@ -251,10 +252,9 @@ class TarotRound extends Round<TarotGameSetting> {
       'contract': EnumToString.convertToString(contract),
       'bonus': bonus != null ? EnumToString.convertToString(bonus) : null,
       'handful': handful != null ? EnumToString.convertToString(handful) : null,
-      'small_to_the_end':
-          smallToTheEndTeam != null
-              ? EnumToString.convertToString(smallToTheEndTeam)
-              : null,
+      'small_to_the_end': smallToTheEndTeam != null
+          ? EnumToString.convertToString(smallToTheEndTeam)
+          : null,
       'chelem': chelem != null ? EnumToString.convertToString(chelem) : null,
       'player_points': playerPoints!.map((e) => e.toJSON()).toList(),
     };

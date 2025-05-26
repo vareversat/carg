@@ -23,12 +23,11 @@ class TeamStatWidget extends StatelessWidget {
   Future _showStatDialog(BuildContext context) async {
     await showDialog(
       context: context,
-      builder:
-          (BuildContext context) => TeamStatDialog(
-            team: team,
-            playerService: playerService,
-            teamService: teamService,
-          ),
+      builder: (BuildContext context) => TeamStatDialog(
+        team: team,
+        playerService: playerService,
+        teamService: teamService,
+      ),
     );
   }
 
@@ -63,21 +62,20 @@ class TeamStatWidget extends StatelessWidget {
               child: Row(
                 key: const ValueKey('apiminiplayerwidget'),
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children:
-                    team.players!
-                        .map(
-                          (playerId) => Flexible(
-                            child: APIMiniPlayerWidget(
-                              key: ValueKey('apiminiplayerwidget-$playerId'),
-                              onTap: () {},
-                              playerId: playerId,
-                              displayImage: true,
-                              playerService: playerService,
-                            ),
-                          ),
-                        )
-                        .toList()
-                        .cast<Widget>(),
+                children: team.players!
+                    .map(
+                      (playerId) => Flexible(
+                        child: APIMiniPlayerWidget(
+                          key: ValueKey('apiminiplayerwidget-$playerId'),
+                          onTap: () {},
+                          playerId: playerId,
+                          displayImage: true,
+                          playerService: playerService,
+                        ),
+                      ),
+                    )
+                    .toList()
+                    .cast<Widget>(),
               ),
             ),
             Container(
@@ -101,14 +99,12 @@ class TeamStatWidget extends StatelessWidget {
                             : team.name!,
                         textAlign: TextAlign.left,
                         style: TextStyle(
-                          fontWeight:
-                              team.name == null || team.name == ''
-                                  ? FontWeight.normal
-                                  : FontWeight.bold,
-                          color:
-                              team.name == null || team.name == ''
-                                  ? Colors.grey
-                                  : Theme.of(context).cardColor,
+                          fontWeight: team.name == null || team.name == ''
+                              ? FontWeight.normal
+                              : FontWeight.bold,
+                          color: team.name == null || team.name == ''
+                              ? Colors.grey
+                              : Theme.of(context).cardColor,
                         ),
                       ),
                       Row(

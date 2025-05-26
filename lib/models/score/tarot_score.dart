@@ -38,14 +38,12 @@ class TarotScore extends Score<TarotRound> {
     return TarotScore(
       id: id,
       game: json?['game'],
-      rounds:
-          json?['rounds'] != null
-              ? TarotRound.fromJSONList(json?['rounds'])
-              : <TarotRound>[],
-      totalPoints:
-          json?['player_total_points'] != null
-              ? TarotPlayerScore.fromJSONList(json?['player_total_points'])
-              : <TarotPlayerScore>[],
+      rounds: json?['rounds'] != null
+          ? TarotRound.fromJSONList(json?['rounds'])
+          : <TarotRound>[],
+      totalPoints: json?['player_total_points'] != null
+          ? TarotPlayerScore.fromJSONList(json?['player_total_points'])
+          : <TarotPlayerScore>[],
     );
   }
 
@@ -63,8 +61,9 @@ class TarotScore extends Score<TarotRound> {
     var playerScores = round.playerPoints!;
     for (var playerScore in playerScores) {
       totalPoints
-          .firstWhere((element) => element.player == playerScore.player)
-          .score -= playerScore.score;
+              .firstWhere((element) => element.player == playerScore.player)
+              .score -=
+          playerScore.score;
     }
     rounds.removeLast();
     notifyListeners();
@@ -75,8 +74,9 @@ class TarotScore extends Score<TarotRound> {
     var playerScores = round.playerPoints!;
     for (var playerScore in playerScores) {
       totalPoints
-          .firstWhere((element) => element.player == playerScore.player)
-          .score += playerScore.score;
+              .firstWhere((element) => element.player == playerScore.player)
+              .score +=
+          playerScore.score;
     }
     rounds.add(round);
     notifyListeners();

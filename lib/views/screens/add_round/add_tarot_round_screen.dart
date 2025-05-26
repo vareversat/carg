@@ -67,36 +67,32 @@ class AddTarotRoundScreen extends StatelessWidget {
                     ChangeNotifierProvider.value(
                       value: tarotRound!.players!,
                       child: Consumer<TarotRoundPlayers>(
-                        builder:
-                            (context, playerData, _) => Wrap(
-                              alignment: WrapAlignment.center,
-                              spacing: 10,
-                              children:
-                                  playerData.playerList!
-                                      .map(
-                                        (player) => APIMiniPlayerWidget(
-                                          isSelected: playerData
-                                              .isPlayerSelected(player),
-                                          playerId: player,
-                                          displayImage:
-                                              !playerData.isPlayerSelected(
-                                                player,
-                                              ),
-                                          showLoading: false,
-                                          selectedColor: playerData
-                                              .getSelectedColor(
-                                                player,
-                                                context,
-                                              ),
-                                          playerService: PlayerService(),
-                                          onTap:
-                                              () => playerData
-                                                  .onSelectedPlayer2(player),
-                                        ),
-                                      )
-                                      .toList()
-                                      .cast<Widget>(),
-                            ),
+                        builder: (context, playerData, _) => Wrap(
+                          alignment: WrapAlignment.center,
+                          spacing: 10,
+                          children: playerData.playerList!
+                              .map(
+                                (player) => APIMiniPlayerWidget(
+                                  isSelected: playerData.isPlayerSelected(
+                                    player,
+                                  ),
+                                  playerId: player,
+                                  displayImage: !playerData.isPlayerSelected(
+                                    player,
+                                  ),
+                                  showLoading: false,
+                                  selectedColor: playerData.getSelectedColor(
+                                    player,
+                                    context,
+                                  ),
+                                  playerService: PlayerService(),
+                                  onTap: () =>
+                                      playerData.onSelectedPlayer2(player),
+                                ),
+                              )
+                              .toList()
+                              .cast<Widget>(),
+                        ),
                       ),
                     ),
                   ],
@@ -157,8 +153,10 @@ class AddTarotRoundScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                          onPressed:
-                              () => {_setupRound(), Navigator.pop(context)},
+                          onPressed: () => {
+                            _setupRound(),
+                            Navigator.pop(context),
+                          },
                           label: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(

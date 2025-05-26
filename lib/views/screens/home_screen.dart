@@ -43,10 +43,9 @@ class _HomeScreenState extends State<HomeScreen> {
         showElevation: true,
         itemCornerRadius: 8,
         curve: Curves.decelerate,
-        onItemSelected:
-            (index) => setState(() {
-              _currentIndex = index;
-            }),
+        onItemSelected: (index) => setState(() {
+          _currentIndex = index;
+        }),
         items: [
           BottomNavyBarItem(
             icon: const Icon(Icons.account_circle),

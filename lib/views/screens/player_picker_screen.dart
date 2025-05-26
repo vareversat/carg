@@ -86,9 +86,8 @@ class _PlayerPickerScreenState extends State<PlayerPickerScreen> {
             child: ChangeNotifierProvider.value(
               value: widget.game!.players!,
               child: Consumer<Players>(
-                builder:
-                    (context, playersData, child) =>
-                        Text(playersData.getSelectedPlayersStatus(context)),
+                builder: (context, playersData, child) =>
+                    Text(playersData.getSelectedPlayersStatus(context)),
               ),
             ),
           ),
@@ -112,13 +111,12 @@ class _PlayerPickerScreenState extends State<PlayerPickerScreen> {
                       return ChangeNotifierProvider.value(
                         value: snapshot.data![index],
                         child: Consumer<Player>(
-                          builder:
-                              (context, playerData, child) => PlayerWidget(
-                                player: playerData,
-                                onTap:
-                                    () => widget.game!.players!
-                                        .onSelectedPlayer(playerData),
-                              ),
+                          builder: (context, playerData, child) => PlayerWidget(
+                            player: playerData,
+                            onTap: () => widget.game!.players!.onSelectedPlayer(
+                              playerData,
+                            ),
+                          ),
                         ),
                       );
                     },
@@ -130,11 +128,10 @@ class _PlayerPickerScreenState extends State<PlayerPickerScreen> {
                 }
               },
               future: _playerService.searchPlayers(
-                currentPlayer:
-                    Provider.of<AuthService>(
-                      context,
-                      listen: false,
-                    ).getPlayer(),
+                currentPlayer: Provider.of<AuthService>(
+                  context,
+                  listen: false,
+                ).getPlayer(),
               ),
             ),
           ),
@@ -143,68 +140,60 @@ class _PlayerPickerScreenState extends State<PlayerPickerScreen> {
             child: ChangeNotifierProvider.value(
               value: widget.game!.players!,
               child: Consumer<Players>(
-                builder:
-                    (context, playersData, child) =>
-                        playersData.isFull()
-                            ? SizedBox(
-                              width: double.infinity,
-                              height: 50,
-                              child: ElevatedButton(
-                                style: ButtonStyle(
-                                  backgroundColor:
-                                      WidgetStateProperty.all<Color>(
-                                        Theme.of(context).primaryColor,
-                                      ),
-                                  foregroundColor:
-                                      WidgetStateProperty.all<Color>(
-                                        Theme.of(context).cardColor,
-                                      ),
-                                  shape:
-                                      WidgetStateProperty.all<OutlinedBorder>(
-                                        RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(
-                                            CustomProperties.borderRadius,
-                                          ),
-                                        ),
-                                      ),
-                                ),
-                                onPressed:
-                                    () async => {
-                                      await _getPlayers(),
-                                      widget.game!.players!.reset(),
-                                      Navigator.push(
-                                        context,
-                                        CustomRouteLeftToRight(
-                                          builder:
-                                              (context) => PlayerOrderScreen(
-                                                playerList: newPlayers!,
-                                                title: widget.title!,
-                                                game: widget.game!,
-                                                gameService:
-                                                    CorrectInstance.ofGameService(
-                                                      widget.game!,
-                                                    ),
-                                              ),
-                                        ),
-                                      ),
-                                    },
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      AppLocalizations.of(context)!.playerOrder,
-                                      style: const TextStyle(fontSize: 23),
-                                    ),
-                                    const SizedBox(width: 10),
-                                    const Icon(
-                                      Icons.arrow_right_alt_outlined,
-                                      size: 30,
-                                    ),
-                                  ],
+                builder: (context, playersData, child) => playersData.isFull()
+                    ? SizedBox(
+                        width: double.infinity,
+                        height: 50,
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor: WidgetStateProperty.all<Color>(
+                              Theme.of(context).primaryColor,
+                            ),
+                            foregroundColor: WidgetStateProperty.all<Color>(
+                              Theme.of(context).cardColor,
+                            ),
+                            shape: WidgetStateProperty.all<OutlinedBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                  CustomProperties.borderRadius,
                                 ),
                               ),
-                            )
-                            : Container(),
+                            ),
+                          ),
+                          onPressed: () async => {
+                            await _getPlayers(),
+                            widget.game!.players!.reset(),
+                            Navigator.push(
+                              context,
+                              CustomRouteLeftToRight(
+                                builder: (context) => PlayerOrderScreen(
+                                  playerList: newPlayers!,
+                                  title: widget.title!,
+                                  game: widget.game!,
+                                  gameService: CorrectInstance.ofGameService(
+                                    widget.game!,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                AppLocalizations.of(context)!.playerOrder,
+                                style: const TextStyle(fontSize: 23),
+                              ),
+                              const SizedBox(width: 10),
+                              const Icon(
+                                Icons.arrow_right_alt_outlined,
+                                size: 30,
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    : Container(),
               ),
             ),
           ),
