@@ -51,7 +51,7 @@ void main() {
       coincheRound.beloteRebelote = null;
       coincheRound.contractName = CoincheBeloteContractName.NORMAL;
       coincheRound.contract = 90;
-      expect(coincheRound.takerScore, 100);
+      expect(coincheRound.takerScore, 90);
       expect(coincheRound.defenderScore, 0);
     });
 
@@ -85,7 +85,7 @@ void main() {
       coincheRound.contractName = CoincheBeloteContractName.NORMAL;
       coincheRound.contract = 100;
       expect(coincheRound.contractFulfilled, true);
-      expect(coincheRound.takerScore, 110);
+      expect(coincheRound.takerScore, 100);
       expect(coincheRound.defenderScore, 0);
     });
 
@@ -205,7 +205,7 @@ void main() {
       coincheRound.contract = 100;
       expect(coincheRound.contractFulfilled, false);
       expect(coincheRound.takerScore, 0);
-      expect(coincheRound.defenderScore, 270);
+      expect(coincheRound.defenderScore, 370);
     });
 
     test('Compute score - fulfilled - Dix de Der - US - Capot', () {
@@ -248,8 +248,8 @@ void main() {
       coincheRound.contractType = BeloteContractType.CAPOT;
       expect(coincheRound.contractFulfilled, false);
       expect(coincheRound.contract, 162);
-      expect(coincheRound.takerScore, 10);
-      expect(coincheRound.defenderScore, 410);
+      expect(coincheRound.takerScore, 0);
+      expect(coincheRound.defenderScore, 420);
     });
 
     test('Compute score - fulfilled - Dix de Der - US - Generale', () {
@@ -292,7 +292,7 @@ void main() {
       coincheRound.contractType = BeloteContractType.FAILED_GENERALE;
       expect(coincheRound.contractFulfilled, false);
       expect(coincheRound.contract, 162);
-      expect(coincheRound.takerScore, 10);
+      expect(coincheRound.takerScore, 0);
       expect(coincheRound.defenderScore, 660);
     });
   });
