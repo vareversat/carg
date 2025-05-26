@@ -8,5 +8,4 @@ analyzer:
   exclude:
     - "**.g.dart"
     - "**.mocks.dart"
-    - "**register**" # DeepLink is deprecated but wont be updated :(
     - "lib/generated_plugin_registrant.dart"

@@ -356,30 +356,6 @@ abstract class AppLocalizations {
   /// **'Edition'**
   String get edition;
 
-  /// No description provided for @email.
-  ///
-  /// In en, this message translates to:
-  /// **'Email'**
-  String get email;
-
-  /// No description provided for @emailSent.
-  ///
-  /// In en, this message translates to:
-  /// **'Login email sent'**
-  String get emailSent;
-
-  /// No description provided for @emailSentAndSignOut.
-  ///
-  /// In en, this message translates to:
-  /// **'Validation link sent. You will be logged out'**
-  String get emailSentAndSignOut;
-
-  /// No description provided for @emailSentWithLink.
-  ///
-  /// In en, this message translates to:
-  /// **'An email containing a connection link will be sent to you.'**
-  String get emailSentWithLink;
-
   /// No description provided for @ended.
   ///
   /// In en, this message translates to:
@@ -662,12 +638,6 @@ abstract class AppLocalizations {
   /// **'New game'**
   String get newGame;
 
-  /// No description provided for @newEmail.
-  ///
-  /// In en, this message translates to:
-  /// **'New email address'**
-  String get newEmail;
-
   /// No description provided for @newPhoneNumber.
   ///
   /// In en, this message translates to:
@@ -697,12 +667,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No'**
   String get no;
-
-  /// No description provided for @noEmailProvided.
-  ///
-  /// In en, this message translates to:
-  /// **'No email provided'**
-  String get noEmailProvided;
 
   /// No description provided for @noGamesYet.
   ///

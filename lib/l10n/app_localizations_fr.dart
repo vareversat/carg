@@ -153,20 +153,6 @@ class AppLocalizationsFr extends AppLocalizations {
   String get edition => 'Édition';
 
   @override
-  String get email => 'Email';
-
-  @override
-  String get emailSent => 'Email de conexion envoyé';
-
-  @override
-  String get emailSentAndSignOut =>
-      'Lien de validation envoyé. Vous allez être déconnecté';
-
-  @override
-  String get emailSentWithLink =>
-      'Un email contenant un lien de connexion va vous être envoyé';
-
-  @override
   String get ended => 'Terminée';
 
   @override
@@ -323,9 +309,6 @@ class AppLocalizationsFr extends AppLocalizations {
   String get newGame => 'Nouvelle partie';
 
   @override
-  String get newEmail => 'Nouvelle adresse email';
-
-  @override
   String get newPhoneNumber => 'Nouveau numéro de téléphone';
 
   @override
@@ -340,9 +323,6 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get no => 'Non';
-
-  @override
-  String get noEmailProvided => 'Pas d\'email renseigné';
 
   @override
   String get noGamesYet => 'Pas encore de parties';
