@@ -82,7 +82,7 @@
   "logInToGoogle": "Log in to your Google account",
   "messageCreatePlayer": "Create a new player without any associated games",
   "messageDeleteGame": "You are about to delete this game",
-  "messageDeleteLasRound": "You are about to delete the last round of the game. This action cannot be reversed",
+  "messageDeleteRound": "You are about to delete a round of the game. This action cannot be reversed",
   "messageDidYouReceiveOTP": "You did not receive the OTP?",
   "messageEnterUniqueId": "Enter unique identifier of the player",
   "messageEnterUsername": "Enter your username",

@@ -23,4 +23,9 @@ class FakeBeloteRound extends BeloteRound {
   int computeTakerRound() {
     return 10;
   }
+
+  @override
+  String getRoundWidgetCentralElement() {
+    return 'Central Element';
+  }
 }

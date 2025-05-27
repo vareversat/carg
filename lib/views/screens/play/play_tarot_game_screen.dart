@@ -1,4 +1,5 @@
 import 'package:carg/helpers/correct_instance.dart';
+import 'package:carg/l10n/app_localizations.dart';
 import 'package:carg/models/game/tarot.dart';
 import 'package:carg/models/players/tarot_round_players.dart';
 import 'package:carg/models/score/round/tarot_round.dart';
@@ -17,7 +18,6 @@ import 'package:carg/views/widgets/api_mini_player_widget.dart';
 import 'package:carg/views/widgets/error_message_widget.dart';
 import 'package:carg/views/widgets/players/next_player_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:carg/l10n/app_localizations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class PlayTarotGameScreen extends StatefulWidget {
@@ -58,13 +58,14 @@ class _PlayTarotGameScreenState extends State<PlayTarotGameScreen> {
     );
   }
 
-  void _deleteLastRound() async {
+  void _deleteRound(int index) async {
     await showDialog(
       context: context,
       builder: (BuildContext context) => WarningDialog(
         onConfirm: () async => {
-          await widget.tarotRoundService.deleteLastRoundOfScoreByGameId(
+          await widget.tarotRoundService.deleteGameRound(
             widget.tarotGame.id,
+            index,
           ),
         },
         message: AppLocalizations.of(context)!.messageDeleteGame,
@@ -94,34 +95,18 @@ class _PlayTarotGameScreenState extends State<PlayTarotGameScreen> {
     );
   }
 
-  void _editLastRound() async {
-    TarotRound? lastRound;
-    try {
-      lastRound = (await widget.tarotScoreService.getScoreByGame(
-        widget.tarotGame.id,
-      ))!.getLastRound();
-      await Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => AddTarotRoundScreen(
-            tarotGame: widget.tarotGame,
-            tarotRound: lastRound,
-            isEditing: true,
-          ),
+  void _editRound(int index, TarotRound round) async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AddTarotRoundScreen(
+          tarotGame: widget.tarotGame,
+          tarotRound: round,
+          roundIndex: index,
+          isEditing: true,
         ),
-      );
-    } on StateError {
-      await showDialog(
-        context: context,
-        builder: (BuildContext context) => WarningDialog(
-          onConfirm: () => {},
-          showCancelButton: false,
-          message: AppLocalizations.of(context)!.messageNoRound,
-          title: AppLocalizations.of(context)!.error,
-          color: Theme.of(context).colorScheme.error,
-        ),
-      );
-    }
+      ),
+    );
   }
 
   void _addNotes() async {
@@ -217,35 +202,56 @@ class _PlayTarotGameScreenState extends State<PlayTarotGameScreen> {
                         child: ListView.builder(
                           itemCount: snapshot.data!.rounds.length,
                           itemBuilder: (BuildContext context, int index) {
-                            return SizedBox(
-                              height: 20,
-                              width: MediaQuery.of(context).size.width,
-                              child: ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                itemCount: snapshot
-                                    .data!
-                                    .rounds[index]
-                                    .playerPoints!
-                                    .length,
-                                itemBuilder:
-                                    (BuildContext context, int playerIndex) {
-                                      return SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.width /
-                                            widget
-                                                .tarotGame
-                                                .players!
-                                                .playerList!
-                                                .length,
-                                        child: _RoundDisplay(
-                                          round: snapshot.data!.rounds[index],
-                                          player: widget
-                                              .tarotGame
-                                              .players!
-                                              .playerList![playerIndex],
-                                        ),
-                                      );
-                                    },
+                            return AbsorbPointer(
+                              absorbing: widget.tarotGame.isEnded,
+                              child: InkWell(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(15),
+                                ),
+                                onLongPress: () async => _deleteRound(index),
+                                onTap: () async => {
+                                  _editRound(
+                                    index,
+                                    snapshot.data!.rounds[index],
+                                  ),
+                                },
+                                child: SizedBox(
+                                  height: 20,
+                                  width: MediaQuery.of(context).size.width,
+                                  child: ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: snapshot
+                                        .data!
+                                        .rounds[index]
+                                        .playerPoints!
+                                        .length,
+                                    itemBuilder:
+                                        (
+                                          BuildContext context,
+                                          int playerIndex,
+                                        ) {
+                                          return SizedBox(
+                                            width:
+                                                MediaQuery.of(
+                                                  context,
+                                                ).size.width /
+                                                widget
+                                                    .tarotGame
+                                                    .players!
+                                                    .playerList!
+                                                    .length,
+                                            child: _RoundDisplay(
+                                              round:
+                                                  snapshot.data!.rounds[index],
+                                              player: widget
+                                                  .tarotGame
+                                                  .players!
+                                                  .playerList![playerIndex],
+                                            ),
+                                          );
+                                        },
+                                  ),
+                                ),
                               ),
                             );
                           },
@@ -269,8 +275,6 @@ class _PlayTarotGameScreenState extends State<PlayTarotGameScreen> {
                         ),
                       if (!widget.tarotGame.isEnded)
                         PlayScreenButtonBlock(
-                          deleteLastRound: _deleteLastRound,
-                          editLastRound: _editLastRound,
                           endGame: _endGame,
                           addNewRound: _addNewRound,
                           addNotes: _addNotes,

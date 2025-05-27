@@ -52,6 +52,11 @@ class FrenchBeloteRound extends BeloteRound {
             getBeloteRebeloteOfTeam(defender);
   }
 
+  @override
+  String getRoundWidgetCentralElement() {
+    return cardColor.symbol;
+  }
+
   factory FrenchBeloteRound.specialRound(
     BeloteSpecialRound beloteSpecialRound,
     String playerID,

@@ -244,8 +244,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get messageDeleteGame => 'You are about to delete this game';
 
   @override
-  String get messageDeleteLasRound =>
-      'You are about to delete the last round of the game. This action cannot be reversed';
+  String get messageDeleteRound =>
+      'You are about to delete a round of the game. This action cannot be reversed';
 
   @override
   String get messageDidYouReceiveOTP => 'You did not receive the OTP?';

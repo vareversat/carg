@@ -38,7 +38,7 @@ void main() {
       when(mockAbstractScoreService.getScoreByGame(uid))
           .thenAnswer((_) async => Future(() => score));
       final roundService = FakeRoundService(mockAbstractScoreService);
-      await roundService.editLastRoundOfScoreByGameId(uid, round);
+      await roundService.editGameRound(uid, round, 0);
       verify(mockAbstractScoreService.update(score)).called(1);
     });
 
@@ -46,7 +46,7 @@ void main() {
       when(mockAbstractScoreService.getScoreByGame(uid))
           .thenAnswer((_) async => Future(() => score));
       final roundService = FakeRoundService(mockAbstractScoreService);
-      await roundService.deleteLastRoundOfScoreByGameId(uid);
+      await roundService.deleteGameRound(uid, 0);
       verify(mockAbstractScoreService.update(score)).called(1);
     });
   });

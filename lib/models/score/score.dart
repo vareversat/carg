@@ -5,11 +5,11 @@ import 'package:flutter/foundation.dart';
 abstract class Score<T extends Round> extends CargObject with ChangeNotifier {
   Score({super.id});
 
-  Round getLastRound();
+  Score deleteRound(int index);
 
-  Score deleteLastRound();
+  Score updateRound(T round, int index);
 
-  Score replaceLastRound(T round);
+  void refreshScore();
 
   @override
   Map<String, dynamic> toJSON();

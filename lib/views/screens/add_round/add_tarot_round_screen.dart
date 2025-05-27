@@ -20,13 +20,15 @@ class AddTarotRoundScreen extends StatelessWidget {
   final Tarot? tarotGame;
   final TarotRound? tarotRound;
   final bool? isEditing;
+  final int? roundIndex;
   final tarotRoundService = TarotRoundService();
 
   void _setupRound() async {
     if (isEditing!) {
-      await tarotRoundService.editLastRoundOfScoreByGameId(
+      await tarotRoundService.editGameRound(
         tarotGame!.id,
         tarotRound,
+        roundIndex!,
       );
     } else {
       await tarotRoundService.addRoundToGame(tarotGame!.id, tarotRound);
@@ -37,6 +39,7 @@ class AddTarotRoundScreen extends StatelessWidget {
     super.key,
     this.tarotGame,
     this.tarotRound,
+    this.roundIndex,
     this.isEditing,
   });
 

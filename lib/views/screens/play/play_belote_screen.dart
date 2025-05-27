@@ -1,9 +1,10 @@
 import 'package:carg/helpers/correct_instance.dart';
+import 'package:carg/l10n/app_localizations.dart';
 import 'package:carg/models/game/belote_game.dart';
+import 'package:carg/models/game/setting/belote_game_setting.dart';
 import 'package:carg/models/score/belote_score.dart';
 import 'package:carg/models/score/misc/belote_special_round.dart';
 import 'package:carg/models/score/misc/belote_team_enum.dart';
-import 'package:carg/models/score/misc/card_color.dart';
 import 'package:carg/models/score/round/belote_round.dart';
 import 'package:carg/services/game/abstract_game_service.dart';
 import 'package:carg/services/impl/player_service.dart';
@@ -22,7 +23,6 @@ import 'package:carg/views/widgets/error_message_widget.dart';
 import 'package:carg/views/widgets/players/next_player_widget.dart';
 import 'package:carg/views/widgets/team_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:carg/l10n/app_localizations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class PlayBeloteScreen extends StatefulWidget {
@@ -76,16 +76,17 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
     );
   }
 
-  void _deleteLastRound() async {
+  void _deleteRound(int index) async {
     await showDialog(
       context: context,
       builder: (BuildContext context) => WarningDialog(
         onConfirm: () async => {
-          await widget.roundService.deleteLastRoundOfScoreByGameId(
+          await widget.roundService.deleteGameRound(
             widget.beloteGame.id,
+            index,
           ),
         },
-        message: AppLocalizations.of(context)!.messageDeleteLasRound,
+        message: AppLocalizations.of(context)!.messageDeleteRound,
         title: AppLocalizations.of(context)!.warning,
         color: Theme.of(context).colorScheme.error,
       ),
@@ -109,37 +110,24 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
     );
   }
 
-  void _editLastRound() async {
-    BeloteRound? lastRound;
-    try {
-      lastRound =
-          (await widget.scoreService.getScoreByGame(
-                widget.beloteGame.id,
-              ))!.getLastRound()
-              as BeloteRound?;
-      await Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => AddBeloteRoundScreen(
-            beloteGame: widget.beloteGame,
-            beloteRound: lastRound as BeloteRound,
-            roundService: CorrectInstance.ofRoundService(widget.beloteGame),
-            isEditing: true,
-          ),
+  void _editRound(
+    int index,
+    BeloteRound round,
+    BeloteGameSetting? settings,
+  ) async {
+    round.settings = settings;
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AddBeloteRoundScreen(
+          beloteGame: widget.beloteGame,
+          roundIndex: index,
+          beloteRound: round,
+          roundService: CorrectInstance.ofRoundService(widget.beloteGame),
+          isEditing: true,
         ),
-      );
-    } on StateError {
-      await showDialog(
-        context: context,
-        builder: (BuildContext context) => WarningDialog(
-          onConfirm: () => {},
-          showCancelButton: false,
-          message: AppLocalizations.of(context)!.messageNoRound,
-          title: AppLocalizations.of(context)!.error,
-          color: Theme.of(context).colorScheme.error,
-        ),
-      );
-    }
+      ),
+    );
   }
 
   void _addNotes() async {
@@ -225,42 +213,57 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
                             child: ListView.builder(
                               itemCount: snapshot.data!.rounds.length,
                               itemBuilder: (BuildContext context, int index) {
-                                return Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Flexible(
-                                      flex: 5,
-                                      child: _RoundDisplayWidget(
-                                        round: snapshot.data!.rounds[index],
-                                        team: BeloteTeamEnum.US,
-                                      ),
+                                return AbsorbPointer(
+                                  absorbing: widget.beloteGame.isEnded,
+                                  child: InkWell(
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(15),
                                     ),
-                                    if (snapshot.data!.rounds[index]
-                                        .isSpecialRound())
-                                      _SpecialRoundDisplayWidget(
-                                        round: snapshot.data!.rounds[index],
-                                      )
-                                    else
-                                      Flexible(
-                                        child: Text(
-                                          snapshot
-                                              .data!
-                                              .rounds[index]
-                                              .cardColor
-                                              .symbol
-                                              .toString(),
-                                          style: const TextStyle(fontSize: 17),
+                                    onLongPress: () async =>
+                                        _deleteRound(index),
+                                    onTap: () async => {
+                                      _editRound(
+                                        index,
+                                        snapshot.data!.rounds[index],
+                                        widget.beloteGame.settings,
+                                      ),
+                                    },
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Flexible(
+                                          flex: 5,
+                                          child: _RoundDisplayWidget(
+                                            round: snapshot.data!.rounds[index],
+                                            team: BeloteTeamEnum.US,
+                                          ),
                                         ),
-                                      ),
-                                    Flexible(
-                                      flex: 5,
-                                      child: _RoundDisplayWidget(
-                                        round: snapshot.data!.rounds[index],
-                                        team: BeloteTeamEnum.THEM,
-                                      ),
+                                        if (snapshot.data!.rounds[index]
+                                            .isSpecialRound())
+                                          _SpecialRoundDisplayWidget(
+                                            round: snapshot.data!.rounds[index],
+                                          )
+                                        else
+                                          Flexible(
+                                            child: Text(
+                                              snapshot.data!.rounds[index]
+                                                  .getRoundWidgetCentralElement(),
+                                              style: const TextStyle(
+                                                fontSize: 17,
+                                              ),
+                                            ),
+                                          ),
+                                        Flexible(
+                                          flex: 5,
+                                          child: _RoundDisplayWidget(
+                                            round: snapshot.data!.rounds[index],
+                                            team: BeloteTeamEnum.THEM,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ],
+                                  ),
                                 );
                               },
                             ),
@@ -283,12 +286,6 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
                           ),
                         if (!widget.beloteGame.isEnded)
                           PlayScreenButtonBlock(
-                            deleteLastRound: _deleteLastRound,
-                            editLastRound:
-                                snapshot.data!.rounds.isNotEmpty &&
-                                    !snapshot.data!.rounds.last.isSpecialRound()
-                                ? _editLastRound
-                                : null,
                             endGame: _endGame,
                             addNewRound: _addNewRound,
                             addNotes: _addNotes,

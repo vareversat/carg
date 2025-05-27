@@ -1,4 +1,6 @@
+import 'package:carg/models/game/setting/game_setting.dart';
 import 'package:carg/models/score/misc/tarot_player_score.dart';
+import 'package:carg/models/score/round/round.dart';
 import 'package:carg/models/score/round/tarot_round.dart';
 import 'package:carg/models/score/score.dart';
 
@@ -52,49 +54,44 @@ class TarotScore extends Score<TarotRound> {
     return 'TarotScore{game: $game, rounds: $rounds, scores: $totalPoints}';
   }
 
-  @override
-  TarotRound getLastRound() {
-    return rounds.last;
-  }
-
-  void removeRound(TarotRound round) {
-    var playerScores = round.playerPoints!;
-    for (var playerScore in playerScores) {
-      totalPoints
-              .firstWhere((element) => element.player == playerScore.player)
-              .score -=
-          playerScore.score;
-    }
-    rounds.removeLast();
-    notifyListeners();
-  }
-
   void addRound(TarotRound round) {
     round.computePlayerPoints(this);
-    var playerScores = round.playerPoints!;
-    for (var playerScore in playerScores) {
-      totalPoints
-              .firstWhere((element) => element.player == playerScore.player)
-              .score +=
-          playerScore.score;
-    }
     rounds.add(round);
+    refreshScore();
     notifyListeners();
   }
 
   @override
-  TarotScore deleteLastRound() {
-    removeRound(getLastRound());
+  TarotScore deleteRound(int index) {
+    rounds.removeAt(index);
+    refreshScore();
     notifyListeners();
     return this;
   }
 
   @override
-  TarotScore replaceLastRound(TarotRound round) {
-    removeRound(getLastRound());
-    addRound(round);
-    notifyListeners();
+  Score<Round<GameSetting>> updateRound(TarotRound round, int index) {
+    round.computePlayerPoints(this);
+    rounds[index] = round;
+    refreshScore();
     notifyListeners();
     return this;
+  }
+
+  @override
+  void refreshScore() {
+    // Reset every value to 0
+    for (var tP in totalPoints) {
+      tP.score = 0;
+    }
+    for (var round in rounds) {
+      // For every round, add the score to the total score of each players
+      for (var playerPoint in round.playerPoints!) {
+        totalPoints
+                .firstWhere((element) => element.player == playerPoint.player)
+                .score +=
+            playerPoint.score;
+      }
+    }
   }
 }

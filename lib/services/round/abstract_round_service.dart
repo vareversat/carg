@@ -19,15 +19,15 @@ abstract class AbstractRoundService<
   /// Add a new round to a game
   Future<void> addRoundToGame(String? gameId, T? round);
 
-  /// Replace the last round of a game
-  Future<void> editLastRoundOfScoreByGameId(String? gameId, T? round) async {
+  /// Edit a round
+  Future<void> editGameRound(String? gameId, T? round, int index) async {
     if (round == null) {
       throw ServiceException('Please provide a non null round object');
     }
     try {
       var score = await abstractScoreService.getScoreByGame(gameId);
       if (score != null) {
-        score.replaceLastRound(round);
+        score.updateRound(round, index);
         await abstractScoreService.update(score);
       }
     } on ServiceException {
@@ -35,12 +35,12 @@ abstract class AbstractRoundService<
     }
   }
 
-  /// Delete the last round of a game
-  Future<void> deleteLastRoundOfScoreByGameId(String? gameId) async {
+  /// Delete a round
+  Future<void> deleteGameRound(String? gameId, int index) async {
     try {
       var score = await abstractScoreService.getScoreByGame(gameId);
       if (score != null) {
-        score.deleteLastRound();
+        score.deleteRound(index);
         abstractScoreService.update(score);
       }
     } on ServiceException {

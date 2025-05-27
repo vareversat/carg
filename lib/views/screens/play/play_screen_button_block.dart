@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:carg/l10n/app_localizations.dart';
 
 class PlayScreenButtonBlock extends StatelessWidget {
-  final Function deleteLastRound;
-  final Function()? editLastRound;
   final Function endGame;
   final Function addNewRound;
   final Function addNotes;
@@ -13,8 +11,6 @@ class PlayScreenButtonBlock extends StatelessWidget {
 
   const PlayScreenButtonBlock({
     super.key,
-    required this.deleteLastRound,
-    required this.editLastRound,
     required this.endGame,
     required this.addNewRound,
     required this.addNotes,
@@ -29,32 +25,6 @@ class PlayScreenButtonBlock extends StatelessWidget {
       spacing: 10,
       alignment: WrapAlignment.center,
       children: <Widget>[
-        ElevatedButton(
-          onPressed: () async => {deleteLastRound()},
-          style: ButtonStyle(
-            shape: WidgetStateProperty.all<OutlinedBorder>(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(
-                  CustomProperties.borderRadius,
-                ),
-              ),
-            ),
-          ),
-          child: const Icon(Icons.delete_rounded, size: 22),
-        ),
-        ElevatedButton(
-          onPressed: editLastRound,
-          style: ButtonStyle(
-            shape: WidgetStateProperty.all<OutlinedBorder>(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(
-                  CustomProperties.borderRadius,
-                ),
-              ),
-            ),
-          ),
-          child: const Icon(Icons.edit, size: 22),
-        ),
         ElevatedButton(
           onPressed: () async => {addNotes()},
           style: ButtonStyle(
