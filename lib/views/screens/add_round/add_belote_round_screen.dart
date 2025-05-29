@@ -18,6 +18,7 @@ import 'package:carg/l10n/app_localizations.dart';
 class AddBeloteRoundScreen extends StatelessWidget {
   final Belote? beloteGame;
   final BeloteRound? beloteRound;
+  final int? roundIndex;
   final bool isEditing;
   final AbstractRoundService roundService;
 
@@ -25,15 +26,17 @@ class AddBeloteRoundScreen extends StatelessWidget {
     super.key,
     this.beloteGame,
     required this.beloteRound,
+    this.roundIndex,
     this.isEditing = false,
     required this.roundService,
   });
 
   void _setupRound() async {
     if (isEditing) {
-      await roundService.editLastRoundOfScoreByGameId(
+      await roundService.editGameRound(
         beloteGame!.id,
         beloteRound,
+        roundIndex!,
       );
     } else {
       await roundService.addRoundToGame(beloteGame!.id, beloteRound);

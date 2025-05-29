@@ -160,6 +160,8 @@ abstract class BeloteRound extends Round<BeloteGameSetting> {
 
   int computeTakerRound();
 
+  String getRoundWidgetCentralElement();
+
   @override
   void computeRound() {
     takerScore = computeTakerRound();

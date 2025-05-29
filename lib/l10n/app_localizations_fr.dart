@@ -246,8 +246,8 @@ class AppLocalizationsFr extends AppLocalizations {
       'Tu es sur le point de supprimer cette partie';
 
   @override
-  String get messageDeleteLasRound =>
-      'Tu es sur le point de supprimer la dernière manche de la partie. Cette action est irréversible';
+  String get messageDeleteRound =>
+      'Tu es sur le point de supprimer une manche de la partie. Cette action est irréversible';
 
   @override
   String get messageDidYouReceiveOTP => 'Vous n\'avez pas reçu le code OTP';

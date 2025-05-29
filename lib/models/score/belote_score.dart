@@ -19,26 +19,29 @@ abstract class BeloteScore<T extends BeloteRound> extends Score<T> {
   }
 
   @override
-  BeloteScore replaceLastRound(T round) {
-    usTotalPoints -= getPointsOfRound(BeloteTeamEnum.US, getLastRound());
-    themTotalPoints -= getPointsOfRound(BeloteTeamEnum.THEM, getLastRound());
-    _setLastRound(round);
+  BeloteScore updateRound(T round, int index) {
+    rounds[index] = round;
+    refreshScore();
     notifyListeners();
     return this;
   }
 
   @override
-  BeloteScore deleteLastRound() {
-    usTotalPoints -= getPointsOfRound(BeloteTeamEnum.US, getLastRound());
-    themTotalPoints -= getPointsOfRound(BeloteTeamEnum.THEM, getLastRound());
-    rounds.removeLast();
+  BeloteScore deleteRound(int index) {
+    rounds.removeAt(index);
+    refreshScore();
     notifyListeners();
     return this;
   }
 
   @override
-  T getLastRound() {
-    return rounds.last;
+  void refreshScore() {
+    usTotalPoints = 0;
+    themTotalPoints = 0;
+    for (T round in rounds) {
+      usTotalPoints += getPointsOfRound(BeloteTeamEnum.US, round);
+      themTotalPoints += getPointsOfRound(BeloteTeamEnum.THEM, round);
+    }
   }
 
   int getPointsOfRound(BeloteTeamEnum teamGameEnum, T teamGameRound) {
@@ -55,12 +58,6 @@ abstract class BeloteScore<T extends BeloteRound> extends Score<T> {
     round.index = rounds.length;
     rounds.add(round);
     notifyListeners();
-  }
-
-  void _setLastRound(T round) {
-    usTotalPoints += getPointsOfRound(BeloteTeamEnum.US, round);
-    themTotalPoints += getPointsOfRound(BeloteTeamEnum.THEM, round);
-    rounds.last = round;
   }
 
   @override

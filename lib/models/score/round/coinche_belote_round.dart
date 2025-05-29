@@ -117,6 +117,11 @@ class CoincheBeloteRound<CoincheBeloteGameSetting> extends BeloteRound {
   }
 
   @override
+  String getRoundWidgetCentralElement() {
+    return contract.toString();
+  }
+
+  @override
   Map<String, dynamic> toJSON() {
     var tmpJSON = super.toJSON();
     tmpJSON.addAll({

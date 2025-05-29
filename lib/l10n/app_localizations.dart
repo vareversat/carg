@@ -530,11 +530,11 @@ abstract class AppLocalizations {
   /// **'You are about to delete this game'**
   String get messageDeleteGame;
 
-  /// No description provided for @messageDeleteLasRound.
+  /// No description provided for @messageDeleteRound.
   ///
   /// In en, this message translates to:
-  /// **'You are about to delete the last round of the game. This action cannot be reversed'**
-  String get messageDeleteLasRound;
+  /// **'You are about to delete a round of the game. This action cannot be reversed'**
+  String get messageDeleteRound;
 
   /// No description provided for @messageDidYouReceiveOTP.
   ///
