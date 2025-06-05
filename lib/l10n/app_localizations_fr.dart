@@ -36,7 +36,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get back => 'Retour';
 
   @override
-  String get beloteRebelote => 'Belote & rebelote (+20)';
+  String get beloteRebelote => 'Belote & rebelote';
 
   @override
   String get bet => 'Mise';
@@ -147,7 +147,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get deleteAll => 'Tout supprimer';
 
   @override
-  String get dixDeDer => 'Dix de der (+10)';
+  String get dixDeDer => 'Dix de der';
 
   @override
   String get edition => 'Édition';
@@ -568,6 +568,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get trickPoints => 'Point des plis';
 
   @override
+  String get trickPointsOverride => 'Points';
+
+  @override
   String get type => 'Type';
 
   @override
@@ -590,7 +593,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get username => 'Nom d\'utilisateur';
 
   @override
-  String get validate => 'Valider';
+  String get confirm => 'Confirmer';
 
   @override
   String get validating => 'Validation';

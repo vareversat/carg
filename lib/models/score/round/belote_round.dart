@@ -29,6 +29,7 @@ abstract class BeloteRound extends Round<BeloteGameSetting> {
   BeloteRound({
     super.index,
     super.settings,
+    super.isManualMode,
     cardColor,
     contractFulfilled,
     dixDeDer,
@@ -164,8 +165,10 @@ abstract class BeloteRound extends Round<BeloteGameSetting> {
 
   @override
   void computeRound() {
-    takerScore = computeTakerRound();
-    defenderScore = computeDefenderRound();
+    if (!isManualMode) {
+      takerScore = computeTakerRound();
+      defenderScore = computeDefenderRound();
+    }
     notifyListeners();
   }
 
@@ -188,6 +191,7 @@ abstract class BeloteRound extends Round<BeloteGameSetting> {
           ? EnumToString.convertToString(beloteSpecialRound)
           : null,
       'belote_special_round_player': beloteSpecialRoundPlayer,
+      'is_manual_mode': isManualMode,
     };
   }
 }

@@ -149,7 +149,7 @@ abstract class AppLocalizations {
   /// No description provided for @beloteRebelote.
   ///
   /// In en, this message translates to:
-  /// **'Belote and rebelote (+20)'**
+  /// **'Belote and rebelote'**
   String get beloteRebelote;
 
   /// No description provided for @bet.
@@ -347,7 +347,7 @@ abstract class AppLocalizations {
   /// No description provided for @dixDeDer.
   ///
   /// In en, this message translates to:
-  /// **'Dix de der (+10)'**
+  /// **'Dix de der'**
   String get dixDeDer;
 
   /// No description provided for @edition.
@@ -1076,6 +1076,12 @@ abstract class AppLocalizations {
   /// **'Trick points'**
   String get trickPoints;
 
+  /// No description provided for @trickPointsOverride.
+  ///
+  /// In en, this message translates to:
+  /// **'Points'**
+  String get trickPointsOverride;
+
   /// No description provided for @type.
   ///
   /// In en, this message translates to:
@@ -1118,11 +1124,11 @@ abstract class AppLocalizations {
   /// **'Username'**
   String get username;
 
-  /// No description provided for @validate.
+  /// No description provided for @confirm.
   ///
   /// In en, this message translates to:
-  /// **'Validate'**
-  String get validate;
+  /// **'Confirm'**
+  String get confirm;
 
   /// No description provided for @validating.
   ///

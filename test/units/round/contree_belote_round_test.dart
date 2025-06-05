@@ -291,5 +291,20 @@ void main() {
       expect(contreeRound.takerScore, 0);
       expect(contreeRound.defenderScore, 660);
     });
+
+    test('Manual mode', () {
+      final coincheRound = ContreeBeloteRound(
+          taker: BeloteTeamEnum.US,
+          defender: BeloteTeamEnum.THEM,
+          takerScore: 101,
+          defenderScore: 61,
+          contract: 100,
+          settings: gameSettingAddToContract,
+          isManualMode: true
+      );
+      expect(coincheRound.takerScore, 101);
+      expect(coincheRound.defenderScore, 61);
+      expect(coincheRound.contractFulfilled, true);
+    });
   });
 }

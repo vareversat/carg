@@ -1,3 +1,4 @@
+import 'package:carg/l10n/app_localizations.dart';
 import 'package:carg/models/game/belote_game.dart';
 import 'package:carg/models/score/round/belote_round.dart';
 import 'package:carg/models/score/round/coinche_belote_round.dart';
@@ -13,7 +14,6 @@ import 'package:carg/views/screens/add_round/widget/team_game/contract_contree_w
 import 'package:carg/views/screens/add_round/widget/team_game/taker_team_widget.dart';
 import 'package:carg/views/screens/add_round/widget/team_game/trick_points_belote_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:carg/l10n/app_localizations.dart';
 
 class AddBeloteRoundScreen extends StatelessWidget {
   final Belote? beloteGame;
@@ -124,7 +124,7 @@ class AddBeloteRoundScreen extends StatelessWidget {
                           label: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              AppLocalizations.of(context)!.validate,
+                              AppLocalizations.of(context)!.confirm,
                               style: const TextStyle(fontSize: 23),
                             ),
                           ),
