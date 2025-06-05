@@ -24,6 +24,7 @@ class ContreeBeloteRound extends BeloteRound {
     super.usTrickScore,
     super.themTrickScore,
     super.settings,
+    super.isManualMode,
     int? contract,
     ContreeBeloteContractName? contractName,
     BeloteContractType? contractType,
@@ -37,19 +38,23 @@ class ContreeBeloteRound extends BeloteRound {
 
   @override
   bool get contractFulfilled {
-    var totalTackerScore =
-        getTrickPointsOfTeam(taker) +
-        getDixDeDerOfTeam(taker) +
-        getBeloteRebeloteOfTeam(taker);
-    var totalDefenderScore =
-        getTrickPointsOfTeam(defender) +
-        getDixDeDerOfTeam(defender) +
-        getBeloteRebeloteOfTeam(defender);
-    if (contractType != BeloteContractType.FAILED_GENERALE) {
-      return totalTackerScore >= contract &&
-          totalTackerScore > totalDefenderScore;
+    if (!isManualMode) {
+      var totalTackerScore =
+          getTrickPointsOfTeam(taker) +
+          getDixDeDerOfTeam(taker) +
+          getBeloteRebeloteOfTeam(taker);
+      var totalDefenderScore =
+          getTrickPointsOfTeam(defender) +
+          getDixDeDerOfTeam(defender) +
+          getBeloteRebeloteOfTeam(defender);
+      if (contractType != BeloteContractType.FAILED_GENERALE) {
+        return totalTackerScore >= contract &&
+            totalTackerScore > totalDefenderScore;
+      } else {
+        return false;
+      }
     } else {
-      return false;
+      return takerScore >= contract;
     }
   }
 
@@ -179,6 +184,7 @@ class ContreeBeloteRound extends BeloteRound {
         json['belote_special_round'] ?? '',
       ),
       beloteSpecialRoundPlayer: json['belote_special_round_player'],
+      isManualMode: json['is_manual_mode'],
     );
   }
 
@@ -202,6 +208,7 @@ class ContreeBeloteRound extends BeloteRound {
         'themTrickScore: $themTrickScore, '
         'contractName: $contractName, '
         'contractType: $contractType, '
+        'isManualMode: $isManualMode, '
         'defender: $defender}';
   }
 }

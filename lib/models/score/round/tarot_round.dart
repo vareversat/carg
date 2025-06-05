@@ -1,3 +1,4 @@
+import 'package:carg/l10n/app_localizations.dart';
 import 'package:carg/models/game/setting/tarot_game_setting.dart';
 import 'package:carg/models/players/tarot_round_players.dart';
 import 'package:carg/models/score/misc/tarot_chelem.dart';
@@ -11,7 +12,6 @@ import 'package:carg/models/score/round/round.dart';
 import 'package:carg/models/score/tarot_score.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/widgets.dart';
-import 'package:carg/l10n/app_localizations.dart';
 
 class TarotRound extends Round<TarotGameSetting> {
   static const double maxTrickPoints = 91;
@@ -34,6 +34,8 @@ class TarotRound extends Round<TarotGameSetting> {
 
   TarotRound({
     super.index,
+    super.settings,
+    super.isManualMode,
     double? attackScore,
     double? defenseScore,
     double? attackTrickPoints,
@@ -46,7 +48,6 @@ class TarotRound extends Round<TarotGameSetting> {
     TarotChelem? chelem,
     TarotTeam? smallToTheEnd,
     List<TarotPlayerScore>? playerPoints,
-    super.settings,
     this.players,
   }) {
     this.attackScore = attackScore ?? 0;
@@ -257,6 +258,7 @@ class TarotRound extends Round<TarotGameSetting> {
           : null,
       'chelem': chelem != null ? EnumToString.convertToString(chelem) : null,
       'player_points': playerPoints!.map((e) => e.toJSON()).toList(),
+      'is_manual_mode': isManualMode,
     };
   }
 
@@ -281,6 +283,7 @@ class TarotRound extends Round<TarotGameSetting> {
         json['small_to_the_end'] ?? '',
       ),
       chelem: EnumToString.fromString(TarotChelem.values, json['chelem'] ?? ''),
+      isManualMode: json['is_manual_mode'],
     );
   }
 
@@ -300,7 +303,8 @@ class TarotRound extends Round<TarotGameSetting> {
         '_bonus: $_bonus, '
         '_handful: $_handful, '
         '_smallAtTheEndTeam: $_smallAtTheEndTeam, '
-        '_chelem: $_chelem}, '
-        'playerPoints $playerPoints';
+        '_chelem: $_chelem, '
+        'isManualMode: $isManualMode, '
+        'playerPoints $playerPoints}';
   }
 }

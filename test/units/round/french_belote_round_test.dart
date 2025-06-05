@@ -102,5 +102,19 @@ void main() {
       expect(beloteRound.takerScore, 0);
       expect(beloteRound.defenderScore, 160);
     });
+
+    test('Manual mode', () {
+      final coincheRound = FrenchBeloteRound(
+          taker: BeloteTeamEnum.US,
+          defender: BeloteTeamEnum.THEM,
+          takerScore: 81,
+          defenderScore: 81,
+          settings: gameSettingAddToContract,
+          isManualMode: true
+      );
+      expect(coincheRound.takerScore, 81);
+      expect(coincheRound.defenderScore, 81);
+      expect(coincheRound.contractFulfilled, false);
+    });
   });
 }

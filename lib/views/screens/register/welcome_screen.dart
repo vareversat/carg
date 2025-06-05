@@ -439,7 +439,7 @@ class _EnterUsernameWidget extends StatelessWidget {
             await _createPlayer();
           },
           label: Text(
-            AppLocalizations.of(context)!.validate,
+            AppLocalizations.of(context)!.confirm,
             textAlign: TextAlign.center,
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
@@ -569,7 +569,7 @@ class _LinkPlayerWidget extends StatelessWidget {
                 await _linkPlayer();
               },
               label: Text(
-                AppLocalizations.of(context)!.validate,
+                AppLocalizations.of(context)!.confirm,
                 textAlign: TextAlign.center,
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),

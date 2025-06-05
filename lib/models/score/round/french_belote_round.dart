@@ -20,6 +20,7 @@ class FrenchBeloteRound extends BeloteRound {
     super.settings,
     super.beloteSpecialRound,
     super.beloteSpecialRoundPlayer,
+    super.isManualMode,
   });
 
   @override
@@ -44,12 +45,16 @@ class FrenchBeloteRound extends BeloteRound {
 
   @override
   bool get contractFulfilled {
-    return getTrickPointsOfTeam(taker) +
-            getDixDeDerOfTeam(taker) +
-            getBeloteRebeloteOfTeam(taker) >
-        getTrickPointsOfTeam(defender) +
-            getDixDeDerOfTeam(defender) +
-            getBeloteRebeloteOfTeam(defender);
+    if (!isManualMode) {
+      return getTrickPointsOfTeam(taker) +
+              getDixDeDerOfTeam(taker) +
+              getBeloteRebeloteOfTeam(taker) >
+          getTrickPointsOfTeam(defender) +
+              getDixDeDerOfTeam(defender) +
+              getBeloteRebeloteOfTeam(defender);
+    } else {
+      return takerScore > BeloteRound.totalScore / 2;
+    }
   }
 
   @override
@@ -95,6 +100,7 @@ class FrenchBeloteRound extends BeloteRound {
         json['belote_special_round'] ?? '',
       ),
       beloteSpecialRoundPlayer: json['belote_special_round_player'],
+      isManualMode: json['is_manual_mode'],
     );
   }
 
@@ -115,6 +121,7 @@ class FrenchBeloteRound extends BeloteRound {
         'takerScore: $takerScore, '
         'defenderScore: $defenderScore, '
         'usTrickScore: $usTrickScore, '
+        'isManualMode: $isManualMode, '
         'themTrickScore: $themTrickScore}';
   }
 }

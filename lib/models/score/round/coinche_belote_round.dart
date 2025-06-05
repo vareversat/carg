@@ -24,6 +24,7 @@ class CoincheBeloteRound<CoincheBeloteGameSetting> extends BeloteRound {
     super.usTrickScore,
     super.themTrickScore,
     super.settings,
+    super.isManualMode,
     contract,
     CoincheBeloteContractName? contractName,
     BeloteContractType? contractType,
@@ -37,19 +38,23 @@ class CoincheBeloteRound<CoincheBeloteGameSetting> extends BeloteRound {
 
   @override
   bool get contractFulfilled {
-    var totalTackerScore =
-        getTrickPointsOfTeam(taker) +
-        getDixDeDerOfTeam(taker) +
-        getBeloteRebeloteOfTeam(taker);
-    var totalDefenderScore =
-        getTrickPointsOfTeam(defender) +
-        getDixDeDerOfTeam(defender) +
-        getBeloteRebeloteOfTeam(defender);
-    if (contractType != BeloteContractType.FAILED_GENERALE) {
-      return totalTackerScore >= contract &&
-          totalTackerScore > totalDefenderScore;
+    if (!isManualMode) {
+      var totalTackerScore =
+          getTrickPointsOfTeam(taker) +
+          getDixDeDerOfTeam(taker) +
+          getBeloteRebeloteOfTeam(taker);
+      var totalDefenderScore =
+          getTrickPointsOfTeam(defender) +
+          getDixDeDerOfTeam(defender) +
+          getBeloteRebeloteOfTeam(defender);
+      if (contractType != BeloteContractType.FAILED_GENERALE) {
+        return totalTackerScore >= contract &&
+            totalTackerScore > totalDefenderScore;
+      } else {
+        return false;
+      }
     } else {
-      return false;
+      return takerScore >= contract;
     }
   }
 
@@ -179,6 +184,7 @@ class CoincheBeloteRound<CoincheBeloteGameSetting> extends BeloteRound {
         json['belote_special_round'] ?? '',
       ),
       beloteSpecialRoundPlayer: json['belote_special_round_player'],
+      isManualMode: json['is_manual_mode'],
     );
   }
 
@@ -202,6 +208,7 @@ class CoincheBeloteRound<CoincheBeloteGameSetting> extends BeloteRound {
         'usTrickScore: $usTrickScore,  \n'
         'themTrickScore: $themTrickScore,  \n'
         'contractName: $contractName,  \n'
+        'isManualMode: $isManualMode,  \n'
         'contractType: $contractType,  \n}';
   }
 }

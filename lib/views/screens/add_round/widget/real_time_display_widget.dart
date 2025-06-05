@@ -13,14 +13,16 @@ class RealTimeDisplayWidget extends StatelessWidget {
       value: round,
       child: Consumer<Round>(
         builder: (context, roundData, child) => Center(
-          child: Text(
-            roundData.realTimeDisplay(context),
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.onPrimary,
-              fontSize: 23,
-            ),
-          ),
+          child: !round.isManualMode
+              ? Text(
+                  roundData.realTimeDisplay(context),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onPrimary,
+                    fontSize: 23,
+                  ),
+                )
+              : Container(),
         ),
       ),
     );

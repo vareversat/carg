@@ -163,7 +163,7 @@ class AddTarotRoundScreen extends StatelessWidget {
                           label: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              AppLocalizations.of(context)!.validate,
+                              AppLocalizations.of(context)!.confirm,
                               style: const TextStyle(fontSize: 23),
                             ),
                           ),
