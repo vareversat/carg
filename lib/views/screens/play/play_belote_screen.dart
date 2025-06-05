@@ -221,13 +221,17 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
                                     ),
                                     onLongPress: () async =>
                                         _deleteRound(index),
-                                    onTap: () async => {
-                                      _editRound(
-                                        index,
-                                        snapshot.data!.rounds[index],
-                                        widget.beloteGame.settings,
-                                      ),
-                                    },
+                                    onTap: () async =>
+                                        !snapshot.data!.rounds[index]
+                                            .isSpecialRound()
+                                        ? {
+                                            _editRound(
+                                              index,
+                                              snapshot.data!.rounds[index],
+                                              widget.beloteGame.settings,
+                                            ),
+                                          }
+                                        : {},
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
