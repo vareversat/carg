@@ -1,17 +1,13 @@
+import 'package:carg/l10n/app_localizations.dart';
 import 'package:carg/models/player.dart';
 import 'package:carg/models/players/players.dart';
 import 'package:flutter/material.dart';
-import 'package:carg/l10n/app_localizations.dart';
 
 class TarotRoundPlayers extends Players {
   String? attackPlayer;
   String? calledPlayer;
 
-  TarotRoundPlayers({
-    this.attackPlayer,
-    this.calledPlayer,
-    List<dynamic>? super.playerList,
-  });
+  TarotRoundPlayers({this.attackPlayer, this.calledPlayer, super.playerList});
 
   bool isPlayerSelected(String? playerId) {
     return attackPlayer == playerId || calledPlayer == playerId;

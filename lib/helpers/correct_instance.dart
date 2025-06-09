@@ -7,6 +7,8 @@ import 'package:carg/models/score/misc/belote_special_round.dart';
 import 'package:carg/models/score/round/coinche_belote_round.dart';
 import 'package:carg/models/score/round/contree_belote_round.dart';
 import 'package:carg/models/score/round/french_belote_round.dart';
+import 'package:carg/models/score/round/round.dart';
+import 'package:carg/services/game/abstract_game_service.dart';
 import 'package:carg/services/impl/game/coinche_belote_game_service.dart';
 import 'package:carg/services/impl/game/contree_belote_game_service.dart';
 import 'package:carg/services/impl/game/french_belote_game_service.dart';
@@ -19,9 +21,11 @@ import 'package:carg/services/impl/score/coinche_belote_score_service.dart';
 import 'package:carg/services/impl/score/contree_belote_score_service.dart';
 import 'package:carg/services/impl/score/french_belote_score_service.dart';
 import 'package:carg/services/impl/score/tarot_score_service.dart';
+import 'package:carg/services/round/abstract_round_service.dart';
+import 'package:carg/services/score/abstract_score_service.dart';
 
 class CorrectInstance {
-  static ofGameService(Game game) {
+  static AbstractGameService ofGameService(Game game) {
     switch (game) {
       case FrenchBelote _:
         return FrenchBeloteGameService();
@@ -38,7 +42,7 @@ class CorrectInstance {
     }
   }
 
-  static ofRoundService(Game game) {
+  static AbstractRoundService ofRoundService(Game game) {
     switch (game) {
       case FrenchBelote _:
         return FrenchBeloteRoundService();
@@ -55,7 +59,7 @@ class CorrectInstance {
     }
   }
 
-  static ofScoreService(Game game) {
+  static AbstractScoreService ofScoreService(Game game) {
     switch (game) {
       case FrenchBelote _:
         return FrenchBeloteScoreService();
@@ -72,7 +76,7 @@ class CorrectInstance {
     }
   }
 
-  static ofSpecialRound(
+  static Round ofSpecialRound(
     Game game,
     BeloteSpecialRound beloteSpecialRound,
     String playerID,
