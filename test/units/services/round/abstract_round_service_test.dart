@@ -12,7 +12,7 @@ import '../../mocks/fake_score.dart';
 import 'abstract_round_service_test.mocks.dart';
 
 class FakeRoundService extends AbstractRoundService {
-  FakeRoundService(abstractScoreService)
+  FakeRoundService(MockAbstractScoreService abstractScoreService)
       : super(abstractScoreService: abstractScoreService);
 
   @override

@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 class Games<T extends Game?> with ChangeNotifier {
   late List<T> _gameList;
 
-  Games({gameList}) {
+  Games({List<T>? gameList}) {
     _gameList = gameList ?? [];
   }
 

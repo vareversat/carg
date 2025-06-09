@@ -5,19 +5,19 @@ import 'package:flutter/widgets.dart';
 abstract class Players with ChangeNotifier {
   List<dynamic>? playerList;
 
-  Players({playerList}) {
+  Players({List<dynamic>? playerList}) {
     if (playerList == null) {
       this.playerList = [];
     } else {
-      this.playerList = (playerList as List).map((e) => e.toString()).toList();
+      this.playerList = (playerList).map((e) => e.toString()).toList();
     }
   }
 
-  Players.prefilledList({playerList}) {
+  Players.prefilledList({List<dynamic>? playerList}) {
     if (playerList == null) {
       this.playerList = [' ', ' ', ' ', ' '];
     } else {
-      this.playerList = (playerList as List).map((e) => e.toString()).toList();
+      this.playerList = (playerList).map((e) => e.toString()).toList();
     }
   }
 

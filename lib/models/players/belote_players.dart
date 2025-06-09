@@ -7,8 +7,7 @@ class BelotePlayers extends Players {
   String? us;
   String? them;
 
-  BelotePlayers({this.us, this.them, List<dynamic>? super.playerList})
-    : super.prefilledList();
+  BelotePlayers({this.us, this.them, super.playerList}) : super.prefilledList();
 
   @override
   void onSelectedPlayer(Player player) {
