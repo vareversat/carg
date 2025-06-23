@@ -1,3 +1,4 @@
+import 'package:carg/l10n/app_localizations.dart';
 import 'package:carg/services/impl/player_service.dart';
 import 'package:carg/services/impl/team_service.dart';
 import 'package:carg/views/screens/game_list_screen.dart';
@@ -5,8 +6,6 @@ import 'package:carg/views/screens/player_list_screen.dart';
 import 'package:carg/views/screens/user_screen.dart';
 import 'package:carg/views/widgets/nav_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:carg/l10n/app_localizations.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home';
@@ -50,19 +49,19 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavyBarItem(
             icon: const Icon(Icons.account_circle),
             title: Text(AppLocalizations.of(context)!.profileTitle),
-            activeColor: Theme.of(context).primaryColor,
+            activeColor: Theme.of(context).colorScheme.onPrimary,
             textAlign: TextAlign.center,
           ),
           BottomNavyBarItem(
-            icon: const Icon(FontAwesomeIcons.gamepad),
+            icon: const Icon(Icons.videogame_asset),
             title: Text(AppLocalizations.of(context)!.games),
-            activeColor: Theme.of(context).primaryColor,
+            activeColor: Theme.of(context).colorScheme.onPrimary,
             textAlign: TextAlign.center,
           ),
           BottomNavyBarItem(
             icon: const Icon(Icons.people),
             title: Text(AppLocalizations.of(context)!.player(2)),
-            activeColor: Theme.of(context).primaryColor,
+            activeColor: Theme.of(context).colorScheme.onPrimary,
             textAlign: TextAlign.center,
           ),
         ],

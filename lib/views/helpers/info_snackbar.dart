@@ -1,4 +1,3 @@
-import 'package:carg/styles/text_style.dart';
 import 'package:flutter/material.dart';
 
 class InfoSnackBar {
@@ -12,9 +11,12 @@ class InfoSnackBar {
         margin: const EdgeInsets.all(20),
         duration: const Duration(seconds: 4),
         behavior: SnackBarBehavior.floating,
+        backgroundColor: Theme.of(context).colorScheme.surfaceBright,
         content: Text(
           message,
-          style: CustomTextStyle.snackBarTextStyle(context),
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
+          ),
         ),
       ),
     );
@@ -28,12 +30,12 @@ class InfoSnackBar {
         margin: const EdgeInsets.all(20),
         duration: const Duration(seconds: 4),
         behavior: SnackBarBehavior.floating,
-        backgroundColor: Theme.of(context).cardColor,
+        backgroundColor: Theme.of(context).colorScheme.errorContainer,
         content: Text(
           message,
-          style: CustomTextStyle.snackBarTextStyle(
-            context,
-          ).copyWith(color: Colors.red, fontWeight: FontWeight.bold),
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.onErrorContainer,
+          ),
         ),
       ),
     );

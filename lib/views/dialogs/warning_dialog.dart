@@ -1,12 +1,10 @@
 import 'package:carg/styles/properties.dart';
-import 'package:carg/styles/text_style.dart';
 import 'package:flutter/material.dart';
 
 class WarningDialog extends StatefulWidget {
   final String message;
   final String title;
   final Function onConfirm;
-  final Color? color;
   final bool showCancelButton;
   final String? onConfirmButtonMessage;
 
@@ -15,7 +13,6 @@ class WarningDialog extends StatefulWidget {
     required this.message,
     required this.title,
     required this.onConfirm,
-    this.color,
     this.showCancelButton = true,
     this.onConfirmButtonMessage,
   });
@@ -56,7 +53,7 @@ class _WarningDialogState extends State<WarningDialog> {
       actionsPadding: const EdgeInsets.fromLTRB(0, 0, 20, 10),
       title: Container(
         decoration: BoxDecoration(
-          color: widget.color ?? Theme.of(context).colorScheme.error,
+          color: Theme.of(context).colorScheme.error,
           borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(15.0),
             topRight: Radius.circular(15.0),
@@ -66,7 +63,11 @@ class _WarningDialogState extends State<WarningDialog> {
         child: Text(
           widget.title,
           overflow: TextOverflow.ellipsis,
-          style: CustomTextStyle.dialogHeaderStyle(context),
+          style: TextStyle(
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+            color: Theme.of(context).colorScheme.onError,
+          ),
         ),
       ),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
@@ -78,10 +79,10 @@ class _WarningDialogState extends State<WarningDialog> {
           ElevatedButton.icon(
             style: ButtonStyle(
               backgroundColor: WidgetStateProperty.all<Color>(
-                widget.color ?? Theme.of(context).colorScheme.error,
+                Theme.of(context).colorScheme.error,
               ),
               foregroundColor: WidgetStateProperty.all<Color>(
-                Theme.of(context).cardColor,
+                Theme.of(context).colorScheme.onError,
               ),
               shape: WidgetStateProperty.all<OutlinedBorder>(
                 RoundedRectangleBorder(
@@ -102,10 +103,10 @@ class _WarningDialogState extends State<WarningDialog> {
           ElevatedButton.icon(
             style: ButtonStyle(
               backgroundColor: WidgetStateProperty.all<Color>(
-                Theme.of(context).cardColor,
+                Theme.of(context).colorScheme.inverseSurface,
               ),
               foregroundColor: WidgetStateProperty.all<Color>(
-                widget.color ?? Theme.of(context).colorScheme.error,
+                Theme.of(context).colorScheme.onInverseSurface,
               ),
               shape: WidgetStateProperty.all<OutlinedBorder>(
                 RoundedRectangleBorder(

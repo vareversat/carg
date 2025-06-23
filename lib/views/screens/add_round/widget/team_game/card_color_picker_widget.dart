@@ -1,7 +1,7 @@
+import 'package:carg/l10n/app_localizations.dart';
 import 'package:carg/models/score/misc/card_color.dart';
 import 'package:carg/models/score/round/belote_round.dart';
 import 'package:flutter/material.dart';
-import 'package:carg/l10n/app_localizations.dart';
 
 class CardColorPickerWidget extends StatelessWidget {
   final BeloteRound? beloteRound;
@@ -30,14 +30,9 @@ class CardColorPickerWidget extends StatelessWidget {
                         key: ValueKey(
                           'cardColorInputChip-${cardColor.name(context)}',
                         ),
-                        checkmarkColor: Theme.of(context).cardColor,
                         selected: beloteRound?.cardColor == cardColor,
-                        selectedColor: Theme.of(context).primaryColor,
                         onPressed: () => {beloteRound?.cardColor = cardColor},
-                        label: Text(
-                          cardColor.symbol,
-                          overflow: TextOverflow.ellipsis,
-                        ),
+                        label: Text(cardColor.symbol),
                       ),
                     )
                     .toList()

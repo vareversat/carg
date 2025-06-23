@@ -1,10 +1,10 @@
+import 'package:carg/l10n/app_localizations.dart';
 import 'package:carg/models/player.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/widgets/players/player_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:carg/l10n/app_localizations.dart';
 
 class PlayerColorExplanationDialog extends StatelessWidget {
   final bool isAdmin;
@@ -33,7 +33,7 @@ class PlayerColorExplanationDialog extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
           style: CustomTextStyle.dialogHeaderStyle(
             context,
-          ).copyWith(color: Theme.of(context).primaryColor),
+          ).copyWith(color: Theme.of(context).colorScheme.primary),
         ),
       ),
       content: ListBody(
@@ -92,16 +92,19 @@ class PlayerColorExplanationDialog extends StatelessWidget {
                 ),
               ],
             ),
-          const Padding(
+          Padding(
             padding: EdgeInsets.all(8.0),
-            child: Divider(height: 10, color: Colors.black),
+            child: Divider(
+              height: 10,
+              color: Theme.of(context).colorScheme.inverseSurface,
+            ),
           ),
           Row(
             children: [
-              const Icon(
+              Icon(
                 FontAwesomeIcons.trophy,
-                color: Colors.black,
                 size: 15,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
               Flexible(
                 key: const ValueKey('wonGamesDescription'),
@@ -116,10 +119,10 @@ class PlayerColorExplanationDialog extends StatelessWidget {
           ),
           Row(
             children: [
-              const Icon(
-                FontAwesomeIcons.gamepad,
-                color: Colors.black,
+              Icon(
+                Icons.videogame_asset,
                 size: 15,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
               Flexible(
                 key: const ValueKey('playedGamesDescription'),
@@ -139,10 +142,6 @@ class PlayerColorExplanationDialog extends StatelessWidget {
         ElevatedButton.icon(
           key: const ValueKey('closeButton'),
           style: ButtonStyle(
-            backgroundColor: WidgetStateProperty.all<Color>(Colors.white),
-            foregroundColor: WidgetStateProperty.all<Color>(
-              Theme.of(context).primaryColor,
-            ),
             shape: WidgetStateProperty.all<OutlinedBorder>(
               RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(

@@ -1,6 +1,7 @@
 import 'package:carg/const.dart';
 import 'package:carg/exceptions/custom_exception.dart';
 import 'package:carg/helpers/custom_route.dart';
+import 'package:carg/l10n/app_localizations.dart';
 import 'package:carg/services/auth/auth_service.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/views/helpers/info_snackbar.dart';
@@ -10,7 +11,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:carg/l10n/app_localizations.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const String routeName = '/register';
@@ -112,20 +112,32 @@ class _RegisterScreenState extends State<RegisterScreen>
                                 backgroundColor: WidgetStateProperty.all<Color>(
                                   registerData.selectedRegisterMethod
                                           is _PhoneRegisterMethod
-                                      ? Theme.of(context).primaryColor
-                                      : Theme.of(context).cardColor,
+                                      ? Theme.of(context).colorScheme.primary
+                                      : Theme.of(
+                                          context,
+                                        ).colorScheme.surfaceBright,
                                 ),
                                 foregroundColor: WidgetStateProperty.all<Color>(
                                   registerData.selectedRegisterMethod
                                           is _PhoneRegisterMethod
-                                      ? Theme.of(context).cardColor
-                                      : Theme.of(context).primaryColor,
+                                      ? Theme.of(context).colorScheme.onPrimary
+                                      : Theme.of(
+                                          context,
+                                        ).colorScheme.onSurfaceVariant,
                                 ),
                                 shape: WidgetStateProperty.all<OutlinedBorder>(
                                   RoundedRectangleBorder(
                                     side: BorderSide(
                                       width: 2,
-                                      color: Theme.of(context).primaryColor,
+                                      color:
+                                          registerData.selectedRegisterMethod
+                                              is _PhoneRegisterMethod
+                                          ? Theme.of(
+                                              context,
+                                            ).colorScheme.onPrimary
+                                          : Theme.of(
+                                              context,
+                                            ).colorScheme.onSurfaceVariant,
                                     ),
                                     borderRadius: BorderRadius.circular(
                                       CustomProperties.borderRadius,
@@ -145,7 +157,7 @@ class _RegisterScreenState extends State<RegisterScreen>
                                   )!.continueWithPhone,
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 15,
+                                    fontSize: 18,
                                   ),
                                 ),
                               ),
@@ -165,20 +177,32 @@ class _RegisterScreenState extends State<RegisterScreen>
                                 backgroundColor: WidgetStateProperty.all<Color>(
                                   registerData.selectedRegisterMethod
                                           is _GoogleRegisterMethod
-                                      ? Theme.of(context).primaryColor
-                                      : Theme.of(context).cardColor,
+                                      ? Theme.of(context).colorScheme.primary
+                                      : Theme.of(
+                                          context,
+                                        ).colorScheme.surfaceBright,
                                 ),
                                 foregroundColor: WidgetStateProperty.all<Color>(
                                   registerData.selectedRegisterMethod
                                           is _GoogleRegisterMethod
-                                      ? Theme.of(context).cardColor
-                                      : Theme.of(context).primaryColor,
+                                      ? Theme.of(context).colorScheme.onPrimary
+                                      : Theme.of(
+                                          context,
+                                        ).colorScheme.onSurfaceVariant,
                                 ),
                                 shape: WidgetStateProperty.all<OutlinedBorder>(
                                   RoundedRectangleBorder(
                                     side: BorderSide(
                                       width: 2,
-                                      color: Theme.of(context).primaryColor,
+                                      color:
+                                          registerData.selectedRegisterMethod
+                                              is _GoogleRegisterMethod
+                                          ? Theme.of(
+                                              context,
+                                            ).colorScheme.onPrimary
+                                          : Theme.of(
+                                              context,
+                                            ).colorScheme.onSurfaceVariant,
                                     ),
                                     borderRadius: BorderRadius.circular(
                                       CustomProperties.borderRadius,

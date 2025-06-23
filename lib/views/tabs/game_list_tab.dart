@@ -1,4 +1,5 @@
 import 'package:carg/const.dart';
+import 'package:carg/l10n/app_localizations.dart';
 import 'package:carg/models/game/belote_game.dart';
 import 'package:carg/models/game/game.dart';
 import 'package:carg/models/game/game_type.dart';
@@ -10,7 +11,6 @@ import 'package:carg/views/widgets/ad_banner_widget.dart';
 import 'package:carg/views/widgets/belote_widget.dart';
 import 'package:carg/views/widgets/tarot_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:carg/l10n/app_localizations.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
 
@@ -85,8 +85,7 @@ class _GameListTabWidgetState extends State<GameListTabWidget> {
         widget.gameService.resetLastPointedDocument();
         _reset();
       }),
-      backgroundColor: Theme.of(context).primaryColor,
-      color: Theme.of(context).cardColor,
+      backgroundColor: Theme.of(context).colorScheme.primary,
       displacement: 20,
       strokeWidth: 3,
       child: Column(

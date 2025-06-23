@@ -1,5 +1,6 @@
 import 'package:carg/exceptions/custom_exception.dart';
 import 'package:carg/helpers/custom_route.dart';
+import 'package:carg/l10n/app_localizations.dart';
 import 'package:carg/models/player.dart';
 import 'package:carg/services/auth/auth_service.dart';
 import 'package:carg/services/impl/player_service.dart';
@@ -8,8 +9,8 @@ import 'package:carg/views/dialogs/carg_about_dialog.dart';
 import 'package:carg/views/helpers/info_snackbar.dart';
 import 'package:carg/views/screens/register/edit_phone_number_screen.dart';
 import 'package:carg/views/widgets/remove_ads_list_tile.dart';
+import 'package:carg/views/widgets/theme_picker_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:carg/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -64,7 +65,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         foregroundColor: Theme.of(context).colorScheme.onPrimary,
         automaticallyImplyLeading: false,
         leading: IconButton(
@@ -94,7 +95,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             Text(
                               AppLocalizations.of(context)!.myProfile,
                               style: TextStyle(
-                                color: Theme.of(context).primaryColor,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 30,
                               ),
@@ -106,7 +106,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                     child: Container(
                                       color: Theme.of(
                                         context,
-                                      ).colorScheme.secondary,
+                                      ).colorScheme.secondaryContainer,
                                       height: 30,
                                       child: Center(
                                         child: Padding(
@@ -117,9 +117,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                             AppLocalizations.of(context)!.admin,
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
-                                              color: Theme.of(
-                                                context,
-                                              ).cardColor,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onSecondaryContainer,
                                               fontSize: 15,
                                             ),
                                             overflow: TextOverflow.ellipsis,
@@ -163,7 +163,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             shape: BoxShape.circle,
                             border: Border.all(
                               width: 2,
-                              color: Theme.of(context).primaryColor,
+                              color: Theme.of(context).colorScheme.secondary,
                             ),
                             image: DecorationImage(
                               fit: BoxFit.fill,
@@ -181,9 +181,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 20,
-                            color: !playerData.useGravatarProfilePicture
-                                ? Theme.of(context).textTheme.bodyMedium!.color
-                                : Colors.grey,
                           ),
                           onChanged: (value) {
                             playerData.profilePicture = value;
@@ -212,6 +209,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             await _onSwitchTileChanged(value),
                         value: playerData.useGravatarProfilePicture,
                       ),
+                      ListTile(
+                        title: Text(
+                          AppLocalizations.of(context)!.appTheme,
+                          style: const TextStyle(fontSize: 20),
+                        ),
+                      ),
+                      ThemePickerWidget(),
                     ],
                   ),
                 ),
@@ -220,11 +224,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ListTile(
                 title: Text(
                   AppLocalizations.of(context)!.myAccount,
-                  style: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 30,
-                  ),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
                 ),
               ),
               Column(
@@ -252,7 +252,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                     title: Text(
                       AppLocalizations.of(context)!.changeMyPhoneNumber,
-                      style: const TextStyle(fontSize: 20),
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurface,
+                        fontSize: 25,
+                      ),
                     ),
                   ),
                 ],
@@ -267,9 +270,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ).signOut(context),
                     child: Text(
                       AppLocalizations.of(context)!.signOut,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Colors.red,
+                        color: Theme.of(context).colorScheme.error,
                         fontSize: 25,
                       ),
                     ),
@@ -281,7 +284,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 key: const ValueKey('aboutButton'),
                 subtitle: Text(
                   AppLocalizations.of(context)!.informationAboutTheApp,
-                  style: const TextStyle(fontSize: 15),
                 ),
                 selected: true,
                 leading: const Icon(Icons.info_outline, size: 30),
@@ -300,7 +302,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 title: Text(
                   AppLocalizations.of(context)!.about,
                   style: TextStyle(
-                    color: Theme.of(context).primaryColor,
+                    color: Theme.of(context).colorScheme.onSurface,
                     fontSize: 25,
                   ),
                 ),

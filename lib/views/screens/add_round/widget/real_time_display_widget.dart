@@ -19,7 +19,7 @@ class RealTimeDisplayWidget extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.onPrimary,
-                    fontSize: 23,
+                    fontSize: 20,
                   ),
                 )
               : Container(),

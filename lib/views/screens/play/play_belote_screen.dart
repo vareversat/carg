@@ -88,7 +88,6 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
         },
         message: AppLocalizations.of(context)!.messageDeleteRound,
         title: AppLocalizations.of(context)!.warning,
-        color: Theme.of(context).colorScheme.error,
       ),
     );
   }
@@ -105,7 +104,6 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
         },
         message: AppLocalizations.of(context)!.messageStopGame,
         title: AppLocalizations.of(context)!.warning,
-        color: Theme.of(context).colorScheme.error,
       ),
     );
   }
@@ -181,8 +179,13 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
           Flexible(
             child: Container(
               padding: const EdgeInsets.all(10),
-              decoration: const BoxDecoration(
-                border: Border(top: BorderSide(color: Colors.black, width: 1)),
+              decoration: BoxDecoration(
+                border: Border(
+                  top: BorderSide(
+                    color: Theme.of(context).colorScheme.inverseSurface,
+                    width: 1,
+                  ),
+                ),
               ),
               child: StreamBuilder<BeloteScore?>(
                 builder: (context, snapshot) {
@@ -310,7 +313,6 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
                                 vertical: 4,
                               ),
                               elevation: 2,
-                              color: Colors.white,
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Column(
@@ -321,7 +323,6 @@ class _PlayBeloteScreenState extends State<PlayBeloteScreen> {
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    const Divider(color: Colors.transparent),
                                     Text(widget.beloteGame.notes!),
                                   ],
                                 ),
@@ -373,7 +374,7 @@ class _SpecialRoundDisplayWidget extends StatelessWidget {
           round.specialRoundToString(),
           style: TextStyle(
             fontSize: 13,
-            color: Theme.of(context).colorScheme.onPrimary,
+            color: round.beloteSpecialRound!.textColor(context),
           ),
         ),
       ),
@@ -423,7 +424,7 @@ class _RoundDisplayWidget extends StatelessWidget {
                     right: Radius.circular(CustomProperties.borderRadius),
                     left: Radius.circular(CustomProperties.borderRadius),
                   ),
-                  color: Theme.of(context).primaryColor,
+                  color: Theme.of(context).colorScheme.primary,
                 ),
                 child: Row(
                   textDirection: team == BeloteTeamEnum.US

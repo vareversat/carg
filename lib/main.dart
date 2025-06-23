@@ -1,5 +1,6 @@
-import 'package:carg/app_theme.dart';
+import 'package:carg/l10n/app_localizations.dart';
 import 'package:carg/services/auth/auth_service.dart';
+import 'package:carg/styles/theme/theme_service.dart';
 import 'package:carg/views/screens/home_screen.dart';
 import 'package:carg/views/screens/register/register_screen.dart';
 import 'package:carg/views/screens/splash_screen.dart';
@@ -8,11 +9,13 @@ import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:carg/l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'services/storage_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,11 +26,17 @@ void main() async {
     appleProvider: AppleProvider.appAttest,
   );
   await MobileAds.instance.initialize();
-  runApp(const Carg());
+  // Initialize the storage system
+  final StorageService storageService = StorageService(
+    sharedPreferences: await SharedPreferences.getInstance(),
+  );
+  runApp(Carg(storageService: storageService));
 }
 
 class Carg extends StatefulWidget {
-  const Carg({super.key});
+  final StorageService storageService;
+
+  const Carg({super.key, required this.storageService});
 
   @override
   State<StatefulWidget> createState() {
@@ -48,6 +57,9 @@ class _CargState extends State<Carg> {
     return MultiProvider(
       providers: <SingleChildWidget>[
         ChangeNotifierProvider.value(value: AuthService()),
+        ChangeNotifierProvider.value(
+          value: ThemeService(context, widget.storageService),
+        ),
       ],
       child: Consumer<AuthService>(
         builder: (context, auth, _) => MaterialApp(
@@ -75,7 +87,7 @@ class _CargState extends State<Carg> {
             ),
           },
           title: 'Carg',
-          theme: AppTheme.lightTheme,
+          theme: Provider.of<ThemeService>(context).getCurrentThemeData(),
           home: FutureBuilder<bool>(
             future: auth.isAlreadyLogin(),
             builder: (context, authResult) {

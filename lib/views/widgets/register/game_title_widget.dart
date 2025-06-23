@@ -1,6 +1,6 @@
+import 'package:carg/l10n/app_localizations.dart';
 import 'package:carg/models/game/game.dart';
 import 'package:flutter/material.dart';
-import 'package:carg/l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 
 class GameTitleWidget extends StatelessWidget {
@@ -20,7 +20,11 @@ class GameTitleWidget extends StatelessWidget {
               DateFormat.yMMMMd(
                 Localizations.localeOf(context).languageCode,
               ).format(game!.startingDate),
-              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
             ),
           ),
           Flexible(
@@ -29,8 +33,8 @@ class GameTitleWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(80.0),
               child: Container(
                 color: game!.isEnded
-                    ? Theme.of(context).primaryColor
-                    : Theme.of(context).colorScheme.secondary,
+                    ? Theme.of(context).colorScheme.tertiaryContainer
+                    : Theme.of(context).colorScheme.primaryContainer,
                 height: 30,
                 child: Center(
                   child: Text(
@@ -39,7 +43,9 @@ class GameTitleWidget extends StatelessWidget {
                         : AppLocalizations.of(context)!.inProgress,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: Theme.of(context).cardColor,
+                      color: game!.isEnded
+                          ? Theme.of(context).colorScheme.onTertiaryContainer
+                          : Theme.of(context).colorScheme.onPrimaryContainer,
                       fontSize: 15,
                     ),
                     overflow: TextOverflow.ellipsis,

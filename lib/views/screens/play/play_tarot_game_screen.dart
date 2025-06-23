@@ -70,7 +70,6 @@ class _PlayTarotGameScreenState extends State<PlayTarotGameScreen> {
         },
         message: AppLocalizations.of(context)!.messageDeleteGame,
         title: AppLocalizations.of(context)!.warning,
-        color: Theme.of(context).colorScheme.error,
       ),
     );
   }
@@ -90,7 +89,6 @@ class _PlayTarotGameScreenState extends State<PlayTarotGameScreen> {
         },
         message: AppLocalizations.of(context)!.messageStopGame,
         title: AppLocalizations.of(context)!.warning,
-        color: Theme.of(context).colorScheme.error,
       ),
     );
   }
@@ -159,8 +157,13 @@ class _PlayTarotGameScreenState extends State<PlayTarotGameScreen> {
             flex: 10,
             child: Container(
               padding: const EdgeInsets.all(10),
-              decoration: const BoxDecoration(
-                border: Border(top: BorderSide(color: Colors.black, width: 1)),
+              decoration: BoxDecoration(
+                border: Border(
+                  top: BorderSide(
+                    color: Theme.of(context).colorScheme.inverseSurface,
+                    width: 1,
+                  ),
+                ),
               ),
               child: StreamBuilder<TarotScore?>(
                 builder: (context, snapshot) {
@@ -216,7 +219,7 @@ class _PlayTarotGameScreenState extends State<PlayTarotGameScreen> {
                                   ),
                                 },
                                 child: SizedBox(
-                                  height: 20,
+                                  height: 25,
                                   width: MediaQuery.of(context).size.width,
                                   child: ListView.builder(
                                     scrollDirection: Axis.horizontal,
@@ -293,7 +296,6 @@ class _PlayTarotGameScreenState extends State<PlayTarotGameScreen> {
                               vertical: 4,
                             ),
                             elevation: 2,
-                            color: Colors.white,
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Column(
@@ -304,7 +306,6 @@ class _PlayTarotGameScreenState extends State<PlayTarotGameScreen> {
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  const Divider(color: Colors.transparent),
                                   Text(widget.tarotGame.notes!),
                                 ],
                               ),

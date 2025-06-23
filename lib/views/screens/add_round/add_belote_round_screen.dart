@@ -47,7 +47,7 @@ class AddBeloteRoundScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         foregroundColor: Theme.of(context).colorScheme.onPrimary,
         leading: IconButton(
           icon: const Icon(Icons.cancel),
@@ -83,7 +83,7 @@ class AddBeloteRoundScreen extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(vertical: 10),
             decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor,
+              color: Theme.of(context).colorScheme.primary,
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(CustomProperties.borderRadius),
                 topRight: Radius.circular(CustomProperties.borderRadius),
@@ -94,43 +94,28 @@ class AddBeloteRoundScreen extends StatelessWidget {
                 RealTimeDisplayWidget(round: beloteRound!),
                 const SizedBox(height: 10),
                 Center(
-                  child: SizedBox(
-                    width: double.infinity,
-                    height: 50,
-                    child: Directionality(
-                      textDirection: TextDirection.rtl,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: ElevatedButton.icon(
-                          style: ButtonStyle(
-                            backgroundColor: WidgetStateProperty.all<Color>(
-                              Theme.of(context).colorScheme.onPrimary,
-                            ),
-                            foregroundColor: WidgetStateProperty.all<Color>(
-                              Theme.of(context).primaryColor,
-                            ),
-                            shape: WidgetStateProperty.all<OutlinedBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                  CustomProperties.borderRadius,
-                                ),
-                              ),
-                            ),
-                          ),
-                          onPressed: () => {
-                            _setupRound(),
-                            Navigator.pop(context),
-                          },
-                          label: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              AppLocalizations.of(context)!.confirm,
-                              style: const TextStyle(fontSize: 23),
-                            ),
-                          ),
-                          icon: const Icon(Icons.check, size: 30),
-                        ),
+                  child: TextButton(
+                    style: ButtonStyle(
+                      foregroundColor: WidgetStateProperty.all<Color>(
+                        Theme.of(context).colorScheme.onPrimary,
                       ),
+                    ),
+                    onPressed: () => {_setupRound(), Navigator.pop(context)},
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 15.0,
+                            horizontal: 10,
+                          ),
+                          child: Text(
+                            AppLocalizations.of(context)!.confirm,
+                            style: const TextStyle(fontSize: 23),
+                          ),
+                        ),
+                        const Icon(Icons.check, size: 30),
+                      ],
                     ),
                   ),
                 ),
