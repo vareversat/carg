@@ -1,5 +1,6 @@
 import 'package:carg/helpers/correct_instance.dart';
 import 'package:carg/helpers/custom_route.dart';
+import 'package:carg/l10n/app_localizations.dart';
 import 'package:carg/models/game/tarot.dart';
 import 'package:carg/models/score/tarot_score.dart';
 import 'package:carg/services/game/abstract_tarot_game_service.dart';
@@ -12,7 +13,6 @@ import 'package:carg/views/screens/play/play_tarot_game_screen.dart';
 import 'package:carg/views/widgets/api_mini_player_widget.dart';
 import 'package:carg/views/widgets/register/game_title_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:carg/l10n/app_localizations.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class TarotWidget extends StatelessWidget {
@@ -40,7 +40,6 @@ class TarotWidget extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
       margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       elevation: 2,
-      color: Colors.white,
       child: ExpansionTile(
         title: GameTitleWidget(
           key: const ValueKey('expansionTileTitle'),
@@ -111,9 +110,11 @@ class _ButtonRowWidget extends StatelessWidget {
         if (!tarotGame.isEnded)
           ElevatedButton.icon(
             style: ButtonStyle(
-              backgroundColor: WidgetStateProperty.all<Color>(Colors.black),
+              backgroundColor: WidgetStateProperty.all<Color>(
+                Theme.of(context).colorScheme.onSurface,
+              ),
               foregroundColor: WidgetStateProperty.all<Color>(
-                Theme.of(context).cardColor,
+                Theme.of(context).colorScheme.surface,
               ),
               shape: WidgetStateProperty.all<OutlinedBorder>(
                 RoundedRectangleBorder(
@@ -132,7 +133,6 @@ class _ButtonRowWidget extends StatelessWidget {
                   },
                   message: AppLocalizations.of(context)!.messageStopGame,
                   title: AppLocalizations.of(context)!.warning,
-                  color: Colors.black,
                 ),
               ),
             },
@@ -147,7 +147,7 @@ class _ButtonRowWidget extends StatelessWidget {
               Theme.of(context).colorScheme.error,
             ),
             foregroundColor: WidgetStateProperty.all<Color>(
-              Theme.of(context).cardColor,
+              Theme.of(context).colorScheme.onError,
             ),
             shape: WidgetStateProperty.all<OutlinedBorder>(
               RoundedRectangleBorder(
@@ -174,10 +174,10 @@ class _ButtonRowWidget extends StatelessWidget {
           ElevatedButton.icon(
             style: ButtonStyle(
               backgroundColor: WidgetStateProperty.all<Color>(
-                Theme.of(context).primaryColor,
+                Theme.of(context).colorScheme.primary,
               ),
               foregroundColor: WidgetStateProperty.all<Color>(
-                Theme.of(context).cardColor,
+                Theme.of(context).colorScheme.onPrimary,
               ),
               shape: WidgetStateProperty.all<OutlinedBorder>(
                 RoundedRectangleBorder(
@@ -203,10 +203,10 @@ class _ButtonRowWidget extends StatelessWidget {
           ElevatedButton(
             style: ButtonStyle(
               backgroundColor: WidgetStateProperty.all<Color>(
-                Theme.of(context).primaryColor,
+                Theme.of(context).colorScheme.primary,
               ),
               foregroundColor: WidgetStateProperty.all<Color>(
-                Theme.of(context).cardColor,
+                Theme.of(context).colorScheme.onPrimary,
               ),
               shape: WidgetStateProperty.all<OutlinedBorder>(
                 RoundedRectangleBorder(

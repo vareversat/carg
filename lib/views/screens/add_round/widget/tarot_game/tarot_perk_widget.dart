@@ -1,3 +1,4 @@
+import 'package:carg/l10n/app_localizations.dart';
 import 'package:carg/models/game/tarot.dart';
 import 'package:carg/models/score/misc/tarot_chelem.dart';
 import 'package:carg/models/score/misc/tarot_handful.dart';
@@ -7,7 +8,6 @@ import 'package:carg/models/score/round/tarot_round.dart';
 import 'package:carg/views/screens/add_round/widget/section_title_widget.dart';
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/material.dart';
-import 'package:carg/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 class TarotPerkWidget extends StatelessWidget {
@@ -73,7 +73,6 @@ class TarotPerkWidget extends StatelessWidget {
                         )
                       : null,
                   showCheckmark: false,
-                  selectedColor: Theme.of(context).colorScheme.secondary,
                   selected: roundData.smallToTheEndTeam != null,
                   onPressed: () async {
                     await showSmallToTheEndPicker().then(
@@ -103,7 +102,6 @@ class TarotPerkWidget extends StatelessWidget {
                         )
                       : null,
                   showCheckmark: false,
-                  selectedColor: Theme.of(context).colorScheme.secondary,
                   selected: roundData.handful != null,
                   onPressed: () async {
                     await showHandfulPicker().then(
@@ -137,7 +135,6 @@ class TarotPerkWidget extends StatelessWidget {
                         )
                       : null,
                   showCheckmark: false,
-                  selectedColor: Theme.of(context).colorScheme.secondary,
                   selected: roundData.chelem != null,
                   onPressed: () async {
                     await showChelemPicker().then(
@@ -190,12 +187,6 @@ class _HandfulPicker extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         InputChip(
-                          selectedColor: Theme.of(context).primaryColor,
-                          checkmarkColor:
-                              (handful == poingnee &&
-                                  handfulTeam == TarotTeam.ATTACK)
-                              ? Colors.white
-                              : Colors.black,
                           selected:
                               handful == poingnee &&
                               handfulTeam == TarotTeam.ATTACK,
@@ -205,24 +196,9 @@ class _HandfulPicker extends StatelessWidget {
                               TarotTeam.ATTACK,
                             ]);
                           },
-                          label: Text(
-                            AppLocalizations.of(context)!.attack,
-                            style: TextStyle(
-                              color:
-                                  (handful == poingnee &&
-                                      handfulTeam == TarotTeam.ATTACK)
-                                  ? Colors.white
-                                  : Colors.black,
-                            ),
-                          ),
+                          label: Text(AppLocalizations.of(context)!.attack),
                         ),
                         InputChip(
-                          selectedColor: Theme.of(context).primaryColor,
-                          checkmarkColor:
-                              (handful == poingnee &&
-                                  handfulTeam == TarotTeam.DEFENSE)
-                              ? Colors.white
-                              : Colors.black,
                           selected:
                               handful == poingnee &&
                               handfulTeam == TarotTeam.DEFENSE,
@@ -232,16 +208,7 @@ class _HandfulPicker extends StatelessWidget {
                               TarotTeam.DEFENSE,
                             ]);
                           },
-                          label: Text(
-                            AppLocalizations.of(context)!.defense,
-                            style: TextStyle(
-                              color:
-                                  (handful == poingnee &&
-                                      handfulTeam == TarotTeam.DEFENSE)
-                                  ? Colors.white
-                                  : Colors.black,
-                            ),
-                          ),
+                          label: Text(AppLocalizations.of(context)!.defense),
                         ),
                       ],
                     ),
@@ -275,40 +242,18 @@ class _PetitAuBoutPicker extends StatelessWidget {
             alignment: WrapAlignment.spaceEvenly,
             children: [
               InputChip(
-                selectedColor: Theme.of(context).primaryColor,
-                checkmarkColor: selectedTeamForBout == TarotTeam.ATTACK
-                    ? Colors.white
-                    : Colors.black,
                 selected: selectedTeamForBout == TarotTeam.ATTACK,
                 onPressed: () {
                   Navigator.pop(context, TarotTeam.ATTACK);
                 },
-                label: Text(
-                  AppLocalizations.of(context)!.attack,
-                  style: TextStyle(
-                    color: selectedTeamForBout == TarotTeam.ATTACK
-                        ? Colors.white
-                        : Colors.black,
-                  ),
-                ),
+                label: Text(AppLocalizations.of(context)!.attack),
               ),
               InputChip(
-                selectedColor: Theme.of(context).primaryColor,
-                checkmarkColor: selectedTeamForBout == TarotTeam.DEFENSE
-                    ? Colors.white
-                    : Colors.black,
                 selected: selectedTeamForBout == TarotTeam.DEFENSE,
                 onPressed: () {
                   Navigator.pop(context, TarotTeam.DEFENSE);
                 },
-                label: Text(
-                  AppLocalizations.of(context)!.defense,
-                  style: TextStyle(
-                    color: selectedTeamForBout == TarotTeam.DEFENSE
-                        ? Colors.white
-                        : Colors.black,
-                  ),
-                ),
+                label: Text(AppLocalizations.of(context)!.defense),
               ),
             ],
           ),
@@ -337,21 +282,12 @@ class _ChelemPicker extends StatelessWidget {
           children: TarotChelem.values
               .map(
                 (chelem) => InputChip(
-                  selectedColor: Theme.of(context).primaryColor,
-                  checkmarkColor: tarotChelem == chelem
-                      ? Colors.white
-                      : Colors.black,
                   selected: tarotChelem == chelem,
                   onPressed: () {
                     Navigator.pop(context, chelem);
                   },
                   label: Text(
                     '${chelem.name(context)} (${AppLocalizations.of(context)!.points(chelem.bonus)})',
-                    style: TextStyle(
-                      color: tarotChelem == chelem
-                          ? Colors.white
-                          : Colors.black,
-                    ),
                     overflow: TextOverflow.clip,
                   ),
                 ),

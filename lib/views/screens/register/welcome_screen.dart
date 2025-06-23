@@ -1,6 +1,7 @@
 import 'package:carg/const.dart';
 import 'package:carg/exceptions/custom_exception.dart';
 import 'package:carg/exceptions/service_exception.dart';
+import 'package:carg/l10n/app_localizations.dart';
 import 'package:carg/models/player.dart';
 import 'package:carg/services/auth/auth_service.dart';
 import 'package:carg/services/impl/player_service.dart';
@@ -9,7 +10,6 @@ import 'package:carg/views/dialogs/dialogs.dart';
 import 'package:carg/views/helpers/info_snackbar.dart';
 import 'package:carg/views/screens/home_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:carg/l10n/app_localizations.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
@@ -77,11 +77,15 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                                       style: ButtonStyle(
                                         backgroundColor:
                                             WidgetStateProperty.all<Color>(
-                                              Theme.of(context).primaryColor,
+                                              Theme.of(
+                                                context,
+                                              ).colorScheme.primary,
                                             ),
                                         foregroundColor:
                                             WidgetStateProperty.all<Color>(
-                                              Theme.of(context).cardColor,
+                                              Theme.of(
+                                                context,
+                                              ).colorScheme.onPrimary,
                                             ),
                                         shape:
                                             WidgetStateProperty.all<
@@ -92,7 +96,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                                                   width: 2,
                                                   color: Theme.of(
                                                     context,
-                                                  ).primaryColor,
+                                                  ).colorScheme.onPrimary,
                                                 ),
                                                 borderRadius:
                                                     BorderRadius.circular(
@@ -115,20 +119,15 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                                         ),
                                       ),
                                     ),
-                                    Container(
-                                      width: 300,
-                                      height: 40,
-                                      padding: const EdgeInsets.only(top: 8.0),
-                                      child: Text(
-                                        AppLocalizations.of(
-                                          context,
-                                        )!.messageCreatePlayer,
-                                        style: const TextStyle(
-                                          fontSize: 15,
-                                          fontStyle: FontStyle.italic,
-                                        ),
-                                        textAlign: TextAlign.center,
+                                    Text(
+                                      AppLocalizations.of(
+                                        context,
+                                      )!.messageCreatePlayer,
+                                      style: const TextStyle(
+                                        fontSize: 15,
+                                        fontStyle: FontStyle.italic,
                                       ),
+                                      textAlign: TextAlign.center,
                                     ),
                                     const SizedBox(height: 20),
                                     Text(
@@ -138,67 +137,63 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                                       ),
                                     ),
                                     const SizedBox(height: 20),
-                                    SizedBox(
-                                      width: 250,
-                                      height: 40,
-                                      child: ElevatedButton.icon(
-                                        icon: const Icon(Icons.link),
-                                        style: ButtonStyle(
-                                          backgroundColor:
-                                              WidgetStateProperty.all<Color>(
-                                                Theme.of(context).primaryColor,
-                                              ),
-                                          foregroundColor:
-                                              WidgetStateProperty.all<Color>(
-                                                Theme.of(context).cardColor,
-                                              ),
-                                          shape:
-                                              WidgetStateProperty.all<
-                                                OutlinedBorder
-                                              >(
-                                                RoundedRectangleBorder(
-                                                  side: BorderSide(
-                                                    width: 2,
-                                                    color: Theme.of(
-                                                      context,
-                                                    ).primaryColor,
-                                                  ),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                        CustomProperties
-                                                            .borderRadius,
-                                                      ),
+                                    ElevatedButton.icon(
+                                      icon: const Icon(Icons.link),
+                                      style: ButtonStyle(
+                                        backgroundColor:
+                                            WidgetStateProperty.all<Color>(
+                                              Theme.of(
+                                                context,
+                                              ).colorScheme.primary,
+                                            ),
+                                        foregroundColor:
+                                            WidgetStateProperty.all<Color>(
+                                              Theme.of(
+                                                context,
+                                              ).colorScheme.onPrimary,
+                                            ),
+                                        shape:
+                                            WidgetStateProperty.all<
+                                              OutlinedBorder
+                                            >(
+                                              RoundedRectangleBorder(
+                                                side: BorderSide(
+                                                  width: 2,
+                                                  color: Theme.of(
+                                                    context,
+                                                  ).colorScheme.onPrimary,
                                                 ),
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                      CustomProperties
+                                                          .borderRadius,
+                                                    ),
                                               ),
-                                        ),
-                                        onPressed: () {
-                                          registerData.selectedCreationMethod =
-                                              _LinkPlayerMethod(context);
-                                        },
-                                        label: Text(
-                                          AppLocalizations.of(
-                                            context,
-                                          )!.linkPlayer,
-                                          textAlign: TextAlign.center,
-                                          style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                          ),
+                                            ),
+                                      ),
+                                      onPressed: () {
+                                        registerData.selectedCreationMethod =
+                                            _LinkPlayerMethod(context);
+                                      },
+                                      label: Text(
+                                        AppLocalizations.of(
+                                          context,
+                                        )!.linkPlayer,
+                                        textAlign: TextAlign.center,
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
                                         ),
                                       ),
                                     ),
-                                    Container(
-                                      padding: const EdgeInsets.only(top: 8.0),
-                                      width: 300,
-                                      child: Text(
-                                        AppLocalizations.of(
-                                          context,
-                                        )!.messageLinkPlayer,
-                                        style: const TextStyle(
-                                          fontSize: 15,
-                                          fontStyle: FontStyle.italic,
-                                        ),
-                                        textAlign: TextAlign.center,
+                                    Text(
+                                      AppLocalizations.of(
+                                        context,
+                                      )!.messageLinkPlayer,
+                                      style: const TextStyle(
+                                        fontSize: 15,
+                                        fontStyle: FontStyle.italic,
                                       ),
+                                      textAlign: TextAlign.center,
                                     ),
                                   ],
                                 )
@@ -217,7 +212,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                                       ),
                                   foregroundColor:
                                       WidgetStateProperty.all<Color>(
-                                        Theme.of(context).cardColor,
+                                        Theme.of(context).colorScheme.onError,
                                       ),
                                   shape:
                                       WidgetStateProperty.all<OutlinedBorder>(
@@ -226,7 +221,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                                             width: 2,
                                             color: Theme.of(
                                               context,
-                                            ).colorScheme.error,
+                                            ).colorScheme.onError,
                                           ),
                                           borderRadius: BorderRadius.circular(
                                             CustomProperties.borderRadius,
@@ -257,7 +252,9 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                                       ),
                                   foregroundColor:
                                       WidgetStateProperty.all<Color>(
-                                        Theme.of(context).cardColor,
+                                        Theme.of(
+                                          context,
+                                        ).colorScheme.onSecondary,
                                       ),
                                   shape:
                                       WidgetStateProperty.all<OutlinedBorder>(
@@ -266,7 +263,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                                             width: 2,
                                             color: Theme.of(
                                               context,
-                                            ).colorScheme.secondary,
+                                            ).colorScheme.onSecondary,
                                           ),
                                           borderRadius: BorderRadius.circular(
                                             CustomProperties.borderRadius,
@@ -380,35 +377,28 @@ class _EnterUsernameWidget extends StatelessWidget {
             controller: _usernameTextController,
             keyboardType: TextInputType.name,
             decoration: InputDecoration(
-              labelStyle: TextStyle(
-                color: Theme.of(context).primaryColor,
-                fontWeight: FontWeight.normal,
-              ),
+              labelStyle: TextStyle(fontWeight: FontWeight.normal),
               labelText: AppLocalizations.of(context)!.messageEnterUsername,
-              fillColor: Theme.of(context).primaryColor,
               disabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(
                   CustomProperties.borderRadius,
                 ),
-                borderSide: const BorderSide(color: Colors.grey, width: 2.0),
+                borderSide: const BorderSide(width: 2.0),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(
                   CustomProperties.borderRadius,
                 ),
                 borderSide: BorderSide(
-                  color: Theme.of(context).primaryColor,
                   width: 2.0,
+                  color: Theme.of(context).colorScheme.primary,
                 ),
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(
                   CustomProperties.borderRadius,
                 ),
-                borderSide: BorderSide(
-                  color: Theme.of(context).primaryColor,
-                  width: 2.0,
-                ),
+                borderSide: BorderSide(width: 2.0),
               ),
             ),
           ),
@@ -418,16 +408,16 @@ class _EnterUsernameWidget extends StatelessWidget {
           icon: const Icon(Icons.check),
           style: ButtonStyle(
             backgroundColor: WidgetStateProperty.all<Color>(
-              Theme.of(context).primaryColor,
+              Theme.of(context).colorScheme.primary,
             ),
             foregroundColor: WidgetStateProperty.all<Color>(
-              Theme.of(context).cardColor,
+              Theme.of(context).colorScheme.onPrimary,
             ),
             shape: WidgetStateProperty.all<OutlinedBorder>(
               RoundedRectangleBorder(
                 side: BorderSide(
                   width: 2,
-                  color: Theme.of(context).primaryColor,
+                  color: Theme.of(context).colorScheme.onPrimary,
                 ),
                 borderRadius: BorderRadius.circular(
                   CustomProperties.borderRadius,
@@ -507,38 +497,28 @@ class _LinkPlayerWidget extends StatelessWidget {
                 controller: _idTextController,
                 keyboardType: TextInputType.name,
                 decoration: InputDecoration(
-                  labelStyle: TextStyle(
-                    color: Theme.of(context).primaryColor,
-                    fontWeight: FontWeight.normal,
-                  ),
+                  labelStyle: TextStyle(fontWeight: FontWeight.normal),
                   labelText: AppLocalizations.of(context)!.messageEnterUniqueId,
-                  fillColor: Theme.of(context).primaryColor,
                   disabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(
                       CustomProperties.borderRadius,
                     ),
-                    borderSide: const BorderSide(
-                      color: Colors.grey,
-                      width: 2.0,
-                    ),
+                    borderSide: const BorderSide(width: 2.0),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(
                       CustomProperties.borderRadius,
                     ),
                     borderSide: BorderSide(
-                      color: Theme.of(context).primaryColor,
                       width: 2.0,
+                      color: Theme.of(context).colorScheme.primary,
                     ),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(
                       CustomProperties.borderRadius,
                     ),
-                    borderSide: BorderSide(
-                      color: Theme.of(context).primaryColor,
-                      width: 2.0,
-                    ),
+                    borderSide: BorderSide(width: 2.0),
                   ),
                 ),
               ),
@@ -548,16 +528,16 @@ class _LinkPlayerWidget extends StatelessWidget {
               icon: const Icon(Icons.check),
               style: ButtonStyle(
                 backgroundColor: WidgetStateProperty.all<Color>(
-                  Theme.of(context).primaryColor,
+                  Theme.of(context).colorScheme.primary,
                 ),
                 foregroundColor: WidgetStateProperty.all<Color>(
-                  Theme.of(context).cardColor,
+                  Theme.of(context).colorScheme.onPrimary,
                 ),
                 shape: WidgetStateProperty.all<OutlinedBorder>(
                   RoundedRectangleBorder(
                     side: BorderSide(
                       width: 2,
-                      color: Theme.of(context).primaryColor,
+                      color: Theme.of(context).colorScheme.onPrimary,
                     ),
                     borderRadius: BorderRadius.circular(
                       CustomProperties.borderRadius,

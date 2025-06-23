@@ -91,8 +91,10 @@ class _TrickPointsBeloteWidgetState extends State<TrickPointsBeloteWidget> {
                                       ? roundData.themTrickScore++
                                       : null;
                                 },
-                                color: Theme.of(context).primaryColor,
-                                textColor: Colors.white,
+                                color: Theme.of(context).colorScheme.primary,
+                                textColor: Theme.of(
+                                  context,
+                                ).colorScheme.onPrimary,
                                 shape: const CircleBorder(),
                                 child: const Icon(Icons.chevron_left_outlined),
                               ),
@@ -129,8 +131,10 @@ class _TrickPointsBeloteWidgetState extends State<TrickPointsBeloteWidget> {
                                       ? roundData.themTrickScore--
                                       : null;
                                 },
-                                color: Theme.of(context).primaryColor,
-                                textColor: Colors.white,
+                                color: Theme.of(context).colorScheme.primary,
+                                textColor: Theme.of(
+                                  context,
+                                ).colorScheme.onPrimary,
                                 padding: EdgeInsets.zero,
                                 shape: const CircleBorder(),
                                 child: const Icon(Icons.chevron_right_outlined),
@@ -167,14 +171,7 @@ class _BeloteRebeloteWidget extends StatelessWidget {
       children: <Widget>[
         InputChip(
           key: const ValueKey('beloteRebeloteWidgetUs'),
-          checkmarkColor: Theme.of(context).cardColor,
           selected: round?.beloteRebelote == BeloteTeamEnum.US,
-          selectedColor: Theme.of(context).primaryColor,
-          labelStyle: TextStyle(
-            color: round?.beloteRebelote == BeloteTeamEnum.US
-                ? Theme.of(context).colorScheme.onPrimary
-                : Theme.of(context).colorScheme.onSurface,
-          ),
           onPressed: () => {
             if (round?.beloteRebelote != BeloteTeamEnum.US)
               round?.beloteRebelote = BeloteTeamEnum.US
@@ -193,14 +190,7 @@ class _BeloteRebeloteWidget extends StatelessWidget {
               ),
         InputChip(
           key: const ValueKey('beloteRebeloteWidgetThem'),
-          checkmarkColor: Theme.of(context).cardColor,
           selected: round?.beloteRebelote == BeloteTeamEnum.THEM,
-          selectedColor: Theme.of(context).primaryColor,
-          labelStyle: TextStyle(
-            color: round?.beloteRebelote == BeloteTeamEnum.THEM
-                ? Theme.of(context).colorScheme.onPrimary
-                : Theme.of(context).colorScheme.onSurface,
-          ),
           onPressed: () => {
             if (round?.beloteRebelote != BeloteTeamEnum.THEM)
               round?.beloteRebelote = BeloteTeamEnum.THEM
@@ -229,15 +219,8 @@ class _DixDeDerWidget extends StatelessWidget {
       children: <Widget>[
         InputChip(
           key: const ValueKey('dixDeDerWidgetUs'),
-          checkmarkColor: Theme.of(context).cardColor,
           selected: round?.dixDeDer == BeloteTeamEnum.US,
-          selectedColor: Theme.of(context).primaryColor,
           onPressed: () => {round?.dixDeDer = BeloteTeamEnum.US},
-          labelStyle: TextStyle(
-            color: round?.dixDeDer == BeloteTeamEnum.US
-                ? Theme.of(context).colorScheme.onPrimary
-                : Theme.of(context).colorScheme.onSurface,
-          ),
           label: Text(
             BeloteTeamEnum.US.name(context),
             overflow: TextOverflow.ellipsis,
@@ -250,15 +233,8 @@ class _DixDeDerWidget extends StatelessWidget {
               ),
         InputChip(
           key: const ValueKey('dixDeDerWidgetThem'),
-          checkmarkColor: Theme.of(context).cardColor,
           selected: round?.dixDeDer == BeloteTeamEnum.THEM,
-          selectedColor: Theme.of(context).primaryColor,
           onPressed: () => {round?.dixDeDer = BeloteTeamEnum.THEM},
-          labelStyle: TextStyle(
-            color: round?.dixDeDer == BeloteTeamEnum.THEM
-                ? Theme.of(context).colorScheme.onPrimary
-                : Theme.of(context).colorScheme.onSurface,
-          ),
           label: Text(
             BeloteTeamEnum.THEM.name(context),
             overflow: TextOverflow.ellipsis,
@@ -291,7 +267,6 @@ class _ManualPointsWidget extends StatelessWidget {
             children: [
               TextField(
                 decoration: InputDecoration(
-                  fillColor: Colors.white,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(
                       CustomProperties.borderRadius,
@@ -328,7 +303,6 @@ class _ManualPointsWidget extends StatelessWidget {
             children: [
               TextField(
                 decoration: InputDecoration(
-                  fillColor: Colors.white,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(
                       CustomProperties.borderRadius,

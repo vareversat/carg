@@ -3,11 +3,11 @@ import 'dart:async';
 import 'package:carg/const.dart';
 import 'package:carg/exceptions/custom_exception.dart';
 import 'package:carg/helpers/custom_route.dart';
+import 'package:carg/l10n/app_localizations.dart';
 import 'package:carg/services/auth/auth_service.dart';
 import 'package:carg/views/dialogs/dialogs.dart';
 import 'package:carg/views/helpers/info_snackbar.dart';
 import 'package:flutter/material.dart';
-import 'package:carg/l10n/app_localizations.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
@@ -164,20 +164,23 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                   ],
                 ),
               ),
-              RichText(
-                text: TextSpan(
+              Text.rich(
+                TextSpan(
                   text: '${AppLocalizations.of(context)!.enterOtp} ',
                   children: [
                     TextSpan(
                       text: widget.phoneNumber,
-                      style: const TextStyle(
-                        color: Colors.black,
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
                         fontWeight: FontWeight.bold,
                         fontSize: 15,
                       ),
                     ),
                   ],
-                  style: const TextStyle(color: Colors.black54, fontSize: 15),
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    fontSize: 15,
+                  ),
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -192,7 +195,7 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                   child: PinCodeTextField(
                     appContext: context,
                     pastedTextStyle: TextStyle(
-                      color: Theme.of(context).primaryColor,
+                      color: Theme.of(context).colorScheme.primary,
                       fontWeight: FontWeight.bold,
                     ),
                     length: 6,
@@ -204,16 +207,14 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                       borderRadius: BorderRadius.circular(5),
                       fieldHeight: 50,
                       fieldWidth: 40,
-                      selectedColor: Theme.of(context).primaryColor,
-                      selectedFillColor: Theme.of(context).primaryColor,
-                      activeColor: Theme.of(context).primaryColor,
+                      selectedColor: Theme.of(context).colorScheme.primary,
+                      selectedFillColor: Theme.of(context).colorScheme.primary,
+                      activeColor: Theme.of(context).colorScheme.primary,
                       inactiveColor: Theme.of(context).colorScheme.secondary,
                       inactiveFillColor: Theme.of(
                         context,
                       ).colorScheme.secondary,
-                      activeFillColor: Colors.white,
                     ),
-                    cursorColor: Colors.white,
                     errorAnimationDuration: 25,
                     errorAnimationController: _errorController,
                     controller: _pinTextController,
@@ -237,14 +238,14 @@ class _PinCodeVerificationScreenState extends State<PinCodeVerificationScreen> {
                 children: [
                   Text(
                     AppLocalizations.of(context)!.messageDidYouReceiveOTP,
-                    style: const TextStyle(color: Colors.black54, fontSize: 15),
+                    style: const TextStyle(fontSize: 15),
                   ),
                   TextButton(
                     onPressed: () => _resendCode(),
                     child: Text(
                       AppLocalizations.of(context)!.resend,
                       style: TextStyle(
-                        color: Theme.of(context).primaryColor,
+                        color: Theme.of(context).colorScheme.primary,
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                       ),

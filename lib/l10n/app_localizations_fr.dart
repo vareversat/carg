@@ -30,6 +30,9 @@ class AppLocalizationsFr extends AppLocalizations {
       'L\'application pour enregistrer vos parties de Belote, Coinche, Contrée et Tarot !';
 
   @override
+  String get appTheme => 'Thème de l\'application';
+
+  @override
   String get attack => 'Attaque';
 
   @override
@@ -214,9 +217,6 @@ class AppLocalizationsFr extends AppLocalizations {
   String get idCopied => 'ID copié dans le presse papier';
 
   @override
-  String get infinite => 'Infini';
-
-  @override
   String get information => 'Informations';
 
   @override
@@ -328,6 +328,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get noGamesYet => 'Pas encore de parties';
 
   @override
+  String get noLimits => 'Aucune limite';
+
+  @override
   String get noName => 'Sans nom';
 
   @override
@@ -346,7 +349,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get noStatisticYet => 'Pas encore de statistiques';
 
   @override
-  String get numberOfPointToReach => 'Nombre de points à atteindre';
+  String get numberOfPointsToReach => 'Nombre de points à atteindre';
 
   @override
   String get otp => 'Mot de passe à usage unique (OTP)';
@@ -480,7 +483,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get sourceCode => 'Code source';
 
   @override
-  String get seeTheRules => 'Voir les règles';
+  String get checkTheRules => 'Consulter les règles';
 
   @override
   String get takerTitleBelote => 'Preneurs';
