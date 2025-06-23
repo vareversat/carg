@@ -49,4 +49,8 @@ class Const {
 
   /// Game
   static const int defaultMaxPoints = 1000;
+
+  /// Local storage
+  static const String storageThemeKey = 'THEME';
+  static const String storageContrastKey = 'CONTRAST';
 }

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 class NavBar extends StatelessWidget {
   final int selectedIndex;
   final double iconSize;
-  final Color? backgroundColor;
   final bool showElevation;
   final Duration animationDuration;
   final List<BottomNavyBarItem> items;
@@ -17,7 +16,6 @@ class NavBar extends StatelessWidget {
     this.selectedIndex = 0,
     this.showElevation = true,
     this.iconSize = 24,
-    this.backgroundColor,
     this.itemCornerRadius = 80,
     this.animationDuration = const Duration(milliseconds: 300),
     this.mainAxisAlignment = MainAxisAlignment.spaceAround,
@@ -30,13 +28,9 @@ class NavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bgColor = (backgroundColor == null)
-        ? Theme.of(context).cardColor
-        : backgroundColor;
-
     return Container(
       decoration: BoxDecoration(
-        color: bgColor,
+        color: Theme.of(context).colorScheme.primary,
         boxShadow: [
           if (showElevation)
             const BoxShadow(color: Colors.black12, blurRadius: 2),
@@ -57,7 +51,7 @@ class NavBar extends StatelessWidget {
                   item: item,
                   iconSize: iconSize,
                   isSelected: index == selectedIndex,
-                  backgroundColor: bgColor!,
+                  backgroundColor: Theme.of(context).colorScheme.primary,
                   itemCornerRadius: itemCornerRadius,
                   animationDuration: animationDuration,
                   curve: curve,
@@ -152,7 +146,7 @@ class BottomNavyBarItem {
   BottomNavyBarItem({
     required this.icon,
     required this.title,
-    this.activeColor = Colors.blue,
+    this.activeColor = Colors.red,
     this.textAlign,
     this.inactiveColor,
   });

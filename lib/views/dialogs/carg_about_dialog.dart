@@ -1,7 +1,7 @@
 import 'package:carg/const.dart';
+import 'package:carg/l10n/app_localizations.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:flutter/material.dart';
-import 'package:carg/l10n/app_localizations.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -96,9 +96,11 @@ class CargAboutDialog extends StatelessWidget {
                 key: const ValueKey('sourceCodeButton'),
                 onPressed: () => _launchURL(Const.githubLink, context),
                 style: ButtonStyle(
-                  backgroundColor: WidgetStateProperty.all<Color>(Colors.black),
+                  backgroundColor: WidgetStateProperty.all<Color>(
+                    Theme.of(context).colorScheme.surface,
+                  ),
                   foregroundColor: WidgetStateProperty.all<Color>(
-                    Theme.of(context).cardColor,
+                    Theme.of(context).colorScheme.onSurfaceVariant,
                   ),
                   shape: WidgetStateProperty.all<OutlinedBorder>(
                     RoundedRectangleBorder(
@@ -120,7 +122,7 @@ class CargAboutDialog extends StatelessWidget {
                     Theme.of(context).colorScheme.secondary,
                   ),
                   foregroundColor: WidgetStateProperty.all<Color>(
-                    Theme.of(context).cardColor,
+                    Theme.of(context).colorScheme.onSecondary,
                   ),
                   shape: WidgetStateProperty.all<OutlinedBorder>(
                     RoundedRectangleBorder(
@@ -145,10 +147,10 @@ class CargAboutDialog extends StatelessWidget {
               ElevatedButton.icon(
                 style: ButtonStyle(
                   backgroundColor: WidgetStateProperty.all<Color>(
-                    Theme.of(context).primaryColor,
+                    Theme.of(context).colorScheme.primary,
                   ),
                   foregroundColor: WidgetStateProperty.all<Color>(
-                    Theme.of(context).cardColor,
+                    Theme.of(context).colorScheme.onPrimary,
                   ),
                   shape: WidgetStateProperty.all<OutlinedBorder>(
                     RoundedRectangleBorder(
@@ -182,10 +184,10 @@ class CargAboutDialog extends StatelessWidget {
                 onPressed: () => _launchURL(Const.privacyInfoLink, context),
                 style: ButtonStyle(
                   backgroundColor: WidgetStateProperty.all<Color>(
-                    Colors.blueAccent,
+                    Theme.of(context).colorScheme.tertiaryContainer,
                   ),
                   foregroundColor: WidgetStateProperty.all<Color>(
-                    Theme.of(context).cardColor,
+                    Theme.of(context).colorScheme.onTertiaryContainer,
                   ),
                   shape: WidgetStateProperty.all<OutlinedBorder>(
                     RoundedRectangleBorder(
@@ -206,10 +208,6 @@ class CargAboutDialog extends StatelessWidget {
           actions: <Widget>[
             ElevatedButton.icon(
               style: ButtonStyle(
-                backgroundColor: WidgetStateProperty.all<Color>(Colors.white),
-                foregroundColor: WidgetStateProperty.all<Color>(
-                  Theme.of(context).primaryColor,
-                ),
                 shape: WidgetStateProperty.all<OutlinedBorder>(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(

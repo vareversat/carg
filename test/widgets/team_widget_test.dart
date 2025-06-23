@@ -12,11 +12,13 @@ import 'package:network_image_mock/network_image_mock.dart';
 import 'team_widget_test.mocks.dart';
 
 Widget testableWidget() => MaterialApp(
-    home: TeamWidget(
-        title: 'Nous',
-        teamService: mockAbstractTeamService,
-        playerService: mockAbstractPlayerService,
-        teamId: 'TEAM_ID'));
+    home: Material(
+      child: TeamWidget(
+          title: 'Nous',
+          teamService: mockAbstractTeamService,
+          playerService: mockAbstractPlayerService,
+          teamId: 'TEAM_ID'),
+    ));
 
 final mockAbstractTeamService = MockAbstractTeamService();
 final mockAbstractPlayerService = MockAbstractPlayerService();

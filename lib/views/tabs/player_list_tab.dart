@@ -1,4 +1,5 @@
 import 'package:carg/const.dart';
+import 'package:carg/l10n/app_localizations.dart';
 import 'package:carg/models/player.dart';
 import 'package:carg/services/auth/auth_service.dart';
 import 'package:carg/services/player/abstract_player_service.dart';
@@ -6,7 +7,6 @@ import 'package:carg/views/widgets/ad_banner_widget.dart';
 import 'package:carg/views/widgets/error_message_widget.dart';
 import 'package:carg/views/widgets/players/player_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:carg/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 class PlayerListTab extends StatefulWidget {
@@ -76,7 +76,6 @@ class _PlayerListTabWidget extends State<PlayerListTab> {
                 MaterialButton(
                   key: const ValueKey('resetSearchButton'),
                   onPressed: () => _resetSearch(),
-                  color: Theme.of(context).primaryColor,
                   textColor: Colors.white,
                   padding: EdgeInsets.zero,
                   shape: const CircleBorder(),

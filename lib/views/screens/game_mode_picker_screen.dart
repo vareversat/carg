@@ -1,4 +1,5 @@
 import 'package:carg/helpers/custom_route.dart';
+import 'package:carg/l10n/app_localizations.dart';
 import 'package:carg/models/game/coinche_belote.dart';
 import 'package:carg/models/game/contree_belote.dart';
 import 'package:carg/models/game/french_belote.dart';
@@ -9,7 +10,6 @@ import 'package:carg/styles/properties.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/screens/game_settings_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:carg/l10n/app_localizations.dart';
 
 class GameModePickerScreen extends StatelessWidget {
   const GameModePickerScreen({super.key});
@@ -20,7 +20,7 @@ class GameModePickerScreen extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
         child: AppBar(
-          backgroundColor: Theme.of(context).primaryColor,
+          backgroundColor: Theme.of(context).colorScheme.primary,
           foregroundColor: Theme.of(context).colorScheme.onPrimary,
           leading: IconButton(
             icon: const Icon(Icons.close),
@@ -85,10 +85,10 @@ class _GameModeButton extends StatelessWidget {
         child: ElevatedButton(
           style: ButtonStyle(
             backgroundColor: WidgetStateProperty.all<Color>(
-              Theme.of(context).primaryColor,
+              Theme.of(context).colorScheme.primary,
             ),
             foregroundColor: WidgetStateProperty.all<Color>(
-              Theme.of(context).cardColor,
+              Theme.of(context).colorScheme.onPrimary,
             ),
             shape: WidgetStateProperty.all<OutlinedBorder>(
               RoundedRectangleBorder(

@@ -30,6 +30,9 @@ class AppLocalizationsEn extends AppLocalizations {
       'The application to record your games of Belote, Coinche, Contrée and Tarot!';
 
   @override
+  String get appTheme => 'App theme';
+
+  @override
   String get attack => 'Attack';
 
   @override
@@ -213,9 +216,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get idCopied => 'ID copied to clipboard';
 
   @override
-  String get infinite => 'Infinite';
-
-  @override
   String get information => 'Information';
 
   @override
@@ -262,7 +262,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get messageLinkPlayer =>
-      'If you have a player on one of your friend\'s Carg, you can link them to your new account!';
+      'If you have a player on one of your friend\'s Carg, you can link it to your new account!';
 
   @override
   String get messageNoRound => 'No rounds are recorded for this game';
@@ -324,6 +324,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noGamesYet => 'No games yet';
 
   @override
+  String get noLimits => 'No limit';
+
+  @override
   String get noName => 'No name';
 
   @override
@@ -342,7 +345,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noStatisticYet => 'No statistics yet';
 
   @override
-  String get numberOfPointToReach => 'Number of points to reach';
+  String get numberOfPointsToReach => 'Number of points to reach';
 
   @override
   String get otp => 'One-time password (OTP)';
@@ -453,7 +456,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings => 'Settings';
 
   @override
-  String get signInAndUp => 'Sign In & Sing Up';
+  String get signInAndUp => 'Sign In & Sign Up';
 
   @override
   String get signOut => 'Sing out';
@@ -476,7 +479,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sourceCode => 'Source code';
 
   @override
-  String get seeTheRules => 'See the rules';
+  String get checkTheRules => 'Check the rules';
 
   @override
   String get takerTitleBelote => 'Takers';

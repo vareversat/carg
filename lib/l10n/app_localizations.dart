@@ -134,6 +134,12 @@ abstract class AppLocalizations {
   /// **'The application to record your games of Belote, Coinche, Contrée and Tarot!'**
   String get appDescription;
 
+  /// No description provided for @appTheme.
+  ///
+  /// In en, this message translates to:
+  /// **'App theme'**
+  String get appTheme;
+
   /// No description provided for @attack.
   ///
   /// In en, this message translates to:
@@ -470,12 +476,6 @@ abstract class AppLocalizations {
   /// **'ID copied to clipboard'**
   String get idCopied;
 
-  /// No description provided for @infinite.
-  ///
-  /// In en, this message translates to:
-  /// **'Infinite'**
-  String get infinite;
-
   /// No description provided for @information.
   ///
   /// In en, this message translates to:
@@ -563,7 +563,7 @@ abstract class AppLocalizations {
   /// No description provided for @messageLinkPlayer.
   ///
   /// In en, this message translates to:
-  /// **'If you have a player on one of your friend\'s Carg, you can link them to your new account!'**
+  /// **'If you have a player on one of your friend\'s Carg, you can link it to your new account!'**
   String get messageLinkPlayer;
 
   /// No description provided for @messageNoRound.
@@ -674,6 +674,12 @@ abstract class AppLocalizations {
   /// **'No games yet'**
   String get noGamesYet;
 
+  /// No description provided for @noLimits.
+  ///
+  /// In en, this message translates to:
+  /// **'No limit'**
+  String get noLimits;
+
   /// No description provided for @noName.
   ///
   /// In en, this message translates to:
@@ -710,11 +716,11 @@ abstract class AppLocalizations {
   /// **'No statistics yet'**
   String get noStatisticYet;
 
-  /// No description provided for @numberOfPointToReach.
+  /// No description provided for @numberOfPointsToReach.
   ///
   /// In en, this message translates to:
   /// **'Number of points to reach'**
-  String get numberOfPointToReach;
+  String get numberOfPointsToReach;
 
   /// No description provided for @otp.
   ///
@@ -881,7 +887,7 @@ abstract class AppLocalizations {
   /// No description provided for @signInAndUp.
   ///
   /// In en, this message translates to:
-  /// **'Sign In & Sing Up'**
+  /// **'Sign In & Sign Up'**
   String get signInAndUp;
 
   /// No description provided for @signOut.
@@ -920,11 +926,11 @@ abstract class AppLocalizations {
   /// **'Source code'**
   String get sourceCode;
 
-  /// No description provided for @seeTheRules.
+  /// No description provided for @checkTheRules.
   ///
   /// In en, this message translates to:
-  /// **'See the rules'**
-  String get seeTheRules;
+  /// **'Check the rules'**
+  String get checkTheRules;
 
   /// No description provided for @takerTitleBelote.
   ///

@@ -1,4 +1,5 @@
 import 'package:carg/helpers/custom_route.dart';
+import 'package:carg/l10n/app_localizations.dart';
 import 'package:carg/models/game/game_type.dart';
 import 'package:carg/models/game_stats.dart';
 import 'package:carg/models/player.dart';
@@ -9,7 +10,6 @@ import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/screens/settings_screen.dart';
 import 'package:carg/views/widgets/error_message_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:carg/l10n/app_localizations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -97,7 +97,7 @@ class _UserScreenState extends State<UserScreen>
             return CustomScrollView(
               slivers: [
                 SliverAppBar(
-                  backgroundColor: Theme.of(context).primaryColor,
+                  backgroundColor: Theme.of(context).colorScheme.primary,
                   automaticallyImplyLeading: false,
                   forceElevated: true,
                   expandedHeight: 200,
@@ -124,10 +124,10 @@ class _UserScreenState extends State<UserScreen>
                 ElevatedButton.icon(
                   style: ButtonStyle(
                     backgroundColor: WidgetStateProperty.all<Color>(
-                      Theme.of(context).primaryColor,
+                      Theme.of(context).colorScheme.onPrimary,
                     ),
                     foregroundColor: WidgetStateProperty.all<Color>(
-                      Theme.of(context).cardColor,
+                      Theme.of(context).colorScheme.primary,
                     ),
                     shape: WidgetStateProperty.all<OutlinedBorder>(
                       RoundedRectangleBorder(
@@ -177,7 +177,7 @@ class _UserScreenState extends State<UserScreen>
                         ),
                       ),
                     ),
-                    backgroundColor: Theme.of(context).primaryColor,
+                    backgroundColor: Theme.of(context).colorScheme.primary,
                     automaticallyImplyLeading: false,
                     floating: true,
                     pinned: true,
@@ -321,12 +321,12 @@ class _StatGauge extends StatelessWidget {
               GaugeRange(
                 startValue: 0,
                 endValue: gameStats!.winPercentage(),
-                color: Theme.of(context).primaryColor,
+                color: Theme.of(context).colorScheme.primaryContainer,
               ),
               GaugeRange(
                 startValue: gameStats!.winPercentage(),
                 endValue: 100,
-                color: Theme.of(context).colorScheme.secondary,
+                color: Theme.of(context).colorScheme.inverseSurface,
               ),
             ],
           ),
@@ -347,7 +347,7 @@ class _StatCircularChart extends StatelessWidget {
     return SfCircularChart(
       tooltipBehavior: TooltipBehavior(
         enable: true,
-        color: Theme.of(context).primaryColor,
+        color: Theme.of(context).colorScheme.primary,
       ),
       series: <CircularSeries>[
         DoughnutSeries<GameStats, String?>(
@@ -374,14 +374,6 @@ class _PlayerUsernameAndProfilePictureWidget extends StatelessWidget {
   final Player? player;
   final Animation<Offset> animation;
 
-  Color _getBackgroundColor(BuildContext context) {
-    if (player != null && player!.admin) {
-      return Theme.of(context).colorScheme.secondary;
-    } else {
-      return Theme.of(context).primaryColor;
-    }
-  }
-
   const _PlayerUsernameAndProfilePictureWidget({
     this.player,
     required this.animation,
@@ -404,7 +396,7 @@ class _PlayerUsernameAndProfilePictureWidget extends StatelessWidget {
                   shape: BoxShape.circle,
                   border: Border.all(
                     width: 2,
-                    color: _getBackgroundColor(context),
+                    color: Theme.of(context).colorScheme.onPrimary,
                   ),
                   image: DecorationImage(
                     fit: BoxFit.fill,
@@ -445,10 +437,10 @@ class _AppBarTitle extends StatelessWidget {
         FilledButton(
           style: ButtonStyle(
             backgroundColor: WidgetStateProperty.all<Color>(
-              Theme.of(context).cardColor,
+              Theme.of(context).colorScheme.onPrimary,
             ),
             foregroundColor: WidgetStateProperty.all<Color>(
-              Theme.of(context).primaryColor,
+              Theme.of(context).colorScheme.primary,
             ),
             shape: WidgetStateProperty.all<OutlinedBorder>(
               RoundedRectangleBorder(
@@ -501,7 +493,7 @@ class _WonPlayedWidget extends StatelessWidget {
           decoration: BoxDecoration(
             border: Border(
               bottom: BorderSide(
-                color: Theme.of(context).primaryColor,
+                color: Theme.of(context).colorScheme.onSurface,
                 width: 6,
               ),
             ),
@@ -514,7 +506,7 @@ class _WonPlayedWidget extends StatelessWidget {
         Flexible(
           child: Column(
             children: [
-              const Icon(FontAwesomeIcons.gamepad, size: 20),
+              const Icon(Icons.videogame_asset, size: 20),
               Padding(
                 padding: const EdgeInsets.all(5.0),
                 child: Text(

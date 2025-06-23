@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer' as developer;
 
 import 'package:carg/const.dart';
+import 'package:carg/l10n/app_localizations.dart';
 import 'package:carg/models/iap/product/product_data.dart';
 import 'package:carg/models/iap/product/product_type_enum.dart';
 import 'package:carg/services/auth/auth_service.dart';
@@ -12,7 +13,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:provider/provider.dart';
-import 'package:carg/l10n/app_localizations.dart';
 
 class RemoveAdsListTile extends StatefulWidget {
   const RemoveAdsListTile({super.key});
@@ -66,10 +66,10 @@ class _RemoveAdsListTileState extends State<RemoveAdsListTile> {
           TextButton(
             style: ButtonStyle(
               backgroundColor: WidgetStateProperty.all<Color>(
-                Theme.of(context).primaryColor,
+                Theme.of(context).colorScheme.primary,
               ),
               foregroundColor: WidgetStateProperty.all<Color>(
-                Theme.of(context).cardColor,
+                Theme.of(context).colorScheme.onPrimary,
               ),
               shape: WidgetStateProperty.all<OutlinedBorder>(
                 RoundedRectangleBorder(
@@ -91,10 +91,10 @@ class _RemoveAdsListTileState extends State<RemoveAdsListTile> {
           TextButton(
             style: ButtonStyle(
               backgroundColor: WidgetStateProperty.all<Color>(
-                Theme.of(context).primaryColor,
+                Theme.of(context).colorScheme.primary,
               ),
               foregroundColor: WidgetStateProperty.all<Color>(
-                Theme.of(context).cardColor,
+                Theme.of(context).colorScheme.onPrimary,
               ),
               shape: WidgetStateProperty.all<OutlinedBorder>(
                 RoundedRectangleBorder(
@@ -268,22 +268,29 @@ class _RemoveAdsListTileState extends State<RemoveAdsListTile> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      selectedTileColor: Theme.of(context).primaryColor,
+      selectedTileColor: Theme.of(context).colorScheme.primary,
       key: const ValueKey('adFreeButton'),
       subtitle: Text(
         AppLocalizations.of(context)!.theAppWithoutAds,
-        style: TextStyle(fontSize: 15, color: Theme.of(context).cardColor),
+        style: TextStyle(
+          fontSize: 15,
+          color: Theme.of(context).colorScheme.onTertiaryContainer,
+        ),
       ),
-      selected: true,
+      selected: false,
+      tileColor: Theme.of(context).colorScheme.tertiaryContainer,
       leading: Icon(
         FontAwesomeIcons.rectangleAd,
         size: 30,
-        color: Theme.of(context).cardColor,
+        color: Theme.of(context).colorScheme.onTertiaryContainer,
       ),
       onTap: () async => {await _freeAdsOptionsDialog(context)},
       title: Text(
         AppLocalizations.of(context)!.removeAds,
-        style: TextStyle(color: Theme.of(context).cardColor, fontSize: 25),
+        style: TextStyle(
+          color: Theme.of(context).colorScheme.onTertiaryContainer,
+          fontSize: 25,
+        ),
       ),
     );
   }

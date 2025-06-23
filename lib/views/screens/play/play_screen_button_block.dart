@@ -1,6 +1,6 @@
+import 'package:carg/l10n/app_localizations.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:flutter/material.dart';
-import 'package:carg/l10n/app_localizations.dart';
 
 class PlayScreenButtonBlock extends StatelessWidget {
   final Function endGame;
@@ -75,7 +75,7 @@ class PlayScreenButtonBlock extends StatelessWidget {
                               onPressed: () => {addNewSpecialRound!()},
                               icon: Icon(
                                 Icons.add_circle_rounded,
-                                color: Theme.of(context).primaryColor,
+                                color: Theme.of(context).colorScheme.primary,
                                 size: 30,
                               ),
                             ),
@@ -83,10 +83,10 @@ class PlayScreenButtonBlock extends StatelessWidget {
                             key: const ValueKey("addRoundButton"),
                             style: ButtonStyle(
                               backgroundColor: WidgetStateProperty.all<Color>(
-                                Theme.of(context).primaryColor,
+                                Theme.of(context).colorScheme.primary,
                               ),
                               foregroundColor: WidgetStateProperty.all<Color>(
-                                Theme.of(context).cardColor,
+                                Theme.of(context).colorScheme.onPrimary,
                               ),
                               shape: WidgetStateProperty.all<OutlinedBorder>(
                                 RoundedRectangleBorder(
@@ -117,7 +117,7 @@ class PlayScreenButtonBlock extends StatelessWidget {
                             Theme.of(context).colorScheme.error,
                           ),
                           foregroundColor: WidgetStateProperty.all<Color>(
-                            Theme.of(context).cardColor,
+                            Theme.of(context).colorScheme.onError,
                           ),
                           shape: WidgetStateProperty.all<OutlinedBorder>(
                             RoundedRectangleBorder(

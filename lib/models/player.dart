@@ -93,13 +93,23 @@ class Player extends CargPlayerObject with ChangeNotifier {
     _gravatarProfilePicture = gravatarProfilePicture;
   }
 
-  Color getSideColor(BuildContext context) {
+  Color getPrimaryColorStyle(BuildContext context) {
     if (testing) {
-      return Colors.purple;
+      return Theme.of(context).colorScheme.tertiary;
     } else if (!owned) {
-      return Theme.of(context).primaryColor;
+      return Theme.of(context).colorScheme.primary;
     } else {
       return Theme.of(context).colorScheme.secondary;
+    }
+  }
+
+  Color getSecondaryColorStyle(BuildContext context) {
+    if (testing) {
+      return Theme.of(context).colorScheme.onTertiary;
+    } else if (!owned) {
+      return Theme.of(context).colorScheme.onPrimary;
+    } else {
+      return Theme.of(context).colorScheme.onSecondary;
     }
   }
 

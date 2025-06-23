@@ -1,4 +1,5 @@
 import 'package:carg/helpers/custom_route.dart';
+import 'package:carg/l10n/app_localizations.dart';
 import 'package:carg/models/game/belote_game.dart';
 import 'package:carg/models/game/french_belote.dart';
 import 'package:carg/models/game/game.dart';
@@ -10,7 +11,6 @@ import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/screens/player_picker_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:carg/l10n/app_localizations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -32,7 +32,7 @@ class GameSettingsScreen extends StatelessWidget {
         preferredSize: const Size.fromHeight(60),
         child: AppBar(
           foregroundColor: Theme.of(context).colorScheme.onPrimary,
-          backgroundColor: Theme.of(context).primaryColor,
+          backgroundColor: Theme.of(context).colorScheme.primary,
           title: Text(title, style: CustomTextStyle.screenHeadLine1(context)),
         ),
       ),
@@ -53,7 +53,7 @@ class GameSettingsScreen extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 8.0),
                   child: Center(
                     child: Text(
-                      AppLocalizations.of(context)!.numberOfPointToReach,
+                      AppLocalizations.of(context)!.numberOfPointsToReach,
                     ),
                   ),
                 ),
@@ -76,7 +76,6 @@ class GameSettingsScreen extends StatelessWidget {
                                   child: settingsData.isInfinite
                                       ? Icon(
                                           FontAwesomeIcons.infinity,
-                                          color: Theme.of(context).primaryColor,
                                           size: 50,
                                         )
                                       : TextField(
@@ -120,14 +119,22 @@ class GameSettingsScreen extends StatelessWidget {
                                   backgroundColor:
                                       WidgetStateProperty.all<Color>(
                                         settingsData.isInfinite
-                                            ? Theme.of(context).cardColor
-                                            : Theme.of(context).primaryColor,
+                                            ? Theme.of(
+                                                context,
+                                              ).colorScheme.primaryContainer
+                                            : Theme.of(
+                                                context,
+                                              ).colorScheme.primary,
                                       ),
                                   foregroundColor:
                                       WidgetStateProperty.all<Color>(
                                         settingsData.isInfinite
-                                            ? Theme.of(context).primaryColor
-                                            : Theme.of(context).cardColor,
+                                            ? Theme.of(
+                                                context,
+                                              ).colorScheme.primary
+                                            : Theme.of(
+                                                context,
+                                              ).colorScheme.primaryContainer,
                                       ),
                                   shape:
                                       WidgetStateProperty.all<OutlinedBorder>(
@@ -137,7 +144,9 @@ class GameSettingsScreen extends StatelessWidget {
                                           ),
                                           side: BorderSide(
                                             color: settingsData.isInfinite
-                                                ? Theme.of(context).primaryColor
+                                                ? Theme.of(
+                                                    context,
+                                                  ).colorScheme.primary
                                                 : Colors.transparent,
                                           ),
                                         ),
@@ -146,7 +155,7 @@ class GameSettingsScreen extends StatelessWidget {
                                 label: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
-                                    AppLocalizations.of(context)!.infinite,
+                                    AppLocalizations.of(context)!.noLimits,
                                     style: const TextStyle(fontSize: 18),
                                   ),
                                 ),
@@ -207,9 +216,6 @@ class GameSettingsScreen extends StatelessWidget {
                                           Switch(
                                             value: settingsData
                                                 .sumTrickPointsAndContract,
-                                            activeColor: Theme.of(
-                                              context,
-                                            ).primaryColor,
                                             onChanged: (bool value) {
                                               settingsData
                                                       .sumTrickPointsAndContract =
@@ -255,43 +261,33 @@ class GameSettingsScreen extends StatelessWidget {
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SizedBox(
-              width: double.infinity,
-              height: 50,
-              child: ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor: WidgetStateProperty.all<Color>(
-                    Theme.of(context).primaryColor,
-                  ),
-                  foregroundColor: WidgetStateProperty.all<Color>(
-                    Theme.of(context).cardColor,
-                  ),
-                  shape: WidgetStateProperty.all<OutlinedBorder>(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(
-                        CustomProperties.borderRadius,
-                      ),
+          Container(
+            color: Theme.of(context).colorScheme.primary,
+            width: double.infinity,
+            child: TextButton(
+              style: ButtonStyle(
+                foregroundColor: WidgetStateProperty.all<Color>(
+                  Theme.of(context).colorScheme.onPrimary,
+                ),
+              ),
+              onPressed: () async => {
+                Navigator.of(context).push(
+                  CustomRouteLeftToRight(
+                    builder: (context) => PlayerPickerScreen(
+                      game: game,
+                      title: game!.gameType.name,
                     ),
                   ),
                 ),
-                onPressed: () async => {
-                  Navigator.of(context).push(
-                    CustomRouteLeftToRight(
-                      builder: (context) => PlayerPickerScreen(
-                        game: game,
-                        title: game!.gameType.name,
-                      ),
-                    ),
-                  ),
-                },
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       AppLocalizations.of(context)!.playerSelection,
-                      style: const TextStyle(fontSize: 23),
+                      style: TextStyle(fontSize: 23),
                     ),
                     const SizedBox(width: 10),
                     const Icon(Icons.arrow_right_alt_outlined, size: 30),

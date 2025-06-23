@@ -3,22 +3,26 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i8;
-import 'dart:ui' as _i14;
+import 'dart:async' as _i10;
+import 'dart:ui' as _i16;
 
 import 'package:carg/models/carg_object.dart' as _i3;
-import 'package:carg/models/game/game.dart' as _i10;
-import 'package:carg/models/game/setting/game_setting.dart' as _i12;
-import 'package:carg/models/player.dart' as _i7;
-import 'package:carg/models/players/players.dart' as _i11;
+import 'package:carg/models/game/game.dart' as _i12;
+import 'package:carg/models/game/setting/game_setting.dart' as _i14;
+import 'package:carg/models/player.dart' as _i9;
+import 'package:carg/models/players/players.dart' as _i13;
 import 'package:carg/repositories/base_repository.dart' as _i4;
 import 'package:carg/repositories/player/abstract_player_repository.dart'
     as _i2;
-import 'package:carg/services/auth/auth_service.dart' as _i13;
-import 'package:carg/services/impl/player_service.dart' as _i6;
+import 'package:carg/services/auth/auth_service.dart' as _i15;
+import 'package:carg/services/impl/player_service.dart' as _i8;
+import 'package:carg/services/storage_service.dart' as _i6;
+import 'package:carg/styles/app_color_scheme.dart' as _i7;
+import 'package:carg/styles/theme/enums.dart' as _i18;
+import 'package:carg/styles/theme/theme_service.dart' as _i17;
 import 'package:flutter/material.dart' as _i5;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mockito/src/dummies.dart' as _i9;
+import 'package:mockito/src/dummies.dart' as _i11;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -70,10 +74,46 @@ class _FakeWidget_2 extends _i1.SmartFake implements _i5.Widget {
       super.toString();
 }
 
+class _FakeStorageService_3 extends _i1.SmartFake
+    implements _i6.StorageService {
+  _FakeStorageService_3(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeCargMaterialTheme_4 extends _i1.SmartFake
+    implements _i7.CargMaterialTheme {
+  _FakeCargMaterialTheme_4(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeThemeData_5 extends _i1.SmartFake implements _i5.ThemeData {
+  _FakeThemeData_5(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+
+  @override
+  String toString({_i5.DiagnosticLevel? minLevel = _i5.DiagnosticLevel.info}) =>
+      super.toString();
+}
+
 /// A class which mocks [PlayerService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockPlayerService extends _i1.Mock implements _i6.PlayerService {
+class MockPlayerService extends _i1.Mock implements _i8.PlayerService {
   MockPlayerService() {
     _i1.throwOnMissingStub(this);
   }
@@ -88,33 +128,33 @@ class MockPlayerService extends _i1.Mock implements _i6.PlayerService {
       ) as _i2.AbstractPlayerRepository);
 
   @override
-  _i4.BaseRepository<_i7.Player> get repository => (super.noSuchMethod(
+  _i4.BaseRepository<_i9.Player> get repository => (super.noSuchMethod(
         Invocation.getter(#repository),
-        returnValue: _FakeBaseRepository_1<_i7.Player>(
+        returnValue: _FakeBaseRepository_1<_i9.Player>(
           this,
           Invocation.getter(#repository),
         ),
-      ) as _i4.BaseRepository<_i7.Player>);
+      ) as _i4.BaseRepository<_i9.Player>);
 
   @override
-  _i8.Future<String> create(_i7.Player? t) => (super.noSuchMethod(
+  _i10.Future<String> create(_i9.Player? t) => (super.noSuchMethod(
         Invocation.method(
           #create,
           [t],
         ),
-        returnValue: _i8.Future<String>.value(_i9.dummyValue<String>(
+        returnValue: _i10.Future<String>.value(_i11.dummyValue<String>(
           this,
           Invocation.method(
             #create,
             [t],
           ),
         )),
-      ) as _i8.Future<String>);
+      ) as _i10.Future<String>);
 
   @override
-  _i8.Future<void> incrementPlayedGamesByOne(
+  _i10.Future<void> incrementPlayedGamesByOne(
     String? playerId,
-    _i10.Game<_i11.Players, _i12.GameSetting>? game,
+    _i12.Game<_i13.Players, _i14.GameSetting>? game,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -124,14 +164,14 @@ class MockPlayerService extends _i1.Mock implements _i6.PlayerService {
             game,
           ],
         ),
-        returnValue: _i8.Future<void>.value(),
-        returnValueForMissingStub: _i8.Future<void>.value(),
-      ) as _i8.Future<void>);
+        returnValue: _i10.Future<void>.value(),
+        returnValueForMissingStub: _i10.Future<void>.value(),
+      ) as _i10.Future<void>);
 
   @override
-  _i8.Future<void> incrementWonGamesByOne(
+  _i10.Future<void> incrementWonGamesByOne(
     String? playerId,
-    _i10.Game<_i11.Players, _i12.GameSetting>? game,
+    _i12.Game<_i13.Players, _i14.GameSetting>? game,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -141,24 +181,24 @@ class MockPlayerService extends _i1.Mock implements _i6.PlayerService {
             game,
           ],
         ),
-        returnValue: _i8.Future<void>.value(),
-        returnValueForMissingStub: _i8.Future<void>.value(),
-      ) as _i8.Future<void>);
+        returnValue: _i10.Future<void>.value(),
+        returnValueForMissingStub: _i10.Future<void>.value(),
+      ) as _i10.Future<void>);
 
   @override
-  _i8.Future<_i7.Player?> getPlayerOfUser(String? userId) =>
+  _i10.Future<_i9.Player?> getPlayerOfUser(String? userId) =>
       (super.noSuchMethod(
         Invocation.method(
           #getPlayerOfUser,
           [userId],
         ),
-        returnValue: _i8.Future<_i7.Player?>.value(),
-      ) as _i8.Future<_i7.Player?>);
+        returnValue: _i10.Future<_i9.Player?>.value(),
+      ) as _i10.Future<_i9.Player?>);
 
   @override
-  _i8.Future<List<_i7.Player>> searchPlayers({
+  _i10.Future<List<_i9.Player>> searchPlayers({
     String? query = '',
-    _i7.Player? currentPlayer,
+    _i9.Player? currentPlayer,
     bool? myPlayers,
   }) =>
       (super.noSuchMethod(
@@ -171,8 +211,8 @@ class MockPlayerService extends _i1.Mock implements _i6.PlayerService {
             #myPlayers: myPlayers,
           },
         ),
-        returnValue: _i8.Future<List<_i7.Player>>.value(<_i7.Player>[]),
-      ) as _i8.Future<List<_i7.Player>>);
+        returnValue: _i10.Future<List<_i9.Player>>.value(<_i9.Player>[]),
+      ) as _i10.Future<List<_i9.Player>>);
 
   @override
   void resetLastPointedDocument() => super.noSuchMethod(
@@ -184,39 +224,39 @@ class MockPlayerService extends _i1.Mock implements _i6.PlayerService {
       );
 
   @override
-  _i8.Future<_i7.Player?> get(String? id) => (super.noSuchMethod(
+  _i10.Future<_i9.Player?> get(String? id) => (super.noSuchMethod(
         Invocation.method(
           #get,
           [id],
         ),
-        returnValue: _i8.Future<_i7.Player?>.value(),
-      ) as _i8.Future<_i7.Player?>);
+        returnValue: _i10.Future<_i9.Player?>.value(),
+      ) as _i10.Future<_i9.Player?>);
 
   @override
-  _i8.Future<void> delete(String? id) => (super.noSuchMethod(
+  _i10.Future<void> delete(String? id) => (super.noSuchMethod(
         Invocation.method(
           #delete,
           [id],
         ),
-        returnValue: _i8.Future<void>.value(),
-        returnValueForMissingStub: _i8.Future<void>.value(),
-      ) as _i8.Future<void>);
+        returnValue: _i10.Future<void>.value(),
+        returnValueForMissingStub: _i10.Future<void>.value(),
+      ) as _i10.Future<void>);
 
   @override
-  _i8.Future<void> update(_i7.Player? t) => (super.noSuchMethod(
+  _i10.Future<void> update(_i9.Player? t) => (super.noSuchMethod(
         Invocation.method(
           #update,
           [t],
         ),
-        returnValue: _i8.Future<void>.value(),
-        returnValueForMissingStub: _i8.Future<void>.value(),
-      ) as _i8.Future<void>);
+        returnValue: _i10.Future<void>.value(),
+        returnValueForMissingStub: _i10.Future<void>.value(),
+      ) as _i10.Future<void>);
 }
 
 /// A class which mocks [AuthService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockAuthService extends _i1.Mock implements _i13.AuthService {
+class MockAuthService extends _i1.Mock implements _i15.AuthService {
   MockAuthService() {
     _i1.throwOnMissingStub(this);
   }
@@ -234,33 +274,33 @@ class MockAuthService extends _i1.Mock implements _i13.AuthService {
       ) as bool);
 
   @override
-  _i8.Future<String> googleLogIn() => (super.noSuchMethod(
+  _i10.Future<String> googleLogIn() => (super.noSuchMethod(
         Invocation.method(
           #googleLogIn,
           [],
         ),
-        returnValue: _i8.Future<String>.value(_i9.dummyValue<String>(
+        returnValue: _i10.Future<String>.value(_i11.dummyValue<String>(
           this,
           Invocation.method(
             #googleLogIn,
             [],
           ),
         )),
-      ) as _i8.Future<String>);
+      ) as _i10.Future<String>);
 
   @override
-  _i8.Future<void> sendSignInWithEmailLink(String? email) =>
+  _i10.Future<void> sendSignInWithEmailLink(String? email) =>
       (super.noSuchMethod(
         Invocation.method(
           #sendSignInWithEmailLink,
           [email],
         ),
-        returnValue: _i8.Future<void>.value(),
-        returnValueForMissingStub: _i8.Future<void>.value(),
-      ) as _i8.Future<void>);
+        returnValue: _i10.Future<void>.value(),
+        returnValueForMissingStub: _i10.Future<void>.value(),
+      ) as _i10.Future<void>);
 
   @override
-  _i8.Future<String> signInWithEmailLink(
+  _i10.Future<String> signInWithEmailLink(
     String? email,
     String? link,
   ) =>
@@ -272,7 +312,7 @@ class MockAuthService extends _i1.Mock implements _i13.AuthService {
             link,
           ],
         ),
-        returnValue: _i8.Future<String>.value(_i9.dummyValue<String>(
+        returnValue: _i10.Future<String>.value(_i11.dummyValue<String>(
           this,
           Invocation.method(
             #signInWithEmailLink,
@@ -282,10 +322,10 @@ class MockAuthService extends _i1.Mock implements _i13.AuthService {
             ],
           ),
         )),
-      ) as _i8.Future<String>);
+      ) as _i10.Future<String>);
 
   @override
-  _i8.Future<String> validatePhoneNumber(
+  _i10.Future<String> validatePhoneNumber(
     String? smsCode,
     String? verificationId,
   ) =>
@@ -297,7 +337,7 @@ class MockAuthService extends _i1.Mock implements _i13.AuthService {
             verificationId,
           ],
         ),
-        returnValue: _i8.Future<String>.value(_i9.dummyValue<String>(
+        returnValue: _i10.Future<String>.value(_i11.dummyValue<String>(
           this,
           Invocation.method(
             #validatePhoneNumber,
@@ -307,10 +347,10 @@ class MockAuthService extends _i1.Mock implements _i13.AuthService {
             ],
           ),
         )),
-      ) as _i8.Future<String>);
+      ) as _i10.Future<String>);
 
   @override
-  _i8.Future<dynamic> changePhoneNumber(
+  _i10.Future<dynamic> changePhoneNumber(
     String? smsCode,
     String? verificationId,
   ) =>
@@ -322,11 +362,11 @@ class MockAuthService extends _i1.Mock implements _i13.AuthService {
             verificationId,
           ],
         ),
-        returnValue: _i8.Future<dynamic>.value(),
-      ) as _i8.Future<dynamic>);
+        returnValue: _i10.Future<dynamic>.value(),
+      ) as _i10.Future<dynamic>);
 
   @override
-  _i8.Future<dynamic> resendPhoneVerificationCode(
+  _i10.Future<dynamic> resendPhoneVerificationCode(
     String? phoneNumber,
     _i5.BuildContext? context,
   ) =>
@@ -338,14 +378,14 @@ class MockAuthService extends _i1.Mock implements _i13.AuthService {
             context,
           ],
         ),
-        returnValue: _i8.Future<dynamic>.value(),
-      ) as _i8.Future<dynamic>);
+        returnValue: _i10.Future<dynamic>.value(),
+      ) as _i10.Future<dynamic>);
 
   @override
-  _i8.Future<dynamic> sendPhoneVerificationCode(
+  _i10.Future<dynamic> sendPhoneVerificationCode(
     String? phoneNumber,
     _i5.BuildContext? context,
-    _i13.CredentialVerificationType? credentialVerificationType,
+    _i15.CredentialVerificationType? credentialVerificationType,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -356,37 +396,37 @@ class MockAuthService extends _i1.Mock implements _i13.AuthService {
             credentialVerificationType,
           ],
         ),
-        returnValue: _i8.Future<dynamic>.value(),
-      ) as _i8.Future<dynamic>);
+        returnValue: _i10.Future<dynamic>.value(),
+      ) as _i10.Future<dynamic>);
 
   @override
-  _i8.Future<bool> isAlreadyLogin() => (super.noSuchMethod(
+  _i10.Future<bool> isAlreadyLogin() => (super.noSuchMethod(
         Invocation.method(
           #isAlreadyLogin,
           [],
         ),
-        returnValue: _i8.Future<bool>.value(false),
-      ) as _i8.Future<bool>);
+        returnValue: _i10.Future<bool>.value(false),
+      ) as _i10.Future<bool>);
 
   @override
-  _i8.Future<void> signOut(_i5.BuildContext? context) => (super.noSuchMethod(
+  _i10.Future<void> signOut(_i5.BuildContext? context) => (super.noSuchMethod(
         Invocation.method(
           #signOut,
           [context],
         ),
-        returnValue: _i8.Future<void>.value(),
-        returnValueForMissingStub: _i8.Future<void>.value(),
-      ) as _i8.Future<void>);
+        returnValue: _i10.Future<void>.value(),
+        returnValueForMissingStub: _i10.Future<void>.value(),
+      ) as _i10.Future<void>);
 
   @override
-  _i8.Future<void> changeEmail(String? newEmail) => (super.noSuchMethod(
+  _i10.Future<void> changeEmail(String? newEmail) => (super.noSuchMethod(
         Invocation.method(
           #changeEmail,
           [newEmail],
         ),
-        returnValue: _i8.Future<void>.value(),
-        returnValueForMissingStub: _i8.Future<void>.value(),
-      ) as _i8.Future<void>);
+        returnValue: _i10.Future<void>.value(),
+        returnValueForMissingStub: _i10.Future<void>.value(),
+      ) as _i10.Future<void>);
 
   @override
   _i5.Widget getCorrectLandingScreen() => (super.noSuchMethod(
@@ -404,7 +444,7 @@ class MockAuthService extends _i1.Mock implements _i13.AuthService {
       ) as _i5.Widget);
 
   @override
-  void setCurrentPlayer(_i7.Player? player) => super.noSuchMethod(
+  void setCurrentPlayer(_i9.Player? player) => super.noSuchMethod(
         Invocation.method(
           #setCurrentPlayer,
           [player],
@@ -413,16 +453,16 @@ class MockAuthService extends _i1.Mock implements _i13.AuthService {
       );
 
   @override
-  _i8.Future<bool> isAdFreeUser() => (super.noSuchMethod(
+  _i10.Future<bool> isAdFreeUser() => (super.noSuchMethod(
         Invocation.method(
           #isAdFreeUser,
           [],
         ),
-        returnValue: _i8.Future<bool>.value(false),
-      ) as _i8.Future<bool>);
+        returnValue: _i10.Future<bool>.value(false),
+      ) as _i10.Future<bool>);
 
   @override
-  void addListener(_i14.VoidCallback? listener) => super.noSuchMethod(
+  void addListener(_i16.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,
           [listener],
@@ -431,7 +471,148 @@ class MockAuthService extends _i1.Mock implements _i13.AuthService {
       );
 
   @override
-  void removeListener(_i14.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(_i16.VoidCallback? listener) => super.noSuchMethod(
+        Invocation.method(
+          #removeListener,
+          [listener],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void dispose() => super.noSuchMethod(
+        Invocation.method(
+          #dispose,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void notifyListeners() => super.noSuchMethod(
+        Invocation.method(
+          #notifyListeners,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+}
+
+/// A class which mocks [ThemeService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockThemeService extends _i1.Mock implements _i17.ThemeService {
+  MockThemeService() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i6.StorageService get storageService => (super.noSuchMethod(
+        Invocation.getter(#storageService),
+        returnValue: _FakeStorageService_3(
+          this,
+          Invocation.getter(#storageService),
+        ),
+      ) as _i6.StorageService);
+
+  @override
+  _i7.CargMaterialTheme get cargMaterialTheme => (super.noSuchMethod(
+        Invocation.getter(#cargMaterialTheme),
+        returnValue: _FakeCargMaterialTheme_4(
+          this,
+          Invocation.getter(#cargMaterialTheme),
+        ),
+      ) as _i7.CargMaterialTheme);
+
+  @override
+  _i5.ThemeData get currentThemeData => (super.noSuchMethod(
+        Invocation.getter(#currentThemeData),
+        returnValue: _FakeThemeData_5(
+          this,
+          Invocation.getter(#currentThemeData),
+        ),
+      ) as _i5.ThemeData);
+
+  @override
+  _i18.ThemeValue get currentThemeValue => (super.noSuchMethod(
+        Invocation.getter(#currentThemeValue),
+        returnValue: _i18.ThemeValue.light,
+      ) as _i18.ThemeValue);
+
+  @override
+  _i18.ContrastValue get currentContrastValue => (super.noSuchMethod(
+        Invocation.getter(#currentContrastValue),
+        returnValue: _i18.ContrastValue.none,
+      ) as _i18.ContrastValue);
+
+  @override
+  set currentContrastValue(_i18.ContrastValue? value) => super.noSuchMethod(
+        Invocation.setter(
+          #currentContrastValue,
+          value,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  set currentThemeValue(_i18.ThemeValue? value) => super.noSuchMethod(
+        Invocation.setter(
+          #currentThemeValue,
+          value,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  set currentThemeData(_i5.ThemeData? value) => super.noSuchMethod(
+        Invocation.setter(
+          #currentThemeData,
+          value,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  bool get hasListeners => (super.noSuchMethod(
+        Invocation.getter(#hasListeners),
+        returnValue: false,
+      ) as bool);
+
+  @override
+  bool showContrastPicker() => (super.noSuchMethod(
+        Invocation.method(
+          #showContrastPicker,
+          [],
+        ),
+        returnValue: false,
+      ) as bool);
+
+  @override
+  _i5.ThemeData getCurrentThemeData() => (super.noSuchMethod(
+        Invocation.method(
+          #getCurrentThemeData,
+          [],
+        ),
+        returnValue: _FakeThemeData_5(
+          this,
+          Invocation.method(
+            #getCurrentThemeData,
+            [],
+          ),
+        ),
+      ) as _i5.ThemeData);
+
+  @override
+  void addListener(_i16.VoidCallback? listener) => super.noSuchMethod(
+        Invocation.method(
+          #addListener,
+          [listener],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void removeListener(_i16.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #removeListener,
           [listener],

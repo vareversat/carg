@@ -1,4 +1,5 @@
 import 'package:carg/const.dart';
+import 'package:carg/l10n/app_localizations.dart';
 import 'package:carg/models/team.dart';
 import 'package:carg/services/auth/auth_service.dart';
 import 'package:carg/services/player/abstract_player_service.dart';
@@ -6,7 +7,6 @@ import 'package:carg/services/team/abstract_team_service.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/views/widgets/team_stat_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:carg/l10n/app_localizations.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
 
@@ -85,8 +85,7 @@ class _TeamListTabWidget extends State<TeamListTab> {
         widget.teamService.resetLastPointedDocument();
         _reset();
       }),
-      backgroundColor: Theme.of(context).primaryColor,
-      color: Theme.of(context).cardColor,
+      backgroundColor: Theme.of(context).colorScheme.primary,
       displacement: 20,
       strokeWidth: 3,
       child: PagedListView<int, Team>(

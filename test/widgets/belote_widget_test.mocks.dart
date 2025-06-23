@@ -977,16 +977,18 @@ class MockAbstractBeloteRoundService<
       ) as T);
 
   @override
-  _i19.Future<void> editLastRoundOfScoreByGameId(
+  _i19.Future<void> editGameRound(
     String? gameId,
     T? round,
+    int? index,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
-          #editLastRoundOfScoreByGameId,
+          #editGameRound,
           [
             gameId,
             round,
+            index,
           ],
         ),
         returnValue: _i19.Future<void>.value(),
@@ -994,11 +996,17 @@ class MockAbstractBeloteRoundService<
       ) as _i19.Future<void>);
 
   @override
-  _i19.Future<void> deleteLastRoundOfScoreByGameId(String? gameId) =>
+  _i19.Future<void> deleteGameRound(
+    String? gameId,
+    int? index,
+  ) =>
       (super.noSuchMethod(
         Invocation.method(
-          #deleteLastRoundOfScoreByGameId,
-          [gameId],
+          #deleteGameRound,
+          [
+            gameId,
+            index,
+          ],
         ),
         returnValue: _i19.Future<void>.value(),
         returnValueForMissingStub: _i19.Future<void>.value(),
