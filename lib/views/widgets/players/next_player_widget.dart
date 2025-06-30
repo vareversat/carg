@@ -1,8 +1,8 @@
+import 'package:carg/l10n/app_localizations.dart';
 import 'package:carg/models/player.dart';
 import 'package:carg/services/impl/player_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:carg/l10n/app_localizations.dart';
 
 class NextPlayerWidget extends StatelessWidget {
   final String? playerId;
@@ -33,11 +33,10 @@ class NextPlayerWidget extends StatelessWidget {
             style: const TextStyle(fontStyle: FontStyle.italic),
           );
         }
-        return RichText(
-          text: TextSpan(
+        return Text.rich(
+          TextSpan(
             text:
                 '${AppLocalizations.of(context)!.messagePlayerDistributeCardsFirsPart} ',
-            style: DefaultTextStyle.of(context).style,
             children: <TextSpan>[
               TextSpan(
                 text: snapshot.data!.userName,

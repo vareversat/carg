@@ -1,4 +1,5 @@
 import 'package:carg/helpers/custom_route.dart';
+import 'package:carg/l10n/app_localizations.dart';
 import 'package:carg/models/game/game_type.dart';
 import 'package:carg/services/impl/game/coinche_belote_game_service.dart';
 import 'package:carg/services/impl/game/contree_belote_game_service.dart';
@@ -9,7 +10,6 @@ import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/screens/game_mode_picker_screen.dart';
 import 'package:carg/views/tabs/game_list_tab.dart';
 import 'package:flutter/material.dart';
-import 'package:carg/l10n/app_localizations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class GameListScreen extends StatelessWidget {
@@ -23,7 +23,7 @@ class GameListScreen extends StatelessWidget {
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(100),
           child: AppBar(
-            backgroundColor: Theme.of(context).primaryColor,
+            backgroundColor: Theme.of(context).colorScheme.primary,
             foregroundColor: Theme.of(context).colorScheme.onPrimary,
             automaticallyImplyLeading: false,
             title: Hero(
@@ -38,10 +38,10 @@ class GameListScreen extends StatelessWidget {
                   FilledButton(
                     style: ButtonStyle(
                       backgroundColor: WidgetStateProperty.all<Color>(
-                        Theme.of(context).cardColor,
+                        Theme.of(context).colorScheme.onPrimary,
                       ),
                       foregroundColor: WidgetStateProperty.all<Color>(
-                        Theme.of(context).primaryColor,
+                        Theme.of(context).colorScheme.primary,
                       ),
                       shape: WidgetStateProperty.all<OutlinedBorder>(
                         RoundedRectangleBorder(

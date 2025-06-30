@@ -1,4 +1,5 @@
 import 'package:carg/exceptions/service_exception.dart';
+import 'package:carg/l10n/app_localizations.dart';
 import 'package:carg/models/game_stats.dart';
 import 'package:carg/models/team.dart';
 import 'package:carg/services/player/abstract_player_service.dart';
@@ -8,7 +9,6 @@ import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/helpers/info_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
-import 'package:carg/l10n/app_localizations.dart';
 
 class TeamStatDialog extends StatelessWidget {
   final Team team;
@@ -47,9 +47,9 @@ class TeamStatDialog extends StatelessWidget {
 
   Color _getHintColor(BuildContext context) {
     if (team.name != null && team.name != '') {
-      return Theme.of(context).cardColor;
+      return Theme.of(context).colorScheme.onPrimary;
     } else {
-      return Colors.grey;
+      return Theme.of(context).colorScheme.inverseSurface;
     }
   }
 
@@ -65,7 +65,7 @@ class TeamStatDialog extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       title: Container(
         decoration: BoxDecoration(
-          color: Theme.of(context).primaryColor,
+          color: Theme.of(context).colorScheme.primary,
           borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(15.0),
             topRight: Radius.circular(15.0),
@@ -86,7 +86,6 @@ class TeamStatDialog extends StatelessWidget {
                   style: CustomTextStyle.dialogHeaderStyle(context),
                   decoration: InputDecoration(
                     hintStyle: TextStyle(color: _getHintColor(context)),
-                    fillColor: Colors.red,
                     hintText: _getHintText(context),
                     border: InputBorder.none,
                   ),
@@ -101,7 +100,7 @@ class TeamStatDialog extends StatelessWidget {
               child: ElevatedButton(
                 style: ButtonStyle(
                   backgroundColor: WidgetStateProperty.all<Color>(
-                    Theme.of(context).cardColor,
+                    Theme.of(context).colorScheme.onPrimary,
                   ),
                   shape: WidgetStateProperty.all<OutlinedBorder>(
                     RoundedRectangleBorder(
@@ -115,7 +114,10 @@ class TeamStatDialog extends StatelessWidget {
                 onPressed: () => {
                   FocusScope.of(context).requestFocus(focusNode),
                 },
-                child: Icon(Icons.edit, color: Theme.of(context).primaryColor),
+                child: Icon(
+                  Icons.edit,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
               ),
             ),
           ],
@@ -164,53 +166,61 @@ class TeamStatDialog extends StatelessWidget {
                 .toList()
                 .cast<Widget>(),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Flexible(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.secondary,
-                    borderRadius: BorderRadius.circular(
-                      CustomProperties.borderRadius,
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 15.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Flexible(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.inverseSurface,
+                      borderRadius: BorderRadius.circular(
+                        CustomProperties.borderRadius,
+                      ),
                     ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 6.0,
-                      horizontal: 9.0,
-                    ),
-                    child: Text(
-                      AppLocalizations.of(context)!.playedGames,
-                      style: const TextStyle(fontSize: 15),
-                    ),
-                  ),
-                ),
-              ),
-              Flexible(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor,
-                    borderRadius: BorderRadius.circular(
-                      CustomProperties.borderRadius,
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 6.0,
-                      horizontal: 9.0,
-                    ),
-                    child: Text(
-                      AppLocalizations.of(context)!.wonGames,
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: Theme.of(context).cardColor,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 6.0,
+                        horizontal: 9.0,
+                      ),
+                      child: Text(
+                        AppLocalizations.of(context)!.playedGames,
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: Theme.of(context).colorScheme.onInverseSurface,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
+                Flexible(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.primaryContainer,
+                      borderRadius: BorderRadius.circular(
+                        CustomProperties.borderRadius,
+                      ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 6.0,
+                        horizontal: 9.0,
+                      ),
+                      child: Text(
+                        AppLocalizations.of(context)!.wonGames,
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.onPrimaryContainer,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -218,10 +228,6 @@ class TeamStatDialog extends StatelessWidget {
         ElevatedButton.icon(
           key: const ValueKey('closeButton'),
           style: ButtonStyle(
-            backgroundColor: WidgetStateProperty.all<Color>(Colors.white),
-            foregroundColor: WidgetStateProperty.all<Color>(
-              Theme.of(context).primaryColor,
-            ),
             shape: WidgetStateProperty.all<OutlinedBorder>(
               RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(
@@ -263,7 +269,7 @@ class _StatGauge extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.bold,
-                        color: Theme.of(context).primaryColor,
+                        color: Theme.of(context).colorScheme.primary,
                       ),
                     ),
                     const Text(
@@ -278,7 +284,7 @@ class _StatGauge extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.bold,
-                        color: Theme.of(context).colorScheme.secondary,
+                        color: Theme.of(context).colorScheme.inverseSurface,
                       ),
                     ),
                   ],
@@ -294,12 +300,12 @@ class _StatGauge extends StatelessWidget {
               GaugeRange(
                 startValue: 0,
                 endValue: gameStats!.winPercentage(),
-                color: Theme.of(context).primaryColor,
+                color: Theme.of(context).colorScheme.inverseSurface,
               ),
               GaugeRange(
                 startValue: gameStats!.winPercentage(),
                 endValue: 100,
-                color: Theme.of(context).colorScheme.secondary,
+                color: Theme.of(context).colorScheme.primaryContainer,
               ),
             ],
           ),

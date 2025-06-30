@@ -17,11 +17,22 @@ extension BeloteSpecialRoundExtension on BeloteSpecialRound {
   Color color(BuildContext context) {
     switch (this) {
       case BeloteSpecialRound.misere:
-        return Theme.of(context).primaryColor;
+        return Theme.of(context).colorScheme.primary;
       case BeloteSpecialRound.fausseDonne:
-        return Theme.of(context).primaryColor;
+        return Theme.of(context).colorScheme.secondary;
       case BeloteSpecialRound.foulPlay:
         return Theme.of(context).colorScheme.error;
+    }
+  }
+
+  Color textColor(BuildContext context) {
+    switch (this) {
+      case BeloteSpecialRound.misere:
+        return Theme.of(context).colorScheme.onPrimary;
+      case BeloteSpecialRound.fausseDonne:
+        return Theme.of(context).colorScheme.onSecondary;
+      case BeloteSpecialRound.foulPlay:
+        return Theme.of(context).colorScheme.onError;
     }
   }
 }

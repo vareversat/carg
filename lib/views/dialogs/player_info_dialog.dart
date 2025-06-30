@@ -1,3 +1,4 @@
+import 'package:carg/l10n/app_localizations.dart';
 import 'package:carg/models/game/game_type.dart';
 import 'package:carg/models/player.dart';
 import 'package:carg/services/auth/auth_service.dart';
@@ -9,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:carg/l10n/app_localizations.dart';
 
 class PlayerInfoDialog extends StatelessWidget {
   final Player player;
@@ -62,7 +62,7 @@ class PlayerInfoDialog extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       title: Container(
         decoration: BoxDecoration(
-          color: player.getSideColor(context),
+          color: player.getPrimaryColorStyle(context),
           borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(15.0),
             topRight: Radius.circular(15.0),
@@ -86,10 +86,10 @@ class PlayerInfoDialog extends StatelessWidget {
                   key: const ValueKey('copyIDButton'),
                   style: ButtonStyle(
                     backgroundColor: WidgetStateProperty.all<Color>(
-                      Colors.white,
+                      player.getSecondaryColorStyle(context),
                     ),
                     foregroundColor: WidgetStateProperty.all<Color>(
-                      player.getSideColor(context),
+                      player.getPrimaryColorStyle(context),
                     ),
                     shape: WidgetStateProperty.all<OutlinedBorder>(
                       RoundedRectangleBorder(
@@ -123,7 +123,7 @@ class PlayerInfoDialog extends StatelessWidget {
                         shape: BoxShape.circle,
                         border: Border.all(
                           width: 2,
-                          color: player.getSideColor(context),
+                          color: player.getPrimaryColorStyle(context),
                         ),
                         image: DecorationImage(
                           fit: BoxFit.fill,
@@ -151,24 +151,21 @@ class PlayerInfoDialog extends StatelessWidget {
                         decoration: InputDecoration(
                           enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
-                              color: player.getSideColor(context),
+                              color: player.getPrimaryColorStyle(context),
                               width: 2,
                             ),
                           ),
                           focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
-                              color: player.getSideColor(context),
+                              color: player.getPrimaryColorStyle(context),
                               width: 2,
                             ),
                           ),
                           disabledBorder: InputBorder.none,
                           labelStyle: TextStyle(
-                            color: player.getSideColor(context),
+                            color: player.getPrimaryColorStyle(context),
                           ),
-                          hintStyle: TextStyle(
-                            fontSize: 25,
-                            color: Theme.of(context).hintColor,
-                          ),
+                          hintStyle: TextStyle(fontSize: 25),
                           labelText: playerData.owned && isNewPlayer
                               ? AppLocalizations.of(context)!.username
                               : null,
@@ -191,17 +188,19 @@ class PlayerInfoDialog extends StatelessWidget {
                   decoration: InputDecoration(
                     enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(
-                        color: player.getSideColor(context),
+                        color: player.getPrimaryColorStyle(context),
                         width: 2,
                       ),
                     ),
                     focusedBorder: UnderlineInputBorder(
                       borderSide: BorderSide(
-                        color: player.getSideColor(context),
+                        color: player.getPrimaryColorStyle(context),
                         width: 2,
                       ),
                     ),
-                    labelStyle: TextStyle(color: player.getSideColor(context)),
+                    labelStyle: TextStyle(
+                      color: player.getPrimaryColorStyle(context),
+                    ),
                     hintStyle: TextStyle(
                       fontSize: 15,
                       color: Theme.of(context).hintColor,
@@ -250,7 +249,7 @@ class PlayerInfoDialog extends StatelessWidget {
                               ),
                               const Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 5.0),
-                                child: Icon(FontAwesomeIcons.gamepad, size: 15),
+                                child: Icon(Icons.videogame_asset, size: 15),
                               ),
                             ],
                           ),
@@ -276,10 +275,10 @@ class PlayerInfoDialog extends StatelessWidget {
             key: const ValueKey('saveButton'),
             style: ButtonStyle(
               backgroundColor: WidgetStateProperty.all<Color>(
-                player.getSideColor(context),
+                player.getPrimaryColorStyle(context),
               ),
               foregroundColor: WidgetStateProperty.all<Color>(
-                Theme.of(context).cardColor,
+                player.getSecondaryColorStyle(context),
               ),
               shape: WidgetStateProperty.all<OutlinedBorder>(
                 RoundedRectangleBorder(
@@ -297,9 +296,11 @@ class PlayerInfoDialog extends StatelessWidget {
           ElevatedButton.icon(
             key: const ValueKey('closeButton'),
             style: ButtonStyle(
-              backgroundColor: WidgetStateProperty.all<Color>(Colors.white),
+              backgroundColor: WidgetStateProperty.all<Color>(
+                player.getPrimaryColorStyle(context),
+              ),
               foregroundColor: WidgetStateProperty.all<Color>(
-                player.getSideColor(context),
+                player.getSecondaryColorStyle(context),
               ),
               shape: WidgetStateProperty.all<OutlinedBorder>(
                 RoundedRectangleBorder(

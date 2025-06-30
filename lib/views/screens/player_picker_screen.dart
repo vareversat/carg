@@ -1,18 +1,17 @@
 import 'package:carg/helpers/correct_instance.dart';
 import 'package:carg/helpers/custom_route.dart';
+import 'package:carg/l10n/app_localizations.dart';
 import 'package:carg/models/game/game.dart';
 import 'package:carg/models/player.dart';
 import 'package:carg/models/players/players.dart';
 import 'package:carg/services/auth/auth_service.dart';
 import 'package:carg/services/impl/player_service.dart';
-import 'package:carg/styles/properties.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/dialogs/dialogs.dart';
 import 'package:carg/views/screens/player_order_screen.dart';
 import 'package:carg/views/widgets/error_message_widget.dart';
 import 'package:carg/views/widgets/players/player_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:carg/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 class PlayerPickerScreen extends StatefulWidget {
@@ -64,7 +63,7 @@ class _PlayerPickerScreenState extends State<PlayerPickerScreen> {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
         child: AppBar(
-          backgroundColor: Theme.of(context).primaryColor,
+          backgroundColor: Theme.of(context).colorScheme.primary,
           foregroundColor: Theme.of(context).colorScheme.onPrimary,
           title: Text(
             widget.title!,
@@ -135,66 +134,54 @@ class _PlayerPickerScreenState extends State<PlayerPickerScreen> {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8),
-            child: ChangeNotifierProvider.value(
-              value: widget.game!.players!,
-              child: Consumer<Players>(
-                builder: (context, playersData, child) => playersData.isFull()
-                    ? SizedBox(
-                        width: double.infinity,
-                        height: 50,
-                        child: ElevatedButton(
-                          style: ButtonStyle(
-                            backgroundColor: WidgetStateProperty.all<Color>(
-                              Theme.of(context).primaryColor,
-                            ),
-                            foregroundColor: WidgetStateProperty.all<Color>(
-                              Theme.of(context).cardColor,
-                            ),
-                            shape: WidgetStateProperty.all<OutlinedBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                  CustomProperties.borderRadius,
-                                ),
-                              ),
-                            ),
-                          ),
-                          onPressed: () async => {
-                            await _getPlayers(),
-                            widget.game!.players!.reset(),
-                            Navigator.push(
-                              context,
-                              CustomRouteLeftToRight(
-                                builder: (context) => PlayerOrderScreen(
-                                  playerList: newPlayers!,
-                                  title: widget.title!,
-                                  game: widget.game!,
-                                  gameService: CorrectInstance.ofGameService(
-                                    widget.game!,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                AppLocalizations.of(context)!.playerOrder,
-                                style: const TextStyle(fontSize: 23),
-                              ),
-                              const SizedBox(width: 10),
-                              const Icon(
-                                Icons.arrow_right_alt_outlined,
-                                size: 30,
-                              ),
-                            ],
+          ChangeNotifierProvider.value(
+            value: widget.game!.players!,
+            child: Consumer<Players>(
+              builder: (context, playersData, child) => playersData.isFull()
+                  ? Container(
+                      color: Theme.of(context).colorScheme.primary,
+                      width: double.infinity,
+                      height: 80,
+                      child: TextButton(
+                        style: ButtonStyle(
+                          foregroundColor: WidgetStateProperty.all<Color>(
+                            Theme.of(context).colorScheme.onPrimary,
                           ),
                         ),
-                      )
-                    : Container(),
-              ),
+                        onPressed: () async => {
+                          await _getPlayers(),
+                          widget.game!.players!.reset(),
+                          Navigator.push(
+                            context,
+                            CustomRouteLeftToRight(
+                              builder: (context) => PlayerOrderScreen(
+                                playerList: newPlayers!,
+                                title: widget.title!,
+                                game: widget.game!,
+                                gameService: CorrectInstance.ofGameService(
+                                  widget.game!,
+                                ),
+                              ),
+                            ),
+                          ),
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              AppLocalizations.of(context)!.playerOrder,
+                              style: const TextStyle(fontSize: 23),
+                            ),
+                            const SizedBox(width: 10),
+                            const Icon(
+                              Icons.arrow_right_alt_outlined,
+                              size: 30,
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  : Container(),
             ),
           ),
         ],

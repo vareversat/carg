@@ -34,17 +34,19 @@ class PlayerWidget extends StatelessWidget {
         onPressed: () =>
             onTap == null ? _showEditPlayerDialog(context) : onTap!(),
         style: ButtonStyle(
-          backgroundColor: WidgetStateProperty.all<Color>(
-            Theme.of(context).cardColor,
+          foregroundColor: WidgetStateProperty.all<Color>(
+            Theme.of(context).colorScheme.inverseSurface,
           ),
-          foregroundColor: WidgetStateProperty.all<Color>(Colors.black),
           shape: WidgetStateProperty.all<OutlinedBorder>(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(
                 CustomProperties.borderRadius,
               ),
               side: player.selected
-                  ? BorderSide(width: 2, color: player.getSideColor(context))
+                  ? BorderSide(
+                      width: 2,
+                      color: player.getPrimaryColorStyle(context),
+                    )
                   : BorderSide.none,
             ),
           ),
@@ -66,7 +68,7 @@ class PlayerWidget extends StatelessWidget {
                         decoration: BoxDecoration(
                           border: Border.all(
                             width: 2,
-                            color: player.getSideColor(context),
+                            color: player.getPrimaryColorStyle(context),
                           ),
                           shape: BoxShape.circle,
                           image: DecorationImage(
@@ -113,7 +115,7 @@ class PlayerWidget extends StatelessWidget {
                     const SizedBox(height: 5),
                     Row(
                       children: <Widget>[
-                        const Icon(FontAwesomeIcons.gamepad, size: 13),
+                        const Icon(Icons.videogame_asset, size: 13),
                         Text(
                           '  ${player.totalPlayedGames()}',
                           style: const TextStyle(fontSize: 16),
@@ -130,7 +132,7 @@ class PlayerWidget extends StatelessWidget {
                     topRight: Radius.circular(20),
                     bottomRight: Radius.circular(20),
                   ),
-                  color: player.getSideColor(context),
+                  color: player.getPrimaryColorStyle(context),
                 ),
               ),
             ],

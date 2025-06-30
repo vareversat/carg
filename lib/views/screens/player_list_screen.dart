@@ -1,3 +1,4 @@
+import 'package:carg/l10n/app_localizations.dart';
 import 'package:carg/models/player.dart';
 import 'package:carg/services/auth/auth_service.dart';
 import 'package:carg/services/player/abstract_player_service.dart';
@@ -9,7 +10,6 @@ import 'package:carg/views/helpers/info_snackbar.dart';
 import 'package:carg/views/tabs/player_list_tab.dart';
 import 'package:carg/views/tabs/team_list_tab.dart';
 import 'package:flutter/material.dart';
-import 'package:carg/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 class PlayerListScreen extends StatefulWidget {
@@ -45,7 +45,7 @@ class _PlayerListScreenState extends State<PlayerListScreen> {
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(100),
           child: AppBar(
-            backgroundColor: Theme.of(context).primaryColor,
+            backgroundColor: Theme.of(context).colorScheme.primary,
             foregroundColor: Theme.of(context).colorScheme.onPrimary,
             actions: [
               PopupMenuButton<String>(

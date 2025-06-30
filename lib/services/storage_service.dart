@@ -1,21 +1,63 @@
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'dart:developer' as developer;
+
+import 'package:carg/const.dart';
+import 'package:carg/styles/theme/enums.dart';
+import 'package:enum_to_string/enum_to_string.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class StorageService {
-  StorageService({required this.flutterSecureStorage});
+  final SharedPreferences sharedPreferences;
 
-  final FlutterSecureStorage flutterSecureStorage;
+  StorageService({required this.sharedPreferences});
 
-  static const String storageUserEmailKey = 'userEmailAddress';
+  Future<bool> saveTheme(ThemeValue value) async {
+    developer.log(
+      '{${Const.storageThemeKey}: $value}',
+      name: 'storage-service.on.saveTheme',
+    );
 
-  Future<void> setEmail(String email) async {
-    await flutterSecureStorage.write(key: storageUserEmailKey, value: email);
+    return await sharedPreferences.setString(Const.storageThemeKey, value.name);
   }
 
-  Future<void> clearEmail() async {
-    await flutterSecureStorage.delete(key: storageUserEmailKey);
+  Future<bool> saveContrast(ContrastValue value) async {
+    developer.log(
+      '{${Const.storageContrastKey}: $value}',
+      name: 'storage-service.on.saveContrast',
+    );
+
+    return await sharedPreferences.setString(
+      Const.storageContrastKey,
+      value.name,
+    );
   }
 
-  Future<String?> getEmail() async {
-    return await flutterSecureStorage.read(key: storageUserEmailKey);
+  ThemeValue? readTheme() {
+    final stringValue = sharedPreferences.getString(Const.storageThemeKey);
+    if (stringValue == null) {
+      return null;
+    } else {
+      final value = EnumToString.fromString(ThemeValue.values, stringValue);
+      developer.log(
+        '{${Const.storageThemeKey}: $value}',
+        name: 'storage-service.on.readTheme',
+      );
+
+      return value;
+    }
+  }
+
+  ContrastValue? readContrast() {
+    final stringValue = sharedPreferences.getString(Const.storageContrastKey);
+    if (stringValue == null) {
+      return null;
+    } else {
+      final value = EnumToString.fromString(ContrastValue.values, stringValue);
+      developer.log(
+        '{${Const.storageContrastKey}: $value}',
+        name: 'storage-service.on.readContrast',
+      );
+
+      return value;
+    }
   }
 }

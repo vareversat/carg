@@ -1,3 +1,4 @@
+import 'package:carg/l10n/app_localizations.dart';
 import 'package:carg/models/game/belote_game.dart';
 import 'package:carg/models/game/french_belote.dart';
 import 'package:carg/models/game/game.dart';
@@ -5,7 +6,6 @@ import 'package:carg/models/game/game_type.dart';
 import 'package:carg/models/game/setting/belote_game_setting.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:flutter/material.dart';
-import 'package:carg/l10n/app_localizations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -35,7 +35,7 @@ class _GameInfoDialogState extends State<GameInfoDialog> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            AppLocalizations.of(context)!.numberOfPointToReach,
+            AppLocalizations.of(context)!.numberOfPointsToReach,
             style: Theme.of(context).textTheme.titleMedium,
           ),
           const SizedBox(height: 20),
@@ -44,7 +44,7 @@ class _GameInfoDialogState extends State<GameInfoDialog> {
                   key: const ValueKey("infiniteIcon"),
                   FontAwesomeIcons.infinity,
                   size: 35,
-                  color: Theme.of(context).primaryColor,
+                  color: Theme.of(context).colorScheme.primary,
                 )
               : Text(
                   key: const ValueKey("maxPointOption"),
@@ -78,7 +78,7 @@ class _GameInfoDialogState extends State<GameInfoDialog> {
                           Switch(
                             value: (widget.game.settings as BeloteGameSetting)
                                 .sumTrickPointsAndContract,
-                            activeColor: Theme.of(context).primaryColor,
+                            activeColor: Theme.of(context).colorScheme.primary,
                             onChanged: (bool value) {},
                           ),
                           Text(
@@ -98,10 +98,10 @@ class _GameInfoDialogState extends State<GameInfoDialog> {
         ElevatedButton(
           style: ButtonStyle(
             backgroundColor: WidgetStateProperty.all<Color>(
-              Theme.of(context).primaryColor,
+              Theme.of(context).colorScheme.primary,
             ),
             foregroundColor: WidgetStateProperty.all<Color>(
-              Theme.of(context).cardColor,
+              Theme.of(context).colorScheme.onPrimary,
             ),
             shape: WidgetStateProperty.all<OutlinedBorder>(
               RoundedRectangleBorder(
@@ -117,7 +117,7 @@ class _GameInfoDialogState extends State<GameInfoDialog> {
               mode: LaunchMode.inAppBrowserView,
             ),
           },
-          child: Text(AppLocalizations.of(context)!.seeTheRules),
+          child: Text(AppLocalizations.of(context)!.checkTheRules),
         ),
       ],
     );

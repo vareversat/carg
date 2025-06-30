@@ -1,9 +1,9 @@
+import 'package:carg/l10n/app_localizations.dart';
 import 'package:carg/models/game/game.dart';
 import 'package:carg/models/game/game_type.dart';
 import 'package:carg/styles/text_style.dart';
 import 'package:carg/views/dialogs/game_info_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:carg/l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 
 class PlayScreenAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -14,7 +14,7 @@ class PlayScreenAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: Theme.of(context).primaryColor,
+      backgroundColor: Theme.of(context).colorScheme.primary,
       foregroundColor: Theme.of(context).colorScheme.onPrimary,
       toolbarHeight: 80,
       actions: [

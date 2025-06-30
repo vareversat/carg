@@ -41,10 +41,10 @@ class SpecialRoundDialog extends StatelessWidget {
           ElevatedButton(
             style: ButtonStyle(
               backgroundColor: WidgetStateProperty.all<Color>(
-                Theme.of(context).primaryColor,
+                Theme.of(context).colorScheme.primary,
               ),
               foregroundColor: WidgetStateProperty.all<Color>(
-                Theme.of(context).cardColor,
+                Theme.of(context).colorScheme.onPrimary,
               ),
               shape: WidgetStateProperty.all<OutlinedBorder>(
                 RoundedRectangleBorder(
@@ -63,10 +63,10 @@ class SpecialRoundDialog extends StatelessWidget {
           ElevatedButton(
             style: ButtonStyle(
               backgroundColor: WidgetStateProperty.all<Color>(
-                Theme.of(context).primaryColor,
+                Theme.of(context).colorScheme.primary,
               ),
               foregroundColor: WidgetStateProperty.all<Color>(
-                Theme.of(context).cardColor,
+                Theme.of(context).colorScheme.onPrimary,
               ),
               shape: WidgetStateProperty.all<OutlinedBorder>(
                 RoundedRectangleBorder(
@@ -88,7 +88,7 @@ class SpecialRoundDialog extends StatelessWidget {
                 Theme.of(context).colorScheme.error,
               ),
               foregroundColor: WidgetStateProperty.all<Color>(
-                Theme.of(context).cardColor,
+                Theme.of(context).colorScheme.onError,
               ),
               shape: WidgetStateProperty.all<OutlinedBorder>(
                 RoundedRectangleBorder(

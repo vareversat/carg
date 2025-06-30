@@ -1,3 +1,4 @@
+import 'package:carg/l10n/app_localizations.dart';
 import 'package:carg/models/score/misc/belote_contract_type.dart';
 import 'package:carg/models/score/misc/contree_belote_contract_name.dart';
 import 'package:carg/models/score/round/contree_belote_round.dart';
@@ -6,7 +7,6 @@ import 'package:carg/views/screens/add_round/widget/section_title_widget.dart';
 import 'package:carg/views/screens/add_round/widget/team_game/card_color_picker_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:carg/l10n/app_localizations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -73,26 +73,10 @@ class _ContractValueTextFieldWidget extends StatelessWidget {
       key: const ValueKey('contractValueTextFieldWidget'),
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        AnimatedSize(
-          curve: Curves.ease,
-          duration: const Duration(milliseconds: 500),
-          child:
-              (contreeBeloteRound.contractType == BeloteContractType.CAPOT ||
-                  contreeBeloteRound.contractType ==
-                      BeloteContractType.GENERALE)
-              ? Icon(
-                  key: const ValueKey('lockWidget'),
-                  FontAwesomeIcons.lock,
-                  color: Theme.of(context).colorScheme.secondary,
-                  size: 20,
-                )
-              : const SizedBox(key: ValueKey('noLockWidget')),
-        ),
         SizedBox(
           width: 100,
           child: TextField(
             decoration: InputDecoration(
-              fillColor: Colors.white,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(
                   CustomProperties.borderRadius,
@@ -114,6 +98,21 @@ class _ContractValueTextFieldWidget extends StatelessWidget {
               contreeBeloteRound.contract = int.parse(value),
             },
           ),
+        ),
+        AnimatedSize(
+          curve: Curves.ease,
+          duration: const Duration(milliseconds: 500),
+          child:
+              (contreeBeloteRound.contractType == BeloteContractType.CAPOT ||
+                  contreeBeloteRound.contractType ==
+                      BeloteContractType.GENERALE)
+              ? Icon(
+                  key: const ValueKey('lockWidget'),
+                  FontAwesomeIcons.lock,
+                  color: Theme.of(context).colorScheme.secondary,
+                  size: 20,
+                )
+              : const SizedBox(key: ValueKey('noLockWidget')),
         ),
       ],
     );
@@ -144,14 +143,7 @@ class _ContractTypeWidget extends StatelessWidget {
                         key: ValueKey(
                           'contractTypeWidget-${contractType.name(context)}',
                         ),
-                        checkmarkColor: Theme.of(context).cardColor,
                         selected: roundData.contractType == contractType,
-                        selectedColor: Theme.of(context).primaryColor,
-                        labelStyle: TextStyle(
-                          color: roundData.contractType == contractType
-                              ? Theme.of(context).colorScheme.onPrimary
-                              : Theme.of(context).colorScheme.onSurface,
-                        ),
                         onPressed: () => {
                           roundData.contractType = contractType,
                         },
@@ -198,14 +190,7 @@ class _ContractNameWidget extends StatelessWidget {
                         key: ValueKey(
                           'contractNameWidget-${contractName.name}',
                         ),
-                        checkmarkColor: Theme.of(context).cardColor,
                         selected: roundData.contractName == contractName,
-                        selectedColor: Theme.of(context).primaryColor,
-                        labelStyle: TextStyle(
-                          color: roundData.contractName == contractName
-                              ? Theme.of(context).colorScheme.onPrimary
-                              : Theme.of(context).colorScheme.onSurface,
-                        ),
                         onPressed: () => {
                           roundData.contractName = contractName,
                         },

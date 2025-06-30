@@ -1,12 +1,12 @@
 import 'dart:io' show Platform;
 
 import 'package:carg/exceptions/custom_exception.dart';
+import 'package:carg/l10n/app_localizations.dart';
 import 'package:carg/services/auth/auth_service.dart';
 import 'package:carg/styles/properties.dart';
 import 'package:carg/views/helpers/info_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:carg/l10n/app_localizations.dart';
 import 'package:flutter_libphonenumber/flutter_libphonenumber.dart';
 import 'package:provider/provider.dart';
 
@@ -64,29 +64,18 @@ class _RegisterPhoneWidgetState extends State<RegisterPhoneWidget>
                           countryListData.countries![index],
                         );
                       },
-                      child: RichText(
-                        text: TextSpan(
+                      child: Text.rich(
+                        TextSpan(
                           text: countryListData.countries![index].countryName,
-                          style: TextStyle(
-                            fontFamily: DefaultTextStyle.of(
-                              context,
-                            ).style.fontFamily,
-                            fontSize: DefaultTextStyle.of(
-                              context,
-                            ).style.fontSize,
-                            fontWeight: FontWeight.bold,
-                            color: DefaultTextStyle.of(context).style.color,
-                          ),
+                          style: TextStyle(fontWeight: FontWeight.bold),
                           children: <TextSpan>[
                             TextSpan(
                               text:
                                   ' (${countryListData.countries![index].countryCode}',
-                              style: DefaultTextStyle.of(context).style,
                             ),
                             TextSpan(
                               text:
                                   ' +${countryListData.countries![index].phoneCode})',
-                              style: DefaultTextStyle.of(context).style,
                             ),
                           ],
                         ),
@@ -154,11 +143,15 @@ class _RegisterPhoneWidgetState extends State<RegisterPhoneWidget>
                                 style: ButtonStyle(
                                   backgroundColor:
                                       WidgetStateProperty.all<Color>(
-                                        Theme.of(context).cardColor,
+                                        Theme.of(
+                                          context,
+                                        ).colorScheme.inverseSurface,
                                       ),
                                   foregroundColor:
                                       WidgetStateProperty.all<Color>(
-                                        Theme.of(context).primaryColor,
+                                        Theme.of(
+                                          context,
+                                        ).colorScheme.onInverseSurface,
                                       ),
                                   shape:
                                       WidgetStateProperty.all<OutlinedBorder>(
@@ -167,7 +160,7 @@ class _RegisterPhoneWidgetState extends State<RegisterPhoneWidget>
                                             width: 2,
                                             color: Theme.of(
                                               context,
-                                            ).primaryColor,
+                                            ).colorScheme.onInverseSurface,
                                           ),
                                           borderRadius: BorderRadius.circular(
                                             CustomProperties.borderRadius,
@@ -217,39 +210,34 @@ class _RegisterPhoneWidgetState extends State<RegisterPhoneWidget>
                           },
                           keyboardType: TextInputType.number,
                           decoration: InputDecoration(
-                            labelStyle: TextStyle(
-                              color: Theme.of(context).primaryColor,
-                              fontWeight: FontWeight.normal,
-                            ),
                             labelText: (phoneRegistrationData.country == null
                                 ? ''
                                 : ' ${AppLocalizations.of(context)!.example} : ${phoneRegistrationData.country?.exampleNumberMobileNational}'),
-                            fillColor: Theme.of(context).primaryColor,
                             disabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(
                                 CustomProperties.borderRadius,
                               ),
-                              borderSide: const BorderSide(
-                                color: Colors.grey,
-                                width: 2.0,
-                              ),
+                              borderSide: const BorderSide(width: 2.0),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(
                                 CustomProperties.borderRadius,
                               ),
                               borderSide: BorderSide(
-                                color: Theme.of(context).primaryColor,
                                 width: 2.0,
+                                color: Theme.of(context).colorScheme.primary,
                               ),
                             ),
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(
                                 CustomProperties.borderRadius,
                               ),
+
                               borderSide: BorderSide(
-                                color: Theme.of(context).primaryColor,
                                 width: 2.0,
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.inverseSurface,
                               ),
                             ),
                           ),

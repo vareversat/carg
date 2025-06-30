@@ -1,6 +1,8 @@
 import 'package:carg/models/player.dart';
 import 'package:carg/services/auth/auth_service.dart';
 import 'package:carg/services/impl/player_service.dart';
+import 'package:carg/styles/theme/enums.dart';
+import 'package:carg/styles/theme/theme_service.dart';
 import 'package:carg/views/screens/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -12,21 +14,27 @@ import 'package:provider/provider.dart';
 import 'localized_testable_widget.dart';
 import 'settings_screen_test.mocks.dart';
 
-Widget testableWidget(AuthService mockAuthService, PlayerService playerService,
+Widget testableWidget(
+        AuthService mockAuthService,
+        ThemeService mockThemeService,
+        PlayerService playerService,
         Player mockPlayer) =>
     localizedTestableWidget(
-      ChangeNotifierProvider<AuthService>.value(
-        value: mockAuthService,
-        child: SettingsScreen(
-          player: mockPlayer,
-          playerService: playerService,
-        ),
-      ),
+      MultiProvider(
+          providers: [
+            ChangeNotifierProvider.value(value: mockAuthService),
+            ChangeNotifierProvider.value(value: mockThemeService)
+          ],
+          child: SettingsScreen(
+            player: mockPlayer,
+            playerService: playerService,
+          )),
     );
 
-@GenerateMocks([PlayerService, AuthService])
+@GenerateMocks([PlayerService, AuthService, ThemeService])
 void main() {
   late MockAuthService authService;
+  late MockThemeService themeService;
   late MockPlayerService mockPlayerService;
   late Player mockPlayer;
 
@@ -35,15 +43,19 @@ void main() {
 
   setUp(() {
     authService = MockAuthService();
+    themeService = MockThemeService();
     mockPlayerService = MockPlayerService();
     mockPlayer = Player(owned: false, userName: 'toto', admin: true);
     when(authService.getConnectedUserEmail()).thenReturn(emailAddress);
     when(authService.getConnectedUserPhoneNumber()).thenReturn(telephoneNumber);
+    when(themeService.showContrastPicker()).thenReturn(true);
+    when(themeService.currentThemeValue).thenReturn(ThemeValue.light);
+    when(themeService.currentContrastValue).thenReturn(ContrastValue.high);
   });
 
   testWidgets('Display the correct username', (WidgetTester tester) async {
-    await mockNetworkImagesFor(() => tester.pumpWidget(
-        testableWidget(authService, mockPlayerService, mockPlayer)));
+    await mockNetworkImagesFor(() => tester.pumpWidget(testableWidget(
+        authService, themeService, mockPlayerService, mockPlayer)));
     expect(
         tester
             .widget<TextFormField>(
@@ -55,7 +67,7 @@ void main() {
   testWidgets('Display the correct profile picture URL',
       (WidgetTester tester) async {
     await mockNetworkImagesFor(() => tester.pumpWidget(
-        testableWidget(authService, mockPlayerService, mockPlayer)));
+        testableWidget(authService, themeService, mockPlayerService, mockPlayer)));
     expect(
         tester
             .widget<TextFormField>(
@@ -67,7 +79,7 @@ void main() {
   group('URL TextField', () {
     testWidgets('is enabled', (WidgetTester tester) async {
       await mockNetworkImagesFor(() => tester.pumpWidget(
-          testableWidget(authService, mockPlayerService, mockPlayer)));
+          testableWidget(authService, themeService, mockPlayerService, mockPlayer)));
       expect(
           tester
               .widget<TextFormField>(
@@ -78,7 +90,7 @@ void main() {
 
     testWidgets('is disabled', (WidgetTester tester) async {
       await mockNetworkImagesFor(() => tester.pumpWidget(
-          testableWidget(authService, mockPlayerService, mockPlayer)));
+          testableWidget(authService, themeService, mockPlayerService, mockPlayer)));
       when(mockPlayerService.update(mockPlayer))
           .thenAnswer((_) async => Future.value());
 
@@ -95,10 +107,9 @@ void main() {
   });
 
   group('Account', () {
-
     testWidgets('Must display the phone number', (WidgetTester tester) async {
       await mockNetworkImagesFor(() => tester.pumpWidget(
-          testableWidget(authService, mockPlayerService, mockPlayer)));
+          testableWidget(authService, themeService, mockPlayerService, mockPlayer)));
       expect(tester.widget<Text>(find.byKey(const ValueKey('phoneText'))).data,
           telephoneNumber);
     });
@@ -106,7 +117,7 @@ void main() {
     testWidgets('No phone number', (WidgetTester tester) async {
       when(authService.getConnectedUserPhoneNumber()).thenReturn(null);
       await mockNetworkImagesFor(() => tester.pumpWidget(
-          testableWidget(authService, mockPlayerService, mockPlayer)));
+          testableWidget(authService, themeService, mockPlayerService, mockPlayer)));
       expect(tester.widget<Text>(find.byKey(const ValueKey('phoneText'))).data,
           'Pas de numéro de téléphone renseigné');
     });
@@ -114,7 +125,7 @@ void main() {
     testWidgets('Must display the "Admin" label', (WidgetTester tester) async {
       when(authService.getConnectedUserPhoneNumber()).thenReturn(null);
       await mockNetworkImagesFor(() => tester.pumpWidget(
-          testableWidget(authService, mockPlayerService, mockPlayer)));
+          testableWidget(authService, themeService, mockPlayerService, mockPlayer)));
       expect(find.byKey(const ValueKey('adminLabel')), findsOneWidget);
     });
 
@@ -123,7 +134,7 @@ void main() {
       mockPlayer = Player(owned: false, userName: 'toto', admin: false);
       when(authService.getConnectedUserPhoneNumber()).thenReturn(null);
       await mockNetworkImagesFor(() => tester.pumpWidget(
-          testableWidget(authService, mockPlayerService, mockPlayer)));
+          testableWidget(authService, themeService, mockPlayerService, mockPlayer)));
       expect(find.byKey(const ValueKey('adminLabel')), findsNothing);
     });
   });

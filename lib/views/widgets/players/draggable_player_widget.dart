@@ -18,7 +18,10 @@ class DraggablePlayerWidget extends StatelessWidget {
       elevation: 2,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10.0),
-        side: BorderSide(width: 2, color: Theme.of(context).primaryColor),
+        side: BorderSide(
+          width: 2,
+          color: Theme.of(context).colorScheme.primary,
+        ),
       ),
       child: Padding(
         padding: const EdgeInsets.all(10.0),
