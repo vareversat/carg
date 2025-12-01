@@ -32,13 +32,18 @@ class AuthService with ChangeNotifier {
 
   Future<String> googleLogIn() async {
     try {
-      var googleSignIn = GoogleSignIn();
+      final googleSignIn = GoogleSignIn.instance;
+      await googleSignIn.initialize();
       await googleSignIn.signOut();
-      final googleUser = (await googleSignIn.signIn())!;
-      final googleAuth = await googleUser.authentication;
+
+      final googleUser = await googleSignIn.authenticate();
+
+      final authClient = googleSignIn.authorizationClient;
+      final authorization = await authClient.authorizationForScopes(['email']);
+
       final AuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
+        accessToken: authorization?.accessToken,
+        idToken: googleUser.authentication.idToken,
       );
       _connectedUser = (await FirebaseAuth.instance.signInWithCredential(
         credential,

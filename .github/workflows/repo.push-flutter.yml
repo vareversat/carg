@@ -23,23 +23,23 @@ jobs:
   flutter-analyze:
     uses: vareversat/github-actions/.github/workflows/flutter.analyze.yml@v1.6.4
     with:
-      flutter_version: '3.32.2'
+      flutter_version: '3.38.3'
     secrets: inherit
   flutter-format:
     uses: vareversat/github-actions/.github/workflows/flutter.format.yml@v1.6.4
     with:
-      flutter_version: '3.32.2'
+      flutter_version: '3.38.3'
     secrets: inherit
   flutter-test:
     uses: vareversat/github-actions/.github/workflows/flutter.test.yml@v1.6.4
     with:
-      flutter_version: '3.32.2'
+      flutter_version: '3.38.3'
     secrets: inherit
   flutter-build:
     uses: vareversat/github-actions/.github/workflows/flutter.build.yml@v1.6.4
     needs: [ release-info ]
     with:
-      flutter_version: '3.32.2'
+      flutter_version: '3.38.3'
       java_version: '17.x'
       flutter_flavor: 'prod'
       build_android_aab: 'true'

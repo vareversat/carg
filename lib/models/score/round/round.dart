@@ -18,6 +18,6 @@ abstract class Round<S extends GameSetting> with ChangeNotifier {
   bool get isManualMode => _isManualMode;
 
   Round({this.index, this.settings, bool? isManualMode}) {
-    this._isManualMode = isManualMode ?? false;
+    _isManualMode = isManualMode ?? false;
   }
 }

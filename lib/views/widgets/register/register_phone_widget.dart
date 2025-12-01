@@ -232,7 +232,6 @@ class _RegisterPhoneWidgetState extends State<RegisterPhoneWidget>
                               borderRadius: BorderRadius.circular(
                                 CustomProperties.borderRadius,
                               ),
-
                               borderSide: BorderSide(
                                 width: 2.0,
                                 color: Theme.of(
