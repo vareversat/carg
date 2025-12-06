@@ -78,7 +78,9 @@ class _GameInfoDialogState extends State<GameInfoDialog> {
                           Switch(
                             value: (widget.game.settings as BeloteGameSetting)
                                 .sumTrickPointsAndContract,
-                            activeColor: Theme.of(context).colorScheme.primary,
+                            activeThumbColor: Theme.of(
+                              context,
+                            ).colorScheme.primary,
                             onChanged: (bool value) {},
                           ),
                           Text(

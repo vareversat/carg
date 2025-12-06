@@ -44,12 +44,37 @@ class PlayStoreIAPService extends AbstractIAPService {
   }
 
   /// If a subscription suffix is present (..#) extract the orderId.
-  String _extractOrderId(String orderId) {
-    final orderIdSplit = orderId.split('..');
-    if (orderIdSplit.isNotEmpty) {
-      orderId = orderIdSplit[0];
+  ap.SubscriptionPurchaseLineItem? _extractLineItem(
+    ap.SubscriptionPurchaseV2 order,
+  ) {
+    return order.lineItems?.firstWhere(
+      (item) => item.productId == Const.iapFreeAdsProductId,
+    );
+  }
+
+  /// If a subscription suffix is present (..#) extract the orderId.
+  String _extractOrderId(ap.SubscriptionPurchaseV2 order) {
+    var item = _extractLineItem(order);
+    if (item != null) {
+      var orderId = item.latestSuccessfulOrderId ?? "UNKNOWN";
+      final orderIdSplit = orderId.split('..');
+      if (orderIdSplit.isNotEmpty) {
+        orderId = orderIdSplit[0];
+      }
+      return orderId;
+    } else {
+      throw Exception('Unable to get the item from the order');
     }
-    return orderId;
+  }
+
+  /// Get the expiry date of the
+  DateTime _extractExpiryDate(ap.SubscriptionPurchaseV2 order) {
+    var item = _extractLineItem(order);
+    if (item != null) {
+      return DateTime.parse(item.expiryTime ?? "1970-01-01 00:00:00.000");
+    } else {
+      throw Exception('Unable to get the item from the order');
+    }
   }
 
   @override
@@ -150,31 +175,29 @@ class PlayStoreIAPService extends AbstractIAPService {
         return false;
       }
       // Fetch the purchase
-      var productPurchases = await apiPublisherAccess.purchases.subscriptions
-          .get(Const.packageId, productData.productId, token);
+      var productPurchases = await apiPublisherAccess.purchases.subscriptionsv2
+          .get(Const.packageId, token);
 
       // Make sure an order id exists
-      if (productPurchases.orderId == null) {
+      if (productPurchases.lineItems!.isEmpty) {
         developer.log(
           'Could not handle purchase without order id',
           name: 'carg.iap-playstore',
         );
         return false;
       }
-      final orderId = _extractOrderId(productPurchases.orderId!);
+      final orderId = _extractOrderId(productPurchases);
 
       final purchaseData = SubscriptionPurchase(
-        purchaseDate: DateTime.fromMillisecondsSinceEpoch(
-          int.parse(productPurchases.startTimeMillis ?? '0'),
+        purchaseDate: DateTime.parse(
+          productPurchases.startTime ?? "1970-01-01 00:00:00.000",
         ),
         orderId: orderId,
         productId: productData.productId,
-        status: subscriptionStatusFrom(productPurchases.paymentState),
+        status: subscriptionStatusFrom(productPurchases.subscriptionState),
         userId: userId,
         iapSource: IAPSourceEnum.google_play,
-        expiryDate: DateTime.fromMillisecondsSinceEpoch(
-          int.parse(productPurchases.expiryTimeMillis ?? '0'),
-        ),
+        expiryDate: _extractExpiryDate(productPurchases),
       );
 
       // Update the database
