@@ -9,11 +9,7 @@ import 'localized_testable_widget.dart';
 
 Widget testableWidget(ContreeBeloteRound contreeRound) =>
     localizedTestableWidget(
-      Scaffold(
-        body: ContractContreeWidget(
-          contreeRound: contreeRound,
-        ),
-      ),
+      Scaffold(body: ContractContreeWidget(contreeRound: contreeRound)),
     );
 
 void main() {
@@ -24,8 +20,10 @@ void main() {
 
   testWidgets("All sub widget are displayed", (WidgetTester tester) async {
     await tester.pumpWidget(testableWidget(contreeRound));
-    expect(find.byKey(const ValueKey('contractValueTextFieldWidget')),
-        findsOneWidget);
+    expect(
+      find.byKey(const ValueKey('contractValueTextFieldWidget')),
+      findsOneWidget,
+    );
     expect(find.byKey(const ValueKey('contractTypeWidget')), findsOneWidget);
     expect(find.byKey(const ValueKey('contractNameWidget')), findsOneWidget);
     expect(find.byKey(const ValueKey('cardColorPickerWidget')), findsOneWidget);
@@ -36,7 +34,8 @@ void main() {
     await tester.tap(find.byKey(const ValueKey('contractTypeWidget-Capot')));
     await tester.pumpAndSettle();
     var textField = tester.widget<TextField>(
-        find.byKey(const ValueKey('contractValueTextFieldValue')));
+      find.byKey(const ValueKey('contractValueTextFieldValue')),
+    );
     expect(textField.enabled, false);
     expect(textField.controller!.text, "162");
     expect(find.byKey(const ValueKey('lockWidget')), findsOneWidget);
@@ -48,7 +47,8 @@ void main() {
     await tester.tap(find.byKey(const ValueKey('contractTypeWidget-Générale')));
     await tester.pumpAndSettle();
     var textField = tester.widget<TextField>(
-        find.byKey(const ValueKey('contractValueTextFieldValue')));
+      find.byKey(const ValueKey('contractValueTextFieldValue')),
+    );
     expect(textField.enabled, false);
     expect(textField.controller!.text, "162");
     expect(find.byKey(const ValueKey('lockWidget')), findsOneWidget);
@@ -60,7 +60,8 @@ void main() {
     await tester.tap(find.byKey(const ValueKey('contractTypeWidget-Normal')));
     await tester.pumpAndSettle();
     var textField = tester.widget<TextField>(
-        find.byKey(const ValueKey('contractValueTextFieldValue')));
+      find.byKey(const ValueKey('contractValueTextFieldValue')),
+    );
     expect(textField.enabled, true);
     expect(find.byKey(const ValueKey('noLockWidget')), findsOneWidget);
     expect(find.byKey(const ValueKey('lockWidget')), findsNothing);

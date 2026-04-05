@@ -1,7 +1,7 @@
+import 'package:carg/l10n/app_localizations.dart';
 import 'package:carg/models/player.dart';
 import 'package:carg/models/players/belote_players.dart';
 import 'package:flutter/material.dart';
-import 'package:carg/l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -17,17 +17,19 @@ void main() {
   group('Teams are full', () {
     test('true', () {
       final belotePlayers = BelotePlayers(
-          playerList: ['player_1', 'player_2', 'player_3', 'player_4'],
-          us: 'team_1',
-          them: 'team_2');
+        playerList: ['player_1', 'player_2', 'player_3', 'player_4'],
+        us: 'team_1',
+        them: 'team_2',
+      );
       expect(belotePlayers.isFull(), true);
     });
 
     test('false', () {
       final belotePlayers = BelotePlayers(
-          playerList: ['player_1', ' ', 'player_3', 'player_4'],
-          us: 'team_1',
-          them: 'team_2');
+        playerList: ['player_1', ' ', 'player_3', 'player_4'],
+        us: 'team_1',
+        them: 'team_2',
+      );
       expect(belotePlayers.isFull(), false);
     });
   });
@@ -43,18 +45,19 @@ void main() {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          supportedLocales: const [
-            Locale('fr', ''),
-          ],
+          supportedLocales: const [Locale('fr', '')],
         ),
       );
       final context = tester.element(find.byType(Container));
       final belotePlayers = BelotePlayers(
-          playerList: ['player_1', ' ', 'player_3', 'player_4'],
-          us: 'team_1',
-          them: 'team_2');
-      expect(belotePlayers.getSelectedPlayersStatus(context),
-          'Nous 1/2 - Eux 2/2');
+        playerList: ['player_1', ' ', 'player_3', 'player_4'],
+        us: 'team_1',
+        them: 'team_2',
+      );
+      expect(
+        belotePlayers.getSelectedPlayersStatus(context),
+        'Nous 1/2 - Eux 2/2',
+      );
     });
 
     testWidgets('Teams are partially full (2/1)', (WidgetTester tester) async {
@@ -67,18 +70,19 @@ void main() {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          supportedLocales: const [
-            Locale('fr', ''),
-          ],
+          supportedLocales: const [Locale('fr', '')],
         ),
       );
       final context = tester.element(find.byType(Container));
       final belotePlayers = BelotePlayers(
-          playerList: ['player_1', 'player_2', 'player_3', ' '],
-          us: 'team_1',
-          them: 'team_2');
-      expect(belotePlayers.getSelectedPlayersStatus(context),
-          'Nous 2/2 - Eux 1/2');
+        playerList: ['player_1', 'player_2', 'player_3', ' '],
+        us: 'team_1',
+        them: 'team_2',
+      );
+      expect(
+        belotePlayers.getSelectedPlayersStatus(context),
+        'Nous 2/2 - Eux 1/2',
+      );
     });
 
     testWidgets('Teams are full', (WidgetTester tester) async {
@@ -91,40 +95,51 @@ void main() {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          supportedLocales: const [
-            Locale('fr', ''),
-          ],
+          supportedLocales: const [Locale('fr', '')],
         ),
       );
       final context = tester.element(find.byType(Container));
       final belotePlayers = BelotePlayers(
-          playerList: ['player_1', 'player_2', 'player_3', 'player_4'],
-          us: 'team_1',
-          them: 'team_2');
-      expect(belotePlayers.getSelectedPlayersStatus(context),
-          'Nous 2/2 - Eux 2/2');
+        playerList: ['player_1', 'player_2', 'player_3', 'player_4'],
+        us: 'team_1',
+        them: 'team_2',
+      );
+      expect(
+        belotePlayers.getSelectedPlayersStatus(context),
+        'Nous 2/2 - Eux 2/2',
+      );
     });
   });
 
   group('On Selected Player', () {
     test('Remove one', () {
       final belotePlayers = BelotePlayers(
-          playerList: ['player_1', 'player_2', 'player_3', 'player_4'],
-          us: 'team_1',
-          them: 'team_2');
+        playerList: ['player_1', 'player_2', 'player_3', 'player_4'],
+        us: 'team_1',
+        them: 'team_2',
+      );
       belotePlayers.onSelectedPlayer(Player(id: 'player_1', owned: true));
-      expect(
-          belotePlayers.playerList, [' ', 'player_2', 'player_3', 'player_4']);
+      expect(belotePlayers.playerList, [
+        ' ',
+        'player_2',
+        'player_3',
+        'player_4',
+      ]);
     });
 
     test('Add one', () {
       final belotePlayers = BelotePlayers(
-          playerList: [' ', 'player_2', 'player_3', 'player_4'],
-          us: 'team_1',
-          them: 'team_2');
+        playerList: [' ', 'player_2', 'player_3', 'player_4'],
+        us: 'team_1',
+        them: 'team_2',
+      );
       belotePlayers.onSelectedPlayer(Player(id: 'player_5', owned: true));
-      expect(belotePlayers.playerList,
-          ['player_5', 'player_2', 'player_3', 'player_4']);
+      expect(belotePlayers.playerList, [
+        'player_5',
+        'player_2',
+        'player_3',
+        'player_4',
+      ]);
     });
   });
 }

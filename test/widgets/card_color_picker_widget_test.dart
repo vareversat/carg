@@ -7,12 +7,8 @@ import '../units/mocks/fake_belote_round.dart';
 import 'localized_testable_widget.dart';
 
 Widget testableWidget(FakeBeloteRound beloteRound) => localizedTestableWidget(
-      Scaffold(
-        body: CardColorPickerWidget(
-          beloteRound: beloteRound,
-        ),
-      ),
-    );
+  Scaffold(body: CardColorPickerWidget(beloteRound: beloteRound)),
+);
 
 void main() {
   late FakeBeloteRound beloteRound;
@@ -23,7 +19,9 @@ void main() {
   testWidgets("Display at least 'Coeur'", (WidgetTester tester) async {
     await tester.pumpWidget(testableWidget(beloteRound));
     expect(
-        find.byKey(const ValueKey('cardColorInputChip-Cœur')), findsOneWidget);
+      find.byKey(const ValueKey('cardColorInputChip-Cœur')),
+      findsOneWidget,
+    );
     expect(find.text('Couleur (Cœur)'), findsOneWidget);
   });
 

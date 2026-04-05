@@ -9,13 +9,10 @@ import '../../mocks/fake_score.dart';
 import 'abstract_score_service_test.mocks.dart';
 
 class FakeScoreService extends AbstractScoreService {
-  FakeScoreService(
-      {required super.scoreRepository});
+  FakeScoreService({required super.scoreRepository});
 }
 
-@GenerateMocks([
-  AbstractScoreRepository,
-])
+@GenerateMocks([AbstractScoreRepository])
 void main() {
   final mockAbstractScoreRepository = MockAbstractScoreRepository();
   const uid = '123';
@@ -29,51 +26,65 @@ void main() {
   group('AbstractScoreService', () {
     group('Get score by game', () {
       test('OK', () async {
-        when(mockAbstractScoreRepository.getScoreByGame(uid))
-            .thenAnswer((_) async => Future(() => score));
-        final scoreService =
-            FakeScoreService(scoreRepository: mockAbstractScoreRepository);
+        when(
+          mockAbstractScoreRepository.getScoreByGame(uid),
+        ).thenAnswer((_) async => Future(() => score));
+        final scoreService = FakeScoreService(
+          scoreRepository: mockAbstractScoreRepository,
+        );
         expect(await scoreService.getScoreByGame(uid), score);
       });
 
       test('NOK - Exception', () {
-        final scoreService =
-            FakeScoreService(scoreRepository: mockAbstractScoreRepository);
-        expect(scoreService.getScoreByGame(null),
-            throwsA(isA<ServiceException>()));
+        final scoreService = FakeScoreService(
+          scoreRepository: mockAbstractScoreRepository,
+        );
+        expect(
+          scoreService.getScoreByGame(null),
+          throwsA(isA<ServiceException>()),
+        );
       });
     });
 
     group('Get score by game STREAM', () {
       test('OK', () {
-        when(mockAbstractScoreRepository.getScoreByGameStream(uid))
-            .thenAnswer((_) => Stream.value(score));
-        final scoreService =
-            FakeScoreService(scoreRepository: mockAbstractScoreRepository);
+        when(
+          mockAbstractScoreRepository.getScoreByGameStream(uid),
+        ).thenAnswer((_) => Stream.value(score));
+        final scoreService = FakeScoreService(
+          scoreRepository: mockAbstractScoreRepository,
+        );
         scoreService.getScoreByGameStream(uid);
       });
 
       test('NOK - Exception', () async* {
-        final scoreService =
-            FakeScoreService(scoreRepository: mockAbstractScoreRepository);
-        expect(scoreService.getScoreByGameStream(null),
-            throwsA(isA<ServiceException>()));
+        final scoreService = FakeScoreService(
+          scoreRepository: mockAbstractScoreRepository,
+        );
+        expect(
+          scoreService.getScoreByGameStream(null),
+          throwsA(isA<ServiceException>()),
+        );
       });
     });
 
     group('Delete score by game', () {
       test('OK', () async {
-        final scoreService =
-            FakeScoreService(scoreRepository: mockAbstractScoreRepository);
+        final scoreService = FakeScoreService(
+          scoreRepository: mockAbstractScoreRepository,
+        );
         await scoreService.deleteScoreByGame(uid);
         verify(mockAbstractScoreRepository.deleteScoreByGame(uid)).called(1);
       });
 
       test('NOK - Exception', () {
-        final scoreService =
-            FakeScoreService(scoreRepository: mockAbstractScoreRepository);
-        expect(scoreService.deleteScoreByGame(null),
-            throwsA(isA<ServiceException>()));
+        final scoreService = FakeScoreService(
+          scoreRepository: mockAbstractScoreRepository,
+        );
+        expect(
+          scoreService.deleteScoreByGame(null),
+          throwsA(isA<ServiceException>()),
+        );
       });
     });
   });

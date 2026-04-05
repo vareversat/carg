@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -584,6 +585,21 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get us => 'Us';
+
+  @override
+  String get useDynamicColors => 'Use device colors';
+
+  @override
+  String get dynamicColorsEnabled =>
+      'Dynamic colors enabled - using system theme';
+
+  @override
+  String get dynamicColorsDisabled =>
+      'Dynamic colors disabled - using app theme';
+
+  @override
+  String get dynamicColorsNote =>
+      'Note: Colors are extracted from your device\'s wallpaper and system settings';
 
   @override
   String get useMyGravatar => 'Use my Gravatar';

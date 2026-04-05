@@ -55,8 +55,10 @@ void main() async {
           TestWidgetsFlutterBinding.ensureInitialized();
           var helper = await AlgoliaHelper.create();
           var filter = helper.getAlgoliaFilter(false, 'player_id', null);
-          expect(filter,
-              '(owned_by:player_id OR owned:false) AND NOT testing:true');
+          expect(
+            filter,
+            '(owned_by:player_id OR owned:false) AND NOT testing:true',
+          );
         });
       });
     });

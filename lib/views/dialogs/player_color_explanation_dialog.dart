@@ -33,7 +33,7 @@ class PlayerColorExplanationDialog extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
           style: CustomTextStyle.dialogHeaderStyle(
             context,
-          ).copyWith(color: Theme.of(context).colorScheme.primary),
+          )?.copyWith(color: Theme.of(context).colorScheme.primary),
         ),
       ),
       content: ListBody(

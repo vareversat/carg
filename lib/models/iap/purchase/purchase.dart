@@ -1,6 +1,6 @@
 import 'package:carg/models/carg_object.dart';
-import 'package:carg/models/iap/product/product_type_enum.dart';
 import 'package:carg/models/iap/iap_source_enum.dart';
+import 'package:carg/models/iap/product/product_type_enum.dart';
 
 abstract class Purchase extends CargObject {
   final IAPSourceEnum iapSource;
