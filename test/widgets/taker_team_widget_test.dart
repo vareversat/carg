@@ -7,12 +7,8 @@ import '../units/mocks/fake_belote_round.dart';
 import 'localized_testable_widget.dart';
 
 Widget testableWidget(FakeBeloteRound beloteRound) => localizedTestableWidget(
-      Scaffold(
-        body: TakerTeamWidget(
-          beloteRound: beloteRound,
-        ),
-      ),
-    );
+  Scaffold(body: TakerTeamWidget(beloteRound: beloteRound)),
+);
 
 void main() {
   late FakeBeloteRound beloteRound;

@@ -7,28 +7,36 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   final gameSettingAddToContract = ContreeBeloteGameSetting(
-      maxPoint: 1000, isInfinite: false, sumTrickPointsAndContract: true);
+    maxPoint: 1000,
+    isInfinite: false,
+    sumTrickPointsAndContract: true,
+  );
   final gameSettingNoAddToContract = ContreeBeloteGameSetting(
-      maxPoint: 1000, isInfinite: false, sumTrickPointsAndContract: false);
+    maxPoint: 1000,
+    isInfinite: false,
+    sumTrickPointsAndContract: false,
+  );
 
   group('ContreeRound', () {
     test('Is contract fulfilled', () {
       final contreeRound = ContreeBeloteRound(
-          taker: BeloteTeamEnum.US,
-          defender: BeloteTeamEnum.THEM,
-          usTrickScore: 110,
-          themTrickScore: 50,
-          settings: gameSettingAddToContract);
+        taker: BeloteTeamEnum.US,
+        defender: BeloteTeamEnum.THEM,
+        usTrickScore: 110,
+        themTrickScore: 50,
+        settings: gameSettingAddToContract,
+      );
       expect(contreeRound.contractFulfilled, true);
     });
 
     test('Compute score - Set contract', () {
       final contreeRound = ContreeBeloteRound(
-          taker: BeloteTeamEnum.US,
-          defender: BeloteTeamEnum.THEM,
-          usTrickScore: 110,
-          themTrickScore: 50,
-          settings: gameSettingAddToContract);
+        taker: BeloteTeamEnum.US,
+        defender: BeloteTeamEnum.THEM,
+        usTrickScore: 110,
+        themTrickScore: 50,
+        settings: gameSettingAddToContract,
+      );
       contreeRound.dixDeDer = BeloteTeamEnum.US;
       contreeRound.beloteRebelote = null;
       contreeRound.contractName = ContreeBeloteContractName.NORMAL;
@@ -40,11 +48,12 @@ void main() {
 
     test('Compute score - Set contract', () {
       final contreeRound = ContreeBeloteRound(
-          taker: BeloteTeamEnum.US,
-          defender: BeloteTeamEnum.THEM,
-          usTrickScore: 110,
-          themTrickScore: 50,
-          settings: gameSettingNoAddToContract);
+        taker: BeloteTeamEnum.US,
+        defender: BeloteTeamEnum.THEM,
+        usTrickScore: 110,
+        themTrickScore: 50,
+        settings: gameSettingNoAddToContract,
+      );
       contreeRound.dixDeDer = BeloteTeamEnum.US;
       contreeRound.beloteRebelote = null;
       contreeRound.contractName = ContreeBeloteContractName.NORMAL;
@@ -56,11 +65,12 @@ void main() {
 
     test('Compute score - fulfilled', () {
       final contreeRound = ContreeBeloteRound(
-          taker: BeloteTeamEnum.US,
-          defender: BeloteTeamEnum.THEM,
-          usTrickScore: 110,
-          themTrickScore: 50,
-          settings: gameSettingAddToContract);
+        taker: BeloteTeamEnum.US,
+        defender: BeloteTeamEnum.THEM,
+        usTrickScore: 110,
+        themTrickScore: 50,
+        settings: gameSettingAddToContract,
+      );
       contreeRound.dixDeDer = BeloteTeamEnum.US;
       contreeRound.beloteRebelote = null;
       contreeRound.contractName = ContreeBeloteContractName.NORMAL;
@@ -73,11 +83,12 @@ void main() {
 
     test('Compute score - fulfilled', () {
       final contreeRound = ContreeBeloteRound(
-          taker: BeloteTeamEnum.US,
-          defender: BeloteTeamEnum.THEM,
-          usTrickScore: 110,
-          themTrickScore: 50,
-          settings: gameSettingNoAddToContract);
+        taker: BeloteTeamEnum.US,
+        defender: BeloteTeamEnum.THEM,
+        usTrickScore: 110,
+        themTrickScore: 50,
+        settings: gameSettingNoAddToContract,
+      );
       contreeRound.dixDeDer = BeloteTeamEnum.US;
       contreeRound.beloteRebelote = null;
       contreeRound.contractName = ContreeBeloteContractName.NORMAL;
@@ -90,11 +101,12 @@ void main() {
 
     test('Compute score - fulfilled - BeloteRebelote - US', () {
       final contreeRound = ContreeBeloteRound(
-          taker: BeloteTeamEnum.US,
-          defender: BeloteTeamEnum.THEM,
-          usTrickScore: 110,
-          themTrickScore: 50,
-          settings: gameSettingAddToContract);
+        taker: BeloteTeamEnum.US,
+        defender: BeloteTeamEnum.THEM,
+        usTrickScore: 110,
+        themTrickScore: 50,
+        settings: gameSettingAddToContract,
+      );
       contreeRound.dixDeDer = BeloteTeamEnum.THEM;
       contreeRound.beloteRebelote = BeloteTeamEnum.US;
       contreeRound.contractName = ContreeBeloteContractName.NORMAL;
@@ -107,11 +119,12 @@ void main() {
 
     test('Compute score - fulfilled - BeloteRebelote - THEM', () {
       final contreeRound = ContreeBeloteRound(
-          taker: BeloteTeamEnum.US,
-          defender: BeloteTeamEnum.THEM,
-          usTrickScore: 110,
-          themTrickScore: 50,
-          settings: gameSettingAddToContract);
+        taker: BeloteTeamEnum.US,
+        defender: BeloteTeamEnum.THEM,
+        usTrickScore: 110,
+        themTrickScore: 50,
+        settings: gameSettingAddToContract,
+      );
       contreeRound.dixDeDer = BeloteTeamEnum.US;
       contreeRound.beloteRebelote = BeloteTeamEnum.THEM;
       contreeRound.contractName = ContreeBeloteContractName.NORMAL;
@@ -124,11 +137,12 @@ void main() {
 
     test('Compute score - fulfilled - Dix de Der - US', () {
       final contreeRound = ContreeBeloteRound(
-          taker: BeloteTeamEnum.US,
-          defender: BeloteTeamEnum.THEM,
-          usTrickScore: 110,
-          themTrickScore: 50,
-          settings: gameSettingAddToContract);
+        taker: BeloteTeamEnum.US,
+        defender: BeloteTeamEnum.THEM,
+        usTrickScore: 110,
+        themTrickScore: 50,
+        settings: gameSettingAddToContract,
+      );
       contreeRound.beloteRebelote = null;
       contreeRound.dixDeDer = BeloteTeamEnum.US;
       contreeRound.contractName = ContreeBeloteContractName.NORMAL;
@@ -141,11 +155,12 @@ void main() {
 
     test('Compute score - fulfilled - Dix de Der - THEM', () {
       final contreeRound = ContreeBeloteRound(
-          taker: BeloteTeamEnum.US,
-          defender: BeloteTeamEnum.THEM,
-          usTrickScore: 110,
-          themTrickScore: 50,
-          settings: gameSettingAddToContract);
+        taker: BeloteTeamEnum.US,
+        defender: BeloteTeamEnum.THEM,
+        usTrickScore: 110,
+        themTrickScore: 50,
+        settings: gameSettingAddToContract,
+      );
       contreeRound.beloteRebelote = null;
       contreeRound.dixDeDer = BeloteTeamEnum.THEM;
       contreeRound.contractName = ContreeBeloteContractName.NORMAL;
@@ -158,11 +173,12 @@ void main() {
 
     test('Compute score - Contract - Contre', () {
       final contreeRound = ContreeBeloteRound(
-          taker: BeloteTeamEnum.US,
-          defender: BeloteTeamEnum.THEM,
-          usTrickScore: 110,
-          themTrickScore: 50,
-          settings: gameSettingAddToContract);
+        taker: BeloteTeamEnum.US,
+        defender: BeloteTeamEnum.THEM,
+        usTrickScore: 110,
+        themTrickScore: 50,
+        settings: gameSettingAddToContract,
+      );
       contreeRound.beloteRebelote = null;
       contreeRound.dixDeDer = BeloteTeamEnum.US;
       contreeRound.contractName = ContreeBeloteContractName.CONTRE;
@@ -175,11 +191,12 @@ void main() {
 
     test('Compute score - Contract - Sur Contré', () {
       final contreeRound = ContreeBeloteRound(
-          taker: BeloteTeamEnum.US,
-          defender: BeloteTeamEnum.THEM,
-          usTrickScore: 110,
-          themTrickScore: 50,
-          settings: gameSettingAddToContract);
+        taker: BeloteTeamEnum.US,
+        defender: BeloteTeamEnum.THEM,
+        usTrickScore: 110,
+        themTrickScore: 50,
+        settings: gameSettingAddToContract,
+      );
       contreeRound.beloteRebelote = null;
       contreeRound.dixDeDer = BeloteTeamEnum.US;
       contreeRound.contractName = ContreeBeloteContractName.SURCONTRE;
@@ -191,11 +208,12 @@ void main() {
 
     test('Compute score - failed', () {
       final contreeRound = ContreeBeloteRound(
-          taker: BeloteTeamEnum.US,
-          defender: BeloteTeamEnum.THEM,
-          usTrickScore: 110,
-          themTrickScore: 50,
-          settings: gameSettingAddToContract);
+        taker: BeloteTeamEnum.US,
+        defender: BeloteTeamEnum.THEM,
+        usTrickScore: 110,
+        themTrickScore: 50,
+        settings: gameSettingAddToContract,
+      );
       contreeRound.taker = BeloteTeamEnum.THEM;
       contreeRound.defender = BeloteTeamEnum.US;
       contreeRound.beloteRebelote = null;
@@ -210,11 +228,12 @@ void main() {
 
     test('Compute score - fulfilled - Dix de Der - US - Capot', () {
       final contreeRound = ContreeBeloteRound(
-          taker: BeloteTeamEnum.US,
-          defender: BeloteTeamEnum.THEM,
-          usTrickScore: 110,
-          themTrickScore: 50,
-          settings: gameSettingAddToContract);
+        taker: BeloteTeamEnum.US,
+        defender: BeloteTeamEnum.THEM,
+        usTrickScore: 110,
+        themTrickScore: 50,
+        settings: gameSettingAddToContract,
+      );
       contreeRound.taker = BeloteTeamEnum.US;
       contreeRound.defender = BeloteTeamEnum.THEM;
       contreeRound.usTrickScore = 152;
@@ -231,11 +250,12 @@ void main() {
 
     test('Compute score - fulfilled - Dix de Der - US - Capot failed', () {
       final contreeRound = ContreeBeloteRound(
-          taker: BeloteTeamEnum.US,
-          defender: BeloteTeamEnum.THEM,
-          usTrickScore: 110,
-          themTrickScore: 50,
-          settings: gameSettingAddToContract);
+        taker: BeloteTeamEnum.US,
+        defender: BeloteTeamEnum.THEM,
+        usTrickScore: 110,
+        themTrickScore: 50,
+        settings: gameSettingAddToContract,
+      );
       contreeRound.taker = BeloteTeamEnum.US;
       contreeRound.defender = BeloteTeamEnum.THEM;
       contreeRound.usTrickScore = 140;
@@ -252,11 +272,12 @@ void main() {
 
     test('Compute score - fulfilled - Dix de Der - US - Generale', () {
       final contreeRound = ContreeBeloteRound(
-          taker: BeloteTeamEnum.US,
-          defender: BeloteTeamEnum.THEM,
-          usTrickScore: 110,
-          themTrickScore: 50,
-          settings: gameSettingAddToContract);
+        taker: BeloteTeamEnum.US,
+        defender: BeloteTeamEnum.THEM,
+        usTrickScore: 110,
+        themTrickScore: 50,
+        settings: gameSettingAddToContract,
+      );
       contreeRound.taker = BeloteTeamEnum.US;
       contreeRound.defender = BeloteTeamEnum.THEM;
       contreeRound.usTrickScore = 152;
@@ -273,11 +294,12 @@ void main() {
 
     test('Compute score - fulfilled - Dix de Der - US - Failed generale', () {
       final contreeRound = ContreeBeloteRound(
-          taker: BeloteTeamEnum.US,
-          defender: BeloteTeamEnum.THEM,
-          usTrickScore: 110,
-          themTrickScore: 50,
-          settings: gameSettingAddToContract);
+        taker: BeloteTeamEnum.US,
+        defender: BeloteTeamEnum.THEM,
+        usTrickScore: 110,
+        themTrickScore: 50,
+        settings: gameSettingAddToContract,
+      );
       contreeRound.taker = BeloteTeamEnum.US;
       contreeRound.defender = BeloteTeamEnum.THEM;
       contreeRound.usTrickScore = 152;
@@ -294,13 +316,13 @@ void main() {
 
     test('Manual mode', () {
       final coincheRound = ContreeBeloteRound(
-          taker: BeloteTeamEnum.US,
-          defender: BeloteTeamEnum.THEM,
-          takerScore: 101,
-          defenderScore: 61,
-          contract: 100,
-          settings: gameSettingAddToContract,
-          isManualMode: true
+        taker: BeloteTeamEnum.US,
+        defender: BeloteTeamEnum.THEM,
+        takerScore: 101,
+        defenderScore: 61,
+        contract: 100,
+        settings: gameSettingAddToContract,
+        isManualMode: true,
       );
       expect(coincheRound.takerScore, 101);
       expect(coincheRound.defenderScore, 61);

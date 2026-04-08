@@ -1,8 +1,8 @@
+import 'package:carg/l10n/app_localizations.dart';
 import 'package:carg/models/score/misc/tarot_contract.dart';
 import 'package:carg/models/score/round/tarot_round.dart';
 import 'package:carg/views/screens/add_round/widget/section_title_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:carg/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 class ContractTarotWidget extends StatelessWidget {

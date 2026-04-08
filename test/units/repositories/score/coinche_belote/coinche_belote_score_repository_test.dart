@@ -10,25 +10,27 @@ import 'coinche_belote_score_repository_test.mocks.dart';
 const uid = '123';
 const userId = '123_user';
 const gameId = '123_game';
-const coincheBeloteScoreJson = {
-  'id': uid,
-  'game': gameId,
-};
+const coincheBeloteScoreJson = {'id': uid, 'game': gameId};
 final expectedScore = CoincheBeloteScore(id: uid, game: gameId);
 
 Map<String, dynamic> dataFunction() => {};
 
-@GenerateMocks([
-  FirebaseFirestore,
-  CollectionReference,
-  DocumentReference,
-  DocumentSnapshot,
-  QuerySnapshot,
-  Query,
-], customMocks: [
-  MockSpec<QueryDocumentSnapshot>(
-      unsupportedMembers: {#data}, fallbackGenerators: {#data: dataFunction})
-])
+@GenerateMocks(
+  [
+    FirebaseFirestore,
+    CollectionReference,
+    DocumentReference,
+    DocumentSnapshot,
+    QuerySnapshot,
+    Query,
+  ],
+  customMocks: [
+    MockSpec<QueryDocumentSnapshot>(
+      unsupportedMembers: {#data},
+      fallbackGenerators: {#data: dataFunction},
+    ),
+  ],
+)
 void main() {
   final instance = MockFirebaseFirestore();
   final mockQuery = MockQuery<Map<String, dynamic>>();
@@ -54,31 +56,40 @@ void main() {
     group('Get Player', () {
       test('DEV', () async {
         var collection = 'coinche-score-dev';
-        when(instance.collection(collection))
-            .thenReturn(mockCollectionReference);
-        when(mockCollectionReference.doc(uid))
-            .thenReturn(mockDocumentReference);
-        when(mockDocumentReference.get())
-            .thenAnswer((_) async => mockDocumentSnapshot);
+        when(
+          instance.collection(collection),
+        ).thenReturn(mockCollectionReference);
+        when(
+          mockCollectionReference.doc(uid),
+        ).thenReturn(mockDocumentReference);
+        when(
+          mockDocumentReference.get(),
+        ).thenAnswer((_) async => mockDocumentSnapshot);
         when(mockDocumentSnapshot.data()).thenReturn(coincheBeloteScoreJson);
         when(mockDocumentSnapshot.id).thenReturn(uid);
-        final coincheBeloteScoreRepository =
-            CoincheBeloteScoreRepository(provider: instance);
+        final coincheBeloteScoreRepository = CoincheBeloteScoreRepository(
+          provider: instance,
+        );
         final coincheBeloteScore = await coincheBeloteScoreRepository.get(uid);
         expect(coincheBeloteScore, expectedScore);
       });
       test('PROD', () async {
         var collection = 'coinche-score-prod';
-        when(instance.collection(collection))
-            .thenReturn(mockCollectionReference);
-        when(mockCollectionReference.doc(uid))
-            .thenReturn(mockDocumentReference);
-        when(mockDocumentReference.get())
-            .thenAnswer((_) async => mockDocumentSnapshot);
+        when(
+          instance.collection(collection),
+        ).thenReturn(mockCollectionReference);
+        when(
+          mockCollectionReference.doc(uid),
+        ).thenReturn(mockDocumentReference);
+        when(
+          mockDocumentReference.get(),
+        ).thenAnswer((_) async => mockDocumentSnapshot);
         when(mockDocumentSnapshot.data()).thenReturn(coincheBeloteScoreJson);
         when(mockDocumentSnapshot.id).thenReturn(uid);
         final coincheBeloteScoreRepository = CoincheBeloteScoreRepository(
-            provider: instance, environment: 'prod');
+          provider: instance,
+          environment: 'prod',
+        );
         final coincheBeloteScore = await coincheBeloteScoreRepository.get(uid);
         expect(coincheBeloteScore, expectedScore);
       });
@@ -87,36 +98,45 @@ void main() {
     group('Get Score by game', () {
       test('DEV', () async {
         var collection = 'coinche-score-dev';
-        when(instance.collection(collection))
-            .thenReturn(mockCollectionReference);
-        when(mockCollectionReference.where('game', isEqualTo: gameId))
-            .thenReturn(mockQuery);
+        when(
+          instance.collection(collection),
+        ).thenReturn(mockCollectionReference);
+        when(
+          mockCollectionReference.where('game', isEqualTo: gameId),
+        ).thenReturn(mockQuery);
         when(mockQuery.get()).thenAnswer((_) async => mockQuerySnapshot);
         when(mockQuerySnapshot.docs).thenReturn([mockQueryDocumentSnapshot]);
-        when(mockQueryDocumentSnapshot.data())
-            .thenReturn(coincheBeloteScoreJson);
+        when(
+          mockQueryDocumentSnapshot.data(),
+        ).thenReturn(coincheBeloteScoreJson);
         when(mockQueryDocumentSnapshot.id).thenReturn(uid);
-        final coincheBeloteScoreRepository =
-            CoincheBeloteScoreRepository(provider: instance);
-        final coincheBeloteScore =
-            await coincheBeloteScoreRepository.getScoreByGame(gameId);
+        final coincheBeloteScoreRepository = CoincheBeloteScoreRepository(
+          provider: instance,
+        );
+        final coincheBeloteScore = await coincheBeloteScoreRepository
+            .getScoreByGame(gameId);
         expect(coincheBeloteScore, expectedScore);
       });
       test('PROD', () async {
         var collection = 'coinche-score-prod';
-        when(instance.collection(collection))
-            .thenReturn(mockCollectionReference);
-        when(mockCollectionReference.where('game', isEqualTo: gameId))
-            .thenReturn(mockQuery);
+        when(
+          instance.collection(collection),
+        ).thenReturn(mockCollectionReference);
+        when(
+          mockCollectionReference.where('game', isEqualTo: gameId),
+        ).thenReturn(mockQuery);
         when(mockQuery.get()).thenAnswer((_) async => mockQuerySnapshot);
         when(mockQuerySnapshot.docs).thenReturn([mockQueryDocumentSnapshot]);
-        when(mockQueryDocumentSnapshot.data())
-            .thenReturn(coincheBeloteScoreJson);
+        when(
+          mockQueryDocumentSnapshot.data(),
+        ).thenReturn(coincheBeloteScoreJson);
         when(mockQueryDocumentSnapshot.id).thenReturn(uid);
         final coincheBeloteScoreRepository = CoincheBeloteScoreRepository(
-            provider: instance, environment: 'prod');
-        final coincheBeloteScore =
-            await coincheBeloteScoreRepository.getScoreByGame(gameId);
+          provider: instance,
+          environment: 'prod',
+        );
+        final coincheBeloteScore = await coincheBeloteScoreRepository
+            .getScoreByGame(gameId);
         expect(coincheBeloteScore, expectedScore);
       });
     });

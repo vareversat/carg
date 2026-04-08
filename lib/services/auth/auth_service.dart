@@ -5,6 +5,7 @@ import 'dart:async';
 import 'package:carg/const.dart';
 import 'package:carg/exceptions/custom_exception.dart';
 import 'package:carg/helpers/custom_route.dart';
+import 'package:carg/l10n/app_localizations.dart';
 import 'package:carg/models/player.dart';
 import 'package:carg/repositories/impl/iap_repository.dart';
 import 'package:carg/services/impl/player_service.dart';
@@ -16,7 +17,6 @@ import 'package:carg/views/screens/register/welcome_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:carg/l10n/app_localizations.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService with ChangeNotifier {

@@ -1,7 +1,7 @@
+import 'package:carg/l10n/app_localizations.dart';
 import 'package:carg/models/score/french_belote_score.dart';
 import 'package:carg/services/impl/score/french_belote_score_service.dart';
 import 'package:flutter/material.dart';
-import 'package:carg/l10n/app_localizations.dart';
 
 class BeloteRoundWidget extends StatefulWidget {
   final String beloteGameId;

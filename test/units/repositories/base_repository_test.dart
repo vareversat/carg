@@ -8,11 +8,12 @@ import 'package:mockito/mockito.dart';
 import 'base_repository_test.mocks.dart';
 
 class FakeBaseRepository extends BaseRepository {
-  FakeBaseRepository(
-      {required super.database,
-      required super.environment,
-      required super.provider,
-      super.lastFetchGameDocument});
+  FakeBaseRepository({
+    required super.database,
+    required super.environment,
+    required super.provider,
+    super.lastFetchGameDocument,
+  });
 
   @override
   Future<CargObject?> get(String id) {
@@ -33,17 +34,22 @@ const uid = '123';
 
 Map<String, dynamic> dataFunction() => {};
 
-@GenerateMocks([
-  FirebaseFirestore,
-  CollectionReference,
-  DocumentReference,
-  DocumentSnapshot,
-  QuerySnapshot,
-  Query
-], customMocks: [
-  MockSpec<QueryDocumentSnapshot>(
-      unsupportedMembers: {#data}, fallbackGenerators: {#data: dataFunction})
-])
+@GenerateMocks(
+  [
+    FirebaseFirestore,
+    CollectionReference,
+    DocumentReference,
+    DocumentSnapshot,
+    QuerySnapshot,
+    Query,
+  ],
+  customMocks: [
+    MockSpec<QueryDocumentSnapshot>(
+      unsupportedMembers: {#data},
+      fallbackGenerators: {#data: dataFunction},
+    ),
+  ],
+)
 void main() {
   final instance = MockFirebaseFirestore();
   final mockQuery = MockQuery<Map<String, dynamic>>();
@@ -72,7 +78,10 @@ void main() {
       when(mockCollectionReference.doc(uid)).thenReturn(mockDocumentReference);
       when(mockDocumentReference.delete()).thenAnswer((_) async => {});
       final fakeRepository = FakeBaseRepository(
-          provider: instance, database: 'fake-collection', environment: 'dev');
+        provider: instance,
+        database: 'fake-collection',
+        environment: 'dev',
+      );
       await fakeRepository.delete(uid);
     });
 
@@ -80,10 +89,14 @@ void main() {
       var collection = 'fake-collection-dev';
       when(instance.collection(collection)).thenReturn(mockCollectionReference);
       when(mockCollectionReference.doc(uid)).thenReturn(mockDocumentReference);
-      when(mockDocumentReference.update({'myField': 0}))
-          .thenAnswer((_) async => {});
+      when(
+        mockDocumentReference.update({'myField': 0}),
+      ).thenAnswer((_) async => {});
       final fakeRepository = FakeBaseRepository(
-          provider: instance, database: 'fake-collection', environment: 'dev');
+        provider: instance,
+        database: 'fake-collection',
+        environment: 'dev',
+      );
       await fakeRepository.updateField(uid, 'myField', 0);
     });
 
@@ -91,12 +104,17 @@ void main() {
       var collection = 'fake-collection-dev';
       var cargObject = FakeCargObject(id: 'myId');
       when(instance.collection(collection)).thenReturn(mockCollectionReference);
-      when(mockCollectionReference.doc('myId'))
-          .thenReturn(mockDocumentReference);
-      when(mockDocumentReference.update({'id': 'myId'}))
-          .thenAnswer((_) async => {});
+      when(
+        mockCollectionReference.doc('myId'),
+      ).thenReturn(mockDocumentReference);
+      when(
+        mockDocumentReference.update({'id': 'myId'}),
+      ).thenAnswer((_) async => {});
       final fakeRepository = FakeBaseRepository(
-          provider: instance, database: 'fake-collection', environment: 'dev');
+        provider: instance,
+        database: 'fake-collection',
+        environment: 'dev',
+      );
       await fakeRepository.update(cargObject);
     });
 
@@ -104,26 +122,39 @@ void main() {
       var collection = 'fake-collection-dev';
       var cargObject = FakeCargObject(id: 'myId');
       when(instance.collection(collection)).thenReturn(mockCollectionReference);
-      when(mockCollectionReference.doc('myId'))
-          .thenReturn(mockDocumentReference);
-      when(mockDocumentReference
-              .update({'myField': 'myValue', 'mySecondField': 0}))
-          .thenAnswer((_) async => {});
+      when(
+        mockCollectionReference.doc('myId'),
+      ).thenReturn(mockDocumentReference);
+      when(
+        mockDocumentReference.update({
+          'myField': 'myValue',
+          'mySecondField': 0,
+        }),
+      ).thenAnswer((_) async => {});
       final fakeRepository = FakeBaseRepository(
-          provider: instance, database: 'fake-collection', environment: 'dev');
-      await fakeRepository.partialUpdate(
-          cargObject, {'myField': 'myValue', 'mySecondField': 0});
+        provider: instance,
+        database: 'fake-collection',
+        environment: 'dev',
+      );
+      await fakeRepository.partialUpdate(cargObject, {
+        'myField': 'myValue',
+        'mySecondField': 0,
+      });
     });
 
     test('Create', () async {
       var collection = 'fake-collection-dev';
       var cargObject = FakeCargObject(id: 'myId');
       when(instance.collection(collection)).thenReturn(mockCollectionReference);
-      when(mockCollectionReference.add({'id': 'myId'}))
-          .thenAnswer((_) async => mockDocumentReference);
+      when(
+        mockCollectionReference.add({'id': 'myId'}),
+      ).thenAnswer((_) async => mockDocumentReference);
       when(mockDocumentReference.id).thenReturn('myId');
       final fakeRepository = FakeBaseRepository(
-          provider: instance, database: 'fake-collection', environment: 'dev');
+        provider: instance,
+        database: 'fake-collection',
+        environment: 'dev',
+      );
       final id = await fakeRepository.create(cargObject);
       expect(id, 'myId');
     });

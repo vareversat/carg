@@ -7,9 +7,15 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   final gameSettingAddToContract = CoincheBeloteGameSetting(
-      maxPoint: 1000, isInfinite: false, sumTrickPointsAndContract: true);
+    maxPoint: 1000,
+    isInfinite: false,
+    sumTrickPointsAndContract: true,
+  );
   final gameSettingNoAddToContract = CoincheBeloteGameSetting(
-      maxPoint: 1000, isInfinite: false, sumTrickPointsAndContract: false);
+    maxPoint: 1000,
+    isInfinite: false,
+    sumTrickPointsAndContract: false,
+  );
 
   group('CoincheRound', () {
     test('Is contract fulfilled', () {
@@ -304,7 +310,7 @@ void main() {
         defenderScore: 61,
         contract: 100,
         settings: gameSettingAddToContract,
-        isManualMode: true
+        isManualMode: true,
       );
       expect(coincheRound.takerScore, 101);
       expect(coincheRound.defenderScore, 61);
