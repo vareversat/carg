@@ -20,7 +20,7 @@
     "firebase-functions": "6.6.0"
   },
   "devDependencies": {
-    "firebase-functions-test": "3.4.1",
+    "firebase-functions-test": "3.5.0",
     "node-forge": "1.4.0",
     "tslint": "5.20.1",
     "typescript": "5.9.3",
