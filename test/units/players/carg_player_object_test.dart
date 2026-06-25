@@ -19,7 +19,8 @@ void main() {
   final Game game1 = CoincheBelote();
   final Game game2 = FrenchBelote();
   final Game game3 = Tarot(
-      players: TarotPlayers(playerList: ['player1', 'player2', 'player3']));
+    players: TarotPlayers(playerList: ['player1', 'player2', 'player3']),
+  );
 
   late FakeCargPlayerObject cargPlayerObject1;
 
@@ -29,42 +30,62 @@ void main() {
     });
 
     test('Get total played games', () {
-      final gameStat1 =
-          GameStats(gameType: GameType.COINCHE, wonGames: 3, playedGames: 10);
-      final gameStat2 =
-          GameStats(gameType: GameType.BELOTE, wonGames: 15, playedGames: 20);
+      final gameStat1 = GameStats(
+        gameType: GameType.COINCHE,
+        wonGames: 3,
+        playedGames: 10,
+      );
+      final gameStat2 = GameStats(
+        gameType: GameType.BELOTE,
+        wonGames: 15,
+        playedGames: 20,
+      );
       cargPlayerObject1.gameStatsList = [gameStat1, gameStat2];
       expect(cargPlayerObject1.totalPlayedGames(), 30);
     });
 
     test('Get total won games', () {
-      final gameStat1 =
-          GameStats(gameType: GameType.COINCHE, wonGames: 3, playedGames: 10);
-      final gameStat2 =
-          GameStats(gameType: GameType.BELOTE, wonGames: 15, playedGames: 20);
+      final gameStat1 = GameStats(
+        gameType: GameType.COINCHE,
+        wonGames: 3,
+        playedGames: 10,
+      );
+      final gameStat2 = GameStats(
+        gameType: GameType.BELOTE,
+        wonGames: 15,
+        playedGames: 20,
+      );
       cargPlayerObject1.gameStatsList = [gameStat1, gameStat2];
       expect(cargPlayerObject1.totalWonGames(), 18);
     });
 
     test('Get win percentage', () {
-      final gameStat1 =
-          GameStats(gameType: GameType.COINCHE, wonGames: 3, playedGames: 10);
-      final gameStat2 =
-          GameStats(gameType: GameType.BELOTE, wonGames: 15, playedGames: 20);
+      final gameStat1 = GameStats(
+        gameType: GameType.COINCHE,
+        wonGames: 3,
+        playedGames: 10,
+      );
+      final gameStat2 = GameStats(
+        gameType: GameType.BELOTE,
+        wonGames: 15,
+        playedGames: 20,
+      );
       cargPlayerObject1.gameStatsList = [gameStat1, gameStat2];
       expect(cargPlayerObject1.totalWinPercentage(), 60.0);
     });
 
     test('CargPlayerObject - test 1', () {
       cargPlayerObject1.incrementWonGamesByOne(game2);
-      expect(cargPlayerObject1.gameStatsList,
-          [GameStats(gameType: GameType.BELOTE, wonGames: 1, playedGames: 0)]);
+      expect(cargPlayerObject1.gameStatsList, [
+        GameStats(gameType: GameType.BELOTE, wonGames: 1, playedGames: 0),
+      ]);
     });
 
     test('CargPlayerObject - test 2', () {
       cargPlayerObject1.incrementPlayedGamesByOne(game2);
-      expect(cargPlayerObject1.gameStatsList,
-          [GameStats(gameType: GameType.BELOTE, wonGames: 0, playedGames: 1)]);
+      expect(cargPlayerObject1.gameStatsList, [
+        GameStats(gameType: GameType.BELOTE, wonGames: 0, playedGames: 1),
+      ]);
     });
 
     test('CargPlayerObject - test 3', () {
@@ -73,7 +94,7 @@ void main() {
       cargPlayerObject1.incrementWonGamesByOne(game3);
       expect(cargPlayerObject1.gameStatsList, [
         GameStats(gameType: GameType.BELOTE, wonGames: 0, playedGames: 1),
-        GameStats(gameType: GameType.TAROT, wonGames: 1, playedGames: 1)
+        GameStats(gameType: GameType.TAROT, wonGames: 1, playedGames: 1),
       ]);
     });
 
@@ -85,7 +106,7 @@ void main() {
       expect(cargPlayerObject1.gameStatsList, [
         GameStats(gameType: GameType.COINCHE, wonGames: 1, playedGames: 0),
         GameStats(gameType: GameType.BELOTE, wonGames: 0, playedGames: 1),
-        GameStats(gameType: GameType.TAROT, wonGames: 1, playedGames: 1)
+        GameStats(gameType: GameType.TAROT, wonGames: 1, playedGames: 1),
       ]);
     });
   });

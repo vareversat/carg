@@ -17,7 +17,7 @@ import 'french_belote_game_service_test.mocks.dart';
   FrenchBeloteScoreService,
   FrenchBeloteGameRepository,
   PlayerService,
-  TeamService
+  TeamService,
 ])
 void main() {
   final mockFrenchBeloteScoreService = MockFrenchBeloteScoreService();
@@ -30,26 +30,42 @@ void main() {
   final playerIds = ['p1', 'p2', 'p3', 'p4'];
   final teamUs = Team(id: 'usTeamId', players: ['p1', 'p2']);
   final teamThem = Team(id: 'themTeamId', players: ['p3', 'p4']);
-  final players =
-      BelotePlayers(us: teamUs.id, them: teamThem.id, playerList: playerIds);
+  final players = BelotePlayers(
+    us: teamUs.id,
+    them: teamThem.id,
+    playerList: playerIds,
+  );
 
-  final expectedGame =
-      FrenchBelote(id: uid, players: players, startingDate: date);
+  final expectedGame = FrenchBelote(
+    id: uid,
+    players: players,
+    startingDate: date,
+  );
   final expectedGameNoId = FrenchBelote(players: players, startingDate: date);
   final settings = FrenchBeloteGameSetting(
-      maxPoint: 1000, isInfinite: false, sumTrickPointsAndContract: true);
+    maxPoint: 1000,
+    isInfinite: false,
+    sumTrickPointsAndContract: true,
+  );
 
   group('FrenchBeloteGameService', () {
     group('Generate a new game', () {
       test('OK', () async {
-        when(mockFrenchBeloteGameRepository.create(expectedGameNoId))
-            .thenAnswer((_) => Future(() => uid));
+        when(
+          mockFrenchBeloteGameRepository.create(expectedGameNoId),
+        ).thenAnswer((_) => Future(() => uid));
         final frenchBeloteGameService = FrenchBeloteGameService(
-            frenchBeloteScoreService: mockFrenchBeloteScoreService,
-            frenchBeloteGameRepository: mockFrenchBeloteGameRepository,
-            teamService: mockTeamService);
+          frenchBeloteScoreService: mockFrenchBeloteScoreService,
+          frenchBeloteGameRepository: mockFrenchBeloteGameRepository,
+          teamService: mockTeamService,
+        );
         final game = await frenchBeloteGameService.generateNewGame(
-            teamUs, teamThem, playerIds, date, settings);
+          teamUs,
+          teamThem,
+          playerIds,
+          date,
+          settings,
+        );
         expect(game, expectedGame);
       });
     });

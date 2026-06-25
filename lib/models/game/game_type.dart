@@ -1,6 +1,5 @@
 // ignore_for_file: constant_identifier_names
 import 'package:carg/l10n/app_localizations.dart';
-
 import 'package:flutter/material.dart';
 
 enum GameType { COINCHE, BELOTE, TAROT, CONTREE, UNDEFINE }

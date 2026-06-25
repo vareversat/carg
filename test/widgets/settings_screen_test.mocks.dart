@@ -37,6 +37,7 @@ import 'package:mockito/src/dummies.dart' as _i11;
 // ignore_for_file: unnecessary_parenthesis
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
+// ignore_for_file: invalid_use_of_internal_member
 
 class _FakeAbstractPlayerRepository_0 extends _i1.SmartFake
     implements _i2.AbstractPlayerRepository {
@@ -546,6 +547,12 @@ class MockThemeService extends _i1.Mock implements _i17.ThemeService {
       ) as _i18.ContrastValue);
 
   @override
+  bool get useDynamicColors => (super.noSuchMethod(
+        Invocation.getter(#useDynamicColors),
+        returnValue: false,
+      ) as bool);
+
+  @override
   set currentContrastValue(_i18.ContrastValue? value) => super.noSuchMethod(
         Invocation.setter(
           #currentContrastValue,
@@ -567,6 +574,15 @@ class MockThemeService extends _i1.Mock implements _i17.ThemeService {
   set currentThemeData(_i5.ThemeData? value) => super.noSuchMethod(
         Invocation.setter(
           #currentThemeData,
+          value,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  set useDynamicColors(bool? value) => super.noSuchMethod(
+        Invocation.setter(
+          #useDynamicColors,
           value,
         ),
         returnValueForMissingStub: null,

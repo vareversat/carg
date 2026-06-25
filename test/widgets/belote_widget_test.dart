@@ -33,27 +33,32 @@ final mockAbstractBeloteRoundService = MockAbstractBeloteRoundService();
 final mockAbstractPlayerService = MockAbstractPlayerService();
 
 Widget testableWidget(Belote beloteGame) => localizedTestableWidget(
-      BeloteWidget(
-          beloteGame: beloteGame,
-          gameService: mockAbstractBeloteGameService,
-          scoreService: mockAbstractBeloteScoreService,
-          teamService: mockAbstractTeamService,
-          roundService: mockAbstractBeloteRoundService,
-          playerService: mockAbstractPlayerService),
-    );
+  BeloteWidget(
+    beloteGame: beloteGame,
+    gameService: mockAbstractBeloteGameService,
+    scoreService: mockAbstractBeloteScoreService,
+    teamService: mockAbstractTeamService,
+    roundService: mockAbstractBeloteRoundService,
+    playerService: mockAbstractPlayerService,
+  ),
+);
 
 Object getNewRound(GameSetting? settings) => {};
 
-@GenerateMocks([
-  AbstractBeloteGameService,
-  AbstractBeloteScoreService,
-  AbstractTeamService,
-  AbstractPlayerService
-], customMocks: [
-  MockSpec<AbstractBeloteRoundService>(
+@GenerateMocks(
+  [
+    AbstractBeloteGameService,
+    AbstractBeloteScoreService,
+    AbstractTeamService,
+    AbstractPlayerService,
+  ],
+  customMocks: [
+    MockSpec<AbstractBeloteRoundService>(
       unsupportedMembers: {#getNewRound},
-      fallbackGenerators: {#getNewRound: getNewRound})
-])
+      fallbackGenerators: {#getNewRound: getNewRound},
+    ),
+  ],
+)
 void main() {
   late FrenchBelote frenchBelote;
   late CoincheBelote coincheBelote;
@@ -73,114 +78,154 @@ void main() {
   final Player player4 = Player(owned: false, id: 'p4', userName: 'player 4');
 
   final BelotePlayers players = BelotePlayers(
-      us: teamId1, them: teamId2, playerList: ['p1', 'p2', 'p3', 'p4']);
+    us: teamId1,
+    them: teamId2,
+    playerList: ['p1', 'p2', 'p3', 'p4'],
+  );
 
-  final FrenchBeloteScore frenchBeloteScore = FrenchBeloteScore(rounds: [
-    FrenchBeloteRound(
+  final FrenchBeloteScore frenchBeloteScore = FrenchBeloteScore(
+    rounds: [
+      FrenchBeloteRound(
         taker: BeloteTeamEnum.THEM,
         defender: BeloteTeamEnum.US,
         defenderScore: 90,
-        takerScore: 110)
-  ], themTotalPoints: 110, usTotalPoints: 90);
-  final CoincheBeloteScore coincheBeloteScore = CoincheBeloteScore(rounds: [
-    CoincheBeloteRound(
+        takerScore: 110,
+      ),
+    ],
+    themTotalPoints: 110,
+    usTotalPoints: 90,
+  );
+  final CoincheBeloteScore coincheBeloteScore = CoincheBeloteScore(
+    rounds: [
+      CoincheBeloteRound(
         taker: BeloteTeamEnum.THEM,
         defender: BeloteTeamEnum.US,
         defenderScore: 90,
-        takerScore: 110)
-  ], themTotalPoints: 110, usTotalPoints: 90);
+        takerScore: 110,
+      ),
+    ],
+    themTotalPoints: 110,
+    usTotalPoints: 90,
+  );
 
   setUp(() {
-    when(mockAbstractTeamService.get(teamId1))
-        .thenAnswer((_) => Future(() => team1));
-    when(mockAbstractTeamService.get(teamId2))
-        .thenAnswer((_) => Future(() => team2));
-    when(mockAbstractBeloteScoreService.getScoreByGame(gameId1))
-        .thenAnswer((_) => Future(() => frenchBeloteScore));
-    when(mockAbstractBeloteScoreService.getScoreByGame(gameId2))
-        .thenAnswer((_) => Future(() => coincheBeloteScore));
-    when(mockAbstractPlayerService.get('p1'))
-        .thenAnswer((_) => Future(() => player1));
-    when(mockAbstractPlayerService.get('p2'))
-        .thenAnswer((_) => Future(() => player2));
-    when(mockAbstractPlayerService.get('p3'))
-        .thenAnswer((_) => Future(() => player3));
-    when(mockAbstractPlayerService.get('p4'))
-        .thenAnswer((_) => Future(() => player4));
+    when(
+      mockAbstractTeamService.get(teamId1),
+    ).thenAnswer((_) => Future(() => team1));
+    when(
+      mockAbstractTeamService.get(teamId2),
+    ).thenAnswer((_) => Future(() => team2));
+    when(
+      mockAbstractBeloteScoreService.getScoreByGame(gameId1),
+    ).thenAnswer((_) => Future(() => frenchBeloteScore));
+    when(
+      mockAbstractBeloteScoreService.getScoreByGame(gameId2),
+    ).thenAnswer((_) => Future(() => coincheBeloteScore));
+    when(
+      mockAbstractPlayerService.get('p1'),
+    ).thenAnswer((_) => Future(() => player1));
+    when(
+      mockAbstractPlayerService.get('p2'),
+    ).thenAnswer((_) => Future(() => player2));
+    when(
+      mockAbstractPlayerService.get('p3'),
+    ).thenAnswer((_) => Future(() => player3));
+    when(
+      mockAbstractPlayerService.get('p4'),
+    ).thenAnswer((_) => Future(() => player4));
     frenchBelote = FrenchBelote(
-        id: gameId1,
-        isEnded: true,
-        startingDate: DateTime(2020, 9, 7, 17, 30),
-        players: players);
+      id: gameId1,
+      isEnded: true,
+      startingDate: DateTime(2020, 9, 7, 17, 30),
+      players: players,
+    );
     coincheBelote = CoincheBelote(
-        id: gameId2,
-        isEnded: false,
-        startingDate: DateTime(2017, 9, 7, 17, 30),
-        players: players);
+      id: gameId2,
+      isEnded: false,
+      startingDate: DateTime(2017, 9, 7, 17, 30),
+      players: players,
+    );
     contreeBelote = ContreeBelote(
-        id: gameId2,
-        isEnded: true,
-        startingDate: DateTime(2017, 9, 7, 17, 30),
-        players: players);
+      id: gameId2,
+      isEnded: true,
+      startingDate: DateTime(2017, 9, 7, 17, 30),
+      players: players,
+    );
   });
 
-  testWidgets('French belote - Must find two Team widget',
-      (WidgetTester tester) async {
+  testWidgets('French belote - Must find two Team widget', (
+    WidgetTester tester,
+  ) async {
     await mockNetworkImagesFor(
-        () => tester.pumpWidget(testableWidget(frenchBelote)));
+      () => tester.pumpWidget(testableWidget(frenchBelote)),
+    );
     await mockNetworkImagesFor(
-        () => tester.tap(find.byKey(const ValueKey('expansionTileTitle'))));
+      () => tester.tap(find.byKey(const ValueKey('expansionTileTitle'))),
+    );
     await mockNetworkImagesFor(
-        () => tester.pumpAndSettle(const Duration(milliseconds: 1000)));
+      () => tester.pumpAndSettle(const Duration(milliseconds: 1000)),
+    );
 
     expect(find.byKey(const ValueKey('teamWidget-US')), findsOneWidget);
     expect(find.byKey(const ValueKey('teamWidget-THEM')), findsOneWidget);
   });
 
-  testWidgets('Coinche belote - Must show three buttons : STOP, CONTINUE',
-      (WidgetTester tester) async {
+  testWidgets('Coinche belote - Must show three buttons : STOP, CONTINUE', (
+    WidgetTester tester,
+  ) async {
     await mockNetworkImagesFor(
-        () => tester.pumpWidget(testableWidget(coincheBelote)));
+      () => tester.pumpWidget(testableWidget(coincheBelote)),
+    );
     await mockNetworkImagesFor(
-        () => tester.tap(find.byKey(const ValueKey('expansionTileTitle'))));
+      () => tester.tap(find.byKey(const ValueKey('expansionTileTitle'))),
+    );
     await mockNetworkImagesFor(
-        () => tester.pumpAndSettle(const Duration(milliseconds: 1000)));
+      () => tester.pumpAndSettle(const Duration(milliseconds: 1000)),
+    );
 
     expect(find.byKey(const ValueKey('stopButton')), findsOneWidget);
     expect(find.byKey(const ValueKey('continueButton')), findsOneWidget);
   });
 
-  testWidgets('Contree belote - Must show three buttons : DELETE, SHOW_SCORE',
-      (WidgetTester tester) async {
+  testWidgets('Contree belote - Must show three buttons : DELETE, SHOW_SCORE', (
+    WidgetTester tester,
+  ) async {
     await mockNetworkImagesFor(
-        () => tester.pumpWidget(testableWidget(contreeBelote)));
+      () => tester.pumpWidget(testableWidget(contreeBelote)),
+    );
     await mockNetworkImagesFor(
-        () => tester.tap(find.byKey(const ValueKey('expansionTileTitle'))));
+      () => tester.tap(find.byKey(const ValueKey('expansionTileTitle'))),
+    );
     await mockNetworkImagesFor(
-        () => tester.pumpAndSettle(const Duration(milliseconds: 1000)));
+      () => tester.pumpAndSettle(const Duration(milliseconds: 1000)),
+    );
 
     expect(find.byKey(const ValueKey('deleteButton')), findsOneWidget);
     expect(find.byKey(const ValueKey('showScoreButton')), findsOneWidget);
   });
 
-  testWidgets('French belote - Must find total scores (US: 100 and THEM: 90)',
-      (WidgetTester tester) async {
+  testWidgets('French belote - Must find total scores (US: 100 and THEM: 90)', (
+    WidgetTester tester,
+  ) async {
     await mockNetworkImagesFor(
-        () => tester.pumpWidget(testableWidget(frenchBelote)));
+      () => tester.pumpWidget(testableWidget(frenchBelote)),
+    );
     await mockNetworkImagesFor(
-        () => tester.tap(find.byKey(const ValueKey('expansionTileTitle'))));
+      () => tester.tap(find.byKey(const ValueKey('expansionTileTitle'))),
+    );
     await mockNetworkImagesFor(
-        () => tester.pumpAndSettle(const Duration(milliseconds: 1000)));
+      () => tester.pumpAndSettle(const Duration(milliseconds: 1000)),
+    );
 
     expect(
-        tester
-            .widget<Text>(find.byKey(const ValueKey('usTotalPointsText')))
-            .data,
-        '90');
+      tester.widget<Text>(find.byKey(const ValueKey('usTotalPointsText'))).data,
+      '90',
+    );
     expect(
-        tester
-            .widget<Text>(find.byKey(const ValueKey('themTotalPointsText')))
-            .data,
-        '110');
+      tester
+          .widget<Text>(find.byKey(const ValueKey('themTotalPointsText')))
+          .data,
+      '110',
+    );
   });
 }

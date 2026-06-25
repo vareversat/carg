@@ -7,9 +7,7 @@ import 'package:mockito/mockito.dart';
 
 import 'coinche_belote_score_service_test.mocks.dart';
 
-@GenerateMocks([
-  CoincheBeloteScoreRepository,
-])
+@GenerateMocks([CoincheBeloteScoreRepository])
 void main() {
   final mockCoincheBeloteScoreRepository = MockCoincheBeloteScoreRepository();
   const uid = '123';
@@ -23,14 +21,19 @@ void main() {
   group('CoincheBeloteScoreService', () {
     group('Generate New Score', () {
       test('OK', () async {
-        when(mockCoincheBeloteScoreRepository.create(coincheBeloteScore))
-            .thenAnswer((_) async => Future<String>(() => scoreId));
+        when(
+          mockCoincheBeloteScoreRepository.create(coincheBeloteScore),
+        ).thenAnswer((_) async => Future<String>(() => scoreId));
         final coincheBeloteScoreService = CoincheBeloteScoreService(
-            coincheBeloteScoreRepository: mockCoincheBeloteScoreRepository);
-        expect(await coincheBeloteScoreService.generateNewScore(uid),
-            coincheBeloteScore);
-        verify(mockCoincheBeloteScoreRepository.create(coincheBeloteScore))
-            .called(1);
+          coincheBeloteScoreRepository: mockCoincheBeloteScoreRepository,
+        );
+        expect(
+          await coincheBeloteScoreService.generateNewScore(uid),
+          coincheBeloteScore,
+        );
+        verify(
+          mockCoincheBeloteScoreRepository.create(coincheBeloteScore),
+        ).called(1);
       });
     });
   });

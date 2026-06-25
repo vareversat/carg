@@ -15,21 +15,19 @@ import 'localized_testable_widget.dart';
 import 'settings_screen_test.mocks.dart';
 
 Widget testableWidget(
-        AuthService mockAuthService,
-        ThemeService mockThemeService,
-        PlayerService playerService,
-        Player mockPlayer) =>
-    localizedTestableWidget(
-      MultiProvider(
-          providers: [
-            ChangeNotifierProvider.value(value: mockAuthService),
-            ChangeNotifierProvider.value(value: mockThemeService)
-          ],
-          child: SettingsScreen(
-            player: mockPlayer,
-            playerService: playerService,
-          )),
-    );
+  AuthService mockAuthService,
+  ThemeService mockThemeService,
+  PlayerService playerService,
+  Player mockPlayer,
+) => localizedTestableWidget(
+  MultiProvider(
+    providers: [
+      ChangeNotifierProvider.value(value: mockAuthService),
+      ChangeNotifierProvider.value(value: mockThemeService),
+    ],
+    child: SettingsScreen(player: mockPlayer, playerService: playerService),
+  ),
+);
 
 @GenerateMocks([PlayerService, AuthService, ThemeService])
 void main() {
@@ -51,90 +49,170 @@ void main() {
     when(themeService.showContrastPicker()).thenReturn(true);
     when(themeService.currentThemeValue).thenReturn(ThemeValue.light);
     when(themeService.currentContrastValue).thenReturn(ContrastValue.high);
+    when(themeService.useDynamicColors).thenReturn(false);
   });
 
   testWidgets('Display the correct username', (WidgetTester tester) async {
-    await mockNetworkImagesFor(() => tester.pumpWidget(testableWidget(
-        authService, themeService, mockPlayerService, mockPlayer)));
+    await mockNetworkImagesFor(
+      () => tester.pumpWidget(
+        testableWidget(
+          authService,
+          themeService,
+          mockPlayerService,
+          mockPlayer,
+        ),
+      ),
+    );
     expect(
-        tester
-            .widget<TextFormField>(
-                find.byKey(const ValueKey('usernameTextField')))
-            .initialValue,
-        'toto');
+      tester
+          .widget<TextFormField>(
+            find.byKey(const ValueKey('usernameTextField')),
+          )
+          .initialValue,
+      'toto',
+    );
   });
 
-  testWidgets('Display the correct profile picture URL',
-      (WidgetTester tester) async {
-    await mockNetworkImagesFor(() => tester.pumpWidget(
-        testableWidget(authService, themeService, mockPlayerService, mockPlayer)));
+  testWidgets('Display the correct profile picture URL', (
+    WidgetTester tester,
+  ) async {
+    await mockNetworkImagesFor(
+      () => tester.pumpWidget(
+        testableWidget(
+          authService,
+          themeService,
+          mockPlayerService,
+          mockPlayer,
+        ),
+      ),
+    );
     expect(
-        tester
-            .widget<TextFormField>(
-                find.byKey(const ValueKey('imageURLTextField')))
-            .initialValue,
-        Player.defaultProfilePicture);
+      tester
+          .widget<TextFormField>(
+            find.byKey(const ValueKey('imageURLTextField')),
+          )
+          .initialValue,
+      Player.defaultProfilePicture,
+    );
   });
 
   group('URL TextField', () {
     testWidgets('is enabled', (WidgetTester tester) async {
-      await mockNetworkImagesFor(() => tester.pumpWidget(
-          testableWidget(authService, themeService, mockPlayerService, mockPlayer)));
+      await mockNetworkImagesFor(
+        () => tester.pumpWidget(
+          testableWidget(
+            authService,
+            themeService,
+            mockPlayerService,
+            mockPlayer,
+          ),
+        ),
+      );
       expect(
-          tester
-              .widget<TextFormField>(
-                  find.byKey(const ValueKey('imageURLTextField')))
-              .enabled,
-          true);
+        tester
+            .widget<TextFormField>(
+              find.byKey(const ValueKey('imageURLTextField')),
+            )
+            .enabled,
+        true,
+      );
     });
 
     testWidgets('is disabled', (WidgetTester tester) async {
-      await mockNetworkImagesFor(() => tester.pumpWidget(
-          testableWidget(authService, themeService, mockPlayerService, mockPlayer)));
-      when(mockPlayerService.update(mockPlayer))
-          .thenAnswer((_) async => Future.value());
+      await mockNetworkImagesFor(
+        () => tester.pumpWidget(
+          testableWidget(
+            authService,
+            themeService,
+            mockPlayerService,
+            mockPlayer,
+          ),
+        ),
+      );
+      when(
+        mockPlayerService.update(mockPlayer),
+      ).thenAnswer((_) async => Future.value());
 
       await tester.tap(find.byKey(const ValueKey('gravatarSwitchTile')));
       await tester.pump();
 
       expect(
-          tester
-              .widget<TextFormField>(
-                  find.byKey(const ValueKey('imageURLTextField')))
-              .enabled,
-          false);
+        tester
+            .widget<TextFormField>(
+              find.byKey(const ValueKey('imageURLTextField')),
+            )
+            .enabled,
+        false,
+      );
     });
   });
 
   group('Account', () {
     testWidgets('Must display the phone number', (WidgetTester tester) async {
-      await mockNetworkImagesFor(() => tester.pumpWidget(
-          testableWidget(authService, themeService, mockPlayerService, mockPlayer)));
-      expect(tester.widget<Text>(find.byKey(const ValueKey('phoneText'))).data,
-          telephoneNumber);
+      await mockNetworkImagesFor(
+        () => tester.pumpWidget(
+          testableWidget(
+            authService,
+            themeService,
+            mockPlayerService,
+            mockPlayer,
+          ),
+        ),
+      );
+      expect(
+        tester.widget<Text>(find.byKey(const ValueKey('phoneText'))).data,
+        telephoneNumber,
+      );
     });
 
     testWidgets('No phone number', (WidgetTester tester) async {
       when(authService.getConnectedUserPhoneNumber()).thenReturn(null);
-      await mockNetworkImagesFor(() => tester.pumpWidget(
-          testableWidget(authService, themeService, mockPlayerService, mockPlayer)));
-      expect(tester.widget<Text>(find.byKey(const ValueKey('phoneText'))).data,
-          'Pas de numéro de téléphone renseigné');
+      await mockNetworkImagesFor(
+        () => tester.pumpWidget(
+          testableWidget(
+            authService,
+            themeService,
+            mockPlayerService,
+            mockPlayer,
+          ),
+        ),
+      );
+      expect(
+        tester.widget<Text>(find.byKey(const ValueKey('phoneText'))).data,
+        'Pas de numéro de téléphone renseigné',
+      );
     });
 
     testWidgets('Must display the "Admin" label', (WidgetTester tester) async {
       when(authService.getConnectedUserPhoneNumber()).thenReturn(null);
-      await mockNetworkImagesFor(() => tester.pumpWidget(
-          testableWidget(authService, themeService, mockPlayerService, mockPlayer)));
+      await mockNetworkImagesFor(
+        () => tester.pumpWidget(
+          testableWidget(
+            authService,
+            themeService,
+            mockPlayerService,
+            mockPlayer,
+          ),
+        ),
+      );
       expect(find.byKey(const ValueKey('adminLabel')), findsOneWidget);
     });
 
-    testWidgets('Must not display the "Admin" label',
-        (WidgetTester tester) async {
+    testWidgets('Must not display the "Admin" label', (
+      WidgetTester tester,
+    ) async {
       mockPlayer = Player(owned: false, userName: 'toto', admin: false);
       when(authService.getConnectedUserPhoneNumber()).thenReturn(null);
-      await mockNetworkImagesFor(() => tester.pumpWidget(
-          testableWidget(authService, themeService, mockPlayerService, mockPlayer)));
+      await mockNetworkImagesFor(
+        () => tester.pumpWidget(
+          testableWidget(
+            authService,
+            themeService,
+            mockPlayerService,
+            mockPlayer,
+          ),
+        ),
+      );
       expect(find.byKey(const ValueKey('adminLabel')), findsNothing);
     });
   });

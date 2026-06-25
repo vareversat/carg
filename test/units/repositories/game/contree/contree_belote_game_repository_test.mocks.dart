@@ -28,6 +28,7 @@ import 'contree_belote_game_repository_test.dart' as _i8;
 // ignore_for_file: unnecessary_parenthesis
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
+// ignore_for_file: invalid_use_of_internal_member
 
 class _FakeFirebaseApp_0 extends _i1.SmartFake implements _i2.FirebaseApp {
   _FakeFirebaseApp_0(
@@ -186,15 +187,6 @@ class MockFirebaseFirestore extends _i1.Mock implements _i4.FirebaseFirestore {
       ) as _i2.FirebaseApp);
 
   @override
-  String get databaseURL => (super.noSuchMethod(
-        Invocation.getter(#databaseURL),
-        returnValue: _i6.dummyValue<String>(
-          this,
-          Invocation.getter(#databaseURL),
-        ),
-      ) as String);
-
-  @override
   String get databaseId => (super.noSuchMethod(
         Invocation.getter(#databaseId),
         returnValue: _i6.dummyValue<String>(
@@ -213,28 +205,19 @@ class MockFirebaseFirestore extends _i1.Mock implements _i4.FirebaseFirestore {
       ) as _i3.Settings);
 
   @override
-  set app(_i2.FirebaseApp? _app) => super.noSuchMethod(
+  set app(_i2.FirebaseApp? value) => super.noSuchMethod(
         Invocation.setter(
           #app,
-          _app,
+          value,
         ),
         returnValueForMissingStub: null,
       );
 
   @override
-  set databaseURL(String? _databaseURL) => super.noSuchMethod(
-        Invocation.setter(
-          #databaseURL,
-          _databaseURL,
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  set databaseId(String? _databaseId) => super.noSuchMethod(
+  set databaseId(String? value) => super.noSuchMethod(
         Invocation.setter(
           #databaseId,
-          _databaseId,
+          value,
         ),
         returnValueForMissingStub: null,
       );
@@ -291,18 +274,6 @@ class MockFirebaseFirestore extends _i1.Mock implements _i4.FirebaseFirestore {
         Invocation.method(
           #clearPersistence,
           [],
-        ),
-        returnValue: _i5.Future<void>.value(),
-        returnValueForMissingStub: _i5.Future<void>.value(),
-      ) as _i5.Future<void>);
-
-  @override
-  _i5.Future<void> enablePersistence(
-          [_i3.PersistenceSettings? persistenceSettings]) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #enablePersistence,
-          [persistenceSettings],
         ),
         returnValue: _i5.Future<void>.value(),
         returnValueForMissingStub: _i5.Future<void>.value(),
@@ -517,24 +488,6 @@ class MockFirebaseFirestore extends _i1.Mock implements _i4.FirebaseFirestore {
         Invocation.method(
           #waitForPendingWrites,
           [],
-        ),
-        returnValue: _i5.Future<void>.value(),
-        returnValueForMissingStub: _i5.Future<void>.value(),
-      ) as _i5.Future<void>);
-
-  @override
-  _i5.Future<void> setIndexConfiguration({
-    required List<_i3.Index>? indexes,
-    List<_i3.FieldOverrides>? fieldOverrides,
-  }) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #setIndexConfiguration,
-          [],
-          {
-            #indexes: indexes,
-            #fieldOverrides: fieldOverrides,
-          },
         ),
         returnValue: _i5.Future<void>.value(),
         returnValueForMissingStub: _i5.Future<void>.value(),

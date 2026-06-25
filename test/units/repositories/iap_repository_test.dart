@@ -20,31 +20,37 @@ const jsonIAP = {
   'purchase_date': '2022-09-23T00:00:00.000Z',
   'status': 'purchased',
   'type': 'nonSubscription',
-  'user_id': 'FQcEdrEwghWU1p2AKO8MVfh8pe72'
+  'user_id': 'FQcEdrEwghWU1p2AKO8MVfh8pe72',
 };
 final expectedIAP = NonSubscriptionPurchase(
-    id: '123',
-    iapSource: IAPSourceEnum.google_play,
-    orderId: 'GPA.3309-0924-5376-12025',
-    productId: 'carg.free.ads',
-    userId: 'FQcEdrEwghWU1p2AKO8MVfh8pe72',
-    purchaseDate: DateTime.parse('2022-09-23T00:00:00.000Z'),
-    type: ProductTypeEnum.nonSubscription,
-    status: NonSubscriptionStatusEnum.purchased);
+  id: '123',
+  iapSource: IAPSourceEnum.google_play,
+  orderId: 'GPA.3309-0924-5376-12025',
+  productId: 'carg.free.ads',
+  userId: 'FQcEdrEwghWU1p2AKO8MVfh8pe72',
+  purchaseDate: DateTime.parse('2022-09-23T00:00:00.000Z'),
+  type: ProductTypeEnum.nonSubscription,
+  status: NonSubscriptionStatusEnum.purchased,
+);
 
 Map<String, dynamic> dataFunction() => {};
 
-@GenerateMocks([
-  FirebaseFirestore,
-  CollectionReference,
-  DocumentReference,
-  DocumentSnapshot,
-  QuerySnapshot,
-  Query
-], customMocks: [
-  MockSpec<QueryDocumentSnapshot>(
-      unsupportedMembers: {#data}, fallbackGenerators: {#data: dataFunction})
-])
+@GenerateMocks(
+  [
+    FirebaseFirestore,
+    CollectionReference,
+    DocumentReference,
+    DocumentSnapshot,
+    QuerySnapshot,
+    Query,
+  ],
+  customMocks: [
+    MockSpec<QueryDocumentSnapshot>(
+      unsupportedMembers: {#data},
+      fallbackGenerators: {#data: dataFunction},
+    ),
+  ],
+)
 void main() {
   final instance = MockFirebaseFirestore();
   final mockQuery = MockQuery<Map<String, dynamic>>();
@@ -70,11 +76,13 @@ void main() {
     group('Get IAP', () {
       test('DEV', () async {
         var collection = 'iap-dev';
-        when(instance.collection(collection))
-            .thenReturn(mockCollectionReference);
+        when(
+          instance.collection(collection),
+        ).thenReturn(mockCollectionReference);
         when(mockCollectionReference.doc(id)).thenReturn(mockDocumentReference);
-        when(mockDocumentReference.get())
-            .thenAnswer((_) async => mockDocumentSnapshot);
+        when(
+          mockDocumentReference.get(),
+        ).thenAnswer((_) async => mockDocumentSnapshot);
         when(mockDocumentSnapshot.data()).thenReturn(jsonIAP);
         when(mockDocumentSnapshot.id).thenReturn(id);
         final iapRepository = IAPRepository(provider: instance);
@@ -83,15 +91,19 @@ void main() {
       });
       test('PRD', () async {
         var collection = 'iap-prod';
-        when(instance.collection(collection))
-            .thenReturn(mockCollectionReference);
+        when(
+          instance.collection(collection),
+        ).thenReturn(mockCollectionReference);
         when(mockCollectionReference.doc(id)).thenReturn(mockDocumentReference);
-        when(mockDocumentReference.get())
-            .thenAnswer((_) async => mockDocumentSnapshot);
+        when(
+          mockDocumentReference.get(),
+        ).thenAnswer((_) async => mockDocumentSnapshot);
         when(mockDocumentSnapshot.data()).thenReturn(jsonIAP);
         when(mockDocumentSnapshot.id).thenReturn(id);
-        final iapRepository =
-            IAPRepository(provider: instance, environment: 'prod');
+        final iapRepository = IAPRepository(
+          provider: instance,
+          environment: 'prod',
+        );
         final iap = await iapRepository.get(id);
         expect(iap, expectedIAP);
       });
@@ -100,10 +112,12 @@ void main() {
     group('Get by userId', () {
       test('DEV', () async {
         var collection = 'iap-dev';
-        when(instance.collection(collection))
-            .thenReturn(mockCollectionReference);
-        when(mockCollectionReference.where('user_id', isEqualTo: userId))
-            .thenReturn(mockQuery);
+        when(
+          instance.collection(collection),
+        ).thenReturn(mockCollectionReference);
+        when(
+          mockCollectionReference.where('user_id', isEqualTo: userId),
+        ).thenReturn(mockQuery);
         when(mockQuery.get()).thenAnswer((_) async => mockQuerySnapshot);
         when(mockQuerySnapshot.docs).thenReturn([mockQueryDocumentSnapshot]);
         when(mockQueryDocumentSnapshot.data()).thenReturn(jsonIAP);
@@ -114,16 +128,20 @@ void main() {
       });
       test('PROD', () async {
         var collection = 'iap-prod';
-        when(instance.collection(collection))
-            .thenReturn(mockCollectionReference);
-        when(mockCollectionReference.where('user_id', isEqualTo: userId))
-            .thenReturn(mockQuery);
+        when(
+          instance.collection(collection),
+        ).thenReturn(mockCollectionReference);
+        when(
+          mockCollectionReference.where('user_id', isEqualTo: userId),
+        ).thenReturn(mockQuery);
         when(mockQuery.get()).thenAnswer((_) async => mockQuerySnapshot);
         when(mockQuerySnapshot.docs).thenReturn([mockQueryDocumentSnapshot]);
         when(mockQueryDocumentSnapshot.data()).thenReturn(jsonIAP);
         when(mockQueryDocumentSnapshot.id).thenReturn(id);
-        final iapRepository =
-            IAPRepository(provider: instance, environment: 'prod');
+        final iapRepository = IAPRepository(
+          provider: instance,
+          environment: 'prod',
+        );
         final iap = await iapRepository.getByUserId(userId);
         expect(iap, expectedIAP);
       });
@@ -133,14 +151,18 @@ void main() {
       group('Update', () {
         test('DEV', () async {
           var collection = 'iap-dev';
-          when(instance.collection(collection))
-              .thenReturn(mockCollectionReference);
-          when(mockCollectionReference.doc(id))
-              .thenReturn(mockDocumentReference);
-          when(mockDocumentReference.update(jsonIAP))
-              .thenAnswer((_) async => {});
-          when(mockCollectionReference.where('user_id', isEqualTo: userId))
-              .thenReturn(mockQuery);
+          when(
+            instance.collection(collection),
+          ).thenReturn(mockCollectionReference);
+          when(
+            mockCollectionReference.doc(id),
+          ).thenReturn(mockDocumentReference);
+          when(
+            mockDocumentReference.update(jsonIAP),
+          ).thenAnswer((_) async => {});
+          when(
+            mockCollectionReference.where('user_id', isEqualTo: userId),
+          ).thenReturn(mockQuery);
           when(mockQuery.get()).thenAnswer((_) async => mockQuerySnapshot);
           when(mockQuerySnapshot.docs).thenReturn([mockQueryDocumentSnapshot]);
           when(mockQueryDocumentSnapshot.data()).thenReturn(jsonIAP);
@@ -151,20 +173,26 @@ void main() {
         });
         test('PROD', () async {
           var collection = 'iap-prod';
-          when(instance.collection(collection))
-              .thenReturn(mockCollectionReference);
-          when(mockCollectionReference.doc(id))
-              .thenReturn(mockDocumentReference);
-          when(mockDocumentReference.update(jsonIAP))
-              .thenAnswer((_) async => {});
-          when(mockCollectionReference.where('user_id', isEqualTo: userId))
-              .thenReturn(mockQuery);
+          when(
+            instance.collection(collection),
+          ).thenReturn(mockCollectionReference);
+          when(
+            mockCollectionReference.doc(id),
+          ).thenReturn(mockDocumentReference);
+          when(
+            mockDocumentReference.update(jsonIAP),
+          ).thenAnswer((_) async => {});
+          when(
+            mockCollectionReference.where('user_id', isEqualTo: userId),
+          ).thenReturn(mockQuery);
           when(mockQuery.get()).thenAnswer((_) async => mockQuerySnapshot);
           when(mockQuerySnapshot.docs).thenReturn([mockQueryDocumentSnapshot]);
           when(mockQueryDocumentSnapshot.data()).thenReturn(jsonIAP);
           when(mockQueryDocumentSnapshot.id).thenReturn(id);
-          final iapRepository =
-              IAPRepository(provider: instance, environment: 'prod');
+          final iapRepository = IAPRepository(
+            provider: instance,
+            environment: 'prod',
+          );
           final iapId = await iapRepository.createOrUpdate(expectedIAP);
           expect(iapId, id);
         });
@@ -172,13 +200,16 @@ void main() {
       group('Create', () {
         test('DEV', () async {
           var collection = 'iap-dev';
-          when(instance.collection(collection))
-              .thenReturn(mockCollectionReference);
-          when(mockCollectionReference.add(jsonIAP))
-              .thenAnswer((_) async => mockDocumentReference);
+          when(
+            instance.collection(collection),
+          ).thenReturn(mockCollectionReference);
+          when(
+            mockCollectionReference.add(jsonIAP),
+          ).thenAnswer((_) async => mockDocumentReference);
           when(mockDocumentReference.id).thenReturn(id);
-          when(mockCollectionReference.where('user_id', isEqualTo: userId))
-              .thenReturn(mockQuery);
+          when(
+            mockCollectionReference.where('user_id', isEqualTo: userId),
+          ).thenReturn(mockQuery);
           when(mockQuery.get()).thenAnswer((_) async => mockQuerySnapshot);
           when(mockQuerySnapshot.docs).thenReturn([]);
           final iapRepository = IAPRepository(provider: instance);
@@ -187,18 +218,23 @@ void main() {
         });
         test('PROD', () async {
           var collection = 'iap-prod';
-          when(instance.collection(collection))
-              .thenReturn(mockCollectionReference);
-          when(mockCollectionReference.add(jsonIAP))
-              .thenAnswer((_) async => mockDocumentReference);
+          when(
+            instance.collection(collection),
+          ).thenReturn(mockCollectionReference);
+          when(
+            mockCollectionReference.add(jsonIAP),
+          ).thenAnswer((_) async => mockDocumentReference);
           when(mockDocumentReference.id).thenReturn(id);
-          when(mockCollectionReference.where('user_id', isEqualTo: userId))
-              .thenReturn(mockQuery);
+          when(
+            mockCollectionReference.where('user_id', isEqualTo: userId),
+          ).thenReturn(mockQuery);
           when(mockQuery.get()).thenAnswer((_) async => mockQuerySnapshot);
           when(mockQuery.get()).thenAnswer((_) async => mockQuerySnapshot);
           when(mockQuerySnapshot.docs).thenReturn([]);
-          final iapRepository =
-              IAPRepository(provider: instance, environment: 'prod');
+          final iapRepository = IAPRepository(
+            provider: instance,
+            environment: 'prod',
+          );
           final iapId = await iapRepository.createOrUpdate(expectedIAP);
           expect(iapId, id);
         });

@@ -18,13 +18,13 @@ import 'localized_testable_widget.dart';
 import 'tarot_widget_test.mocks.dart';
 
 Widget testableWidget(Tarot tarotGame) => localizedTestableWidget(
-      TarotWidget(
-        tarotGame: tarotGame,
-        gameService: mockAbstractGameService,
-        scoreService: mockAbstractScoreService,
-        playerService: mockAbstractPlayerService,
-      ),
-    );
+  TarotWidget(
+    tarotGame: tarotGame,
+    gameService: mockAbstractGameService,
+    scoreService: mockAbstractScoreService,
+    playerService: mockAbstractPlayerService,
+  ),
+);
 
 final mockAbstractGameService = MockAbstractTarotGameService();
 final mockAbstractScoreService = MockAbstractTarotScoreService();
@@ -33,7 +33,7 @@ final mockAbstractPlayerService = MockAbstractPlayerService();
 @GenerateMocks([
   AbstractTarotGameService,
   AbstractTarotScoreService,
-  AbstractPlayerService
+  AbstractPlayerService,
 ])
 void main() {
   late Tarot tarotGame;
@@ -52,40 +52,53 @@ void main() {
       gameType: GameType.TAROT,
     );
 
-    tarotScore = TarotScore(players: [
-      'p1',
-      'p2',
-      'p3'
-    ], totalPoints: [
-      TarotPlayerScore(score: 0, player: 'p1'),
-      TarotPlayerScore(score: 100, player: 'p2'),
-      TarotPlayerScore(score: 150, player: 'p3')
-    ]);
+    tarotScore = TarotScore(
+      players: ['p1', 'p2', 'p3'],
+      totalPoints: [
+        TarotPlayerScore(score: 0, player: 'p1'),
+        TarotPlayerScore(score: 100, player: 'p2'),
+        TarotPlayerScore(score: 150, player: 'p3'),
+      ],
+    );
 
-    when(mockAbstractScoreService.getScoreByGame('ID'))
-        .thenAnswer((_) => Future<TarotScore?>(() => tarotScore));
-    when(mockAbstractPlayerService.get('p1'))
-        .thenAnswer((_) => Future(() => player1));
-    when(mockAbstractPlayerService.get('p2'))
-        .thenAnswer((_) => Future(() => player2));
-    when(mockAbstractPlayerService.get('p3'))
-        .thenAnswer((_) => Future(() => player3));
+    when(
+      mockAbstractScoreService.getScoreByGame('ID'),
+    ).thenAnswer((_) => Future<TarotScore?>(() => tarotScore));
+    when(
+      mockAbstractPlayerService.get('p1'),
+    ).thenAnswer((_) => Future(() => player1));
+    when(
+      mockAbstractPlayerService.get('p2'),
+    ).thenAnswer((_) => Future(() => player2));
+    when(
+      mockAbstractPlayerService.get('p3'),
+    ).thenAnswer((_) => Future(() => player3));
   });
 
-  testWidgets('Players - must display 3 players widget when tapped',
-      (WidgetTester tester) async {
+  testWidgets('Players - must display 3 players widget when tapped', (
+    WidgetTester tester,
+  ) async {
     await mockNetworkImagesFor(
-        () => tester.pumpWidget(testableWidget(tarotGame)));
+      () => tester.pumpWidget(testableWidget(tarotGame)),
+    );
     await mockNetworkImagesFor(
-        () => tester.tap(find.byKey(const ValueKey('expansionTileTitle'))));
+      () => tester.tap(find.byKey(const ValueKey('expansionTileTitle'))),
+    );
     await mockNetworkImagesFor(
-        () => tester.pumpAndSettle(const Duration(milliseconds: 1000)));
+      () => tester.pumpAndSettle(const Duration(milliseconds: 1000)),
+    );
 
     expect(
-        find.byKey(const ValueKey('apiminiplayerwidget-p1')), findsOneWidget);
+      find.byKey(const ValueKey('apiminiplayerwidget-p1')),
+      findsOneWidget,
+    );
     expect(
-        find.byKey(const ValueKey('apiminiplayerwidget-p2')), findsOneWidget);
+      find.byKey(const ValueKey('apiminiplayerwidget-p2')),
+      findsOneWidget,
+    );
     expect(
-        find.byKey(const ValueKey('apiminiplayerwidget-p3')), findsOneWidget);
+      find.byKey(const ValueKey('apiminiplayerwidget-p3')),
+      findsOneWidget,
+    );
   });
 }

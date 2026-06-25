@@ -9,26 +9,25 @@ class CustomTextStyle {
     );
   }
 
-  static TextStyle dialogHeaderStyle(BuildContext context) {
-    return TextStyle(
+  static TextStyle? dialogHeaderStyle(BuildContext context) {
+    return Theme.of(context).textTheme.bodyLarge?.copyWith(
       fontSize: 30,
-      fontWeight: FontWeight.bold,
       color: Theme.of(context).colorScheme.onPrimary,
+      fontWeight: FontWeight.bold,
     );
   }
 
-  static TextStyle screenHeadLine1(BuildContext context) {
-    return TextStyle(
-      fontSize: 35,
-      fontWeight: FontWeight.bold,
+  static TextStyle? screenHeadLine1(BuildContext context) {
+    return Theme.of(context).textTheme.headlineLarge?.copyWith(
       color: Theme.of(context).colorScheme.onPrimary,
+      fontWeight: FontWeight.bold,
     );
   }
 
-  static TextStyle screenHeadLine2(BuildContext context) {
-    return TextStyle(
-      fontSize: 28,
+  static TextStyle? screenHeadLine2(BuildContext context) {
+    return Theme.of(context).textTheme.headlineMedium?.copyWith(
       color: Theme.of(context).colorScheme.onPrimary,
+      fontWeight: FontWeight.bold,
     );
   }
 

@@ -7,9 +7,7 @@ import 'package:mockito/mockito.dart';
 
 import 'french_belote_score_service_test.mocks.dart';
 
-@GenerateMocks([
-  FrenchBeloteScoreRepository,
-])
+@GenerateMocks([FrenchBeloteScoreRepository])
 void main() {
   final mockFrenchBeloteScoreRepository = MockFrenchBeloteScoreRepository();
   const uid = '123';
@@ -23,14 +21,19 @@ void main() {
   group('FrenchBeloteScoreService', () {
     group('Generate New Score', () {
       test('OK', () async {
-        when(mockFrenchBeloteScoreRepository.create(frenchBeloteScore))
-            .thenAnswer((_) async => Future<String>(() => scoreId));
+        when(
+          mockFrenchBeloteScoreRepository.create(frenchBeloteScore),
+        ).thenAnswer((_) async => Future<String>(() => scoreId));
         final frenchBeloteScoreService = FrenchBeloteScoreService(
-            frenchBeloteScoreRepository: mockFrenchBeloteScoreRepository);
-        expect(await frenchBeloteScoreService.generateNewScore(uid),
-            frenchBeloteScore);
-        verify(mockFrenchBeloteScoreRepository.create(frenchBeloteScore))
-            .called(1);
+          frenchBeloteScoreRepository: mockFrenchBeloteScoreRepository,
+        );
+        expect(
+          await frenchBeloteScoreService.generateNewScore(uid),
+          frenchBeloteScore,
+        );
+        verify(
+          mockFrenchBeloteScoreRepository.create(frenchBeloteScore),
+        ).called(1);
       });
     });
   });

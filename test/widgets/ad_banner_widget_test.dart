@@ -10,9 +10,11 @@ import 'package:provider/provider.dart';
 import 'ad_banner_widget_test.mocks.dart';
 
 Widget testableWidget(AuthService mockAuthService) => MaterialApp(
-    home: ChangeNotifierProvider<AuthService>.value(
-        value: mockAuthService,
-        builder: (context, _) => const AdBannerWidget()));
+  home: ChangeNotifierProvider<AuthService>.value(
+    value: mockAuthService,
+    builder: (context, _) => const AdBannerWidget(),
+  ),
+);
 
 @GenerateMocks([AuthService])
 void main() {

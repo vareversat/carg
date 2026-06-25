@@ -8,18 +8,20 @@ import 'package:carg/services/game/abstract_belote_game_service.dart';
 import 'fake_belote_game.dart';
 
 class FakeBeloteGameService extends AbstractBeloteGameService {
-  FakeBeloteGameService(
-      {required super.beloteScoreService,
-      required super.beloteGameRepository,
-      required super.teamService});
+  FakeBeloteGameService({
+    required super.beloteScoreService,
+    required super.beloteGameRepository,
+    required super.teamService,
+  });
 
   @override
   Future<Belote<BelotePlayers, BeloteGameSetting>> generateNewGame(
-      Team us,
-      Team them,
-      List<String?>? playerListForOrder,
-      DateTime? startingDate,
-      BeloteGameSetting settings) async {
+    Team us,
+    Team them,
+    List<String?>? playerListForOrder,
+    DateTime? startingDate,
+    BeloteGameSetting settings,
+  ) async {
     try {
       var belote = FakeBeloteGame(
         null,
@@ -31,7 +33,8 @@ class FakeBeloteGameService extends AbstractBeloteGameService {
       return belote;
     } on Exception catch (e) {
       throw ServiceException(
-          'Error while generating a new game : ${e.toString()}');
+        'Error while generating a new game : ${e.toString()}',
+      );
     }
   }
 }

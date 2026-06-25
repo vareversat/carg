@@ -1,7 +1,7 @@
 import 'package:carg/const.dart';
+import 'package:carg/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:carg/l10n/app_localizations.dart';
 import 'package:flutter_svg/svg.dart';
 
 class SplashScreen extends StatelessWidget {

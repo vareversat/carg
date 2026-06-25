@@ -1,9 +1,9 @@
 import 'package:carg/const.dart';
+import 'package:carg/l10n/app_localizations.dart';
 import 'package:carg/services/auth/auth_service.dart';
 import 'package:carg/views/widgets/register/register_phone_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:carg/l10n/app_localizations.dart';
 import 'package:flutter_svg/svg.dart';
 
 class EditPhoneNumberScreen extends StatelessWidget {

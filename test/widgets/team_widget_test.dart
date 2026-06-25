@@ -12,13 +12,15 @@ import 'package:network_image_mock/network_image_mock.dart';
 import 'team_widget_test.mocks.dart';
 
 Widget testableWidget() => MaterialApp(
-    home: Material(
-      child: TeamWidget(
-          title: 'Nous',
-          teamService: mockAbstractTeamService,
-          playerService: mockAbstractPlayerService,
-          teamId: 'TEAM_ID'),
-    ));
+  home: Material(
+    child: TeamWidget(
+      title: 'Nous',
+      teamService: mockAbstractTeamService,
+      playerService: mockAbstractPlayerService,
+      teamId: 'TEAM_ID',
+    ),
+  ),
+);
 
 final mockAbstractTeamService = MockAbstractTeamService();
 final mockAbstractPlayerService = MockAbstractPlayerService();
@@ -30,31 +32,41 @@ void main() {
     final Player player2 = Player(owned: false, id: 'p2', userName: 'player 2');
 
     when(mockAbstractTeamService.get('TEAM_ID')).thenAnswer(
-        (_) => Future<Team>(() => Team(id: 'TEAM_ID', players: ['p1', 'p2'])));
-    when(mockAbstractPlayerService.get('p1'))
-        .thenAnswer((_) => Future(() => player1));
-    when(mockAbstractPlayerService.get('p2'))
-        .thenAnswer((_) => Future(() => player2));
+      (_) => Future<Team>(() => Team(id: 'TEAM_ID', players: ['p1', 'p2'])),
+    );
+    when(
+      mockAbstractPlayerService.get('p1'),
+    ).thenAnswer((_) => Future(() => player1));
+    when(
+      mockAbstractPlayerService.get('p2'),
+    ).thenAnswer((_) => Future(() => player2));
   });
 
   testWidgets('Title', (WidgetTester tester) async {
     await mockNetworkImagesFor(() => tester.pumpWidget(testableWidget()));
     await mockNetworkImagesFor(
-        () => tester.pumpAndSettle(const Duration(milliseconds: 1000)));
+      () => tester.pumpAndSettle(const Duration(milliseconds: 1000)),
+    );
 
     expect(
-        tester.widget<Text>(find.byKey(const ValueKey('textTitleWidget'))).data,
-        'Nous');
+      tester.widget<Text>(find.byKey(const ValueKey('textTitleWidget'))).data,
+      'Nous',
+    );
   });
 
   testWidgets('Players', (WidgetTester tester) async {
     await mockNetworkImagesFor(() => tester.pumpWidget(testableWidget()));
     await mockNetworkImagesFor(
-        () => tester.pumpAndSettle(const Duration(milliseconds: 100)));
+      () => tester.pumpAndSettle(const Duration(milliseconds: 100)),
+    );
 
     expect(
-        find.byKey(const ValueKey('apiminiplayerwidget-p1')), findsOneWidget);
+      find.byKey(const ValueKey('apiminiplayerwidget-p1')),
+      findsOneWidget,
+    );
     expect(
-        find.byKey(const ValueKey('apiminiplayerwidget-p2')), findsOneWidget);
+      find.byKey(const ValueKey('apiminiplayerwidget-p2')),
+      findsOneWidget,
+    );
   });
 }
