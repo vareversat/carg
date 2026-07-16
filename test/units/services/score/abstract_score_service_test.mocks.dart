@@ -26,6 +26,7 @@ import 'package:mockito/src/dummies.dart' as _i7;
 // ignore_for_file: unnecessary_parenthesis
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
+// ignore_for_file: invalid_use_of_internal_member
 
 class _FakeFirebaseFirestore_0 extends _i1.SmartFake
     implements _i2.FirebaseFirestore {
@@ -85,21 +86,20 @@ class MockAbstractScoreRepository<
       ) as String);
 
   @override
-  set lastFetchGameDocument(
-          _i2.DocumentSnapshot<Object?>? _lastFetchGameDocument) =>
+  set lastFetchGameDocument(_i2.DocumentSnapshot<Object?>? value) =>
       super.noSuchMethod(
         Invocation.setter(
           #lastFetchGameDocument,
-          _lastFetchGameDocument,
+          value,
         ),
         returnValueForMissingStub: null,
       );
 
   @override
-  set connectionString(String? _connectionString) => super.noSuchMethod(
+  set connectionString(String? value) => super.noSuchMethod(
         Invocation.setter(
           #connectionString,
-          _connectionString,
+          value,
         ),
         returnValueForMissingStub: null,
       );

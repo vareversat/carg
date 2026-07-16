@@ -60,4 +60,30 @@ class StorageService {
       return value;
     }
   }
+
+  Future<bool> saveDynamicColors(bool value) async {
+    developer.log(
+      '{${Const.storageDynamicColorsKey}: $value}',
+      name: 'storage-service.on.saveDynamicColors',
+    );
+
+    return await sharedPreferences.setBool(
+      Const.storageDynamicColorsKey,
+      value,
+    );
+  }
+
+  bool? readDynamicColors() {
+    final boolValue = sharedPreferences.getBool(Const.storageDynamicColorsKey);
+    if (boolValue == null) {
+      return null;
+    } else {
+      developer.log(
+        '{${Const.storageDynamicColorsKey}: $boolValue}',
+        name: 'storage-service.on.readDynamicColors',
+      );
+
+      return boolValue;
+    }
+  }
 }

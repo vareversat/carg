@@ -52,6 +52,7 @@ import 'belote_widget_test.dart' as _i30;
 // ignore_for_file: unnecessary_parenthesis
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
+// ignore_for_file: invalid_use_of_internal_member
 
 class _FakeAbstractBeloteGameRepository_0<
         T1 extends _i1.Belote<_i2.BelotePlayers, _i3.BeloteGameSetting>>

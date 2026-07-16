@@ -34,6 +34,7 @@ import 'package:mockito/src/dummies.dart' as _i14;
 // ignore_for_file: unnecessary_parenthesis
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
+// ignore_for_file: invalid_use_of_internal_member
 
 class _FakeAbstractBeloteScoreRepository_0<
         T extends _i1.BeloteScore<_i2.BeloteRound>> extends _i3.SmartFake

@@ -1118,6 +1118,30 @@ abstract class AppLocalizations {
   /// **'Us'**
   String get us;
 
+  /// No description provided for @useDynamicColors.
+  ///
+  /// In en, this message translates to:
+  /// **'Use device colors'**
+  String get useDynamicColors;
+
+  /// No description provided for @dynamicColorsEnabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Dynamic colors enabled - using system theme'**
+  String get dynamicColorsEnabled;
+
+  /// No description provided for @dynamicColorsDisabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Dynamic colors disabled - using app theme'**
+  String get dynamicColorsDisabled;
+
+  /// No description provided for @dynamicColorsNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Note: Colors are extracted from your device\'s wallpaper and system settings'**
+  String get dynamicColorsNote;
+
   /// No description provided for @useMyGravatar.
   ///
   /// In en, this message translates to:

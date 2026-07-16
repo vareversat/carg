@@ -16,8 +16,12 @@ import 'package:mockito/mockito.dart';
 
 import 'tarot_game_service_test.mocks.dart';
 
-@GenerateMocks(
-    [TarotScoreService, TarotGameRepository, PlayerService, TeamService])
+@GenerateMocks([
+  TarotScoreService,
+  TarotGameRepository,
+  PlayerService,
+  TeamService,
+])
 void main() {
   final mockTarotScoreService = MockTarotScoreService();
   final mockTarotGameRepository = MockTarotGameRepository();
@@ -31,17 +35,21 @@ void main() {
   const players = ['p1', 'p2'];
 
   final score = TarotScore(
-      game: uid,
-      totalPoints: [tarotPlayerScore, tarotPlayerScore2],
-      rounds: [TarotRound(attackScore: 100.0, defenseScore: 12.0)],
-      players: players);
+    game: uid,
+    totalPoints: [tarotPlayerScore, tarotPlayerScore2],
+    rounds: [TarotRound(attackScore: 100.0, defenseScore: 12.0)],
+    players: players,
+  );
 
   final game = Tarot(
-      id: uid,
-      startingDate: date,
-      players: TarotPlayers(playerList: ['p1', 'p2']));
+    id: uid,
+    startingDate: date,
+    players: TarotPlayers(playerList: ['p1', 'p2']),
+  );
   final gameNoId = Tarot(
-      startingDate: date, players: TarotPlayers(playerList: ['p1', 'p2']));
+    startingDate: date,
+    players: TarotPlayers(playerList: ['p1', 'p2']),
+  );
   final settings = TarotGameSetting(maxPoint: 1000, isInfinite: false);
 
   setUp(() {
@@ -53,54 +61,72 @@ void main() {
   group('TarotGameService', () {
     group('End a game', () {
       test('OK', () async {
-        when(mockTarotScoreService.getScoreByGame(uid))
-            .thenAnswer((_) => Future(() => score));
+        when(
+          mockTarotScoreService.getScoreByGame(uid),
+        ).thenAnswer((_) => Future(() => score));
         final tarotGameService = TarotGameService(
-            tarotScoreService: mockTarotScoreService,
-            tarotGameRepository: mockTarotGameRepository,
-            playerService: mockPlayerService);
+          tarotScoreService: mockTarotScoreService,
+          tarotGameRepository: mockTarotGameRepository,
+          playerService: mockPlayerService,
+        );
         await tarotGameService.endAGame(game, date);
-        verify(mockPlayerService.incrementPlayedGamesByOne('p1', game))
-            .called(1);
-        verify(mockPlayerService.incrementPlayedGamesByOne('p2', game))
-            .called(1);
+        verify(
+          mockPlayerService.incrementPlayedGamesByOne('p1', game),
+        ).called(1);
+        verify(
+          mockPlayerService.incrementPlayedGamesByOne('p2', game),
+        ).called(1);
         verify(mockPlayerService.incrementWonGamesByOne('p1', game)).called(1);
       });
 
       test('Throw exception', () async {
         final tarotGameService = TarotGameService(
-            tarotScoreService: mockTarotScoreService,
-            tarotGameRepository: mockTarotGameRepository,
-            playerService: mockPlayerService);
-        expect(tarotGameService.endAGame(null, null),
-            throwsA(isA<ServiceException>()));
+          tarotScoreService: mockTarotScoreService,
+          tarotGameRepository: mockTarotGameRepository,
+          playerService: mockPlayerService,
+        );
+        expect(
+          tarotGameService.endAGame(null, null),
+          throwsA(isA<ServiceException>()),
+        );
       });
 
       test('Throw exception 2', () async {
-        when(mockTarotScoreService.getScoreByGame(uid))
-            .thenAnswer((_) => Future(() => null));
+        when(
+          mockTarotScoreService.getScoreByGame(uid),
+        ).thenAnswer((_) => Future(() => null));
         final tarotGameService = TarotGameService(
-            tarotScoreService: mockTarotScoreService,
-            tarotGameRepository: mockTarotGameRepository,
-            playerService: mockPlayerService);
-        expect(tarotGameService.endAGame(game, date),
-            throwsA(isA<ServiceException>()));
+          tarotScoreService: mockTarotScoreService,
+          tarotGameRepository: mockTarotGameRepository,
+          playerService: mockPlayerService,
+        );
+        expect(
+          tarotGameService.endAGame(game, date),
+          throwsA(isA<ServiceException>()),
+        );
       });
     });
 
     group('Create game with players', () {
       test('OK', () async {
-        when(mockTarotGameRepository.create(gameNoId))
-            .thenAnswer((_) => Future(() => uid));
-        when(mockTarotScoreService.create(score))
-            .thenAnswer((_) => Future(() => 'scoreId'));
+        when(
+          mockTarotGameRepository.create(gameNoId),
+        ).thenAnswer((_) => Future(() => uid));
+        when(
+          mockTarotScoreService.create(score),
+        ).thenAnswer((_) => Future(() => 'scoreId'));
         final tarotGameService = TarotGameService(
-            tarotScoreService: mockTarotScoreService,
-            tarotGameRepository: mockTarotGameRepository,
-            playerService: mockPlayerService);
+          tarotScoreService: mockTarotScoreService,
+          tarotGameRepository: mockTarotGameRepository,
+          playerService: mockPlayerService,
+        );
 
         await tarotGameService.createGameWithPlayerList(
-            players, players, date, settings);
+          players,
+          players,
+          date,
+          settings,
+        );
         verify(mockTarotGameRepository.create(game)).called(1);
         verify(mockTarotScoreService.create(score)).called(1);
       });

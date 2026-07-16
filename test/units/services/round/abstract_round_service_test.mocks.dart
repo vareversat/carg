@@ -28,6 +28,7 @@ import 'package:mockito/src/dummies.dart' as _i10;
 // ignore_for_file: unnecessary_parenthesis
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
+// ignore_for_file: invalid_use_of_internal_member
 
 class _FakeAbstractScoreRepository_0<
         T1 extends _i1.Score<_i2.Round<_i3.GameSetting>>> extends _i4.SmartFake

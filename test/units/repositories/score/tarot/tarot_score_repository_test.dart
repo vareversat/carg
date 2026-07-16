@@ -10,25 +10,27 @@ import 'tarot_score_repository_test.mocks.dart';
 const uid = '123';
 const userId = '123_user';
 const gameId = '123_game';
-const tarotScoreJson = {
-  'id': uid,
-  'game': gameId,
-};
+const tarotScoreJson = {'id': uid, 'game': gameId};
 final expectedScore = TarotScore(id: uid, game: gameId);
 
 Map<String, dynamic> dataFunction() => {};
 
-@GenerateMocks([
-  FirebaseFirestore,
-  CollectionReference,
-  DocumentReference,
-  DocumentSnapshot,
-  QuerySnapshot,
-  Query,
-], customMocks: [
-  MockSpec<QueryDocumentSnapshot>(
-      unsupportedMembers: {#data}, fallbackGenerators: {#data: dataFunction})
-])
+@GenerateMocks(
+  [
+    FirebaseFirestore,
+    CollectionReference,
+    DocumentReference,
+    DocumentSnapshot,
+    QuerySnapshot,
+    Query,
+  ],
+  customMocks: [
+    MockSpec<QueryDocumentSnapshot>(
+      unsupportedMembers: {#data},
+      fallbackGenerators: {#data: dataFunction},
+    ),
+  ],
+)
 void main() {
   final instance = MockFirebaseFirestore();
   final mockQuery = MockQuery<Map<String, dynamic>>();
@@ -54,12 +56,15 @@ void main() {
     group('Get Player', () {
       test('DEV', () async {
         var collection = 'tarot-score-dev';
-        when(instance.collection(collection))
-            .thenReturn(mockCollectionReference);
-        when(mockCollectionReference.doc(uid))
-            .thenReturn(mockDocumentReference);
-        when(mockDocumentReference.get())
-            .thenAnswer((_) async => mockDocumentSnapshot);
+        when(
+          instance.collection(collection),
+        ).thenReturn(mockCollectionReference);
+        when(
+          mockCollectionReference.doc(uid),
+        ).thenReturn(mockDocumentReference);
+        when(
+          mockDocumentReference.get(),
+        ).thenAnswer((_) async => mockDocumentSnapshot);
         when(mockDocumentSnapshot.data()).thenReturn(tarotScoreJson);
         when(mockDocumentSnapshot.id).thenReturn(uid);
         final tarotScoreRepository = TarotScoreRepository(provider: instance);
@@ -68,16 +73,21 @@ void main() {
       });
       test('PROD', () async {
         var collection = 'tarot-score-prod';
-        when(instance.collection(collection))
-            .thenReturn(mockCollectionReference);
-        when(mockCollectionReference.doc(uid))
-            .thenReturn(mockDocumentReference);
-        when(mockDocumentReference.get())
-            .thenAnswer((_) async => mockDocumentSnapshot);
+        when(
+          instance.collection(collection),
+        ).thenReturn(mockCollectionReference);
+        when(
+          mockCollectionReference.doc(uid),
+        ).thenReturn(mockDocumentReference);
+        when(
+          mockDocumentReference.get(),
+        ).thenAnswer((_) async => mockDocumentSnapshot);
         when(mockDocumentSnapshot.data()).thenReturn(tarotScoreJson);
         when(mockDocumentSnapshot.id).thenReturn(uid);
-        final tarotScoreRepository =
-            TarotScoreRepository(provider: instance, environment: 'prod');
+        final tarotScoreRepository = TarotScoreRepository(
+          provider: instance,
+          environment: 'prod',
+        );
         final tarotScore = await tarotScoreRepository.get(uid);
         expect(tarotScore, expectedScore);
       });
@@ -86,10 +96,12 @@ void main() {
     group('Get Score by game', () {
       test('DEV', () async {
         var collection = 'tarot-score-dev';
-        when(instance.collection(collection))
-            .thenReturn(mockCollectionReference);
-        when(mockCollectionReference.where('game', isEqualTo: gameId))
-            .thenReturn(mockQuery);
+        when(
+          instance.collection(collection),
+        ).thenReturn(mockCollectionReference);
+        when(
+          mockCollectionReference.where('game', isEqualTo: gameId),
+        ).thenReturn(mockQuery);
         when(mockQuery.get()).thenAnswer((_) async => mockQuerySnapshot);
         when(mockQuerySnapshot.docs).thenReturn([mockQueryDocumentSnapshot]);
         when(mockQueryDocumentSnapshot.data()).thenReturn(tarotScoreJson);
@@ -100,16 +112,20 @@ void main() {
       });
       test('PROD', () async {
         var collection = 'tarot-score-prod';
-        when(instance.collection(collection))
-            .thenReturn(mockCollectionReference);
-        when(mockCollectionReference.where('game', isEqualTo: gameId))
-            .thenReturn(mockQuery);
+        when(
+          instance.collection(collection),
+        ).thenReturn(mockCollectionReference);
+        when(
+          mockCollectionReference.where('game', isEqualTo: gameId),
+        ).thenReturn(mockQuery);
         when(mockQuery.get()).thenAnswer((_) async => mockQuerySnapshot);
         when(mockQuerySnapshot.docs).thenReturn([mockQueryDocumentSnapshot]);
         when(mockQueryDocumentSnapshot.data()).thenReturn(tarotScoreJson);
         when(mockQueryDocumentSnapshot.id).thenReturn(uid);
-        final tarotScoreRepository =
-            TarotScoreRepository(provider: instance, environment: 'prod');
+        final tarotScoreRepository = TarotScoreRepository(
+          provider: instance,
+          environment: 'prod',
+        );
         final tarotScore = await tarotScoreRepository.getScoreByGame(gameId);
         expect(tarotScore, expectedScore);
       });

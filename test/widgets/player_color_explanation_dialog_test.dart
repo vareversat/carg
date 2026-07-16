@@ -8,47 +8,66 @@ import 'package:network_image_mock/network_image_mock.dart';
 
 import 'localized_testable_widget.dart';
 
-Widget testableWidget(bool isAdmin) => localizedTestableWidget(
-      PlayerColorExplanationDialog(
-        isAdmin: isAdmin,
-      ),
-    );
+Widget testableWidget(bool isAdmin) =>
+    localizedTestableWidget(PlayerColorExplanationDialog(isAdmin: isAdmin));
 
 @GenerateMocks([PlayerService, AuthService])
 void main() {
   testWidgets('Display the 3 widgets', (WidgetTester tester) async {
     await mockNetworkImagesFor(() => tester.pumpWidget(testableWidget(true)));
     await mockNetworkImagesFor(
-        () => tester.pumpAndSettle(const Duration(milliseconds: 1000)));
+      () => tester.pumpAndSettle(const Duration(milliseconds: 1000)),
+    );
     expect(
-        find.byKey(const ValueKey('playerWidgetRealPlayer')), findsOneWidget);
+      find.byKey(const ValueKey('playerWidgetRealPlayer')),
+      findsOneWidget,
+    );
     expect(find.byKey(const ValueKey('realPlayerDescription')), findsOneWidget);
     expect(
-        find.byKey(const ValueKey('playerWidgetOwnedPlayer')), findsOneWidget);
+      find.byKey(const ValueKey('playerWidgetOwnedPlayer')),
+      findsOneWidget,
+    );
     expect(
-        find.byKey(const ValueKey('ownedPlayerDescription')), findsOneWidget);
-    expect(find.byKey(const ValueKey('playerWidgetTestingPlayer')),
-        findsOneWidget);
+      find.byKey(const ValueKey('ownedPlayerDescription')),
+      findsOneWidget,
+    );
     expect(
-        find.byKey(const ValueKey('testingPlayerDescription')), findsOneWidget);
+      find.byKey(const ValueKey('playerWidgetTestingPlayer')),
+      findsOneWidget,
+    );
+    expect(
+      find.byKey(const ValueKey('testingPlayerDescription')),
+      findsOneWidget,
+    );
     expect(find.byKey(const ValueKey('wonGamesDescription')), findsOneWidget);
     expect(
-        find.byKey(const ValueKey('playedGamesDescription')), findsOneWidget);
+      find.byKey(const ValueKey('playedGamesDescription')),
+      findsOneWidget,
+    );
   });
 
   testWidgets('Display only 2 widgets', (WidgetTester tester) async {
     await mockNetworkImagesFor(() => tester.pumpWidget(testableWidget(true)));
     await mockNetworkImagesFor(
-        () => tester.pumpAndSettle(const Duration(milliseconds: 1000)));
+      () => tester.pumpAndSettle(const Duration(milliseconds: 1000)),
+    );
     expect(
-        find.byKey(const ValueKey('playerWidgetRealPlayer')), findsOneWidget);
+      find.byKey(const ValueKey('playerWidgetRealPlayer')),
+      findsOneWidget,
+    );
     expect(find.byKey(const ValueKey('realPlayerDescription')), findsOneWidget);
     expect(
-        find.byKey(const ValueKey('playerWidgetOwnedPlayer')), findsOneWidget);
+      find.byKey(const ValueKey('playerWidgetOwnedPlayer')),
+      findsOneWidget,
+    );
     expect(
-        find.byKey(const ValueKey('ownedPlayerDescription')), findsOneWidget);
+      find.byKey(const ValueKey('ownedPlayerDescription')),
+      findsOneWidget,
+    );
     expect(find.byKey(const ValueKey('wonGamesDescription')), findsOneWidget);
     expect(
-        find.byKey(const ValueKey('playedGamesDescription')), findsOneWidget);
+      find.byKey(const ValueKey('playedGamesDescription')),
+      findsOneWidget,
+    );
   });
 }
