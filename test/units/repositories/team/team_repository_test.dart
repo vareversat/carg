@@ -13,24 +13,33 @@ var playerIds = ['p1', 'p2'];
 const jsonTeam = {
   'won_games': 0,
   'played_games': 0,
-  'players': ['p1', 'p2']
+  'players': ['p1', 'p2'],
 };
-final expectedTeam =
-    Team(id: uid, wonGames: 0, playedGames: 0, players: ['p1', 'p2']);
+final expectedTeam = Team(
+  id: uid,
+  wonGames: 0,
+  playedGames: 0,
+  players: ['p1', 'p2'],
+);
 
 Map<String, dynamic> dataFunction() => {};
 
-@GenerateMocks([
-  FirebaseFirestore,
-  CollectionReference,
-  DocumentReference,
-  DocumentSnapshot,
-  QuerySnapshot,
-  Query
-], customMocks: [
-  MockSpec<QueryDocumentSnapshot>(
-      unsupportedMembers: {#data}, fallbackGenerators: {#data: dataFunction})
-])
+@GenerateMocks(
+  [
+    FirebaseFirestore,
+    CollectionReference,
+    DocumentReference,
+    DocumentSnapshot,
+    QuerySnapshot,
+    Query,
+  ],
+  customMocks: [
+    MockSpec<QueryDocumentSnapshot>(
+      unsupportedMembers: {#data},
+      fallbackGenerators: {#data: dataFunction},
+    ),
+  ],
+)
 void main() {
   final instance = MockFirebaseFirestore();
   final mockQuery = MockQuery<Map<String, dynamic>>();
@@ -56,12 +65,15 @@ void main() {
     group('Get Team', () {
       test('DEV', () async {
         var collection = 'team-dev';
-        when(instance.collection(collection))
-            .thenReturn(mockCollectionReference);
-        when(mockCollectionReference.doc(uid))
-            .thenReturn(mockDocumentReference);
-        when(mockDocumentReference.get())
-            .thenAnswer((_) async => mockDocumentSnapshot);
+        when(
+          instance.collection(collection),
+        ).thenReturn(mockCollectionReference);
+        when(
+          mockCollectionReference.doc(uid),
+        ).thenReturn(mockDocumentReference);
+        when(
+          mockDocumentReference.get(),
+        ).thenAnswer((_) async => mockDocumentSnapshot);
         when(mockDocumentSnapshot.data()).thenReturn(jsonTeam);
         when(mockDocumentSnapshot.id).thenReturn(uid);
         final teamRepository = TeamRepository(provider: instance);
@@ -70,16 +82,21 @@ void main() {
       });
       test('PROD', () async {
         var collection = 'team-prod';
-        when(instance.collection(collection))
-            .thenReturn(mockCollectionReference);
-        when(mockCollectionReference.doc(uid))
-            .thenReturn(mockDocumentReference);
-        when(mockDocumentReference.get())
-            .thenAnswer((_) async => mockDocumentSnapshot);
+        when(
+          instance.collection(collection),
+        ).thenReturn(mockCollectionReference);
+        when(
+          mockCollectionReference.doc(uid),
+        ).thenReturn(mockDocumentReference);
+        when(
+          mockDocumentReference.get(),
+        ).thenAnswer((_) async => mockDocumentSnapshot);
         when(mockDocumentSnapshot.data()).thenReturn(jsonTeam);
         when(mockDocumentSnapshot.id).thenReturn(uid);
-        final teamRepository =
-            TeamRepository(provider: instance, environment: 'prod');
+        final teamRepository = TeamRepository(
+          provider: instance,
+          environment: 'prod',
+        );
         final team = await teamRepository.get(uid);
         expect(team, expectedTeam);
       });
@@ -88,10 +105,12 @@ void main() {
     group('Get by players', () {
       test('DEV', () async {
         var collection = 'team-dev';
-        when(instance.collection(collection))
-            .thenReturn(mockCollectionReference);
-        when(mockCollectionReference.where('players', isEqualTo: playerIds))
-            .thenReturn(mockQuery);
+        when(
+          instance.collection(collection),
+        ).thenReturn(mockCollectionReference);
+        when(
+          mockCollectionReference.where('players', isEqualTo: playerIds),
+        ).thenReturn(mockQuery);
         when(mockQuery.get()).thenAnswer((_) async => mockQuerySnapshot);
         when(mockQuerySnapshot.docs).thenReturn([mockQueryDocumentSnapshot]);
         when(mockQueryDocumentSnapshot.data()).thenReturn(jsonTeam);
@@ -102,16 +121,20 @@ void main() {
       });
       test('PROD', () async {
         var collection = 'team-prod';
-        when(instance.collection(collection))
-            .thenReturn(mockCollectionReference);
-        when(mockCollectionReference.where('players', isEqualTo: playerIds))
-            .thenReturn(mockQuery);
+        when(
+          instance.collection(collection),
+        ).thenReturn(mockCollectionReference);
+        when(
+          mockCollectionReference.where('players', isEqualTo: playerIds),
+        ).thenReturn(mockQuery);
         when(mockQuery.get()).thenAnswer((_) async => mockQuerySnapshot);
         when(mockQuerySnapshot.docs).thenReturn([mockQueryDocumentSnapshot]);
         when(mockQueryDocumentSnapshot.data()).thenReturn(jsonTeam);
         when(mockQueryDocumentSnapshot.id).thenReturn(uid);
-        final teamRepository =
-            TeamRepository(provider: instance, environment: 'prod');
+        final teamRepository = TeamRepository(
+          provider: instance,
+          environment: 'prod',
+        );
         final team = await teamRepository.getTeamByPlayers(['p2', 'p1']);
         expect(team, expectedTeam);
       });
@@ -120,38 +143,48 @@ void main() {
     group('Create with players', () {
       test('Team exists', () async {
         var collection = 'team-dev';
-        when(instance.collection(collection))
-            .thenReturn(mockCollectionReference);
-        when(mockCollectionReference.where('players', isEqualTo: playerIds))
-            .thenReturn(mockQuery);
+        when(
+          instance.collection(collection),
+        ).thenReturn(mockCollectionReference);
+        when(
+          mockCollectionReference.where('players', isEqualTo: playerIds),
+        ).thenReturn(mockQuery);
         when(mockQuery.get()).thenAnswer((_) async => mockQuerySnapshot);
         when(mockQuerySnapshot.docs).thenReturn([mockQueryDocumentSnapshot]);
         when(mockQueryDocumentSnapshot.data()).thenReturn(jsonTeam);
         when(mockQueryDocumentSnapshot.id).thenReturn(uid);
         final teamRepository = TeamRepository(provider: instance);
-        expect(teamRepository.createTeamWithPlayers(['p2', 'p1']),
-            throwsA(isA<RepositoryException>()));
+        expect(
+          teamRepository.createTeamWithPlayers(['p2', 'p1']),
+          throwsA(isA<RepositoryException>()),
+        );
       });
       test('Team does not exist', () async {
         var collection = 'team-prod';
-        when(instance.collection(collection))
-            .thenReturn(mockCollectionReference);
-        when(mockCollectionReference.where('players', isEqualTo: playerIds))
-            .thenReturn(mockQuery);
+        when(
+          instance.collection(collection),
+        ).thenReturn(mockCollectionReference);
+        when(
+          mockCollectionReference.where('players', isEqualTo: playerIds),
+        ).thenReturn(mockQuery);
         when(mockQuery.get()).thenAnswer((_) async => mockQuerySnapshot);
         when(mockQuerySnapshot.docs).thenReturn([]);
-        when(mockCollectionReference.add({
-          'name': null,
-          'games': null,
-          'won_games': 0,
-          'played_games': 0,
-          'game_stats': [],
-          'players': ['p1', 'p2']
-        })).thenAnswer((_) async => mockDocumentReference);
+        when(
+          mockCollectionReference.add({
+            'name': null,
+            'games': null,
+            'won_games': 0,
+            'played_games': 0,
+            'game_stats': [],
+            'players': ['p1', 'p2'],
+          }),
+        ).thenAnswer((_) async => mockDocumentReference);
         when(mockDocumentReference.id).thenReturn(uid);
 
-        final teamRepository =
-            TeamRepository(provider: instance, environment: 'prod');
+        final teamRepository = TeamRepository(
+          provider: instance,
+          environment: 'prod',
+        );
         final team = await teamRepository.createTeamWithPlayers(['p2', 'p1']);
         expect(team, expectedTeam);
       });
@@ -165,21 +198,30 @@ void main() {
         final mockQueryFromStartAfterDocument =
             MockQuery<Map<String, dynamic>>();
         final mockQueryFromLimit = MockQuery<Map<String, dynamic>>();
-        when(instance.collection(collection))
-            .thenReturn(mockCollectionReference);
-        when(mockCollectionReference.where('players', arrayContains: playerId))
-            .thenReturn(mockQuery);
-        when(mockQuery.startAfterDocument(mockDocumentSnapshot))
-            .thenReturn(mockQueryFromStartAfterDocument);
-        when(mockQueryFromStartAfterDocument.limit(pageSize))
-            .thenReturn(mockQueryFromLimit);
-        when(mockQueryFromLimit.get())
-            .thenAnswer((_) async => mockQuerySnapshot);
+        when(
+          instance.collection(collection),
+        ).thenReturn(mockCollectionReference);
+        when(
+          mockCollectionReference.where('players', arrayContains: playerId),
+        ).thenReturn(mockQuery);
+        when(
+          mockQuery.startAfterDocument(mockDocumentSnapshot),
+        ).thenReturn(mockQueryFromStartAfterDocument);
+        when(
+          mockQueryFromStartAfterDocument.limit(pageSize),
+        ).thenReturn(mockQueryFromLimit);
+        when(
+          mockQueryFromLimit.get(),
+        ).thenAnswer((_) async => mockQuerySnapshot);
         when(mockQuerySnapshot.docs).thenReturn([]);
         final teamRepository = TeamRepository(
-            provider: instance, lastFetchGameDocument: mockDocumentSnapshot);
-        expect(await teamRepository.getAllTeamOfPlayer(playerId, pageSize),
-            <Team>[]);
+          provider: instance,
+          lastFetchGameDocument: mockDocumentSnapshot,
+        );
+        expect(
+          await teamRepository.getAllTeamOfPlayer(playerId, pageSize),
+          <Team>[],
+        );
       });
       test('PRD', () async {
         const collection = 'team-prod';
@@ -188,23 +230,31 @@ void main() {
         final mockQueryFromStartAfterDocument =
             MockQuery<Map<String, dynamic>>();
         final mockQueryFromLimit = MockQuery<Map<String, dynamic>>();
-        when(instance.collection(collection))
-            .thenReturn(mockCollectionReference);
-        when(mockCollectionReference.where('players', arrayContains: playerId))
-            .thenReturn(mockQuery);
-        when(mockQuery.startAfterDocument(mockDocumentSnapshot))
-            .thenReturn(mockQueryFromStartAfterDocument);
-        when(mockQueryFromStartAfterDocument.limit(pageSize))
-            .thenReturn(mockQueryFromLimit);
-        when(mockQueryFromLimit.get())
-            .thenAnswer((_) async => mockQuerySnapshot);
+        when(
+          instance.collection(collection),
+        ).thenReturn(mockCollectionReference);
+        when(
+          mockCollectionReference.where('players', arrayContains: playerId),
+        ).thenReturn(mockQuery);
+        when(
+          mockQuery.startAfterDocument(mockDocumentSnapshot),
+        ).thenReturn(mockQueryFromStartAfterDocument);
+        when(
+          mockQueryFromStartAfterDocument.limit(pageSize),
+        ).thenReturn(mockQueryFromLimit);
+        when(
+          mockQueryFromLimit.get(),
+        ).thenAnswer((_) async => mockQuerySnapshot);
         when(mockQuerySnapshot.docs).thenReturn([]);
         final teamRepository = TeamRepository(
-            provider: instance,
-            lastFetchGameDocument: mockDocumentSnapshot,
-            environment: 'prod');
-        expect(await teamRepository.getAllTeamOfPlayer(playerId, pageSize),
-            <Team>[]);
+          provider: instance,
+          lastFetchGameDocument: mockDocumentSnapshot,
+          environment: 'prod',
+        );
+        expect(
+          await teamRepository.getAllTeamOfPlayer(playerId, pageSize),
+          <Team>[],
+        );
       });
 
       test('Last fetched document not null', () async {
@@ -214,23 +264,31 @@ void main() {
         final mockQueryFromStartAfterDocument =
             MockQuery<Map<String, dynamic>>();
         final mockQueryFromLimit = MockQuery<Map<String, dynamic>>();
-        when(instance.collection(collection))
-            .thenReturn(mockCollectionReference);
-        when(mockCollectionReference.where('players', arrayContains: playerId))
-            .thenReturn(mockQuery);
-        when(mockQuery.startAfterDocument(mockDocumentSnapshot))
-            .thenReturn(mockQueryFromStartAfterDocument);
-        when(mockQueryFromStartAfterDocument.limit(pageSize))
-            .thenReturn(mockQueryFromLimit);
-        when(mockQueryFromLimit.get())
-            .thenAnswer((_) async => mockQuerySnapshot);
+        when(
+          instance.collection(collection),
+        ).thenReturn(mockCollectionReference);
+        when(
+          mockCollectionReference.where('players', arrayContains: playerId),
+        ).thenReturn(mockQuery);
+        when(
+          mockQuery.startAfterDocument(mockDocumentSnapshot),
+        ).thenReturn(mockQueryFromStartAfterDocument);
+        when(
+          mockQueryFromStartAfterDocument.limit(pageSize),
+        ).thenReturn(mockQueryFromLimit);
+        when(
+          mockQueryFromLimit.get(),
+        ).thenAnswer((_) async => mockQuerySnapshot);
         when(mockQuerySnapshot.docs).thenReturn([]);
         final teamRepository = TeamRepository(
-            provider: instance,
-            lastFetchGameDocument: mockDocumentSnapshot,
-            environment: 'prod');
-        expect(await teamRepository.getAllTeamOfPlayer(playerId, pageSize),
-            <Team>[]);
+          provider: instance,
+          lastFetchGameDocument: mockDocumentSnapshot,
+          environment: 'prod',
+        );
+        expect(
+          await teamRepository.getAllTeamOfPlayer(playerId, pageSize),
+          <Team>[],
+        );
       });
 
       test('Last fetched document not null and return data', () async {
@@ -238,20 +296,27 @@ void main() {
         const playerId = 'p1';
         const pageSize = 10;
         final mockQueryFromLimit = MockQuery<Map<String, dynamic>>();
-        when(instance.collection(collection))
-            .thenReturn(mockCollectionReference);
-        when(mockCollectionReference.where('players', arrayContains: playerId))
-            .thenReturn(mockQuery);
+        when(
+          instance.collection(collection),
+        ).thenReturn(mockCollectionReference);
+        when(
+          mockCollectionReference.where('players', arrayContains: playerId),
+        ).thenReturn(mockQuery);
         when(mockQuery.limit(pageSize)).thenReturn(mockQueryFromLimit);
-        when(mockQueryFromLimit.get())
-            .thenAnswer((_) async => mockQuerySnapshot);
+        when(
+          mockQueryFromLimit.get(),
+        ).thenAnswer((_) async => mockQuerySnapshot);
         when(mockQuerySnapshot.docs).thenReturn([mockQueryDocumentSnapshot]);
         when(mockQueryDocumentSnapshot.data()).thenReturn(jsonTeam);
         when(mockQueryDocumentSnapshot.id).thenReturn(uid);
-        final teamRepository =
-            TeamRepository(provider: instance, environment: 'prod');
-        expect(await teamRepository.getAllTeamOfPlayer(playerId, pageSize),
-            <Team>[expectedTeam]);
+        final teamRepository = TeamRepository(
+          provider: instance,
+          environment: 'prod',
+        );
+        expect(
+          await teamRepository.getAllTeamOfPlayer(playerId, pageSize),
+          <Team>[expectedTeam],
+        );
       });
     });
   });

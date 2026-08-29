@@ -1,6 +1,6 @@
 // ignore_for_file: constant_identifier_names
-import 'package:flutter/widgets.dart';
 import 'package:carg/l10n/app_localizations.dart';
+import 'package:flutter/widgets.dart';
 
 enum TarotBonus { SMALL_TO_THE_END, HANDFUL, CHELEM }
 

@@ -9,11 +9,8 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'localized_testable_widget.dart';
 
-Widget testableWidget(Game game) => localizedTestableWidget(
-      GameTitleWidget(
-        game: game,
-      ),
-    );
+Widget testableWidget(Game game) =>
+    localizedTestableWidget(GameTitleWidget(game: game));
 
 void main() {
   late Tarot tarotGame;
@@ -22,45 +19,63 @@ void main() {
   late ContreeBelote contreeBelote;
   setUp(() {
     tarotGame = Tarot(
-        id: 'ID1', isEnded: false, startingDate: DateTime(2017, 9, 7, 17, 30));
+      id: 'ID1',
+      isEnded: false,
+      startingDate: DateTime(2017, 9, 7, 17, 30),
+    );
     frenchBelote = FrenchBelote(
-        id: 'ID2', isEnded: true, startingDate: DateTime(2020, 9, 7, 17, 30));
+      id: 'ID2',
+      isEnded: true,
+      startingDate: DateTime(2020, 9, 7, 17, 30),
+    );
     coincheBelote = CoincheBelote(
-        id: 'ID3', isEnded: false, startingDate: DateTime(2017, 9, 7, 17, 30));
+      id: 'ID3',
+      isEnded: false,
+      startingDate: DateTime(2017, 9, 7, 17, 30),
+    );
     contreeBelote = ContreeBelote(
-        id: 'ID4', isEnded: true, startingDate: DateTime(2017, 9, 7, 17, 30));
+      id: 'ID4',
+      isEnded: true,
+      startingDate: DateTime(2017, 9, 7, 17, 30),
+    );
   });
 
-  testWidgets("Tarot - must display 'En cours' and '07/09/2017, 17:30'",
-      (WidgetTester tester) async {
+  testWidgets("Tarot - must display 'En cours' and '07/09/2017, 17:30'", (
+    WidgetTester tester,
+  ) async {
     await tester.pumpWidget(testableWidget(tarotGame));
 
     expect(find.text('En cours'), findsOneWidget);
     expect(find.text('7 septembre 2017'), findsOneWidget);
   });
 
-  testWidgets("French belote - must display 'Terminée' and '07/09/2020, 17:30'",
-      (WidgetTester tester) async {
-    await tester.pumpWidget(testableWidget(frenchBelote));
+  testWidgets(
+    "French belote - must display 'Terminée' and '07/09/2020, 17:30'",
+    (WidgetTester tester) async {
+      await tester.pumpWidget(testableWidget(frenchBelote));
 
-    expect(find.text('Terminée'), findsOneWidget);
-    expect(find.text('7 septembre 2020'), findsOneWidget);
-  });
+      expect(find.text('Terminée'), findsOneWidget);
+      expect(find.text('7 septembre 2020'), findsOneWidget);
+    },
+  );
 
   testWidgets(
-      "Coinche belote - must display 'En cours' and '07/09/2017, 17:30'",
-      (WidgetTester tester) async {
-    await tester.pumpWidget(testableWidget(coincheBelote));
+    "Coinche belote - must display 'En cours' and '07/09/2017, 17:30'",
+    (WidgetTester tester) async {
+      await tester.pumpWidget(testableWidget(coincheBelote));
 
-    expect(find.text('En cours'), findsOneWidget);
-    expect(find.text('7 septembre 2017'), findsOneWidget);
-  });
+      expect(find.text('En cours'), findsOneWidget);
+      expect(find.text('7 septembre 2017'), findsOneWidget);
+    },
+  );
 
-  testWidgets("Contre belote - must display 'Terminée' and '07/09/2017, 17:30'",
-      (WidgetTester tester) async {
-    await tester.pumpWidget(testableWidget(contreeBelote));
+  testWidgets(
+    "Contre belote - must display 'Terminée' and '07/09/2017, 17:30'",
+    (WidgetTester tester) async {
+      await tester.pumpWidget(testableWidget(contreeBelote));
 
-    expect(find.text('Terminée'), findsOneWidget);
-    expect(find.text('7 septembre 2017'), findsOneWidget);
-  });
+      expect(find.text('Terminée'), findsOneWidget);
+      expect(find.text('7 septembre 2017'), findsOneWidget);
+    },
+  );
 }

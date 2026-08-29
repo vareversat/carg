@@ -40,6 +40,7 @@ import 'package:mockito/src/dummies.dart' as _i15;
 // ignore_for_file: unnecessary_parenthesis
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
+// ignore_for_file: invalid_use_of_internal_member
 
 class _FakeAbstractScoreRepository_0<
         T1 extends _i1.Score<_i2.Round<_i3.GameSetting>>> extends _i4.SmartFake
@@ -280,21 +281,20 @@ class MockAbstractGameRepository<
       ) as String);
 
   @override
-  set lastFetchGameDocument(
-          _i8.DocumentSnapshot<Object?>? _lastFetchGameDocument) =>
+  set lastFetchGameDocument(_i8.DocumentSnapshot<Object?>? value) =>
       super.noSuchMethod(
         Invocation.setter(
           #lastFetchGameDocument,
-          _lastFetchGameDocument,
+          value,
         ),
         returnValueForMissingStub: null,
       );
 
   @override
-  set connectionString(String? _connectionString) => super.noSuchMethod(
+  set connectionString(String? value) => super.noSuchMethod(
         Invocation.setter(
           #connectionString,
-          _connectionString,
+          value,
         ),
         returnValueForMissingStub: null,
       );

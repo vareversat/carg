@@ -53,4 +53,5 @@ class Const {
   /// Local storage
   static const String storageThemeKey = 'THEME';
   static const String storageContrastKey = 'CONTRAST';
+  static const String storageDynamicColorsKey = 'DYNAMIC_COLORS';
 }

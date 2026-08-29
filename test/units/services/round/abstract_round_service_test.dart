@@ -13,7 +13,7 @@ import 'abstract_round_service_test.mocks.dart';
 
 class FakeRoundService extends AbstractRoundService {
   FakeRoundService(MockAbstractScoreService abstractScoreService)
-      : super(abstractScoreService: abstractScoreService);
+    : super(abstractScoreService: abstractScoreService);
 
   @override
   BeloteRound getNewRound(GameSetting? settings) {
@@ -35,16 +35,18 @@ void main() {
 
   group('AbstractRoundService', () {
     test('edit the last round of a game', () async {
-      when(mockAbstractScoreService.getScoreByGame(uid))
-          .thenAnswer((_) async => Future(() => score));
+      when(
+        mockAbstractScoreService.getScoreByGame(uid),
+      ).thenAnswer((_) async => Future(() => score));
       final roundService = FakeRoundService(mockAbstractScoreService);
       await roundService.editGameRound(uid, round, 0);
       verify(mockAbstractScoreService.update(score)).called(1);
     });
 
     test('delete the last round of a game', () async {
-      when(mockAbstractScoreService.getScoreByGame(uid))
-          .thenAnswer((_) async => Future(() => score));
+      when(
+        mockAbstractScoreService.getScoreByGame(uid),
+      ).thenAnswer((_) async => Future(() => score));
       final roundService = FakeRoundService(mockAbstractScoreService);
       await roundService.deleteGameRound(uid, 0);
       verify(mockAbstractScoreService.update(score)).called(1);

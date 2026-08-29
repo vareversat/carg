@@ -1,7 +1,7 @@
 // ignore_for_file: constant_identifier_names
 
-import 'package:flutter/widgets.dart';
 import 'package:carg/l10n/app_localizations.dart';
+import 'package:flutter/widgets.dart';
 
 enum TarotContract { PETITE, GARDE_AVEC_CHIEN, GARDE_SANS_CHIEN, GARDE_CONTRE }
 

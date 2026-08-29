@@ -14,24 +14,33 @@ const jsonPlayer = {
   'owned': false,
   'profile_picture':
       'https://firebasestorage.googleapis.com/v0/b/carg-d3732.appspot.com/o/carg_logo.png?alt=media&token=861511da-db26-4216-8ee6-29b20c0a6852',
-  'linked_user_id': userId
+  'linked_user_id': userId,
 };
-final expectedPlayer =
-    Player(id: uid, userName: 'Test', owned: false, linkedUserId: userId);
+final expectedPlayer = Player(
+  id: uid,
+  userName: 'Test',
+  owned: false,
+  linkedUserId: userId,
+);
 
 Map<String, dynamic> dataFunction() => {};
 
-@GenerateMocks([
-  FirebaseFirestore,
-  CollectionReference,
-  DocumentReference,
-  DocumentSnapshot,
-  QuerySnapshot,
-  Query
-], customMocks: [
-  MockSpec<QueryDocumentSnapshot>(
-      unsupportedMembers: {#data}, fallbackGenerators: {#data: dataFunction})
-])
+@GenerateMocks(
+  [
+    FirebaseFirestore,
+    CollectionReference,
+    DocumentReference,
+    DocumentSnapshot,
+    QuerySnapshot,
+    Query,
+  ],
+  customMocks: [
+    MockSpec<QueryDocumentSnapshot>(
+      unsupportedMembers: {#data},
+      fallbackGenerators: {#data: dataFunction},
+    ),
+  ],
+)
 void main() {
   final instance = MockFirebaseFirestore();
   final mockQuery = MockQuery<Map<String, dynamic>>();
@@ -57,12 +66,15 @@ void main() {
     group('Get Player', () {
       test('DEV', () async {
         var collection = 'player-dev';
-        when(instance.collection(collection))
-            .thenReturn(mockCollectionReference);
-        when(mockCollectionReference.doc(uid))
-            .thenReturn(mockDocumentReference);
-        when(mockDocumentReference.get())
-            .thenAnswer((_) async => mockDocumentSnapshot);
+        when(
+          instance.collection(collection),
+        ).thenReturn(mockCollectionReference);
+        when(
+          mockCollectionReference.doc(uid),
+        ).thenReturn(mockDocumentReference);
+        when(
+          mockDocumentReference.get(),
+        ).thenAnswer((_) async => mockDocumentSnapshot);
         when(mockDocumentSnapshot.data()).thenReturn(jsonPlayer);
         when(mockDocumentSnapshot.id).thenReturn(uid);
         final playerRepository = PlayerRepository(provider: instance);
@@ -71,16 +83,21 @@ void main() {
       });
       test('PROD', () async {
         var collection = 'player-prod';
-        when(instance.collection(collection))
-            .thenReturn(mockCollectionReference);
-        when(mockCollectionReference.doc(uid))
-            .thenReturn(mockDocumentReference);
-        when(mockDocumentReference.get())
-            .thenAnswer((_) async => mockDocumentSnapshot);
+        when(
+          instance.collection(collection),
+        ).thenReturn(mockCollectionReference);
+        when(
+          mockCollectionReference.doc(uid),
+        ).thenReturn(mockDocumentReference);
+        when(
+          mockDocumentReference.get(),
+        ).thenAnswer((_) async => mockDocumentSnapshot);
         when(mockDocumentSnapshot.data()).thenReturn(jsonPlayer);
         when(mockDocumentSnapshot.id).thenReturn(uid);
-        final playerRepository =
-            PlayerRepository(provider: instance, environment: 'prod');
+        final playerRepository = PlayerRepository(
+          provider: instance,
+          environment: 'prod',
+        );
         final player = await playerRepository.get(uid);
         expect(player, expectedPlayer);
       });
@@ -89,10 +106,12 @@ void main() {
     group('Get Player of User', () {
       test('DEV', () async {
         var collection = 'player-dev';
-        when(instance.collection(collection))
-            .thenReturn(mockCollectionReference);
-        when(mockCollectionReference.where('linked_user_id', isEqualTo: userId))
-            .thenReturn(mockQuery);
+        when(
+          instance.collection(collection),
+        ).thenReturn(mockCollectionReference);
+        when(
+          mockCollectionReference.where('linked_user_id', isEqualTo: userId),
+        ).thenReturn(mockQuery);
         when(mockQuery.get()).thenAnswer((_) async => mockQuerySnapshot);
         when(mockQuerySnapshot.docs).thenReturn([mockQueryDocumentSnapshot]);
         when(mockQueryDocumentSnapshot.data()).thenReturn(jsonPlayer);
@@ -103,16 +122,20 @@ void main() {
       });
       test('PROD', () async {
         var collection = 'player-prod';
-        when(instance.collection(collection))
-            .thenReturn(mockCollectionReference);
-        when(mockCollectionReference.where('linked_user_id', isEqualTo: userId))
-            .thenReturn(mockQuery);
+        when(
+          instance.collection(collection),
+        ).thenReturn(mockCollectionReference);
+        when(
+          mockCollectionReference.where('linked_user_id', isEqualTo: userId),
+        ).thenReturn(mockQuery);
         when(mockQuery.get()).thenAnswer((_) async => mockQuerySnapshot);
         when(mockQuerySnapshot.docs).thenReturn([mockQueryDocumentSnapshot]);
         when(mockQueryDocumentSnapshot.data()).thenReturn(jsonPlayer);
         when(mockQueryDocumentSnapshot.id).thenReturn(uid);
-        final playerRepository =
-            PlayerRepository(provider: instance, environment: 'prod');
+        final playerRepository = PlayerRepository(
+          provider: instance,
+          environment: 'prod',
+        );
         final player = await playerRepository.getPlayerOfUser(userId);
         expect(player, expectedPlayer);
       });

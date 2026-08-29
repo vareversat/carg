@@ -6,18 +6,20 @@ import 'package:carg/services/player/abstract_player_service.dart';
 import 'package:carg/services/team/abstract_team_service.dart';
 
 class FakeGameService extends AbstractGameService {
-  FakeGameService(
-      {required super.scoreService,
-      required super.gameRepository,
-      required AbstractPlayerService playerService,
-      required AbstractTeamService teamService});
+  FakeGameService({
+    required super.scoreService,
+    required super.gameRepository,
+    required AbstractPlayerService playerService,
+    required AbstractTeamService teamService,
+  });
 
   @override
   Future<Game<Players, GameSetting>> createGameWithPlayerList(
-      List<String?> playerListForOrder,
-      List<String?> playerListForTeam,
-      DateTime? startingDate,
-      GameSetting settings) {
+    List<String?> playerListForOrder,
+    List<String?> playerListForTeam,
+    DateTime? startingDate,
+    GameSetting settings,
+  ) {
     throw UnimplementedError();
   }
 

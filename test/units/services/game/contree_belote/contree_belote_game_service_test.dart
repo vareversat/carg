@@ -17,7 +17,7 @@ import 'contree_belote_game_service_test.mocks.dart';
   ContreeBeloteScoreService,
   ContreeBeloteGameRepository,
   PlayerService,
-  TeamService
+  TeamService,
 ])
 void main() {
   final mockContreeBeloteScoreService = MockContreeBeloteScoreService();
@@ -30,26 +30,42 @@ void main() {
   final playerIds = ['p1', 'p2', 'p3', 'p4'];
   final teamUs = Team(id: 'usTeamId', players: ['p1', 'p2']);
   final teamThem = Team(id: 'themTeamId', players: ['p3', 'p4']);
-  final players =
-      BelotePlayers(us: teamUs.id, them: teamThem.id, playerList: playerIds);
+  final players = BelotePlayers(
+    us: teamUs.id,
+    them: teamThem.id,
+    playerList: playerIds,
+  );
 
-  final expectedGame =
-      ContreeBelote(id: uid, players: players, startingDate: date);
+  final expectedGame = ContreeBelote(
+    id: uid,
+    players: players,
+    startingDate: date,
+  );
   final expectedGameNoId = ContreeBelote(players: players, startingDate: date);
   final settings = ContreeBeloteGameSetting(
-      maxPoint: 1000, isInfinite: false, sumTrickPointsAndContract: true);
+    maxPoint: 1000,
+    isInfinite: false,
+    sumTrickPointsAndContract: true,
+  );
 
   group('ContreeBeloteGameService', () {
     group('Generate a new game', () {
       test('OK', () async {
-        when(mockContreeBeloteGameRepository.create(expectedGameNoId))
-            .thenAnswer((_) => Future(() => uid));
+        when(
+          mockContreeBeloteGameRepository.create(expectedGameNoId),
+        ).thenAnswer((_) => Future(() => uid));
         final contreeBeloteGameService = ContreeBeloteGameService(
-            contreeBeloteScoreService: mockContreeBeloteScoreService,
-            contreeBeloteGameRepository: mockContreeBeloteGameRepository,
-            teamService: mockTeamService);
+          contreeBeloteScoreService: mockContreeBeloteScoreService,
+          contreeBeloteGameRepository: mockContreeBeloteGameRepository,
+          teamService: mockTeamService,
+        );
         final game = await contreeBeloteGameService.generateNewGame(
-            teamUs, teamThem, playerIds, date, settings);
+          teamUs,
+          teamThem,
+          playerIds,
+          date,
+          settings,
+        );
         expect(game, expectedGame);
       });
     });

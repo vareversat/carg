@@ -7,9 +7,7 @@ import 'package:mockito/mockito.dart';
 
 import 'contree_belote_score_service_test.mocks.dart';
 
-@GenerateMocks([
-  ContreeBeloteScoreRepository,
-])
+@GenerateMocks([ContreeBeloteScoreRepository])
 void main() {
   final mockContreeBeloteScoreRepository = MockContreeBeloteScoreRepository();
   const uid = '123';
@@ -23,14 +21,19 @@ void main() {
   group('ContreeBeloteScoreService', () {
     group('Generate New Score', () {
       test('OK', () async {
-        when(mockContreeBeloteScoreRepository.create(contreeBeloteScore))
-            .thenAnswer((_) async => Future<String>(() => scoreId));
+        when(
+          mockContreeBeloteScoreRepository.create(contreeBeloteScore),
+        ).thenAnswer((_) async => Future<String>(() => scoreId));
         final contreeBeloteScoreService = ContreeBeloteScoreService(
-            contreeBeloteScoreRepository: mockContreeBeloteScoreRepository);
-        expect(await contreeBeloteScoreService.generateNewScore(uid),
-            contreeBeloteScore);
-        verify(mockContreeBeloteScoreRepository.create(contreeBeloteScore))
-            .called(1);
+          contreeBeloteScoreRepository: mockContreeBeloteScoreRepository,
+        );
+        expect(
+          await contreeBeloteScoreService.generateNewScore(uid),
+          contreeBeloteScore,
+        );
+        verify(
+          mockContreeBeloteScoreRepository.create(contreeBeloteScore),
+        ).called(1);
       });
     });
   });
